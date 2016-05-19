@@ -90,6 +90,34 @@ public class DataBase {
         }
         return pessoas;
     }
+    
+    public boolean insertPersons(java.util.List<Clavis.Person> pessoas){
+        if (this.isTie()) {
+            Statement smt;
+            
+            try {
+                for (Clavis.Person pessoa: pessoas) {
+                    String nome = pessoa.getName();
+                 
+                    String email = pessoa.getEmail();
+                    String identificacao = pessoa.getIdentification();
+                    String sql = "select count(*) from Persons where nome = '"+nome+"' and email = '"+email+"' and identificacao = '"+identificacao+"';"; 
+                    smt = con.createStatement();
+                    if (smt != null) {
+                        ResultSet rs = smt.executeQuery(sql);
+                        if (rs.getInt(1) == 0) {
+                            sql = "insert into Persons (nome,identificacao,email)";
+                        }
+                    }
+                }
+                return true;
+            } catch (SQLException ex) {
+               return false;
+            } 
+        } else {
+            return false;
+        }
+    }
 
     public java.util.List<Clavis.Function> getFunctions() {
         java.util.List<Clavis.Function> funcoes = new java.util.ArrayList<>();
@@ -336,5 +364,6 @@ public class DataBase {
         }
         return sala;
     }
+    
 
 }

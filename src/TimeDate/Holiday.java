@@ -5,7 +5,6 @@
  */
 package TimeDate;
 
-import Clavis.Request;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,7 +88,18 @@ public class Holiday implements Comparable<Holiday> {
         } else {
             smes = "" + mes;
         }
-        return sdia + "/" + smes;
+        return sdia + " / " + smes;
+    }
+    
+    public String toLongString() {
+        String sdia = "";
+        if (dia < 10) {
+            sdia = "0" + dia;
+        } else {
+            sdia = "" + dia;
+        }
+        String [] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        return sdia +" "+ locale.translate("de") +" "+ locale.translate(meses[mes-1]);
     }
 
     /**

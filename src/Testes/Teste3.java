@@ -27,7 +27,7 @@ public class Teste3 {
       
         TimeDate.Holiday hol = new TimeDate.Holiday(10,06);
         TimeDate.WeekDay dia = hol.getWeekDay(2020);
-        
+        System.out.println(hol.getWeekDay(2018).getDayNumber());
         TimeDate.Date date = new TimeDate.Date(27,3,2016);
         date = date.dateAfter(2222221);
         System.out.println(date.toString());
@@ -47,7 +47,16 @@ public class Teste3 {
         } else {
             System.out.println("zero");
         }
+        int gol = 0;
+        try {
+            if (gol == 0) throw new Exception("Erro de ...");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         
+        
+        TimeDate.Date hoy = new TimeDate.Date();
+        System.out.println(hoy.dateAfter(7).toString());
     }
     
 }

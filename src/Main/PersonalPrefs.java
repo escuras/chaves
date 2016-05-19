@@ -12,26 +12,32 @@ import java.util.prefs.Preferences;
  * @author toze
  */
 public class PersonalPrefs extends KeyQuest {
-
+    
     private static final long serialVersionUID =1L;
+    
     public PersonalPrefs(){
         super();
         super.setFocusableWindowState(true);
         Preferences userPrefs = Preferences.userNodeForPackage(getClass());
         int x = userPrefs.getInt("x",100);
         int y = userPrefs.getInt("y",100);
-        int w = userPrefs.getInt("width",1024);
-        int h = userPrefs.getInt("height",700);
+        int largura = userPrefs.getInt("width",1024);
+        int altura = userPrefs.getInt("height",700);
         String lang = userPrefs.get("lingua", "es_ES");
-        int max = userPrefs.getInt("maximizada", 0);
+        int maximizada = userPrefs.getInt("maximizada", 0);
         tdivisor = userPrefs.getInt("userdivisor", 20);
-        this.setExtendedState(max);
-        setBounds(x, y, w, h);
+        vista = userPrefs.getInt("vista", 0);
         lingua = new Langs.Locale();
         lingua.setLocale(lang); 
         booleanBoxLanguage = userPrefs.getBoolean("booleanLanguage", true);
         init();
         caracteristicsJFrame();
+        this.setPreferedSize(maximizada, x, y, largura, altura);
+    }
+    
+    private void setPreferedSize(int max, int x, int y, int largura, int altura){
+        this.setExtendedState(max);
+        this.setBounds(x, y, largura, altura);
     }
     
     public void save(){
@@ -44,7 +50,6 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.put("lingua", lingua.getLocale());
         userPrefs.putInt("userdivisor", tdivisor);
         userPrefs.putBoolean("booleanLanguage", booleanBoxLanguage);
+        userPrefs.putInt("vista", vista);
     }
-
-    
 }

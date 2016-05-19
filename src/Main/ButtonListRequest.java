@@ -7,10 +7,7 @@ package Main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

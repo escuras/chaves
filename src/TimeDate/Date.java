@@ -600,4 +600,14 @@ public class Date {
         this.locale = locale;
     }
 
+    public static int daysOfTheCurrentMonth(Date date){
+        int mes= date.getMonth();
+        int val[];
+        if (date.isLeap(date.getYear())) {
+            val = new int[]{31,29,31,30,31,30,31,31,30,31,30,31};
+        } else {
+            val = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
+        }
+        return val[mes];
+    }
 }

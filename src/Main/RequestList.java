@@ -9,6 +9,7 @@ import CSV.ElementsCSV;
 import CSV.HandlingCSV;
 import CSV.ObjectCSV;
 import TimeDate.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,14 +27,57 @@ public class RequestList {
     private TimeDate.Date date2;
     private HolidaysList feriados;
     private Set<Clavis.Request> requests;
+    public static final int VIEW_MONTH = 4;
+    public static final int VIEW_BIWEEK = 3;
+    public static final int VIEW_WEEK = 2;
+    public static final int VIEW_PAIR_OF_DAYS = 1;
+    public static final int VIEW_DAY = 0;
+    private int vista;
     
-    public RequestList(String bd, String csv, Clavis.TypeOfMaterial material, Clavis.Function funcao, TimeDate.Date date1, TimeDate.Date date2, HolidaysList feriados) {
+    public RequestList(String bd, String csv, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados) {
+        this.vista = vista;
+        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
+        TimeDate.Date hoje = new TimeDate.Date();
+        int dia_auxiliar = 0;
+        switch (this.vista) {
+            case 1:
+                dia_auxiliar = 1;
+                while (fer_auxiliar.hasNext()) {
+                    TimeDate.Holiday der = fer_auxiliar.next();
+                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+                        dia_auxiliar++;
+                    }
+                }
+                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
+                    dia_auxiliar++;
+                }
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 2:
+                dia_auxiliar = 6;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 3:
+                dia_auxiliar = 13;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 4: 
+                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            default:
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+
+        }
         this.bd = bd;
         this.csv = csv;
         this.material = material;
         this.funcao = funcao;
-        this.date1 = date1;
-        this.date2 = date2;
         this.requests = new TreeSet<>();
         this.feriados = feriados;
     }
@@ -49,9 +93,46 @@ public class RequestList {
         this.feriados = req.feriados;
     }
     
-    public void reMake(TimeDate.Date date1, TimeDate.Date date2, HolidaysList Holdays){
-        this.date1 = date1;
-        this.date2 = date2;
+    public void reMake(TimeDate.Date date1, TimeDate.Date date2, int vista, HolidaysList Holdays){
+        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
+        TimeDate.Date hoje = new TimeDate.Date();
+        this.setVista(vista);
+        int dia_auxiliar = 0;
+        switch (this.getVista()) {
+            case 1:
+                dia_auxiliar = 1;
+                while (fer_auxiliar.hasNext()) {
+                    TimeDate.Holiday der = fer_auxiliar.next();
+                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+                        dia_auxiliar++;
+                    }
+                }
+                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
+                    dia_auxiliar++;
+                }
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 2:
+                dia_auxiliar = 6;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 3:
+                dia_auxiliar = 13;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 4: 
+                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            default:
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+
+        }
         HandlingCSV han = new HandlingCSV(csv);
         han.searchElements();
         List<ElementsCSV> elementos = han.getElements();
@@ -216,6 +297,20 @@ public class RequestList {
      */
     public void setHolidays(HolidaysList feriados) {
         this.feriados = feriados;
+    }
+
+    /**
+     * @return the vista
+     */
+    public int getVista() {
+        return vista;
+    }
+
+    /**
+     * @param vista the vista to set
+     */
+    public void setVista(int vista) {
+        this.vista = vista;
     }
     
     

@@ -53,12 +53,6 @@ public class TableRequest {
     public static final Color DEFAULT_SELECT_COLOR = Color.DARK_GRAY;
     public static final Color DEFAULT_PANEL_COLOR = Color.WHITE;
     public static final float DEFAULT_DIVIDER_LOCATION = 0.7f;
-    public static final int VIEW_SEMESTER = 5;
-    public static final int VIEW_MONTH = 4;
-    public static final int VIEW_BIWEEK = 3;
-    public static final int VIEW_WEEK = 2;
-    public static final int VIEW_PAIR_OF_DAYS = 1;
-    public static final int VIEW_DAY = 0;
     public static final int DEFAULT_AFTER_TIME = 0;
     public static final int DEFAULT_BEFORE_TIME = 10;
 
@@ -75,8 +69,7 @@ public class TableRequest {
     private final Main.RequestList requisicao;
     private float panelDividerLocation;
     private Color[] cores;
-    private int vista;
-    private int antes_hora; 
+    private int antes_hora;
     private int depois_hora;
 
     public TableRequest(RequestList requisicao, javax.swing.JSplitPane spanel, Langs.Locale lingua) {
@@ -85,9 +78,8 @@ public class TableRequest {
         this.selecionado = -1;
         this.spanel = spanel;
         this.lista = requisicao;
-        vista = TableRequest.VIEW_MONTH;
-        antes_hora= TableRequest.DEFAULT_BEFORE_TIME*60; 
-        depois_hora = TableRequest.DEFAULT_AFTER_TIME*60;
+        antes_hora = TableRequest.DEFAULT_BEFORE_TIME * 60;
+        depois_hora = TableRequest.DEFAULT_AFTER_TIME * 60;
         cores = new Color[]{Color.GREEN.darker(), Color.RED};
         backColor = TableRequest.DEFAULT_BACKGROUND_COLOR;
         foreColor = TableRequest.DEFAULT_FOREGROUND_COLOR;
@@ -106,10 +98,10 @@ public class TableRequest {
         spanel.setLeftComponent(panel.alternativePanel());
         spanel.setDividerLocation(panelDividerLocation);
         if (!requisicao.getRequests().isEmpty()) {
-            tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome"), lingua.translate("Recurso"), lingua.translate("Horário")}));
+            tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome"), lingua.translate("Recurso"), lingua.translate("Horário"), lingua.translate("Data")}));
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             for (Clavis.Request req : requisicao.getRequests()) {
-                Object[] ob = {req.getPerson().getName(), req.getMaterial().getDescription(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0)};
+                Object[] ob = {req.getPerson().getName(), req.getMaterial().getDescription(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate()};
                 modelo.addRow(ob);
             }
         } else {
@@ -126,8 +118,9 @@ public class TableRequest {
         tabela.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 45));
         if (tabela.getColumnCount() > 1) {
             tabela.getColumnModel().getColumn(0).setPreferredWidth(350);
-            tabela.getColumnModel().getColumn(1).setMinWidth(105);
-            tabela.getColumnModel().getColumn(2).setMinWidth(115);
+            tabela.getColumnModel().getColumn(1).setMinWidth(100);
+            tabela.getColumnModel().getColumn(2).setMinWidth(110);
+            tabela.getColumnModel().getColumn(3).setMinWidth(100);
         }
         DefaultTableCellRenderer rend = ((DefaultTableCellRenderer) tabela.getTableHeader().getDefaultRenderer());
         rend.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -149,12 +142,18 @@ public class TableRequest {
         if (tabela.getColumnCount() > 1) {
             int i = 0;
             while (i < tabela.getColumnCount()) {
-                switch (i % 3) {
+                switch (i % 4) {
                     case 0:
                         renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                         break;
                     case 1:
-                        renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+                        break;
+                    case 2:
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+                        break;
+                    case 3:
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
                         break;
                     default:
                         renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -168,7 +167,7 @@ public class TableRequest {
             renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             tabela.getColumnModel().getColumn(0).setCellRenderer(renderer2);
         }
-       
+
         // seleção e atualização do painel
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
@@ -238,7 +237,7 @@ public class TableRequest {
                 }
             }
         });*/
-        /* Método para sort
+ /* Método para sort
          List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
          sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
          TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tabela.getModel());
@@ -246,41 +245,52 @@ public class TableRequest {
          sorter.setSortKeys(sortKeys);
          */
     }
-    
-    public void addTimerColors(){
-         //Timer
+
+    public void clean() {
+        tabela.removeAll();
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        int tam = modelo.getRowCount();
+        for (int i = 0; i < tam; i++) {
+            modelo.removeRow(0);
+        }
+        tabela.repaint();
+    }
+
+    public void addTimerColors() {
+        //Timer
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         Timer time = new Timer(5000, new ActionListener() {
             TimeDate.Time tempo;
+            TimeDate.Date data;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (vista == 0) {
-                    tempo = new TimeDate.Time();
-                    System.out.println(tempo.toString());
-                    System.out.println("deposi: "+depois_hora);
-                    System.out.println("after:"+antes_hora);
-                    if (modelo.getRowCount() > 0) {
-                        int i = 0;
-                        for (Clavis.Request req : requisicao.getRequests()) {
-                            int val = tempo.compareTime(req.getTimeBegin());
-                            int valfinal;
+                tempo = new TimeDate.Time();
+                data = new TimeDate.Date();
+                if (modelo.getRowCount() > 0) {
+                    int i = 0;
+                    for (Clavis.Request req : requisicao.getRequests()) {
+                        int val = tempo.compareTime(req.getTimeBegin());
+                        int valfinal;
+                        if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
                             if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                valfinal = new TimeDate.Time(0,0,0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23,59,59)) + (84600*(new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1 );
+                                valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
                             } else {
                                 valfinal = tempo.compareTime(req.getTimeEnd());
                             }
                             if ((val < antes_hora) && (valfinal >= depois_hora)) {
-                                tabela.setBorderColor(i, cores[0]);
-                                //tabela.setRowColor(i, cores[0]);
-                                
+                                //tabela.setBorderColor(i, cores[0]);
+                                tabela.setRowColor(i, cores[0]);
+
                             } else if (valfinal < 0) {
-                                tabela.setBorderColor(i, cores[1]);
+                                tabela.setRowColor(i, cores[1]);
+                                //tabela.setBorderColor(i, cores[1]);
                             } else {
-                                tabela.removeBorderColor(i);
+                                //tabela.removeBorderColor(i);
+
                             }
-                            tabela.repaint();
-                            i++;
                         }
+                        tabela.repaint();
+                        i++;
                     }
                 }
             }
@@ -441,20 +451,6 @@ public class TableRequest {
     }
 
     /**
-     * @return the vista
-     */
-    public int getView() {
-        return vista;
-    }
-
-    /**
-     * @param vista the view to set
-     */
-    public void setView(int vista) {
-        this.vista = vista;
-    }
-
-    /**
      * @return the antes_hora
      */
     public int getBeforeHour() {
@@ -465,7 +461,7 @@ public class TableRequest {
      * @param antes_hora the antes_hora to set
      */
     public void setBeforeHour(int antes_hora) {
-        this.antes_hora = antes_hora*60;
+        this.antes_hora = antes_hora * 60;
     }
 
     /**
@@ -479,7 +475,7 @@ public class TableRequest {
      * @param depois_hora the depois_hora to set
      */
     public void setAfterHour(int depois_hora) {
-        this.depois_hora = depois_hora*60;
+        this.depois_hora = depois_hora * 60;
     }
 
 }
