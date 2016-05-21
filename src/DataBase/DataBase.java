@@ -26,6 +26,7 @@ public class DataBase {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false;
+           
             con = DriverManager.getConnection(url);
             tie = true;
         } catch (SQLException e) {

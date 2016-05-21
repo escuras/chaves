@@ -43,7 +43,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabelListaFeriadosDefeito" max="32767" attributes="0"/>
+                                  <Component id="jPanelListaFeriadosDefeito" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jRadioButtonSextaFeira" min="-2" max="-2" attributes="0"/>
@@ -51,21 +58,14 @@
                                   <Component id="jRadioButtonPascoa" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jRadioButtonCorpoDeus" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButtonDefHolidaysVoltar" min="-2" pref="84" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelListaFeriadosDefeito" max="32767" attributes="0"/>
-                                  <Component id="jPanelListaFeriadosDefeito" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonDefHolidaysDireita" pref="52" max="32767" attributes="0"/>
-                                  <Component id="jButtonDefHolidaysEsquerda" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButtonDefHolidaysVoltar" max="32767" attributes="0"/>
+                          <Component id="jButtonDefHolidaysDireita" pref="52" max="32767" attributes="0"/>
+                          <Component id="jButtonDefHolidaysApagar" max="32767" attributes="0"/>
+                          <Component id="jButtonDefHolidaysMais" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -85,7 +85,7 @@
                           <Component id="jLabelListaFeriadosEscolhidos" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanelListaFeriadosEscolhidos" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -94,25 +94,21 @@
                                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                       <Component id="jButtonDefHolidaysDireita" min="-2" pref="42" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButtonDefHolidaysEsquerda" min="-2" pref="42" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                      <Component id="jButtonDefHolidaysApagar" min="-2" pref="42" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jRadioButtonCarnaval" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jRadioButtonSextaFeira" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jRadioButtonPascoa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jRadioButtonCorpoDeus" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jButtonDefHolidaysMais" min="-2" pref="42" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jButtonDefHolidaysVoltar" min="-2" pref="42" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonCarnaval" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jRadioButtonSextaFeira" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jRadioButtonPascoa" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jRadioButtonCorpoDeus" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="78" max="32767" attributes="0"/>
@@ -170,6 +166,12 @@
                           <StringArray count="0"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jListFeriadosDefeitoMouseClicked"/>
+                        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jListFeriadosDefeitoPropertyChange"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jListFeriadosDefeitoKeyPressed"/>
+                        <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jListFeriadosDefeitoValueChanged"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -218,6 +220,11 @@
                           <StringArray count="0"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jListFeriadosEscolhidosMouseClicked"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jListFeriadosEscolhidosKeyPressed"/>
+                        <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jListFeriadosEscolhidosValueChanged"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -232,6 +239,7 @@
                 <Property name="text" type="java.lang.String" value="Lista de feriados fixos por defeito: "/>
               </Properties>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelListaFeriadosEscolhidos.setText(lingua.translate(&quot;Lista_feriados_escolhidos&quot;));"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelListaFeriadosDefeito.setText(lingua.translate(&quot;Lista_feriados_por_defeito&quot;));"/>
               </AuxValues>
             </Component>
@@ -243,6 +251,9 @@
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jRadioButtonCarnavalStateChanged"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonCarnavalActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jRadioButtonCarnaval.setText(lingua.translate(&quot;Carnaval&quot;));"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonSextaFeira">
               <Properties>
@@ -251,6 +262,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonSextaFeiraActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jRadioButtonSextaFeira.setText(lingua.translate(&quot;Sexta-feira_santa&quot;));"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonPascoa">
               <Properties>
@@ -259,6 +273,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonPascoaActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jRadioButtonPascoa.setText(lingua.translate(&quot;P&#xe1;scoa&quot;));"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonCorpoDeus">
               <Properties>
@@ -267,6 +284,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonCorpoDeusActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jRadioButtonCorpoDeus.setText(lingua.translate(&quot;corpo_deus&quot;));"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonDefHolidaysDireita">
               <Properties>
@@ -279,25 +299,26 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file = new java.io.File(this.getClass().getResource(&quot;Images/arrow_right.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);&#xa;javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);&#xa;jButtonDefHolidaysDireita.setIcon(icon);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonDefHolidaysDireita.setBackground(new Color(254,254,254));"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonDefHolidaysEsquerda">
+            <Component class="javax.swing.JButton" name="jButtonDefHolidaysApagar">
               <Properties>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysEsquerdaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysApagarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file2 = new java.io.File(this.getClass().getResource(&quot;Images/arrow_left.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image2 = FileIOAux.ImageAux.getImageFromFile(file2);&#xa;javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;jButtonDefHolidaysEsquerda.setIcon(icon2);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file2 = new java.io.File(this.getClass().getResource(&quot;Images/delete.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image2 = FileIOAux.ImageAux.getImageFromFile(file2);&#xa;javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;jButtonDefHolidaysApagar.setIcon(icon2);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonDefHolidaysApagar.setBackground(new Color(254,254,254));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonDefHolidaysVoltar">
               <Properties>
-                <Property name="mnemonic" type="int" value="118"/>
-                <Property name="text" type="java.lang.String" value="Voltar"/>
+                <Property name="text" type="java.lang.String" value="Voltar" postCode="jButtonDefHolidaysVoltar.setText(lingua.translate(&quot;Voltar&quot;));"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
@@ -305,6 +326,22 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysVoltarActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonDefHolidaysVoltar.setMnemonic(lingua.translate(&quot;Voltar&quot;).charAt(0));"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonDefHolidaysMais">
+              <Properties>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysMaisActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file3 = new java.io.File(this.getClass().getResource(&quot;Images/plus.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image3 = FileIOAux.ImageAux.getImageFromFile(file3);&#xa;javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;jButtonDefHolidaysMais.setIcon(icon3);"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -385,7 +422,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" alignment="1" pref="562" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" alignment="0" pref="562" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -453,7 +490,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
@@ -822,7 +859,7 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="2" left="3" right="3" top="2"/>
+                <EmptyBorder bottom="1" left="3" right="3" top="1"/>
               </Border>
             </Property>
           </Properties>
@@ -830,7 +867,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxVistaActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;1_dia&quot;), lingua.translate(&quot;2_dias&quot;), lingua.translate(&quot;3_dias&quot;), lingua.translate(&quot;4_dias&quot;), lingua.translate(&quot;5_dias&quot;), lingua.translate(&quot;1_semana&quot;), lingua.translate(&quot;2_semanas&quot;), lingua.translate(&quot;1_mes&quot;), lingua.translate(&quot;2_meses&quot;), lingua.translate(&quot;1_semestre&quot;) }));&#xa;((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;1_dia&quot;), lingua.translate(&quot;2_dias&quot;), lingua.translate(&quot;1_semana&quot;), lingua.translate(&quot;2_semanas&quot;), lingua.translate(&quot;1_mes&quot;)}));&#xa;((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

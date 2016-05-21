@@ -20,7 +20,6 @@ public class TreatText {
         String fina = "";
         int k = 0;
         Pattern p = Pattern.compile("[0-9.,]");
-        System.out.println("qulquer coisa");
         for (int i=0; i< string.length(); i++){
             String aux =  string.substring(i,i+1);
             Matcher m = p.matcher(aux);
@@ -28,7 +27,6 @@ public class TreatText {
                 fina += aux;
             } 
         }
-        System.out.println(fina);
         return fina;
     }
     

@@ -72,7 +72,7 @@ public class Clavicela {
          doc.getDocumentElement().normalize();*/
         //File input = new File("src.langs.dddd");
         //if (!input.exists()) input.createNewFile();
-        DataBase.DataBase teste = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis", "root", "sobral");
+        DataBase.DataBase teste = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?user=root&password=sobral");
         System.out.println(teste.isTie());
         List<Person> pessoas = teste.getPersons();
         pessoas.stream().forEach((ex) -> {

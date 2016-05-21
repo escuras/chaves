@@ -17,6 +17,7 @@ public class Holiday implements Comparable<Holiday> {
     private static final long serialVersionUID =1L;
     private int mes;
     private int dia;
+    private boolean dinamico;
     private Langs.Locale locale;
     private static Date pascoa;
 
@@ -24,11 +25,13 @@ public class Holiday implements Comparable<Holiday> {
         mes = 0;
         dia = 0;
         locale = new Langs.Locale();
+        dinamico = false;
     }
 
     public Holiday(int dia, int mes) {
         this.mes = mes;
         this.dia = dia;
+        dinamico = false;
         locale = new Langs.Locale();
     }
 
@@ -157,12 +160,16 @@ public class Holiday implements Comparable<Holiday> {
         }
     }
 
-    public static Date getEaster(int ano) {
+    public static Holiday getEaster(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
-            return pascoa;
+            Holiday pasc = new Holiday(pascoa.getDay(),pascoa.getMonth());
+            pasc.setDinamic(true);
+            return pasc;
         } else {
             calcEaster(ano);
-            return pascoa;
+            Holiday pasc = new Holiday(pascoa.getDay(),pascoa.getMonth());
+            pasc.setDinamic(true);
+            return pasc;
         }
 
     }
@@ -170,33 +177,44 @@ public class Holiday implements Comparable<Holiday> {
     public static Holiday getGoodFriday(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date sexta_feira_santa = pascoa.dateBefore(2);
-            return new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            Holiday sexta = new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            sexta.setDinamic(true);
+            return sexta;
         } else {
             calcEaster(ano);
             Date sexta_feira_santa = pascoa.dateBefore(2);
-            return new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            Holiday sexta = new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            sexta.setDinamic(true);
+            return sexta;
         }
     }
 
     public static Holiday getCorpusChristi(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            return new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            Holiday corpo = new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            corpo.setDinamic(true);
+            return corpo;
         } else {
-            calcEaster(ano);
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            return new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            Holiday corpo = new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            corpo.setDinamic(true);
+            return corpo;
         }
     }
 
-    public static Holiday getCarnaval(int ano) {
+    public static Holiday getCarnival(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date carnaval = pascoa.dateBefore(48);
-            return new Holiday(carnaval.getDay(),carnaval.getMonth());
+            Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
+            carn.setDinamic(true);
+            return carn;
         } else {
             calcEaster(ano);
             Date carnaval = pascoa.dateBefore(48);
-            return new Holiday(carnaval.getDay(),carnaval.getMonth());
+            Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
+            carn.setDinamic(true);
+            return carn;
         }
     }
 
@@ -246,5 +264,19 @@ public class Holiday implements Comparable<Holiday> {
             valor = Integer.compare(this.getDay(), o.getDay());
         }
         return valor;
+    }
+
+    /**
+     * @return the dinamico
+     */
+    public boolean isDinamic() {
+        return dinamico;
+    }
+
+    /**
+     * @param dinamico the dinamico to set
+     */
+    public void setDinamic(boolean dinamico) {
+        this.dinamico = dinamico;
     }
 }

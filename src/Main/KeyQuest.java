@@ -5,6 +5,7 @@
  */
 package Main;
 
+import TimeDate.HolidaysList;
 import Clavis.Function;
 import Clavis.TypeOfMaterial;
 import TimeDate.Date;
@@ -35,7 +36,9 @@ import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
@@ -80,8 +83,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jRadioButtonPascoa = new javax.swing.JRadioButton();
         jRadioButtonCorpoDeus = new javax.swing.JRadioButton();
         jButtonDefHolidaysDireita = new javax.swing.JButton();
-        jButtonDefHolidaysEsquerda = new javax.swing.JButton();
+        jButtonDefHolidaysApagar = new javax.swing.JButton();
         jButtonDefHolidaysVoltar = new javax.swing.JButton();
+        jButtonDefHolidaysMais = new javax.swing.JButton();
         jPanelInicial = new javax.swing.JPanel();
         jSplitPaneInicial = new javax.swing.JSplitPane();
         jPanelBaixo = new javax.swing.JPanel();
@@ -116,6 +120,26 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelListaFeriadosDefeito.setBackground(new java.awt.Color(1, 1, 1));
 
         jListFeriadosDefeito.setBackground(new java.awt.Color(216, 220, 227));
+        jListFeriadosDefeito.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListFeriadosDefeitoMouseClicked(evt);
+            }
+        });
+        jListFeriadosDefeito.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jListFeriadosDefeitoPropertyChange(evt);
+            }
+        });
+        jListFeriadosDefeito.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jListFeriadosDefeitoKeyPressed(evt);
+            }
+        });
+        jListFeriadosDefeito.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListFeriadosDefeitoValueChanged(evt);
+            }
+        });
         jScrollPaneFeriadosDefeito.setViewportView(jListFeriadosDefeito);
 
         javax.swing.GroupLayout jPanelListaFeriadosDefeitoLayout = new javax.swing.GroupLayout(jPanelListaFeriadosDefeito);
@@ -135,6 +159,21 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelListaFeriadosEscolhidos.setBackground(new java.awt.Color(1, 1, 1));
 
         jListFeriadosEscolhidos.setBackground(new java.awt.Color(254, 254, 234));
+        jListFeriadosEscolhidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListFeriadosEscolhidosMouseClicked(evt);
+            }
+        });
+        jListFeriadosEscolhidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jListFeriadosEscolhidosKeyPressed(evt);
+            }
+        });
+        jListFeriadosEscolhidos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListFeriadosEscolhidosValueChanged(evt);
+            }
+        });
         jScrollPaneFeriadosEscolhidos.setViewportView(jListFeriadosEscolhidos);
 
         javax.swing.GroupLayout jPanelListaFeriadosEscolhidosLayout = new javax.swing.GroupLayout(jPanelListaFeriadosEscolhidos);
@@ -156,6 +195,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelListaFeriadosDefeito.setText(lingua.translate("Lista_feriados_por_defeito"));
 
         jRadioButtonCarnaval.setText("Carnaval");
+        jRadioButtonCarnaval.setText(lingua.translate("Carnaval"));
         jRadioButtonCarnaval.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jRadioButtonCarnavalStateChanged(evt);
@@ -168,6 +208,7 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jRadioButtonSextaFeira.setText("Sexta-feira santa");
+        jRadioButtonSextaFeira.setText(lingua.translate("Sexta-feira_santa"));
         jRadioButtonSextaFeira.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonSextaFeiraActionPerformed(evt);
@@ -175,6 +216,7 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jRadioButtonPascoa.setText("Páscoa");
+        jRadioButtonPascoa.setText(lingua.translate("Páscoa"));
         jRadioButtonPascoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonPascoaActionPerformed(evt);
@@ -182,6 +224,7 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jRadioButtonCorpoDeus.setText("Corpo de Deus");
+        jRadioButtonCorpoDeus.setText(lingua.translate("corpo_deus"));
         jRadioButtonCorpoDeus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonCorpoDeusActionPerformed(evt);
@@ -189,25 +232,35 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jButtonDefHolidaysDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonDefHolidaysDireita.setBackground(new Color(254,254,254));
         jButtonDefHolidaysDireita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefHolidaysDireitaActionPerformed(evt);
             }
         });
 
-        jButtonDefHolidaysEsquerda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonDefHolidaysEsquerda.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDefHolidaysApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonDefHolidaysApagar.setBackground(new Color(254,254,254));
+        jButtonDefHolidaysApagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDefHolidaysEsquerdaActionPerformed(evt);
+                jButtonDefHolidaysApagarActionPerformed(evt);
             }
         });
 
-        jButtonDefHolidaysVoltar.setMnemonic('v');
         jButtonDefHolidaysVoltar.setText("Voltar");
+        jButtonDefHolidaysVoltar.setText(lingua.translate("Voltar"));
         jButtonDefHolidaysVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonDefHolidaysVoltar.setMnemonic(lingua.translate("Voltar").charAt(0));
         jButtonDefHolidaysVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefHolidaysVoltarActionPerformed(evt);
+            }
+        });
+
+        jButtonDefHolidaysMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonDefHolidaysMais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDefHolidaysMaisActionPerformed(evt);
             }
         });
 
@@ -218,23 +271,23 @@ public class KeyQuest extends javax.swing.JFrame {
             .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                 .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                         .addGap(116, 116, 116)
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButtonSextaFeira)
                             .addComponent(jRadioButtonCarnaval)
                             .addComponent(jRadioButtonPascoa)
-                            .addComponent(jRadioButtonCorpoDeus))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                            .addComponent(jButtonDefHolidaysEsquerda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jRadioButtonCorpoDeus))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                    .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -249,7 +302,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,31 +311,35 @@ public class KeyQuest extends javax.swing.JFrame {
                                 .addGap(35, 35, 35)
                                 .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonDefHolidaysEsquerda, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
+                                .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButtonCarnaval)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButtonSextaFeira)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButtonPascoa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButtonCorpoDeus))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefHolidaysLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioButtonCarnaval)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonSextaFeira)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonPascoa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonCorpoDeus)))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
+        jLabelListaFeriadosEscolhidos.setText(lingua.translate("Lista_feriados_escolhidos"));
         java.io.File file = new java.io.File(this.getClass().getResource("Images/arrow_right.png").getFile());
         java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
         jButtonDefHolidaysDireita.setIcon(icon);
-        java.io.File file2 = new java.io.File(this.getClass().getResource("Images/arrow_left.png").getFile());
+        java.io.File file2 = new java.io.File(this.getClass().getResource("Images/delete.png").getFile());
         java.awt.image.BufferedImage image2 = FileIOAux.ImageAux.getImageFromFile(file2);
         javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);
-        jButtonDefHolidaysEsquerda.setIcon(icon2);
+        jButtonDefHolidaysApagar.setIcon(icon2);
+        java.io.File file3 = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
+        java.awt.image.BufferedImage image3 = FileIOAux.ImageAux.getImageFromFile(file3);
+        javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);
+        jButtonDefHolidaysMais.setIcon(icon3);
 
         javax.swing.GroupLayout jDialogDefHolidaysLayout = new javax.swing.GroupLayout(jDialogDefHolidays.getContentPane());
         jDialogDefHolidays.getContentPane().setLayout(jDialogDefHolidaysLayout);
@@ -547,7 +604,7 @@ public class KeyQuest extends javax.swing.JFrame {
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPaneInicial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+            .addComponent(jSplitPaneInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
         );
 
         jSplitPaneInicial.setResizeWeight(1.0);
@@ -557,13 +614,13 @@ public class KeyQuest extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
         jToolBar1.setMinimumSize(new java.awt.Dimension(90, 32));
 
-        jComboBoxVista.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 3, 2, 3));
+        jComboBoxVista.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         jComboBoxVista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxVistaActionPerformed(evt);
             }
         });
-        jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("1_dia"), lingua.translate("2_dias"), lingua.translate("3_dias"), lingua.translate("4_dias"), lingua.translate("5_dias"), lingua.translate("1_semana"), lingua.translate("2_semanas"), lingua.translate("1_mes"), lingua.translate("2_meses"), lingua.translate("1_semestre") }));
+        jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("1_dia"), lingua.translate("2_dias"), lingua.translate("1_semana"), lingua.translate("2_semanas"), lingua.translate("1_mes")}));
         ((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         jToolBar1.add(jComboBoxVista);
 
@@ -610,7 +667,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        lingua.setLocale("pt_PT");
+        lingua.setLocale("es_ES");
         tdivisor = 20;
         prefs.save();
         prefs = new PersonalPrefs();
@@ -656,6 +713,7 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         //((DefaultListModel) jListFeriadosEscolhidos.getModel()).remove(i);
         this.drawChoosenHolidaysList();
+        jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
     }//GEN-LAST:event_jRadioButtonSextaFeiraActionPerformed
 
     private void jButtonDefHolidaysVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysVoltarActionPerformed
@@ -678,6 +736,7 @@ public class KeyQuest extends javax.swing.JFrame {
             hol.saveHolidays(feriados);
         }
         this.drawChoosenHolidaysList();
+        jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
     }//GEN-LAST:event_jRadioButtonCarnavalActionPerformed
 
     private void jRadioButtonPascoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPascoaActionPerformed
@@ -691,6 +750,7 @@ public class KeyQuest extends javax.swing.JFrame {
             hol.saveHolidays(feriados);
         }
         this.drawChoosenHolidaysList();
+        jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
     }//GEN-LAST:event_jRadioButtonPascoaActionPerformed
 
     private void jRadioButtonCorpoDeusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCorpoDeusActionPerformed
@@ -704,32 +764,46 @@ public class KeyQuest extends javax.swing.JFrame {
             hol.saveHolidays(feriados);
         }
         this.drawChoosenHolidaysList();
+        jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
     }//GEN-LAST:event_jRadioButtonCorpoDeusActionPerformed
 
     private void jButtonDefHolidaysDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysDireitaActionPerformed
         if (!jListFeriadosDefeito.isSelectionEmpty()) {
-            HolidaysList lista = new FileHolidays().getDefaultHolidaysList();
+            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
             String value = jListFeriadosDefeito.getSelectedValue();
-            TimeDate.Holiday hol = null;
-            for (TimeDate.Holiday h : lista.getHolidays()) {
-                if (h.toLongString().equals(value)) {
-                    hol = h;
+            boolean aux = false;
+            for (int i = 0; i < modelo.getSize(); i++) {
+                if (modelo.getElementAt(i).toString().equals(value)) {
+                    aux = true;
                 }
             }
-            if (hol != null) {
-                feriados.addHoliday(hol);
-                FileHolidays holi = new FileHolidays();
-                holi.saveHolidays(feriados);
-                this.drawChoosenHolidaysList();
+            if (!aux) {
+                HolidaysList lista = new FileHolidays().getDefaultHolidaysList();
+                TimeDate.Holiday hol = null;
+                for (TimeDate.Holiday h : lista.getHolidays()) {
+                    h.setLanguage(lingua);
+                    if (h.toLongString().equals(value)) {
+                        hol = h;
+                    }
+                }
+                if (hol != null) {
+                    feriados.addHoliday(hol);
+                    FileHolidays holi = new FileHolidays();
+                    holi.saveHolidays(feriados);
+                    this.drawChoosenHolidaysList();
+                }
+                jListFeriadosDefeito.clearSelection();
+                jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
             }
         }
     }//GEN-LAST:event_jButtonDefHolidaysDireitaActionPerformed
 
-    private void jButtonDefHolidaysEsquerdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysEsquerdaActionPerformed
+    private void jButtonDefHolidaysApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysApagarActionPerformed
         if (!jListFeriadosEscolhidos.isSelectionEmpty()) {
             String value = jListFeriadosEscolhidos.getSelectedValue();
             TimeDate.Holiday hol = null;
             for (TimeDate.Holiday h : feriados.getHolidays()) {
+                h.setLanguage(lingua);
                 if (h.toLongString().equals(value)) {
                     hol = h;
                 }
@@ -754,8 +828,141 @@ public class KeyQuest extends javax.swing.JFrame {
                 holi.saveHolidays(feriados);
                 this.drawChoosenHolidaysList();
             }
+            jListFeriadosDefeito.clearSelection();
+            jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
         }
-    }//GEN-LAST:event_jButtonDefHolidaysEsquerdaActionPerformed
+    }//GEN-LAST:event_jButtonDefHolidaysApagarActionPerformed
+
+    private void jButtonDefHolidaysMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysMaisActionPerformed
+        javax.swing.JComboBox<String> dia = new javax.swing.JComboBox<>();
+        dia.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
+        javax.swing.JComboBox<String> mes = new javax.swing.JComboBox<>();
+        mes.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
+        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Janeiro"), lingua.translate("Fevereiro"), 
+            lingua.translate("Março"), lingua.translate("Abril"), lingua.translate("Maio"), 
+            lingua.translate("Junho"), lingua.translate("Julho"), lingua.translate("Agosto"), lingua.translate("Setembro"),
+            lingua.translate("Outubro"), lingua.translate("Novembro"), lingua.translate("Dezembro")}));
+        mes.setSelectedIndex(0);
+       ((javax.swing.JLabel)mes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+       ((javax.swing.JLabel)dia.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+        mes.addActionListener((ActionEvent e) -> {
+            int vval = mes.getSelectedIndex();
+            if ((vval == 3) || (vval == 5) || (vval == 8) || (vval == 10)) {
+                dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
+            } else if (vval == 1) {
+                dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"}));
+            } else {
+                dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+            }
+        });
+        javax.swing.JLabel lmes = new javax.swing.JLabel(lingua.translate("Mês"));
+        lmes.setBorder(BorderFactory.createEmptyBorder(5, 0, 4, 0));
+        lmes.setHorizontalAlignment(SwingConstants.CENTER);
+        javax.swing.JLabel ldia = new javax.swing.JLabel(lingua.translate("Dia"));
+        ldia.setBorder(BorderFactory.createEmptyBorder(5, 0, 4, 0));
+        ldia.setHorizontalAlignment(SwingConstants.CENTER);
+        javax.swing.ComboBoxModel modelo = (javax.swing.ComboBoxModel<String>) mes.getModel();
+        javax.swing.JLabel branco = new javax.swing.JLabel("");
+        branco.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+
+        final javax.swing.JComponent[] inputs = new javax.swing.JComponent[]{
+            lmes,
+            mes,
+            ldia,
+            dia,
+            branco
+        };
+        String[] op = new String[2];
+        op[0] = lingua.translate("Confirmar");
+        op[1] = lingua.translate("Cancelar");
+        
+        if (javax.swing.JOptionPane.showOptionDialog(this, inputs, lingua.translate("Escolher_feriado"), javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE, null, op, null) == 0) {
+            int idia = Integer.valueOf(dia.getSelectedItem().toString().trim());
+            int imes = mes.getSelectedIndex()+1;
+            feriados.addHoliday(idia, imes);
+            FileHolidays holi = new FileHolidays();
+            holi.saveHolidays(feriados);
+            this.drawChoosenHolidaysList();
+        }
+    }//GEN-LAST:event_jButtonDefHolidaysMaisActionPerformed
+
+    private void jListFeriadosEscolhidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListFeriadosEscolhidosMouseClicked
+        if (!jListFeriadosEscolhidos.isSelectionEmpty()) {
+            jButtonDefHolidaysApagar.setBackground(Color.red);
+        } else {
+            jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
+        }
+
+    }//GEN-LAST:event_jListFeriadosEscolhidosMouseClicked
+
+    private void jListFeriadosDefeitoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoMouseClicked
+        if (!jListFeriadosDefeito.isSelectionEmpty()) {
+            String val = jListFeriadosDefeito.getSelectedValue();
+            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
+            boolean existe = false;
+            for (int i = 0; i < modelo.getSize(); i++) {
+                if (modelo.getElementAt(i).toString().equals(val)) {
+                    existe = true;
+                }
+            }
+            if (!existe) {
+                jButtonDefHolidaysDireita.setBackground(Color.GREEN);
+            } else {
+                jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
+            }
+        } else {
+            jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
+        }
+    }//GEN-LAST:event_jListFeriadosDefeitoMouseClicked
+
+    private void jListFeriadosDefeitoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoPropertyChange
+
+    }//GEN-LAST:event_jListFeriadosDefeitoPropertyChange
+
+    private void jListFeriadosDefeitoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoValueChanged
+        if (!jListFeriadosDefeito.isSelectionEmpty()) {
+            String val = jListFeriadosDefeito.getSelectedValue();
+            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
+            boolean existe = false;
+            for (int i = 0; i < modelo.getSize(); i++) {
+                if (modelo.getElementAt(i).toString().equals(val)) {
+                    existe = true;
+                }
+            }
+            if (!existe) {
+                jButtonDefHolidaysDireita.setBackground(Color.GREEN);
+            } else {
+                jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
+            }
+        } else {
+            jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
+        }
+    }//GEN-LAST:event_jListFeriadosDefeitoValueChanged
+
+    private void jListFeriadosEscolhidosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListFeriadosEscolhidosValueChanged
+        if (!jListFeriadosEscolhidos.isSelectionEmpty()) {
+            jButtonDefHolidaysApagar.setBackground(Color.red);
+        } else {
+            jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
+        }
+    }//GEN-LAST:event_jListFeriadosEscolhidosValueChanged
+
+    private void jListFeriadosDefeitoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (jButtonDefHolidaysDireita.getBackground() == Color.GREEN) {
+                jButtonDefHolidaysDireita.doClick();
+            }
+        }
+    }//GEN-LAST:event_jListFeriadosDefeitoKeyPressed
+
+    private void jListFeriadosEscolhidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jListFeriadosEscolhidosKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            if (jButtonDefHolidaysApagar.getBackground() == Color.red) {
+                jButtonDefHolidaysApagar.doClick();
+            }
+        }
+    }//GEN-LAST:event_jListFeriadosEscolhidosKeyPressed
 
     public void drawChoosenHolidaysList() {
         DefaultListModel modelo2 = new DefaultListModel();
@@ -773,7 +980,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     boolean isSelected,
                     boolean cellHasFocus) {
                 javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+                label.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
                 label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 if (isSelected) {
                     label.setBackground(Color.GRAY);
@@ -860,11 +1067,12 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     protected final void init() {
-
-        initComponents();
+        HolidaysList.updateDynamicHolidays();
         feriados = new FileHolidays().getHolidays();
-        createMenu();
         urlcsv = DEFAULT_URlCSV;
+        urlbd = DEFAULT_URlBD;
+        initComponents();
+        createMenu();
         this.calculateList();
         pack();
         setLocationRelativeTo(null);
@@ -903,6 +1111,8 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     private void itemFeriadosActionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonDefHolidaysDireita.setBackground(new Color(254, 254, 254));
+        jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
         this.drawDefaultHolidaysList();
         this.drawChoosenHolidaysList();
         jDialogDefHolidays.setVisible(true);
@@ -925,7 +1135,7 @@ public class KeyQuest extends javax.swing.JFrame {
     private void calculateList() {
         Function funcao = new Function("Professor", 2);
         TypeOfMaterial material = new TypeOfMaterial("Sala", 70);
-        requisicoes = new RequestList("", urlcsv, material, funcao, vista, feriados);
+        requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
         requisicoes.make();
         lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);
         lista_req.create();
@@ -944,7 +1154,7 @@ public class KeyQuest extends javax.swing.JFrame {
     private void calculateList(Function fun, TypeOfMaterial mat) {
         Function funcao = fun;
         TypeOfMaterial material = mat;
-        requisicoes = new RequestList("", urlcsv, material, funcao, vista, feriados);
+        requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
         requisicoes.make();
         lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);
         lista_req.create();
@@ -1060,8 +1270,9 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButton2;
     javax.swing.JButton jButtonAtuacaoCancelamento;
     javax.swing.JButton jButtonAtuacaoConfirmacao;
+    javax.swing.JButton jButtonDefHolidaysApagar;
     javax.swing.JButton jButtonDefHolidaysDireita;
-    javax.swing.JButton jButtonDefHolidaysEsquerda;
+    javax.swing.JButton jButtonDefHolidaysMais;
     javax.swing.JButton jButtonDefHolidaysVoltar;
     javax.swing.JComboBox<String> jComboBoxVista;
     javax.swing.JDialog jDialogDefHolidays;
@@ -1107,7 +1318,7 @@ public class KeyQuest extends javax.swing.JFrame {
     protected HolidaysList feriados;
     protected int vista = 0;
     private final String DEFAULT_URlCSV = "http://localhost:8080/horario_disciplinas.csv";
-    private final String DEFAULT_URlBD = "http://localhost/horario_disciplinas.csv";
+    private final String DEFAULT_URlBD = "jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral";
 
     public void setURLcsv(String csv) {
         this.urlcsv = csv;

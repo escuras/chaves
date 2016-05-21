@@ -25,9 +25,7 @@ public class RadioButtonList extends JRadioButton implements ListCellRenderer {
         setForeground(list.getForeground());
         setSelected(isSelected);
         setEnabled(list.isEnabled());
-
         setText(value == null ? "" : value.toString());  
-
         return this;
     }
 }

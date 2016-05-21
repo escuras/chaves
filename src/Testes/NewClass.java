@@ -15,16 +15,21 @@ public class NewClass {
         
         System.out.println(Text.TreatText.getNumberfromString(teste));
         
-        Main.HolidaysList lista = new Main.HolidaysList(2016);
+        TimeDate.HolidaysList lista = new TimeDate.HolidaysList(2016);
         Main.FileHolidays file = new Main.FileHolidays();
         lista = file.getDefaultHolidaysList();
         lista.addCarnival();
         lista.addCorpusChristi();
         lista.addEaster();
         lista.addGoodFriday();
+        for (TimeDate.Holiday hol : lista.getHolidays()) {
+            //if (TimeDate.DinamicHoliday.class.isInstance(hol)) System.out.println("true");
+            if (hol instanceof TimeDate.DinamicHoliday)  System.out.println("true");
+        }
         file.saveHolidays(lista);
         for (TimeDate.Holiday hol : lista.getHolidays()) {
             System.out.println(hol.toString());
+            lista.getHolidays();
         }
     }
 }

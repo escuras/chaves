@@ -106,7 +106,16 @@ public class TableRequest {
             }
         } else {
             tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Situação")}));
-            Object[] ob = {lingua.translate("Problema_de_rede_ou_ligação_base_de_dados")};
+            Object[] ob = {};
+            System.out.println(requisicao.isConnected());
+            if (!requisicao.isConnected()) {
+                ob = new Object[]{lingua.translate("Problema_de_rede_ou_ligação_base_de_dados")};
+            } else if ((requisicao.getRequests().isEmpty())){
+                ob = new Object[]{lingua.translate("Não_existem_registos_para_hoje.")};
+            } else {
+                ob = new Object[]{lingua.translate("Não_existem_registos.")};
+            }
+            
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             modelo.addRow(ob);
         }

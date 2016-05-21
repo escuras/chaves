@@ -5,6 +5,7 @@
  */
 package Main;
 
+import TimeDate.HolidaysList;
 import CSV.ElementsCSV;
 import CSV.HandlingCSV;
 import CSV.ObjectCSV;
@@ -21,6 +22,7 @@ import java.util.TreeSet;
 public class RequestList {
     private String bd;
     private String csv;
+    private DataBase.DataBase db;
     private Clavis.TypeOfMaterial material;
     private Clavis.Function funcao;
     private TimeDate.Date date1;
@@ -36,6 +38,7 @@ public class RequestList {
     
     public RequestList(String bd, String csv, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados) {
         this.vista = vista;
+        this.db = new DataBase.DataBase(bd);
         Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
         TimeDate.Date hoje = new TimeDate.Date();
         int dia_auxiliar = 0;
@@ -313,12 +316,7 @@ public class RequestList {
         this.vista = vista;
     }
     
-    
-    
-    
-    
-    
-    
-    
-     
+    public boolean isConnected(){
+        return db.isTie();
+    }
 }
