@@ -64,10 +64,7 @@ public class HolidaysList {
 
     public TimeDate.Holiday getHoliday(int val) {
         java.util.List<TimeDate.Holiday> feriad = new java.util.ArrayList<>(this.getHolidays());
-        for (int i = 0; i < feriad.size(); i++) {
-            return feriad.get(i);
-        }
-        return new TimeDate.Holiday();
+        return feriad.get(val);
     }
 
     /**

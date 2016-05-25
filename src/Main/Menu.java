@@ -36,7 +36,6 @@ public class Menu extends JMenuBar {
         g2d.setColor(bgcolor);
         g2d.setPaint(paint);
         g2d.fillRect(0, 0, getWidth(), getHeight());
-
     }
     
 }

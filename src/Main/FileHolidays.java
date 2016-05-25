@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class FileHolidays {
 
     private InputStream ioFeriados;
-    
+
     public FileHolidays() {
         File file = new File(this.getClass().getResource("Recursos/feriados.dat").getFile());
         if (!file.exists()) {
@@ -51,35 +51,42 @@ public class FileHolidays {
             return new TimeDate.HolidaysList(new TimeDate.Date().getYear());
         }
     }
-    
+
     public void saveHolidays(TimeDate.HolidaysList list) {
         String aux = "";
         for (TimeDate.Holiday hol : list.getHolidays()) {
             if (hol instanceof DinamicHoliday) {
-                    DinamicHoliday d = (DinamicHoliday) hol;
-                    aux +=hol.toString()+d.getName()+"\n";
+                DinamicHoliday d = (DinamicHoliday) hol;
+                aux += hol.toString() + d.getName() + "\n";
             } else {
-                aux += hol.toString()+"\n";
+                aux += hol.toString() + "\n";
             }
         }
         try {
+            /*
+              File file = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"feriados.dat");
+              if (!file.isFile()){
+                file.createNewFile();
+            }*/
+            
             File file = new File(this.getClass().getResource("Recursos/feriados.dat").getFile());
             try (OutputStream os = new FileOutputStream(file)) {
                 byte[] bytes = aux.getBytes();
                 os.write(bytes);
                 os.flush();
+                os.close();
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileHolidays.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(FileHolidays.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
     private static TimeDate.HolidaysList getHolidaysFromInputStream(InputStream is) {
         BufferedReader br = null;
         String line;
-        String [] valores;
+        String[] valores;
         TimeDate.HolidaysList list = new TimeDate.HolidaysList(new TimeDate.Date().getYear());
         try {
             br = new BufferedReader(new InputStreamReader(is));
@@ -102,20 +109,26 @@ public class FileHolidays {
                 } else {
                     aux = "";
                 }
-                valores = line.split("/");
-                valores[0] = valores[0].trim();
-                valores[1] = valores[1].trim();
-                if (valores[0].substring(0, 1).equals("0")) valores[0] = valores[0].substring(1, 2);
-                if (valores[1].substring(0, 1).equals("0")) valores[1] = valores[1].substring(1, 2);    
-                if (aux.equals("")) {
-                    holi.setDay(Integer.valueOf(valores[0]));
-                    holi.setMonth(Integer.valueOf(valores[1]));
-                    list.addHoliday(holi);
-                } else {
-                    holi.setDay(Integer.valueOf(valores[0]));
-                    holi.setMonth(Integer.valueOf(valores[1]));
-                    DinamicHoliday h = new DinamicHoliday(holi, aux);
-                    list.addHoliday(h);
+                if (!line.equals("")) {
+                    valores = line.split("/");
+                    valores[0] = valores[0].trim();
+                    valores[1] = valores[1].trim();
+                    if (valores[0].substring(0, 1).equals("0")) {
+                        valores[0] = valores[0].substring(1, 2);
+                    }
+                    if (valores[1].substring(0, 1).equals("0")) {
+                        valores[1] = valores[1].substring(1, 2);
+                    }
+                    if (aux.equals("")) {
+                        holi.setDay(Integer.valueOf(valores[0]));
+                        holi.setMonth(Integer.valueOf(valores[1]));
+                        list.addHoliday(holi);
+                    } else {
+                        holi.setDay(Integer.valueOf(valores[0]));
+                        holi.setMonth(Integer.valueOf(valores[1]));
+                        DinamicHoliday h = new DinamicHoliday(holi, aux);
+                        list.addHoliday(h);
+                    }
                 }
             }
         } catch (java.io.IOException e) {
@@ -129,21 +142,25 @@ public class FileHolidays {
         }
         return list;
     }
-    
-    public TimeDate.HolidaysList getDefaultHolidaysList(){
+
+    public TimeDate.HolidaysList getDefaultHolidaysList() {
         File file = new File(this.getClass().getResource("Recursos/feriados_lista.dat").getFile());
         TimeDate.HolidaysList list = new TimeDate.HolidaysList(new TimeDate.Date().getYear());
         String aux;
-        String [] valores;
+        String[] valores;
         try {
-            Scanner scan = new Scanner(file); 
+            Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
                 aux = scan.nextLine();
-                valores  = aux.split("/");
+                valores = aux.split("/");
                 valores[0] = valores[0].trim();
                 valores[1] = valores[1].trim();
-                if (valores[0].substring(0, 1).equals("0")) valores[0] = valores[0].substring(1, 2);
-                if (valores[1].substring(0, 1).equals("0")) valores[1] = valores[1].substring(1, 2);  
+                if (valores[0].substring(0, 1).equals("0")) {
+                    valores[0] = valores[0].substring(1, 2);
+                }
+                if (valores[1].substring(0, 1).equals("0")) {
+                    valores[1] = valores[1].substring(1, 2);
+                }
                 list.addHoliday(Integer.valueOf(valores[0]), Integer.valueOf(valores[1]));
             }
         } catch (FileNotFoundException ex) {

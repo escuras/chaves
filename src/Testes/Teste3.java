@@ -39,7 +39,7 @@ public class Teste3 {
             Logger.getLogger(Teste3.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(date.dateBefore(1736054));
-        TimeDate.Holiday holoo = new TimeDate.Holiday();
+        TimeDate.Holiday holoo = new TimeDate.Holiday(1,12);
         TimeDate.Holiday [] dat = Holiday.getMobileHolidays(2078);
         if (dat.length > 0) {
             System.out.println("maior que 0");
@@ -56,6 +56,13 @@ public class Teste3 {
         
         TimeDate.Date hoy = new TimeDate.Date();
         System.out.println(hoy.dateAfter(7).toString());
+         
+        TimeDate.BreakPeriod br = new TimeDate.BreakPeriod();
+        System.out.println(holoo.toString());
+        holoo.adjust();
+        System.out.println(holoo.toString());
+        
+        
     }
     
 }

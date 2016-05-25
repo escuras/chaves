@@ -98,7 +98,7 @@ public class TableRequest {
         spanel.setLeftComponent(panel.alternativePanel());
         spanel.setDividerLocation(panelDividerLocation);
         if (!requisicao.getRequests().isEmpty()) {
-            tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome"), lingua.translate("Recurso"), lingua.translate("Horário"), lingua.translate("Data")}));
+            tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome"), lingua.translate(requisicao.getTypeOfMaterial().getTypeOfMaterialName()), lingua.translate("Horário"), lingua.translate("Data")}));
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             for (Clavis.Request req : requisicao.getRequests()) {
                 Object[] ob = {req.getPerson().getName(), req.getMaterial().getDescription(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate()};

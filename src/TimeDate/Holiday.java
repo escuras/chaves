@@ -20,12 +20,14 @@ public class Holiday implements Comparable<Holiday> {
     private boolean dinamico;
     private Langs.Locale locale;
     private static Date pascoa;
+    private boolean ponte;
 
     public Holiday() {
         mes = 0;
         dia = 0;
         locale = new Langs.Locale();
         dinamico = false;
+        ponte = false;
     }
 
     public Holiday(int dia, int mes) {
@@ -33,12 +35,15 @@ public class Holiday implements Comparable<Holiday> {
         this.dia = dia;
         dinamico = false;
         locale = new Langs.Locale();
+        ponte = false;
     }
 
     public Holiday(Holiday hol) {
         this.mes = hol.getMonth();
         this.dia = hol.getDay();
-        locale = new Langs.Locale();
+        locale = hol.getLanguage();
+        this.dinamico = hol.isDinamic();
+        this.ponte = hol.isAdjusted();
     }
 
     /**
@@ -131,6 +136,7 @@ public class Holiday implements Comparable<Holiday> {
         WeekDay di = null;
         try {
             di = new WeekDay(dat);
+            di.setLanguage(locale);
         } catch (ParseException ex) {
             Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -279,4 +285,42 @@ public class Holiday implements Comparable<Holiday> {
     public void setDinamic(boolean dinamico) {
         this.dinamico = dinamico;
     }
+
+    /**
+     * @return the state of bridge
+     */
+    public boolean isAdjusted() {
+        return ponte;
+    }
+
+    /**
+     * 
+     */
+    public void adjust() {
+        TimeDate.Date dat = new TimeDate.Date();
+        dat.setDay(dia);
+        dat.setMonth(mes);
+        TimeDate.WeekDay di;
+        try {
+            switch ((di = new WeekDay(dat)).getDayNumber()) {
+                case 5:
+                    dat = dat.dateAfter(1);
+                    this.ponte = true;
+                    break;
+                case 3:
+                    dat = dat.dateBefore(1);
+                    this.ponte = true;
+                    break;
+                default:
+                    this.ponte = false;
+                    break;
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dia = dat.getDay();
+        mes = dat.getMonth();
+    }
+    
+    
 }
