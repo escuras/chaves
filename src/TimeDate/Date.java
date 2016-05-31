@@ -365,7 +365,6 @@ public class Date {
             } else {
                 return new Date(this.dia + dias, this.mes, this.ano);
             }
-
         } else {
             return new Date(this.dia, this.mes, this.ano);
         }
@@ -376,10 +375,11 @@ public class Date {
         int month = this.mes;
         int day = this.dia;
         if (dias > 0) {
-            if ((this.dia - dias) < 0) {
+            if ((this.dia - dias) <= 0) {
                 int[] meses = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
                 int dauxiliar = this.getDayOfTheYear() - dias;
                 if (dauxiliar > 0) {
+                    dauxiliar = dauxiliar - 1;
                     return new Date(1, 1, this.ano).dateAfter(dauxiliar);
                 } else {
                     int anoauxiliar;
@@ -414,23 +414,19 @@ public class Date {
                         meses[2] = 29;
                     }
                     if(year > 0) {
-                        System.out.println("fff");
                         for (int j = 12; j >= 1; j--) {
                             month = j;
                             if (dauxiliar <= -meses[j]) {
                                 dauxiliar += meses[j];
-                                System.out.println("if"+dauxiliar);
                                 if (dia == 0) dia = 1;
                             } else {
                                 day = meses[j] + dauxiliar;
-                                System.out.println("else"+day);
                                 break;
                             }
                             if ((dauxiliar == 0)&&(month == 1)&&(year == 1)) {day = 1;year = 0;}
                             if ((dauxiliar == -1)&&(month == 1)&&(year == 1)) {day = 2;year = 0;}
                         } 
                     } else {
-                        System.out.println("vvv");
                         dauxiliar = -(dauxiliar-1);
                         for (int j = 1; j <= 12; j++) {
                             month = j;
@@ -449,9 +445,6 @@ public class Date {
                        day = -day;
                     }
                     if (day == 0) day = 31;
-                    System.out.println("day  :" + day);
-                    System.out.println("month  :" + month);
-                    System.out.println("year  :" + year);
                     return new Date(day, month, year);
                 }
             } else {
@@ -609,5 +602,9 @@ public class Date {
             val = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
         }
         return val[mes];
+    }
+    
+    public static boolean verifyJump(int ano) {
+        return (ano % 4 == 0) && ((ano % 100 != 0) || (ano % 400 == 0));
     }
 }

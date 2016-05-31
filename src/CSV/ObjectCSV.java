@@ -17,10 +17,12 @@ public class ObjectCSV {
     private TimeDate.Time horainicio;
     private TimeDate.Time horafim;
     
-    public ObjectCSV(ElementsCSV elementos, Clavis.Function func, Clavis.TypeOfMaterial mat){
-        this.pessoa = new Clavis.Person(elementos.getPersonName(),elementos.getPersonCode(),func,func.getPrivilege());
+    public ObjectCSV(ElementsCSV elementos){
+        Clavis.Function funcao = new Clavis.Function("Professor");
+        Clavis.TypeOfMaterial material = new Clavis.TypeOfMaterial("Sala");
+        this.pessoa = new Clavis.Person(elementos.getPersonName(),elementos.getPersonCode(),funcao);
         this.disciplina =new Clavis.Subject(elementos.getSubjectName(),elementos.getCdSubject());
-        this.sala = new Clavis.Material(mat, elementos.getMaterialCode(),Text.TreatText.getNumberfromString(elementos.getMaterialDescription()), false);
+        this.sala = new Clavis.Material(material, elementos.getMaterialCode(),Text.TreatText.getNumberfromString(elementos.getMaterialDescription()), false);
         this.dia = new TimeDate.WeekDay(elementos.getDayWeek());
         this.horainicio = new TimeDate.Time(elementos.getHourIni(), elementos.getMinuteIni());
         this.horafim = new TimeDate.Time(elementos.getHourEnd(), elementos.getMinuteEnd());

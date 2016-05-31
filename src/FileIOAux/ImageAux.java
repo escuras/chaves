@@ -228,11 +228,8 @@ public class ImageAux {
         String[] im = locale.getLocale().split("_");
         try {
             rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale(im[0],im[1]));
-            System.out.println(rb.getLocale().toString());
         } catch (Exception e) {
-            locale = new Langs.Locale();
             rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale("pt","PT"));
-            System.out.println("erro");
         }
         String titulo = rb.getString("EscolherImagem");
         UIManager.put("FileChooser.lookInLabelText", rb.getString("lookInLabelText"));

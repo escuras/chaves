@@ -26,14 +26,14 @@ public class DataBase {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false;
-           
+
             con = DriverManager.getConnection(url);
             tie = true;
         } catch (SQLException e) {
             tie = false;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            tie= false;
+            tie = false;
         }
     }
 
@@ -46,8 +46,8 @@ public class DataBase {
             tie = false;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            tie=false;
-        } 
+            tie = false;
+        }
     }
 
     public boolean isTie() {
@@ -91,33 +91,225 @@ public class DataBase {
         }
         return pessoas;
     }
-    
-    public boolean insertPersons(java.util.List<Clavis.Person> pessoas){
+
+    public Clavis.Person getPerson(String identificacao) {
+        Clavis.Person pessoa = new Clavis.Person();
         if (this.isTie()) {
             Statement smt;
-            
             try {
-                for (Clavis.Person pessoa: pessoas) {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from Persons where identificacao like '" + identificacao + "';";
+                ResultSet rs;
+                ResultSet rs2;
+                Statement aux;
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
+                        aux = con.createStatement();
+                        rs2 = aux.executeQuery(sql);
+                        if (rs2.next()) {
+                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            pessoa.setFunction(funcao);
+                        }
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return pessoa;
+    }
+
+    public Clavis.Person getPerson(String nome, String identificacao) {
+        Clavis.Person pessoa = new Clavis.Person();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from Persons where identificacao like '" + identificacao + "' and nome like '" + nome + "';";
+                ResultSet rs;
+                ResultSet rs2;
+                Statement aux;
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
+                        aux = con.createStatement();
+                        rs2 = aux.executeQuery(sql);
+                        if (rs2.next()) {
+                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            pessoa.setFunction(funcao);
+                        }
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return pessoa;
+    }
+
+    public boolean insertPersons(java.util.Set<Clavis.Person> pessoas) {
+        if (this.isTie()) {
+            Statement smt;
+            Statement smt2;
+            try {
+                for (Clavis.Person pessoa : pessoas) {
                     String nome = pessoa.getName();
-                 
-                    String email = pessoa.getEmail();
                     String identificacao = pessoa.getIdentification();
-                    String sql = "select count(*) from Persons where nome = '"+nome+"' and email = '"+email+"' and identificacao = '"+identificacao+"';"; 
+                    String email = pessoa.getEmail();
+                    String telefone = pessoa.getPhone();
+                    String sql = "select count(*) as numero from Persons where nome like '" + nome + "' and identificacao like '" + identificacao + "';";
                     smt = con.createStatement();
                     if (smt != null) {
                         ResultSet rs = smt.executeQuery(sql);
-                        if (rs.getInt(1) == 0) {
-                            sql = "insert into Persons (nome,identificacao,email)";
+                        if (rs.next()) {
+                            if (rs.getInt("numero") == 0) {
+                                sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
+                                smt2 = con.createStatement();
+                                ResultSet rs2 = smt2.executeQuery(sql);
+                                if (rs2.next()) {
+                                    if ((!email.equals("sem")) && (!telefone.equals("sem"))) {
+                                        sql = "insert into Persons (id_funcao,nome,identificacao,email,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    } else if (!telefone.equals("sem")) {
+                                        sql = "insert into Persons (id_funcao,nome,identificacao,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    } else if (!email.equals("sem")) {
+                                        sql = "insert into Persons (id_funcao,nome,identificacao,email,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    } else {
+                                        sql = "insert into Persons (id_funcao,nome,identificacao,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
+                                    }
+                                    smt.execute(sql);
+                                }
+                            }
                         }
                     }
                 }
                 return true;
             } catch (SQLException ex) {
-               return false;
-            } 
+                return false;
+            }
         } else {
             return false;
         }
+    }
+
+    public boolean insertPerson(Clavis.Person pessoa) {
+        if (this.isTie()) {
+            Statement smt;
+            Statement smt2;
+            String nome = pessoa.getName();
+            String identificacao = pessoa.getIdentification();
+            String email = pessoa.getEmail();
+            String telefone = pessoa.getPhone();
+            String sql = "select count(*) as numero from Persons where nome like '" + nome + "' and identificacao like '" + identificacao + "';";
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+            if (smt != null) {
+                ResultSet rs;
+                try {
+                    rs = smt.executeQuery(sql);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
+                }
+                try {
+                    if (rs.next()) {
+                        if (rs.getInt("numero") == 0) {
+                            sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
+                            smt2 = con.createStatement();
+                            ResultSet rs2 = smt2.executeQuery(sql);
+                            if (rs2.next()) {
+                                if ((!email.equals("sem")) && (!telefone.equals("sem"))) {
+                                    sql = "insert into Persons (id_funcao,nome,identificacao,email,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                } else if (!telefone.equals("sem")) {
+                                    sql = "insert into Persons (id_funcao,nome,identificacao,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                } else if (!email.equals("sem")) {
+                                    sql = "insert into Persons (id_funcao,nome,identificacao,email,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                } else {
+                                    sql = "insert into Persons (id_funcao,nome,identificacao,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
+                                }
+                                smt.execute(sql);
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean updatePerson(Clavis.Person pessoa) {
+        if (this.isTie()) {
+            Statement smt;
+            Statement smt2;
+            String identificacao = pessoa.getIdentification();
+            String email = pessoa.getEmail();
+            String telefone = pessoa.getPhone();
+            String sql;
+            if (pessoa.getId() < 0) {
+                sql = "select id_pessoa from Persons where identificacao like '" + identificacao + "';";
+                try {
+                    smt = con.createStatement();
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        pessoa.setId(rs.getInt("id_pessoa"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
+                }
+            }
+            try {
+                if (pessoa.getId() >= 0) {
+                    sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
+                    smt2 = con.createStatement();
+                    smt = con.createStatement();
+                    
+                    ResultSet rs2 = smt2.executeQuery(sql);
+                    if (rs2.next()) {
+                        int privilegio;
+                        if (pessoa.getPrivilege() < 0) privilegio = rs2.getInt("privilegio");
+                        else privilegio = pessoa.getPrivilege();
+                        if ((!email.equals("sem")) && (!telefone.equals("sem"))) {
+                            sql = "update Persons set id_funcao = '"+rs2.getInt("id_funcao")+"',nome = '"+pessoa.getName()+"', identificacao = '"+pessoa.getIdentification()+"',email= '"+pessoa.getEmail()+"',telefone = '"+pessoa.getPhone()+"' ,privilegio = "+privilegio+" where id_pessoa = "+pessoa.getId()+";";
+                        } else if (!telefone.equals("sem")) {
+                            sql = "update Persons set id_funcao = '"+rs2.getInt("id_funcao")+"',nome = '"+pessoa.getName()+"', identificacao = '"+pessoa.getIdentification()+"',telefone = '"+pessoa.getPhone()+"', privilegio = "+privilegio+" where id_pessoa = "+pessoa.getId()+";";
+                        } else if (!email.equals("sem")) {
+                            sql = "update Persons set id_funcao = '"+rs2.getInt("id_funcao")+"',nome = '"+pessoa.getName()+"', identificacao = '"+pessoa.getIdentification()+"',email = '"+pessoa.getEmail()+"', privilegio = "+privilegio+" where id_pessoa = "+pessoa.getId()+";";
+                        } else {
+                            sql = "update Persons set id_funcao = '"+rs2.getInt("id_funcao")+"',nome = '"+pessoa.getName()+"', identificacao = '"+pessoa.getIdentification()+"', privilegio = "+privilegio+" where id_pessoa = "+pessoa.getId()+";";
+                        }
+                        smt.executeUpdate(sql);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        return true;
     }
 
     public java.util.List<Clavis.Function> getFunctions() {
@@ -309,22 +501,28 @@ public class DataBase {
                                 sql = "Select * from Classrooms where codigo_sala = '" + rs2.getString("codigo") + "'";
                                 try {
                                     smt3 = con.createStatement();
-                                } catch (SQLException ex){
+                                } catch (SQLException ex) {
                                     smt3 = null;
-                                } 
+                                }
                                 if (smt3 != null) {
                                     ResultSet rs3 = smt3.executeQuery(sql);
                                     if (rs3.next()) {
                                         String outros;
-                                        if ((outros = rs3.getString("outros")) == null) outros = "";
+                                        if ((outros = rs3.getString("outros")) == null) {
+                                            outros = "";
+                                        }
                                         Clavis.Classroom sala = new Clavis.Classroom(material, outros, rs3.getInt("ncomputadores"), rs3.getInt("lugares"), rs3.getBoolean("projetor"), rs3.getBoolean("quadro_interativo"));
                                         classrooms.add(sala);
                                     }
-                                    if (!smt3.isClosed()) smt3.close();
+                                    if (!smt3.isClosed()) {
+                                        smt3.close();
+                                    }
                                 }
-                                
+
                             }
-                            if (!smt2.isClosed()) smt2.close();
+                            if (!smt2.isClosed()) {
+                                smt2.close();
+                            }
                         }
                     }
                     if (!smt.isClosed()) {
@@ -336,7 +534,7 @@ public class DataBase {
         }
         return classrooms;
     }
-    
+
     public Clavis.Classroom getClassroom(Clavis.Material m) {
         Clavis.Classroom sala = new Clavis.Classroom();
         if (this.isTie()) {
@@ -347,15 +545,17 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select * from Classrooms where codigo_sala = '"+m.getCodeOfMaterial()+"'";
+                String sql = "select * from Classrooms where codigo_sala = '" + m.getCodeOfMaterial() + "'";
                 Clavis.Material material;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         String outros;
-                        if ((outros = rs.getString("outros")) == null) outros = "";
+                        if ((outros = rs.getString("outros")) == null) {
+                            outros = "";
+                        }
                         sala = new Clavis.Classroom(m, outros, rs.getInt("ncomputadores"), rs.getInt("lugares"), rs.getBoolean("projetor"), rs.getBoolean("quadro_interativo"));
-                    }    
+                    }
                     if (!smt.isClosed()) {
                         smt.close();
                     }
@@ -365,6 +565,5 @@ public class DataBase {
         }
         return sala;
     }
-    
 
 }

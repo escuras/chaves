@@ -74,6 +74,12 @@ public class Clavicela {
         //if (!input.exists()) input.createNewFile();
         DataBase.DataBase teste = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?user=root&password=sobral");
         System.out.println(teste.isTie());
+        Function fu = new Function("Professor");
+        Person mario = new Person("Mário Soares","123",fu);
+        mario.setPhone("934599150");
+        mario.setPrivilege(2);
+        mario.setEmail("mario@hotmail.com");
+        teste.updatePerson(mario);
         List<Person> pessoas = teste.getPersons();
         pessoas.stream().forEach((ex) -> {
             System.out.println(ex.getName());

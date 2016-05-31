@@ -18,9 +18,15 @@ public class Function {
     public Function()
     {
         this.nome = "";
-        this.id = 0;
+        this.id = -1;
         this.privilegio = 0;
     }
+    
+    public Function( String nome){
+        this.nome = nome;
+        this.id = -1;
+        this.privilegio = -1;
+    } 
     
      public Function( String nome, int privilegio){
         this.nome = nome;

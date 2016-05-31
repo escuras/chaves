@@ -1,0 +1,2 @@
+Testes.qq
+Testes.NewClass

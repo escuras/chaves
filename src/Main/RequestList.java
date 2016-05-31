@@ -96,7 +96,7 @@ public class RequestList {
         this.feriados = req.feriados;
     }
     
-    public void reMake(TimeDate.Date date1, TimeDate.Date date2, int vista, HolidaysList Holdays){
+    public void reMake(int vista, HolidaysList Holdays){
         Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
         TimeDate.Date hoje = new TimeDate.Date();
         this.setVista(vista);
@@ -145,7 +145,7 @@ public class RequestList {
             int k = 0;
             boolean bauxiliar= false;
             while (i < elementos.size()){
-                    ObjectCSV aux = new ObjectCSV(elementos.get(i),this.funcao,this.material);
+                    ObjectCSV aux = new ObjectCSV(elementos.get(i));
                     List<Date> datass = Date.DatesBetweenDates(this.date1, this.date2, aux.getWeekDay().getDayNumber());
                     if (datass.size() > 0) {
                         for (int j=0; j< datass.size();j++) { 
@@ -179,7 +179,7 @@ public class RequestList {
             int k = 0;
             boolean bauxiliar= false;
             while (i < elementos.size()){
-                    ObjectCSV aux = new ObjectCSV(elementos.get(i),this.funcao,this.material);
+                    ObjectCSV aux = new ObjectCSV(elementos.get(i));
                     List<Date> datass = Date.DatesBetweenDates(this.date1, this.date2, aux.getWeekDay().getDayNumber());
                     if (datass.size() > 0) {
                         for (int j=0; j< datass.size();j++) { 

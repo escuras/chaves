@@ -25,9 +25,9 @@ public class HolidaysList {
         this.ano = ano;
         this.feŕiados = new java.util.TreeSet<>();
         TimeDate.Holiday[] hloi = TimeDate.Holiday.getMobileHolidays(ano);
-        pascoa = new DinamicHoliday(hloi[2], "pascoa");;
+        pascoa = new DinamicHoliday(hloi[2], "pascoa");
         carnaval = new DinamicHoliday(hloi[0], "carnaval");
-        corpo_cristo = new DinamicHoliday(hloi[3], "corpo_cristo");;
+        corpo_cristo = new DinamicHoliday(hloi[3], "corpo_cristo");
         sexta_feira = new DinamicHoliday(hloi[1], "sexta_feira");
     }
 

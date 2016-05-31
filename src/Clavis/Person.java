@@ -9,7 +9,7 @@ package Clavis;
  *
  * @author toze
  */
-public class Person {
+public class Person implements Comparable<Person>{
     private String nome;
     private String identificacao;
     private String telefone;
@@ -19,20 +19,30 @@ public class Person {
     private int id;
     
     public Person(){
-        nome = "";
-        identificacao = "";
-        telefone = "";
-        email = "";
+        nome = "sem";
+        identificacao = "sem";
+        telefone = "sem";
+        email = "sem";
         id = 0;
         funcao = null;
         privilegio = -1;
     }
     
+    public Person(String nome, String identificacao,Function funcao){
+        this.nome = nome;
+        this.identificacao = identificacao;
+        this.telefone = "sem";
+        this.email = "sem";
+        this.id = -1;
+        this.funcao = funcao; 
+        this.privilegio = funcao.getPrivilege();
+    }
+    
     public Person(String nome, String identificacao,Function funcao,int privilegio){
         this.nome = nome;
         this.identificacao = identificacao;
-        this.telefone = "";
-        this.email = "";
+        this.telefone = "sem";
+        this.email = "sem";
         this.id = -1;
         this.funcao = funcao; 
         this.privilegio = privilegio;
@@ -182,5 +192,14 @@ public class Person {
      */
     public void setPrivilege(int privilegio) {
         this.privilegio = privilegio;
+    }
+    
+    @Override
+    public int compareTo(Person o) {
+        if ((o.getIdentification().equals(this.getIdentification()))||(o.getName().equals(this.getId()))) {
+            return 0;
+        } else {
+            return 1; 
+        }
     }
 }

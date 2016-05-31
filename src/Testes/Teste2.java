@@ -53,7 +53,7 @@ public class Teste2 {
             System.out.println(elementos.size());
             int i = 0;
             while (i < elementos.size()){
-                    ObjectCSV aux = new ObjectCSV(elementos.get(i),funcao,material);
+                    ObjectCSV aux = new ObjectCSV(elementos.get(i));
                     List<Date> datass = Date.DatesBetweenDates(dat, dat2, aux.getWeekDay().getDayNumber());
                     for (int j=0; j< datass.size();j++) {
                         req.add(aux.getRequest(datass.get(j)));
@@ -71,7 +71,11 @@ public class Teste2 {
         TimeDate.Time tempo2 = new TimeDate.Time(22, 43);
         System.out.println(tempo.compareTime(tempo2));
         
-        
-        
+        TimeDate.Holiday hol = new TimeDate.Holiday(1, 12);
+        TimeDate.Date dat3 = hol.setExpanded();
+        //System.out.println(hol.isExpanded());
+        //if (hol.isExpanded()) System.out.println(dat3.toString());
+        System.out.println(TimeDate.WeekDay.getDayWeek(dat3.dateBefore(365*2018-271)));
+        System.out.println(TimeDate.Date.numberOfDaysBetweenDates(dat,dat));
     }
 }

@@ -61,6 +61,10 @@ public class Teste3 {
         System.out.println(holoo.toString());
         holoo.adjust();
         System.out.println(holoo.toString());
+        TimeDate.Date dat2 = new TimeDate.Date(29, 4, 1978);
+        TimeDate.Date dat3 = new TimeDate.Date(30, 04, 1978);
+        TimeDate.Date dat4 = new TimeDate.Date(29, 4, 1978);
+        System.out.println(dat2.betweenDates(dat4, dat3));
         
         
     }

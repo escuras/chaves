@@ -21,6 +21,7 @@ public class Holiday implements Comparable<Holiday> {
     private Langs.Locale locale;
     private static Date pascoa;
     private boolean ponte;
+    private boolean expandido;
 
     public Holiday() {
         mes = 0;
@@ -28,6 +29,7 @@ public class Holiday implements Comparable<Holiday> {
         locale = new Langs.Locale();
         dinamico = false;
         ponte = false;
+        expandido = false;
     }
 
     public Holiday(int dia, int mes) {
@@ -36,6 +38,7 @@ public class Holiday implements Comparable<Holiday> {
         dinamico = false;
         locale = new Langs.Locale();
         ponte = false;
+        expandido = false;
     }
 
     public Holiday(Holiday hol) {
@@ -146,7 +149,7 @@ public class Holiday implements Comparable<Holiday> {
     public static Holiday[] getMobileHolidays(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            Date carnaval = pascoa.dateBefore(48);
+            Date carnaval = pascoa.dateBefore(47);
             Date sexta_feira_santa = pascoa.dateBefore(2);
             Holiday[] holidays = {new Holiday(carnaval.getDay(),carnaval.getMonth()),
             new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth()),
@@ -156,7 +159,7 @@ public class Holiday implements Comparable<Holiday> {
         } else {
             calcEaster(ano);
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            Date carnaval = pascoa.dateBefore(48);
+            Date carnaval = pascoa.dateBefore(47);
             Date sexta_feira_santa = pascoa.dateBefore(2);
             Holiday[] holidays2 = {new Holiday(carnaval.getDay(),carnaval.getMonth()),
             new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth()),
@@ -211,13 +214,13 @@ public class Holiday implements Comparable<Holiday> {
 
     public static Holiday getCarnival(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
-            Date carnaval = pascoa.dateBefore(48);
+            Date carnaval = pascoa.dateBefore(47);
             Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
             carn.setDinamic(true);
             return carn;
         } else {
             calcEaster(ano);
-            Date carnaval = pascoa.dateBefore(48);
+            Date carnaval = pascoa.dateBefore(47);
             Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
             carn.setDinamic(true);
             return carn;
@@ -275,14 +278,14 @@ public class Holiday implements Comparable<Holiday> {
     /**
      * @return the dinamico
      */
-    public boolean isDinamic() {
+    public final boolean isDinamic() {
         return dinamico;
     }
 
     /**
      * @param dinamico the dinamico to set
      */
-    public void setDinamic(boolean dinamico) {
+    public final void setDinamic(boolean dinamico) {
         this.dinamico = dinamico;
     }
 
@@ -321,6 +324,44 @@ public class Holiday implements Comparable<Holiday> {
         dia = dat.getDay();
         mes = dat.getMonth();
     }
+
+    /**
+     * @return the state of expanded
+     */
+    public boolean isExpanded() {
+        return expandido;
+    }
+
+    /**
+     * @return TimeDate.Date data
+     */
+    public TimeDate.Date setExpanded() {
+        TimeDate.Date dat = new TimeDate.Date();
+        dat.setDay(this.dia);
+        dat.setMonth(this.mes);
+        switch (TimeDate.WeekDay.getDayWeek(dat)) {
+            case 3:
+                dat = dat.dateBefore(1);
+                this.expandido = true;
+                return dat;
+            case 5:
+                dat = dat.dateAfter(1);
+                this.expandido = true;
+                return dat;
+            default:
+                this.expandido = false;
+                return null;
+        }
+    }
+    
+    public void cleanExpandedState(){
+        this.expandido = false;
+    }
+    
+     public void clearAdjustedState(){
+        this.ponte = false;
+    }
+    
     
     
 }

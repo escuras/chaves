@@ -15,6 +15,7 @@ public class DinamicHoliday extends TimeDate.Holiday {
 
     public DinamicHoliday(TimeDate.Holiday hol, String nome) {
         super(hol);
+        setDinamic(true);
         this.nome = nome;
     }
 
