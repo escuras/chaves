@@ -59,7 +59,8 @@ public class PanelDetails extends JPanel {
         InputStream is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
     }
 
     public PanelDetails(Color color, String titulo, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem) {
@@ -81,9 +82,11 @@ public class PanelDetails extends JPanel {
         }
         SVGUniverse svg = new SVGUniverse();
         InputStream is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        if (is == null) System.out.println("fff");
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
 
     }
 
@@ -139,16 +142,18 @@ public class PanelDetails extends JPanel {
                     this.setPreferredSize(new java.awt.Dimension(240, 400));
                     this.setBackground(color);
                     Graphics2D g2 = (Graphics2D) g;
-                    try {
-                        AffineTransform at = new AffineTransform();
-                        at.setToScale(this.getWidth() / (diagrama.getWidth() + 10), this.getWidth() / (diagrama.getWidth() + 10));
-                        g2.setColor(Color.BLACK);
-                        g2.transform(at);
-                        g2.translate(5, 6);
-                        diagrama.setIgnoringClipHeuristic(true);
-                        diagrama.render(g2);
-                    } catch (SVGException ex) {
-                        Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
+                    if (diagrama != null) {
+                        try {
+                            AffineTransform at = new AffineTransform();
+                            at.setToScale(this.getWidth() / (diagrama.getWidth() + 10), this.getWidth() / (diagrama.getWidth() + 10));
+                            g2.setColor(Color.BLACK);
+                            g2.transform(at);
+                            g2.translate(5, 6);
+                            diagrama.setIgnoringClipHeuristic(true);
+                            diagrama.render(g2);
+                        } catch (SVGException ex) {
+                            Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             };
@@ -285,5 +290,8 @@ public class PanelDetails extends JPanel {
 
     public JPanel alternativePanel() {
         return this.panel;
+    }
+    public boolean isShowingImage(){
+        return (this.diagrama != null);
     }
 }

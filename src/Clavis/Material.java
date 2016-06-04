@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -18,54 +20,46 @@ import javax.imageio.ImageIO;
  *
  * @author toze
  */
-public class Material extends TypeOfMaterial {
+public class Material extends TypeOfMaterial implements Comparable<Material>{
     private String codigo;
     private String descricao;
-    private String caracteristicas;
     private boolean estado;
     private String imagem;
+    private Set<Clavis.Feature> caracteristicas;
     
     public Material(){
         super();
         this.codigo = "";
         this.descricao = "";
-        this.caracteristicas = "";
         this.estado = false;
-        this.imagem = "";
+        this.imagem = "sem";
+        caracteristicas = new HashSet<>();
     }
     
     public Material(TypeOfMaterial m, String codigo, String descricao,boolean estado){
         super(m);
         this.codigo = codigo;
         this.descricao = descricao;
-        this.caracteristicas = "";
         this.estado = estado;
-        this.imagem = "";
+        this.imagem = "sem";
+        caracteristicas = new HashSet<>();
     }
     
-    public Material(TypeOfMaterial m, String codigo, String descricao, String caracteristicas, boolean estado){
+
+    
+    public Material(TypeOfMaterial m, String codigo, String descricao, String imagem, boolean estado){
         super(m);
         this.codigo = codigo;
         this.descricao = descricao;
-        this.caracteristicas = caracteristicas;
-        this.estado = estado;
-        this.imagem = "";
-    }
-    
-    public Material(TypeOfMaterial m, String codigo, String descricao, String caracteristicas, String imagem, boolean estado){
-        super(m);
-        this.codigo = codigo;
-        this.descricao = descricao;
-        this.caracteristicas = caracteristicas;
         this.estado = estado;
         this.imagem = imagem;
+        caracteristicas = new HashSet<>();
     }
     
-    public Material(TypeOfMaterial m, String codigo, String descricao, String caracteristicas, BufferedImage imagem, String extensao, int largura, int altura, boolean estado){
+    public Material(TypeOfMaterial m, String codigo, String descricao, BufferedImage imagem, String extensao, int largura, int altura, boolean estado){
         super(m);
         this.codigo = codigo;
         this.descricao = descricao;
-        this.caracteristicas = caracteristicas;
         this.estado = estado;
         int l = imagem.getWidth();
         int a = imagem.getHeight();
@@ -78,17 +72,18 @@ public class Material extends TypeOfMaterial {
             ImageIO.write(img, extensao, bi);
             this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
         } catch (IOException ex) {
-            this.imagem = "";
+            this.imagem = "sem";
         }
+        caracteristicas = new HashSet<>();
     }
     
     public Material(Material m){
         super(m);
         this.codigo = m.getCodeOfMaterial();
         this.descricao = m.getDescription();
-        this.caracteristicas = m.getFeatures();
         this.estado = m.isLoaned();
         this.imagem = m.getMaterialImage();
+        
     }
 
     /**
@@ -124,23 +119,10 @@ public class Material extends TypeOfMaterial {
         this.descricao = descricao;
     }
 
-    /**
-     * @return the caracteristicas
-     */
-    public String getFeatures() {
-        return caracteristicas;
-    }
-
-    /**
-     * @param caracteristicas the caracteristicas to set
-     */
-    public void setFeatures(String caracteristicas) {
-        this.caracteristicas = caracteristicas;
-    }
     
     @Override
     public String toString(){
-        return this.descricao + "\n\n" + this.caracteristicas;
+        return this.descricao;
     }
 
     /**
@@ -164,6 +146,10 @@ public class Material extends TypeOfMaterial {
     public String getMaterialImage() {
         return this.imagem;
     }
+    
+    public void setMaterialImage(String imagem){
+        this.imagem = imagem;
+    }
 
     /**
      * @param imagem the imagem to set
@@ -175,7 +161,7 @@ public class Material extends TypeOfMaterial {
             ImageIO.write(imagem, extensao, bi);
             this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
         } catch (IOException ex) {
-            this.imagem = "";
+            this.imagem = "sem";
         }
     }
     
@@ -191,4 +177,37 @@ public class Material extends TypeOfMaterial {
         }
         return image;
     }  
+
+    @Override
+    public int compareTo(Material o) {
+        if ((o.getCodeOfMaterial().equals(this.getCodeOfMaterial()))&&(o.getDescription().equals(this.getDescription()))) {
+            return 0;
+        } else {
+            return 1; 
+        }
+    }
+
+    /**
+     * @return the caracteristicas
+     */
+    public Set<Clavis.Feature> getFeatures() {
+        return caracteristicas;
+    }
+
+    /**
+     * @param caracteristicas the caracteristicas to set
+     */
+    public void setFeatures(Set<Clavis.Feature> caracteristicas) {
+        this.caracteristicas = caracteristicas;
+    }
+    
+    public void addFeature(Clavis.Feature e){
+        caracteristicas.add(e);
+    }
+    
+    public void removeFeature(Clavis.Feature e){
+        caracteristicas.remove(e);
+    }
+    
+    
 }

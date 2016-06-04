@@ -29,7 +29,7 @@ public class TypeOfMaterial {
         this.descricao = "";
         this.total = 0;
         this.livres = 0;
-        this.imagem = "";
+        this.imagem = "sem";
     }
     
     public TypeOfMaterial(String descricao){
@@ -37,7 +37,7 @@ public class TypeOfMaterial {
         this.descricao = descricao;
         this.total = 0;
         this.livres = 0;
-        this.imagem = "";
+        this.imagem = "sem";
     }
     
     public TypeOfMaterial(String descricao, int total){
@@ -45,7 +45,7 @@ public class TypeOfMaterial {
         this.descricao = descricao;
         this.total = total;
         this.livres = total;
-        this.imagem = "";
+        this.imagem = "sem";
     }
     
     public TypeOfMaterial(int id, String descricao, int total){
@@ -53,7 +53,7 @@ public class TypeOfMaterial {
         this.descricao = descricao;
         this.total = total;
         this.livres = total;
-        this.imagem = "";
+        this.imagem = "sem";
     }
     
     public TypeOfMaterial(int id, String descricao, int total, int livres){
@@ -61,7 +61,7 @@ public class TypeOfMaterial {
         this.descricao = descricao;
         this.total = total;
         this.livres = livres;
-        this.imagem = "";
+        this.imagem = "sem";
     }
     
     public TypeOfMaterial(int id, String descricao, int total, int livres, String imagem){
@@ -82,7 +82,7 @@ public class TypeOfMaterial {
             ImageIO.write(imagem, extensao, bi);
             this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
         } catch (IOException ex) {
-            this.imagem = "";
+            this.imagem = "sem";
         }
     }
     
@@ -188,8 +188,12 @@ public class TypeOfMaterial {
             ImageIO.write(imagem, extensao, bi);
             this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
         } catch (IOException ex) {
-            this.imagem = "";
+            this.imagem = "sem";
         }
+    }
+    
+     public void setTypeOfMaterialImage(String imagem) {
+        this.imagem = imagem;
     }
     
     public java.awt.Image transformIntoImage() {

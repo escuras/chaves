@@ -95,7 +95,6 @@ public class Clavicela {
         }
         if (teste.getMaterials().size() > 0) {
             for (Material mo : teste.getMaterials()) {
-                System.out.println(mo.getFeatures());
                 mo.setCodeOfMaterial("4");
             }
         }
@@ -110,7 +109,7 @@ public class Clavicela {
         //ma.setMaterialImage(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.getImageFromFileChooser(null,cla),100,100), FileIOAux.ImageAux.extensao);
 
 //System.out.println(ma.getMaterialImage());
-        List<Material> tmas = teste.getMaterials(2);
+        List<Material> tmas = teste.getMaterialsByType(2);
         if (tmas.size() > 0) {
             for (int i=0 ; i<tmas.size();i++){
                 System.out.println(tmas.get(i).getDescription());

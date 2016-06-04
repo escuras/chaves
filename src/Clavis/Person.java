@@ -196,7 +196,7 @@ public class Person implements Comparable<Person>{
     
     @Override
     public int compareTo(Person o) {
-        if ((o.getIdentification().equals(this.getIdentification()))||(o.getName().equals(this.getId()))) {
+        if (((o.getIdentification().equals(this.getIdentification()))&&(o.getName().equals(this.getName())))) {
             return 0;
         } else {
             return 1; 

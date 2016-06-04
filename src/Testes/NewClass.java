@@ -46,11 +46,15 @@ public class NewClass {
         }
         qq q = new qq();
         System.out.println(q.path());
+        q.cantar();
+        q.falar();
+        System.out.println(q.traduz("francês", "Amanhecer"));
+        
     }
 
 }
 
-class qq{
+class qq extends qql implements qqo{
      public String path() {
         URL url1 = getClass().getResource("");
         String ur = url1.toString();
@@ -59,4 +63,51 @@ class qq{
         truepath[0] = truepath[0].replaceAll("%20", " ");
         return truepath[0];
     }//This methos will work on Windows and Linux as well.
+
+    @Override
+    public void falar() {
+        System.out.println("Estou a falar em "+this.getLingua());
+    }
+
+    @Override
+    public void cantar() {
+        System.out.println("Estou a cantar em "+this.getLingua());
+    }
+
+    @Override
+    String traduz(String lingua, String palavra) {
+        return "Ainda estou em desenvolvimento.";
+    }
 }
+
+
+
+interface qqo {
+    String isto = "ola";
+    void falar();
+    void cantar();
+    
+    static void andar(){
+        System.out.println("estou andando!");
+    }
+}
+
+abstract class qql{
+    
+    private String lingua;
+    public qql(){
+        this.lingua = "portugues";
+    }
+    
+    public qql(String lingua) {
+        this.lingua = lingua;
+    }
+    
+    public String getLingua(){
+        return this.lingua;
+    }
+    
+    abstract String traduz(String lingua, String palavra);
+    
+    
+} 

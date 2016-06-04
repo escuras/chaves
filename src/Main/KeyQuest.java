@@ -8,7 +8,6 @@ package Main;
 import TimeDate.HolidaysList;
 import Clavis.Function;
 import Clavis.TypeOfMaterial;
-import TimeDate.Date;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,27 +17,21 @@ import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.text.ParseException;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout.Group;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -49,7 +42,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -1007,7 +999,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        lingua.setLocale("en_US");
+        lingua.setLocale("pt_PT");
         tdivisor = 20;
         prefs.save();
         prefs = new PersonalPrefs();
@@ -2021,7 +2013,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void calculateList() {
         Function funcao = new Function("Professor", 2);
-        TypeOfMaterial material = new TypeOfMaterial("Sala", 70);
+        TypeOfMaterial material = new TypeOfMaterial("sala", 70);
         requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
         requisicoes.make();
         lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);

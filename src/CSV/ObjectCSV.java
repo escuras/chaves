@@ -19,7 +19,7 @@ public class ObjectCSV {
     
     public ObjectCSV(ElementsCSV elementos){
         Clavis.Function funcao = new Clavis.Function("Professor");
-        Clavis.TypeOfMaterial material = new Clavis.TypeOfMaterial("Sala");
+        Clavis.TypeOfMaterial material = new Clavis.TypeOfMaterial("Sala de aula");
         this.pessoa = new Clavis.Person(elementos.getPersonName(),elementos.getPersonCode(),funcao);
         this.disciplina =new Clavis.Subject(elementos.getSubjectName(),elementos.getCdSubject());
         this.sala = new Clavis.Material(material, elementos.getMaterialCode(),Text.TreatText.getNumberfromString(elementos.getMaterialDescription()), false);

@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.nio.file.*;
 /**
  *
  * @author toze
@@ -77,5 +77,9 @@ public class Teste2 {
         //if (hol.isExpanded()) System.out.println(dat3.toString());
         System.out.println(TimeDate.WeekDay.getDayWeek(dat3.dateBefore(365*2018-271)));
         System.out.println(TimeDate.Date.numberOfDaysBetweenDates(dat,dat));
+        TimeDate.BreakPeriodList br = new TimeDate.BreakPeriodList();
+        br.setSchoolDefaultValues();
+        System.out.println(br.getBreakPeriodList().get(1).toString());
+         System.out.println(br.getBreakPeriodList().get(0).toString());
     }
 }
