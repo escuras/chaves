@@ -86,7 +86,7 @@ public class TableRequest {
         selectColor = TableRequest.DEFAULT_SELECT_COLOR;
         panelColor = TableRequest.DEFAULT_PANEL_COLOR;
         panelDividerLocation = TableRequest.DEFAULT_DIVIDER_LOCATION;
-        panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+        panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage());
         tabela = new Components.RowTable(new javax.swing.JTable().getModel());
 
     }
@@ -190,7 +190,7 @@ public class TableRequest {
                         Object[] baux = lista.getRequests().toArray();
                         Clavis.Request req = (Clavis.Request) baux[select];
                         String[] results = {req.getPerson().getName(), req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getBeginDate().toStringWithMonthWord()};
-                        panel = new PanelDetails(panelColor, titulo, titulos, results, lingua, requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+                        panel = new PanelDetails(panelColor, titulo, titulos, results, lingua, requisicao.getTypeOfMaterial().getTypeOfMaterialImage());
                         panel.setInterval(2);
                         panel.create();
                         spanel.setLeftComponent(panel);
@@ -204,7 +204,7 @@ public class TableRequest {
                     }
                 }
             } else {
-                panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+                panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage());
                 panel.setInterval(2);
                 panel.create();
                 spanel.setLeftComponent(panel.alternativePanel());
@@ -408,13 +408,13 @@ public class TableRequest {
                 Object[] baux = lista.getRequests().toArray();
                 Clavis.Request req = (Clavis.Request) baux[select];
                 String[] results = {req.getPerson().getName(), req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getBeginDate().toStringWithMonthWord()};
-                panel = new PanelDetails(panelColor, titulo, titulos, results, lingua, requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+                panel = new PanelDetails(panelColor, titulo, titulos, results, lingua, requisicao.getTypeOfMaterial().getTypeOfMaterialImage());
                 panel.setInterval(2);
                 panel.create();
                 spanel.setLeftComponent(panel);
                 spanel.setDividerLocation(panelDividerLocation);
             } else {
-                panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+                panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage());
                 panel.setInterval(2);
                 panel.create();
                 spanel.setLeftComponent(panel.alternativePanel());

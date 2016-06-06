@@ -490,34 +490,6 @@ public class DataBase {
         return false;
     }
 
-    public java.util.List<Clavis.TypeOfMaterial> getTypeOfMaterials() {
-        java.util.List<Clavis.TypeOfMaterial> tipos = new java.util.ArrayList<>();
-        if (this.isTie()) {
-            Statement smt;
-            try {
-                smt = con.createStatement();
-            } catch (SQLException ex) {
-                smt = null;
-            }
-            if (smt != null) {
-                String sql = "Select * from TypesOfMaterial;";
-                Clavis.TypeOfMaterial tipo;
-                try {
-                    ResultSet rs = smt.executeQuery(sql);
-                    while (rs.next()) {
-                        tipo = new Clavis.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
-                        tipos.add(tipo);
-                    }
-                    if (!smt.isClosed()) {
-                        smt.close();
-                    }
-                } catch (SQLException ex) {
-                }
-            }
-        }
-        return tipos;
-    }
-
     public java.util.List<Clavis.Material> getMaterials() {
         java.util.List<Clavis.Material> materiais = new java.util.ArrayList<>();
         if (this.isTie()) {
@@ -1145,4 +1117,352 @@ public class DataBase {
         }
         return false;
     }
+
+    public boolean insertTypeOfMaterial(Clavis.TypeOfMaterial tipo) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "insert into TypesOfMaterial (descricao, total, livres, imagem) values('" + tipo.getTypeOfMaterialName() + "'," + tipo.getTotal() + "," + tipo.getFree() + ",'" + tipo.getTypeOfMaterialImage() + "');";
+                    return (!smt.execute(sql));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteTypeOfMaterial(Clavis.TypeOfMaterial tipo) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                int valor = tipo.getMaterialTypeID();
+                if (valor < 0) {
+                    String sql = "select id_tipo from TypesOfMaterial where descricao like '" + tipo.getTypeOfMaterialName() + "';";
+                    try {
+                        rs = smt.executeQuery(sql);
+                        if (rs.next()) {
+                            valor = rs.getInt("id_tipo");
+                        } else {
+                            valor = -1;
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
+                    }
+                }
+                if (valor > -1) {
+                    try {
+                        String sql = "delete from TypesOfMaterial where id_tipo = " + tipo.getMaterialTypeID() + ";";
+                        return (!smt.execute(sql));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public java.util.List<Clavis.TypeOfMaterial> getTypesOfMaterial() {
+        java.util.List<Clavis.TypeOfMaterial> tipos = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from TypesOfMaterial;";
+                Clavis.TypeOfMaterial tipo;
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        tipo = new Clavis.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+                        tipos.add(tipo);
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return tipos;
+    }
+
+    public Clavis.TypeOfMaterial getTypeOfMaterial(int id) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select id_tipo, descricao, total, livres, imagem from TypesOfMaterial where id_tipo = " + id + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return new Clavis.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getNumberOfFreeMaterials(Clavis.TypeOfMaterial mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select livres from TypesOfMaterial where id_tipo = " + mat.getMaterialTypeID() + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        mat.setFree(rs.getInt("livres"));
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return mat.getFree();
+    }
+
+    public int getTotalOfMaterials(Clavis.TypeOfMaterial mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select total from TypesOfMaterial where id_tipo = " + mat.getMaterialTypeID() + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        mat.setTotal(rs.getInt("total"));
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return mat.getTotal();
+    }
+
+    public boolean insertFeature(Clavis.Feature feature) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select count(*) from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        if (rs.getInt(1) == 0) {
+                            sql = "insert into Features (descricao, quantidade, medida) values ('" + feature.getDescription() + "'," + feature.getNumber() + ",'" + feature.getUnityMeasure() + "')";
+                            return (!smt.execute(sql));
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteFeature(Clavis.Feature feature) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        int val = rs.getInt(1);
+                        if (val > 0) {
+                            sql = "delete from Features where id_caracteristica = " + val + ";";
+                            return (!smt.execute(sql));
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean associateFeatureWithMaterial(Clavis.Feature feature, Clavis.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        int val = rs.getInt(1);
+                        if (val > 0) {
+                            sql = "select id_material from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo like '" + mat.getCodeOfMaterial() + "' and descricao like '" + mat.getDescription() + "';";
+                            ResultSet rs2 = smt.executeQuery(sql);
+                            if (rs2.next()) {
+                                int idmaterial = rs2.getInt("id_material");
+                                sql = "select count(*) from Rel_features_materials where id_caracteristica = "+val+" and id_material = "+idmaterial+";";
+                                ResultSet rs3 = smt.executeQuery(sql);
+                                if (rs3.next()) {
+                                    if (rs3.getInt(1) == 0) {
+                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material)  values ("+val+","+idmaterial+")";
+                                        return (!smt.execute(sql));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+    
+    public java.util.List<Clavis.Material> getMaterialsWithSpecificFeature(Clavis.Feature feature){
+        java.util.List<Clavis.Material> mats = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        sql = "select id_material from Rel_features_materials where id_caracteristica = "+rs.getInt("id_caracteristica")+";";
+                        ResultSet rs2 = smt.executeQuery(sql);
+                        java.util.ArrayList<Integer> materiais = new java.util.ArrayList<>();
+                        while (rs2.next()) {
+                            materiais.add(rs2.getInt("id_material"));
+                        }
+                        if (materiais.size() > 0) {
+                            for (int i : materiais) {
+                                mats.add(this.getMaterial(i));
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+        }
+        return mats;
+    }
+    
+    public java.util.List<Clavis.Feature> getFeaturesByTypeOfMaterial(){
+        java.util.List<Clavis.Feature> lista = new java.util.ArrayList<>();
+        return lista;
+    }
+    
+    public boolean deleteAssociationFeatureWithMaterial(Clavis.Feature feature, Clavis.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            ResultSet rs2;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        int val = rs.getInt(1);
+                        if (val > 0) {
+                            sql = "select id_material from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo like '" + mat.getCodeOfMaterial() + "' and descricao like '" + mat.getDescription() + "';";
+                            rs2 = smt.executeQuery(sql);
+                            if (rs2.next()) {
+                                int idmaterial = rs2.getInt("id_material");
+                                sql = "delete from Rel_features_materials where id_caracteristica = "+val+" and id_material = "+idmaterial+";";
+                                return (!smt.execute(sql));
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public void close() {
+        try {
+            if (!con.isClosed()) {
+                con.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

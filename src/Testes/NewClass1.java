@@ -57,5 +57,9 @@ public class NewClass1 {
         //System.out.println(db.deleteSubject(sub));
         System.out.println(db.deleteAssociationBetweenSubjectAndClassroom(sub, cl.get(0)));
         //db.updateClassroom(cl.get(0));
+        Clavis.Feature fea = new Clavis.Feature("teste","mk", 0);
+        db.insertFeature(fea);
+        db.associateFeatureWithMaterial(fea, mo);
+        System.out.println(db.getMaterialsWithSpecificFeature(fea).get(0).getDescription());
     }
 }

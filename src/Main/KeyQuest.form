@@ -38,7 +38,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[699, 528]"/>
+              <Dimension value="[698, 528]"/>
             </Property>
           </Properties>
           <Events>
@@ -49,15 +49,12 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Component id="jPanelListaFeriadosDefeito" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jRadioButtonSextaFeira" min="-2" max="-2" attributes="0"/>
                                           <Component id="jRadioButtonCarnaval" min="-2" max="-2" attributes="0"/>
@@ -65,25 +62,28 @@
                                           <Component id="jRadioButtonCorpoDeus" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Component id="jPanelListaFeriadosDefeito" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jButtonDefHolidaysDireita" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButtonDefHolidaysApagar" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButtonDefHolidaysMais" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jButtonDefHolidaysVoltar" alignment="1" pref="76" max="32767" attributes="0"/>
+                                  <Component id="jButtonDefHolidaysVoltar" alignment="1" pref="93" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelListaFeriadosDefeito" min="-2" pref="290" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabelListaFeriadosDefeito" min="-2" pref="282" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanelListaFeriadosEscolhidos" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelListaFeriadosEscolhidos" alignment="1" min="-2" pref="290" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabelListaFeriadosEscolhidos" min="-2" pref="269" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -98,8 +98,7 @@
                           <Component id="jLabelListaFeriadosEscolhidos" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanelListaFeriadosEscolhidos" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jPanelListaFeriadosDefeito" min="-2" max="-2" attributes="0"/>
@@ -123,8 +122,9 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jRadioButtonCorpoDeus" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="66" max="32767" attributes="0"/>
+                      <EmptySpace pref="69" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -152,7 +152,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPaneFeriadosDefeito" alignment="1" pref="290" max="32767" attributes="0"/>
+                      <Component id="jScrollPaneFeriadosDefeito" alignment="1" pref="282" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -203,12 +203,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPaneFeriadosEscolhidos" alignment="0" pref="290" max="32767" attributes="0"/>
+                      <Component id="jScrollPaneFeriadosEscolhidos" alignment="0" pref="264" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPaneFeriadosEscolhidos" min="-2" pref="395" max="-2" attributes="0"/>
+                      <Component id="jScrollPaneFeriadosEscolhidos" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -317,7 +317,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysDireitaActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file = new java.io.File(this.getClass().getResource(&quot;Images/arrow_right.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);&#xa;javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);&#xa;jButtonDefHolidaysDireita.setIcon(icon);&#xa;jButtonDefHolidaysDireita.setToolTipText(lingua.translate(&quot;Adicionar_feriado&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    java.awt.image.BufferedImage image = ImageIO.read(getClass().getResourceAsStream(&quot;Images/arrow_right.png&quot;));&#xa;    javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);&#xa;    jButtonDefHolidaysDireita.setIcon(icon);&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonDefHolidaysDireita.setToolTipText(lingua.translate(&quot;Adicionar_feriado&quot;));"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonDefHolidaysDireita.setBackground(new Color(254,254,254));"/>
               </AuxValues>
             </Component>
@@ -332,7 +332,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysApagarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file2 = new java.io.File(this.getClass().getResource(&quot;Images/delete.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image2 = FileIOAux.ImageAux.getImageFromFile(file2);&#xa;javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;jButtonDefHolidaysApagar.setIcon(icon2);&#xa;jButtonDefHolidaysApagar.setToolTipText(lingua.translate(&quot;Apagar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage image2 = null;&#xa;try {&#xa;    image2 = ImageIO.read(getClass().getResourceAsStream(&quot;Images/delete.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (image2 != null) {&#xa;    javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;    jButtonDefHolidaysApagar.setIcon(icon2);&#xa;}&#xa;jButtonDefHolidaysApagar.setToolTipText(lingua.translate(&quot;Apagar&quot;));"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonDefHolidaysApagar.setBackground(new Color(254,254,254));"/>
               </AuxValues>
             </Component>
@@ -355,7 +355,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysVoltarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file5 = new java.io.File(this.getClass().getResource(&quot;Images/porta3.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image5 = FileIOAux.ImageAux.getImageFromFile(file5);&#xa;javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);&#xa;jButtonDefHolidaysVoltar.setIcon(icon5);&#xa;jButtonDefHolidaysVoltar.setToolTipText(lingua.translate(&quot;Voltar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage image5 = null;&#xa;try {&#xa;    image5 = ImageIO.read(getClass().getResourceAsStream(&quot;Images/porta3.png&quot;)); &#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (image5 != null) {&#xa;    javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);&#xa;    jButtonDefHolidaysVoltar.setIcon(icon5);&#xa;}&#xa;jButtonDefHolidaysVoltar.setToolTipText(lingua.translate(&quot;Voltar&quot;));"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//jButtonDefHolidaysVoltar.setMnemonic(lingua.translate(&quot;Voltar&quot;).charAt(0));"/>
               </AuxValues>
             </Component>
@@ -373,7 +373,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefHolidaysMaisActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.io.File file3 = new java.io.File(this.getClass().getResource(&quot;Images/plus.png&quot;).getFile());&#xa;java.awt.image.BufferedImage image3 = FileIOAux.ImageAux.getImageFromFile(file3);&#xa;javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;jButtonDefHolidaysMais.setIcon(icon3);&#xa;jButtonDefHolidaysMais.setBackground(Color.BLUE);&#xa;jButtonDefHolidaysMais.setToolTipText(lingua.translate(&quot;Adicionar_feriado_personalizado&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage image3 = null;&#xa;try {&#xa;    image3 = ImageIO.read(getClass().getResourceAsStream(&quot;Images/plus.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (image3 != null) {&#xa;    javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;    jButtonDefHolidaysMais.setIcon(icon3);&#xa;}&#xa;jButtonDefHolidaysMais.setBackground(Color.BLUE);&#xa;jButtonDefHolidaysMais.setToolTipText(lingua.translate(&quot;Adicionar_feriado_personalizado&quot;));"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -619,7 +619,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefBreaksVoltarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreaksVoltar.setIcon(icon5);&#xa;jButtonDefBreaksVoltar.setToolTipText(lingua.translate(&quot;Voltar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (image5 != null) {&#xa;    javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);&#xa;    jButtonDefBreaksVoltar.setIcon(icon5);&#xa;}&#xa;jButtonDefBreaksVoltar.setToolTipText(lingua.translate(&quot;Voltar&quot;));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
@@ -642,7 +642,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefBreakApagarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;jButtonDefBreakApagar.setBackground(new Color(254,254,254));&#xa;jButtonDefBreakApagar.setIcon(icon2);&#xa;jButtonDefBreakApagar.setToolTipText(lingua.translate(&quot;Eliminar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;jButtonDefBreakApagar.setBackground(new Color(254,254,254));&#xa;if (image2 != null) {&#xa;    javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;    jButtonDefBreakApagar.setIcon(icon2);&#xa;}&#xa;jButtonDefBreakApagar.setToolTipText(lingua.translate(&quot;Eliminar&quot;));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksInicio">
@@ -792,7 +792,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefBreaksAdicionarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreaksAdicionar.setBackground(new Color(254,254,254));&#xa;jButtonDefBreaksAdicionar.setIcon(icon3);&#xa;jButtonDefBreaksAdicionar.setToolTipText(lingua.translate(&quot;Adicionar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreaksAdicionar.setBackground(new Color(254,254,254));&#xa;if (image3 != null) {&#xa;    javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;    jButtonDefBreaksAdicionar.setIcon(icon3);&#xa;}&#xa;jButtonDefBreaksAdicionar.setToolTipText(lingua.translate(&quot;Adicionar&quot;));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldDefBreaksNome">

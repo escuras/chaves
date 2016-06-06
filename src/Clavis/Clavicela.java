@@ -90,8 +90,8 @@ public class Clavicela {
         if (funcoes.size() > 0) {
             System.out.println(funcoes.get(0).getName());
         }
-        if (teste.getTypeOfMaterials().size() > 0) {
-            System.out.println(teste.getTypeOfMaterials().get(0).getTypeOfMaterialName());
+        if (teste.getTypesOfMaterial().size() > 0) {
+            System.out.println(teste.getTypesOfMaterial().get(0).getTypeOfMaterialName());
         }
         if (teste.getMaterials().size() > 0) {
             for (Material mo : teste.getMaterials()) {

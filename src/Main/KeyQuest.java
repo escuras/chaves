@@ -8,6 +8,7 @@ package Main;
 import TimeDate.HolidaysList;
 import Clavis.Function;
 import Clavis.TypeOfMaterial;
+import FileIOAux.ImageAux;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,9 +22,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -136,7 +139,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jPanelDefHolidays.setBackground(new java.awt.Color(254, 254, 254));
         jPanelDefHolidays.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelDefHolidays.setPreferredSize(new java.awt.Dimension(699, 528));
+        jPanelDefHolidays.setPreferredSize(new java.awt.Dimension(698, 528));
         jPanelDefHolidays.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanelDefHolidaysMouseClicked(evt);
@@ -178,7 +181,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelListaFeriadosDefeito.setLayout(jPanelListaFeriadosDefeitoLayout);
         jPanelListaFeriadosDefeitoLayout.setHorizontalGroup(
             jPanelListaFeriadosDefeitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneFeriadosDefeito, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+            .addComponent(jScrollPaneFeriadosDefeito, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
         );
         jPanelListaFeriadosDefeitoLayout.setVerticalGroup(
             jPanelListaFeriadosDefeitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,11 +214,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelListaFeriadosEscolhidos.setLayout(jPanelListaFeriadosEscolhidosLayout);
         jPanelListaFeriadosEscolhidosLayout.setHorizontalGroup(
             jPanelListaFeriadosEscolhidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+            .addComponent(jScrollPaneFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
         );
         jPanelListaFeriadosEscolhidosLayout.setVerticalGroup(
             jPanelListaFeriadosEscolhidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPaneFeriadosEscolhidos)
         );
 
         jLabelListaFeriadosEscolhidos.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
@@ -309,33 +312,33 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefHolidaysLayout.setHorizontalGroup(
             jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
-                                .addGap(116, 116, 116)
+                                .addGap(96, 96, 96)
                                 .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButtonSextaFeira)
                                     .addComponent(jRadioButtonCarnaval)
                                     .addComponent(jRadioButtonPascoa)
-                                    .addComponent(jRadioButtonCorpoDeus))))
+                                    .addComponent(jRadioButtonCorpoDeus)))
+                            .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)))
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelListaFeriadosEscolhidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
+                        .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19)))
                 .addContainerGap())
         );
         jPanelDefHolidaysLayout.setVerticalGroup(
@@ -346,8 +349,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,30 +369,52 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButtonPascoa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButtonCorpoDeus)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .addComponent(jRadioButtonCorpoDeus))
+                    .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jLabelListaFeriadosEscolhidos.setText(lingua.translate("Lista_feriados_escolhidos"));
-        java.io.File file = new java.io.File(this.getClass().getResource("Images/arrow_right.png").getFile());
-        java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-        jButtonDefHolidaysDireita.setIcon(icon);
+        try {
+            java.awt.image.BufferedImage image = ImageIO.read(getClass().getResourceAsStream("Images/arrow_right.png"));
+            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+            jButtonDefHolidaysDireita.setIcon(icon);
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jButtonDefHolidaysDireita.setToolTipText(lingua.translate("Adicionar_feriado"));
-        java.io.File file2 = new java.io.File(this.getClass().getResource("Images/delete.png").getFile());
-        java.awt.image.BufferedImage image2 = FileIOAux.ImageAux.getImageFromFile(file2);
-        javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);
-        jButtonDefHolidaysApagar.setIcon(icon2);
+        java.awt.image.BufferedImage image2 = null;
+        try {
+            image2 = ImageIO.read(getClass().getResourceAsStream("Images/delete.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (image2 != null) {
+            javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);
+            jButtonDefHolidaysApagar.setIcon(icon2);
+        }
         jButtonDefHolidaysApagar.setToolTipText(lingua.translate("Apagar"));
-        java.io.File file5 = new java.io.File(this.getClass().getResource("Images/porta3.png").getFile());
-        java.awt.image.BufferedImage image5 = FileIOAux.ImageAux.getImageFromFile(file5);
-        javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);
-        jButtonDefHolidaysVoltar.setIcon(icon5);
+        java.awt.image.BufferedImage image5 = null;
+        try {
+            image5 = ImageIO.read(getClass().getResourceAsStream("Images/porta3.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (image5 != null) {
+            javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);
+            jButtonDefHolidaysVoltar.setIcon(icon5);
+        }
         jButtonDefHolidaysVoltar.setToolTipText(lingua.translate("Voltar"));
-        java.io.File file3 = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-        java.awt.image.BufferedImage image3 = FileIOAux.ImageAux.getImageFromFile(file3);
-        javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);
-        jButtonDefHolidaysMais.setIcon(icon3);
+        java.awt.image.BufferedImage image3 = null;
+        try {
+            image3 = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (image3 != null) {
+            javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);
+            jButtonDefHolidaysMais.setIcon(icon3);
+        }
         jButtonDefHolidaysMais.setBackground(Color.BLUE);
         jButtonDefHolidaysMais.setToolTipText(lingua.translate("Adicionar_feriado_personalizado"));
 
@@ -633,11 +657,17 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        jButtonDefBreaksVoltar.setIcon(icon5);
+        if (image5 != null) {
+            javax.swing.ImageIcon icon5 = new javax.swing.ImageIcon(image5);
+            jButtonDefBreaksVoltar.setIcon(icon5);
+        }
         jButtonDefBreaksVoltar.setToolTipText(lingua.translate("Voltar"));
         jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefBreakApagar.setBackground(new Color(254,254,254));
-        jButtonDefBreakApagar.setIcon(icon2);
+        if (image2 != null) {
+            javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);
+            jButtonDefBreakApagar.setIcon(icon2);
+        }
         jButtonDefBreakApagar.setToolTipText(lingua.translate("Eliminar"));
         jLabelDefBreaksInicio.setText(lingua.translate("Início")+":");
         jLabelDefBreaksTermino.setText(lingua.translate("Término")+":");
@@ -648,7 +678,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelDefBreaksMesFim.setText(lingua.translate("Mês")+":");
         jLabelDefBreaksAnoFim.setText(lingua.translate("Ano")+":");
         jButtonDefBreaksAdicionar.setBackground(new Color(254,254,254));
-        jButtonDefBreaksAdicionar.setIcon(icon3);
+        if (image3 != null) {
+            javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);
+            jButtonDefBreaksAdicionar.setIcon(icon3);
+        }
         jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
         jTextFieldDefBreaksNome.setToolTipText(lingua.translate("Introduzir_um_nome_para_o_periodo_indicado."));
         Border borderg = BorderFactory.createLineBorder(Color.black,1);
@@ -1310,10 +1343,16 @@ public class KeyQuest extends javax.swing.JFrame {
         this.drawBreaksList();
         jTextFieldDefBreaksNome.setText("");
         jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
-        java.io.File file = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-        java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-        jButtonDefBreaksAdicionar.setIcon(icon);
+        java.awt.image.BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (image != null) {
+            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+            jButtonDefBreaksAdicionar.setIcon(icon);
+        }
         jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
         jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
         this.clearComboBoxDefBreaks();
@@ -1345,11 +1384,18 @@ public class KeyQuest extends javax.swing.JFrame {
             jComboBoxDefBreaksMesFim.setSelectedIndex(mes);
             jComboBoxDefBreaksAnoFim.setSelectedItem(ano);
             jTextFieldDefBreaksNome.setText(intervalos.getBreakPeriodList().get(jListFerias.getSelectedIndex()).getName());
-            java.io.File file = new java.io.File(this.getClass().getResource("Images/ok.png").getFile());
-            java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+            java.awt.image.BufferedImage image = null;
+            try {
+                image = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (image != null) {
+                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                jButtonDefBreaksAdicionar.setIcon(icon);
+            }
             jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Editar"));
-            jButtonDefBreaksAdicionar.setIcon(icon);
+
             jButtonDefBreaksAdicionar.setBackground(Color.GREEN);
         } else {
             jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
@@ -1366,10 +1412,16 @@ public class KeyQuest extends javax.swing.JFrame {
                     break;
                 case java.awt.event.KeyEvent.VK_ESCAPE:
                     jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
-                    java.io.File file = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-                    java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-                    javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-                    jButtonDefBreaksAdicionar.setIcon(icon);
+                    java.awt.image.BufferedImage image = null;
+                    try {
+                        image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (image != null) {
+                        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                        jButtonDefBreaksAdicionar.setIcon(icon);
+                    }
                     jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
                     jTextFieldDefBreaksNome.setText("");
                     jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
@@ -1389,10 +1441,17 @@ public class KeyQuest extends javax.swing.JFrame {
         if (!jListFerias.isSelectionEmpty()) {
             String texto = jTextFieldDefBreaksNome.getText();
             String[] valor = jListFerias.getSelectedValue().split(":");
-            java.io.File file = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-            java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-            jButtonDefBreaksAdicionar.setIcon(icon);
+            java.awt.image.BufferedImage image = null;
+            try {
+                image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (image != null) {
+                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                jButtonDefBreaksAdicionar.setIcon(icon);
+            }
+
             jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
             if (texto.equals(valor[0])) {
                 jTextFieldDefBreaksNome.setText("");
@@ -1420,19 +1479,31 @@ public class KeyQuest extends javax.swing.JFrame {
             if (!jListFerias.isSelectionEmpty()) {
                 String[] valor = jListFerias.getSelectedValue().split(":");
                 if (valor[0].equals(nome)) {
-                    java.io.File file = new java.io.File(this.getClass().getResource("Images/ok.png").getFile());
-                    java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-                    javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                    java.awt.image.BufferedImage image = null;
+                    try {
+                        image = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (image != null) {
+                        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                        jButtonDefBreaksAdicionar.setIcon(icon);
+                    }
                     jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Editar"));
-                    jButtonDefBreaksAdicionar.setIcon(icon);
                 } else {
-                    java.io.File file = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-                    java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-                    javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                    java.awt.image.BufferedImage image = null;
+                    try {
+                        image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (image != null) {
+                        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                        jButtonDefBreaksAdicionar.setIcon(icon);
+                    }
                     this.clearComboBoxDefBreaks();
                     jListFerias.clearSelection();
                     jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
-                    jButtonDefBreaksAdicionar.setIcon(icon);
                     jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
                 }
             } else {
@@ -1441,10 +1512,16 @@ public class KeyQuest extends javax.swing.JFrame {
                 for (int i = 0; i < modelo.getSize(); i++) {
                     val = modelo.get(i).toString().split(":");
                     if (val[0].equals(nome)) {
-                        java.io.File file = new java.io.File(this.getClass().getResource("Images/ok.png").getFile());
-                        java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-                        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-                        jButtonDefBreaksAdicionar.setIcon(icon);
+                        java.awt.image.BufferedImage image = null;
+                        try {
+                            image = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
+                        } catch (IOException ex) {
+                            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (image != null) {
+                            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                            jButtonDefBreaksAdicionar.setIcon(icon);
+                        }
                         jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Editar"));
                         jListFerias.setSelectedIndex(i);
                         String dia = String.valueOf(intervalos.getBreakPeriodList().get(jListFerias.getSelectedIndex()).getBeginDate().getDay());
@@ -1507,11 +1584,17 @@ public class KeyQuest extends javax.swing.JFrame {
                 intervalos.getBreakPeriodList().get(jListFerias.getSelectedIndex()).setBeginDate(date1);
                 intervalos.getBreakPeriodList().get(jListFerias.getSelectedIndex()).setEndDate(date2);
                 this.clearComboBoxDefBreaks();
-                java.io.File file = new java.io.File(this.getClass().getResource("Images/plus.png").getFile());
-                java.awt.image.BufferedImage image = FileIOAux.ImageAux.getImageFromFile(file);
-                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
-                jButtonDefBreaksAdicionar.setIcon(icon);
-                jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Edicionar"));
+                java.awt.image.BufferedImage image = null;
+                try {
+                    image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+                } catch (IOException ex) {
+                    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (image != null) {
+                    javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
+                    jButtonDefBreaksAdicionar.setIcon(icon);
+                }
+                jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
                 jTextFieldDefBreaksNome.setText("");
                 jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
                 this.drawBreaksList();
@@ -1544,16 +1627,22 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jListFeriadosEscolhidosValueChanged
 
     private void jListFeriadosEscolhidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jListFeriadosEscolhidosKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-            if (jButtonDefHolidaysApagar.getBackground() == Color.red) {
-                jButtonDefHolidaysApagar.doClick();
-            }
-        } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.mostrajListFeriadosMensagem();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
-            jListFeriadosEscolhidos.clearSelection();
-            jListFeriadosDefeito.clearSelection();
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_DELETE:
+                if (jButtonDefHolidaysApagar.getBackground() == Color.red) {
+                    jButtonDefHolidaysApagar.doClick();
+                }
+                break;
+            case KeyEvent.VK_ENTER:
+                this.mostrajListFeriadosMensagem();
+                break;
+            case KeyEvent.VK_ESCAPE:
+                jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
+                jListFeriadosEscolhidos.clearSelection();
+                jListFeriadosDefeito.clearSelection();
+                break;
+            default:
+                break;
         }
     }//GEN-LAST:event_jListFeriadosEscolhidosKeyPressed
 
@@ -1925,7 +2014,7 @@ public class KeyQuest extends javax.swing.JFrame {
             if (jComboBoxDefBreaksDiaInicio.getModel().getSize() > select) {
                 jComboBoxDefBreaksDiaInicio.setSelectedIndex(select);
             }
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
         jComboBoxDefBreaksAnoInicio.addActionListener((ActionEvent e) -> {
             int select = jComboBoxDefBreaksDiaInicio.getSelectedIndex();
@@ -1944,7 +2033,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     jComboBoxDefBreaksDiaInicio.setSelectedIndex(select);
                 }
             }
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
         jComboBoxDefBreaksAnoFim.setModel(new javax.swing.DefaultComboBoxModel<>(anos));
         jComboBoxDefBreaksAnoFim.setSelectedIndex(50);
@@ -1981,7 +2070,7 @@ public class KeyQuest extends javax.swing.JFrame {
             if (jComboBoxDefBreaksDiaFim.getModel().getSize() > select) {
                 jComboBoxDefBreaksDiaFim.setSelectedIndex(select);
             }
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
         jComboBoxDefBreaksAnoFim.addActionListener((ActionEvent e) -> {
             int select = jComboBoxDefBreaksDiaFim.getSelectedIndex();
@@ -2000,13 +2089,13 @@ public class KeyQuest extends javax.swing.JFrame {
                     jComboBoxDefBreaksDiaFim.setSelectedIndex(select);
                 }
             }
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
         jComboBoxDefBreaksDiaInicio.addActionListener((ActionEvent e) -> {
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
         jComboBoxDefBreaksDiaFim.addActionListener((ActionEvent e) -> {
-            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(),limite);
+            this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
 
     }
@@ -2014,6 +2103,7 @@ public class KeyQuest extends javax.swing.JFrame {
     private void calculateList() {
         Function funcao = new Function("Professor", 2);
         TypeOfMaterial material = new TypeOfMaterial("sala", 70);
+        material.setTypeOfMaterialImage("Sala");
         requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
         requisicoes.make();
         lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);

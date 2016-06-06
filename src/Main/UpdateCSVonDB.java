@@ -99,7 +99,7 @@ public class UpdateCSVonDB {
                         i++;
                     }
                     //db.insertPersons(pessoas);
-                    //db.insertMaterials(materiais);
+                    db.insertMaterials(materiais);
                     //Clavis.Subject ss = new Clavis.Subject("História", "1234567");
                     //disciplinas.add(ss);
                 }

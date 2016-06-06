@@ -9,6 +9,7 @@ import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -82,7 +83,7 @@ public class PanelDetails extends JPanel {
         }
         SVGUniverse svg = new SVGUniverse();
         InputStream is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
-        if (is == null) System.out.println("fff");
+        System.out.println(is.toString());
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
         } catch (IOException ex) {
@@ -151,6 +152,14 @@ public class PanelDetails extends JPanel {
                             g2.translate(5, 6);
                             diagrama.setIgnoringClipHeuristic(true);
                             diagrama.render(g2);
+                            int largura = g2.getFontMetrics().stringWidth("Isto e aquilo");
+                            int i = 8;
+                            while (largura > diagrama.getWidth()) {
+                                g2.setFont(new Font("Cantarell", Font.BOLD, i));
+                                largura = g2.getFontMetrics().stringWidth("Isto e aquilo");
+                                i--;
+                            }
+                            g2.drawString("Isto e aquilo", diagrama.getWidth()/2-(largura/2), 40);
                         } catch (SVGException ex) {
                             Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
                         }

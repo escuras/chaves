@@ -91,7 +91,7 @@ public class TypeOfMaterial {
         this.descricao = material.getTypeOfMaterialName();
         this.total = material.getTotal();
         this.livres = material.getFree();
-        this.imagem = material.getTpeOfMaterialImage();
+        this.imagem = material.getTypeOfMaterialImage();
     }
     
     @Override
@@ -174,7 +174,7 @@ public class TypeOfMaterial {
     /**
      * @return the imagem
      */
-    public String getTpeOfMaterialImage() {
+    public String getTypeOfMaterialImage() {
         return imagem;
     }
 

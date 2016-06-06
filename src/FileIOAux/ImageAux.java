@@ -5,9 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.imageio.ImageReader;
@@ -66,30 +71,49 @@ public class ImageAux {
     public static BufferedImage getImageFromFile(java.io.File file) {
         BufferedImage bimagem = null;
         extensao = verifyExtension(file);
+        InputStream input;
         try {
             if (validateExtension(extensao)) {
-                bimagem = ImageIO.read(file);
+                input = new FileInputStream(file);
+                ImageInputStream imageInput = ImageIO.createImageInputStream(input);
+                bimagem = ImageIO.read(imageInput);
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bimagem;
     }
 
     public static String verifyExtension(java.io.File file) {
-        ImageInputStream iis;
+        InputStream input;
         try {
-            iis = ImageIO.createImageInputStream(file);
-            java.util.Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
-            ImageReader reader = iter.next();
-            extensao = reader.getFormatName();
-        } catch (IOException ex) {
+            input = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            input = null;
+        }
+        if (input != null) {
+            ImageInputStream iis;
+            try {
+                iis = ImageIO.createImageInputStream(input);
+                java.util.Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
+                ImageReader reader = iter.next();
+                extensao = reader.getFormatName();
+            } catch (IOException ex) {
+                extensao = "NaNFile";
+            } catch (java.util.NoSuchElementException ex) {
+                extensao = "NaNImagem";
+            }
+        } else {
             extensao = "NaNFile";
-        } catch (java.util.NoSuchElementException ex) {
-            extensao = "NaNImagem";
         }
         return extensao;
     }
-
+    
+   
+    
     private static boolean validateExtension(String file) {
 
         if (file.equals("png")) {
@@ -224,17 +248,17 @@ public class ImageAux {
     }
 
     private static String setUILanguage(Langs.Locale locale) {
-        ResourceBundle rb; 
+        ResourceBundle rb;
         String[] im = locale.getLocale().split("_");
         try {
-            rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale(im[0],im[1]));
+            rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale(im[0], im[1]));
         } catch (Exception e) {
-            rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale("pt","PT"));
+            rb = ResourceBundle.getBundle("Langs.FileChooser", new Locale("pt", "PT"));
         }
         String titulo = rb.getString("EscolherImagem");
         UIManager.put("FileChooser.lookInLabelText", rb.getString("lookInLabelText"));
-        UIManager.put("FileChooser.filesOfTypeLabelText",rb.getString("filesOfTypeLabelText"));
-        UIManager.put("FileChooser.upFolderToolTipText",rb.getString("upFolderToolTipText"));
+        UIManager.put("FileChooser.filesOfTypeLabelText", rb.getString("filesOfTypeLabelText"));
+        UIManager.put("FileChooser.upFolderToolTipText", rb.getString("upFolderToolTipText"));
         /*
         
          FileChooser.fileNameLabelText
