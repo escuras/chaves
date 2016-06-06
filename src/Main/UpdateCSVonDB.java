@@ -67,6 +67,7 @@ public class UpdateCSVonDB {
                     boolean bauxiliar = false;
                     Set<Clavis.Person> pessoas = new java.util.TreeSet<>();
                     Set<Clavis.Material> materiais = new java.util.TreeSet<>();
+                    Set<Clavis.Subject> disciplinas = new java.util.TreeSet<>();
                     while (i < elementos.size()) {
                         CSV.ObjectCSV aux = new CSV.ObjectCSV(elementos.get(i));
                         List<TimeDate.Date> datass = TimeDate.Date.DatesBetweenDates(this.inicio, this.fim, aux.getWeekDay().getDayNumber());
@@ -84,10 +85,12 @@ public class UpdateCSVonDB {
                                 }
                                 if (!bauxiliar) {
                                     Clavis.Person pes = aux.getPerson();
-                                    Clavis.Material salas = aux.getClassRoom();
+                                    Clavis.Material sala = aux.getClassRoom();
+                                    Clavis.Subject disciplina = aux.getSubject();
                                     pes.setFunction(this.funcao);
                                     pessoas.add(pes);
-                                    materiais.add(salas);
+                                    materiais.add(sala);
+                                    disciplinas.add(disciplina);
                                     requests.add(aux.getRequest(datass.get(j)));
                                 }
                                 bauxiliar = false;
@@ -95,11 +98,11 @@ public class UpdateCSVonDB {
                         }
                         i++;
                     }
-                    db.insertPersons(pessoas);
-                    db.insertMaterials(materiais);
-                    
+                    //db.insertPersons(pessoas);
+                    //db.insertMaterials(materiais);
+                    //Clavis.Subject ss = new Clavis.Subject("História", "1234567");
+                    //disciplinas.add(ss);
                 }
-
             }
         }
     }

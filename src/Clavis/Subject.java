@@ -9,7 +9,7 @@ package Clavis;
  *
  * @author toze
  */
-public class Subject {
+public class Subject implements Comparable<Subject> {
     private String nome;
     private String codigo;
     private int id;
@@ -78,6 +78,15 @@ public class Subject {
      */
     public void setCode(String codigo) {
         this.codigo = codigo;
+    }
+
+    @Override
+    public int compareTo(Subject o) {
+         if ((o.getName().equals(this.getName()))&&(o.getCode().equals(this.getCode()))) {
+            return 0;
+        } else {
+            return 1; 
+        }
     }
     
 }

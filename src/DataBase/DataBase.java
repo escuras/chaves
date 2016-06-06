@@ -853,6 +853,30 @@ public class DataBase {
         return sala;
     }
 
+    public boolean updateClassroom(Clavis.Classroom clas) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                sql = "update Classrooms set outros = '" + clas.getAnotherValues() + "', quadro_interativo = " + clas.hasInteractiveTable() + ", ncomputadores = " + clas.getComputers() + ", lugares = " + clas.getPlaces() + ", projetor = " + clas.hasProjector() + " where codigo_sala = '" + clas.getCodeOfMaterial() + "';";
+                try {
+                    return (!smt.execute(sql));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+        }
+        return false;
+    }
+
     public boolean insertMaterials(java.util.Set<Clavis.Material> materiais) {
         if (this.isTie()) {
             if (materiais.size() > 0) {
@@ -890,6 +914,10 @@ public class DataBase {
                                     smt2 = con.createStatement();
                                     sql = "insert into Materials (id_tipo, codigo, descricao, estado, imagem) values (" + idtipo + ",'" + material.getCodeOfMaterial() + "','" + material.getDescription() + "'," + material.isLoaned() + ",'" + material.getMaterialImage() + "')";
                                     smt2.execute(sql);
+                                    if (idtipo == 1) {
+                                        sql = "insert into Classrooms (codigo_sala) values (" + material.getCodeOfMaterial() + ");";
+                                        smt2.execute(sql);
+                                    }
                                 }
                             } else {
                                 nemtodos = false;
@@ -923,7 +951,6 @@ public class DataBase {
                     sql = "select id_tipo from TypesOfMaterial where upper(descricao) like upper('" + material.getTypeOfMaterialName() + "');";
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        System.out.println("fff " + idtipo);
                         idtipo = rs.getInt(1);
                         passa = true;
                     } else {
@@ -937,7 +964,12 @@ public class DataBase {
                         if (rs.getInt(1) == 0) {
                             sql = "insert into Materials (id_tipo, codigo, descricao, estado, imagem) values (" + idtipo + ",'" + material.getCodeOfMaterial() + "','" + material.getDescription() + "'," + material.isLoaned() + ",'" + material.getMaterialImage() + "')";
                             smt.execute(sql);
+                            if (idtipo == 1) {
+                                sql = "insert into Classrooms (codigo_sala) values (" + material.getCodeOfMaterial() + ");";
+                                smt.execute(sql);
+                            }
                         }
+
                     }
                 }
             } catch (SQLException ex) {
@@ -949,4 +981,168 @@ public class DataBase {
         return false;
     }
 
+    public boolean insertSubject(Clavis.Subject sub) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                sql = "insert into Subjects (descricao,codigo) values ('" + sub.getName() + "','" + sub.getCode() + "');";
+                try {
+                    return (!smt.execute(sql));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean insertSubjects(java.util.Set<Clavis.Subject> subs) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            Statement smt2;
+            try {
+                smt = con.createStatement();
+                smt2 = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+                smt2 = null;
+            }
+            if (smt != null) {
+                ResultSet rs;
+                boolean cond = false;
+                for (Clavis.Subject sub : subs) {
+                    sql = "select count(*) from Subjects where descricao like '" + sub.getName() + "' and codigo like '" + sub.getCode() + "';";
+                    if (smt2 != null) {
+                        try {
+                            rs = smt2.executeQuery(sql);
+                            if (rs.next()) {
+                                if (rs.getInt(1) == 0) {
+                                    sql = "insert into Subjects (descricao,codigo) values ('" + sub.getName() + "','" + sub.getCode() + "');";
+                                    try {
+                                        smt.execute(sql);
+                                        cond = true;
+                                    } catch (SQLException ex) {
+                                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                                        cond = false;
+                                    }
+                                }
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                            cond = false;
+                        }
+                    } else {
+                        cond = false;
+                    }
+                }
+                return cond;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteSubject(Clavis.Subject sub) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                sql = "delete from Subjects where codigo like '" + sub.getCode() + "';";
+                try {
+                    return (!smt.execute(sql));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean associateSubjectWithClassroom(Clavis.Subject sub, Clavis.Classroom clas) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            ResultSet rs;
+            ResultSet rs2;
+            int val = 0;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    sql = "select id_disciplina from Subjects where codigo like '" + sub.getCode() + "' and descricao like '" + sub.getName() + "';";
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        val = rs.getInt("id_disciplina");
+                        sql = "select count(*) from  Rel_classrooms_subjects where codigo_sala like '" + clas.getCodeOfMaterial() + "' and id_disciplina = " + val + ";";
+                        rs2 = smt.executeQuery(sql);
+                        if (rs2.next()) {
+                            if (rs2.getInt(1) == 0) {
+                                sql = "insert into Rel_classrooms_subjects (codigo_sala,id_disciplina) values('" + clas.getCodeOfMaterial() + "'," + val + ");";
+                                return (!smt.execute(sql));
+                            }
+                        }
+                    }
+                    return false;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteAssociationBetweenSubjectAndClassroom(Clavis.Subject sub, Clavis.Classroom clas) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            ResultSet rs;
+            ResultSet rs2;
+            int val = 0;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    sql = "select id_disciplina from Subjects where codigo like '" + sub.getCode() + "' and descricao like '" + sub.getName() + "';";
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        val = rs.getInt("id_disciplina");
+                        sql = "select count(*) from  Rel_classrooms_subjects where codigo_sala like '" + clas.getCodeOfMaterial() + "' and id_disciplina = " + val + ";";
+                        rs2 = smt.executeQuery(sql);
+                        if (rs2.next()) {
+                            if (rs2.getInt(1) > 0) {
+                                sql = "delete from Rel_classrooms_subjects where codigo_sala = '" + clas.getCodeOfMaterial() + "' and id_disciplina = " + val + ";";
+                                return (!smt.execute(sql));
+                            }
+                        }
+                    }
+                    return false;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
 }

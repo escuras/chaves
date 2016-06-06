@@ -156,7 +156,7 @@ public class Classroom extends Material{
     /**
      * @param projetor the projetor to set
      */
-    public void addProjector(boolean projetor) {
+    public void setProjector(boolean projetor) {
         this.projetor = projetor;
     }
     

@@ -37,8 +37,8 @@ public class NewClass1 {
         //db.updatePerson(pess);
         //db.alterPrivilegeInPerson(pess, 3);
         //db.deletePerson(pess);
-        Clavis.Material mat = new Clavis.Material(mo.getTypeOfMaterial(), "1234533", "Loja", false);
-        db.insertMaterial(mat);
+        //Clavis.Material mat = new Clavis.Material(mo.getTypeOfMaterial(), "1234533", "Loja", false);
+        //db.insertMaterial(mat);
         
         
         Clavis.Feature fae = new Clavis.Feature("byte");
@@ -46,5 +46,16 @@ public class NewClass1 {
         for (Clavis.Material m : mat2) {
             System.out.println(m.getDescription());
         }
+        
+        String isto = "Sala de aula";
+        System.out.println(isto.compareToIgnoreCase("rojtr"));
+        List<Clavis.Classroom> cl = db.getClassrooms();
+        for (Clavis.Classroom c : cl) {
+            System.out.println(c.getDescription()+" "+c.getComputers());
+        }
+        Clavis.Subject sub = new Clavis.Subject("Sistemas Digitais II", "56C1024");
+        //System.out.println(db.deleteSubject(sub));
+        System.out.println(db.deleteAssociationBetweenSubjectAndClassroom(sub, cl.get(0)));
+        //db.updateClassroom(cl.get(0));
     }
 }
