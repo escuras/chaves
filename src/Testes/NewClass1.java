@@ -7,6 +7,7 @@ package Testes;
 
 import Clavis.Material;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -17,10 +18,9 @@ public class NewClass1 {
     public static void main(String[] args) {
         
         DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
-        List<Material> tmas = db.getMaterialsByType(2);
+        Set<Material> tmas = db.getMaterialsByType(2);
         if (tmas.size() > 0) {
             for (int i=0 ; i<tmas.size();i++){
-                System.out.println(tmas.get(i).getDescription());
             }
         }
         Material mo = db.getMaterial("33");
@@ -42,24 +42,24 @@ public class NewClass1 {
         
         
         Clavis.Feature fae = new Clavis.Feature("byte");
-        List<Clavis.Material> mat2 = db.getMaterialwithSameFeature(fae);
-        for (Clavis.Material m : mat2) {
-            System.out.println(m.getDescription());
-        }
+        
         
         String isto = "Sala de aula";
         System.out.println(isto.compareToIgnoreCase("rojtr"));
-        List<Clavis.Classroom> cl = db.getClassrooms();
+        Set<Clavis.Classroom> cl = db.getClassrooms();
         for (Clavis.Classroom c : cl) {
             System.out.println(c.getDescription()+" "+c.getComputers());
         }
         Clavis.Subject sub = new Clavis.Subject("Sistemas Digitais II", "56C1024");
         //System.out.println(db.deleteSubject(sub));
-        System.out.println(db.deleteAssociationBetweenSubjectAndClassroom(sub, cl.get(0)));
+        //System.out.println(db.deleteAssociationBetweenSubjectAndClassroom(sub, cl.));
         //db.updateClassroom(cl.get(0));
         Clavis.Feature fea = new Clavis.Feature("teste","mk", 0);
         db.insertFeature(fea);
         db.associateFeatureWithMaterial(fea, mo);
         System.out.println(db.getMaterialsWithSpecificFeature(fea).get(0).getDescription());
+        for (Clavis.Request r : db.getRequests(new TimeDate.Date(),new TimeDate.Date(16,6,2016))) {
+            System.out.println(r.getPerson().getName());
+        }
     }
 }

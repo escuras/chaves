@@ -63,11 +63,6 @@ public class FileHolidays {
             }
         }
         try {
-            /*
-              File file = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"feriados.dat");
-              if (!file.isFile()){
-                file.createNewFile();
-            }*/
             
             File file = new File("Recursos/feriados.dat");
             try (OutputStream os = new FileOutputStream(file)) {

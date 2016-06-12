@@ -73,6 +73,7 @@ public class Request implements Comparable<Request> {
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String origem){
         this.begin = date;
         this.end = date2;
+        this.dia = dia;
         this.tinicio = tinicio;
         this.tfim = tfim;
         this.pessoa = pessoa;

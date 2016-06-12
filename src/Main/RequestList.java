@@ -136,31 +136,7 @@ public class RequestList {
                 this.date2 =  hoje.dateAfter(dia_auxiliar);
 
         }
-        HandlingCSV han = new HandlingCSV(csv);
-        han.searchElements();
-        List<ElementsCSV> elementos = han.getElements();
-        this.requests = new TreeSet<>();
-        if (elementos.size() > 0){
-            int i = 0;
-            int k = 0;
-            boolean bauxiliar= false;
-            while (i < elementos.size()){
-                    ObjectCSV aux = new ObjectCSV(elementos.get(i));
-                    List<Date> datass = Date.DatesBetweenDates(this.date1, this.date2, aux.getWeekDay().getDayNumber());
-                    if (datass.size() > 0) {
-                        for (int j=0; j< datass.size();j++) { 
-                            for (TimeDate.Holiday h: this.feriados.getHolidays()){
-                                if ((datass.get(j).getDay() == h.getDay())&&(datass.get(j).getMonth() == h.getMonth())) {
-                                    bauxiliar = true;
-                                }
-                            }
-                            if (!bauxiliar) this.requests.add(aux.getRequest(datass.get(j)));
-                            bauxiliar = false;
-                        }
-                    }
-                i++;
-            }
-        }
+        this.requests = db.getRequests(this.date1, this.date2);
     }
     
     public Clavis.Request getSelectedRequest(int valor) {
@@ -170,31 +146,7 @@ public class RequestList {
     }
     
     public void make(){
-        HandlingCSV han = new HandlingCSV(csv);
-        han.searchElements();
-        List<ElementsCSV> elementos = han.getElements();
-        this.requests = new TreeSet<>();
-        if (elementos.size() > 0){
-            int i = 0;
-            int k = 0;
-            boolean bauxiliar= false;
-            while (i < elementos.size()){
-                    ObjectCSV aux = new ObjectCSV(elementos.get(i));
-                    List<Date> datass = Date.DatesBetweenDates(this.date1, this.date2, aux.getWeekDay().getDayNumber());
-                    if (datass.size() > 0) {
-                        for (int j=0; j< datass.size();j++) { 
-                            for (TimeDate.Holiday h: this.feriados.getHolidays()){
-                                if ((datass.get(j).getDay() == h.getDay())&&(datass.get(j).getMonth() == h.getMonth())) {
-                                    bauxiliar = true;
-                                }
-                            }
-                            if (!bauxiliar) this.requests.add(aux.getRequest(datass.get(j)));
-                            bauxiliar = false;
-                        }
-                    }
-                i++;
-            }
-        }
+        this.requests = db.getRequests(this.date1, this.date2);
     }
 
     /**

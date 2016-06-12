@@ -1,9 +1,12 @@
 package FileIOAux;
 
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +22,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
+import sun.misc.BASE64Decoder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -246,6 +250,16 @@ public class ImageAux {
         g2.dispose();
         return output;
     }
+    
+    public static BufferedImage transformFromBase64IntoImage(String imagem) {
+        byte[] p = java.util.Base64.getDecoder().decode(imagem);
+        java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(p);
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(in);
+        } catch (IOException ex) {}
+        return image;
+    }   
 
     private static String setUILanguage(Langs.Locale locale) {
         ResourceBundle rb;

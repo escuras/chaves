@@ -13,6 +13,7 @@ import CSV.HandlingCSV;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -109,16 +110,20 @@ public class Clavicela {
         //ma.setMaterialImage(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.getImageFromFileChooser(null,cla),100,100), FileIOAux.ImageAux.extensao);
 
 //System.out.println(ma.getMaterialImage());
-        List<Material> tmas = teste.getMaterialsByType(2);
+        Set<Material> tmas = teste.getMaterialsByType(2);
+        Object[] mater = tmas.toArray();
         if (tmas.size() > 0) {
             for (int i=0 ; i<tmas.size();i++){
-                System.out.println(tmas.get(i).getDescription());
+                Material mo = (Material)mater[i];
+                System.out.println(mo.getDescription());
             }
         }
-        List<Classroom> croom = teste.getClassrooms();
+        Set<Classroom> croom = teste.getClassrooms();
+        Object[] clas = croom.toArray();
         if (croom.size() > 0) {
              for (int i=0 ; i<croom.size();i++){
-                System.out.println(croom.get(i).getDescription()+ " lugares: "+ croom.get(i).getPlaces());
+                Classroom mo = (Classroom)clas[i];
+                System.out.println(mo.getDescription());
             }
         }
         Material m2 = new Material(sala, "59", "sala 59", "sala localizada em ...", false);

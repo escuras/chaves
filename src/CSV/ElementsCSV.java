@@ -73,7 +73,7 @@ public class ElementsCSV  {
      */
     public int getDayWeek() 
     {
-        return diasemana;
+        return this.diasemana;
     }
 
     /**

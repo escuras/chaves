@@ -7,6 +7,7 @@ package DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -103,6 +104,42 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Persons where identificacao like '" + identificacao + "';";
+                ResultSet rs;
+                ResultSet rs2;
+                Statement aux;
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
+                        aux = con.createStatement();
+                        rs2 = aux.executeQuery(sql);
+                        if (rs2.next()) {
+                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            pessoa.setFunction(funcao);
+                        }
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return pessoa;
+    }
+
+    public Clavis.Person getPerson(int identificacao) {
+        Clavis.Person pessoa = new Clavis.Person();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from Persons where id_pessoa = " + identificacao + ";";
                 ResultSet rs;
                 ResultSet rs2;
                 Statement aux;
@@ -233,7 +270,6 @@ public class DataBase {
                 }
                 try {
                     if (rs.next()) {
-                        System.out.println(rs.getInt(1));
                         if (rs.getInt(1) == 0) {
                             sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
                             smt2 = con.createStatement();
@@ -530,15 +566,14 @@ public class DataBase {
                         smt.close();
                     }
                 } catch (SQLException ex) {
-                    System.out.println("erro");
                 }
             }
         }
         return materiais;
     }
 
-    public java.util.List<Clavis.Material> getMaterialsByType(int id) {
-        java.util.List<Clavis.Material> materiais = new java.util.ArrayList<>();
+    public java.util.Set<Clavis.Material> getMaterialsByType(int id) {
+        java.util.Set<Clavis.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs2;
@@ -683,8 +718,8 @@ public class DataBase {
         return null;
     }
 
-    public java.util.List<Clavis.Material> getMaterialwithSameFeature(Clavis.Feature feature) {
-        java.util.List<Clavis.Material> materiais = new java.util.ArrayList<>();
+    public java.util.Set<Clavis.Material> getMaterialwithSameFeature(Clavis.Feature feature) {
+        java.util.Set<Clavis.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -720,8 +755,8 @@ public class DataBase {
         return materiais;
     }
 
-    public java.util.List<Clavis.Classroom> getClassrooms() {
-        java.util.List<Clavis.Classroom> classrooms = new java.util.ArrayList<>();
+    public java.util.Set<Clavis.Classroom> getClassrooms() {
+        java.util.Set<Clavis.Classroom> classrooms = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -752,11 +787,8 @@ public class DataBase {
                         if (smt2 != null) {
                             ResultSet rs2 = smt2.executeQuery(sql);
                             while (rs2.next()) {
-                                if (!rs2.getString("imagem").equals("sem")) {
-                                    material = new Clavis.Material(tipo, rs2.getString("codigo"), rs2.getString("caracteristicas"), rs2.getString("imagem"), rs2.getBoolean("estado"));
-                                } else {
-                                    material = new Clavis.Material(tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getBoolean("estado"));
-                                }
+                                material = new Clavis.Material(tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
+                                
                                 sql = "Select * from Classrooms where codigo_sala = '" + rs2.getString("codigo") + "'";
                                 try {
                                     smt3 = con.createStatement();
@@ -866,8 +898,6 @@ public class DataBase {
                         passa = true;
                         idtipo = material.getMaterialTypeID();
                         if (material.getMaterialTypeID() == -1) {
-                            System.out.println(idtipo);
-                            System.out.println(material.getTypeOfMaterialName());
                             sql = "select id_tipo from TypesOfMaterial where upper(descricao) like upper('" + material.getTypeOfMaterialName() + "');";
                             rs = smt.executeQuery(sql);
                             if (rs.next()) {
@@ -918,8 +948,6 @@ public class DataBase {
                 passa = true;
                 idtipo = material.getMaterialTypeID();
                 if (material.getMaterialTypeID() == -1) {
-                    System.out.println("ddd " + idtipo);
-                    System.out.println(material.getTypeOfMaterialName());
                     sql = "select id_tipo from TypesOfMaterial where upper(descricao) like upper('" + material.getTypeOfMaterialName() + "');";
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -937,7 +965,7 @@ public class DataBase {
                             sql = "insert into Materials (id_tipo, codigo, descricao, estado, imagem) values (" + idtipo + ",'" + material.getCodeOfMaterial() + "','" + material.getDescription() + "'," + material.isLoaned() + ",'" + material.getMaterialImage() + "')";
                             smt.execute(sql);
                             if (idtipo == 1) {
-                                sql = "insert into Classrooms (codigo_sala) values (" + material.getCodeOfMaterial() + ");";
+                                sql = "insert into Classrooms (codigo_sala) values ('" + material.getCodeOfMaterial() + "');";
                                 smt.execute(sql);
                             }
                         }
@@ -1360,11 +1388,11 @@ public class DataBase {
                             ResultSet rs2 = smt.executeQuery(sql);
                             if (rs2.next()) {
                                 int idmaterial = rs2.getInt("id_material");
-                                sql = "select count(*) from Rel_features_materials where id_caracteristica = "+val+" and id_material = "+idmaterial+";";
+                                sql = "select count(*) from Rel_features_materials where id_caracteristica = " + val + " and id_material = " + idmaterial + ";";
                                 ResultSet rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
                                     if (rs3.getInt(1) == 0) {
-                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material)  values ("+val+","+idmaterial+")";
+                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material)  values (" + val + "," + idmaterial + ")";
                                         return (!smt.execute(sql));
                                     }
                                 }
@@ -1378,8 +1406,8 @@ public class DataBase {
         }
         return false;
     }
-    
-    public java.util.List<Clavis.Material> getMaterialsWithSpecificFeature(Clavis.Feature feature){
+
+    public java.util.List<Clavis.Material> getMaterialsWithSpecificFeature(Clavis.Feature feature) {
         java.util.List<Clavis.Material> mats = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
@@ -1395,7 +1423,7 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        sql = "select id_material from Rel_features_materials where id_caracteristica = "+rs.getInt("id_caracteristica")+";";
+                        sql = "select id_material from Rel_features_materials where id_caracteristica = " + rs.getInt("id_caracteristica") + ";";
                         ResultSet rs2 = smt.executeQuery(sql);
                         java.util.ArrayList<Integer> materiais = new java.util.ArrayList<>();
                         while (rs2.next()) {
@@ -1410,16 +1438,16 @@ public class DataBase {
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } 
+            }
         }
         return mats;
     }
-    
-    public java.util.List<Clavis.Feature> getFeaturesByTypeOfMaterial(){
+
+    public java.util.List<Clavis.Feature> getFeaturesByTypeOfMaterial() {
         java.util.List<Clavis.Feature> lista = new java.util.ArrayList<>();
         return lista;
     }
-    
+
     public boolean deleteAssociationFeatureWithMaterial(Clavis.Feature feature, Clavis.Material mat) {
         if (this.isTie()) {
             Statement smt;
@@ -1442,7 +1470,7 @@ public class DataBase {
                             rs2 = smt.executeQuery(sql);
                             if (rs2.next()) {
                                 int idmaterial = rs2.getInt("id_material");
-                                sql = "delete from Rel_features_materials where id_caracteristica = "+val+" and id_material = "+idmaterial+";";
+                                sql = "delete from Rel_features_materials where id_caracteristica = " + val + " and id_material = " + idmaterial + ";";
                                 return (!smt.execute(sql));
                             }
                         }
@@ -1453,6 +1481,237 @@ public class DataBase {
             }
         }
         return false;
+    }
+
+    public boolean updateAllRequests(java.util.Set<Clavis.Request> requests) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "delete from Requests where origem like 'csv'";
+                try {
+                    smt.execute(sql);
+                    ResultSet rs;
+                    ResultSet rs2;
+                    ResultSet rs3;
+                    int id_material;
+                    int id_pessoa;
+                    int id_disciplina;
+                    boolean nemtodos = false;
+                    for (Clavis.Request request : requests) {
+                        sql = "select id_material from Materials where codigo like '" + request.getMaterial().getCodeOfMaterial() + "' and descricao like '" + request.getMaterial().getDescription() + "';";
+                        rs = smt.executeQuery(sql);
+                        if (rs.next()) {
+                            id_material = rs.getInt("id_material");
+                            sql = "select id_pessoa from Persons where identificacao like '" + request.getPerson().getIdentification() + "' and nome like '" + request.getPerson().getName() + "';";
+                            rs2 = smt.executeQuery(sql);
+                            if (rs2.next()) {
+                                id_pessoa = rs2.getInt("id_pessoa");
+                                sql = "select id_disciplina from Subjects where codigo like '" + request.getSubject().getCode() + "' and descricao like '" + request.getSubject().getName() + "'";
+                                rs3 = smt.executeQuery(sql);
+                                if (rs3.next()) {
+                                    id_disciplina = rs3.getInt("id_disciplina");
+                                    sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,completo) "
+                                            + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
+                                            + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
+                                            + request.getWeekDay().getDayNumber() + ",'csv',false,false,false);";
+                                    Threads.InsertRequest rq = new Threads.InsertRequest(sql, con);
+                                    rq.start();
+                                    try {
+                                        rq.join();
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return true;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    public java.util.Set<Clavis.Request> getAllRequests() {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests;";
+            try {
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                Clavis.Request request;
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                String origem;
+                while (rs.next()) {
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    disciplina = this.getSubject(rs.getInt("id_disciplina"));
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                    requisicoes.add(request);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return requisicoes;
+    }
+
+    public java.util.Set<Clavis.Request> getRequests(TimeDate.Date dinicio, TimeDate.Date dfim) {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y');";
+            try {
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                Clavis.Request request = null;
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                String origem;
+                while (rs.next()) {
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    disciplina = this.getSubject(rs.getInt("id_disciplina"));
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                    requisicoes.add(request);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return requisicoes;
+    }
+
+    public java.util.Set<Clavis.Request> getRequests(Clavis.Person pess, TimeDate.Date dinicio, TimeDate.Date dfim) {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            int id = 0;
+            boolean cond = false;
+            try {
+                if (pess.getId() == -1) {
+                    String sql = "select id_pessoa from Persons where identificacao like ?;";
+                    smt = con.prepareStatement(sql);
+                    smt.setString(1, pess.getIdentification());
+                    ResultSet rsaux = smt.executeQuery();
+                    if (rsaux.next()) {
+                        id = rsaux.getInt("id_pessoa");
+                        cond = true;
+                    }
+                } else {
+                    id = pess.getId();
+                    cond = true;
+                }
+                if (cond) {
+                    String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ;";
+                    smt = con.prepareStatement(sql);
+                    rs = smt.executeQuery();
+                    Clavis.Request request = null;
+                    String[] aux;
+                    Clavis.Person pessoa;
+                    Clavis.Material material;
+                    Clavis.Subject disciplina;
+                    TimeDate.Date inicio;
+                    TimeDate.Date fim;
+                    TimeDate.Time tinicio;
+                    TimeDate.Time tfim;
+                    TimeDate.WeekDay dia;
+                    String origem;
+                    while (rs.next()) {
+                        pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                        material = this.getMaterial(rs.getInt("id_material"));
+                        disciplina = this.getSubject(rs.getInt("id_disciplina"));
+                        aux = rs.getString("inicio").split("/");
+                        inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("fim").split("/");
+                        fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("tinicio").split(":");
+                        tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("tfim").split(":");
+                        tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                        origem = rs.getString("origem");
+                        request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                        requisicoes.add(request);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return requisicoes;
+    }
+
+    public Clavis.Subject getSubject(int id) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select descricao,codigo from Subjects where id_disciplina = " + id + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return new Clavis.Subject(id, rs.getString("descricao"), rs.getString("codigo"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return null;
     }
 
     public void close() {

@@ -485,6 +485,7 @@
                               <Component id="jButtonDefBreaksVoltar" min="-2" pref="97" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDefBreaksAdicionar" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -933,6 +934,9 @@
               <Dimension value="[1000, 600]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="componentMoved" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jSplitPaneInicialComponentMoved"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jSplitPaneInicial.setResizeWeight(1.0);"/>
           </AuxValues>
@@ -1087,16 +1091,16 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneRequisicoes" pref="460" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneRequisicoes" pref="478" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jSplitPaneInformaAtua" pref="266" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                  <Component id="jSplitPaneInformaAtua" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabelTitulorequisicoes" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelTituloOcupacoes" pref="254" max="32767" attributes="0"/>
+                              <Component id="jLabelTituloOcupacoes" pref="263" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="jScrollPaneMaterial" pref="0" max="32767" attributes="0"/>
@@ -1137,8 +1141,12 @@
                         <LineBorder thickness="2"/>
                       </Border>
                     </Property>
+                    <Property name="autoscrolls" type="boolean" value="true"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[100, 400]"/>
+                      <Dimension value="[250, 400]"/>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[106, 456]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -1149,11 +1157,15 @@
                   <SubComponents>
                     <Container class="javax.swing.JTabbedPane" name="jTabbedPaneMaterial">
                       <Properties>
+                        <Property name="autoscrolls" type="boolean" value="true"/>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[2000, 32767]"/>
+                        </Property>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[8, 400]"/>
+                          <Dimension value="[250, 400]"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[300, 450]"/>
+                          <Dimension value="[0, 450]"/>
                         </Property>
                       </Properties>
 
@@ -1176,9 +1188,12 @@
                       <Dimension value="[600, 500]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[700, 450]"/>
+                      <Dimension value="[700, 500]"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jScrollPaneRequisicoes.setMinimumSize(new java.awt.Dimension(600,jPanelCima.getHeight()));"/>
+                  </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                 </Container>
@@ -1230,7 +1245,7 @@
                     <Property name="dividerSize" type="int" value="20"/>
                     <Property name="orientation" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 2147483647]"/>
+                      <Dimension value="[250, 2147483647]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 500]"/>
@@ -1252,7 +1267,7 @@
                           <Border info="null"/>
                         </Property>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[0, 0]"/>
+                          <Dimension value="[0, 100]"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="" noResource="true"/>
                       </Properties>
@@ -1269,20 +1284,27 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButtonAtuacaoConfirmacao" min="-2" pref="117" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButtonAtuacaoCancelamento" pref="115" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jButtonAtuacaoCancelamento" pref="99" max="32767" attributes="0"/>
+                                      <Component id="jButtonAtuacaoCancelamento1" alignment="1" pref="99" max="32767" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace pref="173" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jButtonAtuacaoConfirmacao" pref="31" max="32767" attributes="0"/>
-                                      <Component id="jButtonAtuacaoCancelamento" max="32767" attributes="0"/>
+                                      <Component id="jButtonAtuacaoConfirmacao" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jButtonAtuacaoCancelamento" min="-2" pref="40" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="jButtonAtuacaoCancelamento1" min="-2" pref="40" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
+                                  <EmptySpace pref="280" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1303,6 +1325,14 @@
                           </AuxValues>
                         </Component>
                         <Component class="javax.swing.JButton" name="jButtonAtuacaoCancelamento">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Cancelar"/>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonAtuacaoCancelamento.setText(lingua.translate(&quot;Cancelar&quot;));"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="jButtonAtuacaoCancelamento1">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Cancelar"/>
                           </Properties>
@@ -1336,6 +1366,53 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
       <SubComponents>
+        <Component class="javax.swing.JToggleButton" name="jToggleButtonBarRequisicoes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Requisi&#xe7;&#xf5;es"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder/>
+              </Border>
+            </Property>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[89, 24]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[89, 24]"/>
+            </Property>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonBarRequisicoesActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jToggleButtonBarRequisicoes.setMnemonic(jToggleButtonBarRequisicoes.getText().charAt(0));&#xa;jToggleButtonBarRequisicoes.setText(lingua.translate(&quot;Requisicoes&quot;));"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="jToggleButtonBarEntregas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Entregas"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[88, 24]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[88, 24]"/>
+            </Property>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonBarEntregasActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jToggleButtonBarEntregas.setText(lingua.translate(&quot;Entregas&quot;));&#xa;jToggleButtonBarEntregas.setMnemonic(jToggleButtonBarEntregas.getText().charAt(0));"/>
+          </AuxValues>
+        </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxVista">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">

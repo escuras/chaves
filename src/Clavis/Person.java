@@ -23,7 +23,7 @@ public class Person implements Comparable<Person>{
         identificacao = "sem";
         telefone = "sem";
         email = "sem";
-        id = 0;
+        id = -1;
         funcao = null;
         privilegio = -1;
     }

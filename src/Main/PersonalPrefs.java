@@ -27,6 +27,7 @@ public class PersonalPrefs extends KeyQuest {
         int maximizada = userPrefs.getInt("maximizada", 0);
         tdivisor = userPrefs.getInt("userdivisor", 20);
         vista = userPrefs.getInt("vista", 0);
+        bitpagina = userPrefs.getByteArray("bitarray", new byte[]{0,0});
         lingua = new Langs.Locale();
         lingua.setLocale(lang); 
         booleanBoxLanguage = userPrefs.getBoolean("booleanLanguage", true);
@@ -51,5 +52,6 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putInt("userdivisor", tdivisor);
         userPrefs.putBoolean("booleanLanguage", booleanBoxLanguage);
         userPrefs.putInt("vista", vista);
+        userPrefs.putByteArray("bitarray", bitpagina);
     }
 }

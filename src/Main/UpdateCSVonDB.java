@@ -30,6 +30,7 @@ public class UpdateCSVonDB {
         feriados = new TimeDate.HolidaysList(new TimeDate.Date().getYear());
         database = "";
         csv = "";
+        funcao = new Clavis.Function("Pofessor");
     }
 
     public UpdateCSVonDB(TimeDate.Date inicio, TimeDate.Date fim, TimeDate.BreakPeriodList ferias, TimeDate.HolidaysList feriados, String database, String csv) {
@@ -39,6 +40,7 @@ public class UpdateCSVonDB {
         this.feriados = feriados;
         this.database = database;
         this.csv = csv;
+        this.funcao = new Clavis.Function("Pofessor");
     }
 
     public UpdateCSVonDB(UpdateCSVonDB db) {
@@ -48,12 +50,10 @@ public class UpdateCSVonDB {
         this.feriados = db.getHolidays();
         this.database = db.getDatabaseString();
         this.csv = db.getCSVString();
+        this.funcao = db.getFunction();
     }
 
-    public void update(String funcao) {
-        if (this.funcao == null) {
-            this.funcao = new Clavis.Function(funcao);
-        }
+    public void update() {
         if ((!database.equals("")) && (!csv.equals(""))) {
             DataBase.DataBase db = new DataBase.DataBase(database);
             if (db.isTie()) {
@@ -63,7 +63,6 @@ public class UpdateCSVonDB {
                 Set<Clavis.Request> requests = new TreeSet<>();
                 if (elementos.size() > 0) {
                     int i = 0;
-                    int k = 0;
                     boolean bauxiliar = false;
                     Set<Clavis.Person> pessoas = new java.util.TreeSet<>();
                     Set<Clavis.Material> materiais = new java.util.TreeSet<>();
@@ -98,8 +97,9 @@ public class UpdateCSVonDB {
                         }
                         i++;
                     }
-                    //db.insertPersons(pessoas);
+                    db.insertPersons(pessoas);
                     db.insertMaterials(materiais);
+                    db.updateAllRequests(requests);
                     //Clavis.Subject ss = new Clavis.Subject("História", "1234567");
                     //disciplinas.add(ss);
                 }
