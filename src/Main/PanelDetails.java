@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -23,7 +25,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Group;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 /**
  *
@@ -46,7 +47,8 @@ public class PanelDetails extends JPanel {
     private JPanel panel;
     private String nome_imagem;
     private String titulo_imagem;
-    private JSplitPane tamanho_auxiliar;
+    private JPanel tamanho_auxiliar;
+    private String pessoa;
 
     public PanelDetails(Langs.Locale lingua, Color color, String imagem, String titulo_imagem) {
         super();
@@ -69,7 +71,7 @@ public class PanelDetails extends JPanel {
         }
     }
 
-    public PanelDetails(Color color, String titulo, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JSplitPane tamanho_auxiliar) {
+    public PanelDetails(Color color, String titulo, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
         super();
         this.color = color;
         this.titleColor = DEFAULT_COLOR;
@@ -105,7 +107,7 @@ public class PanelDetails extends JPanel {
             this.setPreferredSize(new java.awt.Dimension(240, 400));
             this.setBackground(color);
             ltitulo.setForeground(this.titleColor);
-            ltitulo.setFont(new java.awt.Font("Cantarell", 1, 14));
+            ltitulo.setFont(new java.awt.Font("Cantarell", 1, 20));
             ltitulo.setText(lingua.translate(titulo));
             ltitulo.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             JLabel[] paineis = new JLabel[titulos.length];
@@ -121,8 +123,8 @@ public class PanelDetails extends JPanel {
             grupo2.addGap(11);
             grupo2.addComponent(ltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE);
             grupo2.addGap(11, 11, 11);
-            AffineTransform affinetransform = new AffineTransform();     
-            FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
+            AffineTransform affinetransform = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
             Font font = new Font("Cantarell", java.awt.Font.PLAIN, 13);
             int texto = 0;
             String auxiliar;
@@ -130,29 +132,30 @@ public class PanelDetails extends JPanel {
                 paineis[i] = new JLabel();
                 paineis[i].setForeground(this.subTitleColor);
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-                paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.BOLD, 13));
+                paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
                 paineis[i].setText(lingua.translate(titulos[i]));
                 paineis2[i] = new JLabel();
                 paineis2[i].setForeground(this.textColor);
-                paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.PLAIN, 13));
+                paineis2[i].setBackground(this.color);
+                paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.HANGING_BASELINE, 14));
                 paineis2[i].setOpaque(true);
-                paineis2[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+                paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 10));
                 auxiliar = lingua.translate(resultados[i]);
-                texto = (int)(font.getStringBounds(auxiliar, frc).getWidth());
-                if (texto > tamanho_auxiliar.getWidth() -50)  {
-                    while (texto >= tamanho_auxiliar.getWidth()-50) {
-                        auxiliar = auxiliar.substring(0, auxiliar.length() -1);
+                texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
+                if (texto > tamanho_auxiliar.getWidth() - 100) {
+                    while (texto >= tamanho_auxiliar.getWidth() - 100) {
+                        auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
                         System.out.println(texto);
-                        texto = (int)(font.getStringBounds(auxiliar, frc).getWidth());
+                        texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                     }
-                    auxiliar = auxiliar+"...";
+                    auxiliar = auxiliar + " ...";
                 }
                 paineis2[i].setText(auxiliar);
                 grupo.addComponent(paineis[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
                 grupo.addComponent(paineis2[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-                grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE);
+                grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
                 grupo2.addGap(3, 5, 7);
-                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE);
+                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE);
                 grupo2.addGap(5 + intervalo, 7 + intervalo, 9 + intervalo);
                 i++;
             }
@@ -176,25 +179,19 @@ public class PanelDetails extends JPanel {
                             g2.translate(5, 6);
                             diagrama.setIgnoringClipHeuristic(true);
                             diagrama.render(g2);
-                            g2.setFont(new Font("Cantarell", Font.BOLD, 8));
-                            int largura = g2.getFontMetrics().stringWidth(getImageTitle());
-                            int i = 8;
-                            while (largura > diagrama.getWidth()) {
-                                g2.setFont(new Font("Cantarell", Font.BOLD, i));
-                                largura = g2.getFontMetrics().stringWidth(getImageTitle());
-                                i--;
-                            }
-                            g2.drawString(getImageTitle(), diagrama.getWidth()/2-(largura/2), 40);
                         } catch (SVGException ex) {
                             Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    
+
                     }
                 }
             };
             panel.setBackground(color);
         }
+    }
 
+    public void destroy() {
+        this.panel = null;
     }
 
     /**
@@ -326,7 +323,8 @@ public class PanelDetails extends JPanel {
     public JPanel alternativePanel() {
         return this.panel;
     }
-    public boolean isShowingImage(){
+
+    public boolean isShowingImage() {
         return (this.diagrama != null);
     }
 

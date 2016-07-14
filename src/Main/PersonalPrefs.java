@@ -23,9 +23,10 @@ public class PersonalPrefs extends KeyQuest {
         int y = userPrefs.getInt("y",100);
         int largura = userPrefs.getInt("width",1024);
         int altura = userPrefs.getInt("height",700);
-        String lang = userPrefs.get("lingua", "es_ES");
+        String lang = userPrefs.get("lingua", "pt_PT");
         int maximizada = userPrefs.getInt("maximizada", 0);
-        tdivisor = userPrefs.getInt("userdivisor", 20);
+        tema = userPrefs.get("tema", "claro");
+        tdivisor = userPrefs.getInt("userdivisor", 40);
         vista = userPrefs.getInt("vista", 0);
         bitpagina = userPrefs.getByteArray("bitarray", new byte[]{0,0});
         lingua = new Langs.Locale();
@@ -52,6 +53,7 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putInt("userdivisor", tdivisor);
         userPrefs.putBoolean("booleanLanguage", booleanBoxLanguage);
         userPrefs.putInt("vista", vista);
+        userPrefs.put("tema", tema);
         userPrefs.putByteArray("bitarray", bitpagina);
     }
 }

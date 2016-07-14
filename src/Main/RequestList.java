@@ -6,12 +6,7 @@
 package Main;
 
 import TimeDate.HolidaysList;
-import CSV.ElementsCSV;
-import CSV.HandlingCSV;
-import CSV.ObjectCSV;
-import TimeDate.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,7 +16,6 @@ import java.util.TreeSet;
  */
 public class RequestList {
     private String bd;
-    private String csv;
     private DataBase.DataBase db;
     private Clavis.TypeOfMaterial material;
     private Clavis.Function funcao;
@@ -29,14 +23,15 @@ public class RequestList {
     private TimeDate.Date date2;
     private HolidaysList feriados;
     private Set<Clavis.Request> requests;
-    public static final int VIEW_MONTH = 4;
     public static final int VIEW_BIWEEK = 3;
     public static final int VIEW_WEEK = 2;
     public static final int VIEW_PAIR_OF_DAYS = 1;
     public static final int VIEW_DAY = 0;
     private int vista;
+    private boolean estado;
     
-    public RequestList(String bd, String csv, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados) {
+    public RequestList(String bd, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados, boolean estado) {
+        this.estado = estado;
         this.vista = vista;
         this.db = new DataBase.DataBase(bd);
         Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
@@ -67,18 +62,12 @@ public class RequestList {
                 this.date1 = hoje;
                 this.date2 =  hoje.dateAfter(dia_auxiliar);
                 break;
-            case 4: 
-                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
             default:
                 this.date1 = hoje;
                 this.date2 =  hoje.dateAfter(dia_auxiliar);
 
         }
         this.bd = bd;
-        this.csv = csv;
         this.material = material;
         this.funcao = funcao;
         this.requests = new TreeSet<>();
@@ -87,7 +76,6 @@ public class RequestList {
     
      public RequestList(RequestList req) {
         this.bd = req.getBd();
-        this.csv = req.getCsv();
         this.material = req.getTypeOfMaterial();
         this.funcao = req.getFunction();
         this.date1 = req.getDate1();
@@ -101,7 +89,7 @@ public class RequestList {
         TimeDate.Date hoje = new TimeDate.Date();
         this.setVista(vista);
         int dia_auxiliar = 0;
-        switch (this.getVista()) {
+        switch (this.getView()) {
             case 1:
                 dia_auxiliar = 1;
                 while (fer_auxiliar.hasNext()) {
@@ -136,7 +124,7 @@ public class RequestList {
                 this.date2 =  hoje.dateAfter(dia_auxiliar);
 
         }
-        this.requests = db.getRequests(this.date1, this.date2);
+        this.requests = db.getRequests(this.date1, this.date2, estado);
     }
     
     public Clavis.Request getSelectedRequest(int valor) {
@@ -146,7 +134,11 @@ public class RequestList {
     }
     
     public void make(){
-        this.requests = db.getRequests(this.date1, this.date2);
+        this.requests = db.getRequests(this.date1, this.date2, estado);
+    }
+    
+    public boolean removeRequest(Clavis.Request request){
+        return this.requests.remove(request);
     }
 
     /**
@@ -161,20 +153,6 @@ public class RequestList {
      */
     public void setBd(String bd) {
         this.bd = bd;
-    }
-
-    /**
-     * @return the csv
-     */
-    public String getCsv() {
-        return csv;
-    }
-
-    /**
-     * @param csv the csv to set
-     */
-    public void setCsv(String csv) {
-        this.csv = csv;
     }
 
     /**
@@ -257,7 +235,7 @@ public class RequestList {
     /**
      * @return the vista
      */
-    public int getVista() {
+    public int getView() {
         return vista;
     }
 

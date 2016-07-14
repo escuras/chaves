@@ -206,13 +206,14 @@ public class DataBase {
             Statement smt;
             Statement smt2;
             try {
+                con.setAutoCommit(false);
+                smt = con.createStatement();
                 for (Clavis.Person pessoa : pessoas) {
                     String nome = pessoa.getName();
                     String identificacao = pessoa.getIdentification();
                     String email = pessoa.getEmail();
                     String telefone = pessoa.getPhone();
                     String sql = "select count(*) from Persons where identificacao like '" + identificacao + "';";
-                    smt = con.createStatement();
                     if (smt != null) {
                         ResultSet rs = smt.executeQuery(sql);
                         if (rs.next()) {
@@ -234,10 +235,17 @@ public class DataBase {
                                 }
                             }
                         }
-                    }
+                    }    
                 }
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
+                try {
+                    con.setAutoCommit(true);
+                } catch (SQLException ex1) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 return false;
             }
         } else {
@@ -788,7 +796,7 @@ public class DataBase {
                             ResultSet rs2 = smt2.executeQuery(sql);
                             while (rs2.next()) {
                                 material = new Clavis.Material(tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
-                                
+
                                 sql = "Select * from Classrooms where codigo_sala = '" + rs2.getString("codigo") + "'";
                                 try {
                                     smt3 = con.createStatement();
@@ -1516,10 +1524,10 @@ public class DataBase {
                                 rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
                                     id_disciplina = rs3.getInt("id_disciplina");
-                                    sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,completo) "
+                                    sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,substituido) "
                                             + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                             + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                            + request.getWeekDay().getDayNumber() + ",'csv',false,false,false);";
+                                            + request.getWeekDay().getDayNumber() + ",'csv',false,false,0);";
                                     Threads.InsertRequest rq = new Threads.InsertRequest(sql, con);
                                     rq.start();
                                     try {
@@ -1545,7 +1553,7 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests;";
+            String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -1560,7 +1568,9 @@ public class DataBase {
                 TimeDate.Time tfim;
                 TimeDate.WeekDay dia;
                 String origem;
+                int ido = -1;
                 while (rs.next()) {
+                    ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
                     disciplina = this.getSubject(rs.getInt("id_disciplina"));
@@ -1574,7 +1584,7 @@ public class DataBase {
                     tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
                     origem = rs.getString("origem");
-                    request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                    request = new Clavis.Request(ido,inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -1589,7 +1599,7 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y');";
+            String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y');";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -1604,7 +1614,9 @@ public class DataBase {
                 TimeDate.Time tfim;
                 TimeDate.WeekDay dia;
                 String origem;
+                int ido = -1;
                 while (rs.next()) {
+                    ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
                     disciplina = this.getSubject(rs.getInt("id_disciplina"));
@@ -1618,7 +1630,7 @@ public class DataBase {
                     tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
                     origem = rs.getString("origem");
-                    request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -1650,7 +1662,7 @@ public class DataBase {
                     cond = true;
                 }
                 if (cond) {
-                    String sql = "select id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,completo from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ;";
+                    String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ;";
                     smt = con.prepareStatement(sql);
                     rs = smt.executeQuery();
                     Clavis.Request request = null;
@@ -1664,7 +1676,9 @@ public class DataBase {
                     TimeDate.Time tfim;
                     TimeDate.WeekDay dia;
                     String origem;
+                    int ido = -1;
                     while (rs.next()) {
+                        ido = rs.getInt("id_requisicao");
                         pessoa = this.getPerson(rs.getInt("id_pessoa"));
                         material = this.getMaterial(rs.getInt("id_material"));
                         disciplina = this.getSubject(rs.getInt("id_disciplina"));
@@ -1678,7 +1692,7 @@ public class DataBase {
                         tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                         dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
                         origem = rs.getString("origem");
-                        request = new Clavis.Request(inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getBoolean("completo"));
+                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
                         requisicoes.add(request);
                     }
                 }
@@ -1688,6 +1702,69 @@ public class DataBase {
 
         }
         return requisicoes;
+    }
+    
+    public java.util.Set<Clavis.Request> getRequests(TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado) {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = "+estado+";";
+            try {
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                Clavis.Request request = null;
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                String origem;
+                int id = -1;
+                while (rs.next()) {
+                    id = rs.getInt("id_requisicao");
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    disciplina = this.getSubject(rs.getInt("id_disciplina"));
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    request = new Clavis.Request(id,inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
+                    requisicoes.add(request);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return requisicoes;
+    }
+    
+    public boolean changeRequestActiveState(Clavis.Request req, boolean estado) {
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "update Requests set ativo = "+estado+" where  id_requisicao = "+req.getId()+";";
+            try {
+                smt = con.prepareStatement(sql);
+                int p = smt.executeUpdate();
+                System.out.println("p: "+p);
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        return true;
     }
 
     public Clavis.Subject getSubject(int id) {

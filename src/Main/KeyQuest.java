@@ -26,6 +26,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -114,24 +116,33 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonDefBreaksAdicionar = new javax.swing.JButton();
         jTextFieldDefBreaksNome = new javax.swing.JTextField();
         jLabelDefBreaksNome = new javax.swing.JLabel();
+        jDialogDefOpcoes = new javax.swing.JDialog();
+        jPanelDefOpcoes = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxMudaTema = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBoxMudaLinguagem = new javax.swing.JComboBox<>();
+        jButtonLinguaMudaConfirma = new javax.swing.JButton();
+        jLabelLinguaMuda = new javax.swing.JLabel();
         jPanelInicial = new javax.swing.JPanel();
         jSplitPaneInicial = new javax.swing.JSplitPane();
         jPanelBaixo = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanelCima = new javax.swing.JPanel();
         jScrollPaneMaterial = new javax.swing.JScrollPane();
         jTabbedPaneMaterial = new javax.swing.JTabbedPane();
+        jScrollPaneDevolucoes = new javax.swing.JScrollPane();
+        jLabelTituloDevolucoes = new javax.swing.JLabel();
+        jPanelCima = new javax.swing.JPanel();
         jScrollPaneRequisicoes = new javax.swing.JScrollPane();
         jLabelTitulorequisicoes = new javax.swing.JLabel();
         jLabelTituloOcupacoes = new javax.swing.JLabel();
-        jSplitPaneInformaAtua = new javax.swing.JSplitPane();
-        jPanelAtuacao = new javax.swing.JPanel();
-        jButtonAtuacaoConfirmacao = new javax.swing.JButton();
-        jButtonAtuacaoCancelamento = new javax.swing.JButton();
-        jButtonAtuacaoCancelamento1 = new javax.swing.JButton();
+        jPanelInformaBaixo = new javax.swing.JPanel();
+        jScrollPaneInformaCima = new javax.swing.JScrollPane();
+        jPanelInformaCima = new javax.swing.JPanel();
+        jButtonAtuacaoConfirma = new javax.swing.JButton();
+        jButtonAtuacaoAnula = new javax.swing.JButton();
+        jButtonAtuacaoAltera = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jToggleButtonBarRequisicoes = new javax.swing.JToggleButton();
         jToggleButtonBarEntregas = new javax.swing.JToggleButton();
@@ -431,7 +442,7 @@ public class KeyQuest extends javax.swing.JFrame {
         );
         jDialogDefHolidaysLayout.setVerticalGroup(
             jDialogDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelDefHolidays, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelDefHolidays, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
 
         jDialogDefHolidays.setTitle(lingua.translate("Editar")+" "+lingua.translate("Feriados"));
@@ -724,14 +735,165 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jDialogDefBreaks.setTitle(lingua.translate("Editar_períodos_de_interrupção"));
 
+        jDialogDefOpcoes.setMinimumSize(new java.awt.Dimension(700, 500));
+        jDialogDefOpcoes.setResizable(false);
+
+        jPanelDefOpcoes.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelDefOpcoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelDefOpcoes.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanelDefOpcoes.setPreferredSize(new java.awt.Dimension(700, 468));
+
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel2.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Personificar");
+
+        jLabel3.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
+        jLabel3.setText("Tema de quadros: ");
+
+        jComboBoxMudaTema.setFocusable(false);
+        jComboBoxMudaTema.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxMudaTemaItemStateChanged(evt);
+            }
+        });
+        jComboBoxMudaTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMudaTemaActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
+        jLabel6.setText("Lingua de apresentação:");
+
+        jComboBoxMudaLinguagem.setFocusable(false);
+        jComboBoxMudaLinguagem.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxMudaLinguagemItemStateChanged(evt);
+            }
+        });
+        jComboBoxMudaLinguagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMudaLinguagemActionPerformed(evt);
+            }
+        });
+
+        jButtonLinguaMudaConfirma.setText("Confirmar");
+        jButtonLinguaMudaConfirma.setEnabled(false);
+        jButtonLinguaMudaConfirma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLinguaMudaConfirmaActionPerformed(evt);
+            }
+        });
+
+        jLabelLinguaMuda.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabelLinguaMuda.setText("O reinicio é necessário para mudar idioma.");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBoxMudaLinguagem, 0, 277, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxMudaTema, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 98, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxMudaTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxMudaLinguagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
+        );
+
+        jLabel2.setText(lingua.translate("Personificar"));
+        jLabel3.setText(lingua.translate("Tema_de_quadros")+":");
+        jComboBoxMudaTema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("Tema_claro"),lingua.translate("Tema_escuro") }));
+        jLabel6.setText(lingua.translate("Lingua_apresentacao")+": ");
+        String [] list = new String[lingua.getlist(4).size()];
+        java.util.Iterator it = lingua.getlist(4).iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            list[i] = lingua.translate(it.next().toString());
+            i++;
+        }
+        jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel<>(list));
+        jButtonLinguaMudaConfirma.setText(lingua.translate("Confirmar"));
+
+        jButtonLinguaMudaConfirma.setMnemonic(jButtonLinguaMudaConfirma.getText().charAt(0));
+        jLabelLinguaMuda.setVisible(false);
+
+        jLabelLinguaMuda.setText(lingua.translate("O_reinicio_necessário_para_mudar_idioma"));
+
+        javax.swing.GroupLayout jPanelDefOpcoesLayout = new javax.swing.GroupLayout(jPanelDefOpcoes);
+        jPanelDefOpcoes.setLayout(jPanelDefOpcoesLayout);
+        jPanelDefOpcoesLayout.setHorizontalGroup(
+            jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelDefOpcoesLayout.setVerticalGroup(
+            jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefOpcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jDialogDefOpcoesLayout = new javax.swing.GroupLayout(jDialogDefOpcoes.getContentPane());
+        jDialogDefOpcoes.getContentPane().setLayout(jDialogDefOpcoesLayout);
+        jDialogDefOpcoesLayout.setHorizontalGroup(
+            jDialogDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelDefOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialogDefOpcoesLayout.setVerticalGroup(
+            jDialogDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogDefOpcoesLayout.createSequentialGroup()
+                .addComponent(jPanelDefOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 32, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestão de Recursos");
-        setMinimumSize(new java.awt.Dimension(745, 605));
+        setMinimumSize(new java.awt.Dimension(845, 600));
 
         jPanelInicial.setBackground(new java.awt.Color(25, 25, 25));
         jPanelInicial.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(254, 254, 254)));
         jPanelInicial.setForeground(new java.awt.Color(224, 19, 19));
-        jPanelInicial.setMinimumSize(new java.awt.Dimension(735, 505));
+        jPanelInicial.setMinimumSize(new java.awt.Dimension(635, 505));
         jPanelInicial.setName(""); // NOI18N
         jPanelInicial.setPreferredSize(new java.awt.Dimension(1024, 600));
 
@@ -761,91 +923,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Iniciar");
-        jButton2.setToolTipText("");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jTable1.setShowHorizontalLines(false);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 24, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout jPanelBaixoLayout = new javax.swing.GroupLayout(jPanelBaixo);
-        jPanelBaixo.setLayout(jPanelBaixoLayout);
-        jPanelBaixoLayout.setHorizontalGroup(
-            jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBaixoLayout.createSequentialGroup()
-                .addContainerGap(312, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanelBaixoLayout.setVerticalGroup(
-            jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBaixoLayout.createSequentialGroup()
-                .addGroup(jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelBaixoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelBaixoLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jButton2.setText(lingua.translate("Iniciar"));
-
-        jSplitPaneInicial.setRightComponent(jPanelBaixo);
-
-        jPanelCima.setBackground(new java.awt.Color(188, 188, 188));
-        jPanelCima.setAutoscrolls(true);
-        jPanelCima.setMinimumSize(new java.awt.Dimension(1, 1));
-        jPanelCima.setName(""); // NOI18N
-        jPanelCima.setPreferredSize(new java.awt.Dimension(300, 200));
-        jPanelCima.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanelCimaMouseClicked(evt);
-            }
-        });
-
         jScrollPaneMaterial.setBackground(new java.awt.Color(97, 97, 97));
         jScrollPaneMaterial.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jScrollPaneMaterial.setAutoscrolls(true);
@@ -858,8 +935,61 @@ public class KeyQuest extends javax.swing.JFrame {
         jTabbedPaneMaterial.setPreferredSize(new java.awt.Dimension(0, 450));
         jScrollPaneMaterial.setViewportView(jTabbedPaneMaterial);
 
+        jLabelTituloDevolucoes.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelTituloDevolucoes.setForeground(new java.awt.Color(1, 1, 1));
+        jLabelTituloDevolucoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTituloDevolucoes.setLabelFor(jLabelTitulorequisicoes);
+        jLabelTituloDevolucoes.setText("Lista de devoluções");
+        jLabelTituloDevolucoes.setAlignmentX(0.5F);
+        jLabelTituloDevolucoes.setOpaque(true);
+        jLabelTituloDevolucoes.setForeground(Color.BLACK);
+        jLabelTituloDevolucoes.setFont(new Font("Cantarell",Font.BOLD,18));
+
+        javax.swing.GroupLayout jPanelBaixoLayout = new javax.swing.GroupLayout(jPanelBaixo);
+        jPanelBaixo.setLayout(jPanelBaixoLayout);
+        jPanelBaixoLayout.setHorizontalGroup(
+            jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBaixoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTituloDevolucoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelBaixoLayout.createSequentialGroup()
+                        .addComponent(jScrollPaneDevolucoes)
+                        .addContainerGap())))
+        );
+        jPanelBaixoLayout.setVerticalGroup(
+            jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBaixoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelBaixoLayout.createSequentialGroup()
+                        .addComponent(jLabelTituloDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneDevolucoes)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jScrollPaneMaterial.setOpaque(true);
+        jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
+
+        jSplitPaneInicial.setRightComponent(jPanelBaixo);
+
+        jPanelCima.setBackground(new java.awt.Color(193, 193, 193));
+        jPanelCima.setAutoscrolls(true);
+        jPanelCima.setMinimumSize(new java.awt.Dimension(1, 1));
+        jPanelCima.setName(""); // NOI18N
+        jPanelCima.setPreferredSize(new java.awt.Dimension(300, 200));
+        jPanelCima.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanelCimaMouseClicked(evt);
+            }
+        });
+
         jScrollPaneRequisicoes.setBackground(new java.awt.Color(1, 1, 1));
-        jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254), 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2)));
         jScrollPaneRequisicoes.setInheritsPopupMenu(true);
         jScrollPaneRequisicoes.setMinimumSize(new java.awt.Dimension(600, 500));
         jScrollPaneRequisicoes.setPreferredSize(new java.awt.Dimension(700, 500));
@@ -878,91 +1008,164 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTituloOcupacoes.setBackground(new java.awt.Color(50, 50, 50));
         jLabelTituloOcupacoes.setForeground(new java.awt.Color(254, 254, 254));
         jLabelTituloOcupacoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTituloOcupacoes.setText("Horários das salas");
-        jLabelTituloOcupacoes.setText(lingua.translate("horario_salas"));
+        jLabelTituloOcupacoes.setText("Detalhes");
+        jLabelTituloOcupacoes.setText(lingua.translate("Detalhes"));
         jLabelTituloOcupacoes.setAlignmentX(0.5F);
         jLabelTituloOcupacoes.setOpaque(true);
         jLabelTituloOcupacoes.setForeground(Color.WHITE);
         jLabelTituloOcupacoes.setFont(new Font("Cantarell",Font.BOLD,18));
 
-        jSplitPaneInformaAtua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jSplitPaneInformaAtua.setDividerLocation(100);
-        jSplitPaneInformaAtua.setDividerSize(20);
-        jSplitPaneInformaAtua.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        jSplitPaneInformaAtua.setMaximumSize(new java.awt.Dimension(250, 2147483647));
-        jSplitPaneInformaAtua.setMinimumSize(new java.awt.Dimension(250, 500));
-        jSplitPaneInformaAtua.setPreferredSize(new java.awt.Dimension(250, 500));
-        jSplitPaneInformaAtua.setRequestFocusEnabled(false);
+        jPanelInformaBaixo.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelInformaBaixo.setBorder(null);
+        jPanelInformaBaixo.setForeground(new java.awt.Color(254, 254, 254));
+        jPanelInformaBaixo.setMaximumSize(new java.awt.Dimension(267, 32767));
+        jPanelInformaBaixo.setMinimumSize(new java.awt.Dimension(220, 450));
+        jPanelInformaBaixo.setPreferredSize(new java.awt.Dimension(250, 500));
 
-        jPanelAtuacao.setBackground(new java.awt.Color(226, 223, 233));
-        jPanelAtuacao.setBorder(null);
-        jPanelAtuacao.setMinimumSize(new java.awt.Dimension(0, 100));
-        jPanelAtuacao.setName(""); // NOI18N
+        jScrollPaneInformaCima.setBackground(new java.awt.Color(50, 50, 50));
+        jScrollPaneInformaCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        jScrollPaneInformaCima.setMaximumSize(new java.awt.Dimension(267, 32767));
+        jScrollPaneInformaCima.setMinimumSize(new java.awt.Dimension(200, 350));
+        jScrollPaneInformaCima.setName(""); // NOI18N
+        jScrollPaneInformaCima.setPreferredSize(new java.awt.Dimension(0, 0));
 
-        jButtonAtuacaoConfirmacao.setBackground(new java.awt.Color(46, 201, 50));
-        jButtonAtuacaoConfirmacao.setText("Confirmar");
-        jButtonAtuacaoConfirmacao.setText(lingua.translate("Confirmar"));
-        jButtonAtuacaoConfirmacao.addActionListener(new java.awt.event.ActionListener() {
+        jPanelInformaCima.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelInformaCima.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        jPanelInformaCima.setMaximumSize(new java.awt.Dimension(267, 32767));
+        jPanelInformaCima.setMinimumSize(new java.awt.Dimension(100, 350));
+        jPanelInformaCima.setPreferredSize(new java.awt.Dimension(180, 210));
+        jPanelInformaCima.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout jPanelInformaCimaLayout = new javax.swing.GroupLayout(jPanelInformaCima);
+        jPanelInformaCima.setLayout(jPanelInformaCimaLayout);
+        jPanelInformaCimaLayout.setHorizontalGroup(
+            jPanelInformaCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 321, Short.MAX_VALUE)
+        );
+        jPanelInformaCimaLayout.setVerticalGroup(
+            jPanelInformaCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 411, Short.MAX_VALUE)
+        );
+
+        jScrollPaneInformaCima.setViewportView(jPanelInformaCima);
+        jPanelInformaCima.setToolTipText(lingua.translate("Quadro_detalhes"));
+
+        jButtonAtuacaoConfirma.setBackground(new java.awt.Color(46, 201, 50));
+        jButtonAtuacaoConfirma.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAtuacaoConfirma.setEnabled(false);
+        jButtonAtuacaoConfirma.setFocusPainted(false);
+        jButtonAtuacaoConfirma.setMaximumSize(new java.awt.Dimension(610, 222));
+        jButtonAtuacaoConfirma.setMinimumSize(new java.awt.Dimension(10, 22));
+        jButtonAtuacaoConfirma.setPreferredSize(new java.awt.Dimension(61, 32));
+        jButtonAtuacaoConfirma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtuacaoConfirmacaoActionPerformed(evt);
+                jButtonAtuacaoConfirmaActionPerformed(evt);
             }
         });
 
-        jButtonAtuacaoCancelamento.setText("Cancelar");
-        jButtonAtuacaoCancelamento.setText(lingua.translate("Cancelar"));
+        jButtonAtuacaoAnula.setBackground(new java.awt.Color(5, 138, 204));
+        jButtonAtuacaoAnula.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAtuacaoAnula.setEnabled(false);
+        jButtonAtuacaoAnula.setFocusPainted(false);
+        jButtonAtuacaoAnula.setMaximumSize(new java.awt.Dimension(610, 222));
+        jButtonAtuacaoAnula.setMinimumSize(new java.awt.Dimension(10, 22));
+        jButtonAtuacaoAnula.setPreferredSize(new java.awt.Dimension(61, 32));
+        jButtonAtuacaoAnula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtuacaoAnulaActionPerformed(evt);
+            }
+        });
 
-        jButtonAtuacaoCancelamento1.setText("Cancelar");
-        jButtonAtuacaoCancelamento.setText(lingua.translate("Cancelar"));
+        jButtonAtuacaoAltera.setBackground(new java.awt.Color(208, 186, 207));
+        jButtonAtuacaoAltera.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAtuacaoAltera.setEnabled(false);
+        jButtonAtuacaoAltera.setFocusPainted(false);
+        jButtonAtuacaoAltera.setMaximumSize(new java.awt.Dimension(610, 222));
+        jButtonAtuacaoAltera.setMinimumSize(new java.awt.Dimension(10, 22));
+        jButtonAtuacaoAltera.setPreferredSize(new java.awt.Dimension(61, 32));
+        jButtonAtuacaoAltera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtuacaoAlteraActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanelAtuacaoLayout = new javax.swing.GroupLayout(jPanelAtuacao);
-        jPanelAtuacao.setLayout(jPanelAtuacaoLayout);
-        jPanelAtuacaoLayout.setHorizontalGroup(
-            jPanelAtuacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAtuacaoLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelInformaBaixoLayout = new javax.swing.GroupLayout(jPanelInformaBaixo);
+        jPanelInformaBaixo.setLayout(jPanelInformaBaixoLayout);
+        jPanelInformaBaixoLayout.setHorizontalGroup(
+            jPanelInformaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneInformaCima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanelInformaBaixoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonAtuacaoConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonAtuacaoAltera, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelAtuacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAtuacaoCancelamento, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                    .addComponent(jButtonAtuacaoCancelamento1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                .addComponent(jButtonAtuacaoConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAtuacaoAnula, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanelAtuacaoLayout.setVerticalGroup(
-            jPanelAtuacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAtuacaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelAtuacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonAtuacaoConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelAtuacaoLayout.createSequentialGroup()
-                        .addComponent(jButtonAtuacaoCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAtuacaoCancelamento1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(280, Short.MAX_VALUE))
+        jPanelInformaBaixoLayout.setVerticalGroup(
+            jPanelInformaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformaBaixoLayout.createSequentialGroup()
+                .addComponent(jScrollPaneInformaCima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInformaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(jButtonAtuacaoConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                    .addComponent(jButtonAtuacaoAnula, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                    .addComponent(jButtonAtuacaoAltera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
 
-        jSplitPaneInformaAtua.setRightComponent(jPanelAtuacao);
+        jScrollPaneInformaCima.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        java.awt.image.BufferedImage imagebtok = null;
+        try {
+            imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (imagebtok != null) {
+            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);
+            jButtonAtuacaoConfirma.setIcon(iconbtok);
+        }
+        jButtonAtuacaoConfirma.setToolTipText(lingua.translate("Confirmar_emprestimo"));
+        java.awt.image.BufferedImage imagebtcancelar = null;
+        try {
+            imagebtcancelar = ImageIO.read(getClass().getResourceAsStream("Images/substituir.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (imagebtok != null) {
+            javax.swing.ImageIcon iconbtcancelar = new javax.swing.ImageIcon(imagebtcancelar);
+            jButtonAtuacaoAnula.setIcon(iconbtcancelar);
+        }
+        jButtonAtuacaoAnula.setToolTipText(lingua.translate("Alterar_requisicao"));
+        java.awt.image.BufferedImage imagebtalterar = null;
+        try {
+            imagebtalterar = ImageIO.read(getClass().getResourceAsStream("Images/alterar.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (imagebtok != null) {
+            javax.swing.ImageIcon iconbtalterar = new javax.swing.ImageIcon(imagebtalterar);
+            jButtonAtuacaoAltera.setIcon(iconbtalterar);
+        }
+        jButtonAtuacaoAltera.setToolTipText(lingua.translate("Outras_opcoes"));
 
         javax.swing.GroupLayout jPanelCimaLayout = new javax.swing.GroupLayout(jPanelCima);
         jPanelCima.setLayout(jPanelCimaLayout);
         jPanelCimaLayout.setHorizontalGroup(
             jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCimaLayout.createSequentialGroup()
-                .addGroup(jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCimaLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPaneRequisicoes, javax.swing.GroupLayout.PREFERRED_SIZE, 478, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSplitPaneInformaAtua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(5, 5, 5))
+                        .addComponent(jScrollPaneRequisicoes, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))
                     .addComponent(jLabelTitulorequisicoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTituloOcupacoes, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                     .addGroup(jPanelCimaLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)))
-                .addGap(0, 0, 0))
+                        .addComponent(jPanelInformaBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jLabelTituloOcupacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanelCimaLayout.setVerticalGroup(
             jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -972,15 +1175,19 @@ public class KeyQuest extends javax.swing.JFrame {
                     .addComponent(jLabelTitulorequisicoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelTituloOcupacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPaneRequisicoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSplitPaneInformaAtua, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelInformaBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneRequisicoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jScrollPaneMaterial.setOpaque(true);
         jScrollPaneRequisicoes.setMinimumSize(new java.awt.Dimension(600,jPanelCima.getHeight()));
+
+        javax.swing.border.Border border1 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254), 8),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        javax.swing.border.Border border2 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2),border1);
+
+        jScrollPaneRequisicoes.setBorder(border2);
+        jPanelInformaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(jPanelCima.getBackground(), 10), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, false)));
 
         jSplitPaneInicial.setLeftComponent(jPanelCima);
 
@@ -992,7 +1199,7 @@ public class KeyQuest extends javax.swing.JFrame {
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPaneInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+            .addComponent(jSplitPaneInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
         );
 
         jSplitPaneInicial.setResizeWeight(1.0);
@@ -1003,13 +1210,14 @@ public class KeyQuest extends javax.swing.JFrame {
         jToolBar1.setMinimumSize(new java.awt.Dimension(90, 32));
 
         jToggleButtonBarRequisicoes.setText("Requisições");
-        jToggleButtonBarRequisicoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jToggleButtonBarRequisicoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jToggleButtonBarRequisicoes.setBorderPainted(false);
         jToggleButtonBarRequisicoes.setFocusPainted(false);
         jToggleButtonBarRequisicoes.setFocusable(false);
         jToggleButtonBarRequisicoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButtonBarRequisicoes.setMaximumSize(new java.awt.Dimension(129, 14));
         jToggleButtonBarRequisicoes.setMinimumSize(new java.awt.Dimension(89, 24));
-        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(89, 24));
+        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(129, 24));
         jToggleButtonBarRequisicoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButtonBarRequisicoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1021,6 +1229,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jToolBar1.add(jToggleButtonBarRequisicoes);
 
         jToggleButtonBarEntregas.setText("Entregas");
+        jToggleButtonBarEntregas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jToggleButtonBarEntregas.setFocusable(false);
         jToggleButtonBarEntregas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonBarEntregas.setMinimumSize(new java.awt.Dimension(88, 24));
@@ -1042,7 +1251,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 jComboBoxVistaActionPerformed(evt);
             }
         });
-        jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("1_dia"), lingua.translate("2_dias"), lingua.translate("1_semana"), lingua.translate("2_semanas"), lingua.translate("1_mes")}));
+        jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("1_dia"), lingua.translate("2_dias"), lingua.translate("1_semana"), lingua.translate("2_semanas")}));
         ((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         jToolBar1.add(jComboBoxVista);
 
@@ -1101,38 +1310,10 @@ public class KeyQuest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPanelBaixoMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        lista_req.setForegroundcolor(Color.CYAN);
-        lista_req.setBackGroundColor(Color.BLUE);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        lingua.setLocale("en_US");
-        tdivisor = 20;
-        prefs.save();
-        prefs = new PersonalPrefs();
-        this.dispose();
-        prefs.setVisible(true);
-        lista_req.setBackGroundColor(Color.black);
-        lista_req.setForegroundcolor(Color.white);
-        lista_req.setPanelColor(Color.yellow);
-        lista_req.setSelectColor(Color.yellow);
-        this.cleanList();
-        this.calculateList();
-    }//GEN-LAST:event_jButton2MouseClicked
-
-    private void jButtonAtuacaoConfirmacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoConfirmacaoActionPerformed
-        int max = jScrollPaneRequisicoes.getVerticalScrollBar().getMaximum();
-        int nlinhas = requisicoes.getRequests().size();
-        int f = max / 50 * 25;
-        jScrollPaneRequisicoes.getVerticalScrollBar().setValue(f);
-        //repaint();
-    }//GEN-LAST:event_jButtonAtuacaoConfirmacaoActionPerformed
-
     private void jComboBoxVistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVistaActionPerformed
         int val = jComboBoxVista.getSelectedIndex();
         if (val != vista) {
-            this.cleanList();
+            this.cleanList(false);
             vista = val;
             this.calculateList();
         }
@@ -1150,7 +1331,6 @@ public class KeyQuest extends javax.swing.JFrame {
             FileHolidays hol = new FileHolidays();
             hol.saveHolidays(feriados);
         }
-        //((DefaultListModel) jListFeriadosEscolhidos.getModel()).remove(i);
         this.drawChoosenHolidaysList();
         jButtonDefHolidaysApagar.setBackground(new Color(254, 254, 254));
     }//GEN-LAST:event_jRadioButtonSextaFeiraActionPerformed
@@ -1302,8 +1482,8 @@ public class KeyQuest extends javax.swing.JFrame {
             lingua.translate("Junho"), lingua.translate("Julho"), lingua.translate("Agosto"), lingua.translate("Setembro"),
             lingua.translate("Outubro"), lingua.translate("Novembro"), lingua.translate("Dezembro")}));
         mes.setSelectedIndex(0);
-        ((javax.swing.JLabel) mes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        ((javax.swing.JLabel) dia.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        ((javax.swing.JLabel) mes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.TRAILING);
+        ((javax.swing.JLabel) dia.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.TRAILING);
         ((javax.swing.JLabel) dia.getRenderer()).setSize(200, 20);
         dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
         mes.addActionListener((ActionEvent e) -> {
@@ -1320,15 +1500,15 @@ public class KeyQuest extends javax.swing.JFrame {
                 dia.setSelectedIndex(select);
             }
         });
-        javax.swing.JLabel lmes = new javax.swing.JLabel(lingua.translate("Mês"));
-        lmes.setBorder(BorderFactory.createEmptyBorder(5, 0, 4, 0));
-        lmes.setHorizontalAlignment(SwingConstants.CENTER);
-        javax.swing.JLabel ldia = new javax.swing.JLabel(lingua.translate("Dia"));
-        ldia.setBorder(BorderFactory.createEmptyBorder(5, 0, 4, 0));
-        ldia.setHorizontalAlignment(SwingConstants.CENTER);
+        javax.swing.JLabel lmes = new javax.swing.JLabel(lingua.translate("Mês") + ":");
+        lmes.setBorder(BorderFactory.createEmptyBorder(5, 20, 4, 0));
+        lmes.setHorizontalAlignment(SwingConstants.LEADING);
+        javax.swing.JLabel ldia = new javax.swing.JLabel(lingua.translate("Dia") + ":");
+        ldia.setBorder(BorderFactory.createEmptyBorder(5, 20, 4, 0));
+        ldia.setHorizontalAlignment(SwingConstants.LEADING);
         javax.swing.ComboBoxModel modelo = (javax.swing.ComboBoxModel<String>) mes.getModel();
         javax.swing.JLabel branco = new javax.swing.JLabel("");
-        branco.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+        branco.setBorder(BorderFactory.createEmptyBorder(5, 20, 10, 0));
 
         final javax.swing.JComponent[] inputs = new javax.swing.JComponent[]{
             lmes,
@@ -1790,6 +1970,100 @@ public class KeyQuest extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jSplitPaneInicialComponentMoved
 
+    private void jButtonAtuacaoConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoConfirmaActionPerformed
+        DataBase.DataBase db = new DataBase.DataBase(urlbd);
+        Clavis.Request req = lista_req.getSelectedRequest();
+        if (req != null) {
+            db.changeRequestActiveState(req, true);
+            lista_req.removeSelectedRequest();
+            if (tema.equals("escuro")) {
+                lista_req.setBackGroundColor(Color.black);
+                lista_req.setForegroundcolor(Color.white);
+                lista_req.setSelectColor(Color.blue);
+            } else {
+                lista_req.setBackGroundColor(UIManager.getColor("Table.background"));
+                lista_req.setForegroundcolor(Color.black);
+                lista_req.setSelectColor(Color.DARK_GRAY);
+            }
+
+        }
+        this.reCalculateList(true);
+    }//GEN-LAST:event_jButtonAtuacaoConfirmaActionPerformed
+
+    private void jButtonAtuacaoAnulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAnulaActionPerformed
+        lista_req.setPanelColor(Color.GRAY);
+        this.tdivisor = 20;
+        prefs.save();
+        this.jSplitPaneInicial.setDividerSize(tdivisor);
+    }//GEN-LAST:event_jButtonAtuacaoAnulaActionPerformed
+
+    private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAtuacaoAlteraActionPerformed
+
+    private void jComboBoxMudaTemaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxMudaTemaItemStateChanged
+        if (jComboBoxMudaTema.getSelectedIndex() == 0) {
+            tema = "claro";
+            prefs.save();
+            lista_req.setBackGroundColor(UIManager.getColor("Table.background"));
+            lista_req.setForegroundcolor(Color.black);
+            lista_req.setSelectColor(Color.DARK_GRAY);
+        } else {
+            tema = "escuro";
+            prefs.save();
+            lista_req.setBackGroundColor(Color.black);
+            lista_req.setForegroundcolor(Color.white);
+            lista_req.setSelectColor(Color.BLUE);
+        }
+    }//GEN-LAST:event_jComboBoxMudaTemaItemStateChanged
+
+    private void jComboBoxMudaTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMudaTemaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMudaTemaActionPerformed
+
+    private void jComboBoxMudaLinguagemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxMudaLinguagemItemStateChanged
+        Object[] lista = lingua.linguas.toArray();
+        String lingu = lista[jComboBoxMudaLinguagem.getSelectedIndex()].toString();
+        if (!lingu.equals(lingua.getLocale())) {
+            jButtonLinguaMudaConfirma.setEnabled(true);
+        } else {
+            jButtonLinguaMudaConfirma.setEnabled(false);
+        }
+    }//GEN-LAST:event_jComboBoxMudaLinguagemItemStateChanged
+
+
+    private void jComboBoxMudaLinguagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMudaLinguagemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMudaLinguagemActionPerformed
+
+    private void jButtonLinguaMudaConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLinguaMudaConfirmaActionPerformed
+        String lingu = "";
+        Object[] lista = lingua.linguas.toArray();
+        String aux = lista[jComboBoxMudaLinguagem.getSelectedIndex()].toString();
+        if (!lingua.getLocale().equals(aux)) {
+            lingua.setLocale(aux);
+            prefs.save();
+            lingu = lingua.getlist(4).get(jComboBoxMudaLinguagem.getSelectedIndex());
+        }
+        jButtonLinguaMudaConfirma.setEnabled(false);
+        if (!lingu.equals("")) {
+            UIManager.put("OptionPane.noButtonText", lingua.translate("Nao"));
+            UIManager.put("OptionPane.yesButtonMnemonic", "" + Character.getNumericValue(lingua.translate("Reiniciar").charAt(0)));
+            UIManager.put("OptionPane.yesButtonText", lingua.translate("Reiniciar"));
+            int resposta = JOptionPane.showConfirmDialog(this, lingua.translate("A_linguagem_do_programa_foi_alterada_para_") + lingua.translate(lingu).toLowerCase() + ".", lingua.translate("Confirmacao"), JOptionPane.YES_NO_OPTION);
+            if (resposta == 0) {
+                this.dispose();
+                jDialogDefOpcoes.setVisible(false);
+                jDialogDefOpcoes.dispose();
+                this.setVisible(false);
+                prefs = new PersonalPrefs();
+                prefs.setVisible(true);
+            } else {
+                jLabelLinguaMuda.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_jButtonLinguaMudaConfirmaActionPerformed
+
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
             int ano = Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString());
@@ -2043,11 +2317,54 @@ public class KeyQuest extends javax.swing.JFrame {
             }
 
         });
+        jSplitPaneInicial.setOneTouchExpandable(false);
+        jSplitPaneInicial.setUI(new BasicSplitPaneUI() {
+            @Override
+            public BasicSplitPaneDivider createDefaultDivider() {
+                return new BasicSplitPaneDivider(this) {
+                    @Override
+                    public void setBorder(Border b) {
+                    }
+
+                    @Override
+                    public void paint(java.awt.Graphics g) {
+                        java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+                        g.setColor(Color.GRAY);
+                        java.awt.GradientPaint redtowhite = new java.awt.GradientPaint(0, 0, Color.DARK_GRAY, getSize().width, 0, Color.black);
+                        g2.setPaint(redtowhite);
+                        g2.fillRect(0, 0, getSize().width, getSize().height);
+                        g2.setColor(Color.white);
+                        g2.drawLine(0, getSize().height - 2, getSize().width, getSize().height - 2);
+                        g2.drawLine(0, 1, getSize().width, 1);
+                        g2.setColor(Color.black);
+                        g2.drawLine(0, 0, getSize().width, 0);
+                        g2.drawLine(0, getSize().height - 1, getSize().width, getSize().height - 1);
+                        g2.setColor(Color.white);
+                        g2.drawLine(getSize().width / 3, getSize().height / 2 + 3, getSize().width * 2 / 3, getSize().height / 2 + 3);
+                        g2.drawLine(getSize().width / 3, getSize().height / 2 + 1, getSize().width * 2 / 3, getSize().height / 2 + 1);
+                        g2.drawLine(getSize().width / 3, getSize().height / 2 - 1, getSize().width * 2 / 3, getSize().height / 2 - 1);
+                        g2.drawLine(getSize().width / 3, getSize().height / 2 - 3, getSize().width * 2 / 3, getSize().height / 2 - 3);
+
+                        g2.drawLine(getSize().width / 12, getSize().height / 2 + 3, getSize().width / 4, getSize().height / 2 + 3);
+                        g2.drawLine(getSize().width / 12, getSize().height / 2 + 1, getSize().width / 4, getSize().height / 2 + 1);
+                        g2.drawLine(getSize().width / 12, getSize().height / 2 - 1, getSize().width / 4, getSize().height / 2 - 1);
+                        g2.drawLine(getSize().width / 12, getSize().height / 2 - 3, getSize().width / 4, getSize().height / 2 - 3);
+
+                        g2.drawLine(getSize().width * 3 / 4, getSize().height / 2 + 3, getSize().width * 11 / 12, getSize().height / 2 + 3);
+                        g2.drawLine(getSize().width * 3 / 4, getSize().height / 2 + 1, getSize().width * 11 / 12, getSize().height / 2 + 1);
+                        g2.drawLine(getSize().width * 3 / 4, getSize().height / 2 - 1, getSize().width * 11 / 12, getSize().height / 2 - 1);
+                        g2.drawLine(getSize().width * 3 / 4, getSize().height / 2 - 3, getSize().width * 11 / 12, getSize().height / 2 - 3);
+
+                        super.paint(g);
+                    }
+                };
+            }
+        });
 
         // Cursor Mão no separador do SplitPanel 
-        divisor.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //divisor.setDividerSize(40);
+        divisor.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
 
+        //divisor.setDividerSize(40);
     }
 
     protected final void init() {
@@ -2061,10 +2378,10 @@ public class KeyQuest extends javax.swing.JFrame {
         this.calculateList();
         Main.UpdateCSVonDB cbd = new Main.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
         //cbd.update();
-        if ((bitpagina[0] == 1)&&(bitpagina[1]) == 0)  {
-            jSplitPaneInicial.setDividerLocation((int)jPanelInicial.getSize().getHeight());
+        if ((bitpagina[0] == 1) && (bitpagina[1]) == 0) {
+            jSplitPaneInicial.setDividerLocation((int) jPanelInicial.getSize().getHeight());
             jToggleButtonBarRequisicoes.setSelected(true);
-        } else if ((bitpagina[1] == 1)&&(bitpagina[0] == 0)) {
+        } else if ((bitpagina[1] == 1) && (bitpagina[0] == 0)) {
             jSplitPaneInicial.setDividerLocation(0.0);
             jToggleButtonBarEntregas.setSelected(true);
         } else {
@@ -2087,6 +2404,14 @@ public class KeyQuest extends javax.swing.JFrame {
         itemSair.addActionListener((ActionEvent e) -> {
             sair(e);
         });
+        java.awt.image.BufferedImage im = null;
+        javax.swing.ImageIcon icon = null;
+        try {
+            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/exit.png"));
+            icon = new javax.swing.ImageIcon(im);
+            itemSair.setIcon(icon);
+        } catch (IOException e) {
+        }
         menuFicheiro.add(itemSair);
         menu.add(menuFicheiro);
         jMenuDefinicoes.setText(lingua.translate("Definições"));
@@ -2098,7 +2423,12 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFeriados.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriadosActionPerformed(evt);
         });
-        //itemFeriados.addActionListener(this::itemFeriadosActionPerformed); 
+        try {
+            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/feriado.png"));
+            icon = new javax.swing.ImageIcon(im);
+            itemFeriados.setIcon(icon);
+        } catch (IOException e) {
+        }
         jMenuDefinicoes.add(itemFeriados);
         JMenuItem itemFerias = new JMenuItem();
         itemFerias.setText(lingua.translate("Editar_Periodos_Interrupcao"));
@@ -2107,9 +2437,48 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFerias.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriasActionPerformed(evt);
         });
+        try {
+            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/ferias.png"));
+            icon = new javax.swing.ImageIcon(im);
+            itemFerias.setIcon(icon);
+        } catch (IOException e) {
+        }
         jMenuDefinicoes.add(itemFerias);
+        JMenuItem itemDefinicoes = new JMenuItem();
+        itemDefinicoes.setText(lingua.translate("Definicoes_visualizacao"));
+        itemDefinicoes.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemDefinicoes.setAccelerator(KeyStroke.getKeyStroke(itemDefinicoes.getText().charAt(0), Event.ALT_MASK));
+        itemDefinicoes.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemDefinicoesActionPerformed(evt);
+        });
+        try {
+            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/ver.png"));
+            icon = new javax.swing.ImageIcon(im);
+            itemDefinicoes.setIcon(icon);
+        } catch (IOException e) {
+        }
+        jMenuDefinicoes.add(itemDefinicoes);
         menu.add(jMenuDefinicoes);
         this.setJMenuBar(menu);
+        this.verifyDayTimer();
+    }
+    
+    
+    class RemindTask extends java.util.TimerTask {
+
+        @Override
+        public void run() {
+            calculateList();
+        }
+    }
+
+    public void verifyDayTimer() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        java.util.Timer timer = new java.util.Timer();
+        timer.scheduleAtFixedRate(new RemindTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
     private void itemFeriadosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -2142,6 +2511,28 @@ public class KeyQuest extends javax.swing.JFrame {
         this.drawTimeComboBoxes();
     }
 
+    private void itemDefinicoesActionPerformed(java.awt.event.ActionEvent evt) {
+        jDialogDefOpcoes.setVisible(true);
+        jDialogDefOpcoes.setLocationRelativeTo(KeyQuest.this);
+        if (tema.equals("claro")) {
+            jComboBoxMudaTema.setSelectedIndex(0);
+        } else {
+            jComboBoxMudaTema.setSelectedIndex(1);
+        }
+
+        int lingu = 0;
+        Object[] lista = lingua.linguas.toArray();
+        int i = 0;
+        while (i < lista.length) {
+            if (lingua.getLocale().equals(lista[i].toString())) {
+                lingu = i;
+            }
+            i++;
+        }
+        jComboBoxMudaLinguagem.setSelectedIndex(lingu);
+    }
+
+
     private void drawTimeComboBoxes() {
         int ano = new TimeDate.Date().getYear();
         int limite = 50;
@@ -2157,10 +2548,13 @@ public class KeyQuest extends javax.swing.JFrame {
             lingua.translate("Junho"), lingua.translate("Julho"), lingua.translate("Agosto"), lingua.translate("Setembro"),
             lingua.translate("Outubro"), lingua.translate("Novembro"), lingua.translate("Dezembro")}));
         jComboBoxDefBreaksMesInicio.setSelectedIndex(0);
-        ((javax.swing.JLabel) jComboBoxDefBreaksMesInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        ((javax.swing.JLabel) jComboBoxDefBreaksAnoInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
         ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setSize(200, 20);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
         jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
         jComboBoxDefBreaksMesInicio.addActionListener((ActionEvent e) -> {
             int vval = jComboBoxDefBreaksMesInicio.getSelectedIndex();
@@ -2213,10 +2607,13 @@ public class KeyQuest extends javax.swing.JFrame {
             lingua.translate("Junho"), lingua.translate("Julho"), lingua.translate("Agosto"), lingua.translate("Setembro"),
             lingua.translate("Outubro"), lingua.translate("Novembro"), lingua.translate("Dezembro")}));
         jComboBoxDefBreaksMesFim.setSelectedIndex(0);
-        ((javax.swing.JLabel) jComboBoxDefBreaksMesFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        ((javax.swing.JLabel) jComboBoxDefBreaksAnoFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        ((javax.swing.JLabel) jComboBoxDefBreaksDiaFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaFim.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
         ((javax.swing.JLabel) jComboBoxDefBreaksDiaFim.getRenderer()).setSize(200, 20);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaFim.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesFim.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoFim.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
         jComboBoxDefBreaksDiaFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
         jComboBoxDefBreaksMesFim.addActionListener((ActionEvent e) -> {
             int vval = jComboBoxDefBreaksMesFim.getSelectedIndex();
@@ -2273,44 +2670,113 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void calculateList() {
         Function funcao = new Function("Professor", 2);
-        TypeOfMaterial material = new TypeOfMaterial(1,"sala", 70);
+        TypeOfMaterial material = new TypeOfMaterial(1, "sala", 70);
         material.setTypeOfMaterialImage("Sala");
-        requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
+        boolean estado = false;
+        requisicoes = new RequestList(urlbd, material, funcao, vista, feriados, estado);
         requisicoes.make();
-        lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);
+        lista_req = new TableRequest(requisicoes, jPanelInformaCima, lingua, false);
         lista_req.create();
+        lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoAltera, jButtonAtuacaoConfirma, jButtonAtuacaoAnula);
+        if (tema.equals("escuro")) {
+            lista_req.setBackGroundColor(Color.black);
+            lista_req.setForegroundcolor(Color.white);
+            lista_req.setSelectColor(Color.blue);
+        }
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
         jScrollPaneRequisicoes.getViewport().setBackground(Color.WHITE);
-        btrequests = new ButtonListRequest(requisicoes,urlbd, lingua, jTabbedPaneMaterial);
+        estado = true;
+        devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado);
+        devolucoes.make();
+        lista_dev = new TableRequest(devolucoes, jPanelInformaCima, lingua, true);
+        lista_dev.create();
+        if (tema.equals("escuro")) {
+            lista_dev.setBackGroundColor(Color.black);
+            lista_dev.setForegroundcolor(Color.white);
+            lista_dev.setSelectColor(Color.blue);
+        }
+        jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
+        jScrollPaneDevolucoes.getViewport().setBackground(Color.WHITE);
+        btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
         jTabbedPaneMaterial.add(btrequests.getScrollPane());
         jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
         jSplitPaneInicial.setDividerSize(tdivisor);
         jComboBoxVista.setSelectedIndex(vista);
         lista_req.addTimerColors();
+        lista_req.startTimerColors();
         this.controlScroll();
 
     }
 
-    private void calculateList(Function fun, TypeOfMaterial mat) {
+    private void reCalculateList(boolean estado) {
+        Function funcao = new Function("Professor", 2);
+        TypeOfMaterial material = new TypeOfMaterial(1, "sala", 70);
+        material.setTypeOfMaterialImage("Sala");
+        if (!estado) {
+            lista_req = new TableRequest(requisicoes, jPanelInformaCima, lingua, estado);
+            lista_req.create();
+            lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoAltera, jButtonAtuacaoConfirma, jButtonAtuacaoAnula);
+            if (tema.equals("escuro")) {
+                lista_req.setBackGroundColor(Color.black);
+                lista_req.setForegroundcolor(Color.white);
+                lista_req.setSelectColor(Color.blue);
+            }
+            jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
+        } else {
+            devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado);
+            devolucoes.make();
+            lista_dev = new TableRequest(devolucoes, jPanelInformaCima, lingua, true);
+            lista_dev.create();
+            if (tema.equals("escuro")) {
+                lista_dev.setBackGroundColor(Color.black);
+                lista_dev.setForegroundcolor(Color.white);
+                lista_dev.setSelectColor(Color.blue);
+            }
+            jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
+        }
+        this.controlScroll();
+
+    }
+
+    private void calculateList(Function fun, TypeOfMaterial mat, boolean estado) {
         Function funcao = fun;
         TypeOfMaterial material = mat;
-        requisicoes = new RequestList(urlbd, urlcsv, material, funcao, vista, feriados);
+        requisicoes = new RequestList(urlbd, material, funcao, vista, feriados, estado);
         requisicoes.make();
-        lista_req = new TableRequest(requisicoes, jSplitPaneInformaAtua, lingua);
-        lista_req.create();
-        jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
-        jScrollPaneRequisicoes.getViewport().setBackground(Color.WHITE);
-        btrequests = new ButtonListRequest(requisicoes,urlbd, lingua, jTabbedPaneMaterial);
-        jTabbedPaneMaterial.add(btrequests.getScrollPane());
-        jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
-        jSplitPaneInicial.setDividerSize(tdivisor);
-        jComboBoxVista.setSelectedIndex(vista);
-        lista_req.addTimerColors();
-        this.controlScroll();
+        if (!estado) {
+            lista_req = new TableRequest(requisicoes, jPanelInformaCima, lingua, estado);
+            lista_req.create();
+            if (tema.equals("escuro")) {
+                lista_req.setBackGroundColor(Color.black);
+                lista_req.setForegroundcolor(Color.white);
+                lista_req.setSelectColor(Color.CYAN);
+            } else {
+                lista_dev = new TableRequest(requisicoes, jPanelInformaCima, lingua, estado);
+                lista_dev.create();
+                if (tema.equals("escuro")) {
+                    lista_dev.setBackGroundColor(Color.black);
+                    lista_dev.setForegroundcolor(Color.white);
+                    lista_dev.setSelectColor(Color.CYAN);
+                }
+            }
+            jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
+            jScrollPaneRequisicoes.getViewport().setBackground(Color.WHITE);
+            btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
+            jTabbedPaneMaterial.add(btrequests.getScrollPane());
+            jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
+            jSplitPaneInicial.setDividerSize(tdivisor);
+            jComboBoxVista.setSelectedIndex(vista);
+            lista_req.addTimerColors();
+            this.controlScroll();
+        }
     }
 
-    private void cleanList() {
-        lista_req.clean();
+    private void cleanList(boolean devolucoes) {
+        if (!devolucoes) {
+            lista_req = null;
+        } else {
+            lista_dev = null;
+        }
     }
 
     public void sair(ActionEvent e) {
@@ -2331,7 +2797,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         // problema da hora de saída após a meio-noite
                         int valfinal;
                         if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                            valfinal = new TimeDate.Time(0,0,0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23,59,59)) + (84600*(new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1 );
+                            valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
                         } else {
                             valfinal = tempo.compareTime(req.getTimeEnd());
                         }
@@ -2408,10 +2874,9 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton jButton2;
-    javax.swing.JButton jButtonAtuacaoCancelamento;
-    javax.swing.JButton jButtonAtuacaoCancelamento1;
-    javax.swing.JButton jButtonAtuacaoConfirmacao;
+    javax.swing.JButton jButtonAtuacaoAltera;
+    javax.swing.JButton jButtonAtuacaoAnula;
+    javax.swing.JButton jButtonAtuacaoConfirma;
     javax.swing.JButton jButtonDefBreakApagar;
     javax.swing.JButton jButtonDefBreaksAdicionar;
     javax.swing.JButton jButtonDefBreaksVoltar;
@@ -2419,16 +2884,23 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButtonDefHolidaysDireita;
     javax.swing.JButton jButtonDefHolidaysMais;
     javax.swing.JButton jButtonDefHolidaysVoltar;
+    javax.swing.JButton jButtonLinguaMudaConfirma;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio;
     javax.swing.JComboBox<String> jComboBoxDefBreaksDiaFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksDiaInicio;
     javax.swing.JComboBox<String> jComboBoxDefBreaksMesFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksMesInicio;
+    javax.swing.JComboBox<String> jComboBoxMudaLinguagem;
+    javax.swing.JComboBox<String> jComboBoxMudaTema;
     javax.swing.JComboBox<String> jComboBoxVista;
     javax.swing.JDialog jDialogDefBreaks;
     javax.swing.JDialog jDialogDefHolidays;
+    javax.swing.JDialog jDialogDefOpcoes;
     javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel2;
+    javax.swing.JLabel jLabel3;
+    javax.swing.JLabel jLabel6;
     javax.swing.JLabel jLabelDefBreaksAnoFim;
     javax.swing.JLabel jLabelDefBreaksAnoInicio;
     javax.swing.JLabel jLabelDefBreaksDiaFim;
@@ -2439,20 +2911,24 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JLabel jLabelDefBreaksNome;
     javax.swing.JLabel jLabelDefBreaksTermino;
     javax.swing.JLabel jLabelIntervalo;
+    javax.swing.JLabel jLabelLinguaMuda;
     javax.swing.JLabel jLabelListaFeriadosDefeito;
     javax.swing.JLabel jLabelListaFeriadosEscolhidos;
+    javax.swing.JLabel jLabelTituloDevolucoes;
     javax.swing.JLabel jLabelTituloOcupacoes;
     javax.swing.JLabel jLabelTitulorequisicoes;
     javax.swing.JList<String> jListFeriadosDefeito;
     javax.swing.JList<String> jListFeriadosEscolhidos;
     javax.swing.JList<String> jListFerias;
-    javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
-    javax.swing.JPanel jPanelAtuacao;
+    javax.swing.JPanel jPanel3;
     javax.swing.JPanel jPanelBaixo;
     javax.swing.JPanel jPanelCima;
     javax.swing.JPanel jPanelDefBreaks;
     javax.swing.JPanel jPanelDefHolidays;
+    javax.swing.JPanel jPanelDefOpcoes;
+    javax.swing.JPanel jPanelInformaBaixo;
+    javax.swing.JPanel jPanelInformaCima;
     javax.swing.JPanel jPanelInicial;
     javax.swing.JPanel jPanelListaFeriadosDefeito;
     javax.swing.JPanel jPanelListaFeriadosEscolhidos;
@@ -2460,16 +2936,15 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JRadioButton jRadioButtonCorpoDeus;
     javax.swing.JRadioButton jRadioButtonPascoa;
     javax.swing.JRadioButton jRadioButtonSextaFeira;
-    javax.swing.JScrollPane jScrollPane1;
     javax.swing.JScrollPane jScrollPane2;
+    javax.swing.JScrollPane jScrollPaneDevolucoes;
     javax.swing.JScrollPane jScrollPaneFeriadosDefeito;
     javax.swing.JScrollPane jScrollPaneFeriadosEscolhidos;
+    javax.swing.JScrollPane jScrollPaneInformaCima;
     javax.swing.JScrollPane jScrollPaneMaterial;
     javax.swing.JScrollPane jScrollPaneRequisicoes;
-    javax.swing.JSplitPane jSplitPaneInformaAtua;
     javax.swing.JSplitPane jSplitPaneInicial;
     javax.swing.JTabbedPane jTabbedPaneMaterial;
-    javax.swing.JTable jTable1;
     javax.swing.JTextField jTextFieldDefBreaksNome;
     javax.swing.JToggleButton jToggleButtonBarEntregas;
     javax.swing.JToggleButton jToggleButtonBarRequisicoes;
@@ -2477,16 +2952,19 @@ public class KeyQuest extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     protected boolean booleanBoxLanguage;
     private RequestList requisicoes;
+    private RequestList devolucoes;
     private String urlbd;
     private String urlcsv;
     private static PersonalPrefs prefs;
     protected Langs.Locale lingua;
     private ButtonListRequest btrequests;
     private TableRequest lista_req;
-    protected int tdivisor = 20;
+    private TableRequest lista_dev;
+    protected int tdivisor = 40;
     protected HolidaysList feriados;
     protected TimeDate.BreakPeriodList intervalos;
     protected int vista = 0;
+    protected String tema = "claro";
     private Thread auxiliar = new Thread();
     protected byte[] bitpagina = new byte[2];
     private final String DEFAULT_URlCSV = "http://localhost:8080/horario_disciplinas.csv";

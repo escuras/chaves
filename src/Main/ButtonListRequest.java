@@ -55,7 +55,6 @@ public class ButtonListRequest {
         this.btcor = new Color(254,254,254);
         this.tpanel = tpanel;
         int val = req.getTypeOfMaterial().getMaterialTypeID();
-        System.out.println(val);
         if (val == 1) {
             mater = new TreeSet<Clavis.Classroom>(db.getClassrooms());
         } else {
@@ -199,11 +198,7 @@ public class ButtonListRequest {
                     int altura = (int) pane.getHeight();
                     int largura = (int) pane.getWidth();
                     int aaux = 0;
-                    int conta = 0;
-                    int auxiliar = 0;
-                    //System.out.println(bLista.size());
                     j++;
-                    System.out.println(bLista.get(i).getHeight());
                     int val = 83;
                     while (i < bLista.size()) {
                         if ((laux + val >= largura) || (largura <= laux)) {
@@ -224,7 +219,6 @@ public class ButtonListRequest {
                         }
                         pane.setPreferredSize(new Dimension(0, altura));
                     }
-                    System.out.println("");
 
                 }
 
