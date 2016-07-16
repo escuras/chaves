@@ -8,6 +8,8 @@ package Testes;
 import TimeDate.WeekDay;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 /**
@@ -94,6 +96,21 @@ public class Teste4 {
             System.out.println("");
             System.out.println(teste.get(i));
         }
+         Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        java.util.Timer timer = new java.util.Timer();
+        System.out.println(today.getTime());
+        System.out.println(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        timer.scheduleAtFixedRate(new java.util.TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                System.out.println("ola");
+            }
+        }, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
     static int binarySearch(int[] array, int value, int left, int right) {

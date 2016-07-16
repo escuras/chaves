@@ -36,7 +36,8 @@ public class TableRequest {
     public static final Color DEFAULT_BACKGROUND_COLOR = UIManager.getColor("Table.background");
     public static final Color DEFAULT_FOREGROUND_COLOR = Color.black;
     public static final Color DEFAULT_SELECT_COLOR = Color.DARK_GRAY;
-    public static final Color DEFAULT_PANEL_COLOR = new Color(245,245,220);
+    public static final Color DEFAULT_PANEL_COLOR = Color.GRAY;
+    //public static final Color DEFAULT_PANEL_COLOR = new Color(245,245,220);
     public static final float DEFAULT_DIVIDER_LOCATION = 0.801f;
     public static final int DEFAULT_AFTER_TIME = 0;
     public static final int DEFAULT_BEFORE_TIME = 10;
@@ -49,7 +50,7 @@ public class TableRequest {
     private Color backColor;
     private Color foreColor;
     private Color selectColor;
-    private javax.swing.JPanel spanel;
+    private final javax.swing.JPanel spanel;
     private Main.PanelDetails panel;
     private final Main.RequestList requisicao;
     private float panelDividerLocation;
@@ -57,7 +58,7 @@ public class TableRequest {
     private int antes_hora;
     private int depois_hora;
     private boolean ficouvazia = false;
-    private boolean devolucoes;
+    private final boolean devolucoes;
     private final int tipomaterial;
     private Timer time;
 
@@ -151,10 +152,10 @@ public class TableRequest {
                 if (ficouvazia) {
                     ob = new Object[]{lingua.translate("Não_existem_mais_devolucoes_para_hoje.")};
                 } else {
-                    ob = new Object[]{lingua.translate("Não_houve_registos_neste_dia.")};
+                    ob = new Object[]{lingua.translate("Não_ha_registos_neste_dia.")};
                 }
             } else {
-                ob = new Object[]{lingua.translate("Não_houve_registos.")};
+                ob = new Object[]{lingua.translate("Não_existem_registos.")};
             }
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             modelo.addRow(ob);
