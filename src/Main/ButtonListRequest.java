@@ -24,11 +24,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
  *
@@ -142,7 +144,7 @@ public class ButtonListRequest {
                     button.addActionListener(new ActionButton(m));
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
-                        java.io.File file = new java.io.File("src/Main/Images/sala.png");
+                        java.io.File file = new java.io.File("src/Main/Images/"+m.getTypeOfMaterialImage()+".png");
                         if (file.isFile()) {
                             BufferedImage ima = FileIOAux.ImageAux.getImageFromFile(file);
                             ima = FileIOAux.ImageAux.resize(ima, 40, 40);

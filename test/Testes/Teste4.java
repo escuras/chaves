@@ -90,7 +90,7 @@ public class Teste4 {
         System.out.println();
         Langs.Locale lingua = new Langs.Locale();
         Object[] lista = lingua.linguas.toArray();
-        java.util.List teste = lingua.getlist(4);
+        java.util.List<String> teste = lingua.getlist(4);
         for (int i = 0; i < lista.length; i++ ){
             System.out.println(lista[i].toString());
             System.out.println("");

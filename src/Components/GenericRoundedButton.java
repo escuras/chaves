@@ -17,7 +17,9 @@ import java.awt.geom.RoundRectangle2D;
  * @author toze
  */
 public class GenericRoundedButton extends javax.swing.JButton {
-
+    
+    private static final long serialVersionUID = 1L;
+    
     public GenericRoundedButton(String text) {
         super(text);
     }

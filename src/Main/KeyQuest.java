@@ -136,6 +136,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jSliderBlue = new javax.swing.JSlider();
         jLabelGreen = new javax.swing.JLabel();
         jLabelBlue = new javax.swing.JLabel();
+        jDialogListaBotoes = new javax.swing.JDialog();
+        jPanelListaBotoes = new javax.swing.JPanel();
+        jScrollPaneMaterialBotoes = new javax.swing.JScrollPane();
+        jTabbedPaneMaterialBotoes = new javax.swing.JTabbedPane();
+        jLabel2 = new javax.swing.JLabel();
         jPanelInicial = new javax.swing.JPanel();
         jSplitPaneInicial = new javax.swing.JSplitPane();
         jPanelBaixo = new javax.swing.JPanel();
@@ -158,6 +163,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButtonBarEntregas = new javax.swing.JToggleButton();
         jComboBoxVista = new javax.swing.JComboBox<>();
         jLabelIntervalo = new javax.swing.JLabel();
+        jComboBoxListaBotoes = new javax.swing.JComboBox<>();
+        jButtonListaBotoes = new javax.swing.JButton();
 
         jDialogDefHolidays.setTitle("Editar Feriados");
         jDialogDefHolidays.setMinimumSize(new java.awt.Dimension(700, 500));
@@ -975,11 +982,11 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSliderTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelMudaTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelMudaCorDivisor, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelMudaCorSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Personificar"));
@@ -1020,6 +1027,11 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        javax.swing.border.Border borderListbt1 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254), 6),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        javax.swing.border.Border borderListbt2 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1),borderListbt1);
+
+        jPanelDefBreaks.setBorder(borderListbt2);
+
         javax.swing.GroupLayout jDialogDefOpcoesLayout = new javax.swing.GroupLayout(jDialogDefOpcoes.getContentPane());
         jDialogDefOpcoes.getContentPane().setLayout(jDialogDefOpcoesLayout);
         jDialogDefOpcoesLayout.setHorizontalGroup(
@@ -1031,6 +1043,62 @@ public class KeyQuest extends javax.swing.JFrame {
             .addGroup(jDialogDefOpcoesLayout.createSequentialGroup()
                 .addComponent(jPanelDefOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 32, Short.MAX_VALUE))
+        );
+
+        jDialogListaBotoes.setMinimumSize(new java.awt.Dimension(700, 500));
+        jDialogListaBotoes.setResizable(false);
+
+        jPanelListaBotoes.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelListaBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelListaBotoes.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanelListaBotoes.setPreferredSize(new java.awt.Dimension(680, 528));
+
+        jScrollPaneMaterialBotoes.setBackground(new java.awt.Color(254, 254, 254));
+        jScrollPaneMaterialBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jScrollPaneMaterialBotoes.setAutoscrolls(true);
+        jScrollPaneMaterialBotoes.setMinimumSize(new java.awt.Dimension(250, 400));
+        jScrollPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(106, 456));
+
+        jTabbedPaneMaterialBotoes.setAutoscrolls(true);
+        jTabbedPaneMaterialBotoes.setMaximumSize(new java.awt.Dimension(2000, 32767));
+        jTabbedPaneMaterialBotoes.setMinimumSize(new java.awt.Dimension(250, 400));
+        jTabbedPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(0, 450));
+        jScrollPaneMaterialBotoes.setViewportView(jTabbedPaneMaterialBotoes);
+
+        jLabel2.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanelListaBotoesLayout = new javax.swing.GroupLayout(jPanelListaBotoes);
+        jPanelListaBotoes.setLayout(jPanelListaBotoesLayout);
+        jPanelListaBotoesLayout.setHorizontalGroup(
+            jPanelListaBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListaBotoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelListaBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelListaBotoesLayout.setVerticalGroup(
+            jPanelListaBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelListaBotoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jScrollPaneMaterial.setOpaque(true);
+
+        javax.swing.GroupLayout jDialogListaBotoesLayout = new javax.swing.GroupLayout(jDialogListaBotoes.getContentPane());
+        jDialogListaBotoes.getContentPane().setLayout(jDialogListaBotoesLayout);
+        jDialogListaBotoesLayout.setHorizontalGroup(
+            jDialogListaBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelListaBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialogListaBotoesLayout.setVerticalGroup(
+            jDialogListaBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelListaBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1416,10 +1484,42 @@ public class KeyQuest extends javax.swing.JFrame {
         jToolBar1.add(jComboBoxVista);
 
         jLabelIntervalo.setText("Intervalo");
+        jLabelIntervalo.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 1, 1, 1));
+        jLabelIntervalo.setMaximumSize(new java.awt.Dimension(75, 12));
+        jLabelIntervalo.setMinimumSize(new java.awt.Dimension(75, 12));
+        jLabelIntervalo.setPreferredSize(new java.awt.Dimension(75, 12));
         jLabelIntervalo.setText(lingua.translate("Intervalo"));
         Border border = new EmptyBorder(0,5,0,5);
         jLabelIntervalo.setBorder(border);
         jToolBar1.add(jLabelIntervalo);
+
+        jComboBoxListaBotoes.setFocusable(false);
+        jComboBoxListaBotoes.setMinimumSize(new java.awt.Dimension(148, 24));
+        jComboBoxListaBotoes.setPreferredSize(new java.awt.Dimension(148, 24));
+        jComboBoxListaBotoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxListaBotoesActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jComboBoxListaBotoes);
+        ((javax.swing.JLabel)jComboBoxListaBotoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
+
+        jButtonListaBotoes.setText("Ver");
+        jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
+        jButtonListaBotoes.setFocusable(false);
+        jButtonListaBotoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonListaBotoes.setMaximumSize(new java.awt.Dimension(34, 24));
+        jButtonListaBotoes.setMinimumSize(new java.awt.Dimension(34, 24));
+        jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(34, 24));
+        jButtonListaBotoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonListaBotoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListaBotoesActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButtonListaBotoes);
+        jButtonListaBotoes.setText(lingua.translate("ver"));
+        jButtonListaBotoes.setMnemonic(jButtonListaBotoes.getText().charAt(0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1472,13 +1572,13 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jComboBoxVistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVistaActionPerformed
         int val = jComboBoxVista.getSelectedIndex();
+        lista_req.getTable().clearSelection();
+        Clavis.TypeOfMaterial mat = tiposmateriais.get(jComboBoxListaBotoes.getSelectedIndex());
         if (val != vista) {
             this.cleanList(false);
             vista = val;
-            this.calculateList();
+            this.calculateList(mat);
         }
-
-
     }//GEN-LAST:event_jComboBoxVistaActionPerformed
 
     private void jRadioButtonSextaFeiraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSextaFeiraActionPerformed
@@ -2274,6 +2374,24 @@ public class KeyQuest extends javax.swing.JFrame {
         this.drawDivisor();
     }//GEN-LAST:event_jSliderBlueStateChanged
 
+    private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
+        jDialogListaBotoes.setVisible(true);
+        jDialogListaBotoes.setLocationRelativeTo(this);
+        jTabbedPaneMaterialBotoes.removeAll();
+        btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
+        jTabbedPaneMaterialBotoes.add(btrequests.getScrollPane());
+        jTabbedPaneMaterialBotoes.setTitleAt(0, lingua.translate(requisicoes.getTypeOfMaterial().getTypeOfMaterialName()));      
+    }//GEN-LAST:event_jButtonListaBotoesActionPerformed
+
+    private void jComboBoxListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxListaBotoesActionPerformed
+        lista_req.getTable().clearSelection();
+        Clavis.TypeOfMaterial mat = tiposmateriais.get(jComboBoxListaBotoes.getSelectedIndex());
+        if (!requisicoes.getTypeOfMaterial().equals(mat)) {
+            this.cleanList(false);
+            this.calculateList(mat);
+        }
+    }//GEN-LAST:event_jComboBoxListaBotoesActionPerformed
+
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
             int ano = Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString());
@@ -2422,7 +2540,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     public void drawDefaultHolidaysList() {
-        DefaultListModel modelo = new DefaultListModel();
+        DefaultListModel<String> modelo = new DefaultListModel<>();
         HolidaysList hol = new FileHolidays().getDefaultHolidaysList();
         hol.getHolidays().stream().map((ho) -> {
             ho.setLanguage(lingua);
@@ -2434,7 +2552,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jListFeriadosDefeito.setModel(modelo);
         jListFeriadosDefeito.setCellRenderer(new DefaultListCellRenderer() {
             @Override
-            public Component getListCellRendererComponent(javax.swing.JList list, Object value, int index,
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,
                     boolean isSelected,
                     boolean cellHasFocus) {
                 javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -2581,6 +2699,14 @@ public class KeyQuest extends javax.swing.JFrame {
         urlcsv = DEFAULT_URlCSV;
         urlbd = DEFAULT_URlBD;
         initComponents();
+        this.tiposmateriais = new DataBase.DataBase(urlbd).getTypesOfMaterial();
+        String[] lista = new String[tiposmateriais.size()];
+        int i = 0;
+        for (Clavis.TypeOfMaterial mat : tiposmateriais) {
+            lista[i] = mat.getTypeOfMaterialName();
+            i++;
+        }
+        jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(lista));
         createMenu();
         this.calculateList();
         Main.UpdateCSVonDB cbd = new Main.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
@@ -2885,24 +3011,23 @@ public class KeyQuest extends javax.swing.JFrame {
         TypeOfMaterial material = new TypeOfMaterial(1, "sala", 70);
         material.setTypeOfMaterialImage("Sala");
         boolean estado = false;
-        requisicoes = new RequestList(urlbd, material, funcao, vista, feriados, estado);
+        requisicoes = new RequestList(urlbd, material, funcao, vista, feriados, estado,false);
         requisicoes.make();
         lista_req = new TableRequest(requisicoes, jPanelInformaCima, lingua, false);
         lista_req.create();
         lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoAltera, jButtonAtuacaoConfirma, jButtonAtuacaoAnula);
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
-        jScrollPaneRequisicoes.getViewport().setBackground(Color.WHITE);
         estado = true;
-        devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado);
+        devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado,false);
         devolucoes.make();
         lista_dev = new TableRequest(devolucoes, jPanelInformaCima, lingua, true);
         lista_dev.create();
         jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
         jScrollPaneDevolucoes.getViewport().setBackground(Color.WHITE);
-        btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
-        jTabbedPaneMaterial.add(btrequests.getScrollPane());
-        jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
         jSplitPaneInicial.setDividerSize(tdivisor);
+        //btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
+        //jTabbedPaneMaterial.add(btrequests.getScrollPane());
+        //jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
         jComboBoxVista.setSelectedIndex(vista);
         lista_req.addTimerColors();
         lista_req.startTimerColors();
@@ -2918,6 +3043,39 @@ public class KeyQuest extends javax.swing.JFrame {
         }
 
     }
+    
+    private void calculateList(Clavis.TypeOfMaterial material) {
+        Function funcao = new Function("Professor", 2);
+        boolean estado = false;
+        requisicoes = new RequestList(urlbd, material, funcao, vista, feriados, estado,false);
+        requisicoes.make();
+        lista_req = new TableRequest(requisicoes, jPanelInformaCima, lingua, false);
+        lista_req.create();
+        lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoAltera, jButtonAtuacaoConfirma, jButtonAtuacaoAnula);
+        jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
+        estado = true;
+        devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado,false);
+        devolucoes.make();
+        lista_dev = new TableRequest(devolucoes, jPanelInformaCima, lingua, true);
+        lista_dev.create();
+        jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
+        //btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
+        //jTabbedPaneMaterial.add(btrequests.getScrollPane());
+        //jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
+        jComboBoxVista.setSelectedIndex(vista);
+        lista_req.addTimerColors();
+        lista_req.startTimerColors();
+        this.controlScroll();
+        if (tema.equals("escuro")) {
+            lista_req.setBackGroundColor(Color.black);
+            lista_req.setForegroundcolor(Color.white);
+            lista_req.setSelectColor(Color.blue);
+            lista_req.setPanelColor(new Color(245, 245, 220));
+            lista_dev.setBackGroundColor(Color.black);
+            lista_dev.setForegroundcolor(Color.white);
+            lista_dev.setSelectColor(Color.blue);
+        }
+    }
 
     private void reCalculateList(boolean estado) {
         Function funcao = new Function("Professor", 2);
@@ -2929,7 +3087,7 @@ public class KeyQuest extends javax.swing.JFrame {
             lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoAltera, jButtonAtuacaoConfirma, jButtonAtuacaoAnula);
             jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
         } else {
-            devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado);
+            devolucoes = new RequestList(urlbd, material, funcao, RequestList.VIEW_DAY, feriados, estado,false);
             devolucoes.make();
             lista_dev = new TableRequest(devolucoes, jPanelInformaCima, lingua, true);
             lista_dev.create();
@@ -3062,19 +3220,23 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButtonDefHolidaysMais;
     javax.swing.JButton jButtonDefHolidaysVoltar;
     javax.swing.JButton jButtonLinguaMudaConfirma;
+    javax.swing.JButton jButtonListaBotoes;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio;
     javax.swing.JComboBox<String> jComboBoxDefBreaksDiaFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksDiaInicio;
     javax.swing.JComboBox<String> jComboBoxDefBreaksMesFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksMesInicio;
+    javax.swing.JComboBox<String> jComboBoxListaBotoes;
     javax.swing.JComboBox<String> jComboBoxMudaLinguagem;
     javax.swing.JComboBox<String> jComboBoxMudaTema;
     javax.swing.JComboBox<String> jComboBoxVista;
     javax.swing.JDialog jDialogDefBreaks;
     javax.swing.JDialog jDialogDefHolidays;
     javax.swing.JDialog jDialogDefOpcoes;
+    javax.swing.JDialog jDialogListaBotoes;
     javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabelBlue;
     javax.swing.JLabel jLabelDefBreaksAnoFim;
     javax.swing.JLabel jLabelDefBreaksAnoInicio;
@@ -3112,6 +3274,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JPanel jPanelInformaBaixo;
     javax.swing.JPanel jPanelInformaCima;
     javax.swing.JPanel jPanelInicial;
+    javax.swing.JPanel jPanelListaBotoes;
     javax.swing.JPanel jPanelListaFeriadosDefeito;
     javax.swing.JPanel jPanelListaFeriadosEscolhidos;
     javax.swing.JPanel jPanelMudaCorSlider;
@@ -3125,6 +3288,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JScrollPane jScrollPaneFeriadosEscolhidos;
     javax.swing.JScrollPane jScrollPaneInformaCima;
     javax.swing.JScrollPane jScrollPaneMaterial;
+    javax.swing.JScrollPane jScrollPaneMaterialBotoes;
     javax.swing.JScrollPane jScrollPaneRequisicoes;
     javax.swing.JSlider jSliderBlue;
     javax.swing.JSlider jSliderGreen;
@@ -3132,6 +3296,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JSlider jSliderTamanhoDivisor;
     javax.swing.JSplitPane jSplitPaneInicial;
     javax.swing.JTabbedPane jTabbedPaneMaterial;
+    javax.swing.JTabbedPane jTabbedPaneMaterialBotoes;
     javax.swing.JTextField jTextFieldDefBreaksNome;
     javax.swing.JToggleButton jToggleButtonBarEntregas;
     javax.swing.JToggleButton jToggleButtonBarRequisicoes;
@@ -3140,6 +3305,7 @@ public class KeyQuest extends javax.swing.JFrame {
     protected boolean booleanBoxLanguage;
     private RequestList requisicoes;
     private RequestList devolucoes;
+    private java.util.List<Clavis.TypeOfMaterial> tiposmateriais;
     private String urlbd;
     private String urlcsv;
     private static PersonalPrefs prefs;

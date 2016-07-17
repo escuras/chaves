@@ -63,7 +63,9 @@ public class PanelDetails extends JPanel {
         this.titulos = new String[]{};
         this.resultados = new String[]{};
         SVGUniverse svg = new SVGUniverse();
-        InputStream is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        InputStream is;
+        if (!imagem.equals("sem")) is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        else is = this.getClass().getResourceAsStream("Images/box.svg");
         this.titulo_imagem = titulo_imagem;
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
@@ -91,8 +93,10 @@ public class PanelDetails extends JPanel {
             this.resultados = new String[]{};
         }
         SVGUniverse svg = new SVGUniverse();
-        InputStream is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
-        System.out.println(is.toString());
+        InputStream is;
+        System.out.println(imagem);
+        if (!imagem.equals("sem")) is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        else is = this.getClass().getResourceAsStream("Images/box.svg");
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
         } catch (IOException ex) {

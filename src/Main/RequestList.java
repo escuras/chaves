@@ -29,9 +29,11 @@ public class RequestList {
     public static final int VIEW_DAY = 0;
     private int vista;
     private boolean estado;
+    private boolean terminado;
     
-    public RequestList(String bd, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados, boolean estado) {
+    public RequestList(String bd, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados, boolean estado, boolean terminado) {
         this.estado = estado;
+        this.terminado = terminado;
         this.vista = vista;
         this.db = new DataBase.DataBase(bd);
         Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
@@ -124,7 +126,7 @@ public class RequestList {
                 this.date2 =  hoje.dateAfter(dia_auxiliar);
 
         }
-        this.requests = db.getRequests(this.date1, this.date2, estado);
+        this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
     
     public Clavis.Request getSelectedRequest(int valor) {
@@ -134,7 +136,7 @@ public class RequestList {
     }
     
     public void make(){
-        this.requests = db.getRequests(this.date1, this.date2, estado);
+        this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
     
     public boolean removeRequest(Clavis.Request request){
@@ -248,5 +250,19 @@ public class RequestList {
     
     public boolean isConnected(){
         return db.isTie();
+    }
+
+    /**
+     * @return the terminado
+     */
+    public boolean isConcluded() {
+        return terminado;
+    }
+
+    /**
+     * @param terminado the terminado to set
+     */
+    public void setConcluded(boolean terminado) {
+        this.terminado = terminado;
     }
 }
