@@ -97,8 +97,11 @@ public class Locale {
         if (valores.length == 2) {
             java.util.Locale loca = new java.util.Locale(valores[0], valores[1]);
             ResourceBundle sms = ResourceBundle.getBundle("Langs.MensagemBundle", loca);
-            if ((sms.getLocale().toString().equals(this.locale)) && (sms.containsKey(traducao))) {
-                this.traducao = sms.getString(traducao);
+            String auxiliar;
+            if (traducao.contains(" ")) auxiliar = traducao.replace(" ", "_");
+            else auxiliar = traducao;
+            if ((sms.getLocale().toString().equals(this.locale)) && (sms.containsKey(auxiliar))) {
+                this.traducao = sms.getString(auxiliar);
             }
         }
         if (this.traducao == null) this.traducao = traducao;

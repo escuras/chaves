@@ -35,43 +35,11 @@ public class RequestList {
         this.terminado = terminado;
         this.vista = vista;
         this.db = new DataBase.DataBase(bd);
-        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
-        TimeDate.Date hoje = new TimeDate.Date();
-        int dia_auxiliar = 0;
-        switch (this.vista) {
-            case 1:
-                dia_auxiliar = 1;
-                while (fer_auxiliar.hasNext()) {
-                    TimeDate.Holiday der = fer_auxiliar.next();
-                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
-                        dia_auxiliar++;
-                    }
-                }
-                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
-                    dia_auxiliar++;
-                }
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            case 2:
-                dia_auxiliar = 6;
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            case 3:
-                dia_auxiliar = 13;
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            default:
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-
-        }
         this.bd = bd;
         this.material = material;
         this.requests = new TreeSet<>();
         this.feriados = feriados;
+        this.calcDates();
     }
     
      public RequestList(RequestList req) {
@@ -83,46 +51,8 @@ public class RequestList {
         this.feriados = req.feriados;
     }
     
-    public void reMake(int vista, HolidaysList Holdays){
-        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
-        TimeDate.Date hoje = new TimeDate.Date();
-        this.setVista(vista);
-        int dia_auxiliar = 0;
-        switch (this.getView()) {
-            case 1:
-                dia_auxiliar = 1;
-                while (fer_auxiliar.hasNext()) {
-                    TimeDate.Holiday der = fer_auxiliar.next();
-                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
-                        dia_auxiliar++;
-                    }
-                }
-                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
-                    dia_auxiliar++;
-                }
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            case 2:
-                dia_auxiliar = 6;
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            case 3:
-                dia_auxiliar = 13;
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            case 4: 
-                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-                break;
-            default:
-                this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
-
-        }
+    public void reMake(){
+        this.calcDates();
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
     
@@ -134,6 +64,10 @@ public class RequestList {
     
     public void make(){
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
+    }
+    
+    public void searchByUser(String person){
+        this.requests = db.getRequests(person, this.date1, this.date2, estado, terminado);
     }
     
     public boolean removeRequest(Clavis.Request request){
@@ -227,8 +161,9 @@ public class RequestList {
     /**
      * @param vista the vista to set
      */
-    public void setVista(int vista) {
+    public void setView(int vista) {
         this.vista = vista;
+        this.calcDates();
     }
     
     public boolean isConnected(){
@@ -247,5 +182,46 @@ public class RequestList {
      */
     public void setConcluded(boolean terminado) {
         this.terminado = terminado;
+    }
+    
+    private void calcDates(){
+        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
+        TimeDate.Date hoje = new TimeDate.Date();
+        int dia_auxiliar = 0;
+        switch (this.getView()) {
+            case 1:
+                dia_auxiliar = 1;
+                while (fer_auxiliar.hasNext()) {
+                    TimeDate.Holiday der = fer_auxiliar.next();
+                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+                        dia_auxiliar++;
+                    }
+                }
+                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
+                    dia_auxiliar++;
+                }
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 2:
+                dia_auxiliar = 6;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 3:
+                dia_auxiliar = 13;
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            case 4: 
+                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                break;
+            default:
+                this.date1 = hoje;
+                this.date2 =  hoje.dateAfter(dia_auxiliar);
+
+        }
     }
 }

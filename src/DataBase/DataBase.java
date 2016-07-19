@@ -1771,6 +1771,68 @@ public class DataBase {
         return requisicoes;
     }
 
+    public java.util.Set<Clavis.Request> getRequests(String pess, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            int id = 0;
+            boolean cond = false;
+            try {
+                String sql = "select id_pessoa from Persons where upper(nome) like upper('%"+pess+"%');";
+                smt = con.prepareStatement(sql);
+                ResultSet rsaux = smt.executeQuery();
+                while (rsaux.next()) {
+                    id = rsaux.getInt("id_pessoa");
+                    cond = true;
+                    sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and id_pessoa = "+id+" and ativo = "+estado+" and terminado = "+terminado+";";
+                    smt = con.prepareStatement(sql);
+                    rs = smt.executeQuery();
+                    Clavis.Request request;
+                    String[] aux;
+                    Clavis.Person pessoa;
+                    Clavis.Material material;
+                    Clavis.Subject disciplina;
+                    TimeDate.Date inicio;
+                    TimeDate.Date fim;
+                    TimeDate.Time tinicio;
+                    TimeDate.Time tfim;
+                    TimeDate.WeekDay dia;
+                    String origem;
+                    int ido = -1;
+                    while (rs.next()) {
+                        ido = rs.getInt("id_requisicao");
+                        pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                        material = this.getMaterial(rs.getInt("id_material"));
+                        int discip = rs.getInt("id_disciplina");
+                        if (discip != 0) {
+                            disciplina = this.getSubject(discip);
+                        } else {
+                            disciplina = new Clavis.Subject();
+                        }
+                        aux = rs.getString("inicio").split("/");
+                        inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("fim").split("/");
+                        fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("tinicio").split(":");
+                        tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("tfim").split(":");
+                        tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                        origem = rs.getString("origem");
+                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
+                        requisicoes.add(request);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return requisicoes;
+    }
+
     public java.util.Set<Clavis.Request> getRequests(Clavis.TypeOfMaterial mat, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado) {
         java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
@@ -1875,11 +1937,27 @@ public class DataBase {
         return requisicoes;
     }
 
-    public boolean changeRequestActiveState(Clavis.Request req, boolean estado) {
+    public boolean changeRequestActiveState(Clavis.Request req) {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "update Requests set ativo = " + estado + " where  id_requisicao = " + req.getId() + ";";
+            String sql = "update Requests set ativo = 1, data_levantamento = CURDATE(), hora_levantamento = CURTIME() where  id_requisicao = " + req.getId() + "; ";
+            try {
+                smt = con.prepareStatement(sql);
+                int p = smt.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean changeRequestTerminateState(Clavis.Request req) {
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "update Requests set terminado = 1, data_entrega = CURDATE(), hora_entrega = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
                 smt = con.prepareStatement(sql);
                 int p = smt.executeUpdate();
