@@ -15,7 +15,7 @@ public class Subject implements Comparable<Subject> {
     private int id;
     
     public Subject(){
-        this.nome = "";
+        this.nome = "Sem_relevancia";
         this.codigo = "";
         this.id = -1;
     }

@@ -18,7 +18,6 @@ public class RequestList {
     private String bd;
     private DataBase.DataBase db;
     private Clavis.TypeOfMaterial material;
-    private Clavis.Function funcao;
     private TimeDate.Date date1;
     private TimeDate.Date date2;
     private HolidaysList feriados;
@@ -31,7 +30,7 @@ public class RequestList {
     private boolean estado;
     private boolean terminado;
     
-    public RequestList(String bd, Clavis.TypeOfMaterial material, Clavis.Function funcao, int vista, HolidaysList feriados, boolean estado, boolean terminado) {
+    public RequestList(String bd, Clavis.TypeOfMaterial material, int vista, HolidaysList feriados, boolean estado, boolean terminado) {
         this.estado = estado;
         this.terminado = terminado;
         this.vista = vista;
@@ -71,7 +70,6 @@ public class RequestList {
         }
         this.bd = bd;
         this.material = material;
-        this.funcao = funcao;
         this.requests = new TreeSet<>();
         this.feriados = feriados;
     }
@@ -79,7 +77,6 @@ public class RequestList {
      public RequestList(RequestList req) {
         this.bd = req.getBd();
         this.material = req.getTypeOfMaterial();
-        this.funcao = req.getFunction();
         this.date1 = req.getDate1();
         this.date2 = req.getDate2();
         this.requests = new TreeSet<>();
@@ -169,20 +166,6 @@ public class RequestList {
      */
     public void setTypeOfMaterial(Clavis.TypeOfMaterial material) {
         this.material = material;
-    }
-
-    /**
-     * @return the funcao
-     */
-    public Clavis.Function getFunction() {
-        return funcao;
-    }
-
-    /**
-     * @param funcao the funcao to set
-     */
-    public void setFunction(Clavis.Function funcao) {
-        this.funcao = funcao;
     }
 
     /**

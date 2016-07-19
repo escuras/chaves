@@ -38,14 +38,15 @@ import javax.swing.UIManager;
  */
 public class ButtonListRequest {
 
-    List<javax.swing.JButton> bLista;
-    Set mater;
-    Dimension dim;
-    Langs.Locale lingua;
-    javax.swing.JTabbedPane tpanel;
-    javax.swing.JPanel pane;
-    Color btcor;
-    Color panelcor;
+    private List<javax.swing.JButton> bLista;
+    private Set mater;
+    private Dimension dim;
+    private Langs.Locale lingua;
+    private javax.swing.JTabbedPane tpanel;
+    private javax.swing.JPanel pane;
+    private Color btcor;
+    private Color panelcor;
+    private java.util.Iterator<?> iterador;
 
     public ButtonListRequest(RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel) {
         this.mater = new HashSet<>();
@@ -54,7 +55,7 @@ public class ButtonListRequest {
         pane.setPreferredSize(tpanel.getPreferredSize());
         DataBase.DataBase db = new DataBase.DataBase(csv);
         dim = new Dimension(80, 80);
-        this.btcor = new Color(254,254,254);
+        this.btcor = new Color(254, 254, 254);
         this.tpanel = tpanel;
         int val = req.getTypeOfMaterial().getMaterialTypeID();
         if (val == 1) {
@@ -62,12 +63,13 @@ public class ButtonListRequest {
         } else {
             mater = new TreeSet<Clavis.Material>(db.getMaterialsByType(val));
         }
+        java.util.Iterator<?> iterador = mater.iterator();
     }
 
     public String[] getListOfMaterialType() {
         String[] nomes = new String[this.mater.size()];
         int i = 0;
-        if (this.mater instanceof Clavis.Material) {
+        if (this.iterador.next() instanceof Clavis.Material) {
             for (Object n : this.mater) {
                 Clavis.Material m = (Clavis.Material) n;
                 nomes[i] = lingua.translate(m.getDescription());
@@ -87,22 +89,22 @@ public class ButtonListRequest {
         this.bLista = new ArrayList<>();
         int val = 5;
         if (!this.mater.isEmpty()) {
-            if (this.mater instanceof Clavis.Material) {
-                for (Object n : this.mater) {
+            for (Object n : this.mater) {
+                javax.swing.JButton button = new javax.swing.JButton();
+                button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                button.setHorizontalAlignment(SwingConstants.CENTER);
+                button.setPreferredSize(dim);
+                button.setMaximumSize(dim);
+                button.setFocusPainted(false);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                button.setHorizontalAlignment(SwingConstants.CENTER);
+                button.setBackground(btcor);
+                button.setBounds(0, 0, 80, 80);
+                button.setSize(new Dimension(100, 100));
+                if (!(n instanceof Clavis.Classroom)) {
                     Clavis.Material m = (Clavis.Material) n;
-                    javax.swing.JButton button = new javax.swing.JButton();
                     button.setText(this.lingua.translate(m.getDescription()));
-                    button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                    button.setHorizontalAlignment(SwingConstants.CENTER);
-                    button.setPreferredSize(dim);
-                    button.setMaximumSize(dim);
-                    button.setHorizontalTextPosition(SwingConstants.CENTER);
-                    button.setVerticalTextPosition(SwingConstants.BOTTOM);
-                    button.setHorizontalAlignment(SwingConstants.CENTER);
-                    button.setBackground(btcor);
-                    button.setFocusPainted(false);
-                    button.setBounds(0, 0, 80, 80);
-                    button.setSize(new Dimension(100, 100));
                     button.addActionListener(new ActionButton(m));
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
@@ -116,35 +118,21 @@ public class ButtonListRequest {
                         }
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
-                        if ( ima != null) {
+                        if (ima != null) {
                             ima = FileIOAux.ImageAux.resize(ima, 40, 40);
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
                         }
                     }
-                    bLista.add(button);
-                }
-            } else {
-                for (Object n : this.mater) {
+                    
+                } else {
                     Clavis.Classroom m = (Clavis.Classroom) n;
-                    javax.swing.JButton button = new javax.swing.JButton();
                     button.setText(this.lingua.translate(m.getDescription()));
-                    button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                    button.setHorizontalAlignment(SwingConstants.CENTER);
-                    button.setPreferredSize(dim);
-                    button.setMaximumSize(dim);
-                    button.setFocusPainted(false);
-                    button.setHorizontalTextPosition(SwingConstants.CENTER);
-                    button.setVerticalTextPosition(SwingConstants.BOTTOM);
-                    button.setHorizontalAlignment(SwingConstants.CENTER);
-                    button.setBackground(btcor);
-                    button.setBounds(0, 0, 80, 80);
-                    button.setSize(new Dimension(100, 100));
                     button.addActionListener(new ActionButton(m));
                     javax.swing.ImageIcon ic;
-                    if (m.getMaterialImage().equals("sem")) {
-                        java.io.File file = new java.io.File("src/Main/Images/"+m.getTypeOfMaterialImage()+".png");
+                    if (m.getMaterialImage().equals("box")) {
+                        java.io.File file = new java.io.File("src/Main/Images/" + m.getTypeOfMaterialImage() + ".png");
                         if (file.isFile()) {
                             BufferedImage ima = FileIOAux.ImageAux.getImageFromFile(file);
                             ima = FileIOAux.ImageAux.resize(ima, 40, 40);
@@ -154,22 +142,20 @@ public class ButtonListRequest {
                         }
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
-                        if ( ima != null) {
+                        if (ima != null) {
                             ima = FileIOAux.ImageAux.resize(ima, 40, 40);
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
                         }
                     }
-                    bLista.add(button);
-                    val+=55;
                 }
+                bLista.add(button);
+                val += 55;
             }
         }
         return bLista;
     }
-    
-   
 
     public javax.swing.JScrollPane getScrollPane() {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();

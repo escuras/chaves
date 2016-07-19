@@ -39,7 +39,6 @@ public class PanelDetails extends JPanel {
     private Color textColor;
     private Color titleColor;
     private String[] titulos;
-    private String titulo;
     private Langs.Locale lingua;
     private String[] resultados;
     private int intervalo;
@@ -57,7 +56,6 @@ public class PanelDetails extends JPanel {
         this.textColor = DEFAULT_COLOR;
         this.subTitleColor = DEFAULT_COLOR;
         this.lingua = lingua;
-        this.titulo = "";
         this.nome_imagem = imagem;
         this.intervalo = 10;
         this.titulos = new String[]{};
@@ -73,14 +71,13 @@ public class PanelDetails extends JPanel {
         }
     }
 
-    public PanelDetails(Color color, String titulo, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
+    public PanelDetails(Color color, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
         super();
         this.color = color;
         this.titleColor = DEFAULT_COLOR;
         this.textColor = DEFAULT_COLOR;
         this.subTitleColor = DEFAULT_COLOR;
         this.lingua = lingua;
-        this.titulo = titulo;
         this.intervalo = 10;
         this.tamanho_auxiliar = tamanho_auxiliar;
         this.titulo_imagem = titulo_imagem;
@@ -106,14 +103,9 @@ public class PanelDetails extends JPanel {
 
     public void create() {
         if (resultados.length > 0) {
-            JLabel ltitulo = new JLabel();
             this.setMinimumSize(new java.awt.Dimension(1, 1));
             this.setPreferredSize(new java.awt.Dimension(240, 400));
             this.setBackground(color);
-            ltitulo.setForeground(this.titleColor);
-            ltitulo.setFont(new java.awt.Font("Cantarell", 1, 20));
-            ltitulo.setText(lingua.translate(titulo));
-            ltitulo.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             JLabel[] paineis = new JLabel[titulos.length];
             JLabel[] paineis2 = new JLabel[titulos.length];
             int i = 0;
@@ -123,10 +115,7 @@ public class PanelDetails extends JPanel {
             layout.setAutoCreateContainerGaps(true);
             Group grupo = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
             Group grupo2 = layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE));
-            grupo.addComponent(ltitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE);
             grupo2.addGap(11);
-            grupo2.addComponent(ltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE);
-            grupo2.addGap(11, 11, 11);
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
             Font font = new Font("Cantarell", java.awt.Font.PLAIN, 13);
@@ -137,13 +126,25 @@ public class PanelDetails extends JPanel {
                 paineis[i].setForeground(this.subTitleColor);
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
-                paineis[i].setText(lingua.translate(titulos[i]));
+                paineis[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                auxiliar = lingua.translate(titulos[i]);
+                texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
+                if (texto > tamanho_auxiliar.getWidth() - 100) {
+                    while (texto >= tamanho_auxiliar.getWidth() - 100) {
+                        auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
+                        System.out.println(texto);
+                        texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
+                    }
+                    auxiliar = auxiliar + "... ";
+                }
+                paineis[i].setText(auxiliar);
                 paineis2[i] = new JLabel();
                 paineis2[i].setForeground(this.textColor);
                 paineis2[i].setBackground(this.color);
+                paineis2[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.HANGING_BASELINE, 14));
                 paineis2[i].setOpaque(true);
-                paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 10));
+                paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 auxiliar = lingua.translate(resultados[i]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
@@ -152,15 +153,15 @@ public class PanelDetails extends JPanel {
                         System.out.println(texto);
                         texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                     }
-                    auxiliar = auxiliar + " ...";
+                    auxiliar = auxiliar + "... ";
                 }
                 paineis2[i].setText(auxiliar);
                 grupo.addComponent(paineis[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
                 grupo.addComponent(paineis2[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
                 grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
-                grupo2.addGap(3, 5, 7);
-                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE);
-                grupo2.addGap(5 + intervalo, 7 + intervalo, 9 + intervalo);
+                grupo2.addGap(1, 3, 5);
+                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
+                grupo2.addGap(15 + intervalo, 17 + intervalo, 19 + intervalo);
                 i++;
             }
             layout.setVerticalGroup(grupo2);
@@ -245,20 +246,6 @@ public class PanelDetails extends JPanel {
      */
     public void setResults(String[] resultados) {
         this.resultados = resultados;
-    }
-
-    /**
-     * @return the titulo
-     */
-    public String getTitle() {
-        return titulo;
-    }
-
-    /**
-     * @param titulo the title to set
-     */
-    public void setTitle(String titulo) {
-        this.titulo = titulo;
     }
 
     /**

@@ -1363,9 +1363,6 @@
                   <Dimension value="[106, 456]"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jScrollPaneMaterial.setOpaque(true);"/>
-              </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
@@ -1433,7 +1430,7 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelInicial" pref="566" max="32767" attributes="0"/>
+              <Component id="jPanelInicial" pref="564" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -1466,12 +1463,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" pref="1020" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" pref="1025" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" alignment="0" pref="596" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" alignment="0" pref="560" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -1510,7 +1507,7 @@
             <Container class="javax.swing.JPanel" name="jPanelBaixo">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="c1" green="c1" red="c1" type="rgb"/>
+                  <Color blue="3f" green="3f" red="3f" type="rgb"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[1, 1]"/>
@@ -1532,15 +1529,20 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPaneMaterial" min="-2" pref="262" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelTituloDevolucoes" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesDevolucoes" pref="304" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPaneDevolucoes" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelInformaBaixoBaixo" pref="292" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPaneDevolucoes" pref="692" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jLabelTituloDevolucoes" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1550,65 +1552,24 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jScrollPaneMaterial" min="-2" pref="241" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabelTituloDevolucoes" min="-2" pref="33" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneDevolucoes" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jLabelDetalhesDevolucoes" max="32767" attributes="0"/>
+                              <Component id="jLabelTituloDevolucoes" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="12" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPaneDevolucoes" pref="400" max="32767" attributes="0"/>
+                              <Component id="jPanelInformaBaixoBaixo" pref="400" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPaneMaterial">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="61" green="61" red="61" type="rgb"/>
-                    </Property>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder thickness="2"/>
-                      </Border>
-                    </Property>
-                    <Property name="autoscrolls" type="boolean" value="true"/>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[250, 400]"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[106, 456]"/>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jScrollPaneMaterial.setOpaque(true);"/>
-                  </AuxValues>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                  <SubComponents>
-                    <Container class="javax.swing.JTabbedPane" name="jTabbedPaneMaterial">
-                      <Properties>
-                        <Property name="autoscrolls" type="boolean" value="true"/>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[2000, 32767]"/>
-                        </Property>
-                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[250, 400]"/>
-                        </Property>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[0, 450]"/>
-                        </Property>
-                      </Properties>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
-                    </Container>
-                  </SubComponents>
-                </Container>
                 <Container class="javax.swing.JScrollPane" name="jScrollPaneDevolucoes">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[700, 500]"/>
+                      <Dimension value="[600, 400]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[700, 633]"/>
@@ -1646,6 +1607,181 @@
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setForeground(Color.BLACK);&#xa;jLabelTituloDevolucoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
                   </AuxValues>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabelDetalhesDevolucoes">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="Informa&#xe7;&#xf5;es"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDetalhesDevolucoes.setForeground(Color.BLACK);&#xa;jLabelDetalhesDevolucoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));&#xa;// Code adding the component to the parent container - not shown here&#xa;jLabelDetalhesDevolucoes.setText(lingua.translate(&quot;Informacoes&quot;));"/>
+                  </AuxValues>
+                </Component>
+                <Container class="javax.swing.JPanel" name="jPanelInformaBaixoBaixo">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                    </Property>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
+                    </Property>
+                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[267, 32767]"/>
+                    </Property>
+                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[220, 400]"/>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[250, 500]"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(jPanelBaixo.getBackground(), 10), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, false)));"/>
+                  </AuxValues>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonAlteraDevolucao" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonConfirmaDevolucao" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPaneInformaBaixo" alignment="0" pref="292" max="32767" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jScrollPaneInformaBaixo" pref="427" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButtonConfirmaDevolucao" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                                  <Component id="jButtonAlteraDevolucao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Container class="javax.swing.JScrollPane" name="jScrollPaneInformaBaixo">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="32" green="32" red="32" type="rgb"/>
+                        </Property>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                            <CompoundBorder>
+                              <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                                <EmptyBorder bottom="8" left="8" right="8" top="8"/>
+                              </Border>
+                              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                <LineBorder/>
+                              </Border>
+                            </CompoundBorder>
+                          </Border>
+                        </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[267, 32767]"/>
+                        </Property>
+                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[150, 300]"/>
+                        </Property>
+                      </Properties>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Container class="javax.swing.JPanel" name="jPanelInformaBaixoCima">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="0" green="0" red="0" type="rgb"/>
+                            </Property>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                                <EmptyBorder bottom="0" left="5" right="5" top="0"/>
+                              </Border>
+                            </Property>
+                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[267, 32767]"/>
+                            </Property>
+                            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[100, 300]"/>
+                            </Property>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[180, 210]"/>
+                            </Property>
+                          </Properties>
+
+                          <Layout>
+                            <DimensionLayout dim="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <EmptySpace min="0" pref="262" max="32767" attributes="0"/>
+                              </Group>
+                            </DimensionLayout>
+                            <DimensionLayout dim="1">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <EmptySpace min="0" pref="407" max="32767" attributes="0"/>
+                              </Group>
+                            </DimensionLayout>
+                          </Layout>
+                        </Container>
+                      </SubComponents>
+                    </Container>
+                    <Component class="javax.swing.JButton" name="jButtonConfirmaDevolucao">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="32" green="c9" red="2e" type="rgb"/>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="focusPainted" type="boolean" value="false"/>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[530, 55]"/>
+                        </Property>
+                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[53, 55]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[60, 55]"/>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevok;&#xa;javax.swing.ImageIcon iconbtdevok = new javax.swing.ImageIcon();&#xa;try {&#xa;    imagebtdevok = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;    if (imagebtdevok != null) {&#xa;        iconbtdevok = new javax.swing.ImageIcon(imagebtdevok);&#xa;        jButtonConfirmaDevolucao.setIcon(iconbtdevok);&#xa;    } &#xa;} catch (IOException ex) {&#xa;    jButtonConfirmaDevolucao.setText(lingua.translate(&quot;Confirmar&quot;));&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonConfirmaDevolucao.setToolTipText(lingua.translate(&quot;Confirmar_devolucao&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonAlteraDevolucao">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="cc" green="8a" red="5" type="rgb"/>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="focusPainted" type="boolean" value="false"/>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[530, 55]"/>
+                        </Property>
+                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[20, 55]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[60, 55]"/>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevcancelar = null;&#xa;javax.swing.ImageIcon iconbtdevcancelar = new javax.swing.ImageIcon(); &#xa;try {&#xa;    imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/substituir.png&quot;));&#xa;    iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);&#xa;    jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonAlteraDevolucao.setToolTipText(lingua.translate(&quot;Alterar_devolucao&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanelCima">
@@ -1678,17 +1814,17 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneRequisicoes" pref="667" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneRequisicoes" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jLabelTitulorequisicoes" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jPanelInformaBaixo" pref="317" max="32767" attributes="0"/>
+                                  <Component id="jPanelInformaCimaBaixo" pref="284" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabelTituloOcupacoes" max="32767" attributes="0"/>
+                              <Component id="jLabelTituloOcupacoes" pref="295" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1703,8 +1839,8 @@
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelInformaBaixo" max="32767" attributes="0"/>
-                              <Component id="jScrollPaneRequisicoes" max="32767" attributes="0"/>
+                              <Component id="jPanelInformaCimaBaixo" max="32767" attributes="0"/>
+                              <Component id="jScrollPaneRequisicoes" pref="500" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1733,7 +1869,7 @@
                     </Property>
                     <Property name="inheritsPopupMenu" type="boolean" value="true"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[600, 500]"/>
+                      <Dimension value="[700, 500]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[700, 633]"/>
@@ -1796,7 +1932,7 @@
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTituloOcupacoes.setForeground(Color.WHITE);&#xa;jLabelTituloOcupacoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
                   </AuxValues>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanelInformaBaixo">
+                <Container class="javax.swing.JPanel" name="jPanelInformaCimaBaixo">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fe" green="fe" red="fe" type="rgb"/>
@@ -1818,7 +1954,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(jPanelCima.getBackground(), 10), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, false)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCimaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(jPanelCima.getBackground(), 10), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, false)));"/>
                   </AuxValues>
 
                   <Layout>
@@ -1827,11 +1963,9 @@
                           <Component id="jScrollPaneInformaCima" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonAtuacaoAltera" pref="87" max="32767" attributes="0"/>
+                              <Component id="jButtonAtuacaoConfirma" pref="110" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonAtuacaoConfirma" pref="105" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonAtuacaoAnula" pref="89" max="32767" attributes="0"/>
+                              <Component id="jButtonAtuacaoAltera" pref="110" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1839,12 +1973,11 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPaneInformaCima" max="32767" attributes="0"/>
+                              <Component id="jScrollPaneInformaCima" pref="431" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" max="-2" attributes="0">
-                                  <Component id="jButtonAtuacaoConfirma" alignment="3" pref="55" max="32767" attributes="0"/>
-                                  <Component id="jButtonAtuacaoAnula" alignment="3" pref="55" max="32767" attributes="0"/>
-                                  <Component id="jButtonAtuacaoAltera" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jButtonAtuacaoConfirma" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButtonAtuacaoAltera" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           </Group>
@@ -1873,7 +2006,7 @@
                           <Dimension value="[267, 32767]"/>
                         </Property>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[200, 350]"/>
+                          <Dimension value="[150, 350]"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1886,7 +2019,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="jPanelInformaCima">
+                        <Container class="javax.swing.JPanel" name="jPanelInformaCimaCima">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -1908,13 +2041,13 @@
                             <Property name="requestFocusEnabled" type="boolean" value="false"/>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCima.setToolTipText(lingua.translate(&quot;Quadro_detalhes&quot;));"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCimaCima.setToolTipText(lingua.translate(&quot;Quadro_detalhes&quot;));"/>
                           </AuxValues>
 
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="287" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="220" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -1937,13 +2070,13 @@
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[610, 222]"/>
+                          <Dimension value="[610, 55]"/>
                         </Property>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[10, 22]"/>
+                          <Dimension value="[53, 55]"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[61, 32]"/>
+                          <Dimension value="[60, 55]"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -1953,7 +2086,7 @@
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtok = null;&#xa;try {&#xa;    imagebtok = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);&#xa;    jButtonAtuacaoConfirma.setIcon(iconbtok);&#xa;}&#xa;jButtonAtuacaoConfirma.setToolTipText(lingua.translate(&quot;Confirmar_emprestimo&quot;));"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButtonAtuacaoAnula">
+                    <Component class="javax.swing.JButton" name="jButtonAtuacaoAltera">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="cc" green="8a" red="5" type="rgb"/>
@@ -1964,47 +2097,20 @@
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[610, 222]"/>
+                          <Dimension value="[610, 55]"/>
                         </Property>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[10, 22]"/>
+                          <Dimension value="[53, 55]"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[61, 32]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtuacaoAnulaActionPerformed"/>
-                      </Events>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtcancelar = null;&#xa;try {&#xa;    imagebtcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/substituir.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtcancelar = new javax.swing.ImageIcon(imagebtcancelar);&#xa;    jButtonAtuacaoAnula.setIcon(iconbtcancelar);&#xa;}&#xa;jButtonAtuacaoAnula.setToolTipText(lingua.translate(&quot;Alterar_requisicao&quot;));"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="jButtonAtuacaoAltera">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cf" green="ba" red="d0" type="rgb"/>
-                        </Property>
-                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Hand Cursor"/>
-                        </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
-                        <Property name="focusPainted" type="boolean" value="false"/>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[610, 222]"/>
-                        </Property>
-                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[10, 22]"/>
-                        </Property>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[61, 32]"/>
+                          <Dimension value="[60, 55]"/>
                         </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtuacaoAlteraActionPerformed"/>
                       </Events>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtalterar = null;&#xa;try {&#xa;    imagebtalterar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/alterar.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtalterar = new javax.swing.ImageIcon(imagebtalterar);&#xa;    jButtonAtuacaoAltera.setIcon(iconbtalterar);&#xa;}&#xa;jButtonAtuacaoAltera.setToolTipText(lingua.translate(&quot;Outras_opcoes&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtcancelar = null;&#xa;try {&#xa;    imagebtcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/substituir.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtcancelar = new javax.swing.ImageIcon(imagebtcancelar);&#xa;    jButtonAtuacaoAltera.setIcon(iconbtcancelar);&#xa;}&#xa;jButtonAtuacaoAltera.setToolTipText(lingua.translate(&quot;Alterar_requisicao&quot;));"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -2033,10 +2139,9 @@
       <SubComponents>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarRequisicoes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Requisi&#xe7;&#xf5;es"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="1" left="5" right="5" top="1"/>
+                <EmptyBorder bottom="0" left="5" right="5" top="0"/>
               </Border>
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
@@ -2044,13 +2149,13 @@
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[98, 14]"/>
+              <Dimension value="[40, 28]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[89, 24]"/>
+              <Dimension value="[40, 28]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[98, 24]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2058,27 +2163,27 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonBarRequisicoesActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jToggleButtonBarRequisicoes.setMnemonic(jToggleButtonBarRequisicoes.getText().charAt(0));&#xa;jToggleButtonBarRequisicoes.setText(lingua.translate(&quot;Requisicoes&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtreq = null;&#xa;try {&#xa;    imagebtreq = ImageIO.read(getClass().getResourceAsStream(&quot;Images/baixo.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtreq != null) {&#xa;    javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);&#xa;    jToggleButtonBarRequisicoes.setIcon(iconbtreq);&#xa;}&#xa;jToggleButtonBarRequisicoes.setToolTipText(lingua.translate(&quot;Aba_requisicoes&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarEntregas">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Entregas"/>
+            <Property name="actionCommand" type="java.lang.String" value=""/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="1" left="5" right="5" top="1"/>
+                <EmptyBorder bottom="1" left="5" right="5" top="2"/>
               </Border>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[98, 24]"/>
+              <Dimension value="[40, 28]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[88, 24]"/>
+              <Dimension value="[40, 28]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[98, 24]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2086,8 +2191,10 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonBarEntregasActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jToggleButtonBarEntregas.setText(lingua.translate(&quot;Entregas&quot;));&#xa;jToggleButtonBarEntregas.setMnemonic(jToggleButtonBarEntregas.getText().charAt(0));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtent = null;&#xa;try {&#xa;    imagebtent = ImageIO.read(getClass().getResourceAsStream(&quot;Images/cima.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtent != null) {&#xa;    javax.swing.ImageIcon iconbtent = new javax.swing.ImageIcon(imagebtent);&#xa;    jToggleButtonBarEntregas.setIcon(iconbtent);&#xa;}"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="jSeparator1">
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxVista">
           <Properties>

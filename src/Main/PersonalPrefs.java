@@ -32,6 +32,7 @@ public class PersonalPrefs extends KeyQuest {
         lingua = new Langs.Locale();
         lingua.setLocale(lang); 
         booleanBoxLanguage = userPrefs.getBoolean("booleanLanguage", true);
+        scrollAtivo = userPrefs.getBoolean("scrollAtiv", true);
         int red = userPrefs.getInt("vermelho",this.COR_DIVISOR.getRed());
         int green = userPrefs.getInt("verde",this.COR_DIVISOR.getGreen());
         int blue = userPrefs.getInt("azul",this.COR_DIVISOR.getBlue());
@@ -58,6 +59,7 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putBoolean("booleanLanguage", booleanBoxLanguage);
         userPrefs.putInt("vista", vista);
         userPrefs.put("tema", tema);
+        userPrefs.putBoolean("scrollAtiv",scrollAtivo);
         userPrefs.putInt("vermelho",cordivisor.getRed());
         userPrefs.putInt("verde",cordivisor.getGreen());
         userPrefs.putInt("azul",cordivisor.getBlue());
