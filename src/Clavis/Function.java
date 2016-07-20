@@ -11,38 +11,38 @@ package Clavis;
  * @author toze
  */
 public class Function {
-    private String nome;
+    private String descricao;
     private int id;
     private int privilegio;
     
     public Function()
     {
-        this.nome = "";
+        this.descricao = "";
         this.id = -1;
         this.privilegio = 0;
     }
     
     public Function( String nome){
-        this.nome = nome;
+        this.descricao = nome;
         this.id = -1;
         this.privilegio = -1;
     } 
     
      public Function( String nome, int privilegio){
-        this.nome = nome;
+        this.descricao = nome;
         this.id = -1;
         this.privilegio = privilegio;
     } 
     
     public Function(int id, String nome, int privilegio){
-        this.nome = nome;
+        this.descricao = nome;
         this.id = id;
         this.privilegio = privilegio;
     } 
     
     public Function(Function func)
     {
-        this.nome = func.getName();
+        this.descricao = func.getName();
         this.id = func.getId();
         this.privilegio = func.getPrivilege();
     }
@@ -50,14 +50,14 @@ public class Function {
      * @return the funcao
      */
     public String getName() {
-        return nome;
+        return descricao;
     }
 
     /**
      * @param nome the funcao to set
      */
     public void setName(String nome) {
-        this.nome = nome;
+        this.descricao = nome;
     }
 
     /**

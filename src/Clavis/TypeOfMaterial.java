@@ -177,34 +177,9 @@ public class TypeOfMaterial {
     public String getTypeOfMaterialImage() {
         return imagem;
     }
-
-    /**
-     * @param imagem the imagem to set
-     * @param extensao
-     */
-    public void setTypeOfMaterialImage(BufferedImage imagem, String extensao) {
-        ByteArrayOutputStream bi = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(imagem, extensao, bi);
-            this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
-        } catch (IOException ex) {
-            this.imagem = "sem";
-        }
-    }
     
      public void setTypeOfMaterialImage(String imagem) {
         this.imagem = imagem;
     }
-    
-    public java.awt.Image transformIntoImage() {
-        byte[] p = Base64.getDecoder().decode(this.imagem);
-        java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(p);
-        java.awt.Image image = null;
-        try {
-            image = ImageIO.read(in);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-        return image;
-    }   
+  
 }

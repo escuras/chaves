@@ -551,7 +551,6 @@ public class TableRequest {
             modelo.removeRow(selecionado);
             if (modelo.getRowCount() == 0) {
                 ficouvazia = true;
-                System.out.println(lista.getRequests().size());
             }
             this.create();
             return true;

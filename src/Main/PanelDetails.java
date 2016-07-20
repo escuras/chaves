@@ -89,7 +89,6 @@ public class PanelDetails extends JPanel {
         }
         SVGUniverse svg = new SVGUniverse();
         InputStream is;
-        System.out.println(imagem);
         if (!imagem.equals("sem")) is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
         else is = this.getClass().getResourceAsStream("Images/box.svg");
         try {
@@ -130,7 +129,6 @@ public class PanelDetails extends JPanel {
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {
                         auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
-                        System.out.println(texto);
                         texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                     }
                     auxiliar = auxiliar + "... ";
@@ -148,7 +146,6 @@ public class PanelDetails extends JPanel {
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {
                         auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
-                        System.out.println(texto);
                         texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                     }
                     auxiliar = auxiliar + "... ";

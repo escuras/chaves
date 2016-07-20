@@ -165,7 +165,6 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
         }
     }
     
-    @Override
     public java.awt.Image transformIntoImage() {
         byte[] p = Base64.getDecoder().decode(this.imagem);
         java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(p);

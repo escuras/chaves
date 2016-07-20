@@ -28,6 +28,7 @@ public class Request implements Comparable<Request> {
     private boolean ativo;
     private boolean terminado;
     private int substituido;
+    private int quantidade;
 
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem) {
         this.begin = date;
@@ -43,6 +44,7 @@ public class Request implements Comparable<Request> {
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
+        this.quantidade = 0;
     }
 
     public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem, boolean ativo, boolean terminado, int substituido) {

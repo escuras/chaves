@@ -7,6 +7,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/KeyQuest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/EfectsOnDivisor.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/FileBreakPeriods.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Person.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/FileIOAux/ImageAux.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Subject.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/InsertRequest.java</file>
@@ -16,19 +17,24 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/PanelDetails.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/PersonalPrefs.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/UpdateCSVonDB.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Request.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/lista</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/Locale.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_es_ES.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste4.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/RequestList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_fr_FR.properties</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Function.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/ButtonListRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/RowTable.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/TColors.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Feature.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/SplitElement.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/DataBase/DataBase.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Mae.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/BestSplitPane.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/TypeOfMaterial.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Material.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/GenericRoundedButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/TableRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Main/Menu.java</file>
