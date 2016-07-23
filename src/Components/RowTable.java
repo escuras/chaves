@@ -41,6 +41,7 @@ public class RowTable extends JTable {
         Component c = super.prepareRenderer(renderer, row, column);
         Border border = borderColor.get(row);
         JComponent jz = (JComponent) c;
+        //if (column == 0)
         jz.setBorder(border == null ? BorderFactory.createEmptyBorder(0, 10, 0, 10) : border);
         if (!isRowSelected(row)) {
             Color color = rowColor.get(row);
@@ -54,9 +55,9 @@ public class RowTable extends JTable {
     }
     
     public void setBorderColor(int row, Color color) {
-        Border g = BorderFactory.createEmptyBorder(0, 10, 0, 0);
-        Border f = BorderFactory.createMatteBorder(0, 0, 5, 0, color);
-        borderColor.put(row, BorderFactory.createCompoundBorder(f, g));
+        Border g = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        Border f = BorderFactory.createMatteBorder(0, 0, 2, 0, color);
+        borderColor.put(row, BorderFactory.createCompoundBorder(g, f));
     }
     
     public void removeBorderColor(int row) {
@@ -67,13 +68,13 @@ public class RowTable extends JTable {
     public void alternateColorRows(){
         for (int i=0; i< this.getRowCount(); i++) {
             int red = this.getBackground().getRed();
-            if ((red +50)<= 255) red += 50; 
+            if ((red +60)<= 255) red += 60; 
             else red = 255;
             int blue = this.getBackground().getBlue();
-            if ((blue +50)<= 255) blue += 50;
+            if ((blue +60)<= 255) blue += 60;
             else blue = 255;
             int green = this.getBackground().getGreen();
-            if ((green +50)<= 255) green += 50;
+            if ((green +60)<= 255) green += 60;
             else green = 255;
             if (i%2 == 0) rowColor.put(i, new Color(red,green,blue));
             else rowColor.put(i, this.getBackground());

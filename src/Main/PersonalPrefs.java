@@ -28,6 +28,7 @@ public class PersonalPrefs extends KeyQuest {
         tema = userPrefs.get("tema", "claro");
         tdivisor = userPrefs.getInt("userdivisor", 40);
         vista = userPrefs.getInt("vista", 0);
+     
         bitpagina = userPrefs.getByteArray("bitarray", new byte[]{0,0});
         lingua = new Langs.Locale();
         lingua.setLocale(lang); 
@@ -36,7 +37,12 @@ public class PersonalPrefs extends KeyQuest {
         int red = userPrefs.getInt("vermelho",this.COR_DIVISOR.getRed());
         int green = userPrefs.getInt("verde",this.COR_DIVISOR.getGreen());
         int blue = userPrefs.getInt("azul",this.COR_DIVISOR.getBlue());
-        cordivisor = new java.awt.Color(red,green,blue); 
+        cordivisor = new java.awt.Color(red,green,blue);
+        red = userPrefs.getInt("svermelho",177);
+        green = userPrefs.getInt("sverde",184);
+        blue = userPrefs.getInt("sazul",190);
+        pesquisa = userPrefs.getInt("pesquisa", 0);
+        systemColor = new java.awt.Color(red, green, blue); 
         init();
         caracteristicsJFrame();
         this.setPreferedSize(maximizada, x, y, largura, altura);
@@ -63,6 +69,10 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putInt("vermelho",cordivisor.getRed());
         userPrefs.putInt("verde",cordivisor.getGreen());
         userPrefs.putInt("azul",cordivisor.getBlue());
+        userPrefs.putInt("svermelho",systemColor.getRed());
+        userPrefs.putInt("sverde",systemColor.getGreen());
+        userPrefs.putInt("sazul",systemColor.getBlue());
         userPrefs.putByteArray("bitarray", bitpagina);
+        userPrefs.putInt("pesquisa", pesquisa);
     }
 }

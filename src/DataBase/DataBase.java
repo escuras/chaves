@@ -263,6 +263,7 @@ public class DataBase {
             String telefone = pessoa.getPhone();
             String sql = "select count(*) from Persons where identificacao like '" + identificacao + "';";
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -293,6 +294,8 @@ public class DataBase {
                                     sql = "insert into Persons (id_funcao,nome,identificacao,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
                                 }
                                 smt.execute(sql);
+                                con.commit();
+                                con.setAutoCommit(true);
                                 return true;
                             }
                         }
@@ -330,9 +333,9 @@ public class DataBase {
             try {
                 if (pessoa.getId() >= 0) {
                     sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
+                    con.setAutoCommit(false);
                     smt2 = con.createStatement();
                     smt = con.createStatement();
-
                     ResultSet rs2 = smt2.executeQuery(sql);
                     if (rs2.next()) {
                         int privilegio;
@@ -351,6 +354,8 @@ public class DataBase {
                             sql = "update Persons set id_funcao = '" + rs2.getInt("id_funcao") + "',nome = '" + pessoa.getName() + "', identificacao = '" + pessoa.getIdentification() + "', privilegio = " + privilegio + " where id_pessoa = " + pessoa.getId() + ";";
                         }
                         smt.executeUpdate(sql);
+                        con.commit();
+                        con.setAutoCommit(true);
                     }
                 }
             } catch (SQLException ex) {
@@ -366,8 +371,11 @@ public class DataBase {
             Statement smt;
             String sql = "update Persons set privilegio = " + valor + " where id_pessoa = " + pessoa.getId() + ";";
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -381,8 +389,11 @@ public class DataBase {
             Statement smt;
             String sql = "delete from Persons where id_pessoa = " + pessoa.getId() + ";";
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -396,8 +407,11 @@ public class DataBase {
             Statement smt;
             String sql = "delete from Persons where id_pessoa = " + pessoa + ";";
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -493,9 +507,12 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "Insert into Functions (descricao, privilegio) values ('" + funcao.getName() + "'," + funcao.getPrivilege() + ");";
                 smt.execute(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -508,9 +525,12 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "delete from Functions where id_function = " + funcao.getId() + ";";
                 smt.execute(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -523,9 +543,12 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
+                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "update Functions set privilegio = " + valor + " where id_funcao = " + funcao.getId() + ";";
                 smt.execute(sql);
+                con.commit();
+                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -567,7 +590,6 @@ public class DataBase {
                                 material = new Clavis.Material(tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
                             materiais.add(material);
-
                         }
                     }
                     if (!smt.isClosed()) {
@@ -1771,64 +1793,140 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(String pess, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+    public java.util.Set<Clavis.Request> getRequests(int tipo, String nome, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
         java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
 
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            int id = 0;
-            boolean cond = false;
+            int id;
             try {
-                String sql = "select id_pessoa from Persons where upper(nome) like upper('%"+pess+"%');";
-                smt = con.prepareStatement(sql);
-                ResultSet rsaux = smt.executeQuery();
-                while (rsaux.next()) {
-                    id = rsaux.getInt("id_pessoa");
-                    cond = true;
-                    sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and id_pessoa = "+id+" and ativo = "+estado+" and terminado = "+terminado+";";
+                String sql = "";
+                switch (tipo) {
+                    case 1:
+                        sql = "select id_material from Materials where upper(descricao) like upper('" + nome + "%');";
+                        break;
+                    case 2:
+                        sql = "data";
+                        break;
+                    default:
+                        sql = "select id_pessoa from Persons where upper(nome) like upper('%" + nome + "%');";
+                        break;
+                }
+                if (!sql.equals("")) {
                     smt = con.prepareStatement(sql);
-                    rs = smt.executeQuery();
-                    Clavis.Request request;
-                    String[] aux;
-                    Clavis.Person pessoa;
-                    Clavis.Material material;
-                    Clavis.Subject disciplina;
-                    TimeDate.Date inicio;
-                    TimeDate.Date fim;
-                    TimeDate.Time tinicio;
-                    TimeDate.Time tfim;
-                    TimeDate.WeekDay dia;
-                    String origem;
-                    int ido = -1;
-                    while (rs.next()) {
-                        ido = rs.getInt("id_requisicao");
-                        pessoa = this.getPerson(rs.getInt("id_pessoa"));
-                        material = this.getMaterial(rs.getInt("id_material"));
-                        int discip = rs.getInt("id_disciplina");
-                        if (discip != 0) {
-                            disciplina = this.getSubject(discip);
-                        } else {
-                            disciplina = new Clavis.Subject();
+                    ResultSet rsaux = smt.executeQuery();
+                    while (rsaux.next()) {
+                        sql = "";
+                        if (tipo == 0) {
+                            id = rsaux.getInt("id_pessoa");
+                            sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and id_pessoa = " + id + " and ativo = " + estado + " and terminado = " + terminado + ";";
+                        } else if (tipo == 1) {
+                            id = rsaux.getInt("id_material");
+                            sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and id_material = " + id + " and ativo = " + estado + " and terminado = " + terminado + ";";
                         }
-                        aux = rs.getString("inicio").split("/");
-                        inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
-                        aux = rs.getString("fim").split("/");
-                        fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
-                        aux = rs.getString("tinicio").split(":");
-                        tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
-                        aux = rs.getString("tfim").split(":");
-                        tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
-                        dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
-                        origem = rs.getString("origem");
-                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
-                        requisicoes.add(request);
+                        if (!sql.equals("")) {
+                            smt = con.prepareStatement(sql);
+                            rs = smt.executeQuery();
+                            Clavis.Request request;
+                            String[] aux;
+                            Clavis.Person pessoa;
+                            Clavis.Material material;
+                            Clavis.Subject disciplina;
+                            TimeDate.Date inicio;
+                            TimeDate.Date fim;
+                            TimeDate.Time tinicio;
+                            TimeDate.Time tfim;
+                            TimeDate.WeekDay dia;
+                            String origem;
+                            int ido = -1;
+                            while (rs.next()) {
+                                ido = rs.getInt("id_requisicao");
+                                pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                                material = this.getMaterial(rs.getInt("id_material"));
+                                int discip = rs.getInt("id_disciplina");
+                                if (discip != 0) {
+                                    disciplina = this.getSubject(discip);
+                                } else {
+                                    disciplina = new Clavis.Subject();
+                                }
+                                aux = rs.getString("inicio").split("/");
+                                inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                                aux = rs.getString("fim").split("/");
+                                fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                                aux = rs.getString("tinicio").split(":");
+                                tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                                aux = rs.getString("tfim").split(":");
+                                tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                                dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                                origem = rs.getString("origem");
+                                request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
+                                requisicoes.add(request);
+                            }
+                        }
                     }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }
+        return requisicoes;
+    }
+
+    public java.util.Set<Clavis.Request> getRequestsByTime(Boolean bool, TimeDate.Time time, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            try {
+                String sql;
+                if (!bool) {
+                    sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where TIME_FORMAT(hora_inicio,'%H:%i:%s') = '"+time.toString()+"' and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
+                } else {
+                    sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,dia_semana,origem,ativo,terminado,substituido from Requests where TIME_FORMAT(hora_fim,'%H:%i:%s') = '"+time.toString()+"' and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
+                }
+                System.out.println(time.toString());
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                Clavis.Request request;
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                String origem;
+                int ido = -1;
+                while (rs.next()) {
+                    ido = rs.getInt("id_requisicao");
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    int discip = rs.getInt("id_disciplina");
+                    if (discip != 0) {
+                        disciplina = this.getSubject(discip);
+                    } else {
+                        disciplina = new Clavis.Subject();
+                    }
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"));
+                    requisicoes.add(request);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return requisicoes;
     }

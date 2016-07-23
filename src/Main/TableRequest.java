@@ -36,7 +36,8 @@ public class TableRequest {
     public static final Color DEFAULT_BACKGROUND_COLOR = UIManager.getColor("Table.background");
     public static final Color DEFAULT_FOREGROUND_COLOR = Color.black;
     public static final Color DEFAULT_SELECT_COLOR = Color.DARK_GRAY;
-    public static final Color DEFAULT_PANEL_COLOR = Color.GRAY;
+    public static final Color DEFAULT_PANEL_COLOR = new Color(245, 245, 220);
+    public static final Color DEFAULT_SELECT_FOREGROUND_COLOR = Color.WHITE;
     public static final int DEFAULT_AFTER_TIME = 0;
     public static final int DEFAULT_BEFORE_TIME = 10;
 
@@ -48,6 +49,7 @@ public class TableRequest {
     private Color backColor;
     private Color foreColor;
     private Color selectColor;
+    private Color foregroundSelectColor;
     private final javax.swing.JPanel spanel;
     private Main.PanelDetails panel;
     private Color[] cores;
@@ -202,13 +204,13 @@ public class TableRequest {
                         renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                         break;
                     case 1:
-                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                         break;
                     case 2:
-                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                         break;
                     case 3:
-                        renderer2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+                        renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                         break;
                     default:
                         renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -403,9 +405,16 @@ public class TableRequest {
         tabela.repaint();
     }
     
-    public void serchByUser(String person){
+    public void serchBy(int opcao, String person){
         this.clean();
-        lista.searchByUser(person);
+        lista.searchBy(opcao,person);
+        this.procura = true;
+        this.create();
+    }
+    
+    public void serchByTime(Boolean bool, TimeDate.Time time){
+        this.clean();
+        lista.searchByTime(bool,time);
         this.procura = true;
         this.create();
     }
@@ -501,14 +510,14 @@ public class TableRequest {
                                 valfinal = tempo.compareTime(req.getTimeEnd());
                             }
                             if ((val < antes_hora) && (valfinal >= depois_hora)) {
-                                //tabela.setBorderColor(i, cores[0]);
-                                tabela.setRowColor(i, cores[0]);
+                                tabela.setBorderColor(i, cores[0]);
+                                //tabela.setRowColor(i, cores[0]);
 
                             } else if (valfinal < 0) {
-                                tabela.setRowColor(i, cores[1]);
-                                //tabela.setBorderColor(i, cores[1]);
+                                //tabela.setRowColor(i, cores[1]);
+                                tabela.setBorderColor(i, cores[1]);
                             } else {
-                                //tabela.removeBorderColor(i);
+                                tabela.removeBorderColor(i);
 
                             }
                         }
@@ -742,6 +751,22 @@ public class TableRequest {
      */
     public boolean isListEmpty() {
         return vazia;
+    }
+
+    /**
+     * @return the foregroundSelectColor
+     */
+    public Color getForegroundSelectColor() {
+        return foregroundSelectColor;
+    }
+
+    /**
+     * @param foregroundSelectColor the foregroundSelectColor to set
+     */
+    public void setForegroundSelectColor(Color foregroundSelectColor) {
+        this.foregroundSelectColor = foregroundSelectColor;
+        tabela.setSelectionForeground(foregroundSelectColor);
+        tabela.repaint();
     }
 
 }

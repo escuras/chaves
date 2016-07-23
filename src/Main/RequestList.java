@@ -66,8 +66,12 @@ public class RequestList {
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
     
-    public void searchByUser(String person){
-        this.requests = db.getRequests(person, this.date1, this.date2, estado, terminado);
+    public void searchByTime(Boolean bool, TimeDate.Time time){
+        this.requests = db.getRequestsByTime(bool,time, this.date1, this.date2, estado, terminado);
+    }
+  
+    public void searchBy(int opcao, String person){
+        this.requests = db.getRequests(opcao,person, this.date1, this.date2, estado, terminado);
     }
     
     public boolean removeRequest(Clavis.Request request){

@@ -848,7 +848,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanelDefOpcoes" alignment="0" max="32767" attributes="0"/>
+              <Component id="jPanelDefOpcoes" pref="688" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -882,7 +882,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelDefOpcoes2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -927,37 +927,41 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabelMudaLinguagem" max="32767" attributes="0"/>
-                                              <Component id="jLabelMudaTemaQuadros" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jComboBoxMudaLinguagem" pref="277" max="32767" attributes="0"/>
-                                              <Component id="jComboBoxMudaTema" max="32767" attributes="0"/>
-                                          </Group>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="215" max="-2" attributes="0"/>
+                                          <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="22" max="32767" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Component id="jLabelLinguaMuda" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonLinguaMudaConfirma" min="-2" pref="112" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="jLabelMudaCorDivisor" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabelMudaTamanhoDivisor" alignment="0" pref="178" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jLabelMudaLinguagem" pref="200" max="32767" attributes="0"/>
+                                              <Component id="jLabelMudaTemaQuadros" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jComboBoxMudaTema" min="-2" pref="277" max="-2" attributes="0"/>
+                                              <Component id="jComboBoxMudaLinguagem" min="-2" pref="277" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabelMudaTemaQuadros1" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="jLabelMudaTamanhoDivisor" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jSliderTamanhoDivisor" pref="274" max="32767" attributes="0"/>
-                                              <Component id="jPanelMudaCorSlider" max="32767" attributes="0"/>
+                                              <Component id="jSliderTamanhoDivisor" pref="275" max="32767" attributes="0"/>
+                                              <Component id="jComboBoxScrollAtivo" max="32767" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="21" pref="125" max="32767" attributes="0"/>
+                                  <EmptySpace pref="66" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -973,27 +977,29 @@
                               <Component id="jComboBoxMudaTema" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelMudaTemaQuadros" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelMudaLinguagem" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                               <Component id="jComboBoxMudaLinguagem" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelLinguaMuda" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="jButtonLinguaMudaConfirma" alignment="3" max="32767" attributes="0"/>
-                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabelLinguaMuda" max="32767" attributes="0"/>
+                              <Component id="jButtonLinguaMudaConfirma" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabelMudaTamanhoDivisor" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="jSliderTamanhoDivisor" max="32767" attributes="0"/>
-                              <Component id="jLabelMudaTamanhoDivisor" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelMudaCorDivisor" min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabelMudaTemaQuadros1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                              <Component id="jComboBoxScrollAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
+                          <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1034,7 +1040,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaTemaActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxMudaTema.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Tema_claro&quot;),lingua.translate(&quot;Tema_escuro&quot;) }));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxMudaTema.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Tema_claro&quot;),lingua.translate(&quot;Tema_escuro&quot;) }));&#xa;BasicComboPopup popupMudaTema = (BasicComboPopup) jComboBoxMudaTema.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaTema.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaTema.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
@@ -1061,7 +1067,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaLinguagemActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator it = lingua.getlist(4).iterator();&#xa;int i = 0;&#xa;while (it.hasNext()) {&#xa;    list[i] = lingua.translate(it.next().toString());&#xa;    i++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator it = lingua.getlist(4).iterator();&#xa;int i = 0;&#xa;while (it.hasNext()) {&#xa;    list[i] = lingua.translate(it.next().toString());&#xa;    i++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list));&#xa;BasicComboPopup popupMudaLinguagem = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaLinguagem.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaLinguagem.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
@@ -1092,7 +1098,6 @@
                     <Property name="minimum" type="int" value="20"/>
                     <Property name="minorTickSpacing" type="int" value="5"/>
                     <Property name="paintLabels" type="boolean" value="true"/>
-                    <Property name="paintTicks" type="boolean" value="true"/>
                     <Property name="value" type="int" value="25"/>
                   </Properties>
                   <Events>
@@ -1107,28 +1112,12 @@
                     <Property name="text" type="java.lang.String" value="Tamanho do divisor:"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                        <EmptyBorder bottom="15" left="1" right="1" top="1"/>
+                        <EmptyBorder bottom="5" left="1" right="1" top="1"/>
                       </Border>
                     </Property>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTamanhoDivisor.setText(lingua.translate(&quot;tamanho_divisor&quot;)+&quot;: &quot;);"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelMudaCorDivisor">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Cor do divisor:"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                        <EmptyBorder bottom="10" left="1" right="1" top="1"/>
-                      </Border>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaCorDivisor.setText(lingua.translate(&quot;cor_divisor&quot;)+&quot;: &quot;);"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelMudaCorSlider">
@@ -1141,139 +1130,41 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jSliderGreen" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jSliderRed" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jSliderBlue" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelRed" max="32767" attributes="0"/>
-                                  <Component id="jLabelGreen" max="32767" attributes="0"/>
-                                  <Component id="jLabelBlue" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <EmptySpace min="0" pref="274" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSliderRed" max="32767" attributes="0"/>
-                                  <Component id="jLabelRed" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelGreen" max="32767" attributes="0"/>
-                                  <Component id="jSliderGreen" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSliderBlue" max="32767" attributes="0"/>
-                                  <Component id="jLabelBlue" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="40" max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="0" pref="172" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JSlider" name="jSliderRed">
-                      <Properties>
-                        <Property name="maximum" type="int" value="254"/>
-                        <Property name="minorTickSpacing" type="int" value="50"/>
-                        <Property name="paintLabels" type="boolean" value="true"/>
-                        <Property name="paintTicks" type="boolean" value="true"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderRedStateChanged"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabelRed">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Cantarell" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="horizontalAlignment" type="int" value="11"/>
-                        <Property name="text" type="java.lang.String" value="Vermelho"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                            <EmptyBorder bottom="20" left="1" right="1" top="1"/>
-                          </Border>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelRed.setText(lingua.translate(&quot;Vermelho&quot;));"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JSlider" name="jSliderGreen">
-                      <Properties>
-                        <Property name="maximum" type="int" value="254"/>
-                        <Property name="minorTickSpacing" type="int" value="50"/>
-                        <Property name="paintLabels" type="boolean" value="true"/>
-                        <Property name="paintTicks" type="boolean" value="true"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderGreenStateChanged"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JSlider" name="jSliderBlue">
-                      <Properties>
-                        <Property name="maximum" type="int" value="254"/>
-                        <Property name="minorTickSpacing" type="int" value="50"/>
-                        <Property name="paintLabels" type="boolean" value="true"/>
-                        <Property name="paintTicks" type="boolean" value="true"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlueStateChanged"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabelGreen">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Cantarell" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="fe" red="0" type="rgb"/>
-                        </Property>
-                        <Property name="horizontalAlignment" type="int" value="11"/>
-                        <Property name="text" type="java.lang.String" value="Verde"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                            <EmptyBorder bottom="20" left="1" right="1" top="1"/>
-                          </Border>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelGreen.setText(lingua.translate(&quot;Verde&quot;));"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabelBlue">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Cantarell" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="fe" green="0" red="0" type="rgb"/>
-                        </Property>
-                        <Property name="horizontalAlignment" type="int" value="11"/>
-                        <Property name="text" type="java.lang.String" value="Azul"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                            <EmptyBorder bottom="20" left="1" right="1" top="1"/>
-                          </Border>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelBlue.setText(lingua.translate(&quot;Azul&quot;));"/>
-                      </AuxValues>
-                    </Component>
-                  </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Cantarell" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Auxiliar de rolagem: "/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTemaQuadros1.setText(lingua.translate(&quot;Auxiliar de rolagem&quot;)+&quot;:&quot;);"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="jComboBoxScrollAtivo">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxScrollAtivoActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxScrollAtivo.setFocusable(false);&#xa;&#xa;&#xa;jComboBoxScrollAtivo.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[]{lingua.translate(&quot;Sim&quot;),lingua.translate(&quot;Nao&quot;)}));&#xa;BasicComboPopup popupMudaScroll = (BasicComboPopup) jComboBoxScrollAtivo.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaScroll.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaScroll.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -1421,16 +1312,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelInicial" alignment="0" max="32767" attributes="0"/>
-          <Component id="jToolBar1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanelInicial" alignment="0" pref="1023" max="32767" attributes="0"/>
+          <Component id="jPanel3" alignment="0" pref="1023" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelInicial" pref="564" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <Component id="jPanelInicial" pref="517" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -1439,13 +1331,20 @@
     <Container class="javax.swing.JPanel" name="jPanelInicial">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="19" green="19" red="19" type="rgb"/>
+          <Color blue="fe" green="fe" red="fe" type="rgb"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-            <MatteColorBorder bottom="2" left="2" right="2" top="2">
-              <Color PropertyName="color" blue="fe" green="fe" red="fe" type="rgb"/>
-            </MatteColorBorder>
+          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+            <CompoundBorder>
+              <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder thickness="2">
+                  <Color PropertyName="color" blue="be" green="b8" red="b1" type="rgb"/>
+                </LineBorder>
+              </Border>
+              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </CompoundBorder>
           </Border>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1459,16 +1358,19 @@
           <Dimension value="[1024, 600]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder( javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK),javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(177,184,190), 5), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)))));"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" pref="1025" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" pref="1017" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" alignment="0" pref="560" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" alignment="0" pref="511" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -1531,12 +1433,12 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelInformaBaixoBaixo" pref="288" max="32767" attributes="0"/>
+                              <Component id="jPanelInformaBaixoBaixo" pref="282" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                   <Component id="jButtonProcuraBaixo" min="-2" pref="63" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextFieldProcuraBaixo" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldProcuraBaixo" pref="0" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jPanelLimpaPesquisaBaixo" alignment="1" max="32767" attributes="0"/>
@@ -1544,7 +1446,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPaneDevolucoes" pref="696" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneDevolucoes" pref="699" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabelTituloDevolucoes" max="32767" attributes="0"/>
@@ -1562,7 +1464,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPaneDevolucoes" pref="453" max="32767" attributes="0"/>
+                              <Component id="jScrollPaneDevolucoes" pref="447" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jTextFieldProcuraBaixo" alignment="3" max="-2" attributes="0"/>
@@ -1580,6 +1482,9 @@
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="jScrollPaneDevolucoes">
                   <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
+                    </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[600, 400]"/>
                     </Property>
@@ -1651,7 +1556,7 @@
                               <Component id="jButtonConfirmaDevolucao" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPaneInformaBaixo" alignment="0" pref="288" max="32767" attributes="0"/>
+                          <Component id="jScrollPaneInformaBaixo" alignment="0" pref="282" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1720,12 +1625,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="258" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="252" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="313" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="307" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -1735,7 +1640,10 @@
                     <Component class="javax.swing.JButton" name="jButtonConfirmaDevolucao">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="32" green="c9" red="2e" type="rgb"/>
+                          <Color blue="1" green="1" red="1" type="rgb"/>
+                        </Property>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -1762,7 +1670,10 @@
                     <Component class="javax.swing.JButton" name="jButtonAlteraDevolucao">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cc" green="8a" red="5" type="rgb"/>
+                          <Color blue="1" green="1" red="1" type="rgb"/>
+                        </Property>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -1791,9 +1702,7 @@
                       <Color blue="1" green="1" red="1" type="rgb"/>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder/>
-                      </Border>
+                      <Border info="null"/>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
@@ -1804,7 +1713,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProcuraBaixoActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearchbaixo = null;&#xa;try {&#xa;    imagebtsearchbaixo = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearchbaixo != null) {&#xa;    javax.swing.ImageIcon iconbtsearchbaixo = new javax.swing.ImageIcon(imagebtsearchbaixo);&#xa;    jButtonProcuraBaixo.setIcon(iconbtsearchbaixo);&#xa;}&#xa;jButtonProcuraBaixo.setToolTipText(lingua.translate(&quot;Pesquisar&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearchbaixo = null;&#xa;try {&#xa;    imagebtsearchbaixo = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearchbaixo != null) {&#xa;    javax.swing.ImageIcon iconbtsearchbaixo = new javax.swing.ImageIcon(imagebtsearchbaixo);&#xa;    jButtonProcuraBaixo.setIcon(iconbtsearchbaixo);&#xa;}&#xa;jButtonProcuraBaixo.setToolTipText(lingua.translate(&quot;Pesquisa por&quot;)+&quot; &quot;+spesquisa[1].toLowerCase());"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldProcuraBaixo">
@@ -1812,7 +1721,6 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="c9" green="c9" red="c9" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Pesquisa por utilizador ..."/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[191, 41]"/>
                     </Property>
@@ -1823,7 +1731,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldProcuraBaixoKeyPressed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraBaixo.setText(lingua.translate(&quot;Pesquisa por utilizador ...&quot;));&#xa;jTextFieldProcuraBaixo.setFocusAccelerator(&apos;x&apos;);&#xa;&#xa;javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createLineBorder(jPanelBaixo.getBackground(),5);&#xa;javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createLineBorder(jPanelBaixo.getBackground(),5);&#xa;javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1])+&quot; ... &quot;);&#xa;jTextFieldProcuraBaixo.setFocusAccelerator(&apos;x&apos;);&#xa;jTextFieldProcuraBaixo.setCaretPosition(0);"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelLimpaPesquisaBaixo">
@@ -1835,9 +1743,8 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jLabelLimpaPesquisaBaixo" min="-2" pref="193" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaBaixo" min="-2" pref="137" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1850,15 +1757,19 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabelLimpaPesquisaBaixo">
                       <Properties>
-                        <Property name="horizontalAlignment" type="int" value="11"/>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                            <EmptyBorder bottom="1" left="1" right="10" top="15"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                            <LineBorder/>
                           </Border>
                         </Property>
+                        <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                //lista_dev.addTimerColors();&#xa;                //lista_dev.startTimerColors();&#xa;                jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));&#xa;                jTextFieldProcuraBaixo.setText(lingua.translate(&quot;Pesquisa por utilizador ...&quot;));&#xa;                jLabelTituloDevolucoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;                requestFocusInWindow();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(Color.WHITE);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(Color.BLACK);&#xa;            }&#xa;&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                //lista_dev.addTimerColors();&#xa;                //lista_dev.startTimerColors();&#xa;                jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));&#xa;                jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]));&#xa;                jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;                requestFocusInWindow();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(Color.LIGHT_GRAY);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(Color.BLACK);&#xa;            }&#xa;&#xa;        });"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -1868,7 +1779,7 @@
             <Container class="javax.swing.JPanel" name="jPanelCima">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="c1" green="c1" red="c1" type="rgb"/>
+                  <Color blue="b9" green="b9" red="b9" type="rgb"/>
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1895,28 +1806,23 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneRequisicoes" pref="703" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneRequisicoes" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jLabelTitulorequisicoes" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jPanelInformaCimaBaixo" pref="281" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanelInformaCimaBaixo" pref="281" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldProcuraCima" pref="191" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldProcuraCima" pref="187" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButtonProcuraCima" min="-2" pref="63" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPanel1" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel1" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1925,10 +1831,10 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabelTitulorequisicoes" pref="33" max="32767" attributes="0"/>
                               <Component id="jPanel1" max="32767" attributes="0"/>
+                              <Component id="jLabelTitulorequisicoes" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -2001,6 +1907,9 @@
                       </Border>
                     </Property>
                     <Property name="opaque" type="boolean" value="true"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[103, 33]"/>
+                    </Property>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTitulorequisicoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
@@ -2018,7 +1927,7 @@
                       <Color blue="fe" green="fe" red="fe" type="rgb"/>
                     </Property>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[267, 32767]"/>
+                      <Dimension value="[12343, 32767]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[220, 450]"/>
@@ -2136,7 +2045,10 @@
                     <Component class="javax.swing.JButton" name="jButtonAtuacaoConfirma">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="32" green="c9" red="2e" type="rgb"/>
+                          <Color blue="eb" green="eb" red="eb" type="rgb"/>
+                        </Property>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -2163,7 +2075,10 @@
                     <Component class="javax.swing.JButton" name="jButtonAtuacaoAltera">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cc" green="8a" red="5" type="rgb"/>
+                          <Color blue="eb" green="eb" red="eb" type="rgb"/>
+                        </Property>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -2194,7 +2109,6 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="c9" green="c9" red="c9" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Pesquisa por utilizador ..."/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -2205,7 +2119,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldProcuraCimaKeyPressed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(&quot;Pesquisa por utilizador ...&quot;));&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;&#xa;javax.swing.border.Border borderpesquisa1 = BorderFactory.createLineBorder(jPanelCima.getBackground(),5);&#xa;javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0])+&quot; ... &quot;);&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;&#xa;javax.swing.border.Border borderpesquisa1 = BorderFactory.createLineBorder(jPanelCima.getBackground(),5);&#xa;javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraCima.setCaretPosition(0);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonProcuraCima">
@@ -2214,9 +2128,7 @@
                       <Color blue="1" green="1" red="1" type="rgb"/>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder/>
-                      </Border>
+                      <Border info="null"/>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
@@ -2227,7 +2139,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProcuraCimaActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearch = null;&#xa;try {&#xa;    imagebtsearch = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearch != null) {&#xa;    javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);&#xa;    jButtonProcuraCima.setIcon(iconbtsearch);&#xa;}&#xa;jButtonProcuraCima.setToolTipText(lingua.translate(&quot;Pesquisar&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearch = null;&#xa;try {&#xa;    imagebtsearch = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearch != null) {&#xa;    javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);&#xa;    jButtonProcuraCima.setIcon(iconbtsearch);&#xa;}&#xa;jButtonProcuraCima.setToolTipText(lingua.translate(&quot;Pesquisa por&quot;)+&quot; &quot;+spesquisa[0].toLowerCase());"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel1">
@@ -2239,29 +2151,33 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelAuxiliarCima" min="-2" pref="146" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabelAuxiliarCima" min="-2" pref="137" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelAuxiliarCima" alignment="1" pref="33" max="32767" attributes="0"/>
+                          <Component id="jLabelAuxiliarCima" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabelAuxiliarCima">
                       <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                        </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                            <EmptyBorder bottom="1" left="10" right="1" top="15"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                            <LineBorder/>
                           </Border>
                         </Property>
+                        <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelAuxiliarCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelAuxiliarCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelAuxiliarCima.setVisible(false);&#xa;jLabelAuxiliarCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));&#xa;                jTextFieldProcuraCima.setText(lingua.translate(&quot;Pesquisa por utilizador ...&quot;));&#xa;                jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;                jLabelAuxiliarCima.setVisible(false);&#xa;                requestFocusInWindow();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelAuxiliarCima.setForeground(Color.WHITE);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelAuxiliarCima.setForeground(Color.BLACK);&#xa;            }&#xa;&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelAuxiliarCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelAuxiliarCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelAuxiliarCima.setVisible(false);&#xa;jLabelAuxiliarCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));&#xa;                jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]));&#xa;                jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;                jLabelAuxiliarCima.setVisible(false);&#xa;                requestFocusInWindow();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelAuxiliarCima.setForeground(Color.LIGHT_GRAY);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelAuxiliarCima.setForeground(Color.BLACK);&#xa;            }&#xa;&#xa;        });"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -2272,21 +2188,63 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JToolBar" name="jToolBar1">
+    <Container class="javax.swing.JPanel" name="jPanel3">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="be" green="b8" red="b1" type="rgb"/>
+        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="0" left="20" right="20" top="4"/>
+          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+            <MatteColorBorder bottom="0" left="1" right="1" top="1"/>
           </Border>
         </Property>
-        <Property name="floatable" type="boolean" value="false"/>
-        <Property name="rollover" type="boolean" value="true"/>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[90, 32]"/>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="1" green="1" red="1" type="rgb"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[757, 30]"/>
         </Property>
       </Properties>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                  <Component id="jToggleButtonBarRequisicoes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jToggleButtonBarEntregas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxVista" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButtonListaBotoes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jComboBoxListaBotoes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jComboBox1" min="-2" pref="200" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jToggleButtonBarRequisicoes" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonListaBotoes" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="jComboBoxListaBotoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jComboBoxVista" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jToggleButtonBarEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
       <SubComponents>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarRequisicoes">
           <Properties>
@@ -2296,14 +2254,17 @@
               </Border>
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 28]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 28]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[40, 26]"/>
@@ -2324,13 +2285,17 @@
                 <EmptyBorder bottom="1" left="5" right="5" top="2"/>
               </Border>
             </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 28]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 28]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[40, 26]"/>
@@ -2343,8 +2308,6 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtent = null;&#xa;try {&#xa;    imagebtent = ImageIO.read(getClass().getResourceAsStream(&quot;Images/cima.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtent != null) {&#xa;    javax.swing.ImageIcon iconbtent = new javax.swing.ImageIcon(imagebtent);&#xa;    jToggleButtonBarEntregas.setIcon(iconbtent);&#xa;}"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JToolBar$Separator" name="jSeparator1">
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxVista">
           <Properties>
@@ -2368,38 +2331,10 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxVistaActionPerformed"/>
           </Events>
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="BasicComboPopup popupVista = (BasicComboPopup) jComboBoxVista.getAccessibleContext().getAccessibleChild(0);&#xa;popupVista.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
             <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;1_dia&quot;), lingua.translate(&quot;2_dias&quot;), lingua.translate(&quot;1_semana&quot;), lingua.translate(&quot;2_semanas&quot;)}));&#xa;((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonList">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Atualizar"/>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Hand Cursor"/>
-            </Property>
-            <Property name="focusPainted" type="boolean" value="false"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[89, 26]"/>
-            </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[79, 26]"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[84, 26]"/>
-            </Property>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonListActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonList.setText(lingua.translate(&quot;Atualizar&quot;));&#xa;&#xa;jButtonList.setMnemonic(jButtonList.getText().charAt(0));"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JToolBar$Separator" name="jSeparator2">
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxListaBotoes">
           <Properties>
@@ -2421,28 +2356,30 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxListaBotoesActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((javax.swing.JLabel)jComboBoxListaBotoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((javax.swing.JLabel)jComboBoxListaBotoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);&#xa;BasicComboPopup popupLista = (BasicComboPopup) jComboBoxListaBotoes.getAccessibleContext().getAccessibleChild(0);&#xa;popupLista.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupLista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonListaBotoes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Lista de recursos"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="1" left="5" right="5" top="1"/>
               </Border>
             </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[234, 26]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[154, 26]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 26]"/>
+              <Dimension value="[40, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2450,7 +2387,31 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonListaBotoesActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonListaBotoes.setText(lingua.translate(&quot;Lista de recursos&quot;));&#xa;&#xa;java.awt.geom.AffineTransform affinetransform = new java.awt.geom.AffineTransform();&#xa;java.awt.font.FontRenderContext frc = new java.awt.font.FontRenderContext(affinetransform, true, true);&#xa;java.awt.Font font = new java.awt.Font(&quot;Cantarell&quot;, java.awt.Font.PLAIN, 13);&#xa;int tam = (int)font.getStringBounds(jButtonListaBotoes.getText(), frc).getBounds().getWidth();&#xa;//jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(tam+4,26));&#xa;jButtonListaBotoes.setMnemonic(jButtonListaBotoes.getText().charAt(0));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonListaBotoes.setMnemonic(lingua.translate(&quot;Lista de recursos&quot;).charAt(0));&#xa;jButtonListaBotoes.setToolTipText(lingua.translate(&quot;Lista de recursos&quot;));&#xa;java.awt.image.BufferedImage imagebtlista = null;&#xa;try {&#xa;    imagebtlista = ImageIO.read(getClass().getResourceAsStream(&quot;Images/lista.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtlista != null) {&#xa;    javax.swing.ImageIcon iconbtlista = new javax.swing.ImageIcon(imagebtlista);&#xa;    jButtonListaBotoes.setIcon(iconbtlista);&#xa;}"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="jComboBox1">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[64, 26]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[124, 26]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBox1.getComponent(0).setForeground(Color.WHITE);&#xa;((javax.swing.JLabel)jComboBox1.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);&#xa;BasicComboPopup popupPesquisa = (BasicComboPopup) jComboBox1.getAccessibleContext().getAccessibleChild(0);&#xa;popupPesquisa.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupPesquisa.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));&#xa;jComboBox1.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Pesquisa por utilizador&quot;), lingua.translate(&quot;Pesquisa por recurso&quot;), lingua.translate(&quot;Pesquisa por tempo&quot;) }));"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>
