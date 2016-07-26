@@ -282,10 +282,24 @@ public class ButtonListRequest {
                     .addComponent(painel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
             //painel.setLayout(null);
+            GridLayout layoutpanel =new GridLayout(2,0);
+            
+            painel.setLayout(layoutpanel);
+            javax.swing.JPanel painelcima = new javax.swing.JPanel(layoutpanel);
+            FlowLayout flayout =new FlowLayout(FlowLayout.LEADING);
+            javax.swing.JPanel painelcima1 = new javax.swing.JPanel(flayout);
+            painelcima.add(painelcima1);
             javax.swing.JLabel lab = new javax.swing.JLabel("ola mundo");
             lab.setPreferredSize(new Dimension(100,30));
+            lab.setBounds(0, 0, 200, 30);
+            lab.setAlignmentX(javax.swing.JLabel.CENTER);
+            painelcima1.add(lab);
+            
+            lab = new javax.swing.JLabel("ola mundo");
             lab.setBounds(0, 0, 100, 30);
-            painel.add(lab);
+             painelcima1.add(lab);
+             painel.add(painelcima);
+            
         }
 
         @Override
