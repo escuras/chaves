@@ -1,5 +1,5 @@
 #!/bin/bash
 git add .
-git commit -m 'v'$(date +"%S-%d.%m.%Y")
+git commit -m 'v'$(date +"%S%M%H-%d.%m.%Y")
 git push origin
 echo "Concluido"
