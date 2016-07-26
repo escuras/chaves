@@ -19,11 +19,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -44,26 +48,49 @@ public class ButtonListRequest {
     private Langs.Locale lingua;
     private javax.swing.JTabbedPane tpanel;
     private javax.swing.JPanel pane;
-    private Color btcor;
+    private Color btcor1;
+    private Color btcor2;
     private Color panelcor;
     private java.util.Iterator<?> iterador;
+    private int tipopesquisa;
 
-    public ButtonListRequest(RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel) {
+    public ButtonListRequest(RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, Color panelcolor) {
         this.mater = new HashSet<>();
         this.lingua = lingua;
+        this.panelcor = panelcolor;
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
         DataBase.DataBase db = new DataBase.DataBase(csv);
         dim = new Dimension(80, 80);
-        this.btcor = new Color(254, 254, 254);
+        this.btcor1 = new Color(54, 54, 154);
+        this.btcor2 = new Color(145, 145, 254);
         this.tpanel = tpanel;
+        this.tipopesquisa = tipopesquisa;
         int val = req.getTypeOfMaterial().getMaterialTypeID();
-        if (val == 1) {
-            mater = new TreeSet<Clavis.Classroom>(db.getClassrooms());
-        } else {
-            mater = new TreeSet<Clavis.Material>(db.getMaterialsByType(val));
+        switch (tipopesquisa) {
+            case 0:
+                if (val == 1) {
+                    mater = new TreeSet<>(db.getClassrooms(0));
+                } else {
+                    mater = new TreeSet<>(db.getMaterialsByType(val));
+                }
+                break;
+            case 1:
+                if (val == 1) {
+                    mater = new TreeSet<>(db.getClassrooms(1));
+                } else {
+                    mater = new TreeSet<>(db.getMaterialsByType(val));
+                }
+                break;
+            default:
+                if (val == 1) {
+                    mater = new TreeSet<>(db.getClassrooms(2));
+                } else {
+                    mater = new TreeSet<>(db.getMaterialsByType(val));
+                }
+                break;
         }
-        java.util.Iterator<?> iterador = mater.iterator();
+        iterador = mater.iterator();
     }
 
     public String[] getListOfMaterialType() {
@@ -87,7 +114,8 @@ public class ButtonListRequest {
 
     public List<javax.swing.JButton> getButtons() {
         this.bLista = new ArrayList<>();
-        int val = 5;
+        int segue = 0;
+        System.out.println(this.mater.size());
         if (!this.mater.isEmpty()) {
             for (Object n : this.mater) {
                 javax.swing.JButton button = new javax.swing.JButton();
@@ -99,22 +127,31 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
-                button.setBackground(btcor);
                 button.setBounds(0, 0, 80, 80);
-                button.setSize(new Dimension(100, 100));
+                button.setSize(new Dimension(80, 80));
                 if (!(n instanceof Clavis.Classroom)) {
                     Clavis.Material m = (Clavis.Material) n;
+                    if (m.isLoaned()) {
+                        button.setBackground(btcor1);
+                    } else {
+                        button.setBackground(btcor2);
+                    }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener(new ActionButton(m));
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
-                        java.io.File file = new java.io.File("src/Main/Images/sala.png");
-                        if (file.isFile()) {
-                            BufferedImage ima = FileIOAux.ImageAux.getImageFromFile(file);
-                            ima = FileIOAux.ImageAux.resize(ima, 40, 40);
-                            ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
-                            ic = new javax.swing.ImageIcon(ima);
-                            button.setIcon(ic);
+                        BufferedImage ima;
+                        try {
+                            String auximage = "Images/" + m.getTypeOfMaterialImage() + ".png";
+                            if (this.getClass().getResource(auximage) != null) {
+                                ima = ImageIO.read(getClass().getResourceAsStream(auximage));
+                                ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                                ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
+                                ic = new javax.swing.ImageIcon(ima);
+                                button.setIcon(ic);
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(ButtonListRequest.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
@@ -125,20 +162,29 @@ public class ButtonListRequest {
                             button.setIcon(ic);
                         }
                     }
-                    
                 } else {
                     Clavis.Classroom m = (Clavis.Classroom) n;
+                    if (m.isLoaned()) {
+                        button.setBackground(btcor1);
+                    } else {
+                        button.setBackground(btcor2);
+                    }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener(new ActionButton(m));
                     javax.swing.ImageIcon ic;
-                    if (m.getMaterialImage().equals("box")) {
-                        java.io.File file = new java.io.File("src/Main/Images/" + m.getTypeOfMaterialImage() + ".png");
-                        if (file.isFile()) {
-                            BufferedImage ima = FileIOAux.ImageAux.getImageFromFile(file);
-                            ima = FileIOAux.ImageAux.resize(ima, 40, 40);
-                            ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
-                            ic = new javax.swing.ImageIcon(ima);
-                            button.setIcon(ic);
+                    if (m.getMaterialImage().equals("sem")) {
+                        BufferedImage ima;
+                        try {
+                            String auximage = "Images/" + m.getTypeOfMaterialImage() + ".png";
+                            if (this.getClass().getResource(auximage) != null) {
+                                ima = ImageIO.read(getClass().getResourceAsStream(auximage));
+                                ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                                ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
+                                ic = new javax.swing.ImageIcon(ima);
+                                button.setIcon(ic);
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(ButtonListRequest.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
@@ -151,7 +197,7 @@ public class ButtonListRequest {
                     }
                 }
                 bLista.add(button);
-                val += 55;
+                segue++;
             }
         }
         return bLista;
@@ -161,69 +207,36 @@ public class ButtonListRequest {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
         this.bLista = this.getButtons();
         if (!this.bLista.isEmpty()) {
-            //GridBagLayout ff = new GridBagLayout();
-            //GridBagConstraints conts = new GridBagConstraints();
-            int i = 0;
-            //pane.setBounds(new Rectangle(400, 100));
             pane.setLayout(new Components.ModifiedFlowLayout());
-            pane.setBorder(new EmptyBorder(20, 0, 20, 0));
-            pane.setMinimumSize(new Dimension(200, 200));
-            pane.setMaximumSize(new Dimension(200, 2000));
-            pane.setBackground(Color.DARK_GRAY);
-            //pane.setLayout(ff);
+            pane.setBorder(new EmptyBorder(40, 80, 40, 80));
+            pane.setBackground(new Color(245, 245, 220));
+            aux.setPreferredSize(new Dimension(0, 300));
+            pane.setPreferredSize(new Dimension(0, 300));
             int g = 0;
             int v = 0;
-            for (javax.swing.JButton bt : bLista) {
+            bLista.stream().forEach((bt) -> {
                 pane.add(bt, BorderLayout.PAGE_END);
-            }
-            pane.addComponentListener(new ComponentListener() {
-                int j = 0;
-
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    int i = 0;
-                    int laux = 0;
-                    int altura = (int) pane.getHeight();
-                    int largura = (int) pane.getWidth();
-                    int aaux = 0;
-                    j++;
-                    int val = 83;
-                    while (i < bLista.size()) {
-                        if ((laux + val >= largura) || (largura <= laux)) {
-                            aaux += bLista.get(i).getHeight() + 30;
-                            laux = 0;
-                        }
-                        laux += bLista.get(i).getWidth() + 20;
-                        i++;
-                    }
-                    if (laux != 0) {
-                        aaux = aaux - bLista.get(0).getHeight() + 30;
-                    }
-                    if (aaux > altura) {
-                        pane.setPreferredSize(new Dimension(0, aaux));
-                    } else if (aaux < altura) {
-                        while (altura > aaux) {
-                            altura -= bLista.get(0).getHeight() + 20;
-                        }
-                        pane.setPreferredSize(new Dimension(0, altura));
-                    }
-
-                }
-
-                @Override
-                public void componentMoved(ComponentEvent e) {
-
-                }
-
-                @Override
-                public void componentShown(ComponentEvent e) {
-                }
-
-                @Override
-                public void componentHidden(ComponentEvent e) {
-                }
 
             });
+            int laux = 0;
+            int altura = (int) tpanel.getHeight();
+            int largura = (int) tpanel.getWidth();
+            System.out.println("altura: " + altura);
+            System.out.println("largura: " + largura);
+            int aaux = 0;
+            int valinicial = 50;
+            int i = 0;
+            while (i < bLista.size()) {
+                if ((i % 5 + 1) == 1) {
+                    System.out.println(bLista.get(i).getHeight());
+                    valinicial += bLista.get(i).getHeight() + 10;
+                }
+                i++;
+            }
+            if (valinicial > 300) {
+                altura = valinicial;
+                pane.setPreferredSize(new Dimension(0, altura));
+            }
 
         }
 
@@ -233,8 +246,10 @@ public class ButtonListRequest {
 
     class ActionButton implements ActionListener {
 
-        private Clavis.Material mat;
-        private Clavis.Classroom cla;
+        private final Clavis.Material mat;
+        private final Clavis.Classroom cla;
+        private javax.swing.JDialog janela;
+        private javax.swing.JPanel painel;
 
         public ActionButton(Clavis.Material m) {
             this.mat = m;
@@ -244,12 +259,40 @@ public class ButtonListRequest {
         public ActionButton(Clavis.Classroom m) {
             this.cla = m;
             this.mat = null;
+            janela = new javax.swing.JDialog();
+            painel = new javax.swing.JPanel();
+            painel.setBackground(new java.awt.Color(254, 254, 254));
+            painel.setBorder(null);
+            painel.setPreferredSize(new java.awt.Dimension(660, 528));
+            janela.setTitle(lingua.translate("Detalhes")+" "+lingua.translate("de")+" "+lingua.translate(cla.getTypeOfMaterialName())+": "+lingua.translate(cla.getDescription()));
+            janela.setMinimumSize(new java.awt.Dimension(700, 500));
+            janela.setResizable(false);
+            janela.setAlwaysOnTop(true);
+            javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 6), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+            javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1), border11);
+            painel.setBorder(border22);
+            javax.swing.GroupLayout janelaLayout = new javax.swing.GroupLayout(janela.getContentPane());
+            janela.getContentPane().setLayout(janelaLayout);
+            janelaLayout.setHorizontalGroup(
+                    janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            janelaLayout.setVerticalGroup(
+                    janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            //painel.setLayout(null);
+            javax.swing.JLabel lab = new javax.swing.JLabel("ola mundo");
+            lab.setPreferredSize(new Dimension(100,30));
+            lab.setBounds(0, 0, 100, 30);
+            painel.add(lab);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if ((mat == null) && (cla != null)) {
-                JOptionPane.showMessageDialog(null, "Ola mundo " + cla.getDescription());
+                janela.setVisible(true);
+                janela.setLocationRelativeTo(tpanel);
             } else if ((cla == null) && (mat != null)) {
                 JOptionPane.showMessageDialog(null, "Ola mundo " + mat.getDescription());
             }

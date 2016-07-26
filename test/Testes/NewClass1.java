@@ -46,7 +46,7 @@ public class NewClass1 {
         
         String isto = "Sala de aula";
         System.out.println(isto.compareToIgnoreCase("rojtr"));
-        Set<Clavis.Classroom> cl = db.getClassrooms();
+        Set<Clavis.Classroom> cl = db.getClassrooms(2);
         for (Clavis.Classroom c : cl) {
             System.out.println(c.getDescription()+" "+c.getComputers());
         }

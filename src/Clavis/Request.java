@@ -29,6 +29,12 @@ public class Request implements Comparable<Request> {
     private boolean terminado;
     private int substituido;
     private int quantidade;
+    private Date data_levantamento;
+    private Date data_entrega;
+    private Time tempo_levantamento;
+    private Time tempo_entrega;
+    private String atividade;
+    private ClassStudents turma;
 
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem) {
         this.begin = date;
@@ -40,30 +46,43 @@ public class Request implements Comparable<Request> {
         this.pessoa = pessoa;
         this.material = material;
         this.discplina = new Subject();
+        this.atividade = "sem descrição";
         this.origem = origem;
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
-        this.quantidade = 0;
+        this.quantidade = 1;
+        this.tempo_levantamento = null;
+        this.tempo_entrega = null;
+        this.data_entrega = null;
+        this.data_levantamento = null;
+        this.turma = new ClassStudents();
     }
-
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem, boolean ativo, boolean terminado, int substituido) {
+    
+    public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem, int quantidade) {
         this.begin = date;
         this.end = date2;
-        this.id = id;
+        this.id = -1;
         this.dia = dia;
         this.tinicio = tinicio;
         this.tfim = tfim;
         this.pessoa = pessoa;
         this.material = material;
         this.discplina = new Subject();
+        this.atividade = "sem descrição";
         this.origem = origem;
-        this.ativo = ativo;
-        this.terminado = terminado;
-        this.substituido = substituido;
+        this.ativo = false;
+        this.terminado = false;
+        this.substituido = 0;
+        this.quantidade = quantidade;
+        this.tempo_levantamento = null;
+        this.tempo_entrega = null;
+        this.data_entrega = null;
+        this.data_levantamento = null;
+        this.turma = new ClassStudents();
     }
 
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String origem, boolean ativo, boolean terminado, int substituido) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido,int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -74,12 +93,19 @@ public class Request implements Comparable<Request> {
         this.material = material;
         this.discplina = disciplina;
         this.origem = origem;
+        this.atividade = atividade;
         this.ativo = ativo;
         this.terminado = terminado;
         this.substituido = substituido;
+        this.quantidade = quantidade;
+        this.tempo_levantamento = tempo_levantamento;
+        this.tempo_entrega = tempo_entrega;
+        this.data_entrega = data_entrega;
+        this.data_levantamento = data_levantamento;
+        this.turma = turma;
     }
 
-    public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String origem) {
+    public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, String origem, ClassStudents turma) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -89,10 +115,17 @@ public class Request implements Comparable<Request> {
         this.pessoa = pessoa;
         this.material = material;
         this.discplina = disciplina;
+        this.atividade = atividade;
         this.origem = origem;
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
+        this.quantidade = 1;
+        this.tempo_levantamento = null;
+        this.tempo_entrega = null;
+        this.data_entrega = null;
+        this.data_levantamento = null;
+        this.turma = turma;
     }
 
     public Request(Request req) {
@@ -103,12 +136,19 @@ public class Request implements Comparable<Request> {
         this.tinicio = req.getTimeBegin();
         this.tfim = req.getTimeEnd();
         this.pessoa = req.getPerson();
+        this.atividade = req.getActivity();
         this.material = req.getMaterial();
         this.discplina = req.getSubject();
         this.origem = req.getSource();
         this.ativo = req.isActive();
         this.terminado = req.isTerminated();
         this.substituido = req.getSubstitute();
+        this.quantidade = req.getQuantity();
+        this.data_entrega = req.getDeliveryDate();
+        this.data_levantamento = req.getLiftDate();
+        this.tempo_entrega = req.getDeliveryTime();
+        this.tempo_levantamento = req.getLiftTime();
+        this.turma = req.getStudentsClass();
     }
 
     /**
@@ -314,6 +354,104 @@ public class Request implements Comparable<Request> {
      */
     public void setSubstitute(int substituido) {
         this.substituido = substituido;
+    }
+
+    /**
+     * @return the quantidade
+     */
+    public int getQuantity() {
+        return quantidade;
+    }
+
+    /**
+     * @param quantidade the quantidade to set
+     */
+    public void setQuantity(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    /**
+     * @return the data_levantamento
+     */
+    public Date getLiftDate() {
+        return data_levantamento;
+    }
+
+    /**
+     * @param data_levantamento the data_levantamento to set
+     */
+    public void setLiftDate(Date data_levantamento) {
+        this.data_levantamento = data_levantamento;
+    }
+
+    /**
+     * @return the data_entrega
+     */
+    public Date getDeliveryDate() {
+        return data_entrega;
+    }
+
+    /**
+     * @param data_entrega the data_entrega to set
+     */
+    public void setDeliveryDate(Date data_entrega) {
+        this.data_entrega = data_entrega;
+    }
+
+    /**
+     * @return the tempo_levantamento
+     */
+    public Time getLiftTime() {
+        return tempo_levantamento;
+    }
+
+    /**
+     * @param tempo_levantamento the tempo_levantamento to set
+     */
+    public void setLiftTime(Time tempo_levantamento) {
+        this.tempo_levantamento = tempo_levantamento;
+    }
+
+    /**
+     * @return the tempo_entrega
+     */
+    public Time getDeliveryTime() {
+        return tempo_entrega;
+    }
+
+    /**
+     * @param tempo_entrega the tempo_entrega to set
+     */
+    public void setDeliveryTime(Time tempo_entrega) {
+        this.tempo_entrega = tempo_entrega;
+    }
+
+    /**
+     * @return the Atividade
+     */
+    public String getActivity() {
+        return atividade;
+    }
+
+    /**
+     * @param Atividade the Atividade to set
+     */
+    public void setActivity(String Atividade) {
+        this.atividade = Atividade;
+    }
+
+    /**
+     * @return the turma
+     */
+    public ClassStudents getStudentsClass() {
+        return turma;
+    }
+
+    /**
+     * @param turma the turma to set
+     */
+    public void setStudentsClass(ClassStudents turma) {
+        this.turma = turma;
     }
 
 }

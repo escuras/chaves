@@ -16,7 +16,8 @@ public class ObjectCSV {
     private TimeDate.WeekDay dia;
     private TimeDate.Time horainicio;
     private TimeDate.Time horafim;
-    
+    private String atividade;
+    private Clavis.ClassStudents turma;
     public ObjectCSV(ElementsCSV elementos){
         Clavis.Function funcao = new Clavis.Function("Professor");
         Clavis.TypeOfMaterial material = new Clavis.TypeOfMaterial("Sala de aula");
@@ -26,6 +27,8 @@ public class ObjectCSV {
         this.dia = new TimeDate.WeekDay(elementos.getDayWeek());
         this.horainicio = new TimeDate.Time(elementos.getHourIni(), elementos.getMinuteIni());
         this.horafim = new TimeDate.Time(elementos.getHourEnd(), elementos.getMinuteEnd());
+        this.atividade = elementos.getActivity();
+        this.turma = new Clavis.ClassStudents(elementos.getClassCode());
     }
     
     
@@ -36,10 +39,12 @@ public class ObjectCSV {
         this.dia = objeto.getWeekDay();
         this.horainicio = objeto.getIniHour();
         this.horafim = objeto.getEndHour();
+        this.atividade = objeto.getActivity();
+        this.turma = objeto.getStudentsClass();
     }
     
     public Clavis.Request getRequest(TimeDate.Date date){
-        return new Clavis.Request(date, date, this.dia,this.horainicio,this.horafim,this.pessoa,this.sala,this.disciplina,"csv");
+        return new Clavis.Request(date, date, this.dia,this.horainicio,this.horafim,this.pessoa,this.sala,this.disciplina,this.atividade, "csv",turma);
     } 
 
     /**
@@ -124,6 +129,34 @@ public class ObjectCSV {
      */
     public void setEndHour(TimeDate.Time horafim) {
         this.horafim = horafim;
+    }
+
+    /**
+     * @return the atividade
+     */
+    public String getActivity() {
+        return atividade;
+    }
+
+    /**
+     * @param atividade the atividade to set
+     */
+    public void setActivity(String atividade) {
+        this.atividade = atividade;
+    }
+
+    /**
+     * @return the turma
+     */
+    public Clavis.ClassStudents getStudentsClass() {
+        return turma;
+    }
+
+    /**
+     * @param turma the turma to set
+     */
+    public void setStudentsClass(Clavis.ClassStudents turma) {
+        this.turma = turma;
     }
     
     

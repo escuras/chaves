@@ -118,7 +118,7 @@ public class Clavicela {
                 System.out.println(mo.getDescription());
             }
         }
-        Set<Classroom> croom = teste.getClassrooms();
+        Set<Classroom> croom = teste.getClassrooms(2);
         Object[] clas = croom.toArray();
         if (croom.size() > 0) {
              for (int i=0 ; i<croom.size();i++){

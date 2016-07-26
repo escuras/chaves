@@ -19,9 +19,11 @@ public class ElementsCSV  {
     private String nomeperson;
     private String cdperson;
     private String nomedisciplina;
+    private String atividade;
     private String cddisciplina;
     private String material;
     private String cdmaterial;
+    private String cdturma;
     
     
     public ElementsCSV(){
@@ -36,9 +38,11 @@ public class ElementsCSV  {
         cddisciplina = "";
         material = "";
         cdmaterial = "";
+        atividade = "";
+        cdturma = "";
     }
     
-    public ElementsCSV(int diasemana, int horaIni, int horaFim, int minutoIni, int minutoFim, String nomeperson, String cdperson, String nomedisciplina, String cddisciplina, String material, String cdmaterial){
+    public ElementsCSV(int diasemana, int horaIni, int horaFim, int minutoIni, int minutoFim, String nomeperson, String cdperson, String nomedisciplina, String cddisciplina, String material, String cdmaterial, String atividade,String cdturma){
         this.diasemana = diasemana;
         this.horaIni = horaIni;
         this.minutoIni = minutoIni;
@@ -50,6 +54,8 @@ public class ElementsCSV  {
         this.cddisciplina = cddisciplina;
         this.material = material;
         this.cdmaterial = cdmaterial;
+        this.atividade = atividade;
+        this.cdturma = cdturma;
     }
     
     public ElementsCSV(ElementsCSV csv)
@@ -65,6 +71,8 @@ public class ElementsCSV  {
         this.cddisciplina = csv.getCdSubject();
         this.material = csv.getMaterialDescription();
         this.cdmaterial = csv.getMaterialCode();
+        this.atividade = csv.getActivity();
+        this.cdturma = csv.getClassCode();
     }
    
 
@@ -221,5 +229,33 @@ public class ElementsCSV  {
      */
     public void setCdClassRoom(String cdmaterial) {
         this.cdmaterial = cdmaterial;
+    }
+
+    /**
+     * @return the atividade
+     */
+    public String getActivity() {
+        return atividade;
+    }
+
+    /**
+     * @param atividade the atividade to set
+     */
+    public void setActivity(String atividade) {
+        this.atividade = atividade;
+    }
+
+    /**
+     * @return the cdturma
+     */
+    public String getClassCode() {
+        return cdturma;
+    }
+
+    /**
+     * @param cdturma the cdturma to set
+     */
+    public void setClassCode(String cdturma) {
+        this.cdturma = cdturma;
     }
 }

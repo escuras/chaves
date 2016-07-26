@@ -27,7 +27,7 @@ import org.apache.commons.io.FileUtils;
  * @author toze
  */
 public class HandlingCSV {
-    private static final int [] DEFAULT_VALUES = {3,4,6,5,7,10,12,14,13,11,15};  
+    private static final int [] DEFAULT_VALUES = {3,4,6,5,7,10,12,14,13,11,15,9,1};  
     private static final int DEFAULT_SIZE = 16;  
     private static final String DEFAULT_DOCUMENT_NAME = "horario_disciplinas.csv";
     private final List<ElementsCSV> elementos;
@@ -133,7 +133,7 @@ public class HandlingCSV {
             ElementsCSV elemento;
             for (int i=1; entradas.size() > i; i++) {
                 if (entradas.get(i).length >= this.tamanho) {
-                    elemento = new ElementsCSV(Integer.valueOf(entradas.get(i)[valores[0]]),Integer.valueOf(entradas.get(i)[valores[1]]),Integer.valueOf(entradas.get(i)[valores[2]]),Integer.valueOf(entradas.get(i)[valores[3]]),Integer.valueOf(entradas.get(i)[valores[4]]),entradas.get(i)[valores[5]], entradas.get(i)[valores[6]],entradas.get(i)[valores[7]],entradas.get(i)[valores[8]],entradas.get(i)[valores[9]],entradas.get(i)[valores[10]]);
+                    elemento = new ElementsCSV(Integer.valueOf(entradas.get(i)[valores[0]]),Integer.valueOf(entradas.get(i)[valores[1]]),Integer.valueOf(entradas.get(i)[valores[2]]),Integer.valueOf(entradas.get(i)[valores[3]]),Integer.valueOf(entradas.get(i)[valores[4]]),entradas.get(i)[valores[5]], entradas.get(i)[valores[6]],entradas.get(i)[valores[7]],entradas.get(i)[valores[8]],entradas.get(i)[valores[9]],entradas.get(i)[valores[10]],entradas.get(i)[valores[11]],entradas.get(i)[valores[12]]);
                     elementos.add(elemento);
                 }
             }

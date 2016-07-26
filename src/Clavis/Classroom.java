@@ -16,6 +16,7 @@ public class Classroom extends Material{
     private boolean projetor;
     private boolean quadro;
     private java.util.ArrayList<Subject> disciplinas;
+    private java.util.ArrayList<Software> programas;
     
     
     public Classroom(){
@@ -26,6 +27,7 @@ public class Classroom extends Material{
         this.projetor = false;
         this.quadro = false;
         this.disciplinas = new java.util.ArrayList<>();
+        this.programas = new java.util.ArrayList<>();
     }
     
     public Classroom(Material m){
@@ -36,6 +38,7 @@ public class Classroom extends Material{
         this.projetor = false;
         this.quadro = false;
         this.disciplinas = new java.util.ArrayList<>();
+        this.programas = new java.util.ArrayList<>();
     }
     
     public Classroom(Material m, int ncomputadores, int lugares, boolean projetor, boolean quadro){
@@ -46,6 +49,7 @@ public class Classroom extends Material{
         this.projetor = projetor;
         this.quadro = quadro;
         this.disciplinas = new java.util.ArrayList<>();
+        this.programas = new java.util.ArrayList<>();
     }
     
     public Classroom(Material m, String outros, int ncomputadores, int lugares, boolean projetor, boolean quadro){
@@ -56,9 +60,10 @@ public class Classroom extends Material{
         this.projetor = projetor;
         this.quadro = quadro;
         this.disciplinas = new java.util.ArrayList<>();
+        this.programas = new java.util.ArrayList<>();
     }
     
-    public Classroom(Material m, String outros, int ncomputadores, int lugares, boolean projetor, boolean quadro, java.util.ArrayList<Subject> disciplinas){
+    public Classroom(Material m, String outros, int ncomputadores, int lugares, boolean projetor, boolean quadro, java.util.ArrayList<Subject> disciplinas, java.util.ArrayList<Software> programas){
         super(m);
         this.outros = outros;
         this.ncomputadores = ncomputadores;
@@ -66,6 +71,7 @@ public class Classroom extends Material{
         this.projetor = projetor;
         this.quadro = quadro;
         this.disciplinas = disciplinas;
+        this.programas = programas;
     }
 
     public Classroom(Classroom classroom){
@@ -101,6 +107,32 @@ public class Classroom extends Material{
     public String listSubjects(){
         String lista = "";
         lista = this.disciplinas.stream().map((dis) -> dis.getName()+"\n").reduce(lista, String::concat);
+        return lista;
+    } 
+    
+    public void addSoftware(Software soft){
+        this.programas.add(soft);
+    }
+    
+    public void addSoftware(String nome, String versao, boolean atualizado){
+        this.programas.add(new Software(nome,versao,atualizado));
+    }
+    
+    public void removeSoftare(Software soft){
+        this.programas.stream().forEach((dis) -> {
+            if (dis.equals(soft)) this.programas.remove(dis);
+        });
+    }
+
+    public void removeSoftware(String nome){
+        this.programas.stream().forEach((dis) -> {
+            if (dis.getName().equals(nome)) this.programas.remove(dis);
+        });
+    }
+    
+    public String listSoftware(){
+        String lista = "";
+        lista = this.programas.stream().map((dis) -> dis.getName()+"\n").reduce(lista, String::concat);
         return lista;
     } 
 
@@ -190,6 +222,20 @@ public class Classroom extends Material{
      */
     public void setInteractiveTable(boolean quadro) {
         this.quadro = quadro;
+    }
+
+    /**
+     * @return the programas
+     */
+    public java.util.ArrayList<Software> getSoftwareInClassroomComputers() {
+        return programas;
+    }
+
+    /**
+     * @param programas the programas to set
+     */
+    public void setSofwareInClassroomComputers(java.util.ArrayList<Software> programas) {
+        this.programas = programas;
     }
     
 }

@@ -37,6 +37,7 @@ public class TableRequest {
     public static final Color DEFAULT_FOREGROUND_COLOR = Color.black;
     public static final Color DEFAULT_SELECT_COLOR = Color.DARK_GRAY;
     public static final Color DEFAULT_PANEL_COLOR = new Color(245, 245, 220);
+    public static final Color DEFAULT_PANEL_FOREGROUND_COLOR = new Color(0, 0, 0);
     public static final Color DEFAULT_SELECT_FOREGROUND_COLOR = Color.WHITE;
     public static final int DEFAULT_AFTER_TIME = 0;
     public static final int DEFAULT_BEFORE_TIME = 10;
@@ -46,6 +47,7 @@ public class TableRequest {
     private int selecionado;
     private RequestList lista;
     private Color panelColor;
+    private Color panelForegroundColor;
     private Color backColor;
     private Color foreColor;
     private Color selectColor;
@@ -79,7 +81,8 @@ public class TableRequest {
         foreColor = TableRequest.DEFAULT_FOREGROUND_COLOR;
         selectColor = TableRequest.DEFAULT_SELECT_COLOR;
         panelColor = TableRequest.DEFAULT_PANEL_COLOR;
-        panel = new PanelDetails(lingua, panelColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage(), requisicao.getTypeOfMaterial().getTypeOfMaterialName());
+        panelForegroundColor = TableRequest.DEFAULT_PANEL_FOREGROUND_COLOR; 
+        panel = new PanelDetails(lingua, panelColor, panelForegroundColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage(), requisicao.getTypeOfMaterial().getTypeOfMaterialName());
         tabela = new Components.RowTable(new javax.swing.JTable().getModel());
     }
 
@@ -130,7 +133,7 @@ public class TableRequest {
         } else {
             vazia = true;
             tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Situação")}));
-            Object[] ob = {};
+            Object[] ob;
             if (!devolucoes) {
                 if (!lista.isConnected()) {
                     ob = new Object[]{lingua.translate("Problema_de_rede_ou_ligação_base_de_dados")};
@@ -224,45 +227,7 @@ public class TableRequest {
             renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             tabela.getColumnModel().getColumn(0).setCellRenderer(renderer2);
         }
-        /*
-        BasicSplitPaneUI ui = (BasicSplitPaneUI) spanel.getUI();
-        BasicSplitPaneDivider divisor = ui.getDivider();
-        divisor.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (spanel.getDividerLocation() < 10) {
-                    int i = spanel.getLastDividerLocation();
-                    tabela.clearSelection();
-                    spanel.setDividerLocation(i);
-                }
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-
-            }
-        });
-        divisor.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        divisor.setBackground(Color.CYAN);*/
- /*spanel.setUI(new BasicSplitPaneUI() {
-            public BasicSplitPaneDivider createDefaultDivider() {
-            return new BasicSplitPaneDivider(this) {
-                public void setBorder(Border b) {
-                }
-
-                @Override
-                    public void paint(java.awt.Graphics g) {
-                    
-                    g.setColor(Color.BLACK);
-                    g.fillRect(0, 0, getSize().width, getSize().height);
-                    g.setColor(Color.WHITE);
-                    g.drawLine(5, getSize().height/2, getSize().width/2, getSize().height/2);
-                        super.paint(g);
-                    }
-            };
-            }
-        });
-        spanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));*/
+     
         // seleção e atualização do painel
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
@@ -277,13 +242,13 @@ public class TableRequest {
                             Clavis.Request req = (Clavis.Request) baux[select];
                             String[] results = {req.getPerson().getName(), req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getBeginDate().toStringWithMonthWord(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
                             spanel.setPreferredSize(new Dimension(180, 550));
-                            panel = new PanelDetails(panelColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
+                            panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                             panel.setInterval(2);
                             panel.create();
                             this.addPanel(spanel, panel);
                         } else {
                             spanel.setPreferredSize(new Dimension(180, 210));
-                            panel = new PanelDetails(lingua, panelColor, lista.getTypeOfMaterial().getTypeOfMaterialName(), lista.getTypeOfMaterial().getTypeOfMaterialName());
+                            panel = new PanelDetails(lingua, panelColor, panelForegroundColor, lista.getTypeOfMaterial().getTypeOfMaterialName(), lista.getTypeOfMaterial().getTypeOfMaterialName());
                             panel.setInterval(2);
                             panel.create();
                             this.addPanel(spanel, panel.alternativePanel());
@@ -291,14 +256,14 @@ public class TableRequest {
                     }
                 } else {
                     spanel.setPreferredSize(new Dimension(180, 210));
-                    panel = new PanelDetails(lingua, panelColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
+                    panel = new PanelDetails(lingua, panelColor,panelForegroundColor,lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
                     panel.setInterval(2);
                     panel.create();
                     this.addPanel(spanel, panel.alternativePanel());
                 }
             } else {
                 spanel.setPreferredSize(new Dimension(180, 210));
-                panel = new PanelDetails(lingua, panelColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
+                panel = new PanelDetails(lingua, panelColor,panelForegroundColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
                 panel.setInterval(2);
                 panel.create();
                 this.addPanel(spanel, panel.alternativePanel());
@@ -334,7 +299,7 @@ public class TableRequest {
                     Object[] baux = lista.getRequests().toArray();
                     Clavis.Request req = (Clavis.Request) baux[TableRequest.this.selecionado];
                     String[] results = {req.getPerson().getName(), req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getBeginDate().toStringWithMonthWord(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
-                    panel = new PanelDetails(panelColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
+                    panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                     panel.setInterval(2);
                     panel.create();
                     spanel.removeAll();
@@ -490,7 +455,7 @@ public class TableRequest {
     public void addTimerColors() {
         //Timer
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
-        time = new Timer(1000, new ActionListener() {
+        time = new Timer(100, new ActionListener() {
             TimeDate.Time tempo;
             TimeDate.Date data;
 
@@ -511,14 +476,10 @@ public class TableRequest {
                             }
                             if ((val < antes_hora) && (valfinal >= depois_hora)) {
                                 tabela.setBorderColor(i, cores[0]);
-                                //tabela.setRowColor(i, cores[0]);
-
                             } else if (valfinal < 0) {
-                                //tabela.setRowColor(i, cores[1]);
                                 tabela.setBorderColor(i, cores[1]);
                             } else {
                                 tabela.removeBorderColor(i);
-
                             }
                         }
                         tabela.repaint();
@@ -649,8 +610,9 @@ public class TableRequest {
     /**
      * @param panelColor the panelColor to set
      */
-    public void setPanelColor(Color panelColor) {
+    public void setPanelColor(Color panelColor, Color panelForegroundColor) {
         this.panelColor = panelColor;
+        this.panelForegroundColor = panelForegroundColor;
         //if (tipomaterial == 1) {
         if (tabela.getColumnCount() > 1) {
             String[] titulos = {"Utilizador", "Recurso", "Data", "Atividade_letiva", "Tempo_inicial", "Tempo_final", "Dia_da_semana"};
@@ -660,20 +622,20 @@ public class TableRequest {
                 Object[] baux = lista.getRequests().toArray();
                 Clavis.Request req = (Clavis.Request) baux[select];
                 String[] results = {req.getPerson().getName(), req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getBeginDate().toStringWithMonthWord(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
-                panel = new PanelDetails(panelColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
+                panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                 panel.setInterval(2);
                 panel.create();
                 this.addPanel(spanel, panel);
             } else {
                 spanel.setPreferredSize(new Dimension(180, 210));
-                panel = new PanelDetails(lingua, panelColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
+                panel = new PanelDetails(lingua, panelColor, panelForegroundColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
                 panel.setInterval(2);
                 panel.create();
                 this.addPanel(spanel, panel.alternativePanel());
             }
         } else {
             spanel.setPreferredSize(new Dimension(180, 210));
-            panel = new PanelDetails(lingua, panelColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
+            panel = new PanelDetails(lingua, panelColor, panelForegroundColor, lista.getTypeOfMaterial().getTypeOfMaterialImage(), lista.getTypeOfMaterial().getTypeOfMaterialName());
             panel.setInterval(2);
             panel.create();
             this.addPanel(spanel, panel.alternativePanel());

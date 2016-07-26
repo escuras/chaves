@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 public class PanelDetails extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private static final Color DEFAULT_COLOR = Color.BLACK;
     private Color color;
     private Color subTitleColor;
     private Color textColor;
@@ -47,12 +46,12 @@ public class PanelDetails extends JPanel {
     private JPanel tamanho_auxiliar;
     private String pessoa;
 
-    public PanelDetails(Langs.Locale lingua, Color color, String imagem, String titulo_imagem) {
+    public PanelDetails(Langs.Locale lingua, Color color, Color foreground, String imagem, String titulo_imagem) {
         super();
         this.color = color;
-        this.titleColor = DEFAULT_COLOR;
-        this.textColor = DEFAULT_COLOR;
-        this.subTitleColor = DEFAULT_COLOR;
+        this.titleColor = foreground;
+        this.textColor = foreground;
+        this.subTitleColor = foreground;
         this.lingua = lingua;
         this.nome_imagem = imagem;
         this.intervalo = 10;
@@ -67,14 +66,15 @@ public class PanelDetails extends JPanel {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
         } catch (IOException ex) {
         }
+        
     }
 
-    public PanelDetails(Color color, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
+    public PanelDetails(Color color, Color foreground, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
         super();
         this.color = color;
-        this.titleColor = DEFAULT_COLOR;
-        this.textColor = DEFAULT_COLOR;
-        this.subTitleColor = DEFAULT_COLOR;
+        this.titleColor = foreground;
+        this.textColor = foreground;
+        this.subTitleColor = foreground;
         this.lingua = lingua;
         this.intervalo = 10;
         this.tamanho_auxiliar = tamanho_auxiliar;
@@ -162,7 +162,7 @@ public class PanelDetails extends JPanel {
             layout.setVerticalGroup(grupo2);
             layout.setHorizontalGroup(grupo);
         } else {
-            panel = new PanelDetails(lingua, color, nome_imagem, titulo_imagem) {
+            panel = new PanelDetails(lingua, color, textColor, nome_imagem, titulo_imagem) {
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
