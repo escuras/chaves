@@ -29,7 +29,11 @@ public class FileHolidays {
     private InputStream ioFeriados;
 
     public FileHolidays() {
-        File file = new File("Recursos/feriados.dat");
+        File file = new File(new File("").getAbsolutePath() + 
+                System.getProperty("file.separator") + 
+                "Resources" + System.getProperty("file.separator") + 
+                "Files" + System.getProperty("file.separator") 
+                + "feriados.dat");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -63,8 +67,11 @@ public class FileHolidays {
             }
         }
         try {
-            
-            File file = new File("Recursos/feriados.dat");
+            File file = new File(new File("").getAbsolutePath() + 
+                System.getProperty("file.separator") + 
+                "Resources" + System.getProperty("file.separator") + 
+                "Files" + System.getProperty("file.separator") 
+                + "feriados.dat");
             try (OutputStream os = new FileOutputStream(file)) {
                 byte[] bytes = aux.getBytes();
                 os.write(bytes);

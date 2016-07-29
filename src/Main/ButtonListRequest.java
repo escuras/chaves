@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,11 +66,18 @@ public class ButtonListRequest {
     private java.util.Iterator<?> iterador;
     private int tipopesquisa;
     private String url;
+    private javax.swing.JLabel labelativa;
+    private javax.swing.JDialog dialogoanterior;
 
-    public ButtonListRequest(String url, RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, Color panelcolor) {
+    public ButtonListRequest(String url, javax.swing.JDialog dialogo, RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, Color panelcolor) {
         this.mater = new HashSet<>();
         this.lingua = lingua;
         this.url = url;
+        this.dialogoanterior = dialogo;
+        labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
+        labelativa.setPreferredSize(new Dimension(181, 32));
+        labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+        labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         this.panelcor = panelcolor;
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
@@ -148,7 +158,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(m);
+                        ActionButton at = new ActionButton(dialogoanterior, m);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;
@@ -184,7 +194,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(m);
+                        ActionButton at = new ActionButton(dialogoanterior, m);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;
@@ -260,17 +270,22 @@ public class ButtonListRequest {
         private boolean editar;
         private javax.swing.JPanel painel;
         private javax.swing.JTextField[] texto;
+        private javax.swing.JDialog dialogopai;
 
-        public ActionButton(Clavis.Material m) {
+        public ActionButton(javax.swing.JDialog dialogo, Clavis.Material m) {
+            super(dialogo);
             this.mat = m;
             this.cla = null;
             editar = false;
+            dialogopai = dialogo;
         }
 
-        public ActionButton(Clavis.Classroom m) {
+        public ActionButton(javax.swing.JDialog dialogo, Clavis.Classroom m) {
+            super(dialogo);
             this.cla = m;
             this.mat = null;
             editar = false;
+            dialogopai = dialogo;
         }
 
         public void create() {
@@ -296,29 +311,45 @@ public class ButtonListRequest {
                 );
 
                 // titulos 
-                javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Infomação geral"));
+                javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Infomação"));
                 label1.setPreferredSize(new Dimension(181, 32));
                 label1.setForeground(Color.BLACK);
                 label1.setFont(new Font("Cantarell", Font.PLAIN, 18));
                 label1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-                javax.swing.JLabel label2 = new javax.swing.JLabel(lingua.translate("Caraterísticas"));
-                label2.setPreferredSize(new Dimension(181, 32));
-                label2.setFont(new Font("Cantarell", Font.PLAIN, 18));
-                label2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
                 // painel de informcao geral
                 javax.swing.JPanel painel1 = new javax.swing.JPanel();
                 painel1.setBackground(Color.WHITE);
                 painel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                javax.swing.JLabel imageview = new javax.swing.JLabel();
+                imageview.setPreferredSize(new Dimension(50, 40));
+                imageview.setBounds(20, 5, 50, 40);
+                imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                imageview.setOpaque(true);
+                imageview.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+                if (!cla.getMaterialImage().equals("sem")) {
+                    BufferedImage bimage = FileIOAux.ImageAux.makeRoundedCorner(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.transformFromBase64IntoImage(cla.getMaterialImage()), 52, 40), 0);
+                    imageview.setIcon(new javax.swing.ImageIcon(bimage));
+                } else {
+                    String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + cla.getTypeOfMaterialImage() + ".png";
+                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.makeRoundedCorner(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.getImageFromFile(new File(path)), 52, 40), 0)));
+                }
+                javax.swing.JPanel painelimagem = new javax.swing.JPanel(null);
+                painelimagem.setPreferredSize(new Dimension(360, 40));
+                painelimagem.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+                painelimagem.setBackground(Color.WHITE);
+                painelimagem.setBounds(0, 0, 360, 40);
+                painelimagem.add(imageview);
+                painel1.add(painelimagem);
 
                 // painel de informacao top
                 javax.swing.JPanel painel1Cima = new javax.swing.JPanel();
-                GridLayout glayout1 = new GridLayout(7, 2);
+                GridLayout glayout1 = new GridLayout(6, 2);
                 painel1Cima.setLayout(glayout1);
                 painel1Cima.setBackground(Color.WHITE);
-                painel1Cima.setPreferredSize(new Dimension(370, 230));
-                painel1Cima.setBounds(0, 0, 360, 230);
-                painel1Cima.setBorder(BorderFactory.createEmptyBorder(30, 20, 0, 20));
+                painel1Cima.setPreferredSize(new Dimension(370, 180));
+                painel1Cima.setBounds(0, 40, 360, 180);
+                painel1Cima.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
 
                 // adicionando componentes ao painel de informacao top
                 // primeira linha
@@ -450,7 +481,6 @@ public class ButtonListRequest {
                 bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
                 bt1painel1Baixo.setFocusPainted(false);
                 bt1painel1Baixo.setBackground(Color.BLACK);
-                painel1Baixo.add(bt1painel1Baixo);
                 javax.swing.border.Border baux[] = new javax.swing.border.Border[4];
                 for (int i = 0; i < 4; i++) {
                     baux[i] = texto[i + 2].getBorder();
@@ -647,8 +677,13 @@ public class ButtonListRequest {
                 bt2painel1Baixo.setFocusPainted(false);
                 bt2painel1Baixo.setBackground(Color.BLACK);
                 bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
+                bt2painel1Baixo.addActionListener((ActionEvent e) -> {
+                    Main.Windows.WRequest janela = new Main.Windows.WRequest(this);
+                    janela.create();
+                    janela.appear();
+                });
                 painel1Baixo.add(bt2painel1Baixo);
+                painel1Baixo.add(bt1painel1Baixo);
                 painel1.add(painel1Cima);
                 painel1.add(painel1Baixo);
 
@@ -660,15 +695,55 @@ public class ButtonListRequest {
                 painel2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 this.createPanelRight(painel2);
-                painel2.setBackground(new Color(246,255,248));
 
                 javax.swing.JPanel painel11 = new javax.swing.JPanel();
-                BoxLayout blayout11 = new BoxLayout(painel11, BoxLayout.Y_AXIS);
-                painel11.setLayout(blayout11);
 
+                painel11.setBackground(new Color(254, 254, 254));
+                painel11.setPreferredSize(new Dimension(360, 40));
+                painel11.setLayout(null);
+                javax.swing.JButton btsair = new javax.swing.JButton();
+                btsair.setPreferredSize(new Dimension(160, 40));
+                java.awt.image.BufferedImage imagebtsair = null;
+                try {
+                    imagebtsair = ImageIO.read(getClass().getResourceAsStream("Images/exit26x24.png"));
+                } catch (IOException ex) {
+                }
+                if (imagebtsair != null) {
+                    javax.swing.ImageIcon iconbtsair = new javax.swing.ImageIcon(imagebtsair);
+                    btsair.setIcon(iconbtsair);
+                }
+                btsair.setBounds(5, 0, 160, 40);
+                btsair.setToolTipText(lingua.translate("Sair"));
+                btsair.setBackground(Color.BLACK);
+                btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                btsair.setFocusPainted(false);
+                btsair.addActionListener((ActionEvent e) -> {
+                    this.setVisible(false);
+                    this.dispose();
+                });
+                painel11.add(btsair);
                 javax.swing.JPanel painel22 = new javax.swing.JPanel();
-                BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
-                painel22.setLayout(blayout22);
+                //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
+                //painel22.setLayout(blayout22);
+                painel22.setBackground(new Color(254, 254, 254));
+                painel22.setLayout(null);
+                javax.swing.JButton btreq = new javax.swing.JButton();
+                btreq.setPreferredSize(new Dimension(160, 40));
+                btreq.setToolTipText(lingua.translate("Realizar requisição"));
+                java.awt.image.BufferedImage imagebtreq = null;
+                try {
+                    imagebtreq = ImageIO.read(getClass().getResourceAsStream("Images/request.png"));
+                } catch (IOException ex) {
+                }
+                if (imagebtreq != null) {
+                    javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
+                    btreq.setIcon(iconbtreq);
+                }
+                btreq.setBackground(Color.BLACK);
+                btreq.setFocusPainted(false);
+                btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                btreq.setBounds(55, 0, 160, 40);
+                painel22.add(btreq);
 
                 javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
                 painel.setLayout(painelLayout);
@@ -684,7 +759,7 @@ public class ButtonListRequest {
                                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(painel22, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                                         .addComponent(painel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(label2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(labelativa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(64, Short.MAX_VALUE))
                 );
                 painelLayout.setVerticalGroup(
@@ -692,7 +767,7 @@ public class ButtonListRequest {
                         .addGroup(painelLayout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelativa, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -712,7 +787,7 @@ public class ButtonListRequest {
             if ((mat == null) && (cla != null)) {
                 this.create();
                 this.setVisible(true);
-                this.setLocationRelativeTo(tpanel);
+                this.setLocationRelativeTo(dialogopai);
             } else if ((cla == null) && (mat != null)) {
                 JOptionPane.showMessageDialog(null, "Ola mundo " + mat.getDescription());
             }
@@ -720,21 +795,33 @@ public class ButtonListRequest {
 
         private void createPanelRight(javax.swing.JPanel painel2) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-            Clavis.Request req = db.getNextRequest(cla);
-            if (!(cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {  
-                javax.swing.JLabel lbtl = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
-                lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
-                lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-                lbtl.setPreferredSize(new Dimension(219, 30));
-                lbtl.setBounds(0, 0, 219, 30);
-                painel2.add(lbtl);
-                
+            Clavis.Request req;
+            if (!cla.isLoaned()) {
+                req = db.getNextRequest(cla);
+            } else {
+                req = db.getCurrentRequest(cla);
+            }
+            javax.swing.JLabel lbtl;
+            if (req.getId() != -1) {
+                if (!(cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
+                    labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    painel2.setBackground(new Color(246, 255, 248));
+                } else {
+                    labelativa.setText(lingua.translate("Requisitado por"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    painel2.setBackground(new Color(255, 246, 248));
+                }
+
                 javax.swing.JLabel lbtl1 = new javax.swing.JLabel(lingua.translate("Requisitante"));
                 lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
-                lbtl1.setForeground(Color.blue);
                 lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lbtl1.setPreferredSize(new Dimension(219, 20));
-                lbtl1.setBounds(0, 35, 219, 20);
+                lbtl1.setBounds(0, 20, 219, 20);
                 painel2.add(lbtl1);
 
                 String nome = req.getPerson().getName();
@@ -762,45 +849,54 @@ public class ButtonListRequest {
                 lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                 lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lb1.setPreferredSize(new Dimension(219, 20));
-                lb1.setBounds(0, 55, 219, 20);
+                lb1.setBounds(0, 40, 219, 20);
                 painel2.add(lb1);
 
-                lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
+                if (!cla.isLoaned()) {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
+                } else {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
+                }
                 lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
-                lbtl1.setForeground(Color.blue);
                 lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lbtl1.setPreferredSize(new Dimension(219, 20));
-                lbtl1.setBounds(0, 85, 219, 20);
+                lbtl1.setBounds(0, 70, 219, 20);
                 painel2.add(lbtl1);
 
                 lb1 = new javax.swing.JLabel(req.getBeginDate().toString());
                 lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                 lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lb1.setPreferredSize(new Dimension(219, 20));
-                lb1.setBounds(0, 105, 219, 20);
+                lb1.setBounds(0, 90, 219, 20);
                 painel2.add(lb1);
 
-                lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
+                if (!cla.isLoaned()) {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
+                } else {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Hora de entrega"));
+                }
                 lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
-                lbtl1.setForeground(Color.blue);
                 lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lbtl1.setPreferredSize(new Dimension(219, 20));
-                lbtl1.setBounds(0, 135, 219, 20);
+                lbtl1.setBounds(0, 120, 219, 20);
                 painel2.add(lbtl1);
 
-                lb1 = new javax.swing.JLabel(lingua.translate("de") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até") + " " + req.getTimeEnd().toString(0));
+                if (!cla.isLoaned()) {
+                    lb1 = new javax.swing.JLabel(lingua.translate("de") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até") + " " + req.getTimeEnd().toString(0));
+                } else {
+                    lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
+                }
                 lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                 lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lb1.setPreferredSize(new Dimension(219, 20));
-                lb1.setBounds(0, 155, 219, 20);
+                lb1.setBounds(0, 140, 219, 20);
                 painel2.add(lb1);
 
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Atividade"));
                 lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
-                lbtl1.setForeground(Color.blue);
                 lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lbtl1.setPreferredSize(new Dimension(219, 20));
-                lbtl1.setBounds(0, 185, 219, 20);
+                lbtl1.setBounds(0, 170, 219, 20);
                 painel2.add(lbtl1);
 
                 if (!req.getActivity().equals("sem")) {
@@ -811,25 +907,39 @@ public class ButtonListRequest {
                 lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                 lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lb1.setPreferredSize(new Dimension(219, 20));
-                lb1.setBounds(0, 205, 219, 20);
+                lb1.setBounds(0, 190, 219, 20);
                 painel2.add(lb1);
 
                 if (req.getSubject().getId() != 0) {
                     lbtl1 = new javax.swing.JLabel(lingua.translate("Disciplina"));
                     lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
-                    lbtl1.setForeground(Color.blue);
                     lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     lbtl1.setPreferredSize(new Dimension(219, 20));
-                    lbtl1.setBounds(0, 235, 219, 20);
+                    lbtl1.setBounds(0, 220, 219, 20);
                     painel2.add(lbtl1);
 
                     lb1 = new javax.swing.JLabel(lingua.translate(req.getSubject().getName()));
                     lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                     lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     lb1.setPreferredSize(new Dimension(219, 20));
-                    lb1.setBounds(0, 255, 219, 20);
+                    lb1.setBounds(0, 240, 219, 20);
                     painel2.add(lb1);
                 }
+            } else {
+                lbtl = new javax.swing.JLabel(lingua.translate("Não existem requisições"));
+                painel2.setBackground(new Color(246, 246, 246));
+                lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
+                lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                lbtl.setPreferredSize(new Dimension(219, 20));
+                lbtl.setBounds(0, 100, 219, 20);
+                painel2.add(lbtl);
+                lbtl = new javax.swing.JLabel(lingua.translate("para este recurso") + "!");
+                lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
+                lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                lbtl.setPreferredSize(new Dimension(219, 20));
+                lbtl.setBounds(0, 120, 219, 20);
+                painel2.add(lbtl);
+
             }
         }
 

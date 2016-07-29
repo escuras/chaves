@@ -151,8 +151,8 @@ public class PanelDetails extends JPanel {
                     auxiliar = auxiliar + "... ";
                 }
                 paineis2[i].setText(auxiliar);
-                grupo.addComponent(paineis[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-                grupo.addComponent(paineis2[i], javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+                grupo.addComponent(paineis[i], javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE);
+                grupo.addComponent(paineis2[i], javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE);
                 grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
                 grupo2.addGap(1, 3, 5);
                 grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);

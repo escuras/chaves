@@ -136,7 +136,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jDialogListaBotoes = new javax.swing.JDialog();
         jPanelListaBotoes = new javax.swing.JPanel();
         jScrollPaneMaterialBotoes = new javax.swing.JScrollPane();
-        UIManager.put("TabbedPane.background", Color.ORANGE);
+        UIManager.put("TabbedPane.background", Color.WHITE);
         UIManager.put("TabbedPane.selected", Color.red);
         jTabbedPaneMaterialBotoes = new javax.swing.JTabbedPane();
         jLabel2 = new javax.swing.JLabel();
@@ -199,7 +199,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelListaFeriadosDefeito.setText("Lista de feriados fixos por defeito: ");
         jLabelListaFeriadosDefeito.setText(lingua.translate("Lista_feriados_por_defeito"));
 
-        jPanelListaFeriadosDefeito.setBackground(new java.awt.Color(1, 1, 1));
+        jPanelListaFeriadosDefeito.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelListaFeriadosDefeito.setBorder(null);
+
+        jScrollPaneFeriadosDefeito.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jListFeriadosDefeito.setBackground(new java.awt.Color(216, 220, 227));
         jListFeriadosDefeito.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -236,7 +239,10 @@ public class KeyQuest extends javax.swing.JFrame {
             .addComponent(jScrollPaneFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanelListaFeriadosEscolhidos.setBackground(new java.awt.Color(1, 1, 1));
+        jPanelListaFeriadosEscolhidos.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelListaFeriadosEscolhidos.setBorder(null);
+
+        jScrollPaneFeriadosEscolhidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jListFeriadosEscolhidos.setBackground(new java.awt.Color(254, 254, 234));
         jListFeriadosEscolhidos.setToolTipText("");
@@ -500,7 +506,10 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(1, 1, 1));
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setBorder(null);
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jListFerias.setBackground(new java.awt.Color(254, 254, 234));
         jListFerias.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -545,6 +554,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel1.setText("Adicionar períodos:");
         jLabel1.setText(lingua.translate("Adicionar_periodos"));
 
+        jButtonDefBreakApagar.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefBreakApagar.setEnabled(false);
         jButtonDefBreakApagar.setFocusPainted(false);
         jButtonDefBreakApagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -723,7 +734,6 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         jButtonDefBreaksVoltar.setToolTipText(lingua.translate("Voltar"));
         jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonDefBreakApagar.setBackground(new Color(254,254,254));
         if (image2 != null) {
             javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);
             jButtonDefBreakApagar.setIcon(icon2);
@@ -755,7 +765,6 @@ public class KeyQuest extends javax.swing.JFrame {
         BasicComboPopup popupBreaksAnoFim = (BasicComboPopup) jComboBoxDefBreaksAnoFim.getAccessibleContext().getAccessibleChild(0);
         popupBreaksAnoFim.getList().setSelectionBackground(Color.DARK_GRAY);
         popupBreaksAnoFim.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
-        jButtonDefBreaksAdicionar.setBackground(new Color(254,254,254));
         if (image3 != null) {
             javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);
             jButtonDefBreaksAdicionar.setIcon(icon3);
@@ -1053,13 +1062,12 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelListaBotoes.setPreferredSize(new java.awt.Dimension(680, 528));
 
         jScrollPaneMaterialBotoes.setBackground(new java.awt.Color(254, 254, 254));
-        jScrollPaneMaterialBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jScrollPaneMaterialBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
         jScrollPaneMaterialBotoes.setAutoscrolls(true);
         jScrollPaneMaterialBotoes.setMinimumSize(new java.awt.Dimension(250, 400));
         jScrollPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(106, 456));
 
         jTabbedPaneMaterialBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTabbedPaneMaterialBotoes.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabbedPaneMaterialBotoes.setAutoscrolls(true);
         jTabbedPaneMaterialBotoes.setFocusable(false);
         jTabbedPaneMaterialBotoes.setMaximumSize(new java.awt.Dimension(2000, 32767));
@@ -1171,7 +1179,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelInicial.setBackground(new java.awt.Color(177, 184, 190));
         jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(177, 184, 190), 2), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jPanelInicial.setForeground(new java.awt.Color(224, 19, 19));
-        jPanelInicial.setToolTipText("");
+        jPanelInicial.setToolTipText(null);
         jPanelInicial.setMinimumSize(new java.awt.Dimension(635, 505));
         jPanelInicial.setName(""); // NOI18N
         jPanelInicial.setPreferredSize(new java.awt.Dimension(1024, 600));
@@ -2097,7 +2105,6 @@ public class KeyQuest extends javax.swing.JFrame {
                     holi.saveHolidays(feriados);
                     this.drawChoosenHolidaysList();
                 }
-                jListFeriadosDefeito.clearSelection();
                 jButtonDefHolidaysDireita.setEnabled(false);
             }
         }
@@ -2316,7 +2323,7 @@ public class KeyQuest extends javax.swing.JFrame {
             intervalos.getBreakPeriodList().remove(jListFerias.getSelectedIndex());
             this.drawBreaksList();
             jTextFieldDefBreaksNome.setText("");
-            jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+            jButtonDefBreakApagar.setEnabled(false);
             java.awt.image.BufferedImage image = null;
             try {
                 image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
@@ -2328,7 +2335,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 jButtonDefBreaksAdicionar.setIcon(icon);
             }
             jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
-            jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
+            jButtonDefBreaksAdicionar.setEnabled(false);
             this.clearComboBoxDefBreaks();
         }
     }//GEN-LAST:event_jButtonDefBreakApagarActionPerformed
@@ -2342,7 +2349,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jListFeriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListFeriasMouseClicked
         if (!jListFerias.isSelectionEmpty()) {
-            jButtonDefBreakApagar.setBackground(Color.red);
+            jButtonDefBreakApagar.setEnabled(true);
             if (evt.getClickCount() == 2) {
                 this.mostrajListFeriasMensagem();
             }
@@ -2371,22 +2378,22 @@ public class KeyQuest extends javax.swing.JFrame {
             }
             jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Editar"));
 
-            jButtonDefBreaksAdicionar.setBackground(Color.GREEN);
+            jButtonDefBreaksAdicionar.setEnabled(true);
         } else {
-            jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+            jButtonDefBreakApagar.setEnabled(false);
         }
 
     }//GEN-LAST:event_jListFeriasMouseClicked
 
     private void jListFeriasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jListFeriasKeyPressed
         if (!jListFerias.isSelectionEmpty()) {
-            jButtonDefBreakApagar.setBackground(Color.red);
+            jButtonDefBreakApagar.setEnabled(true);
             switch (evt.getKeyCode()) {
                 case java.awt.event.KeyEvent.VK_ENTER:
                     this.mostrajListFeriasMensagem();
                     break;
                 case java.awt.event.KeyEvent.VK_ESCAPE:
-                    jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+                    jButtonDefBreakApagar.setEnabled(false);
                     java.awt.image.BufferedImage image = null;
                     try {
                         image = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
@@ -2397,7 +2404,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image);
                         jButtonDefBreaksAdicionar.setIcon(icon);
                     }
-                    jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
+                    jButtonDefBreaksAdicionar.setEnabled(false);
                     jTextFieldDefBreaksNome.setText("");
                     jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
                     jListFerias.clearSelection();
@@ -2429,11 +2436,11 @@ public class KeyQuest extends javax.swing.JFrame {
             jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
             if (texto.equals(valor[0])) {
                 jTextFieldDefBreaksNome.setText("");
-                jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
+                jButtonDefBreaksAdicionar.setEnabled(false);
                 this.clearComboBoxDefBreaks();
             }
             jListFerias.clearSelection();
-            jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+            jButtonDefBreakApagar.setEnabled(false);
         }
 
     }//GEN-LAST:event_jPanelDefBreaksMouseClicked
@@ -2478,7 +2485,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     this.clearComboBoxDefBreaks();
                     jListFerias.clearSelection();
                     jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
-                    jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+                    jButtonDefBreakApagar.setEnabled(false);
                 }
             } else {
                 DefaultListModel modelo = (DefaultListModel) jListFerias.getModel();
@@ -2510,7 +2517,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         jComboBoxDefBreaksDiaFim.setSelectedItem(dia);
                         jComboBoxDefBreaksMesFim.setSelectedIndex(mes);
                         jComboBoxDefBreaksAnoFim.setSelectedItem(ano);
-                        jButtonDefBreakApagar.setBackground(Color.red);
+                        jButtonDefBreakApagar.setEnabled(true);
                     }
                 }
             }
@@ -2519,12 +2526,12 @@ public class KeyQuest extends javax.swing.JFrame {
             Border borderg = BorderFactory.createLineBorder(Color.red, 2);
             Border borderf = BorderFactory.createEmptyBorder(0, 10, 0, 10);
             jTextFieldDefBreaksNome.setBorder(BorderFactory.createCompoundBorder(borderg, borderf));
-            jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
+            jButtonDefBreaksAdicionar.setEnabled(false);
             jTextFieldDefBreaksNome.setToolTipText(lingua.translate("Texto_demasiado_grande(superior_a") + " " + limite + " " + lingua.translate("caracteres") + ").");
         }
     }
     private void jButtonDefBreaksAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefBreaksAdicionarActionPerformed
-        if (jButtonDefBreaksAdicionar.getBackground() == Color.GREEN) {
+        if (jButtonDefBreaksAdicionar.isEnabled()) {
             String nome = jTextFieldDefBreaksNome.getText();
             String nome2 = "";
             if (jListFerias.getSelectedIndex() >= 0) {
@@ -2543,8 +2550,8 @@ public class KeyQuest extends javax.swing.JFrame {
                 intervalos.addBreakPeriod(br);
                 this.drawBreaksList();
                 jTextFieldDefBreaksNome.setText("");
-                jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
-                jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+                jButtonDefBreaksAdicionar.setEnabled(false);
+                jButtonDefBreakApagar.setEnabled(false);
                 this.clearComboBoxDefBreaks();
             } else if (nome.equals(nome2)) {
                 int dia = Integer.valueOf(jComboBoxDefBreaksDiaInicio.getSelectedItem().toString());
@@ -2570,7 +2577,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 }
                 jButtonDefBreaksAdicionar.setToolTipText(lingua.translate("Adicionar"));
                 jTextFieldDefBreaksNome.setText("");
-                jButtonDefBreakApagar.setBackground(new Color(254, 254, 254));
+                jButtonDefBreakApagar.setEnabled(false);
                 this.drawBreaksList();
             }
         }
@@ -3015,11 +3022,11 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
         jTabbedPaneMaterialBotoes.removeAll();
-        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2, systemColor);
+        btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2, systemColor);
         jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
-        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0, systemColor);
+        btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0, systemColor);
         jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
-        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1, systemColor);
+        btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1, systemColor);
         jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
 
         jDialogListaBotoes.setVisible(true);
@@ -3210,9 +3217,9 @@ public class KeyQuest extends javax.swing.JFrame {
             dia = Integer.valueOf(jComboBoxDefBreaksDiaFim.getSelectedItem().toString());
             TimeDate.Date fim = new TimeDate.Date(dia, mes, ano);
             if ((TimeDate.Date.numberOfDaysBetweenDates(inicio, fim) >= 0) && (!nome.equals(""))) {
-                jButtonDefBreaksAdicionar.setBackground(Color.GREEN);
+                jButtonDefBreaksAdicionar.setEnabled(true);
             } else {
-                jButtonDefBreaksAdicionar.setBackground(new Color(254, 254, 254));
+                jButtonDefBreaksAdicionar.setEnabled(false);
             }
         }
     }

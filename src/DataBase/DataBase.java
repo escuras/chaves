@@ -2074,7 +2074,107 @@ public class DataBase {
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
-                    + " where id_material = "+mat.getId()+" and data_inicio >= curdate() and hora_inicio >= curtime()  order by data_inicio, hora_inicio limit 1;";
+                    + " where id_material = "+mat.getId()+" and data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime()) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
+            try {
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                Clavis.ClassStudents turma;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                TimeDate.Date dlevantamento;
+                TimeDate.Date dentrega;
+                TimeDate.Time tlevantamento;
+                TimeDate.Time tentrega;
+                String origem;
+                int ido;
+                if (rs.next()) {
+                    ido = rs.getInt("id_requisicao");
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
+                    int discip = rs.getInt("id_disciplina");
+                    if (discip != 0) {
+                        disciplina = this.getSubject(discip);
+                    } else {
+                        disciplina = new Clavis.Subject();
+                    }
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    if (rs.getString("data_levantamento") != null) {
+                        aux = rs.getString("data_levantamento").split("/");
+                        dlevantamento = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("hora_levantamento").split(":");
+                        if ((aux[0].length() > 1) && (aux[0].charAt(0) == '0')) {
+                            aux[0] = aux[0].replaceFirst("0", "");
+                        }
+                        if ((aux[1].length() > 1) && (aux[1].charAt(0) == '0')) {
+                            aux[1] = aux[1].replaceFirst("0", "");
+                        }
+                        if ((aux[2].length() > 1) && (aux[2].charAt(0) == '0')) {
+                            aux[2] = aux[2].replaceFirst("0", "");
+                        }
+                        tlevantamento = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    } else {
+                        dlevantamento = null;
+                        tlevantamento = null;
+                    }
+                    if (rs.getString("data_entrega") != null) {
+                        aux = rs.getString("data_entrega").split("/");
+                        dentrega = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("hora_entrega").split(":");
+                        if ((aux[0].length() > 1) && (aux[0].charAt(0) == '0')) {
+                            aux[0] = aux[0].replaceFirst("0", "");
+                        }
+                        if ((aux[1].length() > 1) && (aux[1].charAt(0) == '0')) {
+                            aux[1] = aux[1].replaceFirst("0", "");
+                        }
+                        if ((aux[2].length() > 1) && (aux[2].charAt(0) == '0')) {
+                            aux[2] = aux[2].replaceFirst("0", "");
+                        }
+                        tentrega = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    } else {
+                        dentrega = null;
+                        tentrega = null;
+                    }
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"),turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return request;
+    }
+     
+     public Clavis.Request getCurrentRequest(Clavis.Material mat) {
+        Clavis.Request request = new Clavis.Request();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+                    + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
+                    + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
+                    + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, atividade, codigo_turma, "
+                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
+                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
+                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
+                    + " where id_material = "+mat.getId()+" and ativo = 1 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();

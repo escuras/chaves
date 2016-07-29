@@ -481,6 +481,8 @@ public class TableRequest {
                             } else {
                                 tabela.removeBorderColor(i);
                             }
+                        } else {
+                            tabela.removeBorderColor(i);
                         }
                         tabela.repaint();
                         i++;
@@ -518,11 +520,13 @@ public class TableRequest {
         if (this.getSelectedRequest() != null) {
             lista.removeRequest(this.getSelectedRequest());
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+            int auxiliar = selecionado;
             modelo.removeRow(selecionado);
             if (modelo.getRowCount() == 0) {
                 ficouvazia = true;
             }
             this.create();
+            tabela.setRowSelectionInterval(auxiliar, auxiliar);
             return true;
         }
         return false;

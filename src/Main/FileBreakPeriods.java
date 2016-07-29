@@ -28,7 +28,11 @@ public class FileBreakPeriods {
     private InputStream ioIntervalos;
 
     public FileBreakPeriods() {
-        File file = new File("Recursos/intervalos.dat");
+        File file = new File(new File("").getAbsolutePath()
+                + System.getProperty("file.separator")
+                + "Resources" + System.getProperty("file.separator")
+                + "Files" + System.getProperty("file.separator")
+                + "intervalos.dat");
         if (!file.isFile()) {
             try {
                 file.createNewFile();
@@ -121,7 +125,11 @@ public class FileBreakPeriods {
         String aux = "";
         aux = list.getBreakPeriodList().stream().map((inter) -> inter.toString() + "\n").reduce(aux, String::concat);
         try {
-            File file = new File("Recursos/intervalos.dat");
+            File file = new File(new File("").getAbsolutePath()
+                + System.getProperty("file.separator")
+                + "Resources" + System.getProperty("file.separator")
+                + "Files" + System.getProperty("file.separator")
+                + "intervalos.dat");
             try (OutputStream os = new FileOutputStream(file)) {
                 byte[] bytes = aux.getBytes();
                 os.write(bytes);

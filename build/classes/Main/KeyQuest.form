@@ -152,7 +152,10 @@
             <Container class="javax.swing.JPanel" name="jPanelListaFeriadosDefeito">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1" green="1" red="1" type="rgb"/>
+                  <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
                 </Property>
               </Properties>
 
@@ -170,6 +173,13 @@
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="jScrollPaneFeriadosDefeito">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -203,7 +213,10 @@
             <Container class="javax.swing.JPanel" name="jPanelListaFeriadosEscolhidos">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1" green="1" red="1" type="rgb"/>
+                  <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
                 </Property>
               </Properties>
 
@@ -221,6 +234,13 @@
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="jScrollPaneFeriadosEscolhidos">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -577,7 +597,10 @@
             <Container class="javax.swing.JPanel" name="jPanel2">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1" green="1" red="1" type="rgb"/>
+                  <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
                 </Property>
               </Properties>
 
@@ -595,6 +618,13 @@
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -654,13 +684,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButtonDefBreakApagar">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="1" green="1" red="1" type="rgb"/>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefBreakApagarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;jButtonDefBreakApagar.setBackground(new Color(254,254,254));&#xa;if (image2 != null) {&#xa;    javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;    jButtonDefBreakApagar.setIcon(icon2);&#xa;}&#xa;jButtonDefBreakApagar.setToolTipText(lingua.translate(&quot;Eliminar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreakApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;if (image2 != null) {&#xa;    javax.swing.ImageIcon icon2 = new javax.swing.ImageIcon(image2);&#xa;    jButtonDefBreakApagar.setIcon(icon2);&#xa;}&#xa;jButtonDefBreakApagar.setToolTipText(lingua.translate(&quot;Eliminar&quot;));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksInicio">
@@ -820,7 +854,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDefBreaksAdicionarActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonDefBreaksAdicionar.setBackground(new Color(254,254,254));&#xa;if (image3 != null) {&#xa;    javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;    jButtonDefBreaksAdicionar.setIcon(icon3);&#xa;}&#xa;jButtonDefBreaksAdicionar.setToolTipText(lingua.translate(&quot;Adicionar&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (image3 != null) {&#xa;    javax.swing.ImageIcon icon3 = new javax.swing.ImageIcon(image3);&#xa;    jButtonDefBreaksAdicionar.setIcon(icon3);&#xa;}&#xa;jButtonDefBreaksAdicionar.setToolTipText(lingua.translate(&quot;Adicionar&quot;));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldDefBreaksNome">
@@ -1271,7 +1305,7 @@
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder thickness="2"/>
+                    <LineBorder thickness="0"/>
                   </Border>
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
@@ -1292,7 +1326,6 @@
                         <EmptyBorder/>
                       </Border>
                     </Property>
-                    <Property name="tabLayoutPolicy" type="int" value="1"/>
                     <Property name="autoscrolls" type="boolean" value="true"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1307,7 +1340,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="UIManager.put(&quot;TabbedPane.background&quot;, Color.ORANGE);&#xa;UIManager.put(&quot;TabbedPane.selected&quot;, Color.red);"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="UIManager.put(&quot;TabbedPane.background&quot;, Color.WHITE);&#xa;UIManager.put(&quot;TabbedPane.selected&quot;, Color.red);"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -1501,7 +1534,9 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="13" green="13" red="e0" type="rgb"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="null" type="code"/>
+        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[635, 505]"/>
         </Property>
