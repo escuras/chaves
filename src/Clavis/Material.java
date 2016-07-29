@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
  * @author toze
  */
 public class Material extends TypeOfMaterial implements Comparable<Material>{
+    private int id;
     private String codigo;
     private String descricao;
     private boolean estado;
@@ -29,6 +30,7 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
     
     public Material(){
         super();
+        this.id = -1;
         this.codigo = "";
         this.descricao = "";
         this.estado = false;
@@ -38,6 +40,17 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
     
     public Material(TypeOfMaterial m, String codigo, String descricao,boolean estado){
         super(m);
+        this.id = -1;
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.estado = estado;
+        this.imagem = "sem";
+        caracteristicas = new HashSet<>();
+    }
+    
+    public Material(int id, TypeOfMaterial m, String codigo, String descricao,boolean estado){
+        super(m);
+        this.id = id;
         this.codigo = codigo;
         this.descricao = descricao;
         this.estado = estado;
@@ -46,9 +59,9 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
     }
     
 
-    
     public Material(TypeOfMaterial m, String codigo, String descricao, String imagem, boolean estado){
         super(m);
+        this.id = -1;
         this.codigo = codigo;
         this.descricao = descricao;
         this.estado = estado;
@@ -56,8 +69,41 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
         caracteristicas = new HashSet<>();
     }
     
+    public Material(int id, TypeOfMaterial m, String codigo, String descricao, String imagem, boolean estado){
+        super(m);
+        this.id = id;
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.estado = estado;
+        this.imagem = imagem;
+        caracteristicas = new HashSet<>();
+    }
+    
+    public Material(int id, TypeOfMaterial m, String codigo, String descricao, BufferedImage imagem, String extensao, int largura, int altura, boolean estado){
+        super(m);
+        this.id = id;
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.estado = estado;
+        int l = imagem.getWidth();
+        int a = imagem.getHeight();
+        BufferedImage img = new BufferedImage(largura, altura, imagem.getType());
+        Graphics2D g = img.createGraphics();
+        g.drawImage(imagem, 0, 0, largura, altura, 0, 0, l, a, null);
+        g.dispose();
+        ByteArrayOutputStream bi = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(img, extensao, bi);
+            this.imagem = Base64.getEncoder().encodeToString(bi.toByteArray());
+        } catch (IOException ex) {
+            this.imagem = "sem";
+        }
+        caracteristicas = new HashSet<>();
+    }
+    
     public Material(TypeOfMaterial m, String codigo, String descricao, BufferedImage imagem, String extensao, int largura, int altura, boolean estado){
         super(m);
+        this.id = -1;
         this.codigo = codigo;
         this.descricao = descricao;
         this.estado = estado;
@@ -79,6 +125,7 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
     
     public Material(Material m){
         super(m);
+        this.id = m.getId();
         this.codigo = m.getCodeOfMaterial();
         this.descricao = m.getDescription();
         this.estado = m.isLoaned();
@@ -206,6 +253,20 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
     
     public void removeFeature(Clavis.Feature e){
         caracteristicas.remove(e);
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
     
     

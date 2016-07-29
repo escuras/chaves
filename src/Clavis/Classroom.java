@@ -10,7 +10,6 @@ package Clavis;
  * @author toze
  */
 public class Classroom extends Material{
-    private String outros;
     private int ncomputadores; 
     private int lugares;
     private boolean projetor;
@@ -21,7 +20,6 @@ public class Classroom extends Material{
     
     public Classroom(){
         super();
-        this.outros = "";
         this.ncomputadores = -1;
         this.lugares = -1;
         this.projetor = false;
@@ -32,7 +30,6 @@ public class Classroom extends Material{
     
     public Classroom(Material m){
         super(m);
-        this.outros = "";
         this.ncomputadores = -1;
         this.lugares = -1;
         this.projetor = false;
@@ -43,7 +40,6 @@ public class Classroom extends Material{
     
     public Classroom(Material m, int ncomputadores, int lugares, boolean projetor, boolean quadro){
         super(m);
-        this.outros = "";
         this.ncomputadores = ncomputadores;
         this.lugares = lugares;
         this.projetor = projetor;
@@ -52,20 +48,9 @@ public class Classroom extends Material{
         this.programas = new java.util.ArrayList<>();
     }
     
-    public Classroom(Material m, String outros, int ncomputadores, int lugares, boolean projetor, boolean quadro){
-        super(m);
-        this.outros = outros;
-        this.ncomputadores = ncomputadores;
-        this.lugares = lugares;
-        this.projetor = projetor;
-        this.quadro = quadro;
-        this.disciplinas = new java.util.ArrayList<>();
-        this.programas = new java.util.ArrayList<>();
-    }
     
-    public Classroom(Material m, String outros, int ncomputadores, int lugares, boolean projetor, boolean quadro, java.util.ArrayList<Subject> disciplinas, java.util.ArrayList<Software> programas){
+    public Classroom(Material m, int ncomputadores, int lugares, boolean projetor, boolean quadro, java.util.ArrayList<Subject> disciplinas, java.util.ArrayList<Software> programas){
         super(m);
-        this.outros = outros;
         this.ncomputadores = ncomputadores;
         this.lugares = lugares;
         this.projetor = projetor;
@@ -76,7 +61,6 @@ public class Classroom extends Material{
 
     public Classroom(Classroom classroom){
         super(classroom);
-        this.outros = classroom.getAnotherValues();
         this.ncomputadores = classroom.getComputers();
         this.lugares = classroom.getPlaces();
         this.projetor = classroom.hasProjector();
@@ -135,20 +119,6 @@ public class Classroom extends Material{
         lista = this.programas.stream().map((dis) -> dis.getName()+"\n").reduce(lista, String::concat);
         return lista;
     } 
-
-    /**
-     * @return another values
-     */
-    public String getAnotherValues() {
-        return this.outros;
-    }
-
-    /**
-     * @param outros the another values to set
-     */
-    public void setAnotherValues(String outros) {
-        this.outros = outros;
-    }
 
     /**
      * @return the ncomputadores

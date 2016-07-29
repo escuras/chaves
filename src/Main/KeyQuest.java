@@ -17,6 +17,7 @@ import java.awt.Event;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -115,7 +116,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelDefBreaksAnoFim = new javax.swing.JLabel();
         jComboBoxDefBreaksAnoFim = new javax.swing.JComboBox<>();
         jButtonDefBreaksAdicionar = new javax.swing.JButton();
-        jTextFieldDefBreaksNome = new javax.swing.JTextField();
+        jTextFieldDefBreaksNome = new org.jdesktop.swingx.JXTextField();
         jLabelDefBreaksNome = new javax.swing.JLabel();
         jDialogDefOpcoes = new javax.swing.JDialog();
         jPanelDefOpcoes = new javax.swing.JPanel();
@@ -178,6 +179,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jComboBoxListaBotoes = new javax.swing.JComboBox<>();
         jButtonListaBotoes = new javax.swing.JButton();
         jComboBoxPesquisaOpcao = new javax.swing.JComboBox<>();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         jDialogDefHolidays.setTitle("Editar Feriados");
         jDialogDefHolidays.setMinimumSize(new java.awt.Dimension(700, 500));
@@ -580,7 +582,9 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jComboBoxDefBreaksAnoFim.setFocusable(false);
 
+        jButtonDefBreaksAdicionar.setBackground(new java.awt.Color(1, 1, 1));
         jButtonDefBreaksAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonDefBreaksAdicionar.setEnabled(false);
         jButtonDefBreaksAdicionar.setFocusPainted(false);
         jButtonDefBreaksAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -590,7 +594,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jTextFieldDefBreaksNome.setBackground(new java.awt.Color(210, 214, 221));
         jTextFieldDefBreaksNome.setToolTipText("");
-        jTextFieldDefBreaksNome.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextFieldDefBreaksNome.setBorder(null);
         jTextFieldDefBreaksNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldDefBreaksNomeFocusGained(evt);
@@ -760,7 +764,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jTextFieldDefBreaksNome.setToolTipText(lingua.translate("Introduzir_um_nome_para_o_periodo_indicado."));
         Border borderg = BorderFactory.createLineBorder(Color.black,1);
         Border borderf = BorderFactory.createEmptyBorder(0, 10, 0, 10);
-        jTextFieldDefBreaksNome.setBorder( BorderFactory.createCompoundBorder(borderg, borderf));
+        jTextFieldDefBreaksNome.setBorder(BorderFactory.createCompoundBorder(jTextFieldDefBreaksNome.getBorder(), BorderFactory.createCompoundBorder(borderg, borderf)));
         jTextFieldDefBreaksNome.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -775,6 +779,16 @@ public class KeyQuest extends javax.swing.JFrame {
             @Override
             public void changedUpdate(DocumentEvent e) {
 
+            }
+        });
+        jTextFieldDefBreaksNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+
+                    jDialogDefBreaks.requestFocusInWindow();
+                    jTextFieldDefBreaksNome.setText("");
+                }
             }
         });
         jLabelDefBreaksNome.setText(lingua.translate("Nome")+":");
@@ -1024,8 +1038,14 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jPanelDefOpcoes.setBackground(systemColor);
 
+        jDialogListaBotoes.setAlwaysOnTop(true);
         jDialogListaBotoes.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialogListaBotoes.setResizable(false);
+        jDialogListaBotoes.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jDialogListaBotoesWindowClosing(evt);
+            }
+        });
 
         jPanelListaBotoes.setBackground(new java.awt.Color(254, 254, 254));
         jPanelListaBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -1038,6 +1058,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneMaterialBotoes.setMinimumSize(new java.awt.Dimension(250, 400));
         jScrollPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(106, 456));
 
+        jTabbedPaneMaterialBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTabbedPaneMaterialBotoes.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabbedPaneMaterialBotoes.setAutoscrolls(true);
         jTabbedPaneMaterialBotoes.setFocusable(false);
         jTabbedPaneMaterialBotoes.setMaximumSize(new java.awt.Dimension(2000, 32767));
@@ -1748,9 +1770,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButtonBarRequisicoes.setFocusPainted(false);
         jToggleButtonBarRequisicoes.setFocusable(false);
         jToggleButtonBarRequisicoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButtonBarRequisicoes.setMaximumSize(new java.awt.Dimension(40, 26));
-        jToggleButtonBarRequisicoes.setMinimumSize(new java.awt.Dimension(40, 26));
-        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(40, 26));
+        jToggleButtonBarRequisicoes.setMaximumSize(new java.awt.Dimension(50, 26));
+        jToggleButtonBarRequisicoes.setMinimumSize(new java.awt.Dimension(50, 26));
+        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(50, 26));
         jToggleButtonBarRequisicoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButtonBarRequisicoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1763,9 +1785,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButtonBarEntregas.setFocusPainted(false);
         jToggleButtonBarEntregas.setFocusable(false);
         jToggleButtonBarEntregas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButtonBarEntregas.setMaximumSize(new java.awt.Dimension(40, 26));
-        jToggleButtonBarEntregas.setMinimumSize(new java.awt.Dimension(40, 26));
-        jToggleButtonBarEntregas.setPreferredSize(new java.awt.Dimension(40, 26));
+        jToggleButtonBarEntregas.setMaximumSize(new java.awt.Dimension(50, 26));
+        jToggleButtonBarEntregas.setMinimumSize(new java.awt.Dimension(50, 26));
+        jToggleButtonBarEntregas.setPreferredSize(new java.awt.Dimension(50, 26));
         jToggleButtonBarEntregas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButtonBarEntregas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1799,9 +1821,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
         jButtonListaBotoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonListaBotoes.setMaximumSize(new java.awt.Dimension(40, 26));
-        jButtonListaBotoes.setMinimumSize(new java.awt.Dimension(40, 26));
-        jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(40, 26));
+        jButtonListaBotoes.setMaximumSize(new java.awt.Dimension(50, 26));
+        jButtonListaBotoes.setMinimumSize(new java.awt.Dimension(50, 26));
+        jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(50, 26));
         jButtonListaBotoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonListaBotoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1819,15 +1841,29 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setToolTipText("");
+        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton1.setFocusPainted(false);
+        jToggleButton1.setMaximumSize(new java.awt.Dimension(50, 26));
+        jToggleButton1.setMinimumSize(new java.awt.Dimension(50, 26));
+        jToggleButton1.setPreferredSize(new java.awt.Dimension(50, 26));
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
+                .addContainerGap()
                 .addComponent(jToggleButtonBarRequisicoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButtonBarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1836,7 +1872,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addComponent(jComboBoxListaBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxPesquisaOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(287, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1849,8 +1885,9 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addComponent(jComboBoxListaBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBoxPesquisaOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jComboBoxVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButtonBarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2))
+                    .addComponent(jToggleButtonBarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         java.awt.image.BufferedImage imagebtreq = null;
@@ -1899,6 +1936,23 @@ public class KeyQuest extends javax.swing.JFrame {
         popupPesquisa.getList().setSelectionBackground(Color.DARK_GRAY);
         popupPesquisa.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         jComboBoxPesquisaOpcao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("Pesquisa por utilizador"), lingua.translate("Pesquisa por recurso"), lingua.translate("Pesquisa por tempo") }));
+        java.awt.image.BufferedImage imagebtscroll = null;
+        try {
+            imagebtscroll = ImageIO.read(getClass().getResourceAsStream("Images/scroll.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (imagebtscroll != null) {
+            javax.swing.ImageIcon iconbtscroll = new javax.swing.ImageIcon(imagebtscroll);
+            jToggleButton1.setIcon(iconbtscroll);
+        }
+
+        if (scrollAtivo) {
+            jToggleButton1.setSelected(true);
+        } else {
+            jToggleButton1.setSelected(false);
+        }
+        jToggleButton1.setToolTipText(lingua.translate("Auxiliar automático de rolagem"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -2662,8 +2716,11 @@ public class KeyQuest extends javax.swing.JFrame {
             if (resposta == 0) {
                 prefs.save();
                 this.dispose();
-                jDialogDefOpcoes.setVisible(false);
-                jDialogDefOpcoes.dispose();
+                Window[] janelas = Window.getOwnerlessWindows();
+                for (Window janela : janelas) {
+                    janela.setVisible(false);
+                    janela.dispose();
+                }
                 this.setVisible(false);
                 prefs = new PersonalPrefs();
                 prefs.setVisible(true);
@@ -2957,23 +3014,17 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonProcuraBaixoActionPerformed
 
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
-            jTabbedPaneMaterialBotoes.removeAll();
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2,systemColor);
-                    jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
-                    btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0,systemColor);
-                    jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
-                    btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1,systemColor);
-                    jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-                }
+        jTabbedPaneMaterialBotoes.removeAll();
+        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2, systemColor);
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
+        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0, systemColor);
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
+        btrequests = new ButtonListRequest(urlbd, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1, systemColor);
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
 
-            });
-            t.start();
-           
-            jDialogListaBotoes.setVisible(true);
-            jDialogListaBotoes.setLocationRelativeTo(this);
+        jDialogListaBotoes.setVisible(true);
+        jDialogListaBotoes.setLocationRelativeTo(this);
+        jDialogListaBotoes.setAlwaysOnTop(true);
 
     }//GEN-LAST:event_jButtonListaBotoesActionPerformed
 
@@ -3118,11 +3169,35 @@ public class KeyQuest extends javax.swing.JFrame {
         if (jComboBoxScrollAtivo.getSelectedIndex() == 0) {
             if (!scrollAtivo) {
                 this.startScroll();
+                jToggleButton1.setSelected(true);
+            }
+        } else {
+            this.stopScroll();
+            jToggleButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jComboBoxScrollAtivoActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        if (jToggleButton1.isSelected()) {
+            if (!scrollAtivo) {
+                this.startScroll();
             }
         } else {
             this.stopScroll();
         }
-    }//GEN-LAST:event_jComboBoxScrollAtivoActionPerformed
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jDialogListaBotoesWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogListaBotoesWindowClosing
+        Window[] windows = Window.getWindows();
+         
+        for (int i = 0; i < windows.length; i++) {
+            if (windows[i] instanceof ButtonListRequest.ActionButton) {
+                windows[i].setVisible(false);
+                windows[i].dispose();
+            }
+        }
+
+    }//GEN-LAST:event_jDialogListaBotoesWindowClosing
 
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
@@ -3513,7 +3588,11 @@ public class KeyQuest extends javax.swing.JFrame {
         itemReiniciar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         itemReiniciar.addActionListener((ActionEvent e) -> {
             prefs.save();
-            this.dispose();
+            Window[] janelas = Window.getOwnerlessWindows();
+            for (int i = 0; i < janelas.length; i++) {
+                janelas[i].setVisible(false);
+                janelas[i].dispose();
+            }
             jDialogDefOpcoes.setVisible(false);
             jDialogDefOpcoes.dispose();
             this.setVisible(false);
@@ -3522,6 +3601,7 @@ public class KeyQuest extends javax.swing.JFrame {
         });
         menuFicheiro.add(itemReiniciar);
         menuFicheiro.add(itemSair);
+
         menu.add(menuFicheiro);
         jMenuDefinicoes.setText(lingua.translate("Definições"));
         jMenuDefinicoes.setMnemonic(lingua.translate("Definições").charAt(0));
@@ -4149,6 +4229,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JTextField jTextFieldDefBreaksNome;
     javax.swing.JTextField jTextFieldProcuraBaixo;
     javax.swing.JTextField jTextFieldProcuraCima;
+    javax.swing.JToggleButton jToggleButton1;
     javax.swing.JToggleButton jToggleButtonBarEntregas;
     javax.swing.JToggleButton jToggleButtonBarRequisicoes;
     // End of variables declaration//GEN-END:variables

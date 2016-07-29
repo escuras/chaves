@@ -693,9 +693,9 @@ public class DataBase {
                                 tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
                             }
                             if (!rs.getString("imagem").equals("sem")) {
-                                material = new Clavis.Material(tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                material = new Clavis.Material(rs.getInt("id_material"),tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
                             } else {
-                                material = new Clavis.Material(tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
                             materiais.add(material);
                         }
@@ -738,9 +738,9 @@ public class DataBase {
                                 tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
                             }
                             if (!rs.getString("imagem").equals("sem")) {
-                                material = new Clavis.Material(tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
                             } else {
-                                material = new Clavis.Material(tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
                             materiais.add(material);
                         }
@@ -786,7 +786,7 @@ public class DataBase {
                                 tp.setFree(rs2.getInt("livres"));
                                 tp.setTypeOfMaterialName(rs2.getString("descricao"));
                                 tp.setTypeOfMaterialImage(rs2.getString("imagem"));
-                                mat = new Clavis.Material(tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                mat = new Clavis.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                                 mat.setCodeOfMaterial(rs.getString("codigo"));
                                 mat.setDescription(rs.getString("descricao"));
                                 mat.setLoaned(rs.getBoolean("estado"));
@@ -836,7 +836,7 @@ public class DataBase {
                                 tp.setFree(rs2.getInt("livres"));
                                 tp.setTypeOfMaterialName(rs2.getString("descricao"));
                                 tp.setTypeOfMaterialImage(rs2.getString("imagem"));
-                                mat = new Clavis.Material(tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                mat = new Clavis.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                                 mat.setCodeOfMaterial(rs.getString("codigo"));
                                 mat.setDescription(rs.getString("descricao"));
                                 mat.setLoaned(rs.getBoolean("estado"));
@@ -935,7 +935,7 @@ public class DataBase {
                         if (smt2 != null) {
                             ResultSet rs2 = smt2.executeQuery(sql);
                             while (rs2.next()) {
-                                material = new Clavis.Material(tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
+                                material = new Clavis.Material(rs2.getInt("id_material"), tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
                                 sql = "Select * from Classrooms where codigo_sala = '" + rs2.getString("codigo") + "'";
                                 try {
                                     smt3 = con.createStatement();
@@ -945,11 +945,7 @@ public class DataBase {
                                 if (smt3 != null) {
                                     ResultSet rs3 = smt3.executeQuery(sql);
                                     if (rs3.next()) {
-                                        String outros;
-                                        if ((outros = rs3.getString("outros")) == null) {
-                                            outros = "";
-                                        }
-                                        Clavis.Classroom sala = new Clavis.Classroom(material, outros, rs3.getInt("ncomputadores"), rs3.getInt("lugares"), rs3.getBoolean("projetor"), rs3.getBoolean("quadro_interativo"));
+                                        Clavis.Classroom sala = new Clavis.Classroom(material, rs3.getInt("ncomputadores"), rs3.getInt("lugares"), rs3.getBoolean("projetor"), rs3.getBoolean("quadro_interativo"));
                                         classrooms.add(sala);
                                     }
                                     if (!smt3.isClosed()) {
@@ -988,11 +984,7 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        String outros;
-                        if ((outros = rs.getString("outros")) == null) {
-                            outros = "";
-                        }
-                        sala = new Clavis.Classroom(m, outros, rs.getInt("ncomputadores"), rs.getInt("lugares"), rs.getBoolean("projetor"), rs.getBoolean("quadro_interativo"));
+                        sala = new Clavis.Classroom(m, rs.getInt("ncomputadores"), rs.getInt("lugares"), rs.getBoolean("projetor"), rs.getBoolean("quadro_interativo"));
                     }
                     if (!smt.isClosed()) {
                         smt.close();
@@ -1005,9 +997,11 @@ public class DataBase {
     }
 
     public boolean updateClassroom(Clavis.Classroom clas) {
+        System.out.println("passou");
         if (this.isTie()) {
             String sql;
             Statement smt;
+            System.out.println("passou");
             try {
                 smt = con.createStatement();
             } catch (SQLException ex) {
@@ -1015,13 +1009,13 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                sql = "update Classrooms set outros = '" + clas.getAnotherValues() + "', quadro_interativo = " + clas.hasInteractiveTable() + ", ncomputadores = " + clas.getComputers() + ", lugares = " + clas.getPlaces() + ", projetor = " + clas.hasProjector() + " where codigo_sala = '" + clas.getCodeOfMaterial() + "';";
+                sql = "update Classrooms set quadro_interativo = " + clas.hasInteractiveTable() + ", ncomputadores = " + clas.getComputers() + ", lugares = " + clas.getPlaces() + ", projetor = " + clas.hasProjector() + " where codigo_sala = '" + clas.getCodeOfMaterial() + "';";
+                System.out.println("passou");
                 try {
                     return (!smt.execute(sql));
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
 
         }
@@ -1961,12 +1955,12 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(Clavis.TypeOfMaterial mat, TimeDate.Date dinicio, TimeDate.Date dfim) {
+    public java.util.Set<Clavis.Request> getRequests(Clavis.Material mat, TimeDate.Date dinicio, TimeDate.Date dfim) {
         java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
-            int id = mat.getMaterialTypeID();
             ResultSet rs;
+            System.out.println(mat.getId());
             String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
@@ -1975,14 +1969,14 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests"
-                    + "right join (select id_material from Materials where id_tipo=" + id + ") auxiliar using (id_material) "
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
                     + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
-                    + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y');";
+                    + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
+                    + "and id_material = "+mat.getId()+";";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request = null;
+                Clavis.Request request;
                 String[] aux;
                 Clavis.Person pessoa;
                 Clavis.Material material;
@@ -2064,6 +2058,106 @@ public class DataBase {
             }
         }
         return requisicoes;
+    }
+    
+     public Clavis.Request getNextRequest(Clavis.Material mat) {
+        Clavis.Request request = new Clavis.Request();
+        if (this.isTie()) {
+            PreparedStatement smt;
+            ResultSet rs;
+            String sql = "select id_requisicao,id_material,id_pessoa,id_disciplina,DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+                    + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
+                    + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
+                    + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, atividade, codigo_turma, "
+                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
+                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
+                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
+                    + " where id_material = "+mat.getId()+" and data_inicio >= curdate() and hora_inicio >= curtime()  order by data_inicio, hora_inicio limit 1;";
+            try {
+                smt = con.prepareStatement(sql);
+                rs = smt.executeQuery();
+                String[] aux;
+                Clavis.Person pessoa;
+                Clavis.Material material;
+                Clavis.Subject disciplina;
+                Clavis.ClassStudents turma;
+                TimeDate.Date inicio;
+                TimeDate.Date fim;
+                TimeDate.Time tinicio;
+                TimeDate.Time tfim;
+                TimeDate.WeekDay dia;
+                TimeDate.Date dlevantamento;
+                TimeDate.Date dentrega;
+                TimeDate.Time tlevantamento;
+                TimeDate.Time tentrega;
+                String origem;
+                int ido;
+                if (rs.next()) {
+                    ido = rs.getInt("id_requisicao");
+                    pessoa = this.getPerson(rs.getInt("id_pessoa"));
+                    material = this.getMaterial(rs.getInt("id_material"));
+                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
+                    int discip = rs.getInt("id_disciplina");
+                    if (discip != 0) {
+                        disciplina = this.getSubject(discip);
+                    } else {
+                        disciplina = new Clavis.Subject();
+                    }
+                    aux = rs.getString("inicio").split("/");
+                    inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("fim").split("/");
+                    fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tinicio").split(":");
+                    tinicio = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    aux = rs.getString("tfim").split(":");
+                    tfim = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    dia = new TimeDate.WeekDay(rs.getInt("dia_semana"));
+                    origem = rs.getString("origem");
+                    if (rs.getString("data_levantamento") != null) {
+                        aux = rs.getString("data_levantamento").split("/");
+                        dlevantamento = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("hora_levantamento").split(":");
+                        if ((aux[0].length() > 1) && (aux[0].charAt(0) == '0')) {
+                            aux[0] = aux[0].replaceFirst("0", "");
+                        }
+                        if ((aux[1].length() > 1) && (aux[1].charAt(0) == '0')) {
+                            aux[1] = aux[1].replaceFirst("0", "");
+                        }
+                        if ((aux[2].length() > 1) && (aux[2].charAt(0) == '0')) {
+                            aux[2] = aux[2].replaceFirst("0", "");
+                        }
+                        tlevantamento = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    } else {
+                        dlevantamento = null;
+                        tlevantamento = null;
+                    }
+                    if (rs.getString("data_entrega") != null) {
+                        aux = rs.getString("data_entrega").split("/");
+                        dentrega = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                        aux = rs.getString("hora_entrega").split(":");
+                        if ((aux[0].length() > 1) && (aux[0].charAt(0) == '0')) {
+                            aux[0] = aux[0].replaceFirst("0", "");
+                        }
+                        if ((aux[1].length() > 1) && (aux[1].charAt(0) == '0')) {
+                            aux[1] = aux[1].replaceFirst("0", "");
+                        }
+                        if ((aux[2].length() > 1) && (aux[2].charAt(0) == '0')) {
+                            aux[2] = aux[2].replaceFirst("0", "");
+                        }
+                        tentrega = new TimeDate.Time(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+                    } else {
+                        dentrega = null;
+                        tentrega = null;
+                    }
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"),turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return request;
     }
 
     public java.util.Set<Clavis.Request> getRequests(Clavis.Person pess, TimeDate.Date dinicio, TimeDate.Date dfim) {

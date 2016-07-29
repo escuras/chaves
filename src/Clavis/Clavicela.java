@@ -51,7 +51,7 @@ public class Clavicela {
             System.out.println(el.getPersonName());
         });
         TypeOfMaterial sala = new TypeOfMaterial(1, "sala", 50);
-        Material m = new Material(sala, "2", "sala 1", "sala localizada em ...", false);
+        Material m = new Material(1,sala, "2", "sala 1", "sala localizada em ...", false);
         Classroom sala1 = new Classroom(m, 1, 50, true, true);
         System.out.println(sala.toString());
         System.out.println(sala1.toString());
@@ -126,7 +126,7 @@ public class Clavicela {
                 System.out.println(mo.getDescription());
             }
         }
-        Material m2 = new Material(sala, "59", "sala 59", "sala localizada em ...", false);
+        Material m2 = new Material(2, sala, "59", "sala 59", "sala localizada em ...", false);
         System.out.println("Lugares "+teste.getClassroom(m2).getPlaces());
         
         

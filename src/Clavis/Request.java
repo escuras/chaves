@@ -8,6 +8,9 @@ package Clavis;
 import TimeDate.WeekDay;
 import TimeDate.Time;
 import TimeDate.Date;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +39,34 @@ public class Request implements Comparable<Request> {
     private String atividade;
     private ClassStudents turma;
 
+    
+     public Request() {
+        this.begin = new TimeDate.Date();
+        this.end = new TimeDate.Date();
+        this.id = -1;
+        try {
+            this.dia = new TimeDate.WeekDay(this.begin);
+        } catch (ParseException ex) {
+            Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.tinicio = new TimeDate.Time();
+        this.tfim = new TimeDate.Time();
+        this.pessoa = new Clavis.Person();
+        this.material = new Clavis.Material();
+        this.discplina = new Subject();
+        this.atividade = "sem";
+        this.origem = "";
+        this.ativo = false;
+        this.terminado = false;
+        this.substituido = 0;
+        this.quantidade = 1;
+        this.tempo_levantamento = null;
+        this.tempo_entrega = null;
+        this.data_entrega = null;
+        this.data_levantamento = null;
+        this.turma = new ClassStudents();
+    }
+    
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem) {
         this.begin = date;
         this.end = date2;
@@ -46,7 +77,7 @@ public class Request implements Comparable<Request> {
         this.pessoa = pessoa;
         this.material = material;
         this.discplina = new Subject();
-        this.atividade = "sem descrição";
+        this.atividade = "sem";
         this.origem = origem;
         this.ativo = false;
         this.terminado = false;
@@ -69,7 +100,7 @@ public class Request implements Comparable<Request> {
         this.pessoa = pessoa;
         this.material = material;
         this.discplina = new Subject();
-        this.atividade = "sem descrição";
+        this.atividade = "sem";
         this.origem = origem;
         this.ativo = false;
         this.terminado = false;

@@ -24,6 +24,7 @@ public class Locale {
 
     public Collection<String> linguas;
     public String locale;
+    public java.util.Locale systemlocale;
     public String traducao;
 
     public Locale() {
@@ -43,6 +44,7 @@ public class Locale {
              linguas.add(java.util.Locale.getDefault().toString());
         }
         this.locale = "pt_PT";
+        this.systemlocale = java.util.Locale.getDefault();
     }
 
     public void setLocale(String local) {
@@ -50,13 +52,9 @@ public class Locale {
             local = local.replaceAll("[-./|;,:]","_");
             if (this.linguas.contains(local)) {
                 this.locale = local;
-                InputStream st = Langs.Locale.class.getResourceAsStream("lista");
-                for (String g : linguas){
-                    
-                }
             }
         } else {
-            this.linguas.add(java.util.Locale.getDefault().toString());
+            this.systemlocale = new java.util.Locale(local);
             this.locale = java.util.Locale.getDefault().toString();
         }
        
@@ -64,6 +62,10 @@ public class Locale {
     
     public String getLocale(){
         return (this.locale == null) ? "" : this.locale;
+    }
+    
+     public java.util.Locale getSystemLocale(){
+        return this.systemlocale;
     }
     
     public java.util.List<String> getlist(int modo){

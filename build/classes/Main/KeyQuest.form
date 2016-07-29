@@ -807,9 +807,13 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButtonDefBreaksAdicionar">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="1" green="1" red="1" type="rgb"/>
+                </Property>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -825,10 +829,8 @@
                   <Color blue="dd" green="d6" red="d2" type="rgb"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder/>
-                  </Border>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="null" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -837,7 +839,8 @@
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldDefBreaksNomeKeyReleased"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldDefBreaksNome.setToolTipText(lingua.translate(&quot;Introduzir_um_nome_para_o_periodo_indicado.&quot;));&#xa;Border borderg = BorderFactory.createLineBorder(Color.black,1);&#xa;Border borderf = BorderFactory.createEmptyBorder(0, 10, 0, 10);&#xa;jTextFieldDefBreaksNome.setBorder( BorderFactory.createCompoundBorder(borderg, borderf));&#xa;jTextFieldDefBreaksNome.getDocument().addDocumentListener(new DocumentListener() {&#xa;            @Override&#xa;            public void insertUpdate(DocumentEvent e) {&#xa;                updatejTextFieldDefBreak();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void removeUpdate(DocumentEvent e) {&#xa;                updatejTextFieldDefBreak();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void changedUpdate(DocumentEvent e) {&#xa;&#xa;            }&#xa;        });"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldDefBreaksNome.setToolTipText(lingua.translate(&quot;Introduzir_um_nome_para_o_periodo_indicado.&quot;));&#xa;Border borderg = BorderFactory.createLineBorder(Color.black,1);&#xa;Border borderf = BorderFactory.createEmptyBorder(0, 10, 0, 10);&#xa;jTextFieldDefBreaksNome.setBorder(BorderFactory.createCompoundBorder(jTextFieldDefBreaksNome.getBorder(), BorderFactory.createCompoundBorder(borderg, borderf)));&#xa;jTextFieldDefBreaksNome.getDocument().addDocumentListener(new DocumentListener() {&#xa;            @Override&#xa;            public void insertUpdate(DocumentEvent e) {&#xa;                updatejTextFieldDefBreak();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void removeUpdate(DocumentEvent e) {&#xa;                updatejTextFieldDefBreak();&#xa;            }&#xa;&#xa;            @Override&#xa;            public void changedUpdate(DocumentEvent e) {&#xa;&#xa;            }&#xa;        });&#xa; jTextFieldDefBreaksNome.addKeyListener(new java.awt.event.KeyAdapter() {&#xa;                @Override&#xa;                public void keyPressed(java.awt.event.KeyEvent e) {&#xa;                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {&#xa;                        &#xa;                        jDialogDefBreaks.requestFocusInWindow();&#xa;                        jTextFieldDefBreaksNome.setText(&quot;&quot;);&#xa;                    }&#xa;                }&#xa;            });"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jdesktop.swingx.JXTextField()"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksNome">
@@ -1191,11 +1194,15 @@
     </Container>
     <Container class="javax.swing.JDialog" name="jDialogListaBotoes">
       <Properties>
+        <Property name="alwaysOnTop" type="boolean" value="true"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[700, 500]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="jDialogListaBotoesWindowClosing"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -1280,6 +1287,12 @@
               <SubComponents>
                 <Container class="javax.swing.JTabbedPane" name="jTabbedPaneMaterialBotoes">
                   <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder/>
+                      </Border>
+                    </Property>
+                    <Property name="tabLayoutPolicy" type="int" value="1"/>
                     <Property name="autoscrolls" type="boolean" value="true"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2352,10 +2365,12 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jToggleButtonBarRequisicoes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jToggleButtonBarEntregas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jComboBoxVista" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -2364,7 +2379,7 @@
                   <Component id="jComboBoxListaBotoes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBoxPesquisaOpcao" min="-2" pref="200" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="287" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -2381,8 +2396,9 @@
                       </Group>
                       <Component id="jComboBoxVista" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jToggleButtonBarEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jToggleButton1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -2403,13 +2419,13 @@
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2434,13 +2450,13 @@
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2515,13 +2531,13 @@
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[40, 26]"/>
+              <Dimension value="[50, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2554,6 +2570,30 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxPesquisaOpcao.getComponent(0).setForeground(Color.WHITE);&#xa;((javax.swing.JLabel)jComboBoxPesquisaOpcao.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);&#xa;BasicComboPopup popupPesquisa = (BasicComboPopup) jComboBoxPesquisaOpcao.getAccessibleContext().getAccessibleChild(0);&#xa;popupPesquisa.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupPesquisa.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));&#xa;jComboBoxPesquisaOpcao.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Pesquisa por utilizador&quot;), lingua.translate(&quot;Pesquisa por recurso&quot;), lingua.translate(&quot;Pesquisa por tempo&quot;) }));"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[50, 26]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[50, 26]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[50, 26]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtscroll = null;&#xa;try {&#xa;    imagebtscroll = ImageIO.read(getClass().getResourceAsStream(&quot;Images/scroll.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtscroll != null) {&#xa;    javax.swing.ImageIcon iconbtscroll = new javax.swing.ImageIcon(imagebtscroll);&#xa;    jToggleButton1.setIcon(iconbtscroll);&#xa;}&#xa;&#xa;if (scrollAtivo) {&#xa;    jToggleButton1.setSelected(true);&#xa;} else {&#xa;    jToggleButton1.setSelected(false);&#xa;}&#xa;jToggleButton1.setToolTipText(lingua.translate(&quot;Auxiliar autom&#xe1;tico de rolagem&quot;));"/>
           </AuxValues>
         </Component>
       </SubComponents>
