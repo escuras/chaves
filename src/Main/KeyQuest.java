@@ -39,14 +39,17 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -245,7 +248,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneFeriadosEscolhidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jListFeriadosEscolhidos.setBackground(new java.awt.Color(254, 254, 234));
-        jListFeriadosEscolhidos.setToolTipText("");
+        jListFeriadosEscolhidos.setToolTipText(null);
         jListFeriadosEscolhidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListFeriadosEscolhidosMouseClicked(evt);
@@ -325,6 +328,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonDefHolidaysDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefHolidaysDireita.setEnabled(false);
         jButtonDefHolidaysDireita.setFocusPainted(false);
+        jButtonDefHolidaysDireita.setPreferredSize(new java.awt.Dimension(10, 40));
         jButtonDefHolidaysDireita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefHolidaysDireitaActionPerformed(evt);
@@ -411,11 +415,11 @@ public class KeyQuest extends javax.swing.JFrame {
                             .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                                 .addGap(35, 35, 35)
-                                .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -428,7 +432,7 @@ public class KeyQuest extends javax.swing.JFrame {
                                 .addComponent(jRadioButtonCorpoDeus))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefHolidaysLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanelListaFeriadosEscolhidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(92, Short.MAX_VALUE))
         );
@@ -455,7 +459,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonDefHolidaysApagar.setToolTipText(lingua.translate("Apagar"));
         java.awt.image.BufferedImage image5 = null;
         try {
-            image5 = ImageIO.read(getClass().getResourceAsStream("Images/porta3.png"));
+            image5 = ImageIO.read(getClass().getResourceAsStream("Images/exit26x24.png"));
         } catch (IOException ex) {
             Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -466,7 +470,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonDefHolidaysVoltar.setToolTipText(lingua.translate("Voltar"));
         java.awt.image.BufferedImage image3 = null;
         try {
-            image3 = ImageIO.read(getClass().getResourceAsStream("Images/plus.png"));
+            image3 = ImageIO.read(getClass().getResourceAsStream("Images/plus24x24.png"));
         } catch (IOException ex) {
             Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -628,56 +632,52 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefBreaksLayout.setHorizontalGroup(
             jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefBreaksLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
                 .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
                         .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelDefBreaksInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefBreaksLayout.createSequentialGroup()
-                                        .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabelDefBreaksMesInicio)
-                                                    .addComponent(jLabelDefBreaksDiaInicio)
-                                                    .addComponent(jLabelDefBreaksMesFim)
-                                                    .addComponent(jLabelDefBreaksAnoFim))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jComboBoxDefBreaksMesFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jComboBoxDefBreaksAnoFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                                .addComponent(jLabelDefBreaksDiaFim)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jComboBoxDefBreaksDiaFim, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                                .addComponent(jLabelDefBreaksNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextFieldDefBreaksNome, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(24, 24, 24)))
-                                .addGap(22, 22, 22))
+                            .addComponent(jLabelDefBreaksInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefBreaksLayout.createSequentialGroup()
                                 .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                        .addComponent(jLabelDefBreaksAnoInicio)
+                                        .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelDefBreaksMesInicio)
+                                            .addComponent(jLabelDefBreaksDiaInicio)
+                                            .addComponent(jLabelDefBreaksMesFim)
+                                            .addComponent(jLabelDefBreaksAnoFim))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxDefBreaksAnoInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBoxDefBreaksMesInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBoxDefBreaksDiaInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabelDefBreaksTermino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(45, 45, 45))))
-                    .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(jComboBoxDefBreaksMesFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBoxDefBreaksAnoFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                        .addComponent(jLabelDefBreaksDiaFim)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxDefBreaksDiaFim, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                        .addComponent(jLabelDefBreaksNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextFieldDefBreaksNome, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                        .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(24, 24, 24)))
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefBreaksLayout.createSequentialGroup()
+                        .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                .addComponent(jLabelDefBreaksAnoInicio)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxDefBreaksAnoInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxDefBreaksMesInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxDefBreaksDiaInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelDefBreaksTermino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(45, 45, 45)))
                 .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41))
         );
         jPanelDefBreaksLayout.setVerticalGroup(
@@ -722,9 +722,9 @@ public class KeyQuest extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -2658,7 +2658,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 this.temaClaro();
             }
         }
-        this.reCalculateList(true, lista_dev.getList().getTypeOfMaterial());
+        this.reCalculateList(true, lista_dev.getRequestList().getTypeOfMaterial());
     }//GEN-LAST:event_jButtonAtuacaoConfirmaActionPerformed
 
     private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
@@ -3188,15 +3188,17 @@ public class KeyQuest extends javax.swing.JFrame {
         if (jToggleButton1.isSelected()) {
             if (!scrollAtivo) {
                 this.startScroll();
+                jComboBoxScrollAtivo.setSelectedIndex(0);
             }
         } else {
             this.stopScroll();
+            jComboBoxScrollAtivo.setSelectedIndex(1);
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jDialogListaBotoesWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogListaBotoesWindowClosing
         Window[] windows = Window.getWindows();
-         
+
         for (int i = 0; i < windows.length; i++) {
             if (windows[i] instanceof ButtonListRequest.ActionButton) {
                 windows[i].setVisible(false);
@@ -3517,6 +3519,7 @@ public class KeyQuest extends javax.swing.JFrame {
             i++;
         }
         jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(lista));
+	
         createMenu();
 
         Main.UpdateCSVonDB cbd = new Main.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
@@ -3568,13 +3571,31 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     private void createMenu() {
+        
         Menu menu = new Menu();
         menu.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-        JMenu menuFicheiro = new JMenu();
+        JMenu jMenuFicheiro = new JMenu();
         JMenu jMenuDefinicoes = new JMenu();
-        menuFicheiro.setText(lingua.translate("Ficheiro"));
-        menuFicheiro.setMnemonic(lingua.translate("Ficheiro").charAt(0));
+        PopupMenu pop2 = new PopupMenu();
+        
+        jMenuDefinicoes.setComponentPopupMenu(pop2);
+        JPopupMenu pop = jMenuFicheiro.getPopupMenu();
+        pop.setBorderPainted(true);
+        pop.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        jMenuFicheiro.setText(lingua.translate("Ficheiro"));
+        jMenuFicheiro.setMnemonic(lingua.translate("Ficheiro").charAt(0));
         JMenuItem itemSair = new JMenuItem();
+        itemSair.setOpaque(true);
+
+        for (int i = 0; i < jMenuDefinicoes.getAccessibleContext().getAccessibleChildrenCount(); i++) {
+            System.out.println(jMenuDefinicoes.getAccessibleContext().getAccessibleChild(i));
+        }
+
+        itemSair.setBackground(Color.WHITE);
+        
+        //menu.setOpaque(true);
+        //menu.setBackground(Color.WHITE);
         itemSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.ALT_MASK));
         itemSair.setText(lingua.translate("Sair"));
         itemSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -3589,6 +3610,7 @@ public class KeyQuest extends javax.swing.JFrame {
             itemSair.setIcon(icon);
         } catch (IOException e) {
         }
+        
         JMenuItem itemReiniciar = new JMenuItem();
         itemReiniciar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.ALT_MASK));
         itemReiniciar.setText(lingua.translate("Reiniciar"));
@@ -3606,10 +3628,10 @@ public class KeyQuest extends javax.swing.JFrame {
             prefs = new PersonalPrefs();
             prefs.setVisible(true);
         });
-        menuFicheiro.add(itemReiniciar);
-        menuFicheiro.add(itemSair);
-
-        menu.add(menuFicheiro);
+        jMenuFicheiro.add(itemReiniciar);
+        jMenuFicheiro.add(itemSair);
+        
+        menu.add(jMenuFicheiro);
         jMenuDefinicoes.setText(lingua.translate("Definições"));
         jMenuDefinicoes.setMnemonic(lingua.translate("Definições").charAt(0));
         JMenuItem itemFeriados = new JMenuItem();
@@ -3656,7 +3678,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jMenuDefinicoes.add(itemDefinicoes);
         menu.add(jMenuDefinicoes);
         this.setJMenuBar(menu);
-
     }
 
     private void addDayTimer() {
@@ -3964,12 +3985,12 @@ public class KeyQuest extends javax.swing.JFrame {
     private void controlScroll() {
         if (scrollAtivo) {
             scroll = new Timer(1000, (ActionEvent e) -> {
-                if (lista_req.getList().getRequests().size() > 0) {
+                if (lista_req.getList().size() > 0) {
                     if (jScrollPaneRequisicoes.getVerticalScrollBar().isVisible()) {
                         TimeDate.Time tempo = new TimeDate.Time();
                         TimeDate.Date dat = new TimeDate.Date();
                         int i = 0;
-                        for (Clavis.Request req : lista_req.getList().getRequests()) {
+                        for (Clavis.Request req : lista_req.getList()) {
                             int val = tempo.compareTime(req.getTimeBegin());
                             if ((req.getBeginDate().getDay() == dat.getDay()) && (req.getBeginDate().getMonth() == dat.getMonth()) && (req.getBeginDate().getYear() == dat.getYear())) {
                                 // problema da hora de saída após a meio-noite
@@ -3982,7 +4003,7 @@ public class KeyQuest extends javax.swing.JFrame {
                                 //
                                 if ((val < 600) && (valfinal >= 0)) {
                                     int max = jScrollPaneRequisicoes.getVerticalScrollBar().getMaximum();
-                                    int nlinhas = lista_req.getList().getRequests().size();
+                                    int nlinhas = lista_req.getList().size();
                                     max = max / nlinhas;
                                     if (i > 0) {
                                         i = i - 1;

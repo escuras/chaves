@@ -22,6 +22,8 @@ public class UpdateCSVonDB {
     private String database;
     private String csv;
     private Clavis.Function funcao;
+    private boolean belementos;
+    private DataBase.DataBase db;
 
     public UpdateCSVonDB() {
         inicio = new TimeDate.Date();
@@ -31,6 +33,7 @@ public class UpdateCSVonDB {
         database = "";
         csv = "";
         funcao = new Clavis.Function("Pofessor");
+        belementos = false;
     }
 
     public UpdateCSVonDB(TimeDate.Date inicio, TimeDate.Date fim, TimeDate.BreakPeriodList ferias, TimeDate.HolidaysList feriados, String database, String csv) {
@@ -40,7 +43,8 @@ public class UpdateCSVonDB {
         this.feriados = feriados;
         this.database = database;
         this.csv = csv;
-        this.funcao = new Clavis.Function("Pofessor");
+        this.funcao = new Clavis.Function("Pofessor"); 
+        this.belementos = false;
     }
 
     public UpdateCSVonDB(UpdateCSVonDB db) {
@@ -55,13 +59,14 @@ public class UpdateCSVonDB {
 
     public void update() {
         if ((!database.equals("")) && (!csv.equals(""))) {
-            DataBase.DataBase db = new DataBase.DataBase(database);
+            db = new DataBase.DataBase(database);
             if (db.isTie()) {
                 CSV.HandlingCSV han = new CSV.HandlingCSV(this.csv);
                 han.searchElements();
                 java.util.List<CSV.ElementsCSV> elementos = han.getElements();
                 Set<Clavis.Request> requests = new TreeSet<>();
                 if (elementos.size() > 0) {
+                    belementos = true;
                     int i = 0;
                     boolean bauxiliar = false;
                     Set<Clavis.Person> pessoas = new java.util.TreeSet<>();
@@ -208,4 +213,13 @@ public class UpdateCSVonDB {
     public void setFunction(Clavis.Function funcao) {
         this.funcao = funcao;
     }
+
+    /**
+     * @return the belementos
+     */
+    public boolean hasElements() {
+        return belementos;
+    }
+    
+   
 }

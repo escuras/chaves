@@ -1,6 +1,5 @@
 package FileIOAux;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
@@ -69,6 +68,44 @@ public class ImageAux {
         return bimagem;
     }
 
+    public static FileIOAux.ImageExtension getImageFromFileChooser(javax.swing.JLabel comp, Langs.Locale locale,int largura,int altura) {
+        String titulo = setUILanguage(locale);
+        JFileChooser fimagem = new JFileChooser();
+        fimagem.setDialogTitle(titulo);
+        fimagem.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                }
+                final String name = f.getName();
+                return name.endsWith(".png") || name.endsWith(".jpg");
+            }
+
+            @Override
+            public String getDescription() {
+                return "*.png,*.jpg";
+            }
+        });
+        fimagem.getLocation();
+        int retVal = fimagem.showOpenDialog(comp);
+        FileIOAux.ImageExtension bimagem = null;
+        if (retVal == JFileChooser.APPROVE_OPTION) {
+            extensao = verifyExtension(fimagem.getSelectedFile());
+            try {
+                if (validateExtension(extensao)) {
+                    
+                    bimagem = new FileIOAux.ImageExtension(ImageIO.read(fimagem.getSelectedFile()),extensao);
+                }
+            } catch (IOException ex) {
+            }
+        }
+        if (bimagem != null) {
+            comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(),largura,altura)));
+        }
+        return bimagem;
+    }
+
     public static BufferedImage getImageFromFile(java.io.File file) {
         BufferedImage bimagem = null;
         extensao = verifyExtension(file);
@@ -112,9 +149,7 @@ public class ImageAux {
         }
         return extensao;
     }
-    
-   
-    
+
     private static boolean validateExtension(String file) {
 
         if (file.equals("png")) {
@@ -247,16 +282,17 @@ public class ImageAux {
         g2.dispose();
         return output;
     }
-    
+
     public static BufferedImage transformFromBase64IntoImage(String imagem) {
         byte[] p = java.util.Base64.getDecoder().decode(imagem);
         java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(p);
         BufferedImage image = null;
         try {
             image = ImageIO.read(in);
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
         return image;
-    }   
+    }
 
     private static String setUILanguage(Langs.Locale locale) {
         ResourceBundle rb;

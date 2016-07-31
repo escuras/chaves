@@ -38,6 +38,7 @@ public class Request implements Comparable<Request> {
     private Time tempo_entrega;
     private String atividade;
     private ClassStudents turma;
+    private int id_conjunta;
 
     
      public Request() {
@@ -65,6 +66,7 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.id_conjunta = 0;
     }
     
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem) {
@@ -88,6 +90,7 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.id_conjunta = 0;
     }
     
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem, int quantidade) {
@@ -111,9 +114,10 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.id_conjunta = 0;
     }
 
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido,int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido,int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -134,6 +138,7 @@ public class Request implements Comparable<Request> {
         this.data_entrega = data_entrega;
         this.data_levantamento = data_levantamento;
         this.turma = turma;
+        this.id_conjunta = id_conjunta;
     }
 
     public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, String origem, ClassStudents turma) {
@@ -157,6 +162,7 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = turma;
+        this.id_conjunta = 0;
     }
 
     public Request(Request req) {
@@ -180,6 +186,7 @@ public class Request implements Comparable<Request> {
         this.tempo_entrega = req.getDeliveryTime();
         this.tempo_levantamento = req.getLiftTime();
         this.turma = req.getStudentsClass();
+        this.id_conjunta = req.getUnionRequest();
     }
 
     /**
@@ -483,6 +490,20 @@ public class Request implements Comparable<Request> {
      */
     public void setStudentsClass(ClassStudents turma) {
         this.turma = turma;
+    }
+
+    /**
+     * @return the id_conjunta
+     */
+    public int getUnionRequest() {
+        return id_conjunta;
+    }
+
+    /**
+     * @param id_conjunta the id_conjunta to set
+     */
+    public void setUnionRequest(int id_conjunta) {
+        this.id_conjunta = id_conjunta;
     }
 
 }

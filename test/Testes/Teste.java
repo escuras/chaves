@@ -47,9 +47,12 @@ public class Teste extends javax.swing.JFrame {
         glossPainter1 = new org.jdesktop.swingx.painter.GlossPainter();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         jDialog1.setMinimumSize(new java.awt.Dimension(700, 500));
-        jDialog1.setPreferredSize(new java.awt.Dimension(700, 500));
 
         jPanel2.setBackground(new java.awt.Color(254, 254, 254));
 
@@ -77,6 +80,8 @@ public class Teste extends javax.swing.JFrame {
         jButton4.setText("jButton4");
 
         jXLabel1.setText("jXLabel1");
+
+        jXRadioGroup1.setLayout(new javax.swing.BoxLayout(jXRadioGroup1, javax.swing.BoxLayout.LINE_AXIS));
 
         javax.swing.GroupLayout jXImageView1Layout = new javax.swing.GroupLayout(jXImageView1);
         jXImageView1.setLayout(jXImageView1Layout);
@@ -196,6 +201,20 @@ public class Teste extends javax.swing.JFrame {
                 .addContainerGap(178, Short.MAX_VALUE))
         );
 
+        jMenu1.setText("File");
+        jMenu1.setInheritsPopupMenu(true);
+        jMenu1.setOpaque(true);
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -210,7 +229,7 @@ public class Teste extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         pack();
@@ -279,6 +298,10 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

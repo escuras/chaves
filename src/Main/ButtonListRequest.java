@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
@@ -271,6 +272,8 @@ public class ButtonListRequest {
         private javax.swing.JPanel painel;
         private javax.swing.JTextField[] texto;
         private javax.swing.JDialog dialogopai;
+        private FileIOAux.ImageExtension bimage;
+        private boolean alterado;
 
         public ActionButton(javax.swing.JDialog dialogo, Clavis.Material m) {
             super(dialogo);
@@ -278,6 +281,8 @@ public class ButtonListRequest {
             this.cla = null;
             editar = false;
             dialogopai = dialogo;
+            bimage = null;
+            this.alterado = false;
         }
 
         public ActionButton(javax.swing.JDialog dialogo, Clavis.Classroom m) {
@@ -286,6 +291,8 @@ public class ButtonListRequest {
             this.mat = null;
             editar = false;
             dialogopai = dialogo;
+            bimage = null;
+            this.alterado = false;
         }
 
         public void create() {
@@ -311,7 +318,7 @@ public class ButtonListRequest {
                 );
 
                 // titulos 
-                javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Infomação"));
+                javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Informação"));
                 label1.setPreferredSize(new Dimension(181, 32));
                 label1.setForeground(Color.BLACK);
                 label1.setFont(new Font("Cantarell", Font.PLAIN, 18));
@@ -322,23 +329,25 @@ public class ButtonListRequest {
                 painel1.setBackground(Color.WHITE);
                 painel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 javax.swing.JLabel imageview = new javax.swing.JLabel();
-                imageview.setPreferredSize(new Dimension(50, 40));
-                imageview.setBounds(20, 5, 50, 40);
+                imageview.setPreferredSize(new Dimension(60, 50));
                 imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-                imageview.setOpaque(true);
-                imageview.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+                imageview.setVerticalAlignment(javax.swing.JLabel.CENTER);
+                imageview.setBounds(14, 10, 60, 50);
+
+                imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1), BorderFactory.createLineBorder(Color.BLACK, 1)));
                 if (!cla.getMaterialImage().equals("sem")) {
-                    BufferedImage bimage = FileIOAux.ImageAux.makeRoundedCorner(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.transformFromBase64IntoImage(cla.getMaterialImage()), 52, 40), 0);
-                    imageview.setIcon(new javax.swing.ImageIcon(bimage));
+                    bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(cla.getMaterialImage()));
+                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
                 } else {
                     String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + cla.getTypeOfMaterialImage() + ".png";
-                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.makeRoundedCorner(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.getImageFromFile(new File(path)), 52, 40), 0)));
+                    bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
+                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
                 }
                 javax.swing.JPanel painelimagem = new javax.swing.JPanel(null);
-                painelimagem.setPreferredSize(new Dimension(360, 40));
+                painelimagem.setPreferredSize(new Dimension(360, 60));
                 painelimagem.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
                 painelimagem.setBackground(Color.WHITE);
-                painelimagem.setBounds(0, 0, 360, 40);
+                painelimagem.setBounds(0, 0, 360, 60);
                 painelimagem.add(imageview);
                 painel1.add(painelimagem);
 
@@ -481,185 +490,227 @@ public class ButtonListRequest {
                 bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
                 bt1painel1Baixo.setFocusPainted(false);
                 bt1painel1Baixo.setBackground(Color.BLACK);
-                javax.swing.border.Border baux[] = new javax.swing.border.Border[4];
+                javax.swing.border.Border baux[] = new javax.swing.border.Border[5];
                 for (int i = 0; i < 4; i++) {
                     baux[i] = texto[i + 2].getBorder();
                 }
+                baux[4] = imageview.getBorder();
                 bt1painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                bt1painel1Baixo.addActionListener((ActionEvent e) -> {
-                    if (!editar) {
-                        java.awt.image.BufferedImage imagebtok1 = null;
-                        try {
-                            imagebtok1 = ImageIO.read(getClass().getResourceAsStream("Images/save.png"));
-                        } catch (IOException ex) {
-                        }
-                        if (imagebtok1 != null) {
-                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
-                            bt1painel1Baixo.setIcon(iconbtok);
-                        }
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
-                        }
-                        bt1painel1Baixo.setToolTipText(lingua.translate("Gravar"));
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setFocusable(true);
-                            texto[i].setBackground(Color.WHITE);
-                            texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
+                bt1painel1Baixo.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (!editar) {
+                            java.awt.image.BufferedImage imagebtok1 = null;
+                            try {
+                                imagebtok1 = ImageIO.read(getClass().getResourceAsStream("Images/save.png"));
+                            } catch (IOException ex) {
+                            }
+                            if (imagebtok1 != null) {
+                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
+                                bt1painel1Baixo.setIcon(iconbtok);
+                            }
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
+                            }
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            bt1painel1Baixo.setToolTipText(lingua.translate("Gravar"));
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setFocusable(true);
+                                texto[i].setBackground(Color.WHITE);
+                                texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
+                                    @Override
+                                    public void keyPressed(KeyEvent e) {
+                                        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+                                            for (JTextField texto1 : texto) {
+                                                texto1.setFocusable(false);
+                                                texto1.setBackground(new Color(249, 249, 249));
+                                            }
+                                            editar = false;
+                                            java.awt.image.BufferedImage imagebtok2 = null;
+                                            try {
+                                                imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+                                            } catch (IOException ex) {
+                                            }
+                                            if (imagebtok2 != null) {
+                                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
+                                                bt1painel1Baixo.setIcon(iconbtok);
+                                            }
+                                            bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
+                                        }
+                                    }
+                                });
+                            }
+                            imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            imageview.addMouseListener(new java.awt.event.MouseAdapter() {
                                 @Override
-                                public void keyPressed(KeyEvent e) {
-                                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
-                                        for (JTextField texto1 : texto) {
-                                            texto1.setFocusable(false);
-                                            texto1.setBackground(new Color(249, 249, 249));
-                                        }
-                                        editar = false;
-                                        java.awt.image.BufferedImage imagebtok2 = null;
-                                        try {
-                                            imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
-                                        } catch (IOException ex) {
-                                        }
-                                        if (imagebtok2 != null) {
-                                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
-                                            bt1painel1Baixo.setIcon(iconbtok);
-                                        }
-                                        bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
+                                public void mouseClicked(MouseEvent e) {
+                                    FileIOAux.ImageExtension image;
+                                    image = bimage;
+                                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                                        alterado = true;
+                                    } else{
+                                        bimage = image;
+                                    }
+                                }
+                                
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
+                                    }
+                                }
+                                
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
                                     }
                                 }
                             });
-                        }
-                        editar = true;
-                    } else {
-                        javax.swing.Timer timer = null;
-                        if (baux[0] != null) {
-                            texto[2].setBorder(baux[0]);
-                        }
-                        for (JTextField texto1 : texto) {
-                            texto1.setFocusable(false);
-                            texto1.setBackground(new Color(249, 249, 249));
-                        }
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setBorder(baux[i - 2]);
-                        }
-                        editar = false;
-                        java.awt.image.BufferedImage imagebtok3 = null;
-                        try {
-                            imagebtok3 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
-                        } catch (IOException ex) {
-                        }
-                        if (imagebtok3 != null) {
-                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok3);
-                            bt1painel1Baixo.setIcon(iconbtok);
-                        }
-                        bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
-                        boolean auxiliar1 = false;
-                        if (!texto[2].getText().matches("^\\d+$")) {
-                            auxiliar1 = true;
-                            baux[0] = texto[2].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                            editar = true;
+                        } else {
+                            javax.swing.Timer timer;
+                            if (baux[0] != null) {
                                 texto[2].setBorder(baux[0]);
-                                texto[2].setText("" + cla.getPlaces());
-                                bt1painel1Baixo.setEnabled(true);
-                            });
-                            texto[2].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
-                            timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!texto[3].getText().matches("^\\d+$")) {
-                            auxiliar1 = true;
-                            baux[1] = texto[3].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[3].setBorder(baux[1]);
-                                texto[3].setText("" + cla.getComputers());
-                                bt1painel1Baixo.setEnabled(true);
-                            });
-                            texto[3].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
-                            timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
-                            timer.start();
-                        }
-                        if ((!texto[4].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[4].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[4].getText().toLowerCase().equals("nao"))) {
-                            auxiliar1 = true;
-                            baux[2] = texto[4].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[4].setBorder(baux[2]);
-                                if (cla.hasProjector()) {
-                                    texto[4].setText(lingua.translate("Sim").toLowerCase());
+                            }
+                            for (JTextField texto1 : texto) {
+                                texto1.setFocusable(false);
+                                texto1.setBackground(new Color(249, 249, 249));
+                            }
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setBorder(baux[i - 2]);
+                            }
+                            imageview.setBorder(baux[4]);
+                            imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                            editar = false;
+                            java.awt.image.BufferedImage imagebtok3 = null;
+                            try {
+                                imagebtok3 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+                            } catch (IOException ex) {
+                            }
+                            if (imagebtok3 != null) {
+                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok3);
+                                bt1painel1Baixo.setIcon(iconbtok);
+                            }
+                            bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
+                            boolean auxiliar1 = false;
+                            if (!texto[2].getText().matches("^\\d+$")) {
+                                auxiliar1 = true;
+                                baux[0] = texto[2].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[2].setBorder(baux[0]);
+                                    texto[2].setText("" + cla.getPlaces());
+                                    bt1painel1Baixo.setEnabled(true);
+                                });
+                                texto[2].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
+                                timer.setRepeats(false);
+                                bt1painel1Baixo.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!texto[3].getText().matches("^\\d+$")) {
+                                auxiliar1 = true;
+                                baux[1] = texto[3].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[3].setBorder(baux[1]);
+                                    texto[3].setText("" + cla.getComputers());
+                                    bt1painel1Baixo.setEnabled(true);
+                                });
+                                texto[3].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
+                                timer.setRepeats(false);
+                                bt1painel1Baixo.setEnabled(false);
+                                timer.start();
+                            }
+                            if ((!texto[4].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[4].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[4].getText().toLowerCase().equals("nao"))) {
+                                auxiliar1 = true;
+                                baux[2] = texto[4].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[4].setBorder(baux[2]);
+                                    if (cla.hasProjector()) {
+                                        texto[4].setText(lingua.translate("Sim").toLowerCase());
+                                    } else {
+                                        texto[4].setText(lingua.translate("Nao").toLowerCase());
+                                    }
+                                    bt1painel1Baixo.setEnabled(true);
+                                });
+                                texto[4].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[2]));
+                                timer.setRepeats(false);
+                                bt1painel1Baixo.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!(texto[5].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[5].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[5].getText().toLowerCase().equals("nao"))) {
+                                auxiliar1 = true;
+                                baux[3] = texto[5].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[5].setBorder(baux[3]);
+                                    if (cla.hasInteractiveTable()) {
+                                        texto[5].setText(lingua.translate("Sim").toLowerCase());
+                                    } else {
+                                        texto[5].setText(lingua.translate("Nao").toLowerCase());
+                                    }
+                                    bt1painel1Baixo.setEnabled(true);
+                                });
+                                texto[5].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[3]));
+                                timer.setRepeats(false);
+                                bt1painel1Baixo.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!auxiliar1) {
+                                if (texto[2].getText().length() > 1) {
+                                    int i = 0;
+                                    while (i < texto[2].getText().length()) {
+                                        if (texto[2].getText().charAt(i) == '0') {
+                                            texto[2].setText(texto[2].getText().replaceFirst("0", ""));
+                                        }
+                                        if (texto[2].getText().charAt(i) != '0') {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (texto[3].getText().length() > 1) {
+                                    int i = 0;
+                                    while (i < texto[3].getText().length()) {
+                                        if (texto[3].getText().charAt(i) == '0') {
+                                            texto[3].setText(texto[3].getText().replaceFirst("0", ""));
+                                        }
+                                        if (texto[3].getText().charAt(i) != '0') {
+                                            break;
+                                        }
+                                    }
+                                }
+                                cla.setPlaces(Integer.valueOf(texto[2].getText()));
+                                cla.setComputers(Integer.valueOf(texto[3].getText()));
+                                if ((texto[4].getText().toLowerCase().equals("nao"))) {
+                                    texto[4].setText("não");
                                 } else {
-                                    texto[4].setText(lingua.translate("Nao").toLowerCase());
+                                    texto[4].setText(texto[4].getText().toLowerCase());
                                 }
-                                bt1painel1Baixo.setEnabled(true);
-                            });
-                            texto[4].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[2]));
-                            timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!(texto[5].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[5].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[5].getText().toLowerCase().equals("nao"))) {
-                            auxiliar1 = true;
-                            baux[3] = texto[5].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[5].setBorder(baux[3]);
-                                if (cla.hasInteractiveTable()) {
-                                    texto[5].setText(lingua.translate("Sim").toLowerCase());
+                                if (texto[4].getText().equals(lingua.translate("Sim").toLowerCase())) {
+                                    cla.setProjector(true);
                                 } else {
-                                    texto[5].setText(lingua.translate("Nao").toLowerCase());
+                                    cla.setProjector(false);
                                 }
-                                bt1painel1Baixo.setEnabled(true);
-                            });
-                            texto[5].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[3]));
-                            timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!auxiliar1) {
-
-                            if (texto[2].getText().length() > 1) {
-                                int i = 0;
-                                while (i < texto[2].getText().length()) {
-                                    if (texto[2].getText().charAt(i) == '0') {
-                                        texto[2].setText(texto[2].getText().replaceFirst("0", ""));
-                                    }
-                                    if (texto[2].getText().charAt(i) != '0') {
-                                        break;
-                                    }
+                                if ((texto[5].getText().toLowerCase().equals("nao"))) {
+                                    texto[5].setText("não");
+                                } else {
+                                    texto[5].setText(texto[5].getText().toLowerCase());
                                 }
-                            }
-                            if (texto[3].getText().length() > 1) {
-                                int i = 0;
-                                while (i < texto[3].getText().length()) {
-                                    if (texto[3].getText().charAt(i) == '0') {
-                                        texto[3].setText(texto[3].getText().replaceFirst("0", ""));
-                                    }
-                                    if (texto[3].getText().charAt(i) != '0') {
-                                        break;
-                                    }
+                                if (texto[5].getText().equals(lingua.translate("Sim").toLowerCase())) {
+                                    cla.setInteractiveTable(true);
+                                } else {
+                                    cla.setInteractiveTable(false);
+                                }
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                db.updateClassroom(cla);
+                                if ((bimage != null)&&(!bimage.getExtension().equals(""))&&(alterado)) {
+                                    cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
+                                    alterado = false;
+                                    db.updateMaterial(cla);
+                                }
+                                for(java.awt.event.MouseListener l :  imageview.getMouseListeners()){
+                                     imageview.removeMouseListener(l);
                                 }
                             }
-                            cla.setPlaces(Integer.valueOf(texto[2].getText()));
-                            cla.setComputers(Integer.valueOf(texto[3].getText()));
-                            if ((texto[4].getText().toLowerCase().equals("nao"))) {
-                                texto[4].setText("não");
-                            } else {
-                                texto[4].setText(texto[4].getText().toLowerCase());
-                            }
-                            if (texto[4].getText().equals(lingua.translate("Sim").toLowerCase())) {
-                                cla.setProjector(true);
-                            } else {
-                                cla.setProjector(false);
-                            }
-                            if ((texto[5].getText().toLowerCase().equals("nao"))) {
-                                texto[5].setText("não");
-                            } else {
-                                texto[5].setText(texto[5].getText().toLowerCase());
-                            }
-                            if (texto[5].getText().equals(lingua.translate("Sim").toLowerCase())) {
-                                cla.setInteractiveTable(true);
-                            } else {
-                                cla.setInteractiveTable(false);
-                            }
-                            DataBase.DataBase db = new DataBase.DataBase(url);
-                            db.updateClassroom(cla);
                         }
                     }
                 });
@@ -676,6 +727,7 @@ public class ButtonListRequest {
                 }
                 bt2painel1Baixo.setFocusPainted(false);
                 bt2painel1Baixo.setBackground(Color.BLACK);
+                bt2painel1Baixo.setToolTipText(lingua.translate("Mais dados"));
                 bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 bt2painel1Baixo.addActionListener((ActionEvent e) -> {
                     Main.Windows.WRequest janela = new Main.Windows.WRequest(this);
@@ -712,7 +764,7 @@ public class ButtonListRequest {
                     javax.swing.ImageIcon iconbtsair = new javax.swing.ImageIcon(imagebtsair);
                     btsair.setIcon(iconbtsair);
                 }
-                btsair.setBounds(5, 0, 160, 40);
+                btsair.setBounds(5, 0, 140, 40);
                 btsair.setToolTipText(lingua.translate("Sair"));
                 btsair.setBackground(Color.BLACK);
                 btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -729,7 +781,7 @@ public class ButtonListRequest {
                 painel22.setLayout(null);
                 javax.swing.JButton btreq = new javax.swing.JButton();
                 btreq.setPreferredSize(new Dimension(160, 40));
-                btreq.setToolTipText(lingua.translate("Realizar requisição"));
+                btreq.setToolTipText(lingua.translate("Requisitar"));
                 java.awt.image.BufferedImage imagebtreq = null;
                 try {
                     imagebtreq = ImageIO.read(getClass().getResourceAsStream("Images/request.png"));
@@ -771,8 +823,8 @@ public class ButtonListRequest {
                                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(painel2, 0, 290, Short.MAX_VALUE)
-                                        .addComponent(painel1, 0, 290, Short.MAX_VALUE))
+                                        .addComponent(painel2, 0, 310, Short.MAX_VALUE)
+                                        .addComponent(painel1, 0, 310, Short.MAX_VALUE))
                                 .addGap(10, 10, 10)
                                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(painel11, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
@@ -882,7 +934,7 @@ public class ButtonListRequest {
                 painel2.add(lbtl1);
 
                 if (!cla.isLoaned()) {
-                    lb1 = new javax.swing.JLabel(lingua.translate("de") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até") + " " + req.getTimeEnd().toString(0));
+                    lb1 = new javax.swing.JLabel(lingua.translate("Desde") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até") + " " + req.getTimeEnd().toString(0));
                 } else {
                     lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
                 }
@@ -933,7 +985,7 @@ public class ButtonListRequest {
                 lbtl.setPreferredSize(new Dimension(219, 20));
                 lbtl.setBounds(0, 100, 219, 20);
                 painel2.add(lbtl);
-                lbtl = new javax.swing.JLabel(lingua.translate("para este recurso") + "!");
+                lbtl = new javax.swing.JLabel(" " + lingua.translate("para este recurso") + "!");
                 lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
                 lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 lbtl.setPreferredSize(new Dimension(219, 20));

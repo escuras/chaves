@@ -64,7 +64,10 @@ public class HandlingCSV {
         try {
             try {
                 if ((this.url == null) || (!this.verifyConnectUrl())) {
-                    File file = new File("download" + System.getProperty("file.separator") + doc_nome);
+                    File file = new File(new File("").getAbsolutePath()
+                            + System.getProperty("file.separator")
+                            + "Resources" + System.getProperty("file.separator")
+                            + "Download" + System.getProperty("file.separator") + doc_nome);
                     if (!file.exists()) {
                         File diretoria = new File("download");
                         diretoria.mkdir();
@@ -79,34 +82,40 @@ public class HandlingCSV {
                 } else {
                     InputStream input;
                     try {
-                        input = new URL(url).openStream();
-                        reader = new CSVReader(new InputStreamReader(input), ';');
-                        if (reader.verifyReader()) {
-                            entradas = reader.readAll();
-                            File file = new File("download" + System.getProperty("file.separator") + doc_nome);
-                            if (!file.exists()) {
-                                File diretoria = new File("download");
-                                diretoria.mkdir();
-                                file.createNewFile();
-                                novo = true;
-                                try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
-                                    scv.writeAll(entradas);
-                                    scv.flush();
-                                }
-                            } else {
-                                File file2 = new File("horario_disciplinas.csv");
-                                try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
-                                    scv.writeAll(entradas);
-                                    scv.flush();
-                                }
-                                if (FileUtils.contentEquals(file, file2)) {
-                                    file2.delete();
-                                } else {
+                        URL urla = new URL(url);
+                        if (urla.openConnection().getContentLength() >= 0) {
+                            input = new URL(url).openStream();
+                            reader = new CSVReader(new InputStreamReader(input), ';');
+                            if (reader.verifyReader()) {
+                                entradas = reader.readAll();
+                                File file = new File(new File("").getAbsolutePath()
+                                        + System.getProperty("file.separator")
+                                        + "Resources" + System.getProperty("file.separator")
+                                        + "Download" + System.getProperty("file.separator") + doc_nome);
+                                if (!file.exists()) {
+                                    File diretoria = new File("download");
+                                    diretoria.mkdir();
+                                    file.createNewFile();
+                                    novo = true;
                                     try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
-                                        file2.delete();
                                         scv.writeAll(entradas);
                                         scv.flush();
-                                        novo = true;
+                                    }
+                                } else {
+                                    File file2 = new File("horario_disciplinas.csv");
+                                    try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
+                                        scv.writeAll(entradas);
+                                        scv.flush();
+                                    }
+                                    if (FileUtils.contentEquals(file, file2)) {
+                                        file2.delete();
+                                    } else {
+                                        try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
+                                            file2.delete();
+                                            scv.writeAll(entradas);
+                                            scv.flush();
+                                            novo = true;
+                                        }
                                     }
                                 }
                             }

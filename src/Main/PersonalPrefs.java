@@ -6,6 +6,7 @@
 package Main;
 
 import java.util.prefs.Preferences;
+import javax.swing.UIManager;
 
 /**
  *
@@ -28,7 +29,6 @@ public class PersonalPrefs extends KeyQuest {
         tema = userPrefs.get("tema", "claro");
         tdivisor = userPrefs.getInt("userdivisor", 40);
         vista = userPrefs.getInt("vista", 0);
-     
         bitpagina = userPrefs.getByteArray("bitarray", new byte[]{0,0});
         lingua = new Langs.Locale();
         lingua.setLocale(lang); 

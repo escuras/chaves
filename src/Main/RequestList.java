@@ -15,6 +15,7 @@ import java.util.TreeSet;
  * @author toze
  */
 public class RequestList {
+
     private String bd;
     private DataBase.DataBase db;
     private Clavis.TypeOfMaterial material;
@@ -22,6 +23,7 @@ public class RequestList {
     private TimeDate.Date date2;
     private HolidaysList feriados;
     private Set<Clavis.Request> requests;
+    private java.util.Map<Clavis.Request, Integer> unionrequests;
     public static final int VIEW_BIWEEK = 3;
     public static final int VIEW_WEEK = 2;
     public static final int VIEW_PAIR_OF_DAYS = 1;
@@ -29,7 +31,7 @@ public class RequestList {
     private int vista;
     private boolean estado;
     private boolean terminado;
-    
+
     public RequestList(String bd, Clavis.TypeOfMaterial material, int vista, HolidaysList feriados, boolean estado, boolean terminado) {
         this.estado = estado;
         this.terminado = terminado;
@@ -40,41 +42,69 @@ public class RequestList {
         this.requests = new TreeSet<>();
         this.feriados = feriados;
         this.calcDates();
+        this.unionrequests = new java.util.HashMap<>();
     }
-    
-     public RequestList(RequestList req) {
+
+    public RequestList(RequestList req) {
         this.bd = req.getBd();
         this.material = req.getTypeOfMaterial();
         this.date1 = req.getDate1();
         this.date2 = req.getDate2();
         this.requests = new TreeSet<>();
+        this.unionrequests = new java.util.HashMap<>();
         this.feriados = req.feriados;
     }
-    
-    public void reMake(){
+
+    public void reMake() {
         this.calcDates();
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
-    
+
     public Clavis.Request getSelectedRequest(int valor) {
         Clavis.Request[] requests2 = new Clavis.Request[this.requests.size()];
         requests2 = this.requests.toArray(requests2);
         return requests2[valor];
     }
-    
-    public void make(){
+
+    public void make() {
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
     }
-    
-    public void searchByTime(Boolean bool, TimeDate.Time time){
-        this.requests = db.getRequestsByTime(bool,time, this.date1, this.date2, estado, terminado);
+
+    public Set<Clavis.Request> treatUnionRequests() {
+        Set<Clavis.Request> requisicoes = new TreeSet<>(requests);
+        unionrequests = new java.util.HashMap<>();
+        for (Clavis.Request req : requests) {
+            for (Clavis.Request req2 : requests) {
+                int i = 0;
+                if (req.getId() == req2.getUnionRequest()) {
+                    if (i == 0) {
+                        unionrequests.put(req, req.getId());
+                    }
+                    i++;
+                    unionrequests.put(req2, req2.getUnionRequest());
+                    req.setEndDate(req2.getEndDate());
+                    req.setTimeEnd(req2.getTimeEnd());
+                    req.setActivity("Múltiplas atividades");
+                    requisicoes.remove(req2);
+                }
+            }
+        }
+        return requisicoes;
     }
-  
-    public void searchBy(int opcao, String person){
-        this.requests = db.getRequests(opcao,person, this.date1, this.date2, estado, terminado);
+
+    private java.util.Map<Clavis.Request, Integer> getUnionRequests() {
+       return this.unionrequests;
     }
-    
-    public boolean removeRequest(Clavis.Request request){
+
+    public void searchByTime(Boolean bool, TimeDate.Time time) {
+        this.requests = db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado);
+    }
+
+    public void searchBy(int opcao, String person) {
+        this.requests = db.getRequests(opcao, person, this.date1, this.date2, estado, terminado);
+    }
+
+    public boolean removeRequest(Clavis.Request request) {
         return this.requests.remove(request);
     }
 
@@ -169,8 +199,8 @@ public class RequestList {
         this.vista = vista;
         this.calcDates();
     }
-    
-    public boolean isConnected(){
+
+    public boolean isConnected() {
         return db.isTie();
     }
 
@@ -187,8 +217,8 @@ public class RequestList {
     public void setConcluded(boolean terminado) {
         this.terminado = terminado;
     }
-    
-    private void calcDates(){
+
+    private void calcDates() {
         Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
         TimeDate.Date hoje = new TimeDate.Date();
         int dia_auxiliar = 0;
@@ -205,26 +235,26 @@ public class RequestList {
                     dia_auxiliar++;
                 }
                 this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                this.date2 = hoje.dateAfter(dia_auxiliar);
                 break;
             case 2:
                 dia_auxiliar = 6;
                 this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                this.date2 = hoje.dateAfter(dia_auxiliar);
                 break;
             case 3:
                 dia_auxiliar = 13;
                 this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                this.date2 = hoje.dateAfter(dia_auxiliar);
                 break;
-            case 4: 
-                dia_auxiliar= TimeDate.Date.daysOfTheCurrentMonth(hoje);
+            case 4:
+                dia_auxiliar = TimeDate.Date.daysOfTheCurrentMonth(hoje);
                 this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                this.date2 = hoje.dateAfter(dia_auxiliar);
                 break;
             default:
                 this.date1 = hoje;
-                this.date2 =  hoje.dateAfter(dia_auxiliar);
+                this.date2 = hoje.dateAfter(dia_auxiliar);
 
         }
     }

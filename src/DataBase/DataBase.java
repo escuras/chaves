@@ -22,6 +22,8 @@ public class DataBase {
 
     private Connection con;
     private boolean tie;
+    private boolean auxiliar;
+    private Threads.InsertRequest tupdate;
 
     public DataBase(String url) {
         try {
@@ -36,6 +38,7 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             tie = false;
         }
+        auxiliar = false;
     }
 
     public DataBase(String url, String username, String password) {
@@ -49,6 +52,7 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             tie = false;
         }
+        auxiliar = false;
     }
 
     public boolean isTie() {
@@ -501,7 +505,7 @@ public class DataBase {
         }
         return turmas;
     }
-    
+
     public Clavis.ClassStudents getStudentsClass(String codigo) {
         Clavis.ClassStudents turma = new Clavis.ClassStudents();
         if (this.isTie()) {
@@ -693,7 +697,7 @@ public class DataBase {
                                 tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
                             }
                             if (!rs.getString("imagem").equals("sem")) {
-                                material = new Clavis.Material(rs.getInt("id_material"),tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
                             } else {
                                 material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
@@ -967,7 +971,6 @@ public class DataBase {
         }
         return classrooms;
     }
-    
 
     public Clavis.Classroom getClassroom(Clavis.Material m) {
         Clavis.Classroom sala = new Clavis.Classroom();
@@ -997,11 +1000,9 @@ public class DataBase {
     }
 
     public boolean updateClassroom(Clavis.Classroom clas) {
-        System.out.println("passou");
         if (this.isTie()) {
             String sql;
             Statement smt;
-            System.out.println("passou");
             try {
                 smt = con.createStatement();
             } catch (SQLException ex) {
@@ -1010,14 +1011,38 @@ public class DataBase {
             }
             if (smt != null) {
                 sql = "update Classrooms set quadro_interativo = " + clas.hasInteractiveTable() + ", ncomputadores = " + clas.getComputers() + ", lugares = " + clas.getPlaces() + ", projetor = " + clas.hasProjector() + " where codigo_sala = '" + clas.getCodeOfMaterial() + "';";
-                System.out.println("passou");
                 try {
-                    return (!smt.execute(sql));
+                    smt.execute(sql);
+                    return true;
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
+        }
+        return false;
+    }
+    
+    
+    public boolean updateMaterial(Clavis.Material mat) {
+        if (this.isTie()) {
+            String sql;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                sql = "update Materials set codigo = '" + mat.getCodeOfMaterial() + "', descricao = '" + mat.getDescription() + "', imagem = '" + mat.getMaterialImage() + "' where id_material = " + mat.getId() + ";";
+                try {
+                    smt.execute(sql);
+                    return true;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return false;
     }
@@ -1641,6 +1666,7 @@ public class DataBase {
                     ResultSet rs2;
                     ResultSet rs3;
                     ResultSet rs4;
+                    ResultSet rs5;
                     int id_material;
                     int id_pessoa;
                     int id_disciplina;
@@ -1665,21 +1691,42 @@ public class DataBase {
                                             + "hora_inicio ='" + request.getTimeBegin().toString() + "' and "
                                             + "hora_fim = '" + request.getTimeEnd().toString() + "' and "
                                             + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
-                                            + "atividade = '" + request.getActivity() + "' and "
-                                            + "codigo_turma = '"+request.getStudentsClass().getCode()+"' and "
+                                            + "codigo_turma = '" + request.getStudentsClass().getCode() + "' and "
                                             + "origem = '" + request.getSource() + "';";
                                     rs4 = smt.executeQuery(sql);
                                     if ((rs4.next()) && (rs4.getInt(1) == 0)) {
-                                        sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,atividade,codigo_turma) "
-                                                + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
-                                                + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0,'" + request.getActivity() + "','"+request.getStudentsClass().getCode()+"');";
-                                        Threads.InsertRequest rq = new Threads.InsertRequest(sql, con);
-                                        rq.start();
-                                        try {
-                                            rq.join();
-                                        } catch (InterruptedException ex) {
-                                            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                                        sql = "select count(*), id_requisicao, requisicao_conjunta from Requests where id_material = " + id_material + " "
+                                                + "and id_pessoa = " + id_pessoa + " and id_disciplina = " + id_disciplina + " and "
+                                                + "data_inicio = STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y') and "
+                                                + "data_fim = STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y') and "
+                                                + "quantidade = " + request.getQuantity() + " and "
+                                                + "hora_fim = '" + request.getTimeBegin().toString() + "' and "
+                                                + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
+                                                + "codigo_turma = '" + request.getStudentsClass().getCode() + "' and "
+                                                + "origem = '" + request.getSource() + "' group by id_requisicao , requisicao_conjunta;";
+                                        rs5 = smt.executeQuery(sql);
+                                        if ((rs5.next()) && (rs5.getInt(1) == 1)) {
+                                            int numero;
+                                            if (rs5.getInt("requisicao_conjunta") != 0) {
+                                                numero = rs5.getInt("requisicao_conjunta");
+                                            } else {
+                                                numero = rs5.getInt("id_requisicao");
+                                            }
+                                            sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,atividade,codigo_turma,requisicao_conjunta) "
+                                                    + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
+                                                    + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
+                                                    + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0,'" + request.getActivity() + "','" + request.getStudentsClass().getCode() + "'," + numero + ");";
+                                            tupdate = new Threads.InsertRequest(sql, con);
+                                            tupdate.start();
+                                            auxiliar = true;
+                                        } else {
+                                            sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,atividade,codigo_turma) "
+                                                    + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
+                                                    + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
+                                                    + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0,'" + request.getActivity() + "','" + request.getStudentsClass().getCode() + "');";
+                                            tupdate = new Threads.InsertRequest(sql, con);
+                                            tupdate.start();
+                                            auxiliar = true;
                                         }
                                     }
                                 }
@@ -1764,7 +1811,9 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests;";
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                    + "requisicao_conjunta "
+                    + "from Requests;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -1842,7 +1891,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -1862,10 +1911,12 @@ public class DataBase {
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
                     + "dia_semana, quantidade, origem, ativo, terminado, substituido, atividade, codigo_turma, "
-                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
-                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
-                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests"
+                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
+                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                    + "requisicao_conjunta "
+                    + "from Requests"
                     + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y')"
                     + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y');";
             try {
@@ -1945,7 +1996,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -1969,10 +2020,12 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                    + "requisicao_conjunta "
+                    + "from Requests "
                     + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                     + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
-                    + "and id_material = "+mat.getId()+";";
+                    + "and id_material = " + mat.getId() + ";";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -2050,7 +2103,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"),turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2059,8 +2112,8 @@ public class DataBase {
         }
         return requisicoes;
     }
-    
-     public Clavis.Request getNextRequest(Clavis.Material mat) {
+
+    public Clavis.Request getNextRequest(Clavis.Material mat) {
         Clavis.Request request = new Clavis.Request();
         if (this.isTie()) {
             PreparedStatement smt;
@@ -2073,8 +2126,10 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
-                    + " where id_material = "+mat.getId()+" and data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime()) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                    + "requisicao_conjunta "
+                    + "from Requests "
+                    + "where id_material = " + mat.getId() + " and data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime()) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -2151,7 +2206,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"),turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2159,8 +2214,8 @@ public class DataBase {
         }
         return request;
     }
-     
-     public Clavis.Request getCurrentRequest(Clavis.Material mat) {
+
+    public Clavis.Request getCurrentRequest(Clavis.Material mat) {
         Clavis.Request request = new Clavis.Request();
         if (this.isTie()) {
             PreparedStatement smt;
@@ -2173,8 +2228,10 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests "
-                    + " where id_material = "+mat.getId()+" and ativo = 1 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                    + "requisicao_conjunta "
+                    + "from Requests "
+                    + " where id_material = " + mat.getId() + " and ativo = 1 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -2251,7 +2308,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"),turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2289,8 +2346,10 @@ public class DataBase {
                             + "dia_semana, quantidade, origem, ativo, terminado, substituido, atividade, codigo_turma, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
-                            + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega from Requests"
+                            + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
+                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
+                            + "requisicao_conjunta "
+                            + "from Requests"
                             + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y')"
                             + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and id_pessoa = " + id + ";";
@@ -2370,7 +2429,7 @@ public class DataBase {
                             dentrega = null;
                             tentrega = null;
                         }
-                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                         requisicoes.add(request);
                     }
                 }
@@ -2430,8 +2489,9 @@ public class DataBase {
                                     + "dia_semana, quantidade, origem, ativo, terminado, substituido, atividade, codigo_turma, "
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
-                                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega "
+                                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
+                                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                                    + "requisicao_conjunta "
                                     + "from Requests "
                                     + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                                     + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
@@ -2514,7 +2574,7 @@ public class DataBase {
                                     dentrega = null;
                                     tentrega = null;
                                 }
-                                request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                                request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega,rs.getInt("requisicao_conjunta"));
                                 requisicoes.add(request);
                             }
                         }
@@ -2561,7 +2621,8 @@ public class DataBase {
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega "
+                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                            + "requisicao_conjunta "
                             + "from Requests "
                             + "where TIME_FORMAT(hora_fim,'%H:%i:%s') = '" + time.toString() + "' "
                             + "and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
@@ -2644,7 +2705,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2669,7 +2730,8 @@ public class DataBase {
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega "
+                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                    + "requisicao_conjunta "
                     + "from Requests right join (select id_material from Materials where id_tipo=" + ido + ") "
                     + "auxiliar using (id_material) where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                     + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
@@ -2750,7 +2812,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega);
+                    request = new Clavis.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, rs.getString("atividade"), turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega,rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2839,5 +2901,17 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public boolean isThreadUpdateRequestsAlive(){
+        if (auxiliar) {
+            if (!tupdate.isAlive()) {
+                auxiliar = false;
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
 
 }
