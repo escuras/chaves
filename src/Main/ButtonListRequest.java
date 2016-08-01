@@ -730,7 +730,7 @@ public class ButtonListRequest {
                 bt2painel1Baixo.setToolTipText(lingua.translate("Mais dados"));
                 bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 bt2painel1Baixo.addActionListener((ActionEvent e) -> {
-                    Main.Windows.WRequest janela = new Main.Windows.WRequest(this);
+                    Main.Windows.WRequest janela = new Main.Windows.WRequest(this,panelcor);
                     janela.create();
                     janela.appear();
                 });

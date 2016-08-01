@@ -73,6 +73,7 @@ public class UpdateCSVonDB {
                     Set<Clavis.Material> materiais = new java.util.TreeSet<>();
                     Set<Clavis.Subject> disciplinas = new java.util.TreeSet<>();
                     Set<Clavis.ClassStudents> turmas = new java.util.TreeSet<>();
+                    Set<String> atividades = new java.util.TreeSet<>();
                     while (i < elementos.size()) {
                         CSV.ObjectCSV aux = new CSV.ObjectCSV(elementos.get(i));
                         List<TimeDate.Date> datass = TimeDate.Date.DatesBetweenDates(this.inicio, this.fim, aux.getWeekDay().getDayNumber());
@@ -98,6 +99,7 @@ public class UpdateCSVonDB {
                                     materiais.add(sala);
                                     disciplinas.add(disciplina);
                                     turmas.add(turma);
+                                    atividades.add(aux.getActivity());
                                     requests.add(aux.getRequest(datass.get(j)));
                                     
                                 }
@@ -106,7 +108,7 @@ public class UpdateCSVonDB {
                         }
                         i++;
                     }
-                    
+                    db.insertActivities(atividades);
                     db.insertPersons(pessoas);
                     db.insertMaterials(materiais);
                     db.updateAllRequests(requests,this.inicio,this.fim);

@@ -13,8 +13,11 @@ package Testes;
 public class jasonteste {
     
     public static void main(String[] args){
-       String aux = "22:43:00";
-       if (aux.matches("^\\d*\\d[:/\\-]\\d*\\d[:/\\-]*\\d*\\d*")) System.out.println("ola");
+       DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
+       java.util.Set<String> st = db.getActivity("TEO");
+       for (String g: st){
+           System.out.println(g);
+       }
     } 
     
 }
