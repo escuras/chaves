@@ -68,7 +68,7 @@ public class ImageAux {
         return bimagem;
     }
 
-    public static FileIOAux.ImageExtension getImageFromFileChooser(javax.swing.JLabel comp, Langs.Locale locale,int largura,int altura) {
+    public static FileIOAux.ImageExtension getImageFromFileChooser(javax.swing.JLabel comp, Langs.Locale locale, int largura, int altura) {
         String titulo = setUILanguage(locale);
         JFileChooser fimagem = new JFileChooser();
         fimagem.setDialogTitle(titulo);
@@ -94,14 +94,14 @@ public class ImageAux {
             extensao = verifyExtension(fimagem.getSelectedFile());
             try {
                 if (validateExtension(extensao)) {
-                    
-                    bimagem = new FileIOAux.ImageExtension(ImageIO.read(fimagem.getSelectedFile()),extensao);
+
+                    bimagem = new FileIOAux.ImageExtension(ImageIO.read(fimagem.getSelectedFile()), extensao);
                 }
             } catch (IOException ex) {
             }
         }
         if (bimagem != null) {
-            comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(),largura,altura)));
+            comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(), largura, altura)));
         }
         return bimagem;
     }
@@ -306,6 +306,9 @@ public class ImageAux {
         UIManager.put("FileChooser.lookInLabelText", rb.getString("lookInLabelText"));
         UIManager.put("FileChooser.filesOfTypeLabelText", rb.getString("filesOfTypeLabelText"));
         UIManager.put("FileChooser.upFolderToolTipText", rb.getString("upFolderToolTipText"));
+        UIManager.put("TextField.background", new Color(234,234,234));
+        UIManager.put("List.background", new Color(234,234,234));
+  
         /*
         
          FileChooser.fileNameLabelText

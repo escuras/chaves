@@ -29,7 +29,6 @@ public class DataBase {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false;
-
             con = DriverManager.getConnection(url);
             tie = true;
         } catch (SQLException e) {
@@ -1820,7 +1819,7 @@ public class DataBase {
         return "";
     } 
     
-     public java.util.Set<String> getActivity(String def) {
+    public java.util.Set<String> getActivity(String def) {
         java.util.Set<String> atividades = new java.util.HashSet<>();
         if (this.isTie()) {
             String sql = "select descricao from Activities where lower(descricao) like lower('%" + def + "%');";
@@ -1834,8 +1833,11 @@ public class DataBase {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         return atividades;
     }
+    
+    
 
     public boolean insertActivities(java.util.Set<String> atividades) {
         if (this.isTie()) {
@@ -2584,7 +2586,8 @@ public class DataBase {
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega "
+                                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                                    + "requisicao_conjunta "
                                     + "from Requests "
                                     + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                                     + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
@@ -2717,7 +2720,8 @@ public class DataBase {
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega "
+                            + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                            + "requisicao_conjunta "
                             + "from Requests "
                             + "where TIME_FORMAT(hora_inicio,'%H:%i:%s') = '" + time.toString() + "' "
                             + "and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
@@ -2741,6 +2745,7 @@ public class DataBase {
                             + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and ativo = " + estado + " and terminado = " + terminado + ";";
                 }
+                System.out.println(time.toString());
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
                 Clavis.Request request;

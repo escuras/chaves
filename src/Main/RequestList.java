@@ -6,7 +6,9 @@
 package Main;
 
 import TimeDate.HolidaysList;
+import java.awt.FontMetrics;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -58,6 +60,7 @@ public class RequestList {
     public void reMake() {
         this.calcDates();
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
+        this.treatUnionRequests();
     }
 
     public Clavis.Request getSelectedRequest(int valor) {
@@ -68,35 +71,56 @@ public class RequestList {
 
     public void make() {
         this.requests = db.getRequests(material, this.date1, this.date2, estado, terminado);
+        this.treatUnionRequests();
     }
 
-    public Set<Clavis.Request> treatUnionRequests() {
-        Set<Clavis.Request> requisicoes = new TreeSet<>(requests);
-        unionrequests = new java.util.HashMap<>();
-        for (Clavis.Request req : requests) {
-            for (Clavis.Request req2 : requests) {
+    private void treatUnionRequests() {
+        Set<Clavis.Request> requisicoes = new java.util.TreeSet<>(requests);
+        unionrequests = new java.util.TreeMap<>();
+        requests.stream().forEach((req) -> {
+            String auxiliar = req.getActivity();
+            requests.stream().map((req2) -> {
                 int i = 0;
                 if (req.getId() == req2.getUnionRequest()) {
                     if (i == 0) {
                         unionrequests.put(req, req.getId());
+                        req.setEndDate(req2.getEndDate());
+                        req.setTimeEnd(req2.getTimeEnd());
+                        req.setActivity("<html><div>Múltiplas atividades:<br></div></b>" + auxiliar + "</html>");
+                      
                     }
-                    i++;
                     unionrequests.put(req2, req2.getUnionRequest());
-                    req.setEndDate(req2.getEndDate());
-                    req.setTimeEnd(req2.getTimeEnd());
-                    req.setActivity("Múltiplas atividades");
+                    //req.setActivity(req.getActivity()+"<br/>"+req2.getActivity());
                     requisicoes.remove(req2);
+                }
+                return i;
+            }).forEach((i) -> {
+                i++;
+            });
+        });
+        requests = requisicoes;
+    }
+
+    public java.util.Map<Clavis.Request, Integer> getUnionRequests() {
+        return this.unionrequests;
+    }
+
+    public java.util.Set<Clavis.Request> getDifferentUnionRequest(Clavis.Request req) {
+        java.util.Set<Clavis.Request> lista = new java.util.HashSet<>();
+        if (this.unionrequests.containsValue(req.getId())) {
+            java.util.Set<Entry<Clavis.Request, Integer>> rel = this.unionrequests.entrySet();
+            Iterator<Entry<Clavis.Request, Integer>> iter = rel.iterator();
+            while (iter.hasNext()) {
+                Entry<Clavis.Request, Integer> isto = iter.next();
+                if (isto.getValue() == req.getId()) {
+                    lista.add(isto.getKey());
                 }
             }
         }
-        return requisicoes;
+        return lista;
     }
 
-    private java.util.Map<Clavis.Request, Integer> getUnionRequests() {
-       return this.unionrequests;
-    }
-
-    public void searchByTime(Boolean bool, TimeDate.Time time) {
+    public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
         this.requests = db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado);
     }
 

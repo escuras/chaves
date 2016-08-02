@@ -547,20 +547,22 @@ public class ButtonListRequest {
                                 public void mouseClicked(MouseEvent e) {
                                     FileIOAux.ImageExtension image;
                                     image = bimage;
+                                    UIManager.put("TextField.background", new Color(234, 234, 234));
+                                    UIManager.put("List.background", new Color(234, 234, 234));
                                     if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
                                         alterado = true;
-                                    } else{
+                                    } else {
                                         bimage = image;
                                     }
                                 }
-                                
+
                                 @Override
                                 public void mouseEntered(MouseEvent e) {
                                     if (bimage != null) {
                                         imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
                                     }
                                 }
-                                
+
                                 @Override
                                 public void mouseExited(MouseEvent e) {
                                     if (bimage != null) {
@@ -702,13 +704,13 @@ public class ButtonListRequest {
                                 }
                                 DataBase.DataBase db = new DataBase.DataBase(url);
                                 db.updateClassroom(cla);
-                                if ((bimage != null)&&(!bimage.getExtension().equals(""))&&(alterado)) {
+                                if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
                                     cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
                                     alterado = false;
                                     db.updateMaterial(cla);
                                 }
-                                for(java.awt.event.MouseListener l :  imageview.getMouseListeners()){
-                                     imageview.removeMouseListener(l);
+                                for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
+                                    imageview.removeMouseListener(l);
                                 }
                             }
                         }
@@ -730,7 +732,7 @@ public class ButtonListRequest {
                 bt2painel1Baixo.setToolTipText(lingua.translate("Mais dados"));
                 bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 bt2painel1Baixo.addActionListener((ActionEvent e) -> {
-                    Main.Windows.WRequest janela = new Main.Windows.WRequest(this,panelcor);
+                    Main.Windows.WRequest janela = new Main.Windows.WRequest(this, panelcor);
                     janela.create();
                     janela.appear();
                 });

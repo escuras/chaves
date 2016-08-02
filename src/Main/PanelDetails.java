@@ -9,18 +9,23 @@ import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Group;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -42,11 +47,11 @@ public class PanelDetails extends JPanel {
     private SVGDiagram diagrama;
     private JPanel panel;
     private String nome_imagem;
-    private String titulo_imagem;
+    private String imagemrecurso;
+    private String tiporecurso;
     private JPanel tamanho_auxiliar;
-    private String pessoa;
 
-    public PanelDetails(Langs.Locale lingua, Color color, Color foreground, String imagem, String titulo_imagem) {
+    public PanelDetails(Langs.Locale lingua, Color color, Color foreground, String imagem, String tiporecurso) {
         super();
         this.color = color;
         this.titleColor = foreground;
@@ -59,17 +64,21 @@ public class PanelDetails extends JPanel {
         this.resultados = new String[]{};
         SVGUniverse svg = new SVGUniverse();
         InputStream is;
-        if (!imagem.equals("sem")) is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
-        else is = this.getClass().getResourceAsStream("Images/box.svg");
-        this.titulo_imagem = titulo_imagem;
+        if (!imagem.equals("sem")) {
+            is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        } else {
+            is = this.getClass().getResourceAsStream("Images/box.svg");
+        }
+        this.imagemrecurso = "";
+        this.tiporecurso = tiporecurso;
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
         } catch (IOException ex) {
         }
-        
+
     }
 
-    public PanelDetails(Color color, Color foreground, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String titulo_imagem, JPanel tamanho_auxiliar) {
+    public PanelDetails(Color color, Color foreground, String[] titulos, String[] resultados, Langs.Locale lingua, String imagem, String imagemrecurso, String tiporecurso, JPanel tamanho_auxiliar) {
         super();
         this.color = color;
         this.titleColor = foreground;
@@ -78,7 +87,8 @@ public class PanelDetails extends JPanel {
         this.lingua = lingua;
         this.intervalo = 10;
         this.tamanho_auxiliar = tamanho_auxiliar;
-        this.titulo_imagem = titulo_imagem;
+        this.imagemrecurso = imagemrecurso;
+        this.tiporecurso = tiporecurso;
         this.nome_imagem = imagem;
         if (titulos.length == resultados.length) {
             this.titulos = titulos;
@@ -89,8 +99,11 @@ public class PanelDetails extends JPanel {
         }
         SVGUniverse svg = new SVGUniverse();
         InputStream is;
-        if (!imagem.equals("sem")) is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
-        else is = this.getClass().getResourceAsStream("Images/box.svg");
+        if (!imagem.equals("sem")) {
+            is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+        } else {
+            is = this.getClass().getResourceAsStream("Images/box.svg");
+        }
         try {
             diagrama = svg.getDiagram(svg.loadSVG(is, imagem));
         } catch (IOException ex) {
@@ -100,17 +113,15 @@ public class PanelDetails extends JPanel {
 
     public void create() {
         if (resultados.length > 0) {
-            this.setMinimumSize(new java.awt.Dimension(1, 1));
-            this.setPreferredSize(new java.awt.Dimension(240, 400));
             this.setBackground(color);
-            JLabel[] paineis = new JLabel[titulos.length];
-            JLabel[] paineis2 = new JLabel[titulos.length];
-            int i = 0;
+            JLabel[] paineis = new JLabel[titulos.length + 1];
+            JLabel[] paineis2 = new JLabel[titulos.length + 1];
+            int i = 1;
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
             this.setLayout(layout);
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
-            Group grupo = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
+            Group grupo = layout.createParallelGroup(GroupLayout.Alignment.CENTER);
             Group grupo2 = layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE));
             grupo2.addGap(11);
             AffineTransform affinetransform = new AffineTransform();
@@ -118,13 +129,36 @@ public class PanelDetails extends JPanel {
             Font font = new Font("Cantarell", java.awt.Font.PLAIN, 13);
             int texto = 0;
             String auxiliar;
-            while (i < titulos.length) {
+            paineis[0] = new JLabel();
+            if (!this.imagemrecurso.equals("sem")) {
+                paineis[0].setIcon(new ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.transformFromBase64IntoImage(this.imagemrecurso), 100, 80)));
+            } else {
+                File file = new File(new File("").getAbsolutePath()
+                        + System.getProperty("file.separator")
+                        + "Resources" + System.getProperty("file.separator")
+                        + "Images" + System.getProperty("file.separator")
+                        + this.nome_imagem + ".png");
+                try {
+                    BufferedImage bt = FileIOAux.ImageAux.resize(ImageIO.read(file),100,80);
+                    paineis[0].setIcon(new ImageIcon(bt));
+                } catch (IOException ex) {
+                    Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            grupo2.addGap(1, 20, 30);
+            paineis[0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2),BorderFactory.createLineBorder(new Color(50,50,50))));
+            paineis[0].setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            grupo.addComponent(paineis[0], 100, 100, 100);
+            grupo2.addComponent(paineis[0], javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE);
+            grupo2.addGap(1, 20, 30);
+            while (i < titulos.length +1) {
                 paineis[i] = new JLabel();
                 paineis[i].setForeground(this.subTitleColor);
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
                 paineis[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
-                auxiliar = lingua.translate(titulos[i]);
+                auxiliar = lingua.translate(titulos[i - 1]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {
@@ -135,13 +169,13 @@ public class PanelDetails extends JPanel {
                 }
                 paineis[i].setText(auxiliar);
                 paineis2[i] = new JLabel();
-                paineis2[i].setForeground(this.textColor);
+                paineis2[i].setForeground(new Color(50,50,50));
                 paineis2[i].setBackground(this.color);
                 paineis2[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.HANGING_BASELINE, 14));
                 paineis2[i].setOpaque(true);
                 paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                auxiliar = lingua.translate(resultados[i]);
+                auxiliar = lingua.translate(resultados[i - 1]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {
@@ -153,16 +187,16 @@ public class PanelDetails extends JPanel {
                 paineis2[i].setText(auxiliar);
                 grupo.addComponent(paineis[i], javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE);
                 grupo.addComponent(paineis2[i], javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE);
-                grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
-                grupo2.addGap(1, 3, 5);
-                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE);
-                grupo2.addGap(15 + intervalo, 17 + intervalo, 19 + intervalo);
+                grupo2.addComponent(paineis[i], javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE);
+                grupo2.addGap(1, 2, 3);
+                grupo2.addComponent(paineis2[i], javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE);
+                grupo2.addGap(24 + intervalo, 28 + intervalo, 32 + intervalo);
                 i++;
             }
             layout.setVerticalGroup(grupo2);
             layout.setHorizontalGroup(grupo);
         } else {
-            panel = new PanelDetails(lingua, color, textColor, nome_imagem, titulo_imagem) {
+            panel = new PanelDetails(lingua, color, textColor, nome_imagem, tiporecurso) {
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
@@ -188,6 +222,7 @@ public class PanelDetails extends JPanel {
             };
             panel.setBackground(color);
         }
+        this.setPreferredSize(new Dimension(110, (int) this.getPreferredSize().getHeight()));
     }
 
     public void destroy() {
@@ -314,17 +349,4 @@ public class PanelDetails extends JPanel {
         return (this.diagrama != null);
     }
 
-    /**
-     * @return the titulo_imagem
-     */
-    public String getImageTitle() {
-        return titulo_imagem;
-    }
-
-    /**
-     * @param titulo_imagem the titulo_imagem to set
-     */
-    public void setImageTitle(String titulo_imagem) {
-        this.titulo_imagem = titulo_imagem;
-    }
 }
