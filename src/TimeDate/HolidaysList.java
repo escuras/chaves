@@ -5,7 +5,7 @@
  */
 package TimeDate;
 
-import Main.FileHolidays;
+import Clavis.FileHolidays;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

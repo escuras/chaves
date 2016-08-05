@@ -8,8 +8,8 @@ package Testes;
 import CSV.ElementsCSV;
 import CSV.HandlingCSV;
 import CSV.ObjectCSV;
-import Clavis.Function;
-import Clavis.TypeOfMaterial;
+import Keys.Function;
+import Keys.TypeOfMaterial;
 import TimeDate.Date;
 import TimeDate.WeekDay;
 import java.text.ParseException;
@@ -33,7 +33,7 @@ public class Teste2 {
         //han.searchElements();
         List<ElementsCSV> elementos = han.getElements();
         List<ObjectCSV> objetos = new ArrayList<>();
-        Set<Clavis.Request> req = new TreeSet<>();
+        Set<Keys.Request> req = new TreeSet<>();
         Function funcao = new Function("Professor",2);
         TypeOfMaterial material = new TypeOfMaterial("Sala", 70);
         Date datainicio = new Date();
@@ -44,9 +44,10 @@ public class Teste2 {
         // datas entre periodos para calacular requisicoes
         
         Date dat = new Date(17,2,2016);
-        Date dat2 = new Date(28,4,2016);
+        Date dat2 = new Date(1,1,2016);
         
-        
+        System.out.println("dias:"+ dat.isBigger(dat2));
+     
         //
         if (elementos != null) {
             System.out.println("ppp");
@@ -62,14 +63,14 @@ public class Teste2 {
             }
         }
         
-        for (Clavis.Request re : req) {
+        for (Keys.Request re : req) {
             System.out.print(re.getBeginDate().toString()+ " - "+re.getPerson().getName()+" - "+re.getMaterial().getDescription() + " - "+ re.getTimeBegin().toString(0));
             System.out.println("");
         }
         
-        TimeDate.Time tempo = new TimeDate.Time();
+        TimeDate.Time tempo = new TimeDate.Time(22,44);
         TimeDate.Time tempo2 = new TimeDate.Time(22, 43);
-        System.out.println(tempo.compareTime(tempo2));
+        System.out.println("tempo: "+tempo.compareTime(tempo2));
         
         TimeDate.Holiday hol = new TimeDate.Holiday(1, 12);
         TimeDate.Date dat3 = hol.setExpanded();

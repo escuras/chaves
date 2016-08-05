@@ -5,7 +5,7 @@
  */
 package Threads;
 
-import Main.KeyQuest;
+import Clavis.KeyQuest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +27,6 @@ public class EfectsOnDivisor extends Thread {
     @Override
     public void run() {
         int val = jSplitPaneInicial.getDividerLocation();
-
         if (valor == 0.5) {
             valor = jSplitPaneInicial.getHeight() / 2;
             if (val <= valor) {

@@ -19,7 +19,7 @@ public class NewClass {
         System.out.println(Text.TreatText.getNumberfromString(teste));
 
         TimeDate.HolidaysList lista;
-        Main.FileHolidays file = new Main.FileHolidays();
+        Clavis.FileHolidays file = new Clavis.FileHolidays();
         lista = file.getDefaultHolidaysList();
         lista.addCarnival();
         lista.addCorpusChristi();
@@ -38,7 +38,7 @@ public class NewClass {
 
         TimeDate.BreakPeriodList bt = new TimeDate.BreakPeriodList();
         bt.addBreakPeriod(new TimeDate.Date(19, 12, 2016), new TimeDate.Date(03, 01, 2017), "Natal");
-        Main.FileBreakPeriods fl = new Main.FileBreakPeriods();
+        Clavis.FileBreakPeriods fl = new Clavis.FileBreakPeriods();
         fl.saveHolidays(bt);
         bt = fl.getBreakPeriods();
         for (TimeDate.BreakPeriod pt : bt.getBreakPeriodList()) {

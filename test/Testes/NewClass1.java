@@ -5,7 +5,7 @@
  */
 package Testes;
 
-import Clavis.Material;
+import Keys.Material;
 import java.util.List;
 import java.util.Set;
 
@@ -26,12 +26,12 @@ public class NewClass1 {
         Material mo = db.getMaterial("33");
         System.out.println("tipo "+mo.getMaterialTypeID());
         
-        Clavis.Classroom clas = db.getClassroom(mo);
+        Keys.Classroom clas = db.getClassroom(mo);
         System.out.println(clas.getPlaces());
-        List<Clavis.Function> fun = db.getFunctionsWithprivilege(2);
+        List<Keys.Function> fun = db.getFunctionsWithprivilege(2);
         System.out.println(fun.get(0).getName());
         System.out.println(db.getFunction("Professor").getId());
-        Clavis.Person pess = new Clavis.Person("Antonio", "123453", db.getFunction("Professor"));
+        Keys.Person pess = new Keys.Person("Antonio", "123453", db.getFunction("Professor"));
         //System.out.println(db.insertPerson(pess));
         //pess.setName("Antonio Santos");
         //db.updatePerson(pess);
@@ -41,24 +41,24 @@ public class NewClass1 {
         //db.insertMaterial(mat);
         
         
-        Clavis.Feature fae = new Clavis.Feature("byte");
+        Keys.Feature fae = new Keys.Feature("byte");
         
         
         String isto = "Sala de aula";
         System.out.println(isto.compareToIgnoreCase("rojtr"));
-        Set<Clavis.Classroom> cl = db.getClassrooms(2);
-        for (Clavis.Classroom c : cl) {
+        Set<Keys.Classroom> cl = db.getClassrooms(2);
+        for (Keys.Classroom c : cl) {
             System.out.println(c.getDescription()+" "+c.getComputers());
         }
-        Clavis.Subject sub = new Clavis.Subject("Sistemas Digitais II", "56C1024");
+        Keys.Subject sub = new Keys.Subject("Sistemas Digitais II", "56C1024");
         //System.out.println(db.deleteSubject(sub));
         //System.out.println(db.deleteAssociationBetweenSubjectAndClassroom(sub, cl.));
         //db.updateClassroom(cl.get(0));
-        Clavis.Feature fea = new Clavis.Feature("teste","mk", 0);
+        Keys.Feature fea = new Keys.Feature("teste","mk", 0);
         db.insertFeature(fea);
         db.associateFeatureWithMaterial(fea, mo);
         System.out.println(db.getMaterialsWithSpecificFeature(fea).get(0).getDescription());
-        for (Clavis.Request r : db.getRequests(new TimeDate.Date(),new TimeDate.Date(16,6,2016))) {
+        for (Keys.Request r : db.getRequests(new TimeDate.Date(),new TimeDate.Date(16,6,2016))) {
             System.out.println(r.getPerson().getName());
         }
     }

@@ -22,9 +22,9 @@ public class NewClass2 {
         bto.setText("ola");
         java.awt.Component[] com = bto.getComponents();
         DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
-        Clavis.TypeOfMaterial tp = db.getTypeOfMaterial(1);
-        Clavis.Material mat = new Clavis.Material(tp, "awsed69", "94", false);
-        Clavis.Classroom cla = new Clavis.Classroom(mat);
+        Keys.TypeOfMaterial tp = db.getTypeOfMaterial(1);
+        Keys.Material mat = new Keys.Material(tp, "awsed69", "94", false);
+        Keys.Classroom cla = new Keys.Classroom(mat);
         db.insertMaterial(cla);
     }
 }

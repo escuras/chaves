@@ -10,25 +10,25 @@ package CSV;
  * @author toze
  */
 public class ObjectCSV {
-    private Clavis.Person pessoa;
-    private Clavis.Subject disciplina;
-    private Clavis.Material sala;
+    private Keys.Person pessoa;
+    private Keys.Subject disciplina;
+    private Keys.Material sala;
     private TimeDate.WeekDay dia;
     private TimeDate.Time horainicio;
     private TimeDate.Time horafim;
     private String atividade;
-    private Clavis.ClassStudents turma;
+    private Keys.ClassStudents turma;
     public ObjectCSV(ElementsCSV elementos){
-        Clavis.Function funcao = new Clavis.Function("Professor");
-        Clavis.TypeOfMaterial material = new Clavis.TypeOfMaterial("Sala de aula");
-        this.pessoa = new Clavis.Person(elementos.getPersonName(),elementos.getPersonCode(),funcao);
-        this.disciplina =new Clavis.Subject(elementos.getSubjectName(),elementos.getCdSubject());
-        this.sala = new Clavis.Material(material, elementos.getMaterialCode(),Text.TreatText.getNumberfromString(elementos.getMaterialDescription()), false);
+        Keys.Function funcao = new Keys.Function("Professor");
+        Keys.TypeOfMaterial material = new Keys.TypeOfMaterial("Sala de aula");
+        this.pessoa = new Keys.Person(elementos.getPersonName(),elementos.getPersonCode(),funcao);
+        this.disciplina =new Keys.Subject(elementos.getSubjectName(),elementos.getCdSubject());
+        this.sala = new Keys.Material(material, elementos.getMaterialCode(),Text.TreatText.getNumberfromString(elementos.getMaterialDescription()), false);
         this.dia = new TimeDate.WeekDay(elementos.getDayWeek());
         this.horainicio = new TimeDate.Time(elementos.getHourIni(), elementos.getMinuteIni());
         this.horafim = new TimeDate.Time(elementos.getHourEnd(), elementos.getMinuteEnd());
         this.atividade = elementos.getActivity();
-        this.turma = new Clavis.ClassStudents(elementos.getClassCode());
+        this.turma = new Keys.ClassStudents(elementos.getClassCode());
     }
     
     
@@ -43,49 +43,49 @@ public class ObjectCSV {
         this.turma = objeto.getStudentsClass();
     }
     
-    public Clavis.Request getRequest(TimeDate.Date date){
-        return new Clavis.Request(date, date, this.dia,this.horainicio,this.horafim,this.pessoa,this.sala,this.disciplina,this.atividade, "csv",turma);
+    public Keys.Request getRequest(TimeDate.Date date){
+        return new Keys.Request(date, date, this.dia,this.horainicio,this.horafim,this.pessoa,this.sala,this.disciplina,this.atividade, "csv",turma);
     } 
 
     /**
      * @return the pessoa
      */
-    public Clavis.Person getPerson() {
+    public Keys.Person getPerson() {
         return pessoa;
     }
 
     /**
      * @param pessoa the pessoa to set
      */
-    public void setPerson(Clavis.Person pessoa) {
+    public void setPerson(Keys.Person pessoa) {
         this.pessoa = pessoa;
     }
 
     /**
      * @return the disciplina
      */
-    public Clavis.Subject getSubject() {
+    public Keys.Subject getSubject() {
         return disciplina;
     }
 
     /**
      * @param disciplina the disciplina to set
      */
-    public void setSubject(Clavis.Subject disciplina) {
+    public void setSubject(Keys.Subject disciplina) {
         this.disciplina = disciplina;
     }
 
     /**
      * @return the sala
      */
-    public Clavis.Material getClassRoom() {
+    public Keys.Material getClassRoom() {
         return sala;
     }
 
     /**
      * @param sala the sala to set
      */
-    public void setClassRoom(Clavis.Material sala) {
+    public void setClassRoom(Keys.Material sala) {
         this.sala = sala;
     }
 
@@ -148,14 +148,14 @@ public class ObjectCSV {
     /**
      * @return the turma
      */
-    public Clavis.ClassStudents getStudentsClass() {
+    public Keys.ClassStudents getStudentsClass() {
         return turma;
     }
 
     /**
      * @param turma the turma to set
      */
-    public void setStudentsClass(Clavis.ClassStudents turma) {
+    public void setStudentsClass(Keys.ClassStudents turma) {
         this.turma = turma;
     }
     

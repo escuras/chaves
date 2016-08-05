@@ -58,8 +58,8 @@ public class DataBase {
         return tie;
     }
 
-    public java.util.List<Clavis.Person> getPersons() {
-        java.util.List<Clavis.Person> pessoas = new java.util.ArrayList<>();
+    public java.util.List<Keys.Person> getPersons() {
+        java.util.List<Keys.Person> pessoas = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -69,19 +69,19 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Persons;";
-                Clavis.Person pessoa;
+                Keys.Person pessoa;
                 ResultSet rs;
                 ResultSet rs2;
                 Statement aux;
                 try {
                     rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        pessoa = new Keys.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
                         sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            Keys.Function funcao = new Keys.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
                             pessoa.setFunction(funcao);
                         }
                         pessoas.add(pessoa);
@@ -96,8 +96,8 @@ public class DataBase {
         return pessoas;
     }
 
-    public Clavis.Person getPerson(String identificacao) {
-        Clavis.Person pessoa = new Clavis.Person();
+    public Keys.Person getPerson(String identificacao) {
+        Keys.Person pessoa = new Keys.Person();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -113,12 +113,12 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        pessoa = new Keys.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
                         sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            Keys.Function funcao = new Keys.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
                             pessoa.setFunction(funcao);
                         }
                     }
@@ -132,8 +132,8 @@ public class DataBase {
         return pessoa;
     }
 
-    public Clavis.Person getPerson(int identificacao) {
-        Clavis.Person pessoa = new Clavis.Person();
+    public Keys.Person getPerson(int identificacao) {
+        Keys.Person pessoa = new Keys.Person();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -149,12 +149,12 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        pessoa = new Keys.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
                         sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            Keys.Function funcao = new Keys.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
                             pessoa.setFunction(funcao);
                         }
                     }
@@ -168,8 +168,8 @@ public class DataBase {
         return pessoa;
     }
 
-    public Clavis.Person getPerson(String nome, String identificacao) {
-        Clavis.Person pessoa = new Clavis.Person();
+    public Keys.Person getPerson(String nome, String identificacao) {
+        Keys.Person pessoa = new Keys.Person();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -185,12 +185,12 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        pessoa = new Clavis.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
+                        pessoa = new Keys.Person(rs.getInt("id_pessoa"), rs.getString("nome"), rs.getString("identificacao"), rs.getString("telefone"), rs.getString("email"), rs.getInt("privilegio"));
                         sql = "select * from Functions where id_funcao ='" + rs.getInt("id_funcao") + "'";
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.Function funcao = new Clavis.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
+                            Keys.Function funcao = new Keys.Function(rs2.getInt(1), rs2.getString(2), rs2.getInt(3));
                             pessoa.setFunction(funcao);
                         }
                     }
@@ -204,14 +204,14 @@ public class DataBase {
         return pessoa;
     }
 
-    public boolean insertPersons(java.util.Set<Clavis.Person> pessoas) {
+    public boolean insertPersons(java.util.Set<Keys.Person> pessoas) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
             try {
                 con.setAutoCommit(false);
                 smt = con.createStatement();
-                for (Clavis.Person pessoa : pessoas) {
+                for (Keys.Person pessoa : pessoas) {
                     String nome = pessoa.getName();
                     String identificacao = pessoa.getIdentification();
                     String email = pessoa.getEmail();
@@ -256,7 +256,7 @@ public class DataBase {
         }
     }
 
-    public boolean insertPerson(Clavis.Person pessoa) {
+    public boolean insertPerson(Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -312,7 +312,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean updatePerson(Clavis.Person pessoa) {
+    public boolean updatePerson(Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -369,7 +369,7 @@ public class DataBase {
         return true;
     }
 
-    public boolean alterPrivilegeInPerson(Clavis.Person pessoa, int valor) {
+    public boolean alterPrivilegeInPerson(Keys.Person pessoa, int valor) {
         if (this.isTie()) {
             Statement smt;
             String sql = "update Persons set privilegio = " + valor + " where id_pessoa = " + pessoa.getId() + ";";
@@ -387,7 +387,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deletePerson(Clavis.Person pessoa) {
+    public boolean deletePerson(Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
             String sql = "delete from Persons where id_pessoa = " + pessoa.getId() + ";";
@@ -423,7 +423,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertStudentsClass(Clavis.ClassStudents turma) {
+    public boolean insertStudentsClass(Keys.ClassStudents turma) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -449,11 +449,11 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertStudentsClasses(java.util.Set<Clavis.ClassStudents> turmas) {
+    public boolean insertStudentsClasses(java.util.Set<Keys.ClassStudents> turmas) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
-            for (Clavis.ClassStudents turma : turmas) {
+            for (Keys.ClassStudents turma : turmas) {
                 try {
                     smt = con.createStatement();
                     String sql = "select count(*) from StudentsClasses where codigo = '" + turma.getCode() + "';";
@@ -477,8 +477,8 @@ public class DataBase {
         return false;
     }
 
-    public java.util.List<Clavis.ClassStudents> getStudentsClasses() {
-        java.util.List<Clavis.ClassStudents> turmas = new java.util.ArrayList<>();
+    public java.util.List<Keys.ClassStudents> getStudentsClasses() {
+        java.util.List<Keys.ClassStudents> turmas = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -488,11 +488,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select (codigo,descricao,numero_alunos,codigo_curso,descricao_curso) from StudentsClasses";
-                Clavis.ClassStudents turma;
+                Keys.ClassStudents turma;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        turma = new Clavis.ClassStudents(rs.getString("codigo"), rs.getString("descricao"), rs.getInt("numero_alunos"), rs.getString("codigo_curso"), rs.getString("descricao_curso"));
+                        turma = new Keys.ClassStudents(rs.getString("codigo"), rs.getString("descricao"), rs.getInt("numero_alunos"), rs.getString("codigo_curso"), rs.getString("descricao_curso"));
                         turmas.add(turma);
                     }
                     if (!smt.isClosed()) {
@@ -505,8 +505,8 @@ public class DataBase {
         return turmas;
     }
 
-    public Clavis.ClassStudents getStudentsClass(String codigo) {
-        Clavis.ClassStudents turma = new Clavis.ClassStudents();
+    public Keys.ClassStudents getStudentsClass(String codigo) {
+        Keys.ClassStudents turma = new Keys.ClassStudents();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -519,7 +519,7 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        turma = new Clavis.ClassStudents(rs.getString("codigo"), rs.getString("descricao"), rs.getInt("numero_alunos"), rs.getString("codigo_curso"), rs.getString("descricao_curso"));
+                        turma = new Keys.ClassStudents(rs.getString("codigo"), rs.getString("descricao"), rs.getInt("numero_alunos"), rs.getString("codigo_curso"), rs.getString("descricao_curso"));
                     }
                     if (!smt.isClosed()) {
                         smt.close();
@@ -531,8 +531,8 @@ public class DataBase {
         return turma;
     }
 
-    public java.util.List<Clavis.Function> getFunctions() {
-        java.util.List<Clavis.Function> funcoes = new java.util.ArrayList<>();
+    public java.util.List<Keys.Function> getFunctions() {
+        java.util.List<Keys.Function> funcoes = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -542,11 +542,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Functions;";
-                Clavis.Function funcao;
+                Keys.Function funcao;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        funcao = new Clavis.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                        funcao = new Keys.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
                         funcoes.add(funcao);
                     }
                     if (!smt.isClosed()) {
@@ -559,8 +559,8 @@ public class DataBase {
         return funcoes;
     }
 
-    public java.util.List<Clavis.Function> getFunctionsWithprivilege(int privilegio) {
-        java.util.List<Clavis.Function> funcoes = new java.util.ArrayList<>();
+    public java.util.List<Keys.Function> getFunctionsWithprivilege(int privilegio) {
+        java.util.List<Keys.Function> funcoes = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -570,11 +570,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Functions where privilegio = " + privilegio + ";";
-                Clavis.Function funcao;
+                Keys.Function funcao;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        funcao = new Clavis.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                        funcao = new Keys.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
                         funcoes.add(funcao);
                     }
                     if (!smt.isClosed()) {
@@ -587,7 +587,7 @@ public class DataBase {
         return funcoes;
     }
 
-    public Clavis.Function getFunction(String descricao) {
+    public Keys.Function getFunction(String descricao) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -597,11 +597,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Functions where descricao like '" + descricao + "';";
-                Clavis.Function funcao;
+                Keys.Function funcao;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        funcao = new Clavis.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                        funcao = new Keys.Function(rs.getInt(1), rs.getString(2), rs.getInt(3));
                         if (!smt.isClosed()) {
                             smt.close();
                         }
@@ -614,7 +614,7 @@ public class DataBase {
         return null;
     }
 
-    public boolean insertFunction(Clavis.Function funcao) {
+    public boolean insertFunction(Keys.Function funcao) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -632,7 +632,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deleteFunction(Clavis.Function funcao) {
+    public boolean deleteFunction(Keys.Function funcao) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -650,7 +650,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean alterPivilegeInFunction(Clavis.Function funcao, int valor) {
+    public boolean alterPivilegeInFunction(Keys.Function funcao, int valor) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -668,8 +668,8 @@ public class DataBase {
         return false;
     }
 
-    public java.util.List<Clavis.Material> getMaterials() {
-        java.util.List<Clavis.Material> materiais = new java.util.ArrayList<>();
+    public java.util.List<Keys.Material> getMaterials() {
+        java.util.List<Keys.Material> materiais = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs2;
@@ -681,7 +681,7 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Materials order by id_tipo, descricao;";
-                Clavis.Material material;
+                Keys.Material material;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
@@ -689,16 +689,16 @@ public class DataBase {
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.TypeOfMaterial tipo;
+                            Keys.TypeOfMaterial tipo;
                             if (!rs2.getString("Imagem").equals("sem")) {
-                                tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
+                                tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
                             } else {
-                                tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
+                                tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
                             }
                             if (!rs.getString("imagem").equals("sem")) {
-                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                material = new Keys.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
                             } else {
-                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                material = new Keys.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
                             materiais.add(material);
                         }
@@ -713,8 +713,8 @@ public class DataBase {
         return materiais;
     }
 
-    public java.util.Set<Clavis.Material> getMaterialsByType(int id) {
-        java.util.Set<Clavis.Material> materiais = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Material> getMaterialsByType(int id) {
+        java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs2;
@@ -726,7 +726,7 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from Materials where id_tipo='" + id + "' order by descricao asc;";
-                Clavis.Material material;
+                Keys.Material material;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
@@ -734,16 +734,16 @@ public class DataBase {
                         aux = con.createStatement();
                         rs2 = aux.executeQuery(sql);
                         if (rs2.next()) {
-                            Clavis.TypeOfMaterial tipo;
+                            Keys.TypeOfMaterial tipo;
                             if (!rs2.getString("Imagem").equals("sem")) {
-                                tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
+                                tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
                             } else {
-                                tipo = new Clavis.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
+                                tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
                             }
                             if (!rs.getString("imagem").equals("sem")) {
-                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                material = new Keys.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
                             } else {
-                                material = new Clavis.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                material = new Keys.Material(rs.getInt("id_material"), tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                             }
                             materiais.add(material);
                         }
@@ -759,7 +759,7 @@ public class DataBase {
         return materiais;
     }
 
-    public Clavis.Material getMaterial(String codigo) {
+    public Keys.Material getMaterial(String codigo) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -777,19 +777,19 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        Clavis.Material mat;
+                        Keys.Material mat;
                         if (smt2 != null) {
                             int idtipo = rs.getInt("id_tipo");
                             sql = "select * from TypesOfMaterial where id_tipo = " + idtipo + ";";
                             rs2 = smt2.executeQuery(sql);
                             if (rs2.next()) {
-                                Clavis.TypeOfMaterial tp = new Clavis.TypeOfMaterial();
+                                Keys.TypeOfMaterial tp = new Keys.TypeOfMaterial();
                                 tp.setMaterialTypeID(idtipo);
                                 tp.setTotal(rs2.getInt("total"));
                                 tp.setFree(rs2.getInt("livres"));
                                 tp.setTypeOfMaterialName(rs2.getString("descricao"));
                                 tp.setTypeOfMaterialImage(rs2.getString("imagem"));
-                                mat = new Clavis.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                mat = new Keys.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                                 mat.setCodeOfMaterial(rs.getString("codigo"));
                                 mat.setDescription(rs.getString("descricao"));
                                 mat.setLoaned(rs.getBoolean("estado"));
@@ -809,7 +809,7 @@ public class DataBase {
         return null;
     }
 
-    public Clavis.Material getMaterial(int id_material) {
+    public Keys.Material getMaterial(int id_material) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -827,19 +827,19 @@ public class DataBase {
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        Clavis.Material mat;
+                        Keys.Material mat;
                         if (smt2 != null) {
                             int idtipo = rs.getInt("id_tipo");
                             sql = "select * from TypesOfMaterial where id_tipo = " + idtipo + ";";
                             rs2 = smt2.executeQuery(sql);
                             if (rs2.next()) {
-                                Clavis.TypeOfMaterial tp = new Clavis.TypeOfMaterial();
+                                Keys.TypeOfMaterial tp = new Keys.TypeOfMaterial();
                                 tp.setMaterialTypeID(idtipo);
                                 tp.setTotal(rs2.getInt("total"));
                                 tp.setFree(rs2.getInt("livres"));
                                 tp.setTypeOfMaterialName(rs2.getString("descricao"));
                                 tp.setTypeOfMaterialImage(rs2.getString("imagem"));
-                                mat = new Clavis.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                mat = new Keys.Material(rs.getInt("id_material"), tp, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
                                 mat.setCodeOfMaterial(rs.getString("codigo"));
                                 mat.setDescription(rs.getString("descricao"));
                                 mat.setLoaned(rs.getBoolean("estado"));
@@ -859,8 +859,8 @@ public class DataBase {
         return null;
     }
 
-    public java.util.Set<Clavis.Material> getMaterialwithSameFeature(Clavis.Feature feature) {
-        java.util.Set<Clavis.Material> materiais = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Material> getMaterialwithSameFeature(Keys.Feature feature) {
+        java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -896,8 +896,8 @@ public class DataBase {
         return materiais;
     }
 
-    public java.util.Set<Clavis.Classroom> getClassrooms(int tipopesquisa) {
-        java.util.Set<Clavis.Classroom> classrooms = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Classroom> getClassrooms(int tipopesquisa) {
+        java.util.Set<Keys.Classroom> classrooms = new java.util.TreeSet<>();
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -909,15 +909,15 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "select * from TypesOfMaterial where id_tipo = 1";
-                Clavis.Material material;
+                Keys.Material material;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        Clavis.TypeOfMaterial tipo;
+                        Keys.TypeOfMaterial tipo;
                         if (!rs.getString("Imagem").equals("sem")) {
-                            tipo = new Clavis.TypeOfMaterial(rs.getInt("id_tipo"), rs.getString("descricao"), rs.getInt("total"), rs.getInt("livres"), rs.getString("imagem"));
+                            tipo = new Keys.TypeOfMaterial(rs.getInt("id_tipo"), rs.getString("descricao"), rs.getInt("total"), rs.getInt("livres"), rs.getString("imagem"));
                         } else {
-                            tipo = new Clavis.TypeOfMaterial(rs.getInt("id_tipo"), rs.getString("descricao"), rs.getInt("total"), rs.getInt("livres"));
+                            tipo = new Keys.TypeOfMaterial(rs.getInt("id_tipo"), rs.getString("descricao"), rs.getInt("total"), rs.getInt("livres"));
                         }
                         switch (tipopesquisa) {
                             case 0:
@@ -938,7 +938,7 @@ public class DataBase {
                         if (smt2 != null) {
                             ResultSet rs2 = smt2.executeQuery(sql);
                             while (rs2.next()) {
-                                material = new Clavis.Material(rs2.getInt("id_material"), tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
+                                material = new Keys.Material(rs2.getInt("id_material"), tipo, rs2.getString("codigo"), rs2.getString("descricao"), rs2.getString("imagem"), rs2.getBoolean("estado"));
                                 sql = "Select * from Classrooms where codigo_sala = '" + rs2.getString("codigo") + "'";
                                 try {
                                     smt3 = con.createStatement();
@@ -948,7 +948,7 @@ public class DataBase {
                                 if (smt3 != null) {
                                     ResultSet rs3 = smt3.executeQuery(sql);
                                     if (rs3.next()) {
-                                        Clavis.Classroom sala = new Clavis.Classroom(material, rs3.getInt("ncomputadores"), rs3.getInt("lugares"), rs3.getBoolean("projetor"), rs3.getBoolean("quadro_interativo"));
+                                        Keys.Classroom sala = new Keys.Classroom(material, rs3.getInt("ncomputadores"), rs3.getInt("lugares"), rs3.getBoolean("projetor"), rs3.getBoolean("quadro_interativo"));
                                         classrooms.add(sala);
                                     }
                                     if (!smt3.isClosed()) {
@@ -971,8 +971,8 @@ public class DataBase {
         return classrooms;
     }
 
-    public Clavis.Classroom getClassroom(Clavis.Material m) {
-        Clavis.Classroom sala = new Clavis.Classroom();
+    public Keys.Classroom getClassroom(Keys.Material m) {
+        Keys.Classroom sala = new Keys.Classroom();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -982,11 +982,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "select * from Classrooms where codigo_sala = '" + m.getCodeOfMaterial() + "'";
-                Clavis.Material material;
+                Keys.Material material;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        sala = new Clavis.Classroom(m, rs.getInt("ncomputadores"), rs.getInt("lugares"), rs.getBoolean("projetor"), rs.getBoolean("quadro_interativo"));
+                        sala = new Keys.Classroom(m, rs.getInt("ncomputadores"), rs.getInt("lugares"), rs.getBoolean("projetor"), rs.getBoolean("quadro_interativo"));
                     }
                     if (!smt.isClosed()) {
                         smt.close();
@@ -998,7 +998,7 @@ public class DataBase {
         return sala;
     }
 
-    public boolean updateClassroom(Clavis.Classroom clas) {
+    public boolean updateClassroom(Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1022,7 +1022,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean updateMaterial(Clavis.Material mat) {
+    public boolean updateMaterial(Keys.Material mat) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1045,7 +1045,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertMaterials(java.util.Set<Clavis.Material> materiais) {
+    public boolean insertMaterials(java.util.Set<Keys.Material> materiais) {
         if (this.isTie()) {
             if (materiais.size() > 0) {
                 String sql;
@@ -1056,7 +1056,7 @@ public class DataBase {
                 int idtipo = 0;
                 boolean nemtodos = true;
                 boolean passa;
-                for (Clavis.Material material : materiais) {
+                for (Keys.Material material : materiais) {
                     try {
                         smt = con.createStatement();
                         passa = true;
@@ -1100,7 +1100,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertMaterial(Clavis.Material material) {
+    public boolean insertMaterial(Keys.Material material) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1145,7 +1145,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertSubject(Clavis.Subject sub) {
+    public boolean insertSubject(Keys.Subject sub) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1167,7 +1167,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertSubjects(java.util.Set<Clavis.Subject> subs) {
+    public boolean insertSubjects(java.util.Set<Keys.Subject> subs) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1183,7 +1183,7 @@ public class DataBase {
             if (smt != null) {
                 ResultSet rs;
                 boolean cond = false;
-                for (Clavis.Subject sub : subs) {
+                for (Keys.Subject sub : subs) {
                     sql = "select count(*) from Subjects where descricao like '" + sub.getName() + "' and codigo like '" + sub.getCode() + "';";
                     if (smt2 != null) {
                         try {
@@ -1214,7 +1214,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deleteSubject(Clavis.Subject sub) {
+    public boolean deleteSubject(Keys.Subject sub) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1236,7 +1236,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean associateSubjectWithClassroom(Clavis.Subject sub, Clavis.Classroom clas) {
+    public boolean associateSubjectWithClassroom(Keys.Subject sub, Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1273,7 +1273,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deleteAssociationBetweenSubjectAndClassroom(Clavis.Subject sub, Clavis.Classroom clas) {
+    public boolean deleteAssociationBetweenSubjectAndClassroom(Keys.Subject sub, Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1310,7 +1310,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean insertTypeOfMaterial(Clavis.TypeOfMaterial tipo) {
+    public boolean insertTypeOfMaterial(Keys.TypeOfMaterial tipo) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1332,7 +1332,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deleteTypeOfMaterial(Clavis.TypeOfMaterial tipo) {
+    public boolean deleteTypeOfMaterial(Keys.TypeOfMaterial tipo) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1372,8 +1372,8 @@ public class DataBase {
         return false;
     }
 
-    public java.util.List<Clavis.TypeOfMaterial> getTypesOfMaterial() {
-        java.util.List<Clavis.TypeOfMaterial> tipos = new java.util.ArrayList<>();
+    public java.util.List<Keys.TypeOfMaterial> getTypesOfMaterial() {
+        java.util.List<Keys.TypeOfMaterial> tipos = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1383,11 +1383,11 @@ public class DataBase {
             }
             if (smt != null) {
                 String sql = "Select * from TypesOfMaterial;";
-                Clavis.TypeOfMaterial tipo;
+                Keys.TypeOfMaterial tipo;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        tipo = new Clavis.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+                        tipo = new Keys.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
                         tipos.add(tipo);
                     }
                     if (!smt.isClosed()) {
@@ -1400,7 +1400,7 @@ public class DataBase {
         return tipos;
     }
 
-    public Clavis.TypeOfMaterial getTypeOfMaterial(int id) {
+    public Keys.TypeOfMaterial getTypeOfMaterial(int id) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1413,7 +1413,7 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        return new Clavis.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+                        return new Keys.TypeOfMaterial(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
                     }
                     if (!smt.isClosed()) {
                         smt.close();
@@ -1425,7 +1425,7 @@ public class DataBase {
         return null;
     }
 
-    public int getNumberOfFreeMaterials(Clavis.TypeOfMaterial mat) {
+    public int getNumberOfFreeMaterials(Keys.TypeOfMaterial mat) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1450,7 +1450,7 @@ public class DataBase {
         return mat.getFree();
     }
 
-    public int getTotalOfMaterials(Clavis.TypeOfMaterial mat) {
+    public int getTotalOfMaterials(Keys.TypeOfMaterial mat) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1475,7 +1475,7 @@ public class DataBase {
         return mat.getTotal();
     }
 
-    public boolean insertFeature(Clavis.Feature feature) {
+    public boolean insertFeature(Keys.Feature feature) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1503,7 +1503,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean deleteFeature(Clavis.Feature feature) {
+    public boolean deleteFeature(Keys.Feature feature) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1532,7 +1532,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean associateFeatureWithMaterial(Clavis.Feature feature, Clavis.Material mat) {
+    public boolean associateFeatureWithMaterial(Keys.Feature feature, Keys.Material mat) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1571,8 +1571,8 @@ public class DataBase {
         return false;
     }
 
-    public java.util.List<Clavis.Material> getMaterialsWithSpecificFeature(Clavis.Feature feature) {
-        java.util.List<Clavis.Material> mats = new java.util.ArrayList<>();
+    public java.util.List<Keys.Material> getMaterialsWithSpecificFeature(Keys.Feature feature) {
+        java.util.List<Keys.Material> mats = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1607,12 +1607,12 @@ public class DataBase {
         return mats;
     }
 
-    public java.util.List<Clavis.Feature> getFeaturesByTypeOfMaterial() {
-        java.util.List<Clavis.Feature> lista = new java.util.ArrayList<>();
+    public java.util.List<Keys.Feature> getFeaturesByTypeOfMaterial() {
+        java.util.List<Keys.Feature> lista = new java.util.ArrayList<>();
         return lista;
     }
 
-    public boolean deleteAssociationFeatureWithMaterial(Clavis.Feature feature, Clavis.Material mat) {
+    public boolean deleteAssociationFeatureWithMaterial(Keys.Feature feature, Keys.Material mat) {
         if (this.isTie()) {
             Statement smt;
             ResultSet rs;
@@ -1647,7 +1647,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean updateAllRequests(java.util.Set<Clavis.Request> requests, TimeDate.Date dat1, TimeDate.Date dat2) {
+    public boolean updateAllRequests(java.util.Set<Keys.Request> requests, TimeDate.Date dat1, TimeDate.Date dat2) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1670,7 +1670,7 @@ public class DataBase {
                     int id_pessoa;
                     String id_disciplina = "null";
                     String id_atividade = "null";
-                    for (Clavis.Request request : requests) {
+                    for (Keys.Request request : requests) {
                         sql = "select id_material from Materials where codigo like '" + request.getMaterial().getCodeOfMaterial() + "' and descricao like '" + request.getMaterial().getDescription() + "';";
                         rs = smt.executeQuery(sql);
                         if (rs.next()) {
@@ -1747,7 +1747,7 @@ public class DataBase {
         return false;
     }
 
-    public boolean updateRequests(java.util.Set<Clavis.Request> requests) {
+    public boolean updateRequests(java.util.Set<Keys.Request> requests) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1766,7 +1766,7 @@ public class DataBase {
                     int id_material;
                     int id_pessoa;
                     int id_disciplina;
-                    for (Clavis.Request request : requests) {
+                    for (Keys.Request request : requests) {
                         sql = "select id_material from Materials where codigo like '" + request.getMaterial().getCodeOfMaterial() + "' and descricao like '" + request.getMaterial().getDescription() + "';";
                         rs = smt.executeQuery(sql);
                         if (rs.next()) {
@@ -1898,8 +1898,8 @@ public class DataBase {
         return atividades;
     }
 
-    public java.util.Set<Clavis.Request> getAllRequests() {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getAllRequests() {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -1917,12 +1917,12 @@ public class DataBase {
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request;
+                Keys.Request request;
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -1945,7 +1945,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -1993,7 +1993,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2003,8 +2003,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(TimeDate.Date dinicio, TimeDate.Date dfim) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequests(TimeDate.Date dinicio, TimeDate.Date dfim) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2024,12 +2024,12 @@ public class DataBase {
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request;
+                Keys.Request request;
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2052,7 +2052,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2100,7 +2100,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2110,8 +2110,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(Clavis.Material mat, TimeDate.Date dinicio, TimeDate.Date dfim) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequests(Keys.Material mat, TimeDate.Date dinicio, TimeDate.Date dfim) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2133,12 +2133,12 @@ public class DataBase {
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request;
+                Keys.Request request;
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2161,7 +2161,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2209,7 +2209,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2219,8 +2219,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public Clavis.Request getNextRequest(Clavis.Material mat) {
-        Clavis.Request request = new Clavis.Request();
+    public Keys.Request getNextRequest(Keys.Material mat) {
+        Keys.Request request = new Keys.Request();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2235,15 +2235,15 @@ public class DataBase {
                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
                     + "requisicao_conjunta "
                     + "from Requests "
-                    + "where id_material = " + mat.getId() + " and data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime()) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
+                    + "where id_material = " + mat.getId() + " and (data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime())) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2266,7 +2266,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2314,7 +2314,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2323,8 +2323,8 @@ public class DataBase {
         return request;
     }
 
-    public Clavis.Request getCurrentRequest(Clavis.Material mat) {
-        Clavis.Request request = new Clavis.Request();
+    public Keys.Request getCurrentRequest(Keys.Material mat) {
+        Keys.Request request = new Keys.Request();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2344,10 +2344,10 @@ public class DataBase {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2370,7 +2370,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2418,7 +2418,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2427,8 +2427,8 @@ public class DataBase {
         return request;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(Clavis.Person pess, TimeDate.Date dinicio, TimeDate.Date dfim) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequests(Keys.Person pess, TimeDate.Date dinicio, TimeDate.Date dfim) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2465,12 +2465,12 @@ public class DataBase {
                             + "and id_pessoa = " + id + ";";
                     smt = con.prepareStatement(sql);
                     rs = smt.executeQuery();
-                    Clavis.Request request = null;
+                    Keys.Request request = null;
                     String[] aux;
-                    Clavis.Person pessoa;
-                    Clavis.Material material;
-                    Clavis.Subject disciplina;
-                    Clavis.ClassStudents turma;
+                    Keys.Person pessoa;
+                    Keys.Material material;
+                    Keys.Subject disciplina;
+                    Keys.ClassStudents turma;
                     String atividade;
                     TimeDate.Date inicio;
                     TimeDate.Date fim;
@@ -2493,7 +2493,7 @@ public class DataBase {
                         if (discip != 0) {
                             disciplina = this.getSubject(discip);
                         } else {
-                            disciplina = new Clavis.Subject();
+                            disciplina = new Keys.Subject();
                         }
                         aux = rs.getString("inicio").split("/");
                         inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2541,7 +2541,7 @@ public class DataBase {
                             dentrega = null;
                             tentrega = null;
                         }
-                        request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                        request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                         requisicoes.add(request);
                     }
                 }
@@ -2553,8 +2553,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(int tipo, String nome, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequests(int tipo, String nome, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
 
         if (this.isTie()) {
             PreparedStatement smt;
@@ -2613,12 +2613,12 @@ public class DataBase {
                         if (!sql.equals("")) {
                             smt = con.prepareStatement(sql);
                             rs = smt.executeQuery();
-                            Clavis.Request request;
+                            Keys.Request request;
                             String[] aux;
-                            Clavis.Person pessoa;
-                            Clavis.Material material;
-                            Clavis.Subject disciplina;
-                            Clavis.ClassStudents turma;
+                            Keys.Person pessoa;
+                            Keys.Material material;
+                            Keys.Subject disciplina;
+                            Keys.ClassStudents turma;
                             String atividade;
                             TimeDate.Date inicio;
                             TimeDate.Date fim;
@@ -2641,7 +2641,7 @@ public class DataBase {
                                 if (discip != 0) {
                                     disciplina = this.getSubject(discip);
                                 } else {
-                                    disciplina = new Clavis.Subject();
+                                    disciplina = new Keys.Subject();
                                 }
                                 aux = rs.getString("inicio").split("/");
                                 inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2689,7 +2689,7 @@ public class DataBase {
                                     dentrega = null;
                                     tentrega = null;
                                 }
-                                request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                                request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                                 requisicoes.add(request);
                             }
                         }
@@ -2703,8 +2703,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequestsByTime(Boolean bool, TimeDate.Time time, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequestsByTime(Boolean bool, TimeDate.Time time, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2748,12 +2748,12 @@ public class DataBase {
                 System.out.println(time.toString());
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request;
+                Keys.Request request;
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2776,7 +2776,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2824,7 +2824,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2834,8 +2834,8 @@ public class DataBase {
         return requisicoes;
     }
 
-    public java.util.Set<Clavis.Request> getRequests(Clavis.TypeOfMaterial mat, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
-        java.util.Set<Clavis.Request> requisicoes = new java.util.TreeSet<>();
+    public java.util.Set<Keys.Request> getRequests(Keys.TypeOfMaterial mat, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             int ido = mat.getMaterialTypeID();
@@ -2857,12 +2857,12 @@ public class DataBase {
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Clavis.Request request = null;
+                Keys.Request request = null;
                 String[] aux;
-                Clavis.Person pessoa;
-                Clavis.Material material;
-                Clavis.Subject disciplina;
-                Clavis.ClassStudents turma;
+                Keys.Person pessoa;
+                Keys.Material material;
+                Keys.Subject disciplina;
+                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2885,7 +2885,7 @@ public class DataBase {
                     if (discip != 0) {
                         disciplina = this.getSubject(discip);
                     } else {
-                        disciplina = new Clavis.Subject();
+                        disciplina = new Keys.Subject();
                     }
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
@@ -2933,7 +2933,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Clavis.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2943,7 +2943,7 @@ public class DataBase {
         return requisicoes;
     }
 
-    public boolean changeRequestActiveState(Clavis.Request req) {
+    public boolean changeRequestActiveState(Keys.Request req) {
         if (this.isTie()) {
             PreparedStatement smt;
             PreparedStatement smt2;
@@ -2966,7 +2966,7 @@ public class DataBase {
         return true;
     }
 
-    public boolean changeRequestTerminateState(Clavis.Request req) {
+    public boolean changeRequestTerminateState(Keys.Request req) {
         if (this.isTie()) {
             PreparedStatement smt;
             PreparedStatement smt2;
@@ -2989,7 +2989,7 @@ public class DataBase {
         return true;
     }
 
-    public Clavis.Subject getSubject(int id) {
+    public Keys.Subject getSubject(int id) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -3003,7 +3003,7 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        return new Clavis.Subject(id, rs.getString("descricao"), rs.getString("codigo"));
+                        return new Keys.Subject(id, rs.getString("descricao"), rs.getString("codigo"));
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);

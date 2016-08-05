@@ -24,6 +24,7 @@ public class RowTable extends JTable {
 
     private final Map<Integer, Color> rowColor;
     private final Map<Integer, Border> borderColor;
+    private java.awt.Insets insets;
 
     public RowTable(TableModel model) {
         super(model);
@@ -41,12 +42,12 @@ public class RowTable extends JTable {
         Component c = super.prepareRenderer(renderer, row, column);
         Border border = borderColor.get(row);
         JComponent jz = (JComponent) c;
-        //if (column == 0)
-        jz.setBorder(border == null ? BorderFactory.createEmptyBorder(0, 10, 0, 10) : border);
+        jz.setBorder(border == null ? BorderFactory.createEmptyBorder(0, 0, 0, 0) : border);
         if (!isRowSelected(row)) {
             Color color = rowColor.get(row);
             c.setBackground(color == null ? getBackground() : color);
         }
+        insets = jz.getBorder().getBorderInsets(c);
         return c;
     }
 
@@ -55,13 +56,13 @@ public class RowTable extends JTable {
     }
     
     public void setBorderColor(int row, Color color) {
-        Border g = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        Border g = BorderFactory.createEmptyBorder(5, 0, 5, 0);
         Border f = BorderFactory.createMatteBorder(0, 0, 2, 0, color);
         borderColor.put(row, BorderFactory.createCompoundBorder(g, f));
     }
     
     public void removeBorderColor(int row) {
-        Border g = BorderFactory.createEmptyBorder(0, 10, 0, 0);
+        Border g = BorderFactory.createEmptyBorder(0, 0, 0, 0);
         borderColor.put(row, g);
     }
     
