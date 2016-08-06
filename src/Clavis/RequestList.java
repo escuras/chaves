@@ -148,11 +148,13 @@ public class RequestList {
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
         this.requests = new ArrayList(db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado));
         Collections.sort(requests);
+        this.treatUnionRequests();
     }
 
     public void searchBy(int opcao, String person) {
         this.requests = new ArrayList(db.getRequests(opcao, person, this.date1, this.date2, estado, terminado));
         Collections.sort(requests);
+        this.treatUnionRequests();
     }
 
     public void removeRequest(Keys.Request request) {

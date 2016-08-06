@@ -24,12 +24,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.plaf.TableHeaderUI;
@@ -73,9 +77,17 @@ public class TableRequest {
     private final int tipomaterial;
     private Timer time;
     private String[] titulos;
+    private final javax.swing.JButton btconfirma;
+    private final javax.swing.JButton btaltera;
+    private final Color systemColor;
+    private final String url;
 
-    public TableRequest(RequestList requisicao,javax.swing.JPanel spanel, Langs.Locale lingua, boolean devolucoes) {
+    public TableRequest(RequestList requisicao, javax.swing.JPanel spanel, Langs.Locale lingua, boolean devolucoes, javax.swing.JButton bt1, javax.swing.JButton bt2, Color systemColor, String url) {
         this.lingua = lingua;
+        btconfirma = bt1;
+        btaltera = bt2;
+        this.systemColor = systemColor;
+        this.url = url;
         this.selecionado = -1;
         this.devolucoes = devolucoes;
         this.spanel = spanel;
@@ -206,18 +218,17 @@ public class TableRequest {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0,0,0)));
-                
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
+                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
+
                 return this;
             }
 
         };
-        headerRenderer.setBackground(new Color(145,145,145));
+        headerRenderer.setBackground(new Color(145, 145, 145));
         headerRenderer.setForeground(Color.WHITE);
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        headerRenderer.setFont(new Font("Cantarell", Font.BOLD, 14));
-        
+
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -225,22 +236,25 @@ public class TableRequest {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
-               this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0,0,0)));
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
+                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
                 return this;
             }
 
         };
-        headerRenderer2.setBackground(new Color(80,80,80));
+        headerRenderer2.setBackground(new Color(80, 80, 80));
         headerRenderer2.setForeground(Color.WHITE);
         headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-      
+
         for (int i = 0; i < tabela.getModel().getColumnCount(); i++) {
-            if( i % 2== 0)tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
-            else tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-           
+            if (i % 2 == 0) {
+                tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
+            } else {
+                tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+            }
+
         }
-        
+
         JTableHeader th = tabela.getTableHeader();
         th.setPreferredSize(new Dimension(200, 42));
         th.setEnabled(false);
@@ -297,45 +311,60 @@ public class TableRequest {
             renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             tabela.getColumnModel().getColumn(0).setCellRenderer(renderer2);
         }
-
         // seleção e atualização do painel
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-
             @Override
             public void mousePressed(MouseEvent e) {
+                String[] titulos = {lingua.translate("Copiar nome de utilizador"), lingua.translate("Copiar descrição de recurso"), lingua.translate("Copiar hora de requisição"), lingua.translate("Marcar como requisitado"), lingua.translate("Alterar requisição"), lingua.translate("Ver recurso")};
+                ActionListener[] act = new ActionListener[titulos.length];
                 int r = tabela.rowAtPoint(e.getPoint());
+                tabela.selectAll();
                 if (r >= 0 && r < tabela.getRowCount()) {
-                    tabela.setRowSelectionInterval(r, r);
-                } else {
                     tabela.clearSelection();
+                    tabela.setRowSelectionInterval(r, r);
                 }
-
-                int rowindex = tabela.getSelectedRow();
-                if (rowindex < 0) {
+                
+                if (selecionado < 0) {
                     return;
                 }
                 if (e.isPopupTrigger() && e.getComponent() instanceof JTable) {
-                    Components.PopUpMenu popup = new Components.PopUpMenu();
-                    popup.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                int r = tabela.rowAtPoint(e.getPoint());
-                if (r >= 0 && r < tabela.getRowCount()) {
-                    tabela.setRowSelectionInterval(r, r);
-                } else {
-                    tabela.clearSelection();
-                }
-
-                int rowindex = tabela.getSelectedRow();
-                if (rowindex < 0) {
-                    return;
-                }
-                if (e.isPopupTrigger() && e.getComponent() instanceof JTable) {
-                    Components.PopUpMenu popup = new Components.PopUpMenu();
+                    act[0] = (ActionEvent e1) -> {
+                        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        StringSelection nome = new StringSelection(getSelectedRequest().getPerson().getName());
+                        c.setContents(nome, nome);
+                    };
+                    act[1] = (ActionEvent e1) -> {
+                        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        StringSelection nome = new StringSelection(getSelectedRequest().getMaterial().getDescription());
+                        c.setContents(nome, nome);
+                    };
+                    act[2] = (ActionEvent e1) -> {
+                        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        StringSelection nome = new StringSelection(getSelectedRequest().getTimeBegin().toString());
+                        c.setContents(nome, nome);
+                    };
+                    act[3] = (ActionEvent e1) -> {
+                        btconfirma.doClick();
+                    };
+                    act[4] = (ActionEvent e1) -> {
+                        btaltera.doClick();
+                    };
+                    act[5] = (ActionEvent e1) -> {
+                        if (tipomaterial == 1) {
+                            DataBase.DataBase db = new DataBase.DataBase(url);
+                            Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
+                            Clavis.ActionButton bt = new Clavis.ActionButton((Keys.Classroom)cla, lingua, systemColor, url);
+                            bt.create();
+                            bt.open();
+                        } else {
+                            Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, systemColor, url);
+                            bt.create();
+                            bt.open();
+                        }
+                    };
+                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, btconfirma, btaltera);
+                    popup.create();
                     popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }

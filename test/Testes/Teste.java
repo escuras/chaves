@@ -54,7 +54,6 @@ public class Teste extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         jDialog2.setMinimumSize(new java.awt.Dimension(700, 500));
-        jDialog2.setPreferredSize(new java.awt.Dimension(700, 500));
         jDialog2.setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(254, 254, 254));
@@ -82,8 +81,8 @@ public class Teste extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jPanel4.setPreferredSize(new java.awt.Dimension(315, 147));

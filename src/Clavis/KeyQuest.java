@@ -21,8 +21,15 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -593,28 +600,34 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelDefBreaksTermino.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
         jLabelDefBreaksTermino.setText("Término:");
 
+        jComboBoxDefBreaksDiaInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksDiaInicio.setFocusable(false);
 
         jLabelDefBreaksDiaInicio.setText("Dia:");
 
         jLabelDefBreaksMesInicio.setText("Mês:");
 
+        jComboBoxDefBreaksMesInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksMesInicio.setFocusable(false);
 
         jLabelDefBreaksAnoInicio.setText("Ano:");
 
+        jComboBoxDefBreaksAnoInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksAnoInicio.setFocusable(false);
 
         jLabelDefBreaksDiaFim.setText("Dia:");
 
+        jComboBoxDefBreaksDiaFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksDiaFim.setFocusable(false);
 
         jLabelDefBreaksMesFim.setText("Mês:");
 
+        jComboBoxDefBreaksMesFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksMesFim.setFocusable(false);
 
         jLabelDefBreaksAnoFim.setText("Ano:");
 
+        jComboBoxDefBreaksAnoFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksAnoFim.setFocusable(false);
 
         jButtonDefBreaksAdicionar.setBackground(new java.awt.Color(1, 1, 1));
@@ -866,6 +879,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelMudaTemaQuadros.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
         jLabelMudaTemaQuadros.setText("Tema de quadros: ");
 
+        jComboBoxMudaTema.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxMudaTema.setFocusable(false);
         jComboBoxMudaTema.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -881,6 +895,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelMudaLinguagem.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
         jLabelMudaLinguagem.setText("Lingua de apresentação:");
 
+        jComboBoxMudaLinguagem.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxMudaLinguagem.setFocusable(false);
         jComboBoxMudaLinguagem.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -893,7 +908,10 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jButtonLinguaMudaConfirma.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonLinguaMudaConfirma.setForeground(new java.awt.Color(254, 254, 254));
         jButtonLinguaMudaConfirma.setText("Confirmar");
+        jButtonLinguaMudaConfirma.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonLinguaMudaConfirma.setEnabled(false);
         jButtonLinguaMudaConfirma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -935,6 +953,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelMudaTemaQuadros1.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
         jLabelMudaTemaQuadros1.setText("Auxiliar de rolagem: ");
 
+        jComboBoxScrollAtivo.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxScrollAtivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxScrollAtivoActionPerformed(evt);
@@ -1229,7 +1248,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jPanelBaixo.setBackground(new java.awt.Color(142, 162, 142));
+        jPanelBaixo.setBackground(new java.awt.Color(213, 228, 213));
         jPanelBaixo.setMinimumSize(new java.awt.Dimension(1, 1));
         jPanelBaixo.setPreferredSize(new java.awt.Dimension(300, 200));
         jPanelBaixo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1513,7 +1532,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jSplitPaneInicial.setRightComponent(jPanelBaixo);
 
-        jPanelCima.setBackground(new java.awt.Color(146, 151, 161));
+        jPanelCima.setBackground(new java.awt.Color(228, 228, 228));
         jPanelCima.setAutoscrolls(true);
         jPanelCima.setMinimumSize(new java.awt.Dimension(1, 1));
         jPanelCima.setName(""); // NOI18N
@@ -1797,6 +1816,36 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));
         jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));
         jTextFieldProcuraCima.setCaretPosition(0);
+        jTextFieldProcuraCima.addMouseListener(new java.awt.event.MouseAdapter() {
+            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+            @Override
+            public void mousePressed(MouseEvent e) {
+                String[] titulos = {lingua.translate("Colar"), lingua.translate("Copiar")};
+                ActionListener[] act = new ActionListener[titulos.length];
+                if (e.isPopupTrigger() && e.getComponent() instanceof javax.swing.JTextField) {
+                    act[0] = (ActionEvent e1) -> {
+                        Transferable t = c.getContents( null );
+                        if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {
+                            try {
+                                Object o = t.getTransferData( DataFlavor.stringFlavor );
+                                String data = (String)t.getTransferData( DataFlavor.stringFlavor );
+
+                                jTextFieldProcuraCima.setForeground(new Color(1,1,1));
+                                jTextFieldProcuraCima.setText(data);
+                                jTextFieldProcuraCima.setCaretPosition(data.length());
+                            } catch(Exception eo) {}
+                        }
+                    };
+                    act[1] = (ActionEvent e1) -> {
+                        StringSelection nome = new StringSelection(jTextFieldProcuraCima.getText());
+                        c.setContents(nome, nome);
+                    };
+                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act);
+                    popup.create();
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
         java.awt.image.BufferedImage imagebtsearch = null;
         try {
             imagebtsearch = ImageIO.read(getClass().getResourceAsStream("Images/search.png"));
@@ -1832,6 +1881,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanel3.setForeground(new java.awt.Color(1, 1, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(757, 30));
 
+        jToggleButtonBarRequisicoes.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButtonBarRequisicoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         jToggleButtonBarRequisicoes.setBorderPainted(false);
         jToggleButtonBarRequisicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1848,6 +1898,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jToggleButtonBarEntregas.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButtonBarEntregas.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 5, 1, 5));
         jToggleButtonBarEntregas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButtonBarEntregas.setFocusPainted(false);
@@ -1863,6 +1914,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxVista.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxVista.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jComboBoxVista.setFocusable(false);
         jComboBoxVista.setMinimumSize(new java.awt.Dimension(138, 26));
@@ -1875,6 +1927,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jComboBoxVista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("1_dia"), lingua.translate("2_dias"), lingua.translate("1_semana"), lingua.translate("2_semanas")}));
         ((javax.swing.JLabel)jComboBoxVista.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
+        jComboBoxListaBotoes.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxListaBotoes.setFocusable(false);
         jComboBoxListaBotoes.setMaximumSize(new java.awt.Dimension(32767, 26));
         jComboBoxListaBotoes.setMinimumSize(new java.awt.Dimension(148, 26));
@@ -1885,6 +1938,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jButtonListaBotoes.setBackground(new java.awt.Color(1, 1, 1));
         jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
@@ -1899,6 +1953,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxPesquisaOpcao.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxPesquisaOpcao.setForeground(new java.awt.Color(1, 1, 1));
         jComboBoxPesquisaOpcao.setFocusable(false);
         jComboBoxPesquisaOpcao.setMinimumSize(new java.awt.Dimension(64, 26));
@@ -1909,6 +1964,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButton1.setToolTipText("");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.setFocusPainted(false);
@@ -2912,6 +2968,9 @@ public class KeyQuest extends javax.swing.JFrame {
                             segundos = 60;
                         }
                         if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
+                            this.requestFocusInWindow();
+                            jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
+                            jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]) + " ... ");
                             lista_req.serchByTime(false, new TimeDate.Time(horas, minutos, segundos));
                             jLabelTitulorequisicoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                             jLabelLimpaPesquisaCima.setVisible(true);
@@ -2919,7 +2978,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     } else {
                         this.requestFocusInWindow();
                         jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
-                        jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]));
+                        jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]) + " ... ");
                         jLabelLimpaPesquisaCima.setVisible(false);
                         jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
                         if (lista_req.isResultOfASearch()) {
@@ -2930,9 +2989,12 @@ public class KeyQuest extends javax.swing.JFrame {
 
                     }
                 } else {
+                    this.requestFocusInWindow();
                     lista_req.serchBy(pesquisa, aux);
                     jLabelTitulorequisicoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                     jLabelLimpaPesquisaCima.setVisible(true);
+                    jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
+                    jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]) + " ... ");
                 }
             }
         } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
@@ -2953,11 +3015,13 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldProcuraCimaKeyPressed
 
     private void jTextFieldProcuraCimaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldProcuraCimaFocusGained
-        jTextFieldProcuraCima.setText("");
-        if (tema.equals("claro")) {
-            jTextFieldProcuraCima.setForeground(new Color(1, 1, 1));
-        } else {
-            jTextFieldProcuraCima.setForeground(new Color(254, 254, 254));
+        if (jTextFieldProcuraCima.getText().equals(lingua.translate(spesquisa[0]) + " ... ")) {
+            jTextFieldProcuraCima.setText("");
+            if (tema.equals("claro")) {
+                jTextFieldProcuraCima.setForeground(new Color(1, 1, 1));
+            } else {
+                jTextFieldProcuraCima.setForeground(new Color(254, 254, 254));
+            }
         }
     }//GEN-LAST:event_jTextFieldProcuraCimaFocusGained
 
@@ -3014,6 +3078,9 @@ public class KeyQuest extends javax.swing.JFrame {
                         segundos = 60;
                     }
                     if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
+                        this.requestFocusInWindow();
+                        jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
+                        jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]) + " ... ");
                         lista_req.serchByTime(false, new TimeDate.Time(horas, minutos, segundos));
                         jLabelTitulorequisicoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                         jLabelLimpaPesquisaCima.setVisible(true);
@@ -3031,8 +3098,11 @@ public class KeyQuest extends javax.swing.JFrame {
                     }
                 }
             } else {
+                this.requestFocusInWindow();
                 lista_req.serchBy(pesquisa, jTextFieldProcuraCima.getText());
                 jLabelTitulorequisicoes.setText(lingua.translate("Resultado da pesquisa realizada"));
+                jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
+                jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0]) + " ... ");
                 jLabelLimpaPesquisaCima.setVisible(true);
             }
         } else if (jTextFieldProcuraCima.getText().equals(lingua.translate(spesquisa[0]) + " ... ")) {
@@ -3125,6 +3195,9 @@ public class KeyQuest extends javax.swing.JFrame {
                         segundos = 60;
                     }
                     if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
+                        this.requestFocusInWindow();
+                        jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
+                        jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
                         lista_dev.serchByTime(true, new TimeDate.Time(horas, minutos, segundos));
                         jLabelTituloDevolucoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                         jLabelLimpaPesquisaBaixo.setVisible(true);
@@ -3132,7 +3205,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 } else {
                     this.requestFocusInWindow();
                     jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
-                    jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[0]) + " ... ");
+                    jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
                     jLabelLimpaPesquisaBaixo.setVisible(false);
                     jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
                     if (lista_dev.isResultOfASearch()) {
@@ -3142,9 +3215,12 @@ public class KeyQuest extends javax.swing.JFrame {
                     }
                 }
             } else {
+                this.requestFocusInWindow();
                 lista_dev.serchBy(pesquisa, jTextFieldProcuraBaixo.getText());
                 jLabelTituloDevolucoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                 jLabelLimpaPesquisaBaixo.setVisible(true);
+                jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
+                jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
             }
         } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
             this.requestFocusInWindow();
@@ -3209,6 +3285,9 @@ public class KeyQuest extends javax.swing.JFrame {
                         segundos = 60;
                     }
                     if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
+                        this.requestFocusInWindow();
+                        jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
+                        jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
                         lista_dev.serchByTime(true, new TimeDate.Time(horas, minutos, segundos));
                         jLabelTituloDevolucoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                         jLabelLimpaPesquisaBaixo.setVisible(true);
@@ -3216,7 +3295,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 } else {
                     this.requestFocusInWindow();
                     jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
-                    jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[0]) + " ... ");
+                    jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
                     jLabelLimpaPesquisaBaixo.setVisible(false);
                     jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
                     if (lista_dev.isResultOfASearch()) {
@@ -3226,9 +3305,12 @@ public class KeyQuest extends javax.swing.JFrame {
                     }
                 }
             } else {
+                this.requestFocusInWindow();
                 lista_dev.serchBy(pesquisa, jTextFieldProcuraBaixo.getText());
                 jLabelTituloDevolucoes.setText(lingua.translate("Resultado da pesquisa realizada"));
                 jLabelLimpaPesquisaBaixo.setVisible(true);
+                jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
+                jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
             }
         } else if (jTextFieldProcuraBaixo.getText().equals(spesquisa[1] + " ... ")) {
             this.requestFocusInWindow();
@@ -3429,7 +3511,7 @@ public class KeyQuest extends javax.swing.JFrame {
         Window[] windows = Window.getWindows();
 
         for (int i = 0; i < windows.length; i++) {
-            if (windows[i] instanceof ButtonListRequest.ActionButton) {
+            if (windows[i] instanceof ActionButton) {
                 windows[i].setVisible(false);
                 windows[i].dispose();
             }
@@ -4156,45 +4238,13 @@ public class KeyQuest extends javax.swing.JFrame {
 
     }
 
-    /* private void calculateList() {
-        TypeOfMaterial material = new TypeOfMaterial(1, "sala", 70);
-        material.setTypeOfMaterialImage("Sala");
-        boolean estado = false;
-        requisicoes = new RequestList(urlbd, material, vista, feriados, estado, false);
-        requisicoes.make();
-        lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, false);
-        lista_req.getTable().clearSelection();
-        lista_req.create();
-        lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
-        jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
-        estado = true;
-        devolucoes = new RequestList(urlbd, material, RequestList.VIEW_DAY, feriados, estado, false);
-        devolucoes.make();
-        lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true);
-        lista_dev.getTable().clearSelection();
-        lista_dev.create();
-        lista_dev.addListenenerSelectionRequisitions(jButtonConfirmaDevolucao, jButtonAlteraDevolucao);
-        jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
-        jSplitPaneInicial.setDividerSize(tdivisor);
-        //btrequests = new ButtonListRequest(requisicoes, urlbd, lingua, jTabbedPaneMaterial);
-        //jTabbedPaneMaterial.add(btrequests.getScrollPane());
-        //jTabbedPaneMaterial.setTitleAt(0, lingua.translate(material.getTypeOfMaterialName()));
-        jComboBoxVista.setSelectedIndex(vista);
-        lista_req.addTimerColors();
-        lista_req.startTimerColors();
-        this.controlScroll();
-        if (tema.equals("escuro")) {
-            this.temaEscuro();
-        }
-
-    }*/
     private void calculateList(Keys.TypeOfMaterial material) {
         requisicoes = new RequestList(urlbd, material, vista, feriados, false, false);
         requisicoes.make();
         if (lista_req != null) {
             lista_req.getTable().clearSelection();
         }
-        lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, false);
+        lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, false, jButtonAtuacaoConfirma, jButtonAtuacaoAltera, systemColor, this.urlbd);
         lista_req.create();
         lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
@@ -4213,7 +4263,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if (lista_dev != null) {
             lista_dev.getTable().clearSelection();
         }
-        lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true);
+        lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true, jButtonConfirmaDevolucao, jButtonAlteraDevolucao, systemColor, this.urlbd);
         lista_dev.create();
         lista_dev.addListenenerSelectionRequisitions(jButtonConfirmaDevolucao, jButtonAlteraDevolucao);
         jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
@@ -4227,7 +4277,7 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         lo.setOpaque(true);
         jScrollPaneDevolucoes.setCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER, lo);
-        
+
         jSplitPaneInicial.setDividerSize(tdivisor);
 
         jComboBoxVista.setSelectedIndex(vista);
@@ -4243,14 +4293,14 @@ public class KeyQuest extends javax.swing.JFrame {
         if (!estado) {
             requisicoes = new RequestList(urlbd, material, vista, feriados, estado, false);
             requisicoes.make();
-            lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, estado);
+            lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, estado, jButtonAtuacaoConfirma, jButtonAtuacaoAltera, systemColor, this.urlbd);
             lista_req.create();
             lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
             jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
         } else {
             devolucoes = new RequestList(urlbd, material, RequestList.VIEW_DAY, feriados, estado, false);
             devolucoes.make();
-            lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true);
+            lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, estado, jButtonConfirmaDevolucao, jButtonAlteraDevolucao, systemColor, this.urlbd);
             lista_dev.create();
             lista_dev.addListenenerSelectionRequisitions(jButtonConfirmaDevolucao, jButtonAlteraDevolucao);
             jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
@@ -4263,7 +4313,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public void exit(ActionEvent e) {
         systemColor = new Color(177, 184, 190);
-        //systemColor = new Color(142,162,142);
+        //systemColor = new Color(142,142,142);
         prefs.save();
         this.dispose();
         System.exit(0);
@@ -4326,8 +4376,8 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     private void temaEscuro() {
-        lista_req.setBackGroundColor(Color.black);
-        lista_req.setForegroundcolor(Color.white);
+        lista_req.setBackGroundColor(new Color(45, 45, 45));
+        lista_req.setForegroundcolor(Color.WHITE);
         lista_req.setSelectColor(new Color(223, 223, 223));
         lista_req.setForegroundSelectColor(Color.BLACK);
         lista_dev.setBackGroundColor(Color.black);
@@ -4372,16 +4422,14 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createMatteBorder(5, 5, 5, 8, jPanelBaixo.getBackground());
         javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(new Color(254, 254, 254), 1));
         jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-        
-        javax.swing.JLabel l = (javax.swing.JLabel)jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
+
+        javax.swing.JLabel l = (javax.swing.JLabel) jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
-        l.setBackground(new Color(215,215,215));
-        l = (javax.swing.JLabel)jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
+        l.setBackground(new Color(215, 215, 215));
+        l = (javax.swing.JLabel) jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
-        l.setBackground(new Color(215,215,215));
-        
-        
-       
+        l.setBackground(new Color(215, 215, 215));
+
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -4389,7 +4437,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
                 this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
 
                 return this;
@@ -4399,7 +4447,6 @@ public class KeyQuest extends javax.swing.JFrame {
         headerRenderer.setBackground(new Color(215, 215, 215));
         headerRenderer.setForeground(new Color(1, 1, 1));
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        headerRenderer.setFont(new Font("Cantarell", Font.BOLD, 14));
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
             @Override
@@ -4408,7 +4455,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
                 this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
                 return this;
             }
@@ -4481,15 +4528,15 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createMatteBorder(5, 5, 5, 8, jPanelBaixo.getBackground());
         javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(new Color(1, 1, 1), 1));
         jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-        jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER).setBackground(new Color(145,145,145));
-        
-        javax.swing.JLabel l = (javax.swing.JLabel)jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
+        jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER).setBackground(new Color(145, 145, 145));
+
+        javax.swing.JLabel l = (javax.swing.JLabel) jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
-        l.setBackground(new Color(145,145,145));
-        l = (javax.swing.JLabel)jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
+        l.setBackground(new Color(145, 145, 145));
+        l = (javax.swing.JLabel) jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
-        l.setBackground(new Color(145,145,145));
-        
+        l.setBackground(new Color(145, 145, 145));
+
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -4497,7 +4544,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
                 this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
 
                 return this;
@@ -4507,7 +4554,6 @@ public class KeyQuest extends javax.swing.JFrame {
         headerRenderer.setBackground(new Color(145, 145, 145));
         headerRenderer.setForeground(Color.WHITE);
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        headerRenderer.setFont(new Font("Cantarell", Font.BOLD, 14));
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
             @Override
@@ -4516,7 +4562,7 @@ public class KeyQuest extends javax.swing.JFrame {
                     int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 18));
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
                 this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
                 return this;
             }

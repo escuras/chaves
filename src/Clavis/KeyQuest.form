@@ -740,6 +740,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksDiaInicio">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -768,6 +771,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksMesInicio">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -788,6 +794,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksAnoInicio">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -808,6 +817,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksDiaFim">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -828,6 +840,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksMesFim">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -848,6 +863,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDefBreaksAnoFim">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -1107,6 +1125,9 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBoxMudaTema">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                    </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -1134,6 +1155,9 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBoxMudaLinguagem">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                    </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -1150,7 +1174,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonLinguaMudaConfirma">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="1" green="1" red="1" type="rgb"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Confirmar"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -1230,6 +1263,9 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBoxScrollAtivo">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                    </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -1618,7 +1654,7 @@
             <Container class="javax.swing.JPanel" name="jPanelBaixo">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8e" green="a2" red="8e" type="rgb"/>
+                  <Color blue="d5" green="e4" red="d5" type="rgb"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[1, 1]"/>
@@ -2037,7 +2073,7 @@
             <Container class="javax.swing.JPanel" name="jPanelCima">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a1" green="97" red="92" type="rgb"/>
+                  <Color blue="e4" green="e4" red="e4" type="rgb"/>
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2371,7 +2407,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldProcuraCimaKeyPressed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0])+&quot; ... &quot;);&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;javax.swing.border.Border borderpesquisa1 = BorderFactory.createMatteBorder(5, 8, 5, 5, jPanelCima.getBackground());&#xa;javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraCima.setCaretPosition(0);"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0])+&quot; ... &quot;);&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;javax.swing.border.Border borderpesquisa1 = BorderFactory.createMatteBorder(5, 8, 5, 5, jPanelCima.getBackground());&#xa;javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraCima.setCaretPosition(0);&#xa;jTextFieldProcuraCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();  &#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                String[] titulos = {lingua.translate(&quot;Colar&quot;), lingua.translate(&quot;Copiar&quot;)};&#xa;                ActionListener[] act = new ActionListener[titulos.length];&#xa;                if (e.isPopupTrigger() &amp;&amp; e.getComponent() instanceof javax.swing.JTextField) {&#xa;                    act[0] = (ActionEvent e1) -&gt; {&#xa;                        Transferable t = c.getContents( null );&#xa;                        if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {&#xa;                            try {&#xa;                            Object o = t.getTransferData( DataFlavor.stringFlavor );&#xa;                            String data = (String)t.getTransferData( DataFlavor.stringFlavor );&#xa;                            &#xa;                            jTextFieldProcuraCima.setForeground(new Color(1,1,1));&#xa;                            jTextFieldProcuraCima.setText(data);&#xa;                            jTextFieldProcuraCima.setCaretPosition(data.length());&#xa;                            } catch(Exception eo) {}   &#xa;                        }&#xa;                    };&#xa;                    act[1] = (ActionEvent e1) -&gt; { &#xa;                        StringSelection nome = new StringSelection(jTextFieldProcuraCima.getText());&#xa;                        c.setContents(nome, nome);&#xa;                    };&#xa;                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act);&#xa;                    popup.create();&#xa;                    popup.show(e.getComponent(), e.getX(), e.getY());&#xa;                }&#xa;            }&#xa;        });"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonProcuraCima">
@@ -2556,6 +2592,9 @@
       <SubComponents>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarRequisicoes">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="5" right="5" top="0"/>
@@ -2588,6 +2627,9 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarEntregas">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="1" left="5" right="5" top="2"/>
@@ -2619,6 +2661,9 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxVista">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d5" green="d5" red="d5" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
@@ -2646,6 +2691,9 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxListaBotoes">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d5" green="d5" red="d5" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
@@ -2670,6 +2718,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonListaBotoes">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="1" left="5" right="5" top="1"/>
@@ -2700,6 +2751,9 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxPesquisaOpcao">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d5" green="d5" red="d5" type="rgb"/>
+            </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1" green="1" red="1" type="rgb"/>
             </Property>
@@ -2724,6 +2778,9 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton1">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>

@@ -11,6 +11,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste3.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/SplitElement.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ScrollBar.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Request.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Classroom.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/lista</file>
@@ -18,6 +19,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_es_ES.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Software.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PopUpMenu.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/popupmenu.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/ClassStudents.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/FileChooser_en_US.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/DataBase/DataBase.java</file>
@@ -28,6 +30,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/EditorCell.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ModifiedFlowLayout.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/FileIOAux/ImageExtension.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/ActionButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Function.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/GenericRoundedButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste2.java</file>
@@ -46,7 +49,6 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Clavicela.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/ElementsCSV.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/NewClass2.java</file>
-            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/PopupMenu.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/UpdateCSVonDB.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste4.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/RequestList.java</file>
@@ -65,6 +67,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/SwingTemper.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/UtilTemper.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/PanelDetails.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ClipBoard.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/FileBreakPeriods.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/jasonteste.java</file>
         </group>
