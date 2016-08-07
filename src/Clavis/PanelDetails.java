@@ -13,6 +13,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -139,7 +142,7 @@ public class PanelDetails extends JPanel {
                         + "Images" + System.getProperty("file.separator")
                         + this.nome_imagem + ".png");
                 try {
-                    BufferedImage bt = FileIOAux.ImageAux.resize(ImageIO.read(file),100,80);
+                    BufferedImage bt = FileIOAux.ImageAux.resize(ImageIO.read(file), 100, 80);
                     paineis[0].setIcon(new ImageIcon(bt));
                 } catch (IOException ex) {
                     Logger.getLogger(PanelDetails.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,17 +150,19 @@ public class PanelDetails extends JPanel {
 
             }
             grupo2.addGap(1, 20, 30);
-            paineis[0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2),BorderFactory.createLineBorder(new Color(254,254,254))));
+            paineis[0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2), BorderFactory.createLineBorder(new Color(254, 254, 254))));
             paineis[0].setHorizontalAlignment(javax.swing.JLabel.CENTER);
             grupo.addComponent(paineis[0], 100, 100, 100);
             grupo2.addComponent(paineis[0], javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE);
             grupo2.addGap(1, 30, 30);
-            while (i < titulos.length +1) {
+            String[] multipla;
+            while (i < titulos.length + 1) {
                 paineis[i] = new JLabel();
                 paineis[i].setForeground(this.subTitleColor);
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
                 paineis[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
+
                 auxiliar = lingua.translate(titulos[i - 1]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
@@ -169,13 +174,52 @@ public class PanelDetails extends JPanel {
                 }
                 paineis[i].setText(auxiliar);
                 paineis2[i] = new JLabel();
-                paineis2[i].setForeground(new Color(50,50,50));
+                paineis2[i].setForeground(new Color(50, 50, 50));
                 paineis2[i].setBackground(this.color);
                 paineis2[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.HANGING_BASELINE, 14));
                 paineis2[i].setOpaque(true);
                 paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                auxiliar = lingua.translate(resultados[i - 1]);
+                multipla = resultados[i - 1].split(":::");
+                auxiliar = lingua.translate(multipla[0]);
+                if (multipla.length > 1) {
+                    Components.PopUpMenu pop = new Components.PopUpMenu(multipla, 1, multipla.length,lingua);
+                    pop.create();
+                    paineis[i].addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if (!pop.isShowing()) pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                        
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            pop.setVisible(false);
+                        }
+                    });
+                    paineis2[i].addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if (!pop.isShowing()) pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                        
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            e.getComponent().setForeground(new Color(145,145,145));
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            e.getComponent().setForeground(textColor);
+                            pop.setVisible(false);
+                        }
+                    });
+                }
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {

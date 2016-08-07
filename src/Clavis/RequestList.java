@@ -89,11 +89,12 @@ public class RequestList {
                 if ((req.getId() == req2.getUnionRequest()) && (req2.getUnionRequest() > 0)) {
                     if (i == 0) {
                         unionrequests.put(new Keys.Request(req), req.getId());
+                        req.setActivity("Múltiplas atividades:::"+req.getActivity()+";;;"+req.getTimeBegin().toString(0)+";;;"+req.getTimeEnd().toString(0));
                         req.setEndDate(req2.getEndDate());
                         req.setTimeEnd(req2.getTimeEnd());
-                        req.setActivity("<html>Múltiplas atividades<br></b></html>");
                         unionrequests.put(req, req.getId());
                     }
+                    req.setActivity(req.getActivity()+":::"+req2.getActivity()+";;;"+req2.getTimeBegin().toString(0)+";;;"+req2.getTimeEnd().toString(0));
                     unionrequests.put(req2, req2.getUnionRequest());
                     requisicoes.remove(req2);
                 }

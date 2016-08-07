@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -588,11 +589,34 @@ public class ActionButton extends javax.swing.JDialog {
                 this.dispose();
             });
             painel11.add(btsair);
+            
+            javax.swing.JButton bthorario = new javax.swing.JButton();
+            bthorario.setPreferredSize(new Dimension(160, 40));
+            java.awt.image.BufferedImage imagebthorario = null;
+            try {
+                imagebthorario = ImageIO.read(getClass().getResourceAsStream("Images/calendario.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebthorario != null) {
+                javax.swing.ImageIcon iconbthorario = new javax.swing.ImageIcon(imagebthorario);
+                bthorario.setIcon(iconbthorario);
+            }
+            bthorario.setBounds(165, 0, 140, 40);
+            bthorario.setToolTipText(lingua.translate("Horário"));
+            bthorario.setBackground(Color.BLACK);
+            bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            bthorario.setFocusPainted(false);
+            bthorario.addActionListener((ActionEvent e) -> {
+                
+            });
+            painel11.add(bthorario);
+            
             javax.swing.JPanel painel22 = new javax.swing.JPanel();
             //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
             //painel22.setLayout(blayout22);
             painel22.setBackground(new Color(254, 254, 254));
             painel22.setLayout(null);
+            
             javax.swing.JButton btreq = new javax.swing.JButton();
             btreq.setPreferredSize(new Dimension(160, 40));
             btreq.setToolTipText(lingua.translate("Requisitar"));
@@ -779,7 +803,36 @@ public class ActionButton extends javax.swing.JDialog {
                 if (requnion.isEmpty()) {
                     lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
                 } else {
-                    lb1 = new javax.swing.JLabel("Múltiplas atividades");
+                    lb1 = new javax.swing.JLabel(lingua.translate("Múltiplas atividades"));
+                    String[] auxiliar = new String[requnion.size() + 1];
+                    auxiliar[0] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                    int i = 1;
+                    for (Keys.Request re : requnion) {
+                        auxiliar[i] = re.getActivity() + ";;;" + re.getTimeBegin().toString(0) + ";;;" + re.getTimeEnd().toString(0);
+                        i++;
+                    }
+                    Components.PopUpMenu pop = new Components.PopUpMenu(auxiliar, 0, auxiliar.length, lingua);
+                    pop.create();
+                    lb1.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if (!pop.isShowing()) {
+                                pop.show(e.getComponent(), e.getX(), e.getY());
+                            }
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            e.getComponent().setForeground(new Color(145,145,145));
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            e.getComponent().setForeground(new Color(1,1,1));
+                            pop.setVisible(false);
+                        }
+                    });
                 }
             } else {
                 lb1 = new javax.swing.JLabel(lingua.translate("Não existe descrição"));
