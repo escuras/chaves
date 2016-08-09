@@ -9,6 +9,7 @@ import TimeDate.HolidaysList;
 import java.awt.FontMetrics;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -92,7 +93,7 @@ public class RequestList {
                 if ((req.getId() == req2.getUnionRequest()) && (req2.getUnionRequest() > 0)) {
                     unionrequests.put(new Keys.Request(req), req.getId());
                     if (i == 0) {
-                        String auxiliar = "Múltiplas atividades:::"+req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                        String auxiliar = "Múltiplas atividades:::" + req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
                         req.setActivity(auxiliar);
                         i++;
                     }
@@ -145,6 +146,34 @@ public class RequestList {
             }
         }
         return lista;
+    }
+
+    public void sortbyEndDate() {
+        Collections.sort(requests, new Comparator<Keys.Request>() {
+            @Override
+            public int compare(Keys.Request o1, Keys.Request o2) {
+                if (o1.getEndDate() == null || o2.getEndDate() == null) {
+                    return 0;
+                }
+                return o2.getEndDate().isBigger(o1.getEndDate());
+            }
+        });
+        /*
+        Keys.Request auxiliar;
+        int val = 0;
+        if (!requests.isEmpty()) {
+            for (int i = 0; i < requests.size(); i++) {
+                auxiliar = requests.get(i);
+                for (int j = i; j < requests.size(); j++) {
+                    if (auxiliar.getEndDate().isBigger(requests.get(j).getEndDate()) < 0) {
+                        val = j;
+                        auxiliar = requests.get(j);
+                    }
+                }
+                requests.set(val, requests.get(i));
+                requests.set(i, auxiliar);
+            }
+        }*/
     }
 
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {

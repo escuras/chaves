@@ -851,7 +851,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jDialogDefBreaks.getContentPane().setLayout(jDialogDefBreaksLayout);
         jDialogDefBreaksLayout.setHorizontalGroup(
             jDialogDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelDefBreaks, javax.swing.GroupLayout.PREFERRED_SIZE, 670, Short.MAX_VALUE)
+            .addComponent(jPanelDefBreaks, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
         );
         jDialogDefBreaksLayout.setVerticalGroup(
             jDialogDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1447,8 +1447,8 @@ public class KeyQuest extends javax.swing.JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 lista_dev.destroySearch();
-                //lista_dev.addTimerColors();
-                //lista_dev.startTimerColors();
+                lista_dev.addTimerColors();
+                lista_dev.startTimerColors();
                 jLabelLimpaPesquisaBaixo.setVisible(false);
             }
 
@@ -1979,7 +1979,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanel3.setForeground(new java.awt.Color(1, 1, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(757, 30));
 
-        jToggleButtonBarRequisicoes.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButtonBarRequisicoes.setBorder(null);
         jToggleButtonBarRequisicoes.setBorderPainted(false);
         jToggleButtonBarRequisicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1996,7 +1995,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jToggleButtonBarEntregas.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButtonBarEntregas.setBorder(null);
         jToggleButtonBarEntregas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButtonBarEntregas.setFocusPainted(false);
@@ -2036,7 +2034,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonListaBotoes.setBackground(new java.awt.Color(1, 1, 1));
         jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
@@ -2062,7 +2059,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setBackground(new java.awt.Color(1, 1, 1));
         jToggleButton1.setToolTipText("");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.setFocusPainted(false);
@@ -2897,7 +2893,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 this.temaClaro();
             }
         }
-        this.reCalculateList(true, lista_dev.getRequestList().getTypeOfMaterial());
+        this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
     }//GEN-LAST:event_jButtonAtuacaoConfirmaActionPerformed
 
     private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
@@ -2995,14 +2991,12 @@ public class KeyQuest extends javax.swing.JFrame {
             if (lista.size() > 0) {
                 lista.stream().forEach((l) -> {
                     db.changeRequestTerminateState(l);
-                    System.out.println(l.getEndDate());
-                    System.out.println(l.getTimeEnd());
                 });
             } else {
                 db.changeRequestTerminateState(req);
             }
             lista_dev.removeSelectedRequest();
-            //this.reCalculateList(true, lista_dev.getRequestList().getTypeOfMaterial());
+            //this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
         }
     }//GEN-LAST:event_jButtonConfirmaDevolucaoActionPerformed
 
@@ -3239,8 +3233,8 @@ public class KeyQuest extends javax.swing.JFrame {
                 this.requestFocusInWindow();
                 if (lista_dev.isResultOfASearch()) {
                     lista_dev.destroySearch();
-                    //lista_dev.addTimerColors();
-                    //lista_dev.startTimerColors();
+                    lista_dev.addTimerColors();
+                    lista_dev.startTimerColors();
                     jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
                     if (jLabelLimpaPesquisaBaixo != null) {
                         jLabelLimpaPesquisaBaixo.setVisible(false);
@@ -3308,8 +3302,8 @@ public class KeyQuest extends javax.swing.JFrame {
                     jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
                     if (lista_dev.isResultOfASearch()) {
                         lista_dev.destroySearch();
-                        //lista_dev.addTimerColors();
-                        //lista_dev.startTimerColors();
+                        lista_dev.addTimerColors();
+                        lista_dev.startTimerColors();
                     }
                 }
             } else {
@@ -3324,8 +3318,8 @@ public class KeyQuest extends javax.swing.JFrame {
             this.requestFocusInWindow();
             if (lista_dev.isResultOfASearch()) {
                 lista_dev.destroySearch();
-                //lista_dev.addTimerColors();
-                //lista_dev.startTimerColors();
+                lista_dev.addTimerColors();
+                lista_dev.startTimerColors();
                 jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
                 if (jLabelLimpaPesquisaBaixo != null) {
                     jLabelLimpaPesquisaBaixo.setVisible(false);
@@ -3413,8 +3407,8 @@ public class KeyQuest extends javax.swing.JFrame {
         } else if (jTextFieldProcuraBaixo.getText().equals(spesquisa[1] + " ... ")) {
             this.requestFocusInWindow();
             lista_dev.destroySearch();
-            //lista_dev.addTimerColors();
-            //lista_dev.startTimerColors();
+            lista_dev.addTimerColors();
+            lista_dev.startTimerColors();
             jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
             jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
             jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
@@ -3603,6 +3597,7 @@ public class KeyQuest extends javax.swing.JFrame {
             this.stopScroll();
             jComboBoxScrollAtivo.setSelectedIndex(1);
         }
+        
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jDialogListaBotoesWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogListaBotoesWindowClosing
@@ -3969,6 +3964,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });*/
         //this.addDayTimer();
+        this.controlScroll();
 
     }
 
@@ -4345,22 +4341,7 @@ public class KeyQuest extends javax.swing.JFrame {
         lista_req.create();
         lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
-        jScrollPaneRequisicoes.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            int val = 0;
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if ((scroll != null) && (scroll.isRunning())) {
-                    if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
-                        val = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
-                        scroll.stop();
-                        scroll.setInitialDelay(10000);
-                        scroll.start();
-                    } else {
-                        scroll.start();
-                    }
-                }
-            }
-        });
+
         javax.swing.JLabel l = new javax.swing.JLabel();
         if (tema.equals("claro")) {
             l.setBackground(new Color(145, 145, 145));
@@ -4371,8 +4352,27 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         l.setOpaque(true);
         jScrollPaneRequisicoes.setCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER, l);
-        devolucoes = new RequestList(urlbd, material, RequestList.VIEW_DAY, feriados, true, false);
+        AdjustmentListener list = new AdjustmentListener() {
+            int val = 0;
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                if ((scroll != null) && (scroll.isRunning())) {
+                    if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
+                        scroll.stop();
+                        scroll.setInitialDelay(10000);
+                        scroll.start();
+                    }
+                }
+                val = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
+            }
+        };
+        jScrollPaneRequisicoes.getVerticalScrollBar().removeAdjustmentListener(list);
+        jScrollPaneRequisicoes.getVerticalScrollBar().addAdjustmentListener(list);
+
+        devolucoes = new RequestList(urlbd, material, vista, feriados, true, false);
         devolucoes.make();
+        devolucoes.sortbyEndDate();
         if (lista_dev != null) {
             lista_dev.getTable().clearSelection();
         }
@@ -4395,34 +4395,15 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jComboBoxVista.setSelectedIndex(vista);
         lista_req.addTimerColors();
+        lista_dev.addTimerColors();
         lista_req.startTimerColors();
-        this.controlScroll();
+        lista_dev.startTimerColors();
         if (tema.equals("escuro")) {
             this.temaEscuro();
         }
     }
 
-    private void reCalculateList(boolean estado, Keys.TypeOfMaterial material) {
-        if (!estado) {
-            requisicoes = new RequestList(urlbd, material, vista, feriados, estado, false);
-            requisicoes.make();
-            lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, estado, jButtonAtuacaoConfirma, jButtonAtuacaoAltera, systemColor, this.urlbd);
-            lista_req.create();
-            lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
-            jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
-        } else {
-            devolucoes = new RequestList(urlbd, material, RequestList.VIEW_DAY, feriados, estado, false);
-            devolucoes.make();
-            lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, estado, jButtonConfirmaDevolucao, jButtonAlteraDevolucao, systemColor, this.urlbd);
-            lista_dev.create();
-            lista_dev.addListenenerSelectionRequisitions(jButtonConfirmaDevolucao, jButtonAlteraDevolucao);
-            jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
-        }
-        if (tema.equals("escuro")) {
-            this.temaEscuro();
-        }
-        //this.controlScroll();
-    }
+   
 
     public void exit(ActionEvent e) {
         systemColor = new Color(177, 184, 190);
@@ -4446,11 +4427,10 @@ public class KeyQuest extends javax.swing.JFrame {
                                 // problema da hora de saída após a meio-noite
                                 int valfinal;
                                 if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                    valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
+                                    valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear()) * 86400);
                                 } else {
                                     valfinal = tempo.compareTime(req.getTimeEnd());
                                 }
-                                System.out.println(lista_req.getAfterHour() + " " + lista_req.getBeforeHour());
                                 if ((val < lista_req.getBeforeHour()) && (valfinal >= lista_req.getAfterHour())) {
                                     int max = jScrollPaneRequisicoes.getVerticalScrollBar().getMaximum();
                                     int nlinhas = lista_req.getRequestList().getRequests().size();

@@ -125,7 +125,7 @@ public class WMaterial extends javax.swing.JDialog {
         
         JPanel jpaneltituloesquerda = new javax.swing.JPanel();
         jpaneltituloesquerda.setBackground(painelgeral.getBackground());
-        javax.swing.JComboBox comboboxopcoes = new javax.swing.JComboBox(new String[]{lingua.translate("Caraterísticas de")+" "+lingua.translate(mat.getTypeOfMaterialName()).toLowerCase(), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
+        javax.swing.JComboBox comboboxopcoes = new javax.swing.JComboBox(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
         ((javax.swing.JLabel)comboboxopcoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         BasicComboPopup popupVista = (BasicComboPopup) comboboxopcoes.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);

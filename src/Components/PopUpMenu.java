@@ -58,7 +58,6 @@ public class PopUpMenu extends JPopupMenu {
         String[] auxiliar;
         item = new JMenuItem[fim-1];
         while (inicio < fim) {
-            System.out.println(titulos[inicio]);
             auxiliar = titulos[inicio].split(";;;");
             item[inicio-1] = new JMenuItem("<html> <b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</html>");
             inicio++;

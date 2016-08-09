@@ -291,11 +291,9 @@ public class ActionButton extends javax.swing.JDialog {
             painel1Baixo.setPreferredSize(new Dimension(370, 40));
             painel1Baixo.setBackground(Color.WHITE);
             painel1Baixo.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-            glayout1 = new GridLayout(0, 2);
-            glayout1.setHgap(20);
-            painel1Baixo.setLayout(glayout1);
+            painel1Baixo.setLayout(null);
 
-            javax.swing.JButton bt1painel1Baixo = new javax.swing.JButton();
+            javax.swing.JButton bteditar = new javax.swing.JButton();
             java.awt.image.BufferedImage imagebtok = null;
             try {
                 imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
@@ -303,18 +301,20 @@ public class ActionButton extends javax.swing.JDialog {
             }
             if (imagebtok != null) {
                 javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);
-                bt1painel1Baixo.setIcon(iconbtok);
+                bteditar.setIcon(iconbtok);
             }
-            bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
-            bt1painel1Baixo.setFocusPainted(false);
-            bt1painel1Baixo.setBackground(Color.BLACK);
+            bteditar.setToolTipText(lingua.translate("Editar campos"));
+            bteditar.setPreferredSize(new Dimension(90,40));
+            bteditar.setBounds(260, 0, 90, 40);
+            bteditar.setFocusPainted(false);
+            bteditar.setBackground(Color.BLACK);
             javax.swing.border.Border baux[] = new javax.swing.border.Border[5];
             for (int i = 0; i < 4; i++) {
                 baux[i] = texto[i + 2].getBorder();
             }
             baux[4] = imageview.getBorder();
-            bt1painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            bt1painel1Baixo.addActionListener(new ActionListener() {
+            bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            bteditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!editar) {
@@ -325,13 +325,13 @@ public class ActionButton extends javax.swing.JDialog {
                         }
                         if (imagebtok1 != null) {
                             javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
-                            bt1painel1Baixo.setIcon(iconbtok);
+                            bteditar.setIcon(iconbtok);
                         }
                         for (int i = 2; i < texto.length; i++) {
                             texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
                         }
                         imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                        bt1painel1Baixo.setToolTipText(lingua.translate("Gravar"));
+                        bteditar.setToolTipText(lingua.translate("Gravar"));
                         for (int i = 2; i < texto.length; i++) {
                             texto[i].setFocusable(true);
                             texto[i].setBackground(Color.WHITE);
@@ -351,9 +351,9 @@ public class ActionButton extends javax.swing.JDialog {
                                         }
                                         if (imagebtok2 != null) {
                                             javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
-                                            bt1painel1Baixo.setIcon(iconbtok);
+                                            bteditar.setIcon(iconbtok);
                                         }
-                                        bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
+                                        bteditar.setToolTipText(lingua.translate("Editar campos"));
                                     }
                                 }
                             });
@@ -411,9 +411,9 @@ public class ActionButton extends javax.swing.JDialog {
                         }
                         if (imagebtok3 != null) {
                             javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok3);
-                            bt1painel1Baixo.setIcon(iconbtok);
+                            bteditar.setIcon(iconbtok);
                         }
-                        bt1painel1Baixo.setToolTipText(lingua.translate("Editar campos"));
+                        bteditar.setToolTipText(lingua.translate("Editar campos"));
                         boolean auxiliar1 = false;
                         if (!texto[2].getText().matches("^\\d+$")) {
                             auxiliar1 = true;
@@ -421,11 +421,11 @@ public class ActionButton extends javax.swing.JDialog {
                             timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
                                 texto[2].setBorder(baux[0]);
                                 texto[2].setText("" + cla.getPlaces());
-                                bt1painel1Baixo.setEnabled(true);
+                                bteditar.setEnabled(true);
                             });
                             texto[2].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
                             timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
+                            bteditar.setEnabled(false);
                             timer.start();
                         }
                         if (!texto[3].getText().matches("^\\d+$")) {
@@ -434,11 +434,11 @@ public class ActionButton extends javax.swing.JDialog {
                             timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
                                 texto[3].setBorder(baux[1]);
                                 texto[3].setText("" + cla.getComputers());
-                                bt1painel1Baixo.setEnabled(true);
+                                bteditar.setEnabled(true);
                             });
                             texto[3].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
                             timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
+                            bteditar.setEnabled(false);
                             timer.start();
                         }
                         if ((!texto[4].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[4].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[4].getText().toLowerCase().equals("nao"))) {
@@ -451,11 +451,11 @@ public class ActionButton extends javax.swing.JDialog {
                                 } else {
                                     texto[4].setText(lingua.translate("Nao").toLowerCase());
                                 }
-                                bt1painel1Baixo.setEnabled(true);
+                                bteditar.setEnabled(true);
                             });
                             texto[4].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[2]));
                             timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
+                            bteditar.setEnabled(false);
                             timer.start();
                         }
                         if (!(texto[5].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[5].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[5].getText().toLowerCase().equals("nao"))) {
@@ -468,11 +468,11 @@ public class ActionButton extends javax.swing.JDialog {
                                 } else {
                                     texto[5].setText(lingua.translate("Nao").toLowerCase());
                                 }
-                                bt1painel1Baixo.setEnabled(true);
+                                bteditar.setEnabled(true);
                             });
                             texto[5].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[3]));
                             timer.setRepeats(false);
-                            bt1painel1Baixo.setEnabled(false);
+                            bteditar.setEnabled(false);
                             timer.start();
                         }
                         if (!auxiliar1) {
@@ -535,7 +535,10 @@ public class ActionButton extends javax.swing.JDialog {
                 }
             });
 
-            javax.swing.JButton bt2painel1Baixo = new javax.swing.JButton();
+            painel1Baixo.add(bteditar);
+            
+            // bt mais
+            javax.swing.JButton btMais = new javax.swing.JButton();
             imagebtok = null;
             try {
                 imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/plus24x24.png"));
@@ -543,19 +546,21 @@ public class ActionButton extends javax.swing.JDialog {
             }
             if (imagebtok != null) {
                 javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);
-                bt2painel1Baixo.setIcon(iconbtok);
+                btMais.setIcon(iconbtok);
             }
-            bt2painel1Baixo.setFocusPainted(false);
-            bt2painel1Baixo.setBackground(Color.BLACK);
-            bt2painel1Baixo.setToolTipText(lingua.translate("Mais dados"));
-            bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            bt2painel1Baixo.addActionListener((ActionEvent e) -> {
+            btMais.setPreferredSize(new Dimension(90, 40));
+            btMais.setBounds(165, 0, 90, 40);
+            btMais.setFocusPainted(false);
+            btMais.setBackground(Color.BLACK);
+            btMais.setToolTipText(lingua.translate("Mais dados"));
+            btMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btMais.addActionListener((ActionEvent e) -> {
                 Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, cla, panelcor, lingua, url);
                 janela.create();
                 janela.appear();
             });
-            painel1Baixo.add(bt2painel1Baixo);
-            painel1Baixo.add(bt1painel1Baixo);
+            painel1Baixo.add(btMais);
+            
             painel1.add(painel1Cima);
             painel1.add(painel1Baixo);
 
@@ -573,8 +578,11 @@ public class ActionButton extends javax.swing.JDialog {
             painel11.setBackground(new Color(254, 254, 254));
             painel11.setPreferredSize(new Dimension(360, 40));
             painel11.setLayout(null);
+            
+            
+// bt sair
             javax.swing.JButton btsair = new javax.swing.JButton();
-            btsair.setPreferredSize(new Dimension(160, 40));
+            btsair.setPreferredSize(new Dimension(90, 40));
             java.awt.image.BufferedImage imagebtsair = null;
             try {
                 imagebtsair = ImageIO.read(getClass().getResourceAsStream("Images/exit26x24.png"));
@@ -584,7 +592,7 @@ public class ActionButton extends javax.swing.JDialog {
                 javax.swing.ImageIcon iconbtsair = new javax.swing.ImageIcon(imagebtsair);
                 btsair.setIcon(iconbtsair);
             }
-            btsair.setBounds(5, 0, 140, 40);
+            btsair.setBounds(5, 0, 90, 40);
             btsair.setToolTipText(lingua.translate("Sair"));
             btsair.setBackground(Color.BLACK);
             btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -592,15 +600,26 @@ public class ActionButton extends javax.swing.JDialog {
             btsair.addActionListener((ActionEvent e) -> {
                 this.setVisible(false);
                 if (dialogopai != null) {
-                    dialogopai.setLocation(this.getX(), this.getY()); 
+                    dialogopai.setLocation(this.getX(), this.getY());
                     dialogopai.setVisible(true);
                 }
                 this.dispose();
             });
             painel11.add(btsair);
+            
 
+
+
+
+            javax.swing.JPanel painel22 = new javax.swing.JPanel();
+            //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
+            //painel22.setLayout(blayout22);
+            painel22.setBackground(new Color(254, 254, 254));
+            painel22.setLayout(null);
+
+//bthorario
             javax.swing.JButton bthorario = new javax.swing.JButton();
-            bthorario.setPreferredSize(new Dimension(160, 40));
+            bthorario.setPreferredSize(new Dimension(90, 40));
             java.awt.image.BufferedImage imagebthorario = null;
             try {
                 imagebthorario = ImageIO.read(getClass().getResourceAsStream("Images/calendario.png"));
@@ -610,7 +629,7 @@ public class ActionButton extends javax.swing.JDialog {
                 javax.swing.ImageIcon iconbthorario = new javax.swing.ImageIcon(imagebthorario);
                 bthorario.setIcon(iconbthorario);
             }
-            bthorario.setBounds(165, 0, 140, 40);
+            bthorario.setBounds(5, 0, 90, 40);
             bthorario.setToolTipText(lingua.translate("Horário"));
             bthorario.setBackground(Color.BLACK);
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -618,16 +637,11 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.addActionListener((ActionEvent e) -> {
 
             });
-            painel11.add(bthorario);
-
-            javax.swing.JPanel painel22 = new javax.swing.JPanel();
-            //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
-            //painel22.setLayout(blayout22);
-            painel22.setBackground(new Color(254, 254, 254));
-            painel22.setLayout(null);
-
+            painel22.add(bthorario);
+            
+// btreq
             javax.swing.JButton btreq = new javax.swing.JButton();
-            btreq.setPreferredSize(new Dimension(160, 40));
+            btreq.setPreferredSize(new Dimension(90, 40));
             btreq.setToolTipText(lingua.translate("Requisitar"));
             java.awt.image.BufferedImage imagebtreq = null;
             try {
@@ -638,10 +652,10 @@ public class ActionButton extends javax.swing.JDialog {
                 javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
                 btreq.setIcon(iconbtreq);
             }
-            btreq.setBackground(Color.BLACK);
+            btreq.setBackground(Color.GREEN);
             btreq.setFocusPainted(false);
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btreq.setBounds(55, 0, 160, 40);
+            btreq.setBounds(100, 0, 90, 40);
             painel22.add(btreq);
 
             javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
@@ -723,18 +737,55 @@ public class ActionButton extends javax.swing.JDialog {
         }
         javax.swing.JLabel lbtl;
         if (req.getId() != -1) {
-            if (!(cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
+            TimeDate.Date dat;
+            TimeDate.Time tim;
+            boolean atrasado;
+            boolean dia;
+            if (requnion.isEmpty()) {
+                dat = req.getEndDate();
+                tim = req.getTimeEnd();
+            } else {
+                tim = req.getTimeEnd();
+                dat = req.getEndDate();
+                for (Keys.Request re : requnion) {
+                    if (re.getTimeEnd().compareTime(tim) < 0) {
+                        tim = re.getTimeEnd();
+                        dat = re.getEndDate();
+                    }
+                }
+            }
+            if ((!cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 painel2.setBackground(new Color(246, 255, 248));
-            } else {
-                labelativa.setText(lingua.translate("Requisitado por"));
+                atrasado = false;
+                dia = false;
+            } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) > 0))) {
+                labelativa = new javax.swing.JLabel(lingua.translate("Atrasado")+" "+lingua.translate("na entrega"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 painel2.setBackground(new Color(255, 246, 248));
+                atrasado = true;
+                dia = false;
+            } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
+                labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado")+": "+dat.isBigger(new TimeDate.Date())+"")+" "+lingua.translate("dias"));
+                labelativa.setPreferredSize(new Dimension(181, 32));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                painel2.setBackground(new Color(255, 246, 248));
+                atrasado = true;
+                dia = true;
+            } else {
+                labelativa = new javax.swing.JLabel(lingua.translate("Requisitado por"));
+                labelativa.setPreferredSize(new Dimension(181, 32));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                painel2.setBackground(new Color(235, 250, 237));
+                atrasado = false;
+                dia = false;
             }
 
             javax.swing.JLabel lbtl1 = new javax.swing.JLabel(lingua.translate("Requisitante"));
@@ -771,7 +822,6 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 40, 219, 20);
             painel2.add(lb1);
-
             if (!cla.isLoaned()) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
             } else {
@@ -783,16 +833,22 @@ public class ActionButton extends javax.swing.JDialog {
             lbtl1.setBounds(0, 70, 219, 20);
             painel2.add(lbtl1);
 
-            lb1 = new javax.swing.JLabel(req.getBeginDate().toString());
+            lb1 = new javax.swing.JLabel();
+            if ((atrasado) && (dia)) {
+                lb1.setForeground(Color.RED);
+            }
+            lb1.setText(req.getBeginDate().toString());
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 90, 219, 20);
+
             painel2.add(lb1);
 
             if (!cla.isLoaned()) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
             } else {
+
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora de entrega"));
             }
             lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
@@ -805,27 +861,27 @@ public class ActionButton extends javax.swing.JDialog {
                 if (requnion.isEmpty()) {
                     lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
                 } else {
-                    TimeDate.Time tim = req.getTimeEnd();
-                   
+                    tim = req.getTimeEnd();
                     for (Keys.Request re : requnion) {
-                        if (re.getTimeEnd().compareTime(tim) < 0) { 
+                        if (re.getTimeEnd().compareTime(tim) < 0) {
                             tim = re.getTimeEnd();
                         }
-                        lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
                     }
+                    lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
                 }
+            } else if (requnion.isEmpty()) {
+                lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
             } else {
-                if (requnion.isEmpty()) {
-                    lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
-                } else {
-                    TimeDate.Time tim = req.getTimeEnd();
-                    for (Keys.Request re : requnion) {
-                       if (re.getTimeEnd().compareTime(tim) < 0) { 
-                            tim = re.getTimeEnd();
-                       }
-                       lb1 = new javax.swing.JLabel(tim.toString(0));
+                tim = req.getTimeEnd();
+                for (Keys.Request re : requnion) {
+                    if (re.getTimeEnd().compareTime(tim) < 0) {
+                        tim = re.getTimeEnd();
                     }
+                    lb1 = new javax.swing.JLabel(tim.toString(0));
                 }
+            }
+            if ((atrasado) && (!dia)) {
+                lb1.setForeground(Color.RED);
             }
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -845,7 +901,7 @@ public class ActionButton extends javax.swing.JDialog {
                     lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
                 } else {
                     lb1 = new javax.swing.JLabel(lingua.translate("Múltiplas atividades"));
-                    String[] auxiliar = new String[requnion.size()+2];
+                    String[] auxiliar = new String[requnion.size() + 2];
                     auxiliar[0] = "Múltiplas atividades:::";
                     auxiliar[1] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
                     int i = 2;
