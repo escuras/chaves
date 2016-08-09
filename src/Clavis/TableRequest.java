@@ -53,7 +53,7 @@ public class TableRequest {
     public static final Color DEFAULT_PANEL_FOREGROUND_COLOR = new Color(0, 0, 0);
     public static final Color DEFAULT_SELECT_FOREGROUND_COLOR = Color.WHITE;
     public static final int DEFAULT_AFTER_TIME = 0;
-    public static final int DEFAULT_BEFORE_TIME = 10;
+    public static final int DEFAULT_BEFORE_TIME = 60;
 
     private Components.RowTable tabela;
     private final Langs.Locale lingua;
@@ -98,7 +98,7 @@ public class TableRequest {
         this.tipomaterial = requisicao.getTypeOfMaterial().getMaterialTypeID();
         antes_hora = TableRequest.DEFAULT_BEFORE_TIME * 60;
         depois_hora = TableRequest.DEFAULT_AFTER_TIME * 60;
-        cores = new Color[]{Color.GREEN.darker(), Color.RED};
+        cores = new Color[]{Color.GREEN.darker(), Color.RED, Color.BLACK};
         backColor = TableRequest.DEFAULT_BACKGROUND_COLOR;
         foreColor = TableRequest.DEFAULT_FOREGROUND_COLOR;
         selectColor = TableRequest.DEFAULT_SELECT_COLOR;
@@ -129,7 +129,7 @@ public class TableRequest {
             } else if (!devolucoes) {
                 tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate(requisicoes.getTypeOfMaterial().getTypeOfMaterialName()), lingua.translate("Inicio"), lingua.translate("Fim")}));
             } else {
-                titulos = new String[]{"Recurso", "Utilizador", "Data", "Atividade", "Tempo_inicial", "Tempo_final", "Dia_da_semana"};
+                titulos = new String[]{"Recurso", "Utilizador", "Data", "Atividade", "Tempo_inicial", "Tempo_final", "Dia_da_semana_de_entrega", "dia_da_semana_de_retorno"};
                 tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate(requisicoes.getTypeOfMaterial().getTypeOfMaterialName()), lingua.translate("Hora_de_entrega"), lingua.translate("Data_de_entrega")}));
             }
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
@@ -314,19 +314,33 @@ public class TableRequest {
         // seleção e atualização do painel
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            String[] titulos = {lingua.translate("Copiar nome de utilizador"), lingua.translate("Copiar descrição de recurso"), lingua.translate("Copiar hora de requisição"), lingua.translate("Marcar como requisitado"), lingua.translate("Alterar requisição"), lingua.translate("Ver recurso")};
+            ActionListener[] act = new ActionListener[titulos.length];
+            Components.PopUpMenu popup = new Components.PopUpMenu();
+
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    String[] titulos = {lingua.translate("Copiar nome de utilizador"), lingua.translate("Copiar descrição de recurso"), lingua.translate("Copiar hora de requisição"), lingua.translate("Marcar como requisitado"), lingua.translate("Alterar requisição"), lingua.translate("Ver recurso")};
-                    ActionListener[] act = new ActionListener[titulos.length];
-                    int r = tabela.rowAtPoint(e.getPoint());
-                    tabela.requestFocus();
-                    if (r >= 0 && r < tabela.getRowCount()) {
-                        tabela.setRowSelectionInterval(r, r);
-                    } else {
-                        return;
+                if (!devolucoes) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        int r = tabela.rowAtPoint(e.getPoint());
+                        if (r >= 0 && r < tabela.getRowCount()) {
+                            selecionado = r;
+                        }
                     }
-                    if (e.isPopupTrigger() && e.getComponent() instanceof JTable) {
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (!devolucoes) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        int r = tabela.rowAtPoint(e.getPoint());
+                        if (r >= 0 && r < tabela.getRowCount()) {
+                            tabela.setRowSelectionInterval(r, r);
+                            tabela.getSelectionModel().setSelectionInterval(r, r);
+                        } else {
+                            return;
+                        }
                         act[0] = (ActionEvent e1) -> {
                             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
                             StringSelection nome = new StringSelection(getSelectedRequest().getPerson().getName());
@@ -361,13 +375,38 @@ public class TableRequest {
                                 bt.open();
                             }
                         };
-                        Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, btconfirma, btaltera);
+                        Keys.Request req = requisicoes.getSelectedRequest(selecionado);
+                        TimeDate.Time tempo = new TimeDate.Time();
+                        TimeDate.Date data = new TimeDate.Date();
+                        int valfinal;
+                        int val = tempo.compareTime(req.getTimeBegin());
+
+                        if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
+                            if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
+                                valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
+                            } else {
+                                valfinal = tempo.compareTime(req.getTimeEnd());
+                            }
+                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
+                                btconfirma.setEnabled(true);
+                                btaltera.setEnabled(true);
+                            } else {
+                                btconfirma.setEnabled(false);
+                                btaltera.setEnabled(true);
+                            }
+                        } else {
+                            btconfirma.setEnabled(false);
+                            btaltera.setEnabled(true);
+                        }
+
+                        popup = new Components.PopUpMenu(titulos, act, btconfirma, btaltera);
                         popup.create();
                         popup.show(e.getComponent(), e.getX(), e.getY());
-                        popup.requestFocusInWindow();
                     }
                 }
+
             }
+
         });
         tabela.getSelectionModel()
                 .addListSelectionListener((ListSelectionEvent e) -> {
@@ -380,10 +419,25 @@ public class TableRequest {
                                     Object[] baux = requisicoes.getRequests().toArray();
                                     Keys.Request req = (Keys.Request) baux[select];
                                     String[] results;
-                                    if (tipomaterial == 1) {
-                                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                                    String auxiliardata;
+                                    String auxiliartempoinicial;
+                                    String auxiliartempofinal;
+                                    String auxiliardiasemana;
+                                    if (req.getBeginDate().isBigger(req.getEndDate()) > 0) {
+                                        auxiliardata = lingua.translate("Desde") + " " + req.getBeginDate().toString() + " " + lingua.translate("a") + " " + req.getEndDate().toString();
+                                        auxiliartempoinicial = req.getTimeBegin().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getBeginDate().toString();
+                                        auxiliartempofinal = req.getTimeEnd().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getEndDate().toString();
+                                        auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                                     } else {
-                                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                                        auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
+                                        auxiliartempoinicial = req.getTimeBegin().toString();
+                                        auxiliartempofinal = req.getTimeEnd().toString();
+                                        auxiliardiasemana = req.getWeekDay().perDayName();
+                                    }
+                                    if (tipomaterial == 1) {
+                                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), req.getSubject().getName(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
+                                    } else {
+                                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
                                     }
                                     panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), this.getSelectedRequest().getMaterial().getMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                                     panel.setInterval(2);
@@ -456,10 +510,25 @@ public class TableRequest {
                     Object[] baux = requisicoes.getRequests().toArray();
                     Keys.Request req = (Keys.Request) baux[TableRequest.this.selecionado];
                     String[] results;
-                    if (tipomaterial == 1) {
-                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                    String auxiliardata;
+                    String auxiliartempoinicial;
+                    String auxiliartempofinal;
+                    String auxiliardiasemana;
+                    if (req.getBeginDate().isBigger(req.getEndDate()) > 0) {
+                        auxiliardata = lingua.translate("Desde") + " " + req.getBeginDate().toString() + " " + lingua.translate("a") + " " + req.getEndDate().toString();
+                        auxiliartempoinicial = req.getTimeBegin().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getBeginDate().toString();
+                        auxiliartempofinal = req.getTimeEnd().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getEndDate().toString();
+                        auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                     } else {
-                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                        auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
+                        auxiliartempoinicial = req.getTimeBegin().toString();
+                        auxiliartempofinal = req.getTimeEnd().toString();
+                        auxiliardiasemana = req.getWeekDay().perDayName();
+                    }
+                    if (tipomaterial == 1) {
+                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), req.getSubject().getName(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
+                    } else {
+                        results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
                     }
                     panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), getSelectedRequest().getMaterial().getMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                     panel.setInterval(2);
@@ -559,6 +628,7 @@ public class TableRequest {
         requisicoes.reMake();
         this.procura = false;
         this.create();
+
     }
 
     public void addListenenerSelectionRequisitions(javax.swing.JButton bt2, javax.swing.JButton bt3) {
@@ -569,20 +639,17 @@ public class TableRequest {
                     Keys.Request req = requisicoes.getSelectedRequest(selecionado);
                     TimeDate.Time tempo = new TimeDate.Time();
                     TimeDate.Date data = new TimeDate.Date();
-                    int valfinal = 0;
+                    int valfinal;
                     int val = tempo.compareTime(req.getTimeBegin());
                     if (!devolucoes) {
                         if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
                             if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
+                                valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
                             } else {
                                 valfinal = tempo.compareTime(req.getTimeEnd());
                             }
-                            if ((val < antes_hora) && (valfinal >= depois_hora)) {
+                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
                                 bt2.setEnabled(true);
-                                bt3.setEnabled(true);
-                            } else if (valfinal < 0) {
-                                bt2.setEnabled(false);
                                 bt3.setEnabled(true);
                             } else {
                                 bt2.setEnabled(false);
@@ -626,20 +693,17 @@ public class TableRequest {
                         Keys.Request req = requisicoes.getSelectedRequest(selecionado);
                         TimeDate.Time tempo = new TimeDate.Time();
                         TimeDate.Date data = new TimeDate.Date();
-                        int valfinal = 0;
+                        int valfinal;
                         int val = tempo.compareTime(req.getTimeBegin());
                         if (!devolucoes) {
                             if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
                                 if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                    valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
+                                    valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
                                 } else {
                                     valfinal = tempo.compareTime(req.getTimeEnd());
                                 }
-                                if ((val < antes_hora) && (valfinal >= depois_hora)) {
+                                if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
                                     bt2.setEnabled(true);
-                                    bt3.setEnabled(true);
-                                } else if (valfinal < 0) {
-                                    bt2.setEnabled(false);
                                     bt3.setEnabled(true);
                                 } else {
                                     bt2.setEnabled(false);
@@ -678,19 +742,23 @@ public class TableRequest {
                 data = new TimeDate.Date();
                 modelo = new DefaultTableModel();
                 modelo = (DefaultTableModel) tabela.getModel();
-                if (modelo.getRowCount() > 0) {
+                if ((modelo.getRowCount() > 0) && (!requisicoes.getRequests().isEmpty())) {
                     int i = 0;
+                    int valfinal = 0;
+                    int val;
                     for (Keys.Request req : requisicoes.getRequests()) {
-                        int val = tempo.compareTime(req.getTimeBegin());
-                        int valfinal;
+                        val = tempo.compareTime(req.getTimeBegin());
                         if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
                             if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
+                                tempo = new TimeDate.Time();
+                                valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
                             } else {
                                 valfinal = tempo.compareTime(req.getTimeEnd());
                             }
-                            if ((val < antes_hora) && (valfinal >= depois_hora)) {
+                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
                                 tabela.setBorderColor(i, cores[0]);
+                            } else if ((val < antes_hora) && (valfinal >= depois_hora) && (req.getMaterial().isLoaned())) {
+                                tabela.setBorderColor(i, cores[2]);
                             } else if (valfinal < 0) {
                                 tabela.setBorderColor(i, cores[1]);
                             } else {
@@ -699,6 +767,7 @@ public class TableRequest {
                         } else {
                             tabela.removeBorderColor(i);
                         }
+
                         tabela.repaint();
                         i++;
                     }
@@ -836,10 +905,25 @@ public class TableRequest {
                 Object[] baux = requisicoes.getRequests().toArray();
                 Keys.Request req = (Keys.Request) baux[select];
                 String[] results;
-                if (tipomaterial == 1) {
-                    results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getSubject().getName(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                String auxiliardata;
+                String auxiliartempoinicial;
+                String auxiliartempofinal;
+                String auxiliardiasemana;
+                if (req.getBeginDate().isBigger(req.getEndDate()) > 0) {
+                    auxiliardata = lingua.translate("Desde") + " " + req.getBeginDate().toString() + " " + lingua.translate("a") + " " + req.getEndDate().toString();
+                    auxiliartempoinicial = req.getTimeBegin().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getBeginDate().toString();
+                    auxiliartempofinal = req.getTimeEnd().toString(0) + " " + lingua.translate("horas") + " " + lingua.translate("de") + " " + req.getEndDate().toString();
+                    auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                 } else {
-                    results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getActivity(), req.getTimeBegin().toString(), req.getTimeEnd().toString(), req.getWeekDay().perDayName()};
+                    auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
+                    auxiliartempoinicial = req.getTimeBegin().toString();
+                    auxiliartempofinal = req.getTimeEnd().toString();
+                    auxiliardiasemana = req.getWeekDay().perDayName();
+                }
+                if (tipomaterial == 1) {
+                    results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), req.getSubject().getName(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
+                } else {
+                    results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
                 }
                 panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), this.getSelectedRequest().getMaterial().getMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
                 panel.setInterval(2);

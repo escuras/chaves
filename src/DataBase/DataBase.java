@@ -1548,15 +1548,16 @@ public class DataBase {
                     if (rs.next()) {
                         int val = rs.getInt(1);
                         if (val > 0) {
-                            sql = "select id_material from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo like '" + mat.getCodeOfMaterial() + "' and descricao like '" + mat.getDescription() + "';";
+                            sql = "select id_material, id_tipo from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo like '" + mat.getCodeOfMaterial() + "' and descricao like '" + mat.getDescription() + "';";
                             ResultSet rs2 = smt.executeQuery(sql);
                             if (rs2.next()) {
                                 int idmaterial = rs2.getInt("id_material");
+                                int idtipo = rs2.getInt("id_tipo");
                                 sql = "select count(*) from Rel_features_materials where id_caracteristica = " + val + " and id_material = " + idmaterial + ";";
                                 ResultSet rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
                                     if (rs3.getInt(1) == 0) {
-                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material)  values (" + val + "," + idmaterial + ")";
+                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material, id_tipo)  values (" + val + "," + idmaterial + "," + idtipo + ")";
                                         return (!smt.execute(sql));
                                     }
                                 }
@@ -1607,8 +1608,57 @@ public class DataBase {
         return mats;
     }
 
-    public java.util.List<Keys.Feature> getFeaturesByTypeOfMaterial() {
+    public java.util.List<Keys.Feature> getFeaturesByTypeOfMaterial(Keys.TypeOfMaterial tipo) {
         java.util.List<Keys.Feature> lista = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica, descricao, quantidade, medida from Features where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_tipo = " + tipo.getMaterialTypeID() + ");";
+                try {
+                    rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        Keys.Feature feature = new Keys.Feature(rs.getString("descricao"), rs.getString("medida"), rs.getInt("quantidade"), tipo);
+                        lista.add(feature);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return lista;
+    }
+
+    public java.util.List<Keys.Feature> getFeaturesByMaterial(Keys.Material mat) {
+        java.util.List<Keys.Feature> lista = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica, descricao, quantidade, medida from Features where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_material = " + mat.getId() + ");";
+                try {
+                    rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        Keys.Feature feature = new Keys.Feature(rs.getString("descricao"), rs.getString("medida"), rs.getInt("quantidade"), mat.getTypeOfMaterial());
+                        lista.add(feature);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         return lista;
     }
 
@@ -1678,7 +1728,7 @@ public class DataBase {
                             sql = "select id_atividade from Activities where descricao like '%" + request.getActivity() + "%';";
                             rs1 = smt.executeQuery(sql);
                             if (rs1.next()) {
-                                id_atividade = ""+rs1.getInt("id_atividade");
+                                id_atividade = "" + rs1.getInt("id_atividade");
                             }
                             sql = "select id_pessoa from Persons where identificacao like '" + request.getPerson().getIdentification() + "' and nome like '" + request.getPerson().getName() + "';";
                             rs2 = smt.executeQuery(sql);
@@ -1687,7 +1737,7 @@ public class DataBase {
                                 sql = "select id_disciplina from Subjects where codigo like '" + request.getSubject().getCode() + "' and descricao like '" + request.getSubject().getName() + "'";
                                 rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
-                                    id_disciplina = ""+rs3.getInt("id_disciplina");
+                                    id_disciplina = "" + rs3.getInt("id_disciplina");
                                 }
                                 sql = "select count(*) from Requests where id_material = " + id_material + " "
                                         + "and id_pessoa = " + id_pessoa + " and id_disciplina = " + id_disciplina + " and "
@@ -1817,8 +1867,8 @@ public class DataBase {
             }
         }
         return "";
-    } 
-    
+    }
+
     public java.util.Set<String> getActivity(String def) {
         java.util.Set<String> atividades = new java.util.HashSet<>();
         if (this.isTie()) {
@@ -1833,11 +1883,9 @@ public class DataBase {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return atividades;
     }
-    
-    
 
     public boolean insertActivities(java.util.Set<String> atividades) {
         if (this.isTie()) {
@@ -1846,9 +1894,9 @@ public class DataBase {
             try {
                 Statement smt = con.createStatement();
                 for (String atividade : atividades) {
-                    sql = "select count(*) from Activities where descricao like '%"+atividade+"%'";
+                    sql = "select count(*) from Activities where descricao like '%" + atividade + "%'";
                     rs = smt.executeQuery(sql);
-                    if ((rs.next())&&(rs.getInt(1) == 0)) {
+                    if ((rs.next()) && (rs.getInt(1) == 0)) {
                         sql = "insert into Activities (descricao) values ('" + atividade + "');";
                         smt.executeUpdate(sql);
                     }
@@ -1865,10 +1913,10 @@ public class DataBase {
     public boolean insertActivity(String atividade) {
         if (this.isTie()) {
             try {
-                String sql = "select count(*) from Activities where descricao like '%"+atividade+"%'";
+                String sql = "select count(*) from Activities where descricao like '%" + atividade + "%'";
                 Statement smt = con.createStatement();
                 ResultSet rs = smt.executeQuery(sql);
-                if ((rs.next())&&(rs.getInt(1) == 0)) {
+                if ((rs.next()) && (rs.getInt(1) == 0)) {
                     sql = "insert into Activities (descricao) values ('" + atividade + "');";
                     smt.executeUpdate(sql);
                 }
@@ -2217,10 +2265,9 @@ public class DataBase {
         }
         return requisicoes;
     }
-    
-    
-     public java.util.Set<Keys.Request> getUnionRequests(Keys.Request req) {
-        java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
+
+    public java.util.Set<Keys.Request> getUnionRequests(Keys.Request req) {
+        java.util.Set<Keys.Request> requisicoes = new java.util.HashSet<>();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
@@ -2567,7 +2614,7 @@ public class DataBase {
                             + "requisicao_conjunta "
                             + "from Requests"
                             + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y')"
-                            + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
+                            + "and data_inicio <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and id_pessoa = " + id + ";";
                     smt = con.prepareStatement(sql);
                     rs = smt.executeQuery();
@@ -2679,8 +2726,14 @@ public class DataBase {
                 if (!sql.equals("")) {
                     smt = con.prepareStatement(sql);
                     ResultSet rsaux = smt.executeQuery();
+                    String auxiliar;
                     while (rsaux.next()) {
                         sql = "";
+                        if (estado) {
+                            auxiliar = "data_inicio";
+                        } else {
+                            auxiliar = "data_fim";
+                        }
                         if (tipo == 0) {
                             id = rsaux.getInt("id_pessoa");
                             sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
@@ -2695,8 +2748,8 @@ public class DataBase {
                                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
                                     + "requisicao_conjunta "
                                     + "from Requests "
-                                    + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
-                                    + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
+                                    + "where " + auxiliar + " >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
+                                    + "and " + auxiliar + " <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                                     + "and id_pessoa = " + id + " and ativo = " + estado + " and terminado = " + terminado + ";";
                         } else if (tipo == 1) {
                             id = rsaux.getInt("id_material");
@@ -2712,8 +2765,8 @@ public class DataBase {
                                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
                                     + "requisicao_conjunta "
                                     + "from Requests "
-                                    + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
-                                    + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
+                                    + "where " + auxiliar + " >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
+                                    + "and " + auxiliar + " <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                                     + "and id_material = " + id + " and ativo = " + estado + " and terminado = " + terminado + ";";
                         }
                         if (!sql.equals("")) {
@@ -2831,7 +2884,7 @@ public class DataBase {
                             + "from Requests "
                             + "where TIME_FORMAT(hora_inicio,'%H:%i:%s') = '" + time.toString() + "' "
                             + "and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
-                            + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
+                            + "and data_inicio <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and ativo = " + estado + " and terminado = " + terminado + ";";
                 } else {
                     sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
@@ -2847,7 +2900,7 @@ public class DataBase {
                             + "requisicao_conjunta "
                             + "from Requests "
                             + "where TIME_FORMAT(hora_fim,'%H:%i:%s') = '" + time.toString() + "' "
-                            + "and data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
+                            + "and data_fim >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                             + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and ativo = " + estado + " and terminado = " + terminado + ";";
                 }
@@ -2946,20 +2999,38 @@ public class DataBase {
             PreparedStatement smt;
             int ido = mat.getMaterialTypeID();
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
-                    + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
-                    + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
-                    + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
-                    + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
-                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
-                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
-                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
-                    + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
-                    + "requisicao_conjunta "
-                    + "from Requests right join (select id_material from Materials where id_tipo=" + ido + ") "
-                    + "auxiliar using (id_material) where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
-                    + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
+            String sql;
+            if (!estado) {
+                sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                        + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
+                        + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
+                        + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
+                        + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
+                        + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                        + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                        + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
+                        + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                        + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                        + "requisicao_conjunta "
+                        + "from Requests right join (select id_material from Materials where id_tipo=" + ido + ") "
+                        + "auxiliar using (id_material) where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
+                        + "and data_inicio <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
+            } else {
+                sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                        + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
+                        + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
+                        + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
+                        + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
+                        + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                        + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                        + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
+                        + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                        + "TIME_FORMAT(hora_entrega,'%H:%i:%s') hora_entrega, "
+                        + "requisicao_conjunta "
+                        + "from Requests right join (select id_material from Materials where id_tipo=" + ido + ") "
+                        + "auxiliar using (id_material) where data_fim >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
+                        + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') and ativo = " + estado + " and terminado = " + terminado + ";";
+            }
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();

@@ -20,6 +20,10 @@ import javax.swing.KeyStroke;
 public class PopUpMenu extends JPopupMenu {
 
     JMenuItem[] item;
+    
+    public PopUpMenu(){
+        item = new JMenuItem[0];
+    }
 
     public PopUpMenu(String[] titulos, ActionListener[] act, String colar, String copiar) {
         int i = 0;
@@ -47,21 +51,18 @@ public class PopUpMenu extends JPopupMenu {
         }
         setFocusable(false);
     }
-    
-    public PopUpMenu(String[] titulos, int inicio,int fim, Langs.Locale lang) {
-        int i = 0;
-        item = new JMenuItem[fim-inicio];
-        if ((titulos.length < fim)||(fim < inicio)) {
-            fim = titulos.length;
-        }
-        String [] auxiliar;
+
+    public PopUpMenu(String[] titulos, Langs.Locale lang) {
+        int inicio = 1;
+        int fim = titulos.length;
+        String[] auxiliar;
+        item = new JMenuItem[fim-1];
         while (inicio < fim) {
+            System.out.println(titulos[inicio]);
             auxiliar = titulos[inicio].split(";;;");
-            item[i] = new JMenuItem("<html> <b>"+lang.translate(auxiliar[0])+": </b>"+ lang.translate("Desde as").toLowerCase()+" "+auxiliar[1]+" "+lang.translate("até às")+" "+auxiliar[2]+".</html>");
+            item[inicio-1] = new JMenuItem("<html> <b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</html>");
             inicio++;
-            i++;
         }
-        setFocusable(false);
     }
 
     public PopUpMenu(String[] titulos, ActionListener[] act, javax.swing.JButton bt1, javax.swing.JButton bt2) {
@@ -96,7 +97,6 @@ public class PopUpMenu extends JPopupMenu {
 
     public void create() {
         int i = 0;
-        System.out.println(item.length);
         while (i < item.length) {
             this.add(item[i]);
             i++;

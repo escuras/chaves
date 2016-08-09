@@ -68,8 +68,8 @@ public class Teste2 {
             System.out.println("");
         }
         
-        TimeDate.Time tempo = new TimeDate.Time(22,44);
-        TimeDate.Time tempo2 = new TimeDate.Time(22, 43);
+        TimeDate.Time tempo = new TimeDate.Time(0,0,0);
+        TimeDate.Time tempo2 = new TimeDate.Time(23, 59,59);
         System.out.println("tempo: "+tempo.compareTime(tempo2));
         
         TimeDate.Holiday hol = new TimeDate.Holiday(1, 12);

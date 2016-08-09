@@ -81,28 +81,29 @@ public class RequestList {
     }
 
     private void treatUnionRequests() {
-        Set<Keys.Request> requisicoes = new java.util.HashSet<>(requests);
+        Set<Keys.Request> requisi = new java.util.HashSet<>(requests);
+        java.util.ArrayList<Keys.Request> requisicoes = new java.util.ArrayList<>(requisi);
+        Collections.sort(requisicoes);
         unionrequests = new java.util.TreeMap<>();
-        requests.stream().forEach((req) -> {
-            requests.stream().map((req2) -> {
-                int i = 0;
+        int i;
+        for (Keys.Request req : requests) {
+            i = 0;
+            for (Keys.Request req2 : requests) {
                 if ((req.getId() == req2.getUnionRequest()) && (req2.getUnionRequest() > 0)) {
+                    unionrequests.put(new Keys.Request(req), req.getId());
                     if (i == 0) {
-                        unionrequests.put(new Keys.Request(req), req.getId());
-                        req.setActivity("Múltiplas atividades:::"+req.getActivity()+";;;"+req.getTimeBegin().toString(0)+";;;"+req.getTimeEnd().toString(0));
-                        req.setEndDate(req2.getEndDate());
-                        req.setTimeEnd(req2.getTimeEnd());
-                        unionrequests.put(req, req.getId());
+                        String auxiliar = "Múltiplas atividades:::"+req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                        req.setActivity(auxiliar);
+                        i++;
                     }
-                    req.setActivity(req.getActivity()+":::"+req2.getActivity()+";;;"+req2.getTimeBegin().toString(0)+";;;"+req2.getTimeEnd().toString(0));
+                    req.setEndDate(req2.getEndDate());
+                    req.setTimeEnd(req2.getTimeEnd());
+                    req.setActivity(req.getActivity() + ":::" + req2.getActivity() + ";;;" + req2.getTimeBegin().toString(0) + ";;;" + req2.getTimeEnd().toString(0));
                     unionrequests.put(req2, req2.getUnionRequest());
                     requisicoes.remove(req2);
                 }
-                return i;
-            }).forEach((i) -> {
-                i++;
-            });
-        });
+            }
+        }
         requests = new ArrayList(requisicoes);
         Collections.sort(requests);
     }
@@ -230,8 +231,8 @@ public class RequestList {
     public List<Keys.Request> getRequests() {
         return requests;
     }
-    
-    public void sortRequests(){
+
+    public void sortRequests() {
         Collections.sort(requests);
     }
 

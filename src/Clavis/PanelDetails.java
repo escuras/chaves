@@ -183,7 +183,7 @@ public class PanelDetails extends JPanel {
                 multipla = resultados[i - 1].split(":::");
                 auxiliar = lingua.translate(multipla[0]);
                 if (multipla.length > 1) {
-                    Components.PopUpMenu pop = new Components.PopUpMenu(multipla, 1, multipla.length,lingua);
+                    Components.PopUpMenu pop = new Components.PopUpMenu(multipla,lingua);
                     pop.create();
                     paineis[i].addMouseListener(new MouseAdapter() {
                         @Override

@@ -7,30 +7,10 @@ package Clavis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextAttribute;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,16 +18,9 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.Cursor;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 /**
  *
@@ -193,6 +166,7 @@ public class ButtonListRequest {
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
                         ActionButton at = new ActionButton(dialogoanterior, m,lingua,panelcor,url);
+                        dialogoanterior.setVisible(false);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;

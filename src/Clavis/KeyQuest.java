@@ -30,6 +30,10 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -847,7 +851,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jDialogDefBreaks.getContentPane().setLayout(jDialogDefBreaksLayout);
         jDialogDefBreaksLayout.setHorizontalGroup(
             jDialogDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelDefBreaks, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+            .addComponent(jPanelDefBreaks, javax.swing.GroupLayout.PREFERRED_SIZE, 670, Short.MAX_VALUE)
         );
         jDialogDefBreaksLayout.setVerticalGroup(
             jDialogDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4125,7 +4129,7 @@ public class KeyQuest extends javax.swing.JFrame {
         this.setJMenuBar(menu);
     }
 
-    private void addDayTimer() {
+    private void addDayChangeTimer() {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
@@ -4137,7 +4141,6 @@ public class KeyQuest extends javax.swing.JFrame {
                 calculateList(tipomaterial);
             }
         }, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
-
     }
 
     private void itemFeriadosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -4342,6 +4345,22 @@ public class KeyQuest extends javax.swing.JFrame {
         lista_req.create();
         lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
+        jScrollPaneRequisicoes.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            int val = 0;
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                if ((scroll != null) && (scroll.isRunning())) {
+                    if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
+                        val = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
+                        scroll.stop();
+                        scroll.setInitialDelay(10000);
+                        scroll.start();
+                    } else {
+                        scroll.start();
+                    }
+                }
+            }
+        });
         javax.swing.JLabel l = new javax.swing.JLabel();
         if (tema.equals("claro")) {
             l.setBackground(new Color(145, 145, 145));
@@ -4427,12 +4446,12 @@ public class KeyQuest extends javax.swing.JFrame {
                                 // problema da hora de saída após a meio-noite
                                 int valfinal;
                                 if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                    valfinal = new TimeDate.Time(0, 0, 0).compareTime(req.getTimeEnd()) + tempo.compareTime(new TimeDate.Time(23, 59, 59)) + (84600 * (new TimeDate.Date().getDayYear() - req.getEndDate().getDayYear()) - 1);
+                                    valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear())*86400);
                                 } else {
                                     valfinal = tempo.compareTime(req.getTimeEnd());
                                 }
-                                //
-                                if ((val < 600) && (valfinal >= 0)) {
+                                System.out.println(lista_req.getAfterHour() + " " + lista_req.getBeforeHour());
+                                if ((val < lista_req.getBeforeHour()) && (valfinal >= lista_req.getAfterHour())) {
                                     int max = jScrollPaneRequisicoes.getVerticalScrollBar().getMaximum();
                                     int nlinhas = lista_req.getRequestList().getRequests().size();
                                     max = max / nlinhas;
@@ -4481,11 +4500,11 @@ public class KeyQuest extends javax.swing.JFrame {
         lista_req.setPanelColor(new Color(255, 255, 255), Color.BLACK);
         lista_dev.setPanelColor(new Color(255, 255, 255), Color.BLACK);
         jLabelTitulorequisicoes.setBackground(new Color(250, 250, 250));
-        jLabelTitulorequisicoes.setForeground(new Color(1,1,1));
-        jLabelTitulorequisicoes.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(254,254,254)));
+        jLabelTitulorequisicoes.setForeground(new Color(1, 1, 1));
+        jLabelTitulorequisicoes.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(254, 254, 254)));
         jLabelTituloDevolucoes.setBackground(new Color(250, 250, 255));
-        jLabelTituloDevolucoes.setForeground(new Color(1,1,1));
-        jLabelTituloDevolucoes.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(254,254,254)));
+        jLabelTituloDevolucoes.setForeground(new Color(1, 1, 1));
+        jLabelTituloDevolucoes.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(254, 254, 254)));
         jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
         jScrollPaneDevolucoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
         jPanelInformaCimaBaixo.setBackground(new Color(45, 45, 45));
@@ -4495,17 +4514,17 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneInformaCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254))));
         jScrollPaneInformaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254))));
         jLabelLimpaPesquisaCima.setBackground(new Color(250, 250, 250));
-        jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));
+        jLabelLimpaPesquisaCima.setForeground(new Color(1, 1, 1));
         jLabelLimpaPesquisaCima.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
         jLabelLimpaPesquisaBaixo.setBackground(new Color(250, 255, 250));
-        jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));
+        jLabelLimpaPesquisaBaixo.setForeground(new Color(1, 1, 1));
         jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
         jLabelDetalhesCima.setBackground(new Color(250, 250, 250));
         jLabelDetalhesCima.setForeground(new Color(1, 1, 1));
-        jLabelDetalhesCima.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(254,254,254)));
+        jLabelDetalhesCima.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(254, 254, 254)));
         jLabelDetalhesBaixo.setBackground(new Color(250, 250, 250));
         jLabelDetalhesBaixo.setForeground(new Color(1, 1, 1));
-        jLabelDetalhesBaixo.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(254,254,254)));
+        jLabelDetalhesBaixo.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(254, 254, 254)));
         jTextFieldProcuraCima.setBackground(new Color(45, 45, 45));
         jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
         javax.swing.border.Border borderpesquisa1 = BorderFactory.createMatteBorder(5, 8, 5, 5, jPanelCima.getBackground());
@@ -4587,11 +4606,11 @@ public class KeyQuest extends javax.swing.JFrame {
         lista_req.setPanelColor(new Color(245, 245, 220), new Color(1, 1, 1));
         lista_dev.setPanelColor(new Color(245, 245, 220), new Color(1, 1, 1));
         jLabelTitulorequisicoes.setBackground(new Color(110, 110, 110));
-        jLabelTitulorequisicoes.setForeground(new Color(254,254,254));
-        jLabelTitulorequisicoes.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1,1,1)));
+        jLabelTitulorequisicoes.setForeground(new Color(254, 254, 254));
+        jLabelTitulorequisicoes.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1, 1, 1)));
         jLabelTituloDevolucoes.setBackground(new Color(110, 110, 110));
         jLabelTituloDevolucoes.setForeground(new Color(254, 254, 254));
-        jLabelTituloDevolucoes.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1,1,1)));
+        jLabelTituloDevolucoes.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1, 1, 1)));
         jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPaneDevolucoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelInformaCimaBaixo.setBackground(new Color(254, 254, 254));
@@ -4608,10 +4627,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1)));
         jLabelDetalhesCima.setBackground(new Color(110, 110, 110));
         jLabelDetalhesCima.setForeground(new Color(254, 254, 254));
-        jLabelDetalhesCima.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1,1,1)));
+        jLabelDetalhesCima.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1, 1, 1)));
         jLabelDetalhesBaixo.setBackground(new Color(110, 110, 110));
         jLabelDetalhesBaixo.setForeground(new Color(254, 254, 254));
-        jLabelDetalhesBaixo.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1,1,1)));
+        jLabelDetalhesBaixo.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1, 1, 1)));
         jTextFieldProcuraCima.setBackground(new Color(254, 254, 254));
         jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
         javax.swing.border.Border borderpesquisa1 = BorderFactory.createMatteBorder(5, 8, 5, 5, jPanelCima.getBackground());

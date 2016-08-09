@@ -9,11 +9,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.File;
@@ -545,7 +550,7 @@ public class ActionButton extends javax.swing.JDialog {
             bt2painel1Baixo.setToolTipText(lingua.translate("Mais dados"));
             bt2painel1Baixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bt2painel1Baixo.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WRequest janela = new Clavis.Windows.WRequest(this, panelcor);
+                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, cla, panelcor, lingua, url);
                 janela.create();
                 janela.appear();
             });
@@ -586,10 +591,14 @@ public class ActionButton extends javax.swing.JDialog {
             btsair.setFocusPainted(false);
             btsair.addActionListener((ActionEvent e) -> {
                 this.setVisible(false);
+                if (dialogopai != null) {
+                    dialogopai.setLocation(this.getX(), this.getY()); 
+                    dialogopai.setVisible(true);
+                }
                 this.dispose();
             });
             painel11.add(btsair);
-            
+
             javax.swing.JButton bthorario = new javax.swing.JButton();
             bthorario.setPreferredSize(new Dimension(160, 40));
             java.awt.image.BufferedImage imagebthorario = null;
@@ -607,16 +616,16 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-                
+
             });
             painel11.add(bthorario);
-            
+
             javax.swing.JPanel painel22 = new javax.swing.JPanel();
             //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
             //painel22.setLayout(blayout22);
             painel22.setBackground(new Color(254, 254, 254));
             painel22.setLayout(null);
-            
+
             javax.swing.JButton btreq = new javax.swing.JButton();
             btreq.setPreferredSize(new Dimension(160, 40));
             btreq.setToolTipText(lingua.translate("Requisitar"));
@@ -669,6 +678,17 @@ public class ActionButton extends javax.swing.JDialog {
                                     .addComponent(painel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addContainerGap(59, Short.MAX_VALUE))
             );
+            this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    setVisible(false);
+                    if (dialogopai != null) {
+                        dialogopai.setLocation(getX(), getY());
+                        dialogopai.setVisible(true);
+                    }
+                    dispose();
+                }
+            });
         }
 
     }
@@ -676,8 +696,15 @@ public class ActionButton extends javax.swing.JDialog {
     public void open() {
         if ((mat == null) && (cla != null)) {
             this.create();
+            if (dialogopai != null) {
+                this.setLocation(dialogopai.getX(), dialogopai.getY());
+            } else {
+                Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+                int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+                int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+                this.setLocation(x, y);
+            }
             this.setVisible(true);
-            this.setLocationRelativeTo(dialogopai);
         } else if ((cla == null) && (mat != null)) {
             JOptionPane.showMessageDialog(null, "Ola mundo " + mat.getDescription());
         }
@@ -697,7 +724,6 @@ public class ActionButton extends javax.swing.JDialog {
         javax.swing.JLabel lbtl;
         if (req.getId() != -1) {
             if (!(cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
-                System.out.println(cla.getId());
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
@@ -779,12 +805,27 @@ public class ActionButton extends javax.swing.JDialog {
                 if (requnion.isEmpty()) {
                     lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
                 } else {
+                    TimeDate.Time tim = req.getTimeEnd();
+                   
                     for (Keys.Request re : requnion) {
-                        lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + re.getTimeEnd().toString(0) + ".");
+                        if (re.getTimeEnd().compareTime(tim) < 0) { 
+                            tim = re.getTimeEnd();
+                        }
+                        lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
                     }
                 }
             } else {
-                lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
+                if (requnion.isEmpty()) {
+                    lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
+                } else {
+                    TimeDate.Time tim = req.getTimeEnd();
+                    for (Keys.Request re : requnion) {
+                       if (re.getTimeEnd().compareTime(tim) < 0) { 
+                            tim = re.getTimeEnd();
+                       }
+                       lb1 = new javax.swing.JLabel(tim.toString(0));
+                    }
+                }
             }
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -804,14 +845,15 @@ public class ActionButton extends javax.swing.JDialog {
                     lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
                 } else {
                     lb1 = new javax.swing.JLabel(lingua.translate("Múltiplas atividades"));
-                    String[] auxiliar = new String[requnion.size() + 1];
-                    auxiliar[0] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
-                    int i = 1;
+                    String[] auxiliar = new String[requnion.size()+2];
+                    auxiliar[0] = "Múltiplas atividades:::";
+                    auxiliar[1] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                    int i = 2;
                     for (Keys.Request re : requnion) {
                         auxiliar[i] = re.getActivity() + ";;;" + re.getTimeBegin().toString(0) + ";;;" + re.getTimeEnd().toString(0);
                         i++;
                     }
-                    Components.PopUpMenu pop = new Components.PopUpMenu(auxiliar, 0, auxiliar.length, lingua);
+                    Components.PopUpMenu pop = new Components.PopUpMenu(auxiliar, lingua);
                     pop.create();
                     lb1.addMouseListener(new MouseAdapter() {
                         @Override
@@ -823,13 +865,13 @@ public class ActionButton extends javax.swing.JDialog {
 
                         @Override
                         public void mouseEntered(MouseEvent e) {
-                            e.getComponent().setForeground(new Color(145,145,145));
+                            e.getComponent().setForeground(new Color(145, 145, 145));
                             pop.show(e.getComponent(), e.getX(), e.getY());
                         }
 
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            e.getComponent().setForeground(new Color(1,1,1));
+                            e.getComponent().setForeground(new Color(1, 1, 1));
                             pop.setVisible(false);
                         }
                     });
