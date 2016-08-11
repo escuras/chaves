@@ -14,7 +14,8 @@ import java.util.logging.Logger;
  * @author toze
  */
 public class Holiday implements Comparable<Holiday> {
-    private static final long serialVersionUID =1L;
+
+    private static final long serialVersionUID = 1L;
     private int mes;
     private int dia;
     private boolean dinamico;
@@ -101,7 +102,7 @@ public class Holiday implements Comparable<Holiday> {
         }
         return sdia + " / " + smes;
     }
-    
+
     public String toLongString() {
         String sdia = "";
         if (dia < 10) {
@@ -109,8 +110,8 @@ public class Holiday implements Comparable<Holiday> {
         } else {
             sdia = "" + dia;
         }
-        String [] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        return sdia +" "+ locale.translate("de") +" "+ locale.translate(meses[mes-1]);
+        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        return sdia + " " + locale.translate("de") + " " + locale.translate(meses[mes - 1]);
     }
 
     /**
@@ -147,36 +148,28 @@ public class Holiday implements Comparable<Holiday> {
     }
 
     public static Holiday[] getMobileHolidays(int ano) {
-        if ((pascoa != null) && (pascoa.isValid())) {
-            Date corpo_de_Deus = pascoa.dateAfter(60);
-            Date carnaval = pascoa.dateBefore(47);
-            Date sexta_feira_santa = pascoa.dateBefore(2);
-            Holiday[] holidays = {new Holiday(carnaval.getDay(),carnaval.getMonth()),
-            new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth()),
-            new Holiday(pascoa.getDay(),pascoa.getMonth()),
-            new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth())};
-            return holidays;
-        } else {
-            calcEaster(ano);
-            Date corpo_de_Deus = pascoa.dateAfter(60);
-            Date carnaval = pascoa.dateBefore(47);
-            Date sexta_feira_santa = pascoa.dateBefore(2);
-            Holiday[] holidays2 = {new Holiday(carnaval.getDay(),carnaval.getMonth()),
-            new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth()),
-            new Holiday(pascoa.getDay(),pascoa.getMonth()),
-            new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth())};
-            return holidays2;
-        }
+        calcEaster(ano);
+        Date corpo_de_Deus = pascoa.dateAfter(60);
+        Date carnaval = pascoa.dateBefore(47);
+        Date sexta_feira_santa = pascoa.dateBefore(2);
+        Holiday[] holidays2 = {
+            new Holiday(carnaval.getDay(), carnaval.getMonth()),
+            new Holiday(sexta_feira_santa.getDay(), sexta_feira_santa.getMonth()),
+            new Holiday(pascoa.getDay(), pascoa.getMonth()),
+            new Holiday(corpo_de_Deus.getDay(), corpo_de_Deus.getMonth())
+        };
+        return holidays2;
+
     }
 
     public static Holiday getEaster(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
-            Holiday pasc = new Holiday(pascoa.getDay(),pascoa.getMonth());
+            Holiday pasc = new Holiday(pascoa.getDay(), pascoa.getMonth());
             pasc.setDinamic(true);
             return pasc;
         } else {
             calcEaster(ano);
-            Holiday pasc = new Holiday(pascoa.getDay(),pascoa.getMonth());
+            Holiday pasc = new Holiday(pascoa.getDay(), pascoa.getMonth());
             pasc.setDinamic(true);
             return pasc;
         }
@@ -186,13 +179,13 @@ public class Holiday implements Comparable<Holiday> {
     public static Holiday getGoodFriday(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date sexta_feira_santa = pascoa.dateBefore(2);
-            Holiday sexta = new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            Holiday sexta = new Holiday(sexta_feira_santa.getDay(), sexta_feira_santa.getMonth());
             sexta.setDinamic(true);
             return sexta;
         } else {
             calcEaster(ano);
             Date sexta_feira_santa = pascoa.dateBefore(2);
-            Holiday sexta = new Holiday(sexta_feira_santa.getDay(),sexta_feira_santa.getMonth());
+            Holiday sexta = new Holiday(sexta_feira_santa.getDay(), sexta_feira_santa.getMonth());
             sexta.setDinamic(true);
             return sexta;
         }
@@ -201,12 +194,12 @@ public class Holiday implements Comparable<Holiday> {
     public static Holiday getCorpusChristi(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            Holiday corpo = new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            Holiday corpo = new Holiday(corpo_de_Deus.getDay(), corpo_de_Deus.getMonth());
             corpo.setDinamic(true);
             return corpo;
         } else {
             Date corpo_de_Deus = pascoa.dateAfter(60);
-            Holiday corpo = new Holiday(corpo_de_Deus.getDay(),corpo_de_Deus.getMonth());
+            Holiday corpo = new Holiday(corpo_de_Deus.getDay(), corpo_de_Deus.getMonth());
             corpo.setDinamic(true);
             return corpo;
         }
@@ -215,13 +208,13 @@ public class Holiday implements Comparable<Holiday> {
     public static Holiday getCarnival(int ano) {
         if ((pascoa != null) && (pascoa.isValid())) {
             Date carnaval = pascoa.dateBefore(47);
-            Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
+            Holiday carn = new Holiday(carnaval.getDay(), carnaval.getMonth());
             carn.setDinamic(true);
             return carn;
         } else {
             calcEaster(ano);
             Date carnaval = pascoa.dateBefore(47);
-            Holiday carn = new Holiday(carnaval.getDay(),carnaval.getMonth());
+            Holiday carn = new Holiday(carnaval.getDay(), carnaval.getMonth());
             carn.setDinamic(true);
             return carn;
         }
@@ -269,7 +262,7 @@ public class Holiday implements Comparable<Holiday> {
     @Override
     public int compareTo(Holiday o) {
         int valor;
-        if((valor = Integer.compare(this.getMonth(), o.getMonth())) == 0 ){
+        if ((valor = Integer.compare(this.getMonth(), o.getMonth())) == 0) {
             valor = Integer.compare(this.getDay(), o.getDay());
         }
         return valor;
@@ -297,7 +290,7 @@ public class Holiday implements Comparable<Holiday> {
     }
 
     /**
-     * 
+     *
      */
     public void adjust() {
         TimeDate.Date dat = new TimeDate.Date();
@@ -353,15 +346,13 @@ public class Holiday implements Comparable<Holiday> {
                 return null;
         }
     }
-    
-    public void cleanExpandedState(){
+
+    public void cleanExpandedState() {
         this.expandido = false;
     }
-    
-     public void clearAdjustedState(){
+
+    public void clearAdjustedState() {
         this.ponte = false;
     }
-    
-    
-    
+
 }

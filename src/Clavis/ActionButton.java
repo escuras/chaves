@@ -307,7 +307,7 @@ public class ActionButton extends javax.swing.JDialog {
             bteditar.setPreferredSize(new Dimension(90,40));
             bteditar.setBounds(260, 0, 90, 40);
             bteditar.setFocusPainted(false);
-            bteditar.setBackground(Color.BLACK);
+            bteditar.setBackground(new Color(51, 102, 153));
             javax.swing.border.Border baux[] = new javax.swing.border.Border[5];
             for (int i = 0; i < 4; i++) {
                 baux[i] = texto[i + 2].getBorder();
@@ -551,7 +551,7 @@ public class ActionButton extends javax.swing.JDialog {
             btMais.setPreferredSize(new Dimension(90, 40));
             btMais.setBounds(165, 0, 90, 40);
             btMais.setFocusPainted(false);
-            btMais.setBackground(Color.BLACK);
+            btMais.setBackground(new Color(51, 102, 153));
             btMais.setToolTipText(lingua.translate("Mais dados"));
             btMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btMais.addActionListener((ActionEvent e) -> {
@@ -594,7 +594,7 @@ public class ActionButton extends javax.swing.JDialog {
             }
             btsair.setBounds(5, 0, 90, 40);
             btsair.setToolTipText(lingua.translate("Sair"));
-            btsair.setBackground(Color.BLACK);
+            btsair.setBackground(new Color(5, 5, 5));
             btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btsair.setFocusPainted(false);
             btsair.addActionListener((ActionEvent e) -> {
@@ -631,7 +631,7 @@ public class ActionButton extends javax.swing.JDialog {
             }
             bthorario.setBounds(5, 0, 90, 40);
             bthorario.setToolTipText(lingua.translate("Horário"));
-            bthorario.setBackground(Color.BLACK);
+            bthorario.setBackground(new Color(51, 102, 153));
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
@@ -652,7 +652,8 @@ public class ActionButton extends javax.swing.JDialog {
                 javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
                 btreq.setIcon(iconbtreq);
             }
-            btreq.setBackground(Color.GREEN);
+            btreq.setBackground(new Color(57,147,2));
+            btreq.setContentAreaFilled(true);
             btreq.setFocusPainted(false);
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(100, 0, 90, 40);

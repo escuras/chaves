@@ -356,7 +356,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonDefHolidaysDireita.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefHolidaysDireita.setBackground(new java.awt.Color(51, 102, 153));
         jButtonDefHolidaysDireita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefHolidaysDireita.setEnabled(false);
         jButtonDefHolidaysDireita.setFocusPainted(false);
@@ -367,7 +367,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonDefHolidaysApagar.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefHolidaysApagar.setBackground(new java.awt.Color(51, 102, 153));
         jButtonDefHolidaysApagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefHolidaysApagar.setEnabled(false);
         jButtonDefHolidaysApagar.setFocusPainted(false);
@@ -390,7 +390,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonDefHolidaysMais.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefHolidaysMais.setBackground(new java.awt.Color(51, 102, 153));
         jButtonDefHolidaysMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefHolidaysMais.setFocusPainted(false);
         jButtonDefHolidaysMais.addActionListener(new java.awt.event.ActionListener() {
@@ -418,10 +418,10 @@ public class KeyQuest extends javax.swing.JFrame {
                             .addComponent(jPanelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDefHolidaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)))
+                            .addComponent(jButtonDefHolidaysDireita, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(jButtonDefHolidaysApagar, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(jButtonDefHolidaysMais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(jButtonDefHolidaysVoltar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
                     .addGroup(jPanelDefHolidaysLayout.createSequentialGroup()
                         .addComponent(jLabelListaFeriadosDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -575,7 +575,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonDefBreaksVoltar.setBackground(new java.awt.Color(1, 1, 1));
         jButtonDefBreaksVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefBreaksVoltar.setFocusPainted(false);
-        jButtonDefBreaksVoltar.setPreferredSize(new java.awt.Dimension(152, 40));
+        jButtonDefBreaksVoltar.setPreferredSize(new java.awt.Dimension(90, 40));
         jButtonDefBreaksVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefBreaksVoltarActionPerformed(evt);
@@ -587,11 +587,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel1.setText("Adicionar períodos:");
         jLabel1.setText(lingua.translate("Adicionar_periodos"));
 
-        jButtonDefBreakApagar.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefBreakApagar.setBackground(new java.awt.Color(51, 102, 153));
         jButtonDefBreakApagar.setEnabled(false);
         jButtonDefBreakApagar.setFocusPainted(false);
         jButtonDefBreakApagar.setMaximumSize(new java.awt.Dimension(10444, 144440));
-        jButtonDefBreakApagar.setPreferredSize(new java.awt.Dimension(152, 40));
+        jButtonDefBreakApagar.setPreferredSize(new java.awt.Dimension(90, 40));
         jButtonDefBreakApagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefBreakApagarActionPerformed(evt);
@@ -634,11 +634,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jComboBoxDefBreaksAnoFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksAnoFim.setFocusable(false);
 
-        jButtonDefBreaksAdicionar.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonDefBreaksAdicionar.setBackground(new java.awt.Color(51, 102, 153));
         jButtonDefBreaksAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDefBreaksAdicionar.setEnabled(false);
         jButtonDefBreaksAdicionar.setFocusPainted(false);
-        jButtonDefBreaksAdicionar.setPreferredSize(new java.awt.Dimension(152, 40));
+        jButtonDefBreaksAdicionar.setPreferredSize(new java.awt.Dimension(90, 40));
         jButtonDefBreaksAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDefBreaksAdicionarActionPerformed(evt);
@@ -696,11 +696,11 @@ public class KeyQuest extends javax.swing.JFrame {
                                             .addComponent(jLabelDefBreaksMesInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
-                                        .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDefBreaksLayout.createSequentialGroup()
+                                        .addComponent(jButtonDefBreaksVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jButtonDefBreaksAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
                                         .addComponent(jLabelDefBreaksNome, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -722,7 +722,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addGap(20, 20, 20)))
                 .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonDefBreakApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
         jPanelDefBreaksLayout.setVerticalGroup(
@@ -912,11 +912,13 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonLinguaMudaConfirma.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonLinguaMudaConfirma.setBackground(new java.awt.Color(51, 102, 153));
         jButtonLinguaMudaConfirma.setForeground(new java.awt.Color(254, 254, 254));
-        jButtonLinguaMudaConfirma.setText("Confirmar");
         jButtonLinguaMudaConfirma.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonLinguaMudaConfirma.setEnabled(false);
+        jButtonLinguaMudaConfirma.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonLinguaMudaConfirma.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonLinguaMudaConfirma.setPreferredSize(new java.awt.Dimension(90, 40));
         jButtonLinguaMudaConfirma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLinguaMudaConfirmaActionPerformed(evt);
@@ -984,7 +986,7 @@ public class KeyQuest extends javax.swing.JFrame {
                             .addGroup(jPanelDefOpcoes2Layout.createSequentialGroup()
                                 .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelDefOpcoes2Layout.createSequentialGroup()
                                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabelMudaLinguagem, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
@@ -1016,11 +1018,11 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMudaLinguagem, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxMudaLinguagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(2, 2, 2)
+                    .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelMudaTamanhoDivisor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSliderTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1028,9 +1030,9 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGroup(jPanelDefOpcoes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMudaTemaQuadros1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxScrollAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelMudaCorSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Personificar"));
@@ -1051,9 +1053,16 @@ public class KeyQuest extends javax.swing.JFrame {
         BasicComboPopup popupMudaLinguagem = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);
         popupMudaLinguagem.getList().setSelectionBackground(Color.DARK_GRAY);
         popupMudaLinguagem.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
-        jButtonLinguaMudaConfirma.setText(lingua.translate("Confirmar"));
-
-        jButtonLinguaMudaConfirma.setMnemonic(jButtonLinguaMudaConfirma.getText().charAt(0));
+        java.awt.image.BufferedImage imageconfirml = null;
+        try {
+            imageconfirml = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (imageconfirml != null) {
+            javax.swing.ImageIcon iconconfirml = new javax.swing.ImageIcon(imageconfirml);
+            jButtonLinguaMudaConfirma.setIcon(iconconfirml);
+        }
         jLabelLinguaMuda.setVisible(false);
 
         jLabelLinguaMuda.setText(lingua.translate("O_reinicio_necessário_para_mudar_idioma"));
@@ -1098,7 +1107,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jPanelDefOpcoes.setBackground(systemColor);
 
-        jDialogListaBotoes.setAlwaysOnTop(true);
         jDialogListaBotoes.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialogListaBotoes.setResizable(false);
         jDialogListaBotoes.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1377,7 +1385,7 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         jButtonAlteraDevolucao.setToolTipText(lingua.translate("Alterar_devolucao"));
 
-        jButtonProcuraBaixo.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonProcuraBaixo.setBackground(new java.awt.Color(185, 185, 185));
         jButtonProcuraBaixo.setBorder(null);
         jButtonProcuraBaixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonProcuraBaixo.setFocusPainted(false);
@@ -1677,7 +1685,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonAtuacaoAltera.setBackground(new java.awt.Color(112, 159, 253));
+        jButtonAtuacaoAltera.setBackground(new java.awt.Color(51, 102, 153));
         jButtonAtuacaoAltera.setBorder(null);
         jButtonAtuacaoAltera.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonAtuacaoAltera.setEnabled(false);
@@ -1755,7 +1763,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonProcuraCima.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonProcuraCima.setBackground(new java.awt.Color(185, 185, 185));
         jButtonProcuraCima.setBorder(null);
         jButtonProcuraCima.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonProcuraCima.setFocusPainted(false);
@@ -1974,11 +1982,12 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jSplitPaneInicial.setContinuousLayout(true);
 
-        jPanel3.setBackground(new java.awt.Color(177, 184, 190));
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel3.setForeground(new java.awt.Color(1, 1, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(757, 30));
 
+        jToggleButtonBarRequisicoes.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButtonBarRequisicoes.setBorder(null);
         jToggleButtonBarRequisicoes.setBorderPainted(false);
         jToggleButtonBarRequisicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1995,6 +2004,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jToggleButtonBarEntregas.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButtonBarEntregas.setBorder(null);
         jToggleButtonBarEntregas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButtonBarEntregas.setFocusPainted(false);
@@ -2034,6 +2044,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jButtonListaBotoes.setBackground(new java.awt.Color(185, 185, 185));
         jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
@@ -2059,6 +2070,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButton1.setToolTipText("");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.setFocusPainted(false);
@@ -2476,7 +2488,7 @@ public class KeyQuest extends javax.swing.JFrame {
             pmes
         };
 
-        UIManager.put("OptionPane.noButtonText", lingua.translate("Anular"));
+        UIManager.put("OptionPane.noButtonText", lingua.translate("Voltar"));
         UIManager.put("OptionPane.yesButtonText", lingua.translate("Confirmar"));
         javax.swing.JOptionPane pane = new javax.swing.JOptionPane();
         if (javax.swing.JOptionPane.showConfirmDialog(this, inputs, lingua.translate("Escolher_feriado"), javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE, null) == 0) {
@@ -2949,12 +2961,11 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         jButtonLinguaMudaConfirma.setEnabled(false);
         if (!lingu.equals("")) {
-            UIManager.put("OptionPane.noButtonText", lingua.translate("Anular"));
-            UIManager.put("OptionPane.yesButtonText", lingua.translate("Reiniciar"));
-            JOptionPane panel = new JOptionPane();
-            mudoutema = true;
-            int resposta = JOptionPane.showConfirmDialog(this, lingua.translate("A_linguagem_do_programa_foi_alterada_para_") + lingua.translate(lingu).toLowerCase() + ".", lingua.translate("Confirmacao"), JOptionPane.YES_NO_OPTION);
-            if (resposta == 0) {
+            Components.MessagePane mensagem = new Components.MessagePane(0,systemColor, lingua, lingua.translate("Reinício necessário"),400, 200);
+            String[] botoes = {lingua.translate("Reiniciar"), lingua.translate("Voltar")};
+            String texto = "<html><div style='font-size:11px;text-align:center'>" +lingua.translate("A_linguagem_do_programa_foi_alterada_para_") + lingua.translate(lingu).toLowerCase() + ". <br/>"+lingua.translate("É necessário reinicar")+". </div></html>";
+            int resposta = mensagem.showSimpleMessage(jDialogDefOpcoes, texto, botoes);
+            if (resposta == 1) {
                 prefs.save();
                 this.dispose();
                 Window[] janelas = Window.getOwnerlessWindows();
@@ -3429,7 +3440,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jDialogListaBotoes.setVisible(true);
         jDialogListaBotoes.setLocationRelativeTo(this);
-        jDialogListaBotoes.setAlwaysOnTop(true);
 
     }//GEN-LAST:event_jButtonListaBotoesActionPerformed
 
@@ -3923,16 +3933,16 @@ public class KeyQuest extends javax.swing.JFrame {
         this.tiposmateriais = new DataBase.DataBase(urlbd).getTypesOfMaterial();
         String[] lista = new String[tiposmateriais.size()];
         int i = 0;
-        int auxiliar = 0;
+        int aux = 0;
         for (Keys.TypeOfMaterial mat : tiposmateriais) {
             lista[i] = lingua.translate(mat.getTypeOfMaterialName());
             if (mat.getMaterialTypeID() == tipomaterial.getMaterialTypeID()) {
-                auxiliar = i;
+                aux = i;
             }
             i++;
         }
         jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(lista));
-        jComboBoxListaBotoes.setSelectedIndex(auxiliar);
+        jComboBoxListaBotoes.setSelectedIndex(aux);
         createMenu();
 
         Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
@@ -4017,7 +4027,7 @@ public class KeyQuest extends javax.swing.JFrame {
         };
         laf.getDefaults().put("PopupMenu[Enabled].backgroundPainter", m);
         laf.getDefaults().put("OptionPane.background", Color.WHITE);
-
+        laf.getDefaults().put("Button.background", new Color(112,159,253));
         laf.getDefaults().put("Panel.background", Color.WHITE);
         laf.getDefaults().put("FileChooser.background", systemColor);
 

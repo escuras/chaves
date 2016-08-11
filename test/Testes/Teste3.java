@@ -22,51 +22,13 @@ public class Teste3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int i = 0;
-      
-        TimeDate.Holiday hol = new TimeDate.Holiday(10,06);
-        TimeDate.WeekDay dia = hol.getWeekDay(2020);
-        System.out.println(hol.getWeekDay(2018).getDayNumber());
-        TimeDate.Date date = new TimeDate.Date(27,3,2016);
-        date = date.dateAfter(2222221);
-        System.out.println(date.toString());
-        date.setLanguage("fr-FR");
-        try {
-            WeekDay daat = new WeekDay(date);
-            daat.setLanguage("fr-FR");
-            System.out.println(daat.perDayName());
-        } catch (ParseException ex) {
-            Logger.getLogger(Teste3.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(date.dateBefore(1736054));
-        TimeDate.Holiday holoo = new TimeDate.Holiday(1,12);
-        TimeDate.Holiday [] dat = Holiday.getMobileHolidays(2078);
-        if (dat.length > 0) {
-            System.out.println("maior que 0");
-        } else {
-            System.out.println("zero");
-        }
-        int gol = 0;
-        try {
-            if (gol == 0) throw new Exception("Erro de ...");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        
-        
-        TimeDate.Date hoy = new TimeDate.Date();
-        System.out.println(hoy.dateAfter(7).toString());
-         
-        TimeDate.BreakPeriod br = new TimeDate.BreakPeriod();
-        System.out.println(holoo.toString());
-        holoo.adjust();
-        System.out.println(holoo.toString());
-        TimeDate.Date dat2 = new TimeDate.Date(29, 4, 1978);
-        TimeDate.Date dat3 = new TimeDate.Date(30, 04, 1978);
-        TimeDate.Date dat4 = new TimeDate.Date(29, 4, 1978);
-        System.out.println(dat2.betweenDates(dat4, dat3));
-        
-        
+       DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
+       Keys.Software soft = new Keys.Software("Windows 10", "10.2");
+       db.insertSoftware(soft);
+       db.updateStateOfSoftware(soft, false);
+       Keys.Material mat = db.getMaterial("33");
+       db.associateSoftwareWithMaterial(soft, mat);
+       //db.deleteSoftware(soft);
     }
     
 }

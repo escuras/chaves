@@ -1260,7 +1260,61 @@ public class DataBase {
         return false;
     }
 
-    public boolean associateSubjectWithClassroom(Keys.Subject sub, Keys.Classroom clas) {
+    public java.util.List<Keys.Subject> getSubjectsByMaterial(Keys.Material mat) {
+        java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select id_disciplina, descricao, codigo from Subjects where id_disciplina in (select id_disciplina from Rel_classrooms_subjects where codigo_sala = '"+mat.getCodeOfMaterial()+"');";
+                    ResultSet rs = smt.executeQuery(sql);
+                    Keys.Subject disciplina;
+                    while (rs.next()) {
+                        disciplina = new Keys.Subject(rs.getInt("id_disciplina"), rs.getString("descricao"), rs.getString("codigo"));
+                        disciplinas.add(disciplina);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return disciplinas;
+    }
+    
+    public java.util.List<Keys.Subject> getAllSubjects() {
+        java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select id_disciplina, descricao, codigo from Subjects;";
+                    ResultSet rs = smt.executeQuery(sql);
+                    Keys.Subject disciplina;
+                    while (rs.next()) {
+                        disciplina = new Keys.Subject(rs.getInt("id_disciplina"), rs.getString("descricao"), rs.getString("codigo"));
+                        disciplinas.add(disciplina);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return disciplinas;
+    }
+    
+     public boolean associateSubjectWithClassroom(Keys.Subject sub, Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1742,8 +1796,8 @@ public class DataBase {
                     ResultSet rs5;
                     int id_material;
                     int id_pessoa;
-                    String id_disciplina = "null";
-                    String id_atividade = "null";
+                    int id_disciplina = 0;
+                    int id_atividade = 0;
                     for (Keys.Request request : requests) {
                         sql = "select id_material from Materials where codigo like '" + request.getMaterial().getCodeOfMaterial() + "' and descricao like '" + request.getMaterial().getDescription() + "';";
                         rs = smt.executeQuery(sql);
@@ -1752,7 +1806,7 @@ public class DataBase {
                             sql = "select id_atividade from Activities where descricao like '%" + request.getActivity() + "%';";
                             rs1 = smt.executeQuery(sql);
                             if (rs1.next()) {
-                                id_atividade = "" + rs1.getInt("id_atividade");
+                                id_atividade = rs1.getInt("id_atividade");
                             }
                             sql = "select id_pessoa from Persons where identificacao like '" + request.getPerson().getIdentification() + "' and nome like '" + request.getPerson().getName() + "';";
                             rs2 = smt.executeQuery(sql);
@@ -1761,7 +1815,7 @@ public class DataBase {
                                 sql = "select id_disciplina from Subjects where codigo like '" + request.getSubject().getCode() + "' and descricao like '" + request.getSubject().getName() + "'";
                                 rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
-                                    id_disciplina = "" + rs3.getInt("id_disciplina");
+                                    id_disciplina = rs3.getInt("id_disciplina");
                                 }
                                 sql = "select count(*) from Requests where id_material = " + id_material + " "
                                         + "and id_pessoa = " + id_pessoa + " and id_disciplina = " + id_disciplina + " and "
@@ -1808,6 +1862,7 @@ public class DataBase {
                                         tupdate.start();
                                         auxiliar = true;
                                     }
+                                    this.associateClassroomWithSubject(this.getMaterial(id_material), this.getSubject(id_disciplina));
                                 }
                             }
                         }
@@ -1819,6 +1874,174 @@ public class DataBase {
             }
         }
         return false;
+    }
+
+    public void associateSoftwareWithMaterial(Keys.Software soft, Keys.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    int idsoft = this.getSoftwareID(soft);
+                    String codigomat = mat.getCodeOfMaterial();
+                    String sql = "select count(*) from Rel_material_software where codigo_material = '" + codigomat + "' and id_software = " + idsoft + ";";
+                    ResultSet rs = smt.executeQuery(sql);
+                    if ((rs.next()) && (rs.getInt(1) == 0)) {
+                        sql = "insert into Rel_material_software (codigo_material, id_software) values ('" + codigomat + "', " + idsoft + ");";
+                        smt.executeUpdate(sql);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public void insertSoftware(Keys.Software soft) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select count(*) from Software where nome like '" + soft.getName() + "' and versao like " + soft.getVersion() + ";";
+                    ResultSet rs = smt.executeQuery(sql);
+                    if ((rs.next()) && (rs.getInt(1) == 0)) {
+                        sql = "insert into Software (nome, versao) values ('" + soft.getName() + "','" + soft.getVersion() + "') ";
+                        smt.executeUpdate(sql);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public void deleteSoftware(Keys.Software soft) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "delete from Software where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    smt.executeUpdate(sql);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public void updateStateOfSoftware(Keys.Software soft, boolean bool) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "update Software set atualizado = " + bool + " where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    smt.executeUpdate(sql);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public int getSoftwareID(Keys.Software soft) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select id_software from Software where nome =  '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return rs.getInt("id_software");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return -1;
+    }
+
+    public java.util.List<Keys.Software> getSoftwareList() {
+        java.util.List<Keys.Software> lista = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select nome, versao, atualizado from Software;";
+                    ResultSet rs = smt.executeQuery(sql);
+                    Keys.Software soft;
+                    while (rs.next()) {
+                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getBoolean("atualizado"));
+                        lista.add(soft);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return lista;
+    }
+
+    public java.util.List<Keys.Software> getSoftwareListByMaterial(Keys.Material mat) {
+        java.util.List<Keys.Software> lista = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select nome, versao, atualizado from Software where id_software in (select id_software from Rel_material_software where codigo_material = '" + mat.getCodeOfMaterial() + "');";
+                    ResultSet rs = smt.executeQuery(sql);
+                    Keys.Software soft;
+                    while (rs.next()) {
+                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getBoolean("atualizado"));
+                        lista.add(soft);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return lista;
     }
 
     public boolean updateRequests(java.util.Set<Keys.Request> requests) {
@@ -1968,6 +2191,27 @@ public class DataBase {
             }
         }
         return atividades;
+    }
+
+    public void associateClassroomWithSubject(Keys.Material mat, Keys.Subject sub) {
+        if (this.isTie()) {
+            PreparedStatement smt;
+            String sql = "select count(*) from Rel_classrooms_subjects where codigo_sala like '" + mat.getCodeOfMaterial() + "' and id_disciplina = " + sub.getId() + ";";
+            try {
+                smt = con.prepareStatement(sql);
+                ResultSet rs = smt.executeQuery(sql);
+                if ((rs.next()) && (rs.getInt(1) == 0)) {
+                    sql = "insert into Rel_classrooms_subjects (codigo_sala,id_disciplina) values ('" + mat.getCodeOfMaterial() + "'," + sub.getId() + ")";
+                    con.setAutoCommit(false);
+                    smt = con.prepareStatement(sql);
+                    smt.executeUpdate();
+                    con.commit();
+                    con.setAutoCommit(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public java.util.Set<Keys.Request> getAllRequests() {

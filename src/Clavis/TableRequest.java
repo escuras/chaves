@@ -98,7 +98,7 @@ public class TableRequest {
         this.tipomaterial = requisicao.getTypeOfMaterial().getMaterialTypeID();
         antes_hora = TableRequest.DEFAULT_BEFORE_TIME * 60;
         depois_hora = TableRequest.DEFAULT_AFTER_TIME * 60;
-        cores = new Color[]{Color.GREEN.darker(), new Color(255,149,0), Color.BLACK};
+        cores = new Color[]{Color.GREEN.darker(), new Color(255, 149, 0), Color.BLACK};
         backColor = TableRequest.DEFAULT_BACKGROUND_COLOR;
         foreColor = TableRequest.DEFAULT_FOREGROUND_COLOR;
         selectColor = TableRequest.DEFAULT_SELECT_COLOR;
@@ -182,9 +182,15 @@ public class TableRequest {
                 ob = new Object[]{lingua.translate("Problema_de_rede_ou_ligação_base_de_dados")};
             } else if ((requisicoes.getRequests().isEmpty())) {
                 if (ficouvazia) {
-                    ob = new Object[]{lingua.translate("Não_existem_mais_devolucoes_para_hoje.")};
+                    if (requisicoes.getView() == RequestList.VIEW_DAY) {
+                        ob = new Object[]{lingua.translate("Não_existem_mais_devolucoes_para_hoje.")};
+                    } else {
+                        ob = new Object[]{lingua.translate("Não_existem_registos.")};
+                    }
+                } else if (requisicoes.getView() == RequestList.VIEW_DAY) {
+                    ob = new Object[]{lingua.translate("Não_existem_registos_para_hoje.")};
                 } else {
-                    ob = new Object[]{lingua.translate("Não_ha_registos_neste_dia.")};
+                    ob = new Object[]{lingua.translate("Não_existem_registos.")};
                 }
             } else {
                 ob = new Object[]{lingua.translate("Não_existem_registos.")};
@@ -781,26 +787,24 @@ public class TableRequest {
                             i++;
                         }
                     }
-                } else {
-                    if ((modelo.getRowCount() > 0) && (!requisicoes.getRequests().isEmpty())) {
-                        int i = 0;
-                        int valfinal;
-                        for (Keys.Request req : requisicoes.getRequests()) {
-                            if ((req.getEndDate().getDay() == data.getDay()) && (req.getEndDate().getMonth() == data.getMonth()) && (req.getEndDate().getYear() == data.getYear())) {
-                                valfinal = tempo.compareTime(req.getTimeEnd());
-                                if (valfinal >= depois_hora) { 
-                                    tabela.setBorderColor(i, cores[0]);
-                                } else if (valfinal < 0) {
-                                    tabela.setBorderColor(i, cores[1]);
-                                } else {
-                                    tabela.removeBorderColor(i);
-                                }
+                } else if ((modelo.getRowCount() > 0) && (!requisicoes.getRequests().isEmpty())) {
+                    int i = 0;
+                    int valfinal;
+                    for (Keys.Request req : requisicoes.getRequests()) {
+                        if ((req.getEndDate().getDay() == data.getDay()) && (req.getEndDate().getMonth() == data.getMonth()) && (req.getEndDate().getYear() == data.getYear())) {
+                            valfinal = tempo.compareTime(req.getTimeEnd());
+                            if (valfinal >= depois_hora) {
+                                tabela.setBorderColor(i, cores[0]);
+                            } else if (valfinal < 0) {
+                                tabela.setBorderColor(i, cores[1]);
                             } else {
                                 tabela.removeBorderColor(i);
                             }
-                            tabela.repaint();
-                            i++;
+                        } else {
+                            tabela.removeBorderColor(i);
                         }
+                        tabela.repaint();
+                        i++;
                     }
                 }
             }
@@ -951,7 +955,7 @@ public class TableRequest {
                     auxiliartempofinal = req.getTimeEnd().toString();
                     auxiliardiasemana = req.getWeekDay().perDayName();
                 }
-                
+
                 if (tipomaterial == 1) {
                     results = new String[]{req.getMaterial().getTypeOfMaterialName() + " " + req.getMaterial().getDescription(), req.getPerson().getName(), auxiliardata, req.getActivity(), req.getSubject().getName(), auxiliartempoinicial, auxiliartempofinal, auxiliardiasemana};
                 } else {
