@@ -24,7 +24,8 @@ public class Request implements Comparable<Request> {
     private Time tinicio;
     private Time tfim;
     private Person pessoa;
-    private Subject discplina;
+    private Subject disciplina;
+    private java.util.Set<Keys.Subject> disciplinas;
     private Material material;
     private String origem;
     private int id;
@@ -38,6 +39,7 @@ public class Request implements Comparable<Request> {
     private Time tempo_entrega;
     private String atividade;
     private ClassStudents turma;
+    private java.util.Set<Keys.ClassStudents> turmas;
     private int id_conjunta;
 
     public Request() {
@@ -53,7 +55,9 @@ public class Request implements Comparable<Request> {
         this.tfim = new TimeDate.Time();
         this.pessoa = new Keys.Person();
         this.material = new Keys.Material();
-        this.discplina = new Subject();
+        this.disciplina = new Subject();
+        this.disciplinas = new java.util.HashSet<>();
+        this.disciplinas.add(disciplina);
         this.atividade = "sem";
         this.origem = "";
         this.ativo = false;
@@ -65,6 +69,8 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.turmas = new java.util.HashSet<>();
+        this.turmas.add(turma);
         this.id_conjunta = 0;
     }
 
@@ -77,7 +83,9 @@ public class Request implements Comparable<Request> {
         this.tfim = tfim;
         this.pessoa = pessoa;
         this.material = material;
-        this.discplina = new Subject();
+        this.disciplina = new Subject();
+        this.disciplinas = new java.util.HashSet<>();
+        this.disciplinas.add(disciplina);
         this.atividade = "sem";
         this.origem = origem;
         this.ativo = false;
@@ -89,6 +97,8 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.turmas = new java.util.HashSet<>();
+        this.turmas.add(turma);
         this.id_conjunta = 0;
     }
 
@@ -101,7 +111,9 @@ public class Request implements Comparable<Request> {
         this.tfim = tfim;
         this.pessoa = pessoa;
         this.material = material;
-        this.discplina = new Subject();
+        this.disciplina = new Subject();
+        this.disciplinas = new java.util.HashSet<>();
+        this.disciplinas.add(disciplina);
         this.atividade = "sem";
         this.origem = origem;
         this.ativo = false;
@@ -113,6 +125,8 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = new ClassStudents();
+        this.turmas = new java.util.HashSet<>();
+        this.turmas.add(turma);
         this.id_conjunta = 0;
     }
 
@@ -125,7 +139,9 @@ public class Request implements Comparable<Request> {
         this.tfim = tfim;
         this.pessoa = pessoa;
         this.material = material;
-        this.discplina = disciplina;
+        this.disciplina = disciplina;
+        this.disciplinas = new java.util.HashSet<>();
+        disciplinas.add(disciplina);
         this.origem = origem;
         this.atividade = atividade;
         this.ativo = ativo;
@@ -137,6 +153,104 @@ public class Request implements Comparable<Request> {
         this.data_entrega = data_entrega;
         this.data_levantamento = data_levantamento;
         this.turma = turma;
+        this.turmas = new java.util.HashSet<>();
+        turmas.add(turma);
+        this.id_conjunta = id_conjunta;
+    }
+    
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+        this.begin = date;
+        this.end = date2;
+        this.dia = dia;
+        this.id = id;
+        this.tinicio = tinicio;
+        this.tfim = tfim;
+        this.pessoa = pessoa;
+        this.material = material;
+        this.disciplinas = disciplinas;
+        if (this.disciplinas.size() > 0) {
+            this.disciplina = (Keys.Subject)this.disciplinas.toArray()[0];
+        } else {
+            this.disciplina = new Keys.Subject();
+        }
+        this.origem = origem;
+        this.atividade = atividade;
+        this.ativo = ativo;
+        this.terminado = terminado;
+        this.substituido = substituido;
+        this.quantidade = quantidade;
+        this.tempo_levantamento = tempo_levantamento;
+        this.tempo_entrega = tempo_entrega;
+        this.data_entrega = data_entrega;
+        this.data_levantamento = data_levantamento;
+        this.turmas = turmas;
+        if (this.turmas.size() > 0) {
+            this.turma = (Keys.ClassStudents)this.turmas.toArray()[0];
+        } else {
+            this.turma = new Keys.ClassStudents();
+        }
+        this.id_conjunta = id_conjunta;
+    }
+    
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+        this.begin = date;
+        this.end = date2;
+        this.dia = dia;
+        this.id = id;
+        this.tinicio = tinicio;
+        this.tfim = tfim;
+        this.pessoa = pessoa;
+        this.material = material;
+        this.disciplinas = disciplinas;
+        if (this.disciplinas.size() > 0) {
+            this.disciplina = (Keys.Subject)this.disciplinas.toArray()[0];
+        } else {
+            this.disciplina = new Keys.Subject();
+        }
+        this.origem = origem;
+        this.atividade = atividade;
+        this.ativo = ativo;
+        this.terminado = terminado;
+        this.substituido = substituido;
+        this.quantidade = quantidade;
+        this.tempo_levantamento = tempo_levantamento;
+        this.tempo_entrega = tempo_entrega;
+        this.data_entrega = data_entrega;
+        this.data_levantamento = data_levantamento;
+        this.turma = turma;
+        this.turmas = new java.util.HashSet<>();
+        turmas.add(turma);
+        this.id_conjunta = id_conjunta;
+    }
+    
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+        this.begin = date;
+        this.end = date2;
+        this.dia = dia;
+        this.id = id;
+        this.tinicio = tinicio;
+        this.tfim = tfim;
+        this.pessoa = pessoa;
+        this.material = material;
+        this.disciplina = disciplina;
+        this.disciplinas = new java.util.HashSet<>();
+        disciplinas.add(disciplina);
+        this.origem = origem;
+        this.atividade = atividade;
+        this.ativo = ativo;
+        this.terminado = terminado;
+        this.substituido = substituido;
+        this.quantidade = quantidade;
+        this.tempo_levantamento = tempo_levantamento;
+        this.tempo_entrega = tempo_entrega;
+        this.data_entrega = data_entrega;
+        this.data_levantamento = data_levantamento;
+        this.turmas = turmas;
+        if (this.turmas.size() > 0) {
+            this.turma = (Keys.ClassStudents)this.turmas.toArray()[0];
+        } else {
+            this.turma = new Keys.ClassStudents();
+        }
         this.id_conjunta = id_conjunta;
     }
 
@@ -149,7 +263,9 @@ public class Request implements Comparable<Request> {
         this.tfim = tfim;
         this.pessoa = pessoa;
         this.material = material;
-        this.discplina = disciplina;
+        this.disciplina = disciplina;
+        this.disciplinas = new java.util.HashSet<>();
+        disciplinas.add(disciplina);
         this.atividade = atividade;
         this.origem = origem;
         this.ativo = false;
@@ -161,8 +277,46 @@ public class Request implements Comparable<Request> {
         this.data_entrega = null;
         this.data_levantamento = null;
         this.turma = turma;
+        this.turmas = new java.util.HashSet<>();
+        turmas.add(turma);
         this.id_conjunta = 0;
     }
+    
+    public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, String origem, java.util.Set<Keys.ClassStudents> turmas) {
+        this.begin = date;
+        this.end = date2;
+        this.dia = dia;
+        this.id = -1;
+        this.tinicio = tinicio;
+        this.tfim = tfim;
+        this.pessoa = pessoa;
+        this.material = material;
+        this.disciplinas = disciplinas;
+        if (this.disciplinas.size() > 0) {
+            this.disciplina = (Keys.Subject)this.disciplinas.toArray()[0];
+        } else {
+            this.disciplina = new Keys.Subject();
+        }
+        this.atividade = atividade;
+        this.origem = origem;
+        this.ativo = false;
+        this.terminado = false;
+        this.substituido = 0;
+        this.quantidade = 1;
+        this.tempo_levantamento = null;
+        this.tempo_entrega = null;
+        this.data_entrega = null;
+        this.data_levantamento = null;
+        this.turmas = turmas;
+        if (this.turmas.size() > 0) {
+            this.turma = (Keys.ClassStudents)this.turmas.toArray()[0];
+        } else {
+            this.turma = new Keys.ClassStudents();
+        }
+        this.id_conjunta = 0;
+    }
+
+    
 
     public Request(Request req) {
         this.begin = req.getBeginDate();
@@ -174,7 +328,7 @@ public class Request implements Comparable<Request> {
         this.pessoa = req.getPerson();
         this.atividade = req.getActivity();
         this.material = req.getMaterial();
-        this.discplina = req.getSubject();
+        this.disciplina = req.getSubject();
         this.origem = req.getSource();
         this.ativo = req.isActive();
         this.terminado = req.isTerminated();
@@ -186,6 +340,8 @@ public class Request implements Comparable<Request> {
         this.tempo_levantamento = req.getLiftTime();
         this.turma = req.getStudentsClass();
         this.id_conjunta = req.getUnionRequest();
+        this.disciplinas = req.getSubjects();
+        this.turmas = req.getStudentsClasses();
     }
 
     /**
@@ -276,14 +432,14 @@ public class Request implements Comparable<Request> {
      * @return the discplina
      */
     public Subject getSubject() {
-        return discplina;
+        return disciplina;
     }
 
     /**
      * @param discplina the discplina to set
      */
     public void setSubject(Subject discplina) {
-        this.discplina = discplina;
+        this.disciplina = discplina;
     }
 
     /**
@@ -506,6 +662,45 @@ public class Request implements Comparable<Request> {
      */
     public void setUnionRequest(int id_conjunta) {
         this.id_conjunta = id_conjunta;
+    }
+
+    /**
+     * @return the turmas
+     */
+    public java.util.Set<Keys.ClassStudents> getStudentsClasses() {
+        return turmas;
+    }
+
+    /**
+     * @param turmas the turmas to set
+     */
+    public void setStudentsClasses(java.util.Set<Keys.ClassStudents> turmas) {
+        this.turmas = turmas;
+        this.turma = (Keys.ClassStudents) this.turmas.toArray()[0];
+        
+    }
+
+    /**
+     * @return the disciplinas
+     */
+    public java.util.Set<Keys.Subject> getSubjects() {
+        return disciplinas;
+    }
+
+    /**
+     * @param disciplinas the disciplinas to set
+     */
+    public void setSubjects(java.util.Set<Keys.Subject> disciplinas) {
+        this.disciplinas = disciplinas;
+        this.disciplina = (Keys.Subject)this.disciplinas.toArray()[0];
+    }
+    
+    public boolean isMultiDisciplinar(){
+        return (this.disciplinas.size() > 1);
+    }
+    
+    public boolean isMultiClass(){
+        return (this.turmas.size() > 1);
     }
 
 }

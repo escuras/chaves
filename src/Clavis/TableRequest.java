@@ -225,13 +225,13 @@ public class TableRequest {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
+                this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, new Color(0, 0, 0)));
 
                 return this;
             }
 
         };
-        headerRenderer.setBackground(new Color(145, 145, 145));
+        headerRenderer.setBackground(new Color(165, 165, 165));
         headerRenderer.setForeground(Color.WHITE);
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
@@ -248,17 +248,16 @@ public class TableRequest {
             }
 
         };
-        headerRenderer2.setBackground(new Color(80, 80, 80));
+        headerRenderer2.setBackground(new Color(165, 165, 165));
         headerRenderer2.setForeground(Color.WHITE);
         headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         for (int i = 0; i < tabela.getModel().getColumnCount(); i++) {
-            if (i % 2 == 0) {
+            if (i == 0) {
                 tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 tabela.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
             }
-
         }
 
         JTableHeader th = tabela.getTableHeader();
@@ -436,8 +435,8 @@ public class TableRequest {
                                         auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                                     } else {
                                         auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
-                                        auxiliartempoinicial = req.getTimeBegin().toString();
-                                        auxiliartempofinal = req.getTimeEnd().toString();
+                                        auxiliartempoinicial = req.getTimeBegin().toString(0);
+                                        auxiliartempofinal = req.getTimeEnd().toString(0);
                                         auxiliardiasemana = req.getWeekDay().perDayName();
                                     }
                                     if (tipomaterial == 1) {
@@ -527,8 +526,8 @@ public class TableRequest {
                         auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                     } else {
                         auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
-                        auxiliartempoinicial = req.getTimeBegin().toString();
-                        auxiliartempofinal = req.getTimeEnd().toString();
+                        auxiliartempoinicial = req.getTimeBegin().toString(0);
+                        auxiliartempofinal = req.getTimeEnd().toString(0);
                         auxiliardiasemana = req.getWeekDay().perDayName();
                     }
                     if (tipomaterial == 1) {
@@ -951,8 +950,8 @@ public class TableRequest {
                     auxiliardiasemana = lingua.translate("Inicio") + ": " + lingua.translate(req.getWeekDay().perDayName()) + ", " + lingua.translate("fim") + ":" + " " + lingua.translate(new TimeDate.WeekDay(TimeDate.WeekDay.getDayWeek(req.getEndDate())).perDayName());
                 } else {
                     auxiliardata = lingua.translate(req.getBeginDate().toStringWithMonthWord());
-                    auxiliartempoinicial = req.getTimeBegin().toString();
-                    auxiliartempofinal = req.getTimeEnd().toString();
+                    auxiliartempoinicial = req.getTimeBegin().toString(0);
+                    auxiliartempofinal = req.getTimeEnd().toString(0);
                     auxiliardiasemana = req.getWeekDay().perDayName();
                 }
 

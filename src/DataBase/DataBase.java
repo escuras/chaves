@@ -22,7 +22,6 @@ public class DataBase {
 
     private Connection con;
     private boolean tie;
-    private boolean auxiliar;
     private Threads.InsertRequest tupdate;
 
     public DataBase(String url) {
@@ -37,7 +36,6 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             tie = false;
         }
-        auxiliar = false;
     }
 
     public DataBase(String url, String username, String password) {
@@ -51,7 +49,6 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             tie = false;
         }
-        auxiliar = false;
     }
 
     public boolean isTie() {
@@ -437,7 +434,7 @@ public class DataBase {
                             + "('" + turma.getCode() + "','" + turma.getName() + "',"
                             + " " + turma.getNumberOfStudents() + ", '" + turma.getDegreeCode() + "',"
                             + "'" + turma.getDegree() + "');";
-                    smt.execute(sql);
+                    smt.executeUpdate(sql);
                     con.commit();
                     con.setAutoCommit(true);
                     return true;
@@ -456,6 +453,7 @@ public class DataBase {
             for (Keys.ClassStudents turma : turmas) {
                 try {
                     smt = con.createStatement();
+                    System.out.println(turma.getCode());
                     String sql = "select count(*) from StudentsClasses where codigo = '" + turma.getCode() + "';";
                     rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
@@ -464,15 +462,15 @@ public class DataBase {
                                 + "('" + turma.getCode() + "','" + turma.getName() + "',"
                                 + " " + turma.getNumberOfStudents() + ", '" + turma.getDegreeCode() + "',"
                                 + "'" + turma.getDegree() + "');";
-                        smt.execute(sql);
+                        smt.executeUpdate(sql);
                         con.commit();
                         con.setAutoCommit(true);
-                        return true;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            return true;
         }
         return false;
     }
@@ -1272,7 +1270,7 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select id_disciplina, descricao, codigo from Subjects where id_disciplina in (select id_disciplina from Rel_classrooms_subjects where codigo_sala = '"+mat.getCodeOfMaterial()+"');";
+                    String sql = "select id_disciplina, descricao, codigo from Subjects where id_disciplina in (select id_disciplina from Rel_classrooms_subjects where codigo_sala = '" + mat.getCodeOfMaterial() + "');";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Subject disciplina;
                     while (rs.next()) {
@@ -1286,7 +1284,7 @@ public class DataBase {
         }
         return disciplinas;
     }
-    
+
     public java.util.List<Keys.Subject> getAllSubjects() {
         java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
         if (this.isTie()) {
@@ -1313,8 +1311,8 @@ public class DataBase {
         }
         return disciplinas;
     }
-    
-     public boolean associateSubjectWithClassroom(Keys.Subject sub, Keys.Classroom clas) {
+
+    public boolean associateSubjectWithClassroom(Keys.Subject sub, Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1817,20 +1815,25 @@ public class DataBase {
                                 if (rs3.next()) {
                                     id_disciplina = rs3.getInt("id_disciplina");
                                 }
-                                sql = "select count(*) from Requests where id_material = " + id_material + " "
-                                        + "and id_pessoa = " + id_pessoa + " and id_disciplina = " + id_disciplina + " and "
+                                sql = "select count(*), id_requisicao from Requests where id_material = " + id_material + " "
+                                        + "and id_pessoa = " + id_pessoa + " and "
                                         + "data_inicio = STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y') and "
                                         + "data_fim = STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y') and "
                                         + "quantidade = " + request.getQuantity() + " and "
                                         + "hora_inicio ='" + request.getTimeBegin().toString() + "' and "
                                         + "hora_fim = '" + request.getTimeEnd().toString() + "' and "
                                         + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
-                                        + "codigo_turma = '" + request.getStudentsClass().getCode() + "' and "
-                                        + "origem = '" + request.getSource() + "';";
+                                        + "origem = '" + request.getSource() + "' group by id_requisicao;";
                                 rs4 = smt.executeQuery(sql);
-                                if ((rs4.next()) && (rs4.getInt(1) == 0)) {
+                                int valor = 0;
+                                int id_requisicao = 0;
+                                if (rs4.next()) {
+                                    valor = rs4.getInt(1);
+                                    id_requisicao = rs4.getInt(2);
+                                }
+                                if (valor == 0) {
                                     sql = "select count(*), id_requisicao, requisicao_conjunta from Requests where id_material = " + id_material + " "
-                                            + "and id_pessoa = " + id_pessoa + " and id_disciplina = " + id_disciplina + " and "
+                                            + "and id_pessoa = " + id_pessoa + " and "
                                             + "data_inicio = STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y') and "
                                             + "data_fim = STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y') and "
                                             + "quantidade = " + request.getQuantity() + " and "
@@ -1846,23 +1849,45 @@ public class DataBase {
                                         } else {
                                             numero = rs5.getInt("id_requisicao");
                                         }
-                                        sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade,codigo_turma,requisicao_conjunta) "
-                                                + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
+                                        sql = "insert into Requests (id_material,id_pessoa,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade,requisicao_conjunta) "
+                                                + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + ",'" + request.getStudentsClass().getCode() + "'," + numero + ");";
+                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + "," + numero + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
-                                        auxiliar = true;
+                                        try {
+                                            tupdate.join();
+                                        } catch (InterruptedException ex) {
+                                            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        this.associateClassroomWithSubject(this.getMaterial(id_material), this.getSubject(id_disciplina));
+                                        int id = this.getRequestID(request, id_pessoa, id_material);
+                                        if (id > 0) {
+                                            this.associateRequestWithDiscipline(id, id_disciplina);
+                                            this.associateRequestWithStudentClass(id_requisicao, request.getStudentsClass().getCode());
+                                        }
                                     } else {
-                                        sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade,codigo_turma) "
-                                                + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
+                                        sql = "insert into Requests (id_material,id_pessoa, data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade) "
+                                                + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + ",'" + request.getStudentsClass().getCode() + "');";
+                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
-                                        auxiliar = true;
+                                        try {
+                                            tupdate.join();
+                                        } catch (InterruptedException ex) {
+                                            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        this.associateClassroomWithSubject(this.getMaterial(id_material), this.getSubject(id_disciplina));
+                                        int id = this.getRequestID(request, id_pessoa, id_material);
+                                        if (id > 0) {
+                                            this.associateRequestWithDiscipline(id, id_disciplina);
+                                            this.associateRequestWithStudentClass(id_requisicao, request.getStudentsClass().getCode());
+                                        }
                                     }
-                                    this.associateClassroomWithSubject(this.getMaterial(id_material), this.getSubject(id_disciplina));
+                                } else if (valor > 0) {
+                                    this.associateRequestWithDiscipline(id_requisicao, id_disciplina);
+                                    this.associateRequestWithStudentClass(id_requisicao, request.getStudentsClass().getCode());
                                 }
                             }
                         }
@@ -1874,6 +1899,96 @@ public class DataBase {
             }
         }
         return false;
+    }
+
+    public int getRequestID(Keys.Request req, int id_pessoa, int id_material) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_requisicao from Requests where id_material = " + id_material + " "
+                        + "and id_pessoa = " + id_pessoa + " and "
+                        + "data_inicio = STR_TO_DATE('" + req.getBeginDate().toString() + "','%d/%m/%Y') and "
+                        + "data_fim = STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') and "
+                        + "quantidade = " + req.getQuantity() + " and "
+                        + "hora_inicio ='" + req.getTimeBegin().toString() + "' and "
+                        + "hora_fim = '" + req.getTimeEnd().toString() + "' and "
+                        + "dia_semana = " + req.getWeekDay().getDayNumber() + " and "
+                        + "origem = '" + req.getSource() + "';";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return rs.getInt("id_requisicao");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void associateRequestWithDiscipline(int id_requisicao, int id_disciplina) {
+        if (this.isTie()) {
+            ResultSet rs;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select count(*) from Rel_requests_subjects where id_requisicao = " + id_requisicao + " and id_disciplina=" + id_disciplina + ";";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next() && (rs.getInt(1) == 0)) {
+                        sql = "insert into Rel_requests_subjects (id_requisicao, id_disciplina) values (" + id_requisicao + "," + id_disciplina + ")";
+                        con.setAutoCommit(false);
+                        smt.executeUpdate(sql);
+                        con.commit();
+                        con.setAutoCommit(true);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public void associateRequestWithStudentClass(int id_requisicao, String codigo_turma) {
+        if (this.isTie()) {
+            ResultSet rs;
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select count(*) from Rel_requests_studentsclasses where id_requisicao = " + id_requisicao + " and codigo_turma = '" + codigo_turma + "';";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next() && (rs.getInt(1) == 0)) {
+                        sql = "insert into Rel_requests_studentsclasses (id_requisicao, codigo_turma) values (" + id_requisicao + ",'" + codigo_turma + "')";
+                        con.setAutoCommit(false);
+                        smt.executeUpdate(sql);
+                        con.commit();
+                        con.setAutoCommit(true);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
     }
 
     public void associateSoftwareWithMaterial(Keys.Software soft, Keys.Material mat) {
@@ -2044,62 +2159,6 @@ public class DataBase {
         return lista;
     }
 
-    public boolean updateRequests(java.util.Set<Keys.Request> requests) {
-        if (this.isTie()) {
-            Statement smt;
-            try {
-                smt = con.createStatement();
-            } catch (SQLException ex) {
-                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                smt = null;
-            }
-            if (smt != null) {
-                String sql = "delete from Requests where origem like 'csv'";
-                try {
-                    smt.execute(sql);
-                    ResultSet rs;
-                    ResultSet rs2;
-                    ResultSet rs3;
-                    int id_material;
-                    int id_pessoa;
-                    int id_disciplina;
-                    for (Keys.Request request : requests) {
-                        sql = "select id_material from Materials where codigo like '" + request.getMaterial().getCodeOfMaterial() + "' and descricao like '" + request.getMaterial().getDescription() + "';";
-                        rs = smt.executeQuery(sql);
-                        if (rs.next()) {
-                            id_material = rs.getInt("id_material");
-                            sql = "select id_pessoa from Persons where identificacao like '" + request.getPerson().getIdentification() + "' and nome like '" + request.getPerson().getName() + "';";
-                            rs2 = smt.executeQuery(sql);
-                            if (rs2.next()) {
-                                id_pessoa = rs2.getInt("id_pessoa");
-                                sql = "select id_disciplina from Subjects where codigo like '" + request.getSubject().getCode() + "' and descricao like '" + request.getSubject().getName() + "'";
-                                rs3 = smt.executeQuery(sql);
-                                if (rs3.next()) {
-                                    id_disciplina = rs3.getInt("id_disciplina");
-                                    sql = "insert into Requests (id_material,id_pessoa,id_disciplina,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido) "
-                                            + "values (" + id_material + "," + id_pessoa + "," + id_disciplina + ",STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
-                                            + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                            + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0);";
-                                    Threads.InsertRequest rq = new Threads.InsertRequest(sql, con);
-                                    rq.start();
-                                    try {
-                                        rq.join();
-                                    } catch (InterruptedException ex) {
-                                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return true;
-                } catch (SQLException ex) {
-                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        return false;
-    }
-
     public String getActivity(int id) {
         if (this.isTie()) {
             String sql = "select descricao from Activities where id_atividade = " + id + ";";
@@ -2219,14 +2278,14 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma,"
-                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
-                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
-                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
+                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
                     + "requisicao_conjunta "
                     + "from Requests;";
@@ -2237,8 +2296,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2249,20 +2306,17 @@ public class DataBase {
                 TimeDate.Date dentrega;
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 String origem;
                 int ido;
                 while (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2309,7 +2363,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2324,11 +2378,11 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -2344,8 +2398,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2356,20 +2408,17 @@ public class DataBase {
                 TimeDate.Date dentrega;
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 String origem;
                 int ido;
                 while (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2416,7 +2465,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2431,11 +2480,11 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -2452,8 +2501,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2465,19 +2512,16 @@ public class DataBase {
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
                 String origem;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 int ido;
                 while (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2524,7 +2568,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2539,11 +2583,11 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -2558,8 +2602,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2570,20 +2612,17 @@ public class DataBase {
                 TimeDate.Date dentrega;
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 String origem;
                 int ido;
                 while (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2630,7 +2669,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2645,14 +2684,14 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
-                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
-                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
-                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                    + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
+                    + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
                     + "requisicao_conjunta "
                     + "from Requests "
@@ -2663,8 +2702,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2675,20 +2712,17 @@ public class DataBase {
                 TimeDate.Date dentrega;
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 String origem;
                 int ido;
                 if (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2735,7 +2769,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2744,12 +2778,70 @@ public class DataBase {
         return request;
     }
 
+    public java.util.Set<Keys.Subject> getSubjectsAssociatedWithSimpleRequest(int id) {
+        java.util.Set<Keys.Subject> disciplinas = new java.util.HashSet<>();
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_requisicao, id_disciplina from Rel_requests_subjects where id_requisicao = " + id + ";";
+                try {
+                    int id_disciplina = 0;
+                    rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        id_disciplina = rs.getInt("id_disciplina");
+                        disciplinas.add(this.getSubject(id_disciplina));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        return disciplinas;
+    }
+
+    public java.util.Set<Keys.ClassStudents> getStudentsClassesAssociatedWithSimpleRequest(int id) {
+        java.util.Set<Keys.ClassStudents> turmas = new java.util.HashSet<>();
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select codigo_turma from Rel_requests_studentsclasses where id_requisicao = " + id + ";";
+                try {
+                    String codigo;
+                    rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        codigo = rs.getString("codigo_turma");
+                        turmas.add(this.getStudentsClass(codigo));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        return turmas;
+    }
+
     public Keys.Request getCurrentRequest(Keys.Material mat) {
         Keys.Request request = new Keys.Request();
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
-            String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+            String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
@@ -2767,8 +2859,6 @@ public class DataBase {
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
-                Keys.Subject disciplina;
-                Keys.ClassStudents turma;
                 String atividade;
                 TimeDate.Date inicio;
                 TimeDate.Date fim;
@@ -2780,19 +2870,16 @@ public class DataBase {
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
                 String origem;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 int ido;
                 if (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -2839,7 +2926,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2870,18 +2957,18 @@ public class DataBase {
                     cond = true;
                 }
                 if (cond) {
-                    String sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
+                    String sql = "select id_requisicao, id_material, id_pessoa, id_atividade, DATE_FORMAT(data_inicio,'%d/%m/%Y') "
                             + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
-                            + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
-                            + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
+                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                            + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
+                            + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
                             + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
                             + "requisicao_conjunta "
-                            + "from Requests"
-                            + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y')"
+                            + "from Requests "
+                            + "where data_inicio >= STR_TO_DATE('" + dinicio.toString() + "','%d/%m/%Y') "
                             + "and data_fim <= STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and id_pessoa = " + id + ";";
                     smt = con.prepareStatement(sql);
@@ -2890,8 +2977,6 @@ public class DataBase {
                     String[] aux;
                     Keys.Person pessoa;
                     Keys.Material material;
-                    Keys.Subject disciplina;
-                    Keys.ClassStudents turma;
                     String atividade;
                     TimeDate.Date inicio;
                     TimeDate.Date fim;
@@ -2903,19 +2988,16 @@ public class DataBase {
                     TimeDate.Time tlevantamento;
                     TimeDate.Time tentrega;
                     String origem;
+                    java.util.Set<Keys.Subject> disciplinas;
+                    java.util.Set<Keys.ClassStudents> turmas;
                     int ido;
                     while (rs.next()) {
                         ido = rs.getInt("id_requisicao");
                         pessoa = this.getPerson(rs.getInt("id_pessoa"));
                         material = this.getMaterial(rs.getInt("id_material"));
-                        turma = this.getStudentsClass(rs.getString("codigo_turma"));
                         atividade = this.getActivity(rs.getInt("id_atividade"));
-                        int discip = rs.getInt("id_disciplina");
-                        if (discip != 0) {
-                            disciplina = this.getSubject(discip);
-                        } else {
-                            disciplina = new Keys.Subject();
-                        }
+                        disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                        turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                         aux = rs.getString("inicio").split("/");
                         inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                         aux = rs.getString("fim").split("/");
@@ -2962,27 +3044,25 @@ public class DataBase {
                             dentrega = null;
                             tentrega = null;
                         }
-                        request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                        request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                         requisicoes.add(request);
                     }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
         return requisicoes;
     }
 
     public java.util.Set<Keys.Request> getRequests(int tipo, String nome, TimeDate.Date dinicio, TimeDate.Date dfim, boolean estado, boolean terminado) {
         java.util.Set<Keys.Request> requisicoes = new java.util.TreeSet<>();
-
         if (this.isTie()) {
             PreparedStatement smt;
             ResultSet rs;
             int id;
             try {
-                String sql = "";
+                String sql;
                 switch (tipo) {
                     case 1:
                         sql = "select id_material from Materials where upper(descricao) like upper('" + nome + "%');";
@@ -3004,12 +3084,12 @@ public class DataBase {
                         }
                         if (tipo == 0) {
                             id = rsaux.getInt("id_pessoa");
-                            sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                            sql = "select id_requisicao, id_material, id_pessoa, id_atividade, "
                                     + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
                                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3021,12 +3101,12 @@ public class DataBase {
                                     + "and id_pessoa = " + id + " and ativo = " + estado + " and terminado = " + terminado + ";";
                         } else if (tipo == 1) {
                             id = rsaux.getInt("id_material");
-                            sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                            sql = "select id_requisicao, id_material, id_pessoa, id_atividade, "
                                     + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
                                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -3044,8 +3124,6 @@ public class DataBase {
                             String[] aux;
                             Keys.Person pessoa;
                             Keys.Material material;
-                            Keys.Subject disciplina;
-                            Keys.ClassStudents turma;
                             String atividade;
                             TimeDate.Date inicio;
                             TimeDate.Date fim;
@@ -3057,19 +3135,16 @@ public class DataBase {
                             TimeDate.Time tlevantamento;
                             TimeDate.Time tentrega;
                             String origem;
+                            java.util.Set<Keys.Subject> disciplinas;
+                            java.util.Set<Keys.ClassStudents> turmas;
                             int ido;
                             while (rs.next()) {
                                 ido = rs.getInt("id_requisicao");
                                 pessoa = this.getPerson(rs.getInt("id_pessoa"));
                                 material = this.getMaterial(rs.getInt("id_material"));
-                                turma = this.getStudentsClass(rs.getString("codigo_turma"));
                                 atividade = this.getActivity(rs.getInt("id_atividade"));
-                                int discip = rs.getInt("id_disciplina");
-                                if (discip != 0) {
-                                    disciplina = this.getSubject(discip);
-                                } else {
-                                    disciplina = new Keys.Subject();
-                                }
+                                disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                                turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                                 aux = rs.getString("inicio").split("/");
                                 inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                                 aux = rs.getString("fim").split("/");
@@ -3116,7 +3191,7 @@ public class DataBase {
                                     dentrega = null;
                                     tentrega = null;
                                 }
-                                request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                                request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                                 requisicoes.add(request);
                             }
                         }
@@ -3140,12 +3215,12 @@ public class DataBase {
                 String auxilia;
                 if (!bool) {
                     auxilia = "data_inicio";
-                    sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                    sql = "select id_requisicao, id_material, id_pessoa, id_atividade, "
                             + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
                             + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3158,12 +3233,12 @@ public class DataBase {
                             + "and ativo = " + estado + " and terminado = " + terminado + ";";
                 } else {
                     auxilia = "data_fim";
-                    sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+                    sql = "select id_requisicao, id_material, id_pessoa, id_atividade, "
                             + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
                             + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3175,7 +3250,6 @@ public class DataBase {
                             + "and STR_TO_DATE('" + dfim.toString() + "','%d/%m/%Y') "
                             + "and ativo = " + estado + " and terminado = " + terminado + ";";
                 }
-                System.out.println(time.toString());
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
                 Keys.Request request;
@@ -3195,19 +3269,16 @@ public class DataBase {
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
                 String origem;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 int ido;
                 while (rs.next()) {
                     ido = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -3254,7 +3325,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3278,12 +3349,12 @@ public class DataBase {
                 auxilia = "data_inicio";
             }
 
-            sql = "select id_requisicao, id_material, id_pessoa, id_disciplina, id_atividade, "
+            sql = "select id_requisicao, id_material, id_pessoa, id_atividade, "
                     + "DATE_FORMAT(data_inicio,'%d/%m/%Y') inicio, "
                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3296,7 +3367,7 @@ public class DataBase {
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
-                Keys.Request request = null;
+                Keys.Request request;
                 String[] aux;
                 Keys.Person pessoa;
                 Keys.Material material;
@@ -3313,19 +3384,16 @@ public class DataBase {
                 TimeDate.Time tlevantamento;
                 TimeDate.Time tentrega;
                 String origem;
+                java.util.Set<Keys.Subject> disciplinas;
+                java.util.Set<Keys.ClassStudents> turmas;
                 int id;
                 while (rs.next()) {
                     id = rs.getInt("id_requisicao");
                     pessoa = this.getPerson(rs.getInt("id_pessoa"));
                     material = this.getMaterial(rs.getInt("id_material"));
-                    turma = this.getStudentsClass(rs.getString("codigo_turma"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
-                    int discip = rs.getInt("id_disciplina");
-                    if (discip != 0) {
-                        disciplina = this.getSubject(discip);
-                    } else {
-                        disciplina = new Keys.Subject();
-                    }
+                    disciplinas = this.getSubjectsAssociatedWithSimpleRequest(id);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -3372,7 +3440,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplina, atividade, turma, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3397,8 +3465,10 @@ public class DataBase {
                 smt2.executeLargeUpdate();
                 con.commit();
                 con.setAutoCommit(true);
+
             } catch (SQLException ex) {
-                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataBase.class
+                        .getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
         }
@@ -3420,8 +3490,10 @@ public class DataBase {
                 smt2.executeUpdate();
                 con.commit();
                 con.setAutoCommit(true);
+
             } catch (SQLException ex) {
-                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataBase.class
+                        .getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
         }
@@ -3433,8 +3505,10 @@ public class DataBase {
             Statement smt;
             try {
                 smt = con.createStatement();
+
             } catch (SQLException ex) {
-                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataBase.class
+                        .getName()).log(Level.SEVERE, null, ex);
                 smt = null;
             }
             if (smt != null) {
@@ -3443,9 +3517,11 @@ public class DataBase {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         return new Keys.Subject(id, rs.getString("descricao"), rs.getString("codigo"));
+
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DataBase.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -3456,20 +3532,11 @@ public class DataBase {
         try {
             if (!con.isClosed()) {
                 con.close();
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBase.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public boolean isThreadUpdateRequestsAlive() {
-        if (auxiliar) {
-            if (!tupdate.isAlive()) {
-                auxiliar = false;
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

@@ -37,7 +37,7 @@ public class InsertRequest extends Thread {
                 smt.execute(sql);
             } catch (SQLException ex) {
                 Logger.getLogger(InsertRequest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
     }
 

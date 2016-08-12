@@ -8,7 +8,6 @@ package Components;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Event;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
@@ -59,7 +58,7 @@ public class PopUpMenu extends JPopupMenu {
         item = new JMenuItem[fim-1];
         while (inicio < fim) {
             auxiliar = titulos[inicio].split(";;;");
-            item[inicio-1] = new JMenuItem("<html> <b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</html>");
+            item[inicio-1] = new JMenuItem("<html> <div style='text-align:center;'><b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</div></html>");
             inicio++;
         }
     }

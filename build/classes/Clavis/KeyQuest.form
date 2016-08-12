@@ -1758,10 +1758,10 @@
                 <Component class="javax.swing.JLabel" name="jLabelTituloDevolucoes">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="6e" green="6e" red="6e" type="rgb"/>
+                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
                     </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                      <Color blue="1" green="1" red="1" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -1781,7 +1781,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));"/>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelInformaBaixoBaixo">
@@ -1961,9 +1961,6 @@
                 </Container>
                 <Component class="javax.swing.JButton" name="jButtonProcuraBaixo">
                   <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="b9" green="b9" red="b9" type="rgb"/>
-                    </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -1976,7 +1973,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProcuraBaixoActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearchbaixo = null;&#xa;try {&#xa;    imagebtsearchbaixo = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearchbaixo != null) {&#xa;    javax.swing.ImageIcon iconbtsearchbaixo = new javax.swing.ImageIcon(imagebtsearchbaixo);&#xa;    jButtonProcuraBaixo.setIcon(iconbtsearchbaixo);&#xa;}&#xa;jButtonProcuraBaixo.setToolTipText(lingua.translate(&quot;Pesquisa por&quot;)+&quot; &quot;+spesquisa[1].toLowerCase());"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtsearchbaixo = null;&#xa;try {&#xa;    imagebtsearchbaixo = ImageIO.read(getClass().getResourceAsStream(&quot;Images/search.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtsearchbaixo != null) {&#xa;    javax.swing.ImageIcon iconbtsearchbaixo = new javax.swing.ImageIcon(imagebtsearchbaixo);&#xa;    jButtonProcuraBaixo.setIcon(iconbtsearchbaixo);&#xa;}&#xa;jButtonProcuraBaixo.setBackground(new Color(254,254,254));&#xa;jButtonProcuraBaixo.setToolTipText(lingua.translate(&quot;Pesquisa por&quot;)+&quot; &quot;+spesquisa[1].toLowerCase());"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldProcuraBaixo">
@@ -2015,9 +2012,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabelDetalhesBaixo" pref="147" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesBaixo" pref="169" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelLimpaPesquisaBaixo" min="-2" pref="137" max="-2" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaBaixo" pref="115" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2032,10 +2029,13 @@
                     <Component class="javax.swing.JLabel" name="jLabelLimpaPesquisaBaixo">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="6e" green="6e" red="6e" type="rgb"/>
+                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Cantarell" size="16" style="0"/>
                         </Property>
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                          <Color blue="1" green="1" red="1" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -2046,19 +2046,19 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                lista_dev.addTimerColors();&#xa;                lista_dev.startTimerColors();&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                if (tema.equals(&quot;claro&quot;)) {&#xa;                    jLabelLimpaPesquisaBaixo.setForeground(new Color(254,254,254));&#xa;                } else {&#xa;                    jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));&#xa;                }&#xa;            }&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                lista_dev.addTimerColors();&#xa;                lista_dev.startTimerColors();&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;                jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));&#xa;            }&#xa;        });"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelDetalhesBaixo">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="6e" green="6e" red="6e" type="rgb"/>
+                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
                         </Property>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Cantarell" size="18" style="1"/>
+                          <Font name="Cantarell" size="16" style="0"/>
                         </Property>
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                          <Color blue="1" green="1" red="1" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Detalhes"/>
@@ -2193,10 +2193,10 @@
                 <Component class="javax.swing.JLabel" name="jLabelTitulorequisicoes">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="6e" green="6e" red="6e" type="rgb"/>
+                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
                     </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                      <Color blue="1" green="1" red="1" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -2215,7 +2215,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTitulorequisicoes.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTitulorequisicoes.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelInformaCimaBaixo">
@@ -2430,10 +2430,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonProcuraCima">
                   <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="b9" green="b9" red="b9" type="rgb"/>
-                    </Property>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor" postCode="jButtonProcuraCima.setBackground(new Color(254,254,254));">
                       <Border info="null"/>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -2466,9 +2463,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelLimpaPesquisaCima" min="-2" pref="137" max="-2" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaCima" pref="115" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelDetalhesCima" pref="146" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesCima" pref="168" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2483,10 +2480,13 @@
                     <Component class="javax.swing.JLabel" name="jLabelLimpaPesquisaCima">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="6e" green="6e" red="6e" type="rgb"/>
+                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Cantarell" size="16" style="0"/>
                         </Property>
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                          <Color blue="1" green="1" red="1" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -2497,18 +2497,18 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaCima.setVisible(false);&#xa;jLabelLimpaPesquisaCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jLabelLimpaPesquisaCima.setVisible(false);&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                if (tema.equals(&quot;claro&quot;)) {&#xa;                    jLabelLimpaPesquisaCima.setForeground(new Color(254,254,254));&#xa;                }&#xa;                else {&#xa;                    jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));&#xa;                }&#xa;            }&#xa;&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaCima.setVisible(false);&#xa;jLabelLimpaPesquisaCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jLabelLimpaPesquisaCima.setVisible(false);&#xa;                jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));&#xa;            }&#xa;&#xa;        });"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelDetalhesCima">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="6e" green="6e" red="6e" type="rgb"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="fe" green="fe" red="fe" type="rgb"/>
                         </Property>
-                        <Property name="horizontalAlignment" type="int" value="0" postCode="jLabelDetalhesCima.setFont(new Font(&quot;Cantarell&quot;,Font.BOLD,18));"/>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="1" green="1" red="1" type="rgb"/>
+                        </Property>
+                        <Property name="horizontalAlignment" type="int" value="0" postCode="jLabelDetalhesCima.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
                         <Property name="text" type="java.lang.String" value="Detalhes"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
@@ -2613,9 +2613,6 @@
       <SubComponents>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarRequisicoes">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="b9" red="b9" type="rgb"/>
-            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -2646,9 +2643,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarEntregas">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="b9" red="b9" type="rgb"/>
-            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -2735,9 +2729,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonListaBotoes">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="b9" red="b9" type="rgb"/>
-            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="1" left="5" right="5" top="1"/>
@@ -2795,9 +2786,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton1">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="b9" red="b9" type="rgb"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>

@@ -1273,8 +1273,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneDevolucoes.setMinimumSize(new java.awt.Dimension(700, 500));
         jScrollPaneDevolucoes.setPreferredSize(new java.awt.Dimension(700, 633));
 
-        jLabelTituloDevolucoes.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelTituloDevolucoes.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelTituloDevolucoes.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelTituloDevolucoes.setForeground(new java.awt.Color(1, 1, 1));
         jLabelTituloDevolucoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloDevolucoes.setLabelFor(jLabelTitulorequisicoes);
         jLabelTituloDevolucoes.setText("Lista de devoluções");
@@ -1282,7 +1282,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTituloDevolucoes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0)));
         jLabelTituloDevolucoes.setOpaque(true);
         jLabelTituloDevolucoes.setPreferredSize(new java.awt.Dimension(103, 32));
-        jLabelTituloDevolucoes.setFont(new Font("Cantarell",Font.BOLD,18));
+        jLabelTituloDevolucoes.setFont(new Font("Cantarell",Font.PLAIN,16));
 
         jPanelInformaBaixoBaixo.setBackground(new java.awt.Color(254, 254, 254));
         jPanelInformaBaixoBaixo.setBorder(null);
@@ -1385,7 +1385,6 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         jButtonAlteraDevolucao.setToolTipText(lingua.translate("Alterar_devolucao"));
 
-        jButtonProcuraBaixo.setBackground(new java.awt.Color(185, 185, 185));
         jButtonProcuraBaixo.setBorder(null);
         jButtonProcuraBaixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonProcuraBaixo.setFocusPainted(false);
@@ -1415,15 +1414,16 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelLimpaPesquisaBaixo.setOpaque(false);
         jPanelLimpaPesquisaBaixo.setPreferredSize(new java.awt.Dimension(267, 32));
 
-        jLabelLimpaPesquisaBaixo.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelLimpaPesquisaBaixo.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelLimpaPesquisaBaixo.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelLimpaPesquisaBaixo.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
+        jLabelLimpaPesquisaBaixo.setForeground(new java.awt.Color(1, 1, 1));
         jLabelLimpaPesquisaBaixo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelLimpaPesquisaBaixo.setOpaque(true);
 
-        jLabelDetalhesBaixo.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelDetalhesBaixo.setFont(new java.awt.Font("Cantarell", 1, 18)); // NOI18N
-        jLabelDetalhesBaixo.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelDetalhesBaixo.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelDetalhesBaixo.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
+        jLabelDetalhesBaixo.setForeground(new java.awt.Color(1, 1, 1));
         jLabelDetalhesBaixo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelDetalhesBaixo.setText("Detalhes");
         jLabelDetalhesBaixo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -1438,9 +1438,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelLimpaPesquisaBaixoLayout.setHorizontalGroup(
             jPanelLimpaPesquisaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLimpaPesquisaBaixoLayout.createSequentialGroup()
-                .addComponent(jLabelDetalhesBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                .addComponent(jLabelDetalhesBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelLimpaPesquisaBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabelLimpaPesquisaBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
         );
         jPanelLimpaPesquisaBaixoLayout.setVerticalGroup(
             jPanelLimpaPesquisaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1458,6 +1458,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 lista_dev.addTimerColors();
                 lista_dev.startTimerColors();
                 jLabelLimpaPesquisaBaixo.setVisible(false);
+                jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
             }
 
             @Override
@@ -1467,11 +1468,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (tema.equals("claro")) {
-                    jLabelLimpaPesquisaBaixo.setForeground(new Color(254,254,254));
-                } else {
-                    jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));
-                }
+                jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));
             }
         });
         jLabelDetalhesBaixo.setText(lingua.translate("Detalhes"));
@@ -1532,6 +1529,7 @@ public class KeyQuest extends javax.swing.JFrame {
             javax.swing.ImageIcon iconbtsearchbaixo = new javax.swing.ImageIcon(imagebtsearchbaixo);
             jButtonProcuraBaixo.setIcon(iconbtsearchbaixo);
         }
+        jButtonProcuraBaixo.setBackground(new Color(254,254,254));
         jButtonProcuraBaixo.setToolTipText(lingua.translate("Pesquisa por")+" "+spesquisa[1].toLowerCase());
         javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createMatteBorder(5, 5, 5, 8,jPanelBaixo.getBackground());
         javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));
@@ -1624,8 +1622,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneRequisicoes.setMinimumSize(new java.awt.Dimension(700, 500));
         jScrollPaneRequisicoes.setPreferredSize(new java.awt.Dimension(700, 633));
 
-        jLabelTitulorequisicoes.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelTitulorequisicoes.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelTitulorequisicoes.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelTitulorequisicoes.setForeground(new java.awt.Color(1, 1, 1));
         jLabelTitulorequisicoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitulorequisicoes.setLabelFor(jLabelTitulorequisicoes);
         jLabelTitulorequisicoes.setText("Lista de requisições");
@@ -1634,7 +1632,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTitulorequisicoes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0)));
         jLabelTitulorequisicoes.setOpaque(true);
         jLabelTitulorequisicoes.setPreferredSize(new java.awt.Dimension(103, 32));
-        jLabelTitulorequisicoes.setFont(new Font("Cantarell",Font.BOLD,18));
+        jLabelTitulorequisicoes.setFont(new Font("Cantarell",Font.PLAIN,16));
 
         jPanelInformaCimaBaixo.setBackground(new java.awt.Color(254, 254, 254));
         jPanelInformaCimaBaixo.setBorder(null);
@@ -1763,8 +1761,8 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonProcuraCima.setBackground(new java.awt.Color(185, 185, 185));
         jButtonProcuraCima.setBorder(null);
+        jButtonProcuraCima.setBackground(new Color(254,254,254));
         jButtonProcuraCima.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonProcuraCima.setFocusPainted(false);
         jButtonProcuraCima.addActionListener(new java.awt.event.ActionListener() {
@@ -1777,16 +1775,17 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDetalhesCima.setOpaque(false);
         jPanelDetalhesCima.setPreferredSize(new java.awt.Dimension(267, 32));
 
-        jLabelLimpaPesquisaCima.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelLimpaPesquisaCima.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelLimpaPesquisaCima.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelLimpaPesquisaCima.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
+        jLabelLimpaPesquisaCima.setForeground(new java.awt.Color(1, 1, 1));
         jLabelLimpaPesquisaCima.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLimpaPesquisaCima.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelLimpaPesquisaCima.setOpaque(true);
 
-        jLabelDetalhesCima.setBackground(new java.awt.Color(110, 110, 110));
-        jLabelDetalhesCima.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelDetalhesCima.setBackground(new java.awt.Color(254, 254, 254));
+        jLabelDetalhesCima.setForeground(new java.awt.Color(1, 1, 1));
         jLabelDetalhesCima.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelDetalhesCima.setFont(new Font("Cantarell",Font.BOLD,18));
+        jLabelDetalhesCima.setFont(new Font("Cantarell",Font.PLAIN,16));
         jLabelDetalhesCima.setText("Detalhes");
         jLabelDetalhesCima.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0)));
         jLabelDetalhesCima.setMaximumSize(new java.awt.Dimension(4700, 1400));
@@ -1799,9 +1798,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDetalhesCimaLayout.setHorizontalGroup(
             jPanelDetalhesCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDetalhesCimaLayout.createSequentialGroup()
-                .addComponent(jLabelLimpaPesquisaCima, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelLimpaPesquisaCima, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelDetalhesCima, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                .addComponent(jLabelDetalhesCima, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
         );
         jPanelDetalhesCimaLayout.setVerticalGroup(
             jPanelDetalhesCimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1819,6 +1818,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 lista_req.addTimerColors();
                 lista_req.startTimerColors();
                 jLabelLimpaPesquisaCima.setVisible(false);
+                jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
             }
 
             @Override
@@ -1828,12 +1828,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (tema.equals("claro")) {
-                    jLabelLimpaPesquisaCima.setForeground(new Color(254,254,254));
-                }
-                else {
-                    jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));
-                }
+                jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));
             }
 
         });
@@ -1987,7 +1982,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanel3.setForeground(new java.awt.Color(1, 1, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(757, 30));
 
-        jToggleButtonBarRequisicoes.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButtonBarRequisicoes.setBorder(null);
         jToggleButtonBarRequisicoes.setBorderPainted(false);
         jToggleButtonBarRequisicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -2004,7 +1998,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jToggleButtonBarEntregas.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButtonBarEntregas.setBorder(null);
         jToggleButtonBarEntregas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButtonBarEntregas.setFocusPainted(false);
@@ -2044,7 +2037,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonListaBotoes.setBackground(new java.awt.Color(185, 185, 185));
         jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
@@ -2070,7 +2062,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setBackground(new java.awt.Color(185, 185, 185));
         jToggleButton1.setToolTipText("");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.setFocusPainted(false);
@@ -2961,10 +2952,10 @@ public class KeyQuest extends javax.swing.JFrame {
         }
         jButtonLinguaMudaConfirma.setEnabled(false);
         if (!lingu.equals("")) {
-            Components.MessagePane mensagem = new Components.MessagePane(0,systemColor, lingua, lingua.translate("Reinício necessário"),400, 200);
             String[] botoes = {lingua.translate("Reiniciar"), lingua.translate("Voltar")};
-            String texto = "<html><div style='font-size:11px;text-align:center'>" +lingua.translate("A_linguagem_do_programa_foi_alterada_para_") + lingua.translate(lingu).toLowerCase() + ". <br/>"+lingua.translate("É necessário reinicar")+". </div></html>";
-            int resposta = mensagem.showSimpleMessage(jDialogDefOpcoes, texto, botoes);
+            String texto = "<html><div style='font-size:11px;text-align:center'>" + lingua.translate("A_linguagem_do_programa_foi_alterada_para_") + lingua.translate(lingu).toLowerCase() + ". <br/>" + lingua.translate("É necessário reinicar") + ". </div></html>";
+            Components.MessagePane mensagem = new Components.MessagePane(jDialogDefOpcoes, Components.MessagePane.ACAO, systemColor, lingua.translate("Reinício necessário"), 400, 200, texto, botoes);
+            int resposta = mensagem.showMessage();
             if (resposta == 1) {
                 prefs.save();
                 this.dispose();
@@ -3607,7 +3598,7 @@ public class KeyQuest extends javax.swing.JFrame {
             this.stopScroll();
             jComboBoxScrollAtivo.setSelectedIndex(1);
         }
-        
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jDialogListaBotoesWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogListaBotoesWindowClosing
@@ -3662,12 +3653,12 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.JLabel m = new javax.swing.JLabel();
         m.setText(lingua.translate("Dia_da_semana") + ": " + hol.getWeekDay(ano) + ".");
         m.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        l.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        m.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        Object[] lm = {l, m};
-        UIManager.put("OptionPane.okButtonText", lingua.translate("Voltar"));
-        JOptionPane.showMessageDialog(this, lm, lingua.translate("Informacao"), JOptionPane.PLAIN_MESSAGE);
-        UIManager.put("OptionPane.okButtonText", "Ok");
+        //l.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        //m.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        javax.swing.JLabel[] lm = {l, m};
+        String[] botoes = {lingua.translate("Voltar")};
+        Components.MessagePane mensagem = new Components.MessagePane(jDialogDefHolidays, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Informacao"), 400, 200, lm, "", botoes);
+        int resposta = mensagem.showMessage();
     }
 
     private void mostrajListFeriasMensagem() {
@@ -3676,7 +3667,7 @@ public class KeyQuest extends javax.swing.JFrame {
         int ano = new TimeDate.Date().getYear();
         javax.swing.JLabel l = new javax.swing.JLabel();
         l.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        l.setText(br.toStringSimple());
+        l.setText(lingua.translate(br.getName()) + ": " + br.toStringSimple());
         javax.swing.JLabel m = new javax.swing.JLabel();
         javax.swing.JLabel n = new javax.swing.JLabel();
         try {
@@ -3692,12 +3683,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
         m.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         n.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        l.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        m.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        n.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        Object[] lm = {l, m, n};
-        UIManager.put("OptionPane.okButtonText", lingua.translate("Voltar"));
-        JOptionPane.showMessageDialog(this, lm, lingua.translate("Informacao"), JOptionPane.PLAIN_MESSAGE);
+        javax.swing.JLabel[] lm = {l, m, n};
+        String[] botoes = {lingua.translate("Voltar")};
+        Components.MessagePane mensagem = new Components.MessagePane(jDialogDefBreaks, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Informacao"), 400, 200, lm, "", botoes);
+        mensagem.showMessage();
     }
 
     public void drawChoosenHolidaysList() {
@@ -3848,28 +3837,16 @@ public class KeyQuest extends javax.swing.JFrame {
                         java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
                         java.awt.GradientPaint redtowhite = new java.awt.GradientPaint(0, this.getHeight() / 2, Color.DARK_GRAY, this.getWidth() / 2, this.getHeight() / 2, new Color(1, 1, 1));
                         g2.setPaint(redtowhite);
+                        g2.setColor(new Color(5, 5, 5));
+                        g2.drawLine(0, getSize().height - 3, getSize().width, getSize().height - 3);
+                        g2.drawLine(0, 2, getSize().width, 2);
                         g2.fillRect(0, 0, getSize().width, getSize().height);
-                        g2.setColor(new Color(254, 254, 254));
+                        g2.setColor(new Color(35, 35, 35));
                         g2.drawLine(0, getSize().height - 2, getSize().width, getSize().height - 2);
                         g2.drawLine(0, 1, getSize().width, 1);
-                        g2.setColor(new Color(1, 1, 1));
+                        g2.setColor(new Color(170, 170, 170));
                         g2.drawLine(0, 0, getSize().width, 0);
                         g2.drawLine(0, getSize().height - 1, getSize().width, getSize().height - 1);
-                        g2.setColor(new Color(254, 254, 254));
-                        int i = 0;
-                        int tamanho = this.getHeight() / 6;
-                        int altura = (getSize().height / 2) - (tamanho / 2);
-                        for (int j = (this.getWidth() / 3 + this.getWidth() / 8); j < (getSize().width * 2 / 3 - this.getWidth() / 8); j += tamanho) {
-                            if (!((i % 2) == 0)) {
-                                g2.setColor(Color.WHITE);
-
-                            } else {
-                                g2.setColor(systemColor);
-                            }
-                            g2.fillRect(j, altura, tamanho, tamanho);
-                            j += 6;
-                            i++;
-                        }
                         super.paint(g);
 
                     }
@@ -3895,7 +3872,6 @@ public class KeyQuest extends javax.swing.JFrame {
                 }
             }
         });
-
         divisor.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -3973,7 +3949,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 super.paint(g);
             }
         });*/
-        //this.addDayTimer();
+        this.addDayChangeTimer();
         this.controlScroll();
 
     }
@@ -4027,7 +4003,6 @@ public class KeyQuest extends javax.swing.JFrame {
         };
         laf.getDefaults().put("PopupMenu[Enabled].backgroundPainter", m);
         laf.getDefaults().put("OptionPane.background", Color.WHITE);
-        laf.getDefaults().put("Button.background", new Color(112,159,253));
         laf.getDefaults().put("Panel.background", Color.WHITE);
         laf.getDefaults().put("FileChooser.background", systemColor);
 
@@ -4057,14 +4032,7 @@ public class KeyQuest extends javax.swing.JFrame {
         itemSair.addActionListener((ActionEvent e) -> {
             exit(e);
         });
-        java.awt.image.BufferedImage im;
-        javax.swing.ImageIcon icon;
-        try {
-            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/exit.png"));
-            icon = new javax.swing.ImageIcon(im);
-            itemSair.setIcon(icon);
-        } catch (IOException e) {
-        }
+       
 
         JMenuItem itemReiniciar = new JMenuItem();
         itemReiniciar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.ALT_MASK));
@@ -4096,12 +4064,7 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFeriados.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriadosActionPerformed(evt);
         });
-        try {
-            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/feriado.png"));
-            icon = new javax.swing.ImageIcon(im);
-            itemFeriados.setIcon(icon);
-        } catch (IOException e) {
-        }
+       
         jMenuDefinicoes.add(itemFeriados);
         JMenuItem itemFerias = new JMenuItem();
         itemFerias.setText(lingua.translate("Editar_Periodos_Interrupcao"));
@@ -4110,12 +4073,7 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFerias.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriasActionPerformed(evt);
         });
-        try {
-            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/ferias.png"));
-            icon = new javax.swing.ImageIcon(im);
-            itemFerias.setIcon(icon);
-        } catch (IOException e) {
-        }
+        
         jMenuDefinicoes.add(itemFerias);
         JMenuItem itemDefinicoes = new JMenuItem();
         itemDefinicoes.setText(lingua.translate("Definicoes_visualizacao"));
@@ -4124,12 +4082,7 @@ public class KeyQuest extends javax.swing.JFrame {
         itemDefinicoes.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemDefinicoesActionPerformed(evt);
         });
-        try {
-            im = ImageIO.read(getClass().getResourceAsStream("Images/menu/ver.png"));
-            icon = new javax.swing.ImageIcon(im);
-            itemDefinicoes.setIcon(icon);
-        } catch (IOException e) {
-        }
+       
         jMenuDefinicoes.add(itemDefinicoes);
         menu.add(jMenuDefinicoes);
         this.setJMenuBar(menu);
@@ -4341,7 +4294,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     }
 
-    private void calculateList(Keys.TypeOfMaterial material) {
+    private synchronized void calculateList(Keys.TypeOfMaterial material) {
         requisicoes = new RequestList(urlbd, material, vista, feriados, false, false);
         requisicoes.make();
         if (lista_req != null) {
@@ -4354,10 +4307,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
         javax.swing.JLabel l = new javax.swing.JLabel();
         if (tema.equals("claro")) {
-            l.setBackground(new Color(145, 145, 145));
+            l.setBackground(new Color(165, 165, 165));
             l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
         } else {
-            l.setBackground(new Color(215, 215, 215));
+            l.setBackground(new Color(245, 245, 245));
             l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
         }
         l.setOpaque(true);
@@ -4392,10 +4345,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
         javax.swing.JLabel lo = new javax.swing.JLabel();
         if (tema.equals("claro")) {
-            lo.setBackground(new Color(145, 145, 145));
+            lo.setBackground(new Color(165, 165, 165));
             lo.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
         } else {
-            lo.setBackground(new Color(215, 215, 215));
+            lo.setBackground(new Color(245, 245, 245));
             lo.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
         }
         lo.setOpaque(true);
@@ -4412,8 +4365,6 @@ public class KeyQuest extends javax.swing.JFrame {
             this.temaEscuro();
         }
     }
-
-   
 
     public void exit(ActionEvent e) {
         systemColor = new Color(177, 184, 190);
@@ -4528,10 +4479,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
         javax.swing.JLabel l = (javax.swing.JLabel) jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
-        l.setBackground(new Color(215, 215, 215));
+        l.setBackground(new Color(245, 245, 245));
         l = (javax.swing.JLabel) jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
-        l.setBackground(new Color(215, 215, 215));
+        l.setBackground(new Color(245, 245, 245));
 
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -4541,13 +4492,12 @@ public class KeyQuest extends javax.swing.JFrame {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(254, 254, 254)));
-
+                this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, new Color(254, 254, 254)));
                 return this;
             }
 
         };
-        headerRenderer.setBackground(new Color(215, 215, 215));
+        headerRenderer.setBackground(new Color(245, 245, 245));
         headerRenderer.setForeground(new Color(1, 1, 1));
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
@@ -4569,14 +4519,14 @@ public class KeyQuest extends javax.swing.JFrame {
         headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         for (int i = 0; i < lista_req.getTable().getModel().getColumnCount(); i++) {
-            if (i % 2 == 0) {
+            if (i == 0) {
                 lista_req.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 lista_req.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
             }
         }
         for (int i = 0; i < lista_dev.getTable().getModel().getColumnCount(); i++) {
-            if (i % 2 == 0) {
+            if (i == 0) {
                 lista_dev.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 lista_dev.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
@@ -4595,11 +4545,11 @@ public class KeyQuest extends javax.swing.JFrame {
         lista_dev.setForegroundSelectColor(new Color(254, 254, 254));
         lista_req.setPanelColor(new Color(245, 245, 220), new Color(1, 1, 1));
         lista_dev.setPanelColor(new Color(245, 245, 220), new Color(1, 1, 1));
-        jLabelTitulorequisicoes.setBackground(new Color(110, 110, 110));
-        jLabelTitulorequisicoes.setForeground(new Color(254, 254, 254));
+        jLabelTitulorequisicoes.setBackground(new Color(254, 254, 254));
+        jLabelTitulorequisicoes.setForeground(new Color(1, 1, 1));
         jLabelTitulorequisicoes.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1, 1, 1)));
-        jLabelTituloDevolucoes.setBackground(new Color(110, 110, 110));
-        jLabelTituloDevolucoes.setForeground(new Color(254, 254, 254));
+        jLabelTituloDevolucoes.setBackground(new Color(254, 254, 254));
+        jLabelTituloDevolucoes.setForeground(new Color(1, 1, 1));
         jLabelTituloDevolucoes.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1, 1, 1)));
         jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPaneDevolucoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -4609,17 +4559,17 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 10, jPanelBaixo.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(1, 1, 1), 1, false)));
         jScrollPaneInformaCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1))));
         jScrollPaneInformaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1))));
-        jLabelLimpaPesquisaCima.setBackground(new Color(110, 110, 110));
-        jLabelLimpaPesquisaCima.setForeground(new Color(254, 254, 254));
+        jLabelLimpaPesquisaCima.setBackground(new Color(254, 254, 254));
+        jLabelLimpaPesquisaCima.setForeground(new Color(1, 1, 1));
         jLabelLimpaPesquisaCima.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1)));
-        jLabelLimpaPesquisaBaixo.setBackground(new Color(110, 110, 110));
-        jLabelLimpaPesquisaBaixo.setForeground(new Color(254, 254, 254));
+        jLabelLimpaPesquisaBaixo.setBackground(new Color(254, 254, 254));
+        jLabelLimpaPesquisaBaixo.setForeground(new Color(1, 1, 1));
         jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1)));
-        jLabelDetalhesCima.setBackground(new Color(110, 110, 110));
-        jLabelDetalhesCima.setForeground(new Color(254, 254, 254));
+        jLabelDetalhesCima.setBackground(new Color(254, 254, 254));
+        jLabelDetalhesCima.setForeground(new Color(1, 1, 1));
         jLabelDetalhesCima.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, new Color(1, 1, 1)));
-        jLabelDetalhesBaixo.setBackground(new Color(110, 110, 110));
-        jLabelDetalhesBaixo.setForeground(new Color(254, 254, 254));
+        jLabelDetalhesBaixo.setBackground(new Color(254, 254, 254));
+        jLabelDetalhesBaixo.setForeground(new Color(1, 1, 1));
         jLabelDetalhesBaixo.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, new Color(1, 1, 1)));
         jTextFieldProcuraCima.setBackground(new Color(254, 254, 254));
         jTextFieldProcuraCima.setForeground(new Color(201, 201, 201));
@@ -4635,10 +4585,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
         javax.swing.JLabel l = (javax.swing.JLabel) jScrollPaneRequisicoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
-        l.setBackground(new Color(145, 145, 145));
+        l.setBackground(new Color(165, 165, 165));
         l = (javax.swing.JLabel) jScrollPaneDevolucoes.getCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER);
         l.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
-        l.setBackground(new Color(145, 145, 145));
+        l.setBackground(new Color(165, 165, 165));
 
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -4648,13 +4598,13 @@ public class KeyQuest extends javax.swing.JFrame {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
+                this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, new Color(0, 0, 0)));
 
                 return this;
             }
 
         };
-        headerRenderer.setBackground(new Color(145, 145, 145));
+        headerRenderer.setBackground(new Color(165, 165, 165));
         headerRenderer.setForeground(Color.WHITE);
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
@@ -4671,19 +4621,19 @@ public class KeyQuest extends javax.swing.JFrame {
             }
 
         };
-        headerRenderer2.setBackground(new Color(75, 75, 75));
+        headerRenderer2.setBackground(new Color(165, 165, 165));
         headerRenderer2.setForeground(Color.WHITE);
         headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         for (int i = 0; i < lista_req.getTable().getModel().getColumnCount(); i++) {
-            if (i % 2 == 0) {
+            if (i == 0) {
                 lista_req.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 lista_req.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
             }
         }
         for (int i = 0; i < lista_dev.getTable().getModel().getColumnCount(); i++) {
-            if (i % 2 == 0) {
+            if (i == 0) {
                 lista_dev.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 lista_dev.getTable().getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);

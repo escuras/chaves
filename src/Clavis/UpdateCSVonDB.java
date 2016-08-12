@@ -108,6 +108,8 @@ public class UpdateCSVonDB {
                         }
                         i++;
                     }
+                    db.insertSubjects(disciplinas);
+                    db.insertStudentsClasses(turmas);
                     db.insertActivities(atividades);
                     db.insertPersons(pessoas);
                     db.insertMaterials(materiais);
