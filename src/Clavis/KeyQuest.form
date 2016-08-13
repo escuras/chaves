@@ -719,7 +719,7 @@
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksInicio">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="14" style="1"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="In&#xed;cio:"/>
               </Properties>
@@ -730,7 +730,7 @@
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksTermino">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="14" style="1"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe9;rmino:"/>
               </Properties>
@@ -920,7 +920,7 @@
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksNome">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="14" style="1"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Nome:"/>
               </Properties>
@@ -948,10 +948,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanelDefOpcoes" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
-              </Group>
+              <Component id="jPanelDefOpcoes" min="-2" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -1067,7 +1064,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabelTituloDefOpcoes" min="-2" pref="50" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jComboBoxMudaTema" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelMudaTemaQuadros" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
@@ -1092,9 +1089,9 @@
                               <Component id="jLabelMudaTemaQuadros1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                               <Component id="jComboBoxScrollAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="11" max="32767" attributes="0"/>
                           <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="17" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1103,7 +1100,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelTituloDefOpcoes">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="24" style="0"/>
+                      <Font name="Cantarell" size="18" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="Personificar"/>
@@ -1115,7 +1112,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="1"/>
+                      <Font name="Cantarell" size="14" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Tema de quadros: "/>
                   </Properties>
@@ -1145,7 +1142,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelMudaLinguagem">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="1"/>
+                      <Font name="Cantarell" size="14" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Lingua de apresenta&#xe7;&#xe3;o:"/>
                   </Properties>
@@ -1225,7 +1222,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelMudaTamanhoDivisor">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="1"/>
+                      <Font name="Cantarell" size="14" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Tamanho do divisor:"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -1261,7 +1258,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros1">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="1"/>
+                      <Font name="Cantarell" size="14" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Auxiliar de rolagem: "/>
                   </Properties>
@@ -1954,7 +1951,7 @@
                         </Property>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevcancelar = null;&#xa;javax.swing.ImageIcon iconbtdevcancelar = new javax.swing.ImageIcon(); &#xa;try {&#xa;    imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/substituir.png&quot;));&#xa;    iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);&#xa;    jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonAlteraDevolucao.setToolTipText(lingua.translate(&quot;Alterar_devolucao&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevcancelar = null;&#xa;javax.swing.ImageIcon iconbtdevcancelar = new javax.swing.ImageIcon(); &#xa;try {&#xa;    imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/oculos.png&quot;));&#xa;    iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);&#xa;    jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonAlteraDevolucao.setToolTipText(lingua.translate(&quot;Alterar_devolucao&quot;));"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -2668,6 +2665,9 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtent = null;&#xa;try {&#xa;    imagebtent = ImageIO.read(getClass().getResourceAsStream(&quot;Images/cima.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtent != null) {&#xa;    javax.swing.ImageIcon iconbtent = new javax.swing.ImageIcon(imagebtent);&#xa;    jToggleButtonBarEntregas.setIcon(iconbtent);&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalButton()"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;Components.PersonalButton jToggleButtonBarEntregas;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxVista">

@@ -32,7 +32,7 @@ public class Menu extends JMenuBar {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        GradientPaint paint = new GradientPaint(100,300,bgcolor,1000,200,Color.BLACK,true);
+        GradientPaint paint = new GradientPaint(0,0,bgcolor,this.getWidth()/2,0,Color.BLACK,false);
         g2d.setColor(bgcolor);
         g2d.setPaint(paint);
         g2d.fillRect(0, 0, getWidth(), getHeight());

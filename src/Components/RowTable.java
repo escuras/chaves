@@ -56,7 +56,7 @@ public class RowTable extends JTable {
     }
     
     public void setBorderColor(int row, Color color) {
-        Border g = BorderFactory.createEmptyBorder(5, 0, 10, 0);
+        Border g = BorderFactory.createEmptyBorder(5, 0, 5, 0);
         Border f = BorderFactory.createMatteBorder(0, 0, 1, 0, color);
         borderColor.put(row, BorderFactory.createCompoundBorder(g, f));
     }

@@ -320,6 +320,7 @@ public class TableRequest {
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             String[] titulos = {lingua.translate("Copiar nome de utilizador"), lingua.translate("Copiar descrição de recurso"), lingua.translate("Copiar hora de requisição"), lingua.translate("Marcar como requisitado"), lingua.translate("Alterar requisição"), lingua.translate("Ver recurso")};
+            String[] titulos2 = {lingua.translate("Copiar nome de utilizador"), lingua.translate("Copiar descrição de recurso"), lingua.translate("Copiar hora de devolução"), lingua.translate("Marcar como entregue"), lingua.translate("Ver requisicão"), lingua.translate("Ver recurso")};
             ActionListener[] act = new ActionListener[titulos.length];
             Components.PopUpMenu popup = new Components.PopUpMenu();
 
@@ -337,8 +338,79 @@ public class TableRequest {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!devolucoes) {
-                    if (e.getButton() == MouseEvent.BUTTON3) {
+                if (requisicoes.getRequests().size() > 0) {
+                    if (!devolucoes) {
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            int r = tabela.rowAtPoint(e.getPoint());
+                            if (r >= 0 && r < tabela.getRowCount()) {
+                                tabela.setRowSelectionInterval(r, r);
+                                tabela.getSelectionModel().setSelectionInterval(r, r);
+                            } else {
+                                return;
+                            }
+                            act[0] = (ActionEvent e1) -> {
+                                Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                                StringSelection nome = new StringSelection(getSelectedRequest().getPerson().getName());
+                                c.setContents(nome, nome);
+                            };
+                            act[1] = (ActionEvent e1) -> {
+                                Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                                StringSelection nome = new StringSelection(getSelectedRequest().getMaterial().getDescription());
+                                c.setContents(nome, nome);
+                            };
+                            act[2] = (ActionEvent e1) -> {
+                                Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+                                StringSelection nome = new StringSelection(getSelectedRequest().getTimeBegin().toString());
+                                c.setContents(nome, nome);
+                            };
+                            act[3] = (ActionEvent e1) -> {
+                                btconfirma.doClick();
+                            };
+                            act[4] = (ActionEvent e1) -> {
+                                btaltera.doClick();
+                            };
+                            act[5] = (ActionEvent e1) -> {
+                                if (tipomaterial == 1) {
+                                    DataBase.DataBase db = new DataBase.DataBase(url);
+                                    Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
+                                    Clavis.ActionButton bt = new Clavis.ActionButton((Keys.Classroom) cla, lingua, systemColor, url);
+                                    bt.create();
+                                    bt.open();
+                                } else {
+                                    Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, systemColor, url);
+                                    bt.create();
+                                    bt.open();
+                                }
+                            };
+                            Keys.Request req = requisicoes.getSelectedRequest(selecionado);
+                            TimeDate.Time tempo = new TimeDate.Time();
+                            TimeDate.Date data = new TimeDate.Date();
+                            int valfinal;
+                            int val = tempo.compareTime(req.getTimeBegin());
+
+                            if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
+                                if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
+                                    valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear()) * 86400);
+                                } else {
+                                    valfinal = tempo.compareTime(req.getTimeEnd());
+                                }
+                                if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
+                                    btconfirma.setEnabled(true);
+                                    btaltera.setEnabled(true);
+                                } else {
+                                    btconfirma.setEnabled(false);
+                                    btaltera.setEnabled(true);
+                                }
+                            } else {
+                                btconfirma.setEnabled(false);
+                                btaltera.setEnabled(true);
+                            }
+
+                            popup = new Components.PopUpMenu(titulos, act, btconfirma, btaltera, false);
+                            popup.create();
+                            popup.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    } else if (e.getButton() == MouseEvent.BUTTON3) {
                         int r = tabela.rowAtPoint(e.getPoint());
                         if (r >= 0 && r < tabela.getRowCount()) {
                             tabela.setRowSelectionInterval(r, r);
@@ -358,7 +430,7 @@ public class TableRequest {
                         };
                         act[2] = (ActionEvent e1) -> {
                             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-                            StringSelection nome = new StringSelection(getSelectedRequest().getTimeBegin().toString());
+                            StringSelection nome = new StringSelection(getSelectedRequest().getTimeEnd().toString());
                             c.setContents(nome, nome);
                         };
                         act[3] = (ActionEvent e1) -> {
@@ -383,33 +455,11 @@ public class TableRequest {
                         Keys.Request req = requisicoes.getSelectedRequest(selecionado);
                         TimeDate.Time tempo = new TimeDate.Time();
                         TimeDate.Date data = new TimeDate.Date();
-                        int valfinal;
-                        int val = tempo.compareTime(req.getTimeBegin());
-
-                        if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
-                            if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
-                                valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear()) * 86400);
-                            } else {
-                                valfinal = tempo.compareTime(req.getTimeEnd());
-                            }
-                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
-                                btconfirma.setEnabled(true);
-                                btaltera.setEnabled(true);
-                            } else {
-                                btconfirma.setEnabled(false);
-                                btaltera.setEnabled(true);
-                            }
-                        } else {
-                            btconfirma.setEnabled(false);
-                            btaltera.setEnabled(true);
-                        }
-
-                        popup = new Components.PopUpMenu(titulos, act, btconfirma, btaltera);
+                        popup = new Components.PopUpMenu(titulos2, act, btconfirma, btaltera, true);
                         popup.create();
                         popup.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
-
             }
 
         });
@@ -758,7 +808,7 @@ public class TableRequest {
                         int i = 0;
                         int valfinal;
                         int val;
-                        int estado = -1;
+                        int estado;
                         DataBase.DataBase db = new DataBase.DataBase(url);
                         for (Keys.Request req : requisicoes.getRequests()) {
                             estado = db.getStateOfMaterial(req.getMaterial());
@@ -842,6 +892,8 @@ public class TableRequest {
             requisicoes.removeRequest(req);
             if (modelo.getRowCount() == 0) {
                 ficouvazia = true;
+                tabela.removeBorderColor(0);
+                tabela.repaint();
             }
             this.create();
             return true;

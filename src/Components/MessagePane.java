@@ -28,87 +28,85 @@ public class MessagePane {
     public static final int AVISO = 1;
     public static final int INFORMACAO = 0;
     public static final int ACAO = 2;
-    javax.swing.JPanel panel;
+    private javax.swing.JPanel panel;
     int largura;
     int altura;
     java.awt.Color corsistema;
-    javax.swing.JButton[] botoes;
+    private javax.swing.JButton[] botoes;
+    javax.swing.JComponent[] componentes;
     javax.swing.JComboBox[] comboboxes;
+    javax.swing.JPanel panelcolocado;
+    javax.swing.JDialog dialogo;
     int resposta;
     String titulo;
     int tipo;
     java.awt.Color corborda;
     javax.swing.JLabel[] objetos;
-    int mensagem;
     java.awt.Component componentpai;
     String textomensagem;
     String[] textobotoes;
 
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, String texto, String[] bt) {
-        panel = new javax.swing.JPanel(null);
+        this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
         this.corsistema = cor;
         this.titulo = titulo;
         this.tipo = tipo;
-        mensagem = 0;
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bt;
+        this.showSimpleMessage();
     }
     
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JLabel[] objetos, String texto, String[] bt) {
-        panel = new javax.swing.JPanel(null);
+        this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
         this.corsistema = cor;
         this.titulo = titulo;
         this.tipo = tipo;
         this.objetos = objetos;
-        mensagem = 1;
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bt;
+        this.showLabelMessage();
     }
-
-    public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JButton[] bt, String texto, String[] bto) {
-        panel = new javax.swing.JPanel(null);
+    
+    public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JPanel panelcolocado, String texto, String[] bto) {
+        this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
-        this.botoes = bt;
         this.corsistema = cor;
         this.titulo = titulo;
         this.tipo = tipo;
-        mensagem = 2;
+        this.panelcolocado = panelcolocado;
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bto;
+        this.showPanelMessage();
     }
 
-    public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JButton[] bt, javax.swing.JComboBox[] comboboxes, String texto, String[] bto) {
-        panel = new javax.swing.JPanel(null);
+    public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JComponent[] componentes, String texto, String[] bto) {
+        this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
-        this.botoes = bt;
-        this.comboboxes = comboboxes;
+        this.componentes = componentes;
         this.corsistema = cor;
         this.titulo = titulo;
         this.tipo = tipo;
-        mensagem = 3;
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bto;
+        this.showComponentMessage();
     }
     
     
     public int showMessage(){
-        switch(mensagem) {
-            case 1: 
-                showObjectMessage();
-                break;
-            default:
-                showSimpleMessage();
-                break;
+        if (dialogo != null) {
+            dialogo.setLocationRelativeTo(componentpai);
+            dialogo.setModal(true);
+            dialogo.setVisible(true);
         }
         return resposta;
     }
@@ -120,25 +118,25 @@ public class MessagePane {
                 corborda = new Color(254, 0, 0);
                 break;
             case 2:
-                corborda = new Color(0, 0, 254);
+                corborda = new Color(204, 204, 254);
                 break;
             default:
                 corborda = new Color(254, 254, 152);
                 break;
         }
-        javax.swing.JDialog dialogo = new javax.swing.JDialog();
+        dialogo = new javax.swing.JDialog();
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
-        panel.setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        panel.setBackground(new java.awt.Color(254, 254, 254));
-        panel.setBounds(0, 0, this.largura, this.altura);
+        getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
-        panel.setBorder(border22);
+        getPanel().setBorder(border22);
         javax.swing.JLabel label = new javax.swing.JLabel(textomensagem);
 
         AffineTransform affinetransform = new AffineTransform();
@@ -150,14 +148,14 @@ public class MessagePane {
         label.setPreferredSize(new java.awt.Dimension(l + 50, a + 60));
         label.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         label.setBounds((largura / 2 - (l + 50) / 2), altura / 2 - (a + 60), l + 50, a + 50);
-        panel.add(label);
-        botoes = new javax.swing.JButton[textobotoes.length];
+        getPanel().add(label);
+        setButtons(new javax.swing.JButton[textobotoes.length]);
         if (textobotoes.length == 2) {
-            botoes[1] = new javax.swing.JButton();
-            botoes[1].setFocusable(false);
-            botoes[1].setPreferredSize(new Dimension(90, 40));
-            botoes[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
-            botoes[1].setFocusPainted(false);
+            getButtons()[1] = new javax.swing.JButton();
+            getButtons()[1].setFocusable(false);
+            getButtons()[1].setPreferredSize(new Dimension(90, 40));
+            getButtons()[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
+            getButtons()[1].setFocusPainted(false);
             java.awt.image.BufferedImage imagebtsearch = null;
             try {
                 imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/delete.png"));
@@ -166,32 +164,32 @@ public class MessagePane {
             }
             if (imagebtsearch != null) {
                 javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
-                botoes[1].setIcon(iconbtsearch);
+                getButtons()[1].setIcon(iconbtsearch);
             }
-            botoes[1].setToolTipText(textobotoes[1]);
-            botoes[1].setMnemonic(textobotoes[1].charAt(2));
-            botoes[1].setBackground(new Color(51, 102, 153));
-            botoes[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            botoes[1].addActionListener(new ActionListener() {
+            getButtons()[1].setToolTipText(textobotoes[1]);
+            getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
+            getButtons()[1].setBackground(new Color(51, 102, 153));
+            getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[1].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dialogo.setVisible(false);
                     resposta = 0;
                 }
             });
-            panel.add(botoes[1]);
+            getPanel().add(getButtons()[1]);
         }
         if ((textobotoes.length == 2) || (textobotoes.length == 1)) {
-            botoes[0] = new javax.swing.JButton();
-            botoes[0].setFocusable(false);
-            botoes[0].setMnemonic(textobotoes[0].charAt(2));
-            botoes[0].setPreferredSize(new Dimension(90, 40));
+            getButtons()[0] = new javax.swing.JButton();
+            getButtons()[0].setFocusable(false);
+            getButtons()[0].setMnemonic(textobotoes[0].charAt(2));
+            getButtons()[0].setPreferredSize(new Dimension(90, 40));
             if (textobotoes.length == 2) {
-                botoes[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
+                getButtons()[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
             } else {
-                botoes[0].setBounds(largura / 2 - 40, altura - 90, 90, 40);
+                getButtons()[0].setBounds(largura / 2 - 40, altura - 90, 90, 40);
             }
-            botoes[0].setFocusPainted(false);
+            getButtons()[0].setFocusPainted(false);
             java.awt.image.BufferedImage imagebtsearch = null;
             try {
                 imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
@@ -200,53 +198,50 @@ public class MessagePane {
             }
             if (imagebtsearch != null) {
                 javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
-                botoes[0].setIcon(iconbtsearch);
+                getButtons()[0].setIcon(iconbtsearch);
             }
-            botoes[0].setToolTipText(textobotoes[0]);
-            botoes[0].setBackground(new Color(51, 102, 153));
-            botoes[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            botoes[0].addActionListener(new ActionListener() {
+            getButtons()[0].setToolTipText(textobotoes[0]);
+            getButtons()[0].setBackground(new Color(51, 102, 153));
+            getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[0].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dialogo.setVisible(false);
                     resposta = 1;
                 }
             });
-            panel.add(botoes[0]);
+            getPanel().add(getButtons()[0]);
         }
-        dialogo.add(panel);
-        dialogo.setLocationRelativeTo(componentpai);
-        dialogo.setModal(true);
-        dialogo.setVisible(true);
+        dialogo.add(getPanel());
     }
     
     
-    private void showObjectMessage() {
+    private void showLabelMessage() {
         resposta = -1;
         switch (tipo) {
             case 1:
                 corborda = new Color(254, 0, 0);
                 break;
             case 2:
-                corborda = new Color(0, 0, 254);
+                corborda = new Color(204, 204, 254);
                 break;
             default:
                 corborda = new Color(254, 254, 152);
                 break;
         }
-        javax.swing.JDialog dialogo = new javax.swing.JDialog();
+        dialogo = new javax.swing.JDialog();
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
-        panel.setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        panel.setBackground(new java.awt.Color(254, 254, 254));
-        panel.setBounds(0, 0, this.largura, this.altura);
+        getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
-        panel.setBorder(border22);
+        getPanel().setBorder(border22);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
@@ -258,16 +253,16 @@ public class MessagePane {
             int a = (int) (font.getStringBounds(objetos[k].getText(), frc).getHeight());
             objetos[k].setBounds((largura / 2 - (l + 50) / 2), alturaauxiliar + 20, l + 50, a + 10);
             alturaauxiliar += a + 10;
-            panel.add(objetos[k]);
+            getPanel().add(objetos[k]);
             k++;
         }
-        botoes = new javax.swing.JButton[textobotoes.length];
+        setButtons(new javax.swing.JButton[textobotoes.length]);
         if (textobotoes.length == 2) {
-            botoes[1] = new javax.swing.JButton();
-            botoes[1].setFocusable(false);
-            botoes[1].setPreferredSize(new Dimension(90, 40));
-            botoes[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
-            botoes[1].setFocusPainted(false);
+            getButtons()[1] = new javax.swing.JButton();
+            getButtons()[1].setFocusable(false);
+            getButtons()[1].setPreferredSize(new Dimension(90, 40));
+            getButtons()[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
+            getButtons()[1].setFocusPainted(false);
             java.awt.image.BufferedImage imagebtsearch = null;
             try {
                 imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/delete.png"));
@@ -276,32 +271,32 @@ public class MessagePane {
             }
             if (imagebtsearch != null) {
                 javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
-                botoes[1].setIcon(iconbtsearch);
+                getButtons()[1].setIcon(iconbtsearch);
             }
-            botoes[1].setToolTipText(textobotoes[1]);
-            botoes[1].setMnemonic(textobotoes[1].charAt(2));
-            botoes[1].setBackground(new Color(51, 102, 153));
-            botoes[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            botoes[1].addActionListener(new ActionListener() {
+            getButtons()[1].setToolTipText(textobotoes[1]);
+            getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
+            getButtons()[1].setBackground(new Color(51, 102, 153));
+            getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[1].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dialogo.setVisible(false);
                     resposta = 0;
                 }
             });
-            panel.add(botoes[1]);
+            getPanel().add(getButtons()[1]);
         }
         if ((textobotoes.length == 2) || (textobotoes.length == 1)) {
-            botoes[0] = new javax.swing.JButton();
-            botoes[0].setFocusable(false);
-            botoes[0].setMnemonic(textobotoes[0].charAt(2));
-            botoes[0].setPreferredSize(new Dimension(90, 40));
+            getButtons()[0] = new javax.swing.JButton();
+            getButtons()[0].setFocusable(false);
+            getButtons()[0].setMnemonic(textobotoes[0].charAt(2));
+            getButtons()[0].setPreferredSize(new Dimension(90, 40));
             if (textobotoes.length == 2) {
-                botoes[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
+                getButtons()[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
             } else {
-                botoes[0].setBounds(largura / 2 - 45, altura - 90, 90, 40);
+                getButtons()[0].setBounds(largura / 2 - 45, altura - 90, 90, 40);
             }
-            botoes[0].setFocusPainted(false);
+            getButtons()[0].setFocusPainted(false);
             java.awt.image.BufferedImage imagebtsearch = null;
             try {
                 imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
@@ -310,24 +305,252 @@ public class MessagePane {
             }
             if (imagebtsearch != null) {
                 javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
-                botoes[0].setIcon(iconbtsearch);
+                getButtons()[0].setIcon(iconbtsearch);
             }
-            botoes[0].setToolTipText(textobotoes[0]);
-            botoes[0].setBackground(new Color(51, 102, 153));
-            botoes[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            botoes[0].addActionListener(new ActionListener() {
+            getButtons()[0].setToolTipText(textobotoes[0]);
+            getButtons()[0].setBackground(new Color(51, 102, 153));
+            getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[0].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dialogo.setVisible(false);
                     resposta = 1;
                 }
             });
-            panel.add(botoes[0]);
+            getPanel().add(getButtons()[0]);
         }
-        dialogo.add(panel);
-        dialogo.setLocationRelativeTo(componentpai);
-        dialogo.setModal(true);
-        dialogo.setVisible(true);
+        dialogo.add(getPanel());
+    }
+    
+    
+    private void showComponentMessage() {
+        resposta = -1;
+        switch (tipo) {
+            case 1:
+                corborda = new Color(254, 0, 0);
+                break;
+            case 2:
+                corborda = new Color(204, 204, 254);
+                break;
+            default:
+                corborda = new Color(254, 254, 152);
+                break;
+        }
+        dialogo = new javax.swing.JDialog();
+        dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setResizable(false);
+        dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setBackground(new java.awt.Color(224, 224, 224));
+        dialogo.setTitle(titulo);
+        getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBounds(0, 0, this.largura, this.altura);
+        javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
+        javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
+        getPanel().setBorder(border22);
+
+        int k = 0;
+        int alturaauxiliar = 0;
+        while (k < componentes.length){
+            int l = componentes[k].getWidth();
+            int a = componentes[k].getHeight();
+            
+            componentes[k].setBounds(0, 0, 200, 100);
+            alturaauxiliar += a + 5;
+            getPanel().add(componentes[k]);
+            k++;
+        }
+        setButtons(new javax.swing.JButton[textobotoes.length]);
+        if (textobotoes.length == 2) {
+            getButtons()[1] = new javax.swing.JButton();
+            getButtons()[1].setFocusable(false);
+            getButtons()[1].setPreferredSize(new Dimension(90, 40));
+            getButtons()[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
+            getButtons()[1].setFocusPainted(false);
+            java.awt.image.BufferedImage imagebtsearch = null;
+            try {
+                imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/delete.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (imagebtsearch != null) {
+                javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
+                getButtons()[1].setIcon(iconbtsearch);
+            }
+            getButtons()[1].setToolTipText(textobotoes[1]);
+            getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
+            getButtons()[1].setBackground(new Color(51, 102, 153));
+            getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[1].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogo.setVisible(false);
+                    resposta = 0;
+                }
+            });
+            getPanel().add(getButtons()[1]);
+        }
+        if ((textobotoes.length == 2) || (textobotoes.length == 1)) {
+            getButtons()[0] = new javax.swing.JButton();
+            getButtons()[0].setFocusable(false);
+            getButtons()[0].setMnemonic(textobotoes[0].charAt(2));
+            getButtons()[0].setPreferredSize(new Dimension(90, 40));
+            if (textobotoes.length == 2) {
+                getButtons()[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
+            } else {
+                getButtons()[0].setBounds(largura / 2 - 45, altura - 90, 90, 40);
+            }
+            getButtons()[0].setFocusPainted(false);
+            java.awt.image.BufferedImage imagebtsearch = null;
+            try {
+                imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (imagebtsearch != null) {
+                javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
+                getButtons()[0].setIcon(iconbtsearch);
+            }
+            getButtons()[0].setToolTipText(textobotoes[0]);
+            getButtons()[0].setBackground(new Color(51, 102, 153));
+            getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[0].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogo.setVisible(false);
+                    resposta = 1;
+                }
+            });
+            getPanel().add(getButtons()[0]);
+        }
+        dialogo.add(getPanel());
+    }
+    
+    private void showPanelMessage() {
+        resposta = -1;
+        switch (tipo) {
+            case 1:
+                corborda = new Color(254, 0, 0);
+                break;
+            case 2:
+                corborda = new Color(204, 204, 254);
+                break;
+            default:
+                corborda = new Color(254, 254, 152);
+                break;
+        }
+        dialogo = new javax.swing.JDialog();
+        dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setResizable(false);
+        dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
+        dialogo.setBackground(new java.awt.Color(224, 224, 224));
+        dialogo.setTitle(titulo);
+        getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
+        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBounds(0, 0, this.largura, this.altura);
+        javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
+        javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
+        getPanel().setBorder(border22);
+        
+        int l = (int) panelcolocado.getPreferredSize().getWidth();
+        int a = (int) panelcolocado.getPreferredSize().getHeight();
+        panelcolocado.setBounds(largura / 2 - l /2, altura / 2 - a, l, a);
+        getPanel().add(panelcolocado);
+        
+        setButtons(new javax.swing.JButton[textobotoes.length]);
+        if (textobotoes.length == 2) {
+            getButtons()[1] = new javax.swing.JButton();
+            getButtons()[1].setFocusable(false);
+            getButtons()[1].setPreferredSize(new Dimension(90, 40));
+            getButtons()[1].setBounds(largura / 2 - 95, altura - 90, 90, 40);
+            getButtons()[1].setFocusPainted(false);
+            java.awt.image.BufferedImage imagebtsearch = null;
+            try {
+                imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/delete.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (imagebtsearch != null) {
+                javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
+                getButtons()[1].setIcon(iconbtsearch);
+            }
+            getButtons()[1].setToolTipText(textobotoes[1]);
+            getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
+            getButtons()[1].setBackground(new Color(51, 102, 153));
+            getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[1].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogo.setVisible(false);
+                    resposta = 0;
+                }
+            });
+            getPanel().add(getButtons()[1]);
+        }
+        if ((textobotoes.length == 2) || (textobotoes.length == 1)) {
+            getButtons()[0] = new javax.swing.JButton();
+            getButtons()[0].setFocusable(false);
+            getButtons()[0].setMnemonic(textobotoes[0].charAt(2));
+            getButtons()[0].setPreferredSize(new Dimension(90, 40));
+            if (textobotoes.length == 2) {
+                getButtons()[0].setBounds(largura / 2 + 5, altura - 90, 90, 40);
+            } else {
+                getButtons()[0].setBounds(largura / 2 - 45, altura - 90, 90, 40);
+            }
+            getButtons()[0].setFocusPainted(false);
+            java.awt.image.BufferedImage imagebtsearch = null;
+            try {
+                imagebtsearch = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (imagebtsearch != null) {
+                javax.swing.ImageIcon iconbtsearch = new javax.swing.ImageIcon(imagebtsearch);
+                getButtons()[0].setIcon(iconbtsearch);
+            }
+            getButtons()[0].setToolTipText(textobotoes[0]);
+            getButtons()[0].setBackground(new Color(51, 102, 153));
+            getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            getButtons()[0].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogo.setVisible(false);
+                    resposta = 1;
+                }
+            });
+            getPanel().add(getButtons()[0]);
+        }
+        dialogo.add(getPanel());
+    }
+
+    /**
+     * @return the panel
+     */
+    public javax.swing.JPanel getPanel() {
+        return panel;
+    }
+
+    /**
+     * @param panel the panel to set
+     */
+    public void setPanel(javax.swing.JPanel panel) {
+        this.panel = panel;
+    }
+
+    /**
+     * @return the botoes
+     */
+    public javax.swing.JButton[] getButtons() {
+        return botoes;
+    }
+
+    /**
+     * @param botoes the botoes to set
+     */
+    public void setButtons(javax.swing.JButton[] botoes) {
+        this.botoes = botoes;
     }
 
 }
