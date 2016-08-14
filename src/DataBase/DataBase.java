@@ -19,13 +19,14 @@ import java.util.logging.Logger;
  * @author toze
  */
 public class DataBase {
-
+    private String url;
     private Connection con;
     private boolean tie;
     private Threads.InsertRequest tupdate;
 
     public DataBase(String url) {
         try {
+            this.url = url;
             Class.forName("com.mysql.jdbc.Driver");
             //jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false;
             con = DriverManager.getConnection(url);
@@ -1864,7 +1865,7 @@ public class DataBase {
                                         int id = this.getRequestID(request, id_pessoa, id_material);
                                         if (id > 0) {
                                             this.associateRequestWithDiscipline(id, id_disciplina);
-                                            this.associateRequestWithStudentClass(id_requisicao, request.getStudentsClass().getCode());
+                                            this.associateRequestWithStudentClass(id, request.getStudentsClass().getCode());
                                         }
                                     } else {
                                         sql = "insert into Requests (id_material,id_pessoa, data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade) "
@@ -1882,7 +1883,7 @@ public class DataBase {
                                         int id = this.getRequestID(request, id_pessoa, id_material);
                                         if (id > 0) {
                                             this.associateRequestWithDiscipline(id, id_disciplina);
-                                            this.associateRequestWithStudentClass(id_requisicao, request.getStudentsClass().getCode());
+                                            this.associateRequestWithStudentClass(id, request.getStudentsClass().getCode());
                                         }
                                     }
                                 } else if (valor > 0) {
@@ -1976,7 +1977,8 @@ public class DataBase {
                 String sql = "select count(*) from Rel_requests_studentsclasses where id_requisicao = " + id_requisicao + " and codigo_turma = '" + codigo_turma + "';";
                 try {
                     rs = smt.executeQuery(sql);
-                    if (rs.next() && (rs.getInt(1) == 0)) {
+                    rs.next();
+                    if ((rs.getInt(1) == 0)) {
                         sql = "insert into Rel_requests_studentsclasses (id_requisicao, codigo_turma) values (" + id_requisicao + ",'" + codigo_turma + "')";
                         con.setAutoCommit(false);
                         smt.executeUpdate(sql);
@@ -3479,7 +3481,6 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             PreparedStatement smt2;
-
             String sql = "update Requests set terminado = 1, ativo = 0, data_entrega = CURDATE(), hora_entrega = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
                 con.setAutoCommit(false);
@@ -3530,9 +3531,9 @@ public class DataBase {
 
     public void close() {
         try {
-            if (!con.isClosed()) {
+            if (this.isTie()) {
                 con.close();
-
+                this.tie = false;
             }
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class

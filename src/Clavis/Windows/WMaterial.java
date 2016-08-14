@@ -16,7 +16,6 @@ import java.util.prefs.Preferences;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -80,7 +79,7 @@ public class WMaterial extends javax.swing.JDialog {
         jpanelesquerda.setLayout(gl);
         // combobox
 
-        javax.swing.JComboBox comboboxopcoes = new javax.swing.JComboBox(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
+        javax.swing.JComboBox<String> comboboxopcoes = new javax.swing.JComboBox<>(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
         ((javax.swing.JLabel) comboboxopcoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         BasicComboPopup popupVista = (BasicComboPopup) comboboxopcoes.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
@@ -261,7 +260,7 @@ public class WMaterial extends javax.swing.JDialog {
         this.dialogopai = dialogopai;
     }
 
-    private javax.swing.JScrollPane makeTable(javax.swing.JComboBox comboboxopcoes, DefaultTableModel model, boolean ativa, int valor) {
+    private javax.swing.JScrollPane makeTable(javax.swing.JComboBox<String> comboboxopcoes, DefaultTableModel model, boolean ativa, int valor) {
         tabela = new org.jdesktop.swingx.JXTable();
         javax.swing.JScrollPane panelscroll = new javax.swing.JScrollPane();
         panelscroll.setPreferredSize(new Dimension(334, 300));
@@ -305,10 +304,12 @@ public class WMaterial extends javax.swing.JDialog {
                 }
                 break;
         }
+        db.close();
         panelscroll.setBorder(null);
         tabela.setBorder(BorderFactory.createLineBorder(new Color(1, 1, 1), 1));
         tabela.getColumnModel().getColumn(0).setCellRenderer(renderer);
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,

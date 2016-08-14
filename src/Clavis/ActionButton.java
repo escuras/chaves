@@ -32,6 +32,7 @@ import javax.swing.UIManager;
 
 public class ActionButton extends javax.swing.JDialog {
 
+    private static final long serialVersionUID = 1L;
     private final Keys.Material mat;
     private final Keys.Classroom cla;
     private boolean editar;
@@ -530,6 +531,7 @@ public class ActionButton extends javax.swing.JDialog {
                             for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
                                 imageview.removeMouseListener(l);
                             }
+                            db.close();
                         }
                     }
                 }
@@ -736,6 +738,7 @@ public class ActionButton extends javax.swing.JDialog {
             req = db.getCurrentRequest(cla);
             requnion = db.getUnionRequests(req);
         }
+        db.close();
         javax.swing.JLabel lbtl;
         if (req.getId() != -1) {
             TimeDate.Date dat;

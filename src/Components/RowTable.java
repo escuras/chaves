@@ -21,7 +21,7 @@ import javax.swing.table.TableModel;
  * @author toze
  */
 public class RowTable extends JTable {
-
+    private static final long serialVersionUID = 1L;
     private final Map<Integer, Color> rowColor;
     private final Map<Integer, Border> borderColor;
     private java.awt.Insets insets;

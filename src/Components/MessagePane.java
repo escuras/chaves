@@ -34,7 +34,7 @@ public class MessagePane {
     java.awt.Color corsistema;
     private javax.swing.JButton[] botoes;
     javax.swing.JComponent[] componentes;
-    javax.swing.JComboBox[] comboboxes;
+    javax.swing.JComboBox<String>[] comboboxes;
     javax.swing.JPanel panelcolocado;
     javax.swing.JDialog dialogo;
     int resposta;

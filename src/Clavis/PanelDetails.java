@@ -240,6 +240,8 @@ public class PanelDetails extends JPanel {
             layout.setHorizontalGroup(grupo);
         } else {
             panel = new PanelDetails(lingua, color, textColor, nome_imagem, tiporecurso) {
+                private static final long serialVersionUID = 1L;
+                
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);

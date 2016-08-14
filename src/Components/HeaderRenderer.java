@@ -20,15 +20,8 @@ import javax.swing.table.JTableHeader;
  */
 public class HeaderRenderer extends DefaultTableCellRenderer {
 
-    /**
-     * Constructs a <code>DefaultTableHeaderCellRenderer</code>.
-     * <P>
-     * The horizontal alignment and text position are set as appropriate to a
-     * table header cell, and the opaque property is set to false.
-     */
-    public HeaderRenderer() {
-        
-    }
+    private static final long serialVersionUID = 1L;
+  
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -53,7 +46,6 @@ public class HeaderRenderer extends DefaultTableCellRenderer {
         this.setVerticalAlignment(javax.swing.JLabel.CENTER);
         setBackground(table.getBackground().darker());
         setOpaque(true);
-        //setBorder(BorderFactory.createLineBorder(Color.black, 0));
         return this;
     }
 

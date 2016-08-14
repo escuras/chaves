@@ -69,8 +69,13 @@ public class HandlingCSV {
                             + "Resources" + System.getProperty("file.separator")
                             + "Download" + System.getProperty("file.separator") + doc_nome);
                     if (!file.exists()) {
-                        File diretoria = new File("download");
-                        diretoria.mkdir();
+                        File diretoria = new File(new File("").getAbsolutePath()
+                                + System.getProperty("file.separator")
+                                + "Resources" + System.getProperty("file.separator")
+                                + "Download");
+                        if (!diretoria.exists()) {
+                            diretoria.mkdirs();
+                        }
                         file.createNewFile();
                     }
                     InputStream input = new FileInputStream(file);
@@ -93,8 +98,13 @@ public class HandlingCSV {
                                         + "Resources" + System.getProperty("file.separator")
                                         + "Download" + System.getProperty("file.separator") + doc_nome);
                                 if (!file.exists()) {
-                                    File diretoria = new File("download");
-                                    diretoria.mkdir();
+                                    File diretoria = new File(new File("").getAbsolutePath()
+                                            + System.getProperty("file.separator")
+                                            + "Resources" + System.getProperty("file.separator")
+                                            + "Download");
+                                    if (!diretoria.exists()) {
+                                        diretoria.mkdirs();
+                                    }
                                     file.createNewFile();
                                     novo = true;
                                     try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
@@ -102,7 +112,11 @@ public class HandlingCSV {
                                         scv.flush();
                                     }
                                 } else {
-                                    File file2 = new File("horario_disciplinas.csv");
+                                    File file2 = new File(new File("").getAbsolutePath()
+                                        + System.getProperty("file.separator")
+                                        + "Resources" + System.getProperty("file.separator")
+                                        + "Download" + System.getProperty("file.separator")
+                                        + "horario_disciplinas_temp.csv");
                                     try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
                                         scv.writeAll(entradas);
                                         scv.flush();

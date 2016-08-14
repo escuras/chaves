@@ -1165,7 +1165,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaLinguagemActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator it = lingua.getlist(4).iterator();&#xa;int i = 0;&#xa;while (it.hasNext()) {&#xa;    list[i] = lingua.translate(it.next().toString());&#xa;    i++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list));&#xa;BasicComboPopup popupMudaLinguagem = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaLinguagem.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaLinguagem.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator&lt;String&gt; it = lingua.getlist(4).iterator();&#xa;int i = 0;&#xa;while (it.hasNext()) {&#xa;    list[i] = lingua.translate(it.next().toString());&#xa;    i++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list));&#xa;BasicComboPopup popupMudaLinguagem = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaLinguagem.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaLinguagem.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
@@ -1670,6 +1670,9 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanelBaixoMouseClicked"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="DropShadowBorder shadow = new DropShadowBorder();&#xa;shadow.setShadowColor(Color.BLACK);&#xa;shadow.setShowTopShadow(true);&#xa;shadow.setCornerSize(0);&#xa;shadow.setShowBottomShadow(false);&#xa;shadow.setShowLeftShadow(false);&#xa;shadow.setShowRightShadow(false);&#xa;shadow.setShadowSize(3);&#xa;shadow.setShadowOpacity(1f);&#xa;        //this.setBorder(shadow);&#xa;        jPanelBaixo.setBorder(shadow);"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="right"/>
@@ -2305,7 +2308,7 @@
                         <Container class="javax.swing.JPanel" name="jPanelInformaCimaCima">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="0" green="0" red="0" type="rgb"/>
+                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
                             </Property>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -2558,13 +2561,13 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButtonBarRequisicoes" min="-2" max="-2" attributes="0"/>
+                  <Component id="jToggleButtonBarRequisicoes" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButtonBarEntregas" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jToggleButtonBarEntregas" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="6" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jToggleButton1" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -2572,14 +2575,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonListaBotoes" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonListaBotoes" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBoxListaBotoes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jComboBoxPesquisaOpcao" min="-2" pref="200" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="342" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -2623,11 +2626,8 @@
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[60, 26]"/>
             </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
-            </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[30, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2636,6 +2636,9 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtreq = null;&#xa;try {&#xa;    imagebtreq = ImageIO.read(getClass().getResourceAsStream(&quot;Images/baixo.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtreq != null) {&#xa;    javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);&#xa;    jToggleButtonBarRequisicoes.setIcon(iconbtreq);&#xa;}&#xa;jToggleButtonBarRequisicoes.setToolTipText(lingua.translate(&quot;Aba_requisicoes&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalToggleButton()"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;Components.PersonalToggleButton jToggleButtonBarRequisicoes;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButtonBarEntregas">
@@ -2653,10 +2656,10 @@
               <Dimension value="[60, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[0, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[30, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2665,8 +2668,8 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtent = null;&#xa;try {&#xa;    imagebtent = ImageIO.read(getClass().getResourceAsStream(&quot;Images/cima.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtent != null) {&#xa;    javax.swing.ImageIcon iconbtent = new javax.swing.ImageIcon(imagebtent);&#xa;    jToggleButtonBarEntregas.setIcon(iconbtent);&#xa;}"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalButton()"/>
-            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;Components.PersonalButton jToggleButtonBarEntregas;"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalToggleButton()"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;Components.PersonalToggleButton jToggleButtonBarEntregas;"/>
             <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
         </Component>
@@ -2729,11 +2732,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonListaBotoes">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="1" left="5" right="5" top="1"/>
-              </Border>
-            </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
@@ -2743,10 +2741,10 @@
               <Dimension value="[60, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[0, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[30, 26]"/>
             </Property>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
@@ -2755,6 +2753,9 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButtonListaBotoes.setMnemonic(lingua.translate(&quot;Lista de recursos&quot;).charAt(0));&#xa;jButtonListaBotoes.setToolTipText(lingua.translate(&quot;Lista de recursos&quot;));&#xa;java.awt.image.BufferedImage imagebtlista = null;&#xa;try {&#xa;    imagebtlista = ImageIO.read(getClass().getResourceAsStream(&quot;Images/lista.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtlista != null) {&#xa;    javax.swing.ImageIcon iconbtlista = new javax.swing.ImageIcon(imagebtlista);&#xa;    jButtonListaBotoes.setIcon(iconbtlista);&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalButton()"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;&#xa;Components.PersonalButton jButtonListaBotoes;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxPesquisaOpcao">
@@ -2795,10 +2796,10 @@
               <Dimension value="[60, 26]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[0, 26]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[60, 26]"/>
+              <Dimension value="[30, 26]"/>
             </Property>
           </Properties>
           <Events>
@@ -2806,6 +2807,9 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtscroll = null;&#xa;try {&#xa;    imagebtscroll = ImageIO.read(getClass().getResourceAsStream(&quot;Images/scroll.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtscroll != null) {&#xa;    javax.swing.ImageIcon iconbtscroll = new javax.swing.ImageIcon(imagebtscroll);&#xa;    jToggleButton1.setIcon(iconbtscroll);&#xa;}&#xa;&#xa;if (scrollAtivo) {&#xa;    jToggleButton1.setSelected(true);&#xa;} else {&#xa;    jToggleButton1.setSelected(false);&#xa;}&#xa;jToggleButton1.setToolTipText(lingua.translate(&quot;Auxiliar autom&#xe1;tico de rolagem&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalToggleButton()"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;Components.PersonalToggleButton jToggleButton1;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">

@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HolidaysList {
 
     private int ano;
-    private java.util.Set feŕiados;
+    private java.util.Set<TimeDate.Holiday> feŕiados;
     private final DinamicHoliday pascoa;
     private final DinamicHoliday carnaval;
     private final DinamicHoliday corpo_cristo;
@@ -183,7 +183,7 @@ public class HolidaysList {
             }
             i++;
         }
-        list.setHolidays(new java.util.HashSet(new java.util.HashSet(lista.values())));
+        list.setHolidays(new java.util.HashSet<>(new java.util.HashSet<>(lista.values())));
         file.saveHolidays(list);
     }
 }

@@ -33,8 +33,21 @@ public class FileBreakPeriods {
                 + "Resources" + System.getProperty("file.separator")
                 + "Files" + System.getProperty("file.separator")
                 + "intervalos.dat");
-        if (!file.isFile()) {
+        if (!file.exists()) {
             try {
+                File file2 = new File(new File("").getAbsolutePath()
+                        + System.getProperty("file.separator")
+                        + "Resources");
+                if (!file2.exists()) {
+                    file2.mkdir();
+                }
+                file2 = new File(new File("").getAbsolutePath()
+                        + System.getProperty("file.separator")
+                        + "Resources" + System.getProperty("file.separator")
+                        + "Files");
+                if (!file2.exists()) {
+                    file2.mkdir();
+                }
                 file.createNewFile();
             } catch (IOException ex) {
                 Logger.getLogger(FileBreakPeriods.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +147,6 @@ public class FileBreakPeriods {
                 byte[] bytes = aux.getBytes();
                 os.write(bytes);
                 os.flush();
-                os.close();
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileHolidays.class.getName()).log(Level.SEVERE, null, ex);

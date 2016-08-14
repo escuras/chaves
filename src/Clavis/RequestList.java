@@ -24,7 +24,6 @@ import java.util.TreeSet;
 public class RequestList {
 
     private String bd;
-    private DataBase.DataBase db;
     private Keys.TypeOfMaterial material;
     private TimeDate.Date date1;
     private TimeDate.Date date2;
@@ -43,7 +42,6 @@ public class RequestList {
         this.estado = estado;
         this.terminado = terminado;
         this.vista = vista;
-        this.db = new DataBase.DataBase(bd);
         this.bd = bd;
         this.material = material;
         this.requests = new ArrayList<>();
@@ -64,7 +62,9 @@ public class RequestList {
 
     public void reMake() {
         this.calcDates();
+        DataBase.DataBase db = new DataBase.DataBase(bd);
         this.requests = new ArrayList(db.getRequests(material, this.date1, this.date2, estado, terminado));
+        db.close();
         Collections.sort(requests);
         this.treatUnionRequests();
     }
@@ -76,7 +76,9 @@ public class RequestList {
     }
 
     public void make() {
+        DataBase.DataBase db = new DataBase.DataBase(bd);
         this.requests = new ArrayList(db.getRequests(material, this.date1, this.date2, estado, terminado));
+        db.close();
         Collections.sort(requests);
         this.treatUnionRequests();
     }
@@ -177,13 +179,17 @@ public class RequestList {
     }
 
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
+        DataBase.DataBase db = new DataBase.DataBase(bd);
         this.requests = new ArrayList(db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado));
+        db.close();
         Collections.sort(requests);
         this.treatUnionRequests();
     }
 
     public void searchBy(int opcao, String person) {
+        DataBase.DataBase db = new DataBase.DataBase(bd);
         this.requests = new ArrayList(db.getRequests(opcao, person, this.date1, this.date2, estado, terminado));
+        db.close();
         Collections.sort(requests);
         this.treatUnionRequests();
     }
@@ -295,7 +301,10 @@ public class RequestList {
     }
 
     public boolean isConnected() {
-        return db.isTie();
+        DataBase.DataBase db = new DataBase.DataBase(bd);
+        boolean con = db.isTie();
+        db.close();
+        return con;
     }
 
     /**

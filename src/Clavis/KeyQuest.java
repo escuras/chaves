@@ -79,6 +79,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import org.jdesktop.swingx.border.DropShadowBorder;
 
 /**
  *
@@ -204,13 +205,13 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelLimpaPesquisaCima = new javax.swing.JLabel();
         jLabelDetalhesCima = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButtonBarRequisicoes = new javax.swing.JToggleButton();
-        jToggleButtonBarEntregas = new Components.PersonalButton();
+        jToggleButtonBarRequisicoes = new Components.PersonalToggleButton();
+        jToggleButtonBarEntregas = new Components.PersonalToggleButton();
         jComboBoxVista = new javax.swing.JComboBox<>();
         jComboBoxListaBotoes = new javax.swing.JComboBox<>();
-        jButtonListaBotoes = new javax.swing.JButton();
+        jButtonListaBotoes = new Components.PersonalButton();
         jComboBoxPesquisaOpcao = new javax.swing.JComboBox<>();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton1 = new Components.PersonalToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
@@ -1043,7 +1044,7 @@ public class KeyQuest extends javax.swing.JFrame {
         popupMudaTema.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         jLabelMudaLinguagem.setText(lingua.translate("Lingua_apresentacao")+": ");
         String [] list = new String[lingua.getlist(4).size()];
-        java.util.Iterator it = lingua.getlist(4).iterator();
+        java.util.Iterator<String> it = lingua.getlist(4).iterator();
         int i = 0;
         while (it.hasNext()) {
             list[i] = lingua.translate(it.next().toString());
@@ -1602,6 +1603,17 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelLimpaPesquisaBaixo.setBackground(jPanelBaixo.getBackground());
 
         jSplitPaneInicial.setRightComponent(jPanelBaixo);
+        DropShadowBorder shadow = new DropShadowBorder();
+        shadow.setShadowColor(Color.BLACK);
+        shadow.setShowTopShadow(true);
+        shadow.setCornerSize(0);
+        shadow.setShowBottomShadow(false);
+        shadow.setShowLeftShadow(false);
+        shadow.setShowRightShadow(false);
+        shadow.setShadowSize(3);
+        shadow.setShadowOpacity(1f);
+        //this.setBorder(shadow);
+        jPanelBaixo.setBorder(shadow);
 
         jPanelCima.setBackground(new java.awt.Color(228, 228, 228));
         jPanelCima.setAutoscrolls(true);
@@ -1646,7 +1658,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneInformaCima.setName(""); // NOI18N
         jScrollPaneInformaCima.setPreferredSize(new java.awt.Dimension(200, 230));
 
-        jPanelInformaCimaCima.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelInformaCimaCima.setBackground(new java.awt.Color(254, 254, 254));
         jPanelInformaCimaCima.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         jPanelInformaCimaCima.setMaximumSize(new java.awt.Dimension(267, 32767));
         jPanelInformaCimaCima.setMinimumSize(new java.awt.Dimension(100, 200));
@@ -1987,8 +1999,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButtonBarRequisicoes.setFocusable(false);
         jToggleButtonBarRequisicoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonBarRequisicoes.setMaximumSize(new java.awt.Dimension(60, 26));
-        jToggleButtonBarRequisicoes.setMinimumSize(new java.awt.Dimension(60, 26));
-        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(60, 26));
+        jToggleButtonBarRequisicoes.setPreferredSize(new java.awt.Dimension(30, 26));
         jToggleButtonBarRequisicoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButtonBarRequisicoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2002,8 +2013,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButtonBarEntregas.setFocusable(false);
         jToggleButtonBarEntregas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonBarEntregas.setMaximumSize(new java.awt.Dimension(60, 26));
-        jToggleButtonBarEntregas.setMinimumSize(new java.awt.Dimension(60, 26));
-        jToggleButtonBarEntregas.setPreferredSize(new java.awt.Dimension(60, 26));
+        jToggleButtonBarEntregas.setMinimumSize(new java.awt.Dimension(0, 26));
+        jToggleButtonBarEntregas.setPreferredSize(new java.awt.Dimension(30, 26));
         jToggleButtonBarEntregas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButtonBarEntregas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2035,13 +2046,12 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jButtonListaBotoes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         jButtonListaBotoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonListaBotoes.setFocusPainted(false);
         jButtonListaBotoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonListaBotoes.setMaximumSize(new java.awt.Dimension(60, 26));
-        jButtonListaBotoes.setMinimumSize(new java.awt.Dimension(60, 26));
-        jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(60, 26));
+        jButtonListaBotoes.setMinimumSize(new java.awt.Dimension(0, 26));
+        jButtonListaBotoes.setPreferredSize(new java.awt.Dimension(30, 26));
         jButtonListaBotoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonListaBotoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2064,8 +2074,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.setFocusPainted(false);
         jToggleButton1.setMaximumSize(new java.awt.Dimension(60, 26));
-        jToggleButton1.setMinimumSize(new java.awt.Dimension(60, 26));
-        jToggleButton1.setPreferredSize(new java.awt.Dimension(60, 26));
+        jToggleButton1.setMinimumSize(new java.awt.Dimension(0, 26));
+        jToggleButton1.setPreferredSize(new java.awt.Dimension(30, 26));
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -2086,13 +2096,13 @@ public class KeyQuest extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToggleButtonBarRequisicoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButtonBarRequisicoes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButtonBarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButtonBarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2100,14 +2110,14 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonListaBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonListaBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxListaBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxPesquisaOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(342, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2314,11 +2324,11 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jButtonDefHolidaysDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefHolidaysDireitaActionPerformed
         if (!jListFeriadosDefeito.isSelectionEmpty()) {
-            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
+            DefaultListModel<String> modelo = (DefaultListModel<String>) jListFeriadosEscolhidos.getModel();
             String value = jListFeriadosDefeito.getSelectedValue();
             boolean aux = false;
             for (int i = 0; i < modelo.getSize(); i++) {
-                if (modelo.getElementAt(i).toString().equals(value)) {
+                if (modelo.getElementAt(i).equals(value)) {
                     aux = true;
                 }
             }
@@ -2444,7 +2454,6 @@ public class KeyQuest extends javax.swing.JFrame {
         ldia.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
         ldia.setHorizontalAlignment(SwingConstants.CENTER);
         ldia.setPreferredSize(new java.awt.Dimension(50, 26));
-        javax.swing.ComboBoxModel modelo = (javax.swing.ComboBoxModel<String>) mes.getModel();
         javax.swing.JLabel branco = new javax.swing.JLabel("");
         branco.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
 
@@ -2494,10 +2503,10 @@ public class KeyQuest extends javax.swing.JFrame {
     private void jListFeriadosDefeitoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoMouseClicked
         if (!jListFeriadosDefeito.isSelectionEmpty()) {
             String val = jListFeriadosDefeito.getSelectedValue();
-            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
+            DefaultListModel<String> modelo = (DefaultListModel<String>) jListFeriadosEscolhidos.getModel();
             boolean existe = false;
             for (int i = 0; i < modelo.getSize(); i++) {
-                if (modelo.getElementAt(i).toString().equals(val)) {
+                if (modelo.getElementAt(i).equals(val)) {
                     existe = true;
                 }
             }
@@ -2518,10 +2527,10 @@ public class KeyQuest extends javax.swing.JFrame {
     private void jListFeriadosDefeitoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListFeriadosDefeitoValueChanged
         if (!jListFeriadosDefeito.isSelectionEmpty()) {
             String val = jListFeriadosDefeito.getSelectedValue();
-            DefaultListModel modelo = (DefaultListModel) jListFeriadosEscolhidos.getModel();
+            DefaultListModel<String> modelo = (DefaultListModel<String>) jListFeriadosEscolhidos.getModel();
             boolean existe = false;
             for (int i = 0; i < modelo.getSize(); i++) {
-                if (modelo.getElementAt(i).toString().equals(val)) {
+                if (modelo.getElementAt(i).equals(val)) {
                     existe = true;
                 }
             }
@@ -2722,10 +2731,10 @@ public class KeyQuest extends javax.swing.JFrame {
                     jButtonDefBreakApagar.setEnabled(false);
                 }
             } else {
-                DefaultListModel modelo = (DefaultListModel) jListFerias.getModel();
+                DefaultListModel<String> modelo = (DefaultListModel<String>) jListFerias.getModel();
                 String[] val;
                 for (int i = 0; i < modelo.getSize(); i++) {
-                    val = modelo.get(i).toString().split(":");
+                    val = modelo.get(i).split(":");
                     if (val[0].equals(nome)) {
                         java.awt.image.BufferedImage image = null;
                         try {
@@ -2895,6 +2904,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 this.temaClaro();
             }
         }
+        db.close();
         this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
     }//GEN-LAST:event_jButtonAtuacaoConfirmaActionPerformed
 
@@ -2997,8 +3007,8 @@ public class KeyQuest extends javax.swing.JFrame {
                 db.changeRequestTerminateState(req);
             }
             lista_dev.removeSelectedRequest();
-            //this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
         }
+        db.close();
     }//GEN-LAST:event_jButtonConfirmaDevolucaoActionPerformed
 
     private void jTextFieldProcuraCimaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldProcuraCimaKeyPressed
@@ -3662,7 +3672,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void mostrajListFeriasMensagem() {
         int v = jListFerias.getSelectedIndex();
-        TimeDate.BreakPeriod br = (TimeDate.BreakPeriod) new java.util.ArrayList(intervalos.getBreakPeriodList()).get(v);
+        TimeDate.BreakPeriod br = new java.util.ArrayList<TimeDate.BreakPeriod>(intervalos.getBreakPeriodList()).get(v);
         int ano = new TimeDate.Date().getYear();
         javax.swing.JLabel l = new javax.swing.JLabel();
         l.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -3689,7 +3699,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     public void drawChoosenHolidaysList() {
-        DefaultListModel modelo2 = new DefaultListModel();
+        DefaultListModel<String> modelo2 = new DefaultListModel<>();
         feriados.getHolidays().stream().map((ho) -> {
             ho.setLanguage(lingua);
             return ho;
@@ -3711,8 +3721,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jListFeriadosEscolhidos.setModel(modelo2);
         jListFeriadosEscolhidos.setBorder(BorderFactory.createEmptyBorder(20, 40, 0, 40));
         jListFeriadosEscolhidos.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
-            public Component getListCellRendererComponent(javax.swing.JList list, Object value, int index,
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,
                     boolean isSelected,
                     boolean cellHasFocus) {
                 javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -3729,7 +3741,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     public void drawBreaksList() {
-        DefaultListModel modelo2 = new DefaultListModel();
+        DefaultListModel<String> modelo2 = new DefaultListModel<>();
         intervalos.getBreakPeriodList().stream().map((ho) -> {
             return ho;
         }).forEach((ho) -> {
@@ -3738,8 +3750,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jListFerias.setModel(modelo2);
         jListFerias.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
         jListFerias.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 2L;
+
             @Override
-            public Component getListCellRendererComponent(javax.swing.JList list, Object value, int index,
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,
                     boolean isSelected,
                     boolean cellHasFocus) {
                 javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -3769,6 +3783,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jListFeriadosDefeito.setBorder(BorderFactory.createEmptyBorder(10, 40, 0, 40));
         jListFeriadosDefeito.setModel(modelo);
         jListFeriadosDefeito.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,
                     boolean isSelected,
@@ -3827,14 +3843,12 @@ public class KeyQuest extends javax.swing.JFrame {
             @Override
             public BasicSplitPaneDivider createDefaultDivider() {
                 return new BasicSplitPaneDivider(this) {
-                    @Override
-                    public void setBorder(Border b) {
-                    }
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void paint(java.awt.Graphics g) {
                         java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
-                        java.awt.GradientPaint redtowhite = new java.awt.GradientPaint(0, this.getHeight() / 2, new Color(1,1,1), this.getWidth() / 2, this.getHeight() / 2, new Color(254, 254, 254),true);
+                        java.awt.GradientPaint redtowhite = new java.awt.GradientPaint(0, this.getHeight() / 2, new Color(1, 1, 1), this.getWidth() / 2, this.getHeight() / 2, new Color(104, 104, 104), true);
                         g2.setPaint(redtowhite);
                         g2.fillRect(0, 0, getSize().width, getSize().height);
                         g2.setColor(new Color(35, 35, 35));
@@ -3887,6 +3901,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
             }
         });
+        
     }
 
     protected final void init() {
@@ -3897,10 +3912,12 @@ public class KeyQuest extends javax.swing.JFrame {
         urlbd = DEFAULT_URlBD;
         this.defineSearchString();
         initComponents();
-        this.tiposmateriais = new DataBase.DataBase(urlbd).getTypesOfMaterial();
+        DataBase.DataBase db = new DataBase.DataBase(urlbd);
+        this.tiposmateriais = db.getTypesOfMaterial();
+        db.close();
         String[] lista = new String[tiposmateriais.size()];
         int i = 0;
-        int aux = 0;
+        int aux = -1;
         for (Keys.TypeOfMaterial mat : tiposmateriais) {
             lista[i] = lingua.translate(mat.getTypeOfMaterialName());
             if (mat.getMaterialTypeID() == tipomaterial.getMaterialTypeID()) {
@@ -3909,11 +3926,12 @@ public class KeyQuest extends javax.swing.JFrame {
             i++;
         }
         jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(lista));
-        jComboBoxListaBotoes.setSelectedIndex(aux);
         createMenu();
-
         Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
         //cbd.update();
+        if (aux >= 0) {
+            jComboBoxListaBotoes.setSelectedIndex(aux);
+        }
         this.calculateList(tipomaterial);
         if ((bitpagina[0] == 1) && (bitpagina[1]) == 0) {
             jSplitPaneInicial.setDividerLocation((int) jPanelInicial.getSize().getHeight());
@@ -4089,7 +4107,7 @@ public class KeyQuest extends javax.swing.JFrame {
             public void run() {
                 calculateList(tipomaterial);
             }
-        }, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        }, today.getTime(), 86400000);
     }
 
     private void itemFeriadosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -4370,7 +4388,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 TimeDate.Time tempo = new TimeDate.Time();
                 TimeDate.Date dat = new TimeDate.Date();
                 int i = 0;
-                if (lista_req.getRequestList().getRequests().size() > 0) {    
+                if (lista_req.getRequestList().getRequests().size() > 0) {
                     if (jScrollPaneRequisicoes.getVerticalScrollBar().isVisible()) {
                         for (Keys.Request req : lista_req.getRequestList().getRequests()) {
                             int val = tempo.compareTime(req.getTimeBegin());
@@ -4497,6 +4515,8 @@ public class KeyQuest extends javax.swing.JFrame {
         l.setBackground(new Color(245, 245, 245));
 
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -4514,6 +4534,8 @@ public class KeyQuest extends javax.swing.JFrame {
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -4603,6 +4625,8 @@ public class KeyQuest extends javax.swing.JFrame {
         l.setBackground(new Color(165, 165, 165));
 
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -4621,6 +4645,8 @@ public class KeyQuest extends javax.swing.JFrame {
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -4708,7 +4734,11 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButtonDefHolidaysMais;
     javax.swing.JButton jButtonDefHolidaysVoltar;
     javax.swing.JButton jButtonLinguaMudaConfirma;
+    /*
     javax.swing.JButton jButtonListaBotoes;
+    */
+
+    Components.PersonalButton jButtonListaBotoes;
     javax.swing.JButton jButtonProcuraBaixo;
     javax.swing.JButton jButtonProcuraCima;
     javax.swing.JComboBox<String> jComboBox1;
@@ -4802,12 +4832,18 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JTextField jTextFieldDefBreaksNome;
     javax.swing.JTextField jTextFieldProcuraBaixo;
     javax.swing.JTextField jTextFieldProcuraCima;
+    /*
     javax.swing.JToggleButton jToggleButton1;
+    */
+    Components.PersonalToggleButton jToggleButton1;
     /*
     javax.swing.JToggleButton jToggleButtonBarEntregas;
     */
-    Components.PersonalButton jToggleButtonBarEntregas;
+    Components.PersonalToggleButton jToggleButtonBarEntregas;
+    /*
     javax.swing.JToggleButton jToggleButtonBarRequisicoes;
+    */
+    Components.PersonalToggleButton jToggleButtonBarRequisicoes;
     // End of variables declaration//GEN-END:variables
     protected boolean booleanBoxLanguage;
     private RequestList requisicoes;

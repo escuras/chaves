@@ -17,7 +17,9 @@ import javax.swing.KeyStroke;
  * @author toze
  */
 public class PopUpMenu extends JPopupMenu {
-
+    
+    private static final long serialVersionUID = 1L;
+    
     JMenuItem[] item;
 
     public PopUpMenu() {

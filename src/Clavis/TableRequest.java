@@ -218,6 +218,7 @@ public class TableRequest {
             }
         }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -236,6 +237,7 @@ public class TableRequest {
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -373,7 +375,8 @@ public class TableRequest {
                                 if (tipomaterial == 1) {
                                     DataBase.DataBase db = new DataBase.DataBase(url);
                                     Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
-                                    Clavis.ActionButton bt = new Clavis.ActionButton((Keys.Classroom) cla, lingua, systemColor, url);
+                                    db.close();
+                                    Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, systemColor, url);
                                     bt.create();
                                     bt.open();
                                 } else {
@@ -443,7 +446,8 @@ public class TableRequest {
                             if (tipomaterial == 1) {
                                 DataBase.DataBase db = new DataBase.DataBase(url);
                                 Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
-                                Clavis.ActionButton bt = new Clavis.ActionButton((Keys.Classroom) cla, lingua, systemColor, url);
+                                db.close();
+                                Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, systemColor, url);
                                 bt.create();
                                 bt.open();
                             } else {
@@ -537,6 +541,7 @@ public class TableRequest {
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Enter");
         tabela.getActionMap()
                 .put("Enter", new AbstractAction() {
+                    private static final long serialVersionUID = 1L;
                     @Override
                     public void actionPerformed(ActionEvent ae
                     ) {
@@ -548,6 +553,7 @@ public class TableRequest {
                 );
         tabela.getActionMap()
                 .put("cancel", new AbstractAction() {
+                    private static final long serialVersionUID = 1L;
                     @Override
                     public void actionPerformed(ActionEvent ae
                     ) {
@@ -835,6 +841,7 @@ public class TableRequest {
                             tabela.repaint();
                             i++;
                         }
+                        db.close();
                     }
                 } else if ((modelo.getRowCount() > 0) && (!requisicoes.getRequests().isEmpty())) {
                     int i = 0;

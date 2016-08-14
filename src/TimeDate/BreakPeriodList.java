@@ -10,7 +10,6 @@ package TimeDate;
  * @author toze
  */
 public class BreakPeriodList {
-
     private java.util.List<BreakPeriod> lista;
 
     public BreakPeriodList() {
@@ -20,7 +19,7 @@ public class BreakPeriodList {
     /*
     * constructor
      */
-    public BreakPeriodList(java.util.List list) {
+    public BreakPeriodList(java.util.List<TimeDate.BreakPeriod> list) {
         this.lista = list;
     }
 

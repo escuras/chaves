@@ -29,7 +29,7 @@ import javax.swing.SwingConstants;
 public class ButtonListRequest {
 
     private List<javax.swing.JButton> bLista;
-    private Set mater;
+    private Set<Keys.Material> mater;
     private Dimension dim;
     private Langs.Locale lingua;
     private javax.swing.JTabbedPane tpanel;
@@ -48,39 +48,43 @@ public class ButtonListRequest {
         this.lingua = lingua;
         this.url = url;
         this.dialogoanterior = dialogo;
-      
+
         this.panelcor = panelcolor;
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
         DataBase.DataBase db = new DataBase.DataBase(csv);
+
         dim = new Dimension(80, 80);
         this.btcor1 = new Color(54, 54, 154);
         this.btcor2 = new Color(145, 145, 254);
         this.tpanel = tpanel;
         this.tipopesquisa = tipopesquisa;
-        int val = req.getTypeOfMaterial().getMaterialTypeID();
-        switch (tipopesquisa) {
-            case 0:
-                if (val == 1) {
-                    mater = new TreeSet<>(db.getClassrooms(0));
-                } else {
-                    mater = new TreeSet<>(db.getMaterialsByType(val));
-                }
-                break;
-            case 1:
-                if (val == 1) {
-                    mater = new TreeSet<>(db.getClassrooms(1));
-                } else {
-                    mater = new TreeSet<>(db.getMaterialsByType(val));
-                }
-                break;
-            default:
-                if (val == 1) {
-                    mater = new TreeSet<>(db.getClassrooms(2));
-                } else {
-                    mater = new TreeSet<>(db.getMaterialsByType(val));
-                }
-                break;
+        if (db.isTie()) {
+            int val = req.getTypeOfMaterial().getMaterialTypeID();
+            switch (tipopesquisa) {
+                case 0:
+                    if (val == 1) {
+                        mater = new TreeSet<>(db.getClassrooms(0));
+                    } else {
+                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                    }
+                    break;
+                case 1:
+                    if (val == 1) {
+                        mater = new TreeSet<>(db.getClassrooms(1));
+                    } else {
+                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                    }
+                    break;
+                default:
+                    if (val == 1) {
+                        mater = new TreeSet<>(db.getClassrooms(2));
+                    } else {
+                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                    }
+                    break;
+            }
+            db.close();
         }
         iterador = mater.iterator();
     }
@@ -129,7 +133,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m,lingua,panelcor,url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, panelcor, url);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;
@@ -165,7 +169,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m,lingua,panelcor,url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, panelcor, url);
                         dialogoanterior.setVisible(false);
                         at.open();
                     });
@@ -234,7 +238,5 @@ public class ButtonListRequest {
         aux.setViewportView(pane);
         return aux;
     }
-
-   
 
 }
