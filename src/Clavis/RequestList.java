@@ -63,10 +63,13 @@ public class RequestList {
     public void reMake() {
         this.calcDates();
         DataBase.DataBase db = new DataBase.DataBase(bd);
-        this.requests = new ArrayList(db.getRequests(material, this.date1, this.date2, estado, terminado));
+        if (db.isTie()) {
+            this.requests = new ArrayList<>(db.getRequests(material, this.date1, this.date2, estado, terminado));
+            Collections.sort(requests);
+            this.treatUnionRequests();
+        }
         db.close();
-        Collections.sort(requests);
-        this.treatUnionRequests();
+
     }
 
     public Keys.Request getSelectedRequest(int valor) {
@@ -77,10 +80,12 @@ public class RequestList {
 
     public void make() {
         DataBase.DataBase db = new DataBase.DataBase(bd);
-        this.requests = new ArrayList(db.getRequests(material, this.date1, this.date2, estado, terminado));
+        if (db.isTie()) {
+            this.requests = new ArrayList<>(db.getRequests(material, this.date1, this.date2, estado, terminado));
+            Collections.sort(requests);
+            this.treatUnionRequests();
+        }
         db.close();
-        Collections.sort(requests);
-        this.treatUnionRequests();
     }
 
     private void treatUnionRequests() {
@@ -107,7 +112,7 @@ public class RequestList {
                 }
             }
         }
-        requests = new ArrayList(requisicoes);
+        requests = new ArrayList<>(requisicoes);
         Collections.sort(requests);
     }
 
@@ -180,18 +185,22 @@ public class RequestList {
 
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
         DataBase.DataBase db = new DataBase.DataBase(bd);
-        this.requests = new ArrayList(db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado));
+        if (db.isTie()) {
+            this.requests = new ArrayList<>(db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado));
+            Collections.sort(requests);
+            this.treatUnionRequests();
+        }
         db.close();
-        Collections.sort(requests);
-        this.treatUnionRequests();
     }
 
     public void searchBy(int opcao, String person) {
         DataBase.DataBase db = new DataBase.DataBase(bd);
-        this.requests = new ArrayList(db.getRequests(opcao, person, this.date1, this.date2, estado, terminado));
+        if (db.isTie()) {
+            this.requests = new ArrayList<>(db.getRequests(opcao, person, this.date1, this.date2, estado, terminado));
+            Collections.sort(requests);
+            this.treatUnionRequests();
+        }
         db.close();
-        Collections.sort(requests);
-        this.treatUnionRequests();
     }
 
     public void removeRequest(Keys.Request request) {
@@ -301,10 +310,7 @@ public class RequestList {
     }
 
     public boolean isConnected() {
-        DataBase.DataBase db = new DataBase.DataBase(bd);
-        boolean con = db.isTie();
-        db.close();
-        return con;
+        return DataBase.DataBase.testConnection(bd);
     }
 
     /**

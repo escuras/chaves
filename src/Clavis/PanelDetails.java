@@ -67,9 +67,9 @@ public class PanelDetails extends JPanel {
         SVGUniverse svg = new SVGUniverse();
         InputStream is;
         if (!imagem.equals("sem")) {
-            is = this.getClass().getResourceAsStream("Images/" + imagem + ".svg");
+            is = this.getClass().getResourceAsStream("Images/Materiais/" + imagem + ".svg");
         } else {
-            is = this.getClass().getResourceAsStream("Images/box.svg");
+            is = this.getClass().getResourceAsStream("Images/Materiais/sem.svg");
         }
         this.imagemrecurso = "";
         this.tiporecurso = tiporecurso;

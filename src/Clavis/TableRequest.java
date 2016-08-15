@@ -30,15 +30,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.plaf.TableHeaderUI;
 import javax.swing.table.DefaultTableCellRenderer;
-import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 /**
  *

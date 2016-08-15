@@ -1627,7 +1627,7 @@
         <Container class="javax.swing.JSplitPane" name="jSplitPaneInicial">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="1" green="1" red="1" type="rgb"/>
+              <Color blue="c9" green="c9" red="c9" type="rgb"/>
             </Property>
             <Property name="dividerLocation" type="int" value="400"/>
             <Property name="dividerSize" type="int" value="20"/>
@@ -1660,6 +1660,9 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d5" green="e4" red="d5" type="rgb"/>
                 </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(0, 0, 0,25))" type="code"/>
+                </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[1, 1]"/>
                 </Property>
@@ -1670,9 +1673,6 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanelBaixoMouseClicked"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="DropShadowBorder shadow = new DropShadowBorder();&#xa;shadow.setShadowColor(Color.BLACK);&#xa;shadow.setShowTopShadow(true);&#xa;shadow.setCornerSize(0);&#xa;shadow.setShowBottomShadow(false);&#xa;shadow.setShowLeftShadow(false);&#xa;shadow.setShowRightShadow(false);&#xa;shadow.setShadowSize(3);&#xa;shadow.setShadowOpacity(1f);&#xa;        //this.setBorder(shadow);&#xa;        jPanelBaixo.setBorder(shadow);"/>
-              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="right"/>
@@ -1687,7 +1687,7 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanelInformaBaixoBaixo" pref="278" max="32767" attributes="0"/>
+                                      <Component id="jPanelInformaBaixoBaixo" pref="291" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jButtonProcuraBaixo" min="-2" pref="78" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -1695,7 +1695,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="jPanelLimpaPesquisaBaixo" pref="290" max="32767" attributes="0"/>
+                              <Component id="jPanelLimpaPesquisaBaixo" pref="303" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -1704,7 +1704,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneDevolucoes" pref="730" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneDevolucoes" pref="717" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1741,12 +1741,21 @@
                 <Container class="javax.swing.JScrollPane" name="jScrollPaneDevolucoes">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                        <CompoundBorder>
+                          <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                            <Property name="cornerSize" value="6"/>
+                            <Property name="shadowSize" value="3"/>
+                            <Property name="showLeftShadow" value="true"/>
+                          </PropertyBean>
+                          <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                            <LineBorder/>
+                          </Border>
+                        </CompoundBorder>
                       </Border>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[700, 500]"/>
+                      <Dimension value="[600, 500]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[700, 633]"/>
@@ -1770,11 +1779,20 @@
                     <Property name="text" type="java.lang.String" value="Lista de devolu&#xe7;&#xf5;es"/>
                     <Property name="alignmentX" type="float" value="0.5"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                        <MatteColorBorder bottom="1" left="1" right="0" top="1"/>
+                      <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                        <CompoundBorder>
+                          <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                            <Property name="cornerSize" value="6"/>
+                            <Property name="shadowSize" value="3"/>
+                            <Property name="showLeftShadow" value="true"/>
+                            <Property name="showRightShadow" value="false"/>
+                          </PropertyBean>
+                          <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder bottom="1" left="1" right="0" top="1"/>
+                          </Border>
+                        </CompoundBorder>
                       </Border>
                     </Property>
-                    <Property name="opaque" type="boolean" value="true"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[103, 32]"/>
                     </Property>
@@ -1803,7 +1821,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 8, jPanelBaixo.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 6, 4, 8, jPanelBaixo.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
                   </AuxValues>
 
                   <Layout>
@@ -1888,7 +1906,7 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="248" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="261" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -1984,6 +2002,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
+                    <Property name="opaque" type="boolean" value="false"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[0, 41]"/>
                     </Property>
@@ -1994,7 +2013,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldProcuraBaixoKeyPressed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createMatteBorder(5, 5, 5, 8,jPanelBaixo.getBackground());&#xa;javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1])+&quot; ... &quot;);&#xa;jTextFieldProcuraBaixo.setFocusAccelerator(&apos;x&apos;);&#xa;jTextFieldProcuraBaixo.setCaretPosition(0);&#xa;jTextFieldProcuraBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();  &#xa;            String copiar = &quot;&quot;;&#xa;            String colar = &quot;&quot;;    &#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                String[] titulos = {lingua.translate(&quot;Colar&quot;), lingua.translate(&quot;Copiar&quot;)};&#xa;                ActionListener[] act = new ActionListener[titulos.length];   &#xa;                if ((jTextFieldProcuraBaixo.getSelectedText()) != null) { &#xa;                    copiar = jTextFieldProcuraBaixo.getSelectedText();&#xa;                } else {&#xa;                    copiar = &quot;&quot;;&#xa;                }&#xa;                Transferable t = c.getContents( null );&#xa;                if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {&#xa;                    try {  &#xa;                        Object o = t.getTransferData( DataFlavor.stringFlavor );&#xa;                        colar = (String)t.getTransferData( DataFlavor.stringFlavor );&#xa;                    } catch(Exception eo) {}  &#xa;                }&#xa;                if (e.isPopupTrigger() &amp;&amp; e.getComponent() instanceof javax.swing.JTextField) {&#xa;                    jTextFieldProcuraBaixo.requestFocus();&#xa;                    act[0] = (ActionEvent e1) -&gt; {&#xa;                        if (tema.equals(&quot;claro&quot;)) {&#xa;                            jTextFieldProcuraBaixo.setForeground(new Color(1,1,1));&#xa;                        } else {&#xa;                            jTextFieldProcuraBaixo.setForeground(new Color(254,254,254));&#xa;                        }&#xa;                        if (jTextFieldProcuraBaixo.getSelectedText() != null) {&#xa;                            int start = jTextFieldProcuraBaixo.getSelectionStart();&#xa;                            int end = jTextFieldProcuraBaixo.getSelectionEnd();&#xa;                            if (!jTextFieldProcuraBaixo.getSelectedText().equals(&quot;&quot;)) {&#xa;                                String texto1 = jTextFieldProcuraBaixo.getText().substring(0, start);&#xa;                                String texto2 = jTextFieldProcuraBaixo.getText().substring(end, jTextFieldProcuraBaixo.getText().length());&#xa;                                jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                            } else {&#xa;                                String texto1 = jTextFieldProcuraBaixo.getText().substring(0,jTextFieldProcuraBaixo.getCaretPosition());&#xa;                                String texto2 = jTextFieldProcuraBaixo.getText().substring(jTextFieldProcuraBaixo.getCaretPosition(), jTextFieldProcuraBaixo.getText().length());&#xa;                                jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                            }&#xa;                        } else {&#xa;                            String texto1 = jTextFieldProcuraBaixo.getText().substring(0, jTextFieldProcuraBaixo.getCaretPosition());&#xa;                            String texto2 = jTextFieldProcuraBaixo.getText().substring(jTextFieldProcuraBaixo.getCaretPosition(), jTextFieldProcuraBaixo.getText().length());&#xa;                            jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                            String auxiliar = texto1 + colar;&#xa;                            jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                        }&#xa;                    };&#xa;                    act[1] = (ActionEvent e1) -&gt; { &#xa;                        StringSelection texto = new StringSelection(jTextFieldProcuraBaixo.getSelectedText());&#xa;                        copiar = texto.toString();&#xa;                        jTextFieldProcuraBaixo.setSelectionEnd(-1);&#xa;                        c.setContents(texto, texto);&#xa;                    };&#xa;                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, colar, copiar);&#xa;                    popup.create();&#xa;                    popup.show(e.getComponent(), e.getX(), e.getY());&#xa;                }&#xa;            }&#xa;        });"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderpesquisabaixo1 = BorderFactory.createMatteBorder(5, 5, 5, 8,jPanelBaixo.getBackground());&#xa;javax.swing.border.Border borderpesquisabaixo3 = BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(1,1,1,75)),javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;javax.swing.border.Border borderpesquisabaixo2 = BorderFactory.createCompoundBorder(borderpesquisabaixo1,borderpesquisabaixo3);&#xa;&#xa;jTextFieldProcuraBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisabaixo2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1])+&quot; ... &quot;);&#xa;jTextFieldProcuraBaixo.setFocusAccelerator(&apos;x&apos;);&#xa;jTextFieldProcuraBaixo.setCaretPosition(0);&#xa;jTextFieldProcuraBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();  &#xa;            String copiar = &quot;&quot;;&#xa;            String colar = &quot;&quot;;    &#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                String[] titulos = {lingua.translate(&quot;Colar&quot;), lingua.translate(&quot;Copiar&quot;)};&#xa;                ActionListener[] act = new ActionListener[titulos.length];   &#xa;                if ((jTextFieldProcuraBaixo.getSelectedText()) != null) { &#xa;                    copiar = jTextFieldProcuraBaixo.getSelectedText();&#xa;                } else {&#xa;                    copiar = &quot;&quot;;&#xa;                }&#xa;                Transferable t = c.getContents( null );&#xa;                if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {&#xa;                    try {  &#xa;                        Object o = t.getTransferData( DataFlavor.stringFlavor );&#xa;                        colar = (String)t.getTransferData( DataFlavor.stringFlavor );&#xa;                    } catch(Exception eo) {}  &#xa;                }&#xa;                if (e.isPopupTrigger() &amp;&amp; e.getComponent() instanceof javax.swing.JTextField) {&#xa;                    jTextFieldProcuraBaixo.requestFocus();&#xa;                    act[0] = (ActionEvent e1) -&gt; {&#xa;                        if (tema.equals(&quot;claro&quot;)) {&#xa;                            jTextFieldProcuraBaixo.setForeground(new Color(1,1,1));&#xa;                        } else {&#xa;                            jTextFieldProcuraBaixo.setForeground(new Color(254,254,254));&#xa;                        }&#xa;                        if (jTextFieldProcuraBaixo.getSelectedText() != null) {&#xa;                            int start = jTextFieldProcuraBaixo.getSelectionStart();&#xa;                            int end = jTextFieldProcuraBaixo.getSelectionEnd();&#xa;                            if (!jTextFieldProcuraBaixo.getSelectedText().equals(&quot;&quot;)) {&#xa;                                String texto1 = jTextFieldProcuraBaixo.getText().substring(0, start);&#xa;                                String texto2 = jTextFieldProcuraBaixo.getText().substring(end, jTextFieldProcuraBaixo.getText().length());&#xa;                                jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                            } else {&#xa;                                String texto1 = jTextFieldProcuraBaixo.getText().substring(0,jTextFieldProcuraBaixo.getCaretPosition());&#xa;                                String texto2 = jTextFieldProcuraBaixo.getText().substring(jTextFieldProcuraBaixo.getCaretPosition(), jTextFieldProcuraBaixo.getText().length());&#xa;                                jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                            }&#xa;                        } else {&#xa;                            String texto1 = jTextFieldProcuraBaixo.getText().substring(0, jTextFieldProcuraBaixo.getCaretPosition());&#xa;                            String texto2 = jTextFieldProcuraBaixo.getText().substring(jTextFieldProcuraBaixo.getCaretPosition(), jTextFieldProcuraBaixo.getText().length());&#xa;                            jTextFieldProcuraBaixo.setText(texto1 + colar + texto2);&#xa;                            String auxiliar = texto1 + colar;&#xa;                            jTextFieldProcuraBaixo.setCaretPosition(auxiliar.length());&#xa;                        }&#xa;                    };&#xa;                    act[1] = (ActionEvent e1) -&gt; { &#xa;                        StringSelection texto = new StringSelection(jTextFieldProcuraBaixo.getSelectedText());&#xa;                        copiar = texto.toString();&#xa;                        jTextFieldProcuraBaixo.setSelectionEnd(-1);&#xa;                        c.setContents(texto, texto);&#xa;                    };&#xa;                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, colar, copiar);&#xa;                    popup.create();&#xa;                    popup.show(e.getComponent(), e.getX(), e.getY());&#xa;                }&#xa;            }&#xa;        });"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelLimpaPesquisaBaixo">
@@ -2012,9 +2031,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabelDetalhesBaixo" pref="169" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesBaixo" pref="172" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelLimpaPesquisaBaixo" pref="115" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaBaixo" pref="125" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2039,11 +2058,19 @@
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                            <LineBorder/>
+                          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                            <CompoundBorder>
+                              <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                                <Property name="cornerSize" value="6"/>
+                                <Property name="shadowSize" value="3"/>
+                                <Property name="showLeftShadow" value="true"/>
+                              </PropertyBean>
+                              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                <LineBorder/>
+                              </Border>
+                            </CompoundBorder>
                           </Border>
                         </Property>
-                        <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                lista_dev.addTimerColors();&#xa;                lista_dev.startTimerColors();&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;                jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));&#xa;            }&#xa;        });"/>
@@ -2063,8 +2090,16 @@
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Detalhes"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                            <MatteColorBorder bottom="1" left="0" right="1" top="1"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                            <CompoundBorder>
+                              <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                                <Property name="cornerSize" value="6"/>
+                                <Property name="shadowSize" value="3"/>
+                              </PropertyBean>
+                              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                                <MatteColorBorder bottom="1" left="0" right="1" top="1"/>
+                              </Border>
+                            </CompoundBorder>
                           </Border>
                         </Property>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2074,7 +2109,6 @@
                           <Dimension value="[47, 14]"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="" noResource="true"/>
-                        <Property name="opaque" type="boolean" value="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[57, 32]"/>
                         </Property>
@@ -2092,6 +2126,9 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e4" green="e4" red="e4" type="rgb"/>
                 </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(0, 0, 0,25))" type="code"/>
+                </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[1, 1]"/>
@@ -2104,6 +2141,9 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanelCimaMouseClicked"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jSplitPaneInicial.setBackground(jPanelCima.getBackground());"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="left"/>
@@ -2172,13 +2212,22 @@
                       <Color blue="1" green="1" red="1" type="rgb"/>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                        <CompoundBorder>
+                          <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                            <Property name="cornerSize" value="6"/>
+                            <Property name="shadowSize" value="3"/>
+                            <Property name="showLeftShadow" value="true"/>
+                          </PropertyBean>
+                          <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                            <LineBorder/>
+                          </Border>
+                        </CompoundBorder>
                       </Border>
                     </Property>
                     <Property name="inheritsPopupMenu" type="boolean" value="true"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[700, 500]"/>
+                      <Dimension value="[600, 500]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[700, 633]"/>
@@ -2205,11 +2254,18 @@
                     <Property name="text" type="java.lang.String" value="Lista de requisi&#xe7;&#xf5;es" postCode="jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));"/>
                     <Property name="alignmentX" type="float" value="0.5"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                        <MatteColorBorder bottom="1" left="0" right="1" top="1"/>
+                      <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                        <CompoundBorder>
+                          <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                            <Property name="cornerSize" value="6"/>
+                            <Property name="shadowSize" value="3"/>
+                          </PropertyBean>
+                          <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                            <MatteColorBorder bottom="1" left="0" right="1" top="1"/>
+                          </Border>
+                        </CompoundBorder>
                       </Border>
                     </Property>
-                    <Property name="opaque" type="boolean" value="true"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[103, 32]"/>
                     </Property>
@@ -2240,7 +2296,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCimaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 8, 0, 0, jPanelCima.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCimaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 8, 4, 6, jPanelCima.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
                   </AuxValues>
 
                   <Layout>
@@ -2308,7 +2364,7 @@
                         <Container class="javax.swing.JPanel" name="jPanelInformaCimaCima">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                              <Color blue="1" green="1" red="1" type="rgb"/>
                             </Property>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -2425,7 +2481,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldProcuraCimaKeyPressed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0])+&quot; ... &quot;);&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;javax.swing.border.Border borderpesquisa1 = BorderFactory.createMatteBorder(5, 8, 5, 5, jPanelCima.getBackground());&#xa;javax.swing.border.Border borderpesquisa2 = BorderFactory.createCompoundBorder(borderpesquisa1, javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisa2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraCima.setCaretPosition(0);&#xa;jTextFieldProcuraCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();  &#xa;            String copiar = &quot;&quot;;&#xa;            String colar = &quot;&quot;;    &#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                String[] titulos = {lingua.translate(&quot;Colar&quot;), lingua.translate(&quot;Copiar&quot;)};&#xa;                ActionListener[] act = new ActionListener[titulos.length];   &#xa;                if ((jTextFieldProcuraCima.getSelectedText()) != null) { &#xa;                    copiar = jTextFieldProcuraCima.getSelectedText();&#xa;                } else {&#xa;                    copiar = &quot;&quot;;&#xa;                }&#xa;                Transferable t = c.getContents( null );&#xa;                if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {&#xa;                    try {  &#xa;                        Object o = t.getTransferData( DataFlavor.stringFlavor );&#xa;                        colar = (String)t.getTransferData( DataFlavor.stringFlavor );&#xa;                    } catch(Exception eo) {}  &#xa;                }&#xa;                if (e.isPopupTrigger() &amp;&amp; e.getComponent() instanceof javax.swing.JTextField) {&#xa;                    jTextFieldProcuraCima.requestFocus();&#xa;                    act[0] = (ActionEvent e1) -&gt; {&#xa;                        if (tema.equals(&quot;claro&quot;)) {&#xa;                            jTextFieldProcuraCima.setForeground(new Color(1,1,1));&#xa;                        } else {&#xa;                            jTextFieldProcuraCima.setForeground(new Color(254,254,254));&#xa;                        }&#xa;                        if (jTextFieldProcuraCima.getSelectedText() != null) {&#xa;                            int start = jTextFieldProcuraCima.getSelectionStart();&#xa;                            int end = jTextFieldProcuraCima.getSelectionEnd();&#xa;                            if (!jTextFieldProcuraCima.getSelectedText().equals(&quot;&quot;)) {&#xa;                                String texto1 = jTextFieldProcuraCima.getText().substring(0, start);&#xa;                                String texto2 = jTextFieldProcuraCima.getText().substring(end, jTextFieldProcuraCima.getText().length());&#xa;                                jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                            } else {&#xa;                                String texto1 = jTextFieldProcuraCima.getText().substring(0,jTextFieldProcuraCima.getCaretPosition());&#xa;                                String texto2 = jTextFieldProcuraCima.getText().substring(jTextFieldProcuraCima.getCaretPosition(), jTextFieldProcuraCima.getText().length());&#xa;                                jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                            }&#xa;                        } else {&#xa;                            String texto1 = jTextFieldProcuraCima.getText().substring(0, jTextFieldProcuraCima.getCaretPosition());&#xa;                            String texto2 = jTextFieldProcuraCima.getText().substring(jTextFieldProcuraCima.getCaretPosition(), jTextFieldProcuraCima.getText().length());&#xa;                            jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                            String auxiliar = texto1 + colar;&#xa;                            jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                        }&#xa;                    };&#xa;                    act[1] = (ActionEvent e1) -&gt; { &#xa;                        StringSelection texto = new StringSelection(jTextFieldProcuraCima.getSelectedText());&#xa;                        copiar = texto.toString();&#xa;                        jTextFieldProcuraCima.setSelectionEnd(-1);&#xa;                        c.setContents(texto, texto);&#xa;                    };&#xa;                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, colar, copiar);&#xa;                    popup.create();&#xa;                    popup.show(e.getComponent(), e.getX(), e.getY());&#xa;                }&#xa;            }&#xa;        });"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldProcuraCima.setText(lingua.translate(spesquisa[0])+&quot; ... &quot;);&#xa;jTextFieldProcuraCima.setFocusAccelerator(&apos;s&apos;);&#xa;javax.swing.border.Border borderpesquisacima1 = BorderFactory.createMatteBorder(5, 8, 5, 5,jPanelCima.getBackground());&#xa;javax.swing.border.Border borderpesquisacima3 = BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(1,1,1,75)),javax.swing.BorderFactory.createLineBorder(Color.BLACK,1));&#xa;javax.swing.border.Border borderpesquisacima2 = BorderFactory.createCompoundBorder(borderpesquisacima1,borderpesquisacima3);&#xa;jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisacima2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;jTextFieldProcuraCima.setCaretPosition(0);&#xa;jTextFieldProcuraCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();  &#xa;            String copiar = &quot;&quot;;&#xa;            String colar = &quot;&quot;;    &#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                String[] titulos = {lingua.translate(&quot;Colar&quot;), lingua.translate(&quot;Copiar&quot;)};&#xa;                ActionListener[] act = new ActionListener[titulos.length];   &#xa;                if ((jTextFieldProcuraCima.getSelectedText()) != null) { &#xa;                    copiar = jTextFieldProcuraCima.getSelectedText();&#xa;                } else {&#xa;                    copiar = &quot;&quot;;&#xa;                }&#xa;                Transferable t = c.getContents( null );&#xa;                if ( t.isDataFlavorSupported(DataFlavor.stringFlavor) ) {&#xa;                    try {  &#xa;                        Object o = t.getTransferData( DataFlavor.stringFlavor );&#xa;                        colar = (String)t.getTransferData( DataFlavor.stringFlavor );&#xa;                    } catch(Exception eo) {}  &#xa;                }&#xa;                if (e.isPopupTrigger() &amp;&amp; e.getComponent() instanceof javax.swing.JTextField) {&#xa;                    jTextFieldProcuraCima.requestFocus();&#xa;                    act[0] = (ActionEvent e1) -&gt; {&#xa;                        if (tema.equals(&quot;claro&quot;)) {&#xa;                            jTextFieldProcuraCima.setForeground(new Color(1,1,1));&#xa;                        } else {&#xa;                            jTextFieldProcuraCima.setForeground(new Color(254,254,254));&#xa;                        }&#xa;                        if (jTextFieldProcuraCima.getSelectedText() != null) {&#xa;                            int start = jTextFieldProcuraCima.getSelectionStart();&#xa;                            int end = jTextFieldProcuraCima.getSelectionEnd();&#xa;                            if (!jTextFieldProcuraCima.getSelectedText().equals(&quot;&quot;)) {&#xa;                                String texto1 = jTextFieldProcuraCima.getText().substring(0, start);&#xa;                                String texto2 = jTextFieldProcuraCima.getText().substring(end, jTextFieldProcuraCima.getText().length());&#xa;                                jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                            } else {&#xa;                                String texto1 = jTextFieldProcuraCima.getText().substring(0,jTextFieldProcuraCima.getCaretPosition());&#xa;                                String texto2 = jTextFieldProcuraCima.getText().substring(jTextFieldProcuraCima.getCaretPosition(), jTextFieldProcuraCima.getText().length());&#xa;                                jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                                String auxiliar = texto1 + colar;&#xa;                                jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                            }&#xa;                        } else {&#xa;                            String texto1 = jTextFieldProcuraCima.getText().substring(0, jTextFieldProcuraCima.getCaretPosition());&#xa;                            String texto2 = jTextFieldProcuraCima.getText().substring(jTextFieldProcuraCima.getCaretPosition(), jTextFieldProcuraCima.getText().length());&#xa;                            jTextFieldProcuraCima.setText(texto1 + colar + texto2);&#xa;                            String auxiliar = texto1 + colar;&#xa;                            jTextFieldProcuraCima.setCaretPosition(auxiliar.length());&#xa;                        }&#xa;                    };&#xa;                    act[1] = (ActionEvent e1) -&gt; { &#xa;                        StringSelection texto = new StringSelection(jTextFieldProcuraCima.getSelectedText());&#xa;                        copiar = texto.toString();&#xa;                        jTextFieldProcuraCima.setSelectionEnd(-1);&#xa;                        c.setContents(texto, texto);&#xa;                    };&#xa;                    Components.PopUpMenu popup = new Components.PopUpMenu(titulos, act, colar, copiar);&#xa;                    popup.create();&#xa;                    popup.show(e.getComponent(), e.getX(), e.getY());&#xa;                }&#xa;            }&#xa;        });"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonProcuraCima">
@@ -2463,9 +2519,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelLimpaPesquisaCima" pref="115" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaCima" pref="117" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelDetalhesCima" pref="168" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesCima" pref="166" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2490,11 +2546,19 @@
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                            <LineBorder/>
+                          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                            <CompoundBorder>
+                              <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                                <Property name="cornerSize" value="6"/>
+                                <Property name="shadowSize" value="3"/>
+                                <Property name="showLeftShadow" value="true"/>
+                              </PropertyBean>
+                              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                <LineBorder/>
+                              </Border>
+                            </CompoundBorder>
                           </Border>
                         </Property>
-                        <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaCima.setVisible(false);&#xa;jLabelLimpaPesquisaCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jLabelLimpaPesquisaCima.setVisible(false);&#xa;                jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));&#xa;            }&#xa;&#xa;        });"/>
@@ -2511,14 +2575,23 @@
                         <Property name="horizontalAlignment" type="int" value="0" postCode="jLabelDetalhesCima.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
                         <Property name="text" type="java.lang.String" value="Detalhes"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                            <MatteColorBorder bottom="1" left="1" right="0" top="1"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                            <CompoundBorder>
+                              <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                                <Property name="cornerSize" value="6"/>
+                                <Property name="shadowSize" value="3"/>
+                                <Property name="showLeftShadow" value="true"/>
+                                <Property name="showRightShadow" value="false"/>
+                              </PropertyBean>
+                              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                                <MatteColorBorder bottom="1" left="1" right="0" top="1"/>
+                              </Border>
+                            </CompoundBorder>
                           </Border>
                         </Property>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[4700, 1400]"/>
                         </Property>
-                        <Property name="opaque" type="boolean" value="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[57, 32]"/>
                         </Property>

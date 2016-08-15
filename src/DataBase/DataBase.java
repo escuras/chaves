@@ -5,6 +5,7 @@
  */
 package DataBase;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,23 +20,41 @@ import java.util.logging.Logger;
  * @author toze
  */
 public class DataBase {
+
     private String url;
     private Connection con;
     private boolean tie;
     private Threads.InsertRequest tupdate;
 
-    public DataBase(String url) {
+    public static boolean testConnection(String urlb) {
+        Connection conn = null;
         try {
-            this.url = url;
             Class.forName("com.mysql.jdbc.Driver");
-            //jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false;
-            con = DriverManager.getConnection(url);
-            tie = true;
-        } catch (SQLException e) {
-            tie = false;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            tie = false;
+            conn = DriverManager.getConnection(urlb);
+            return true;
+        } catch (ClassNotFoundException | SQLException e) {
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                }
+            }
+        }
+        return false;
+    }
+
+    public DataBase(String url) {
+        tie = testConnection(url);
+        if (tie) {
+            try {
+                this.url = url;
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection(url);
+                tie = true;
+            } catch (ClassNotFoundException | SQLException e) {
+                tie = false;
+            }
         }
     }
 
@@ -44,10 +63,7 @@ public class DataBase {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
             tie = true;
-        } catch (SQLException e) {
-            tie = false;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | SQLException e) {
             tie = false;
         }
     }
@@ -454,7 +470,6 @@ public class DataBase {
             for (Keys.ClassStudents turma : turmas) {
                 try {
                     smt = con.createStatement();
-                    System.out.println(turma.getCode());
                     String sql = "select count(*) from StudentsClasses where codigo = '" + turma.getCode() + "';";
                     rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
@@ -1840,7 +1855,7 @@ public class DataBase {
                                             + "quantidade = " + request.getQuantity() + " and "
                                             + "hora_fim = '" + request.getTimeBegin().toString() + "' and "
                                             + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
-                                            + "codigo_turma = '" + request.getStudentsClass().getCode() + "' and "
+                                            + "id_requisicao in (select id_requisicao from Rel_requests_studentsclasses where codigo_turma = '" + request.getStudentsClass().getCode() + "') and "
                                             + "origem = '" + request.getSource() + "' group by id_requisicao , requisicao_conjunta;";
                                     rs5 = smt.executeQuery(sql);
                                     if ((rs5.next()) && (rs5.getInt(1) == 1)) {
@@ -3531,7 +3546,7 @@ public class DataBase {
 
     public void close() {
         try {
-            if (this.isTie()) {
+            if ((this.isTie()) && (!con.isClosed())) {
                 con.close();
                 this.tie = false;
             }
