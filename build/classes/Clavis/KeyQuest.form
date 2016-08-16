@@ -43,7 +43,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanelDefHolidaysMouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 6), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1), border11);&#xa;jPanelDefHolidays.setBorder(border22);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;jPanelDefHolidays.setBorder(border11);"/>
           </AuxValues>
 
           <Layout>
@@ -67,7 +67,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonDefHolidaysDireita" alignment="0" pref="90" max="32767" attributes="0"/>
+                                  <Component id="jButtonDefHolidaysDireita" alignment="0" pref="62" max="32767" attributes="0"/>
                                   <Component id="jButtonDefHolidaysApagar" alignment="0" pref="90" max="32767" attributes="0"/>
                                   <Component id="jButtonDefHolidaysMais" alignment="1" pref="90" max="32767" attributes="0"/>
                                   <Component id="jButtonDefHolidaysVoltar" alignment="1" pref="90" max="32767" attributes="0"/>
@@ -80,13 +80,10 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabelListaFeriadosEscolhidos" min="-2" pref="269" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
+                          <Component id="jLabelListaFeriadosEscolhidos" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="17" pref="17" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -94,11 +91,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelListaFeriadosDefeito" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="jLabelListaFeriadosEscolhidos" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabelListaFeriadosDefeito" pref="34" max="32767" attributes="0"/>
+                          <Component id="jLabelListaFeriadosEscolhidos" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -124,14 +121,14 @@
                                       <Component id="jRadioButtonCorpoDeus" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="80" max="32767" attributes="0"/>
                                       <Component id="jButtonDefHolidaysVoltar" min="-2" pref="40" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                           <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="92" max="32767" attributes="0"/>
+                      <EmptySpace pref="82" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -140,10 +137,17 @@
             <Component class="javax.swing.JLabel" name="jLabelListaFeriadosDefeito">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="18" style="0"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Lista de feriados fixos por defeito: "/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
+                    <Property name="cornerSize" type="int" value="6"/>
+                    <Property name="shadowSize" type="int" value="3"/>
+                    <Property name="showRightShadow" type="boolean" value="false"/>
+                  </PropertyBean>
+                </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelListaFeriadosDefeito.setText(lingua.translate(&quot;Lista_feriados_por_defeito&quot;));"/>
@@ -228,7 +232,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPaneFeriadosEscolhidos" alignment="0" pref="394" max="32767" attributes="0"/>
+                      <Component id="jScrollPaneFeriadosEscolhidos" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -276,10 +280,17 @@
             <Component class="javax.swing.JLabel" name="jLabelListaFeriadosEscolhidos">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="18" style="0"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Lista de feriados fixos por defeito: "/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
+                    <Property name="cornerSize" type="int" value="6"/>
+                    <Property name="shadowSize" type="int" value="3"/>
+                    <Property name="showRightShadow" type="boolean" value="false"/>
+                  </PropertyBean>
+                </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelListaFeriadosEscolhidos.setText(lingua.translate(&quot;Lista_feriados_escolhidos&quot;));"/>
@@ -433,7 +444,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanelDefBreaks" alignment="0" pref="670" max="32767" attributes="0"/>
+              <Component id="jPanelDefBreaks" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -452,7 +463,7 @@
               <Border info="null"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[658, 528]"/>
+              <Dimension value="[688, 468]"/>
             </Property>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
@@ -460,7 +471,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanelDefBreaksMouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border border111 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 6),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;javax.swing.border.Border border222 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1),border111);&#xa;&#xa;jPanelDefBreaks.setBorder(border222);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border border111 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;&#xa;jPanelDefBreaks.setBorder(border111);"/>
           </AuxValues>
 
           <Layout>
@@ -469,56 +480,6 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jLabelDefBreaksDiaFim" max="32767" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jComboBoxDefBreaksDiaFim" min="-2" pref="180" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabelDefBreaksMesFim" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabelDefBreaksAnoFim" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jComboBoxDefBreaksMesFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
-                                                  <Component id="jComboBoxDefBreaksAnoFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="jLabelDefBreaksDiaInicio" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jLabelDefBreaksMesInicio" alignment="0" pref="99" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jButtonDefBreaksVoltar" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonDefBreaksAdicionar" min="-2" pref="90" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jLabelDefBreaksNome" min="-2" pref="118" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jTextFieldDefBreaksNome" min="-2" pref="180" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="jLabelDefBreaksInicio" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabelDefBreaksTermino" max="32767" attributes="0"/>
@@ -535,6 +496,56 @@
                               </Group>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabelDefBreaksDiaFim" max="32767" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="jComboBoxDefBreaksDiaFim" min="-2" pref="180" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabelDefBreaksMesFim" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabelDefBreaksAnoFim" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace pref="15" max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jComboBoxDefBreaksMesFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                                                  <Component id="jComboBoxDefBreaksAnoFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                  <Component id="jLabelDefBreaksDiaInicio" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="jLabelDefBreaksMesInicio" alignment="0" pref="99" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="jButtonDefBreaksVoltar" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="jButtonDefBreaksAdicionar" min="-2" pref="90" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabelDefBreaksNome" min="-2" pref="118" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jTextFieldDefBreaksNome" min="-2" pref="180" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabelDefBreaksInicio" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
@@ -547,9 +558,9 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="24" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="45" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jLabelDefBreaksInicio" min="-2" pref="25" max="-2" attributes="0"/>
@@ -593,7 +604,7 @@
                           </Group>
                           <Component id="jPanel2" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButtonDefBreakApagar" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jButtonDefBreaksVoltar" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
@@ -686,10 +697,17 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cantarell" size="18" style="0"/>
+                  <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Adicionar per&#xed;odos:"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
+                    <Property name="cornerSize" type="int" value="6"/>
+                    <Property name="shadowSize" type="int" value="3"/>
+                    <Property name="showRightShadow" type="boolean" value="false"/>
+                  </PropertyBean>
+                </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;Adicionar_periodos&quot;));"/>
@@ -943,12 +961,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanelDefOpcoes" pref="688" max="32767" attributes="0"/>
+              <Component id="jPanelDefOpcoes" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanelDefOpcoes" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanelDefOpcoes" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -959,332 +977,290 @@
               <Color blue="fe" green="fe" red="fe" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[0, 0]"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[700, 468]"/>
+              <Border info="null"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelDefOpcoes.setBackground(systemColor);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderDefOpcoes = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;&#xa;jPanelDefOpcoes.setBorder(borderDefOpcoes);"/>
           </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanelDefOpcoes2" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabelTituloDefOpcoes" pref="511" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="215" max="-2" attributes="0"/>
+                                  <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabelLinguaMuda" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jButtonLinguaMudaConfirma" min="-2" pref="90" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jLabelMudaLinguagem" alignment="0" pref="200" max="32767" attributes="0"/>
+                                      <Component id="jLabelMudaTemaQuadros" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jComboBoxMudaTema" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxMudaLinguagem" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabelAuxiliarScroll" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabelMudaTamanhoDivisor" alignment="1" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jSliderTamanhoDivisor" alignment="0" pref="275" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxScrollAtivo" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="94" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanelDefOpcoes2" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelTituloDefOpcoes" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jComboBoxMudaTema" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMudaTemaQuadros" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelMudaLinguagem" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="jComboBoxMudaLinguagem" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButtonLinguaMudaConfirma" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabelLinguaMuda" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabelMudaTamanhoDivisor" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="jSliderTamanhoDivisor" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelAuxiliarScroll" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                          <Component id="jComboBoxScrollAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="20" max="32767" attributes="0"/>
+                      <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanelDefOpcoes2">
+            <Component class="javax.swing.JLabel" name="jLabelTituloDefOpcoes">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Cantarell" size="14" style="0"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="Defini&#xe7;&#xf5;es"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
+                    <Property name="cornerSize" type="int" value="6"/>
+                    <Property name="shadowSize" type="int" value="3"/>
+                    <Property name="showRightShadow" type="boolean" value="false"/>
+                  </PropertyBean>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelTituloDefOpcoes.setText(lingua.translate(&quot;Defini&#xe7;&#xf5;es&quot;));"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Cantarell" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Tema de quadros: "/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTemaQuadros.setText(lingua.translate(&quot;Tema_de_quadros&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBoxMudaTema">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxMudaTemaItemStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaTemaActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxMudaTema.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Tema_claro&quot;),lingua.translate(&quot;Tema_escuro&quot;) }));&#xa;BasicComboPopup popupMudaTema2 = (BasicComboPopup) jComboBoxMudaTema.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaTema2.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaTema2.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelMudaLinguagem">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Cantarell" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Lingua de apresenta&#xe7;&#xe3;o:"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaLinguagem.setText(lingua.translate(&quot;Lingua_apresentacao&quot;)+&quot;: &quot;);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBoxMudaLinguagem">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxMudaLinguagemItemStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaLinguagemActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list2 = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator&lt;String&gt; it2 = lingua.getlist(4).iterator();&#xa;int ki = 0;&#xa;while (it2.hasNext()) {&#xa;    list2[ki] = lingua.translate(it2.next().toString());&#xa;    ki++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list2));&#xa;BasicComboPopup popupMudaLinguagem2 = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaLinguagem2.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaLinguagem2.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonLinguaMudaConfirma">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="99" green="66" red="33" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                </Property>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLinguaMudaConfirmaActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imageconfirml2 = null;&#xa;try {&#xa;    imageconfirml2 = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imageconfirml2 != null) {&#xa;    javax.swing.ImageIcon iconconfirml2 = new javax.swing.ImageIcon(imageconfirml2);&#xa;    jButtonLinguaMudaConfirma.setIcon(iconconfirml2);&#xa;}"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelLinguaMuda">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="11"/>
+                <Property name="text" type="java.lang.String" value="O reinicio &#xe9; necess&#xe1;rio para mudar idioma."/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLinguaMuda.setVisible(false);&#xa;&#xa;jLabelLinguaMuda.setText(lingua.translate(&quot;O_reinicio_necess&#xe1;rio_para_mudar_idioma&quot;));"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JSlider" name="jSliderTamanhoDivisor">
+              <Properties>
+                <Property name="maximum" type="int" value="35"/>
+                <Property name="minimum" type="int" value="20"/>
+                <Property name="minorTickSpacing" type="int" value="5"/>
+                <Property name="paintLabels" type="boolean" value="true"/>
+                <Property name="value" type="int" value="25"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderTamanhoDivisorStateChanged"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelMudaTamanhoDivisor">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Cantarell" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Tamanho do divisor:"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="5" left="1" right="1" top="1"/>
+                  </Border>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTamanhoDivisor.setText(lingua.translate(&quot;tamanho_divisor&quot;)+&quot;: &quot;);"/>
+              </AuxValues>
+            </Component>
+            <Container class="javax.swing.JPanel" name="jPanelMudaCorSlider">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder/>
-                  </Border>
                 </Property>
               </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabelTituloDefOpcoes" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="215" max="-2" attributes="0"/>
-                                          <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="22" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabelLinguaMuda" max="32767" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jButtonLinguaMudaConfirma" min="-2" pref="90" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jLabelMudaLinguagem" pref="200" max="32767" attributes="0"/>
-                                              <Component id="jLabelMudaTemaQuadros" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jComboBoxMudaTema" min="-2" pref="277" max="-2" attributes="0"/>
-                                              <Component id="jComboBoxMudaLinguagem" min="-2" pref="277" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="jLabelMudaTemaQuadros1" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabelMudaTamanhoDivisor" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jSliderTamanhoDivisor" pref="275" max="32767" attributes="0"/>
-                                              <Component id="jComboBoxScrollAtivo" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace pref="66" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
+                      <EmptySpace min="0" pref="274" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelTituloDefOpcoes" min="-2" pref="50" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jComboBoxMudaTema" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelMudaTemaQuadros" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelMudaLinguagem" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="jComboBoxMudaLinguagem" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jButtonLinguaMudaConfirma" max="32767" attributes="0"/>
-                              <Component id="jLabelLinguaMuda" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabelMudaTamanhoDivisor" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="jSliderTamanhoDivisor" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelMudaTemaQuadros1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                              <Component id="jComboBoxScrollAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="11" max="32767" attributes="0"/>
-                          <Component id="jPanelMudaCorSlider" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="17" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="0" pref="172" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabelTituloDefOpcoes">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="18" style="0"/>
-                    </Property>
-                    <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Personificar"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelTituloDefOpcoes.setText(lingua.translate(&quot;Personificar&quot;));"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Tema de quadros: "/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTemaQuadros.setText(lingua.translate(&quot;Tema_de_quadros&quot;)+&quot;:&quot;);"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBoxMudaTema">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
-                    </Property>
-                    <Property name="focusable" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxMudaTemaItemStateChanged"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaTemaActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxMudaTema.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Tema_claro&quot;),lingua.translate(&quot;Tema_escuro&quot;) }));&#xa;BasicComboPopup popupMudaTema = (BasicComboPopup) jComboBoxMudaTema.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaTema.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaTema.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelMudaLinguagem">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Lingua de apresenta&#xe7;&#xe3;o:"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaLinguagem.setText(lingua.translate(&quot;Lingua_apresentacao&quot;)+&quot;: &quot;);"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBoxMudaLinguagem">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
-                    </Property>
-                    <Property name="focusable" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxMudaLinguagemItemStateChanged"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMudaLinguagemActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String [] list = new String[lingua.getlist(4).size()];&#xa;java.util.Iterator&lt;String&gt; it = lingua.getlist(4).iterator();&#xa;int i = 0;&#xa;while (it.hasNext()) {&#xa;    list[i] = lingua.translate(it.next().toString());&#xa;    i++;&#xa;}&#xa;jComboBoxMudaLinguagem.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(list));&#xa;BasicComboPopup popupMudaLinguagem = (BasicComboPopup) jComboBoxMudaLinguagem.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaLinguagem.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaLinguagem.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JButton" name="jButtonLinguaMudaConfirma">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="99" green="66" red="33" type="rgb"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                    </Property>
-                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Hand Cursor"/>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[90, 40]"/>
-                    </Property>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[90, 40]"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[90, 40]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLinguaMudaConfirmaActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imageconfirml = null;&#xa;try {&#xa;    imageconfirml = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imageconfirml != null) {&#xa;    javax.swing.ImageIcon iconconfirml = new javax.swing.ImageIcon(imageconfirml);&#xa;    jButtonLinguaMudaConfirma.setIcon(iconconfirml);&#xa;}"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelLinguaMuda">
-                  <Properties>
-                    <Property name="horizontalAlignment" type="int" value="11"/>
-                    <Property name="text" type="java.lang.String" value="O reinicio &#xe9; necess&#xe1;rio para mudar idioma."/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLinguaMuda.setVisible(false);&#xa;&#xa;jLabelLinguaMuda.setText(lingua.translate(&quot;O_reinicio_necess&#xe1;rio_para_mudar_idioma&quot;));"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JSlider" name="jSliderTamanhoDivisor">
-                  <Properties>
-                    <Property name="maximum" type="int" value="35"/>
-                    <Property name="minimum" type="int" value="20"/>
-                    <Property name="minorTickSpacing" type="int" value="5"/>
-                    <Property name="paintLabels" type="boolean" value="true"/>
-                    <Property name="value" type="int" value="25"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderTamanhoDivisorStateChanged"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelMudaTamanhoDivisor">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Tamanho do divisor:"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                        <EmptyBorder bottom="5" left="1" right="1" top="1"/>
-                      </Border>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTamanhoDivisor.setText(lingua.translate(&quot;tamanho_divisor&quot;)+&quot;: &quot;);"/>
-                  </AuxValues>
-                </Component>
-                <Container class="javax.swing.JPanel" name="jPanelMudaCorSlider">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                    </Property>
-                  </Properties>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="274" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="172" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                </Container>
-                <Component class="javax.swing.JLabel" name="jLabelMudaTemaQuadros1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Cantarell" size="14" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Auxiliar de rolagem: "/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTemaQuadros1.setText(lingua.translate(&quot;Auxiliar de rolagem&quot;)+&quot;:&quot;);"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBoxScrollAtivo">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="d5" green="d5" red="d5" type="rgb"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxScrollAtivoActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxScrollAtivo.setFocusable(false);&#xa;&#xa;&#xa;jComboBoxScrollAtivo.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[]{lingua.translate(&quot;Sim&quot;),lingua.translate(&quot;Nao&quot;)}));&#xa;BasicComboPopup popupMudaScroll = (BasicComboPopup) jComboBoxScrollAtivo.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaScroll.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaScroll.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-              </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabelAuxiliarScroll">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Cantarell" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Auxiliar de rolagem: "/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelAuxiliarScroll.setText(lingua.translate(&quot;Auxiliar de rolagem&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBoxScrollAtivo">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d5" green="d5" red="d5" type="rgb"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxScrollAtivoActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxScrollAtivo.setFocusable(false);&#xa;&#xa;&#xa;jComboBoxScrollAtivo.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[]{lingua.translate(&quot;Sim&quot;),lingua.translate(&quot;Nao&quot;)}));&#xa;BasicComboPopup popupMudaScroll2 = (BasicComboPopup) jComboBoxScrollAtivo.getAccessibleContext().getAccessibleChild(0);&#xa;popupMudaScroll2.getList().setSelectionBackground(Color.DARK_GRAY);&#xa;popupMudaScroll2.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -1331,7 +1307,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderlistabotoes = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 6),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;javax.swing.border.Border borderlistabotoes2 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1),borderlistabotoes);&#xa;&#xa;jPanelListaBotoes.setBorder(borderlistabotoes2);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border borderlistabotoes = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));&#xa;&#xa;jPanelListaBotoes.setBorder(borderlistabotoes);"/>
           </AuxValues>
 
           <Layout>
@@ -1565,10 +1541,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
+              <Component id="jPanel3" min="-2" pref="36" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jPanelInicial" pref="528" max="32767" attributes="0"/>
+              <Component id="jPanelInicial" pref="505" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -1608,7 +1583,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder( javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK),javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 5), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)))));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 4, 4, 4, systemColor), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));"/>
       </AuxValues>
 
       <Layout>
@@ -1619,7 +1594,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" alignment="0" pref="522" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" alignment="0" pref="499" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -1747,6 +1722,7 @@
                             <Property name="cornerSize" value="6"/>
                             <Property name="shadowSize" value="3"/>
                             <Property name="showLeftShadow" value="true"/>
+                            <Property name="showTopShadow" value="true"/>
                           </PropertyBean>
                           <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                             <LineBorder/>
@@ -1821,7 +1797,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 6, 4, 8, jPanelBaixo.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border bordBaixo = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(1,1,1,75)), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false));&#xa;jPanelInformaBaixoBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 6, 4, 8, jPanelBaixo.getBackground()), bordBaixo));"/>
                   </AuxValues>
 
                   <Layout>
@@ -2031,9 +2007,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabelDetalhesBaixo" pref="172" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesBaixo" pref="171" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelLimpaPesquisaBaixo" pref="125" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaBaixo" pref="126" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2218,6 +2194,7 @@
                             <Property name="cornerSize" value="6"/>
                             <Property name="shadowSize" value="3"/>
                             <Property name="showLeftShadow" value="true"/>
+                            <Property name="showTopShadow" value="true"/>
                           </PropertyBean>
                           <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                             <LineBorder/>
@@ -2296,7 +2273,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInformaCimaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 8, 4, 6, jPanelCima.getBackground()), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false)));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.border.Border bord = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(1,1,1,75)), new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, false));&#xa;&#xa;jPanelInformaCimaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 8, 4, 6, jPanelCima.getBackground()), bord));"/>
                   </AuxValues>
 
                   <Layout>
@@ -2519,9 +2496,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelLimpaPesquisaCima" pref="117" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaCima" pref="118" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelDetalhesCima" pref="166" max="32767" attributes="0"/>
+                              <Component id="jLabelDetalhesCima" pref="165" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2614,15 +2591,24 @@
           <Color blue="fa" green="fa" red="fa" type="rgb"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-            <MatteColorBorder bottom="0" left="1" right="1" top="1"/>
+          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+            <CompoundBorder>
+              <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
+                <Property name="cornerSize" value="6"/>
+                <Property name="shadowSize" value="3"/>
+                <Property name="showRightShadow" value="false"/>
+              </PropertyBean>
+              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                <MatteColorBorder bottom="0" left="0" right="0" top="1"/>
+              </Border>
+            </CompoundBorder>
           </Border>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="1" green="1" red="1" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[757, 30]"/>
+          <Dimension value="[757, 40]"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -2633,29 +2619,29 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="jToggleButtonBarRequisicoes" min="-2" pref="30" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jToggleButtonBarEntregas" min="-2" pref="30" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="6" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jToggleButton1" min="-2" pref="30" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jComboBoxVista" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jButtonListaBotoes" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBoxListaBotoes" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jComboBoxPesquisaOpcao" min="-2" pref="200" max="-2" attributes="0"/>
-                  <EmptySpace pref="342" max="32767" attributes="0"/>
+                  <EmptySpace pref="286" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

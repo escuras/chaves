@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.SystemColor;
 import javax.swing.JMenuBar;
 
 /**
@@ -20,21 +21,22 @@ public class Menu extends JMenuBar {
     Color bgcolor;
     
     public Menu(){
-        this.bgcolor = Color.WHITE;
-        
+        this.bgcolor = new Color(255,255,255,205);
+
     }
 
     public void setColor(Color color) {
-        this.bgcolor=color;
+        this.bgcolor= SystemColor.windowBorder;
+        com.sun.java.swing.plaf.gtk.GTKLookAndFeel.updateStyles(this);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        GradientPaint paint = new GradientPaint(0,0,bgcolor,this.getWidth()/2,0,Color.BLACK,false);
+        //GradientPaint paint = new GradientPaint(0,0,bgcolor,this.getWidth()/2,0,bgcolor,false);
         g2d.setColor(bgcolor);
-        g2d.setPaint(paint);
+        //g2d.setPaint(paint);
         g2d.fillRect(0, 0, getWidth(), getHeight());
         
     }

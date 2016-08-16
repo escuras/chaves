@@ -552,5 +552,13 @@ public class MessagePane {
     public void setButtons(javax.swing.JButton[] botoes) {
         this.botoes = botoes;
     }
+    
+    public javax.swing.JButton getLeftButton() {
+        return botoes[1];
+    }
+    
+    public javax.swing.JButton getRightButton() {
+        return botoes[0];
+    }
 
 }

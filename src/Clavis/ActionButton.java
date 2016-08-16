@@ -110,8 +110,10 @@ public class ActionButton extends javax.swing.JDialog {
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
         labelativa.setPreferredSize(new Dimension(181, 32));
-        labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+        labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+
     }
 
     public void create() {
@@ -122,9 +124,8 @@ public class ActionButton extends javax.swing.JDialog {
             this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(cla.getTypeOfMaterialName()) + ": " + lingua.translate("sala") + " " + lingua.translate(cla.getDescription()));
             this.setMinimumSize(new java.awt.Dimension(700, 500));
             this.setResizable(false);
-            javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 6), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-            javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1), border11);
-            painel.setBorder(border22);
+            javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+            painel.setBorder(border);
             javax.swing.GroupLayout janelaLayout = new javax.swing.GroupLayout(this.getContentPane());
             this.getContentPane().setLayout(janelaLayout);
             janelaLayout.setHorizontalGroup(
@@ -140,13 +141,14 @@ public class ActionButton extends javax.swing.JDialog {
             javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Informação"));
             label1.setPreferredSize(new Dimension(181, 32));
             label1.setForeground(Color.BLACK);
-            label1.setFont(new Font("Cantarell", Font.PLAIN, 18));
+            label1.setFont(new Font("Cantarell", Font.PLAIN, 14));
             label1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            label1.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
 
             // painel de informcao geral
             javax.swing.JPanel painel1 = new javax.swing.JPanel();
             painel1.setBackground(Color.WHITE);
-            painel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            painel1.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK, 1)));
             javax.swing.JLabel imageview = new javax.swing.JLabel();
             imageview.setPreferredSize(new Dimension(60, 50));
             imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -305,7 +307,7 @@ public class ActionButton extends javax.swing.JDialog {
                 bteditar.setIcon(iconbtok);
             }
             bteditar.setToolTipText(lingua.translate("Editar campos"));
-            bteditar.setPreferredSize(new Dimension(90,40));
+            bteditar.setPreferredSize(new Dimension(90, 40));
             bteditar.setBounds(260, 0, 90, 40);
             bteditar.setFocusPainted(false);
             bteditar.setBackground(new Color(51, 102, 153));
@@ -538,7 +540,7 @@ public class ActionButton extends javax.swing.JDialog {
             });
 
             painel1Baixo.add(bteditar);
-            
+
             // bt mais
             javax.swing.JButton btMais = new javax.swing.JButton();
             imagebtok = null;
@@ -562,7 +564,7 @@ public class ActionButton extends javax.swing.JDialog {
                 janela.appear();
             });
             painel1Baixo.add(btMais);
-            
+
             painel1.add(painel1Cima);
             painel1.add(painel1Baixo);
 
@@ -571,7 +573,7 @@ public class ActionButton extends javax.swing.JDialog {
             BoxLayout blayout2 = new BoxLayout(painel2, BoxLayout.Y_AXIS);
 
             painel2.setLayout(null);
-            painel2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            painel2.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK, 1)));
 
             this.createPanelRight(painel2);
 
@@ -580,8 +582,7 @@ public class ActionButton extends javax.swing.JDialog {
             painel11.setBackground(new Color(254, 254, 254));
             painel11.setPreferredSize(new Dimension(360, 40));
             painel11.setLayout(null);
-            
-            
+
 // bt sair
             javax.swing.JButton btsair = new javax.swing.JButton();
             btsair.setPreferredSize(new Dimension(90, 40));
@@ -608,10 +609,6 @@ public class ActionButton extends javax.swing.JDialog {
                 this.dispose();
             });
             painel11.add(btsair);
-            
-
-
-
 
             javax.swing.JPanel painel22 = new javax.swing.JPanel();
             //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
@@ -640,7 +637,7 @@ public class ActionButton extends javax.swing.JDialog {
 
             });
             painel22.add(bthorario);
-            
+
 // btreq
             javax.swing.JButton btreq = new javax.swing.JButton();
             btreq.setPreferredSize(new Dimension(90, 40));
@@ -654,7 +651,7 @@ public class ActionButton extends javax.swing.JDialog {
                 javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
                 btreq.setIcon(iconbtreq);
             }
-            btreq.setBackground(new Color(57,147,2));
+            btreq.setBackground(new Color(57, 147, 2));
             btreq.setContentAreaFilled(true);
             btreq.setFocusPainted(false);
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -761,41 +758,47 @@ public class ActionButton extends javax.swing.JDialog {
             if ((!cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
-                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+
                 painel2.setBackground(new Color(246, 255, 248));
                 atrasado = false;
                 dia = false;
             } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) > 0))) {
-                labelativa = new javax.swing.JLabel(lingua.translate("Atrasado")+" "+lingua.translate("na entrega"));
+                labelativa = new javax.swing.JLabel(lingua.translate("Atrasado") + " " + lingua.translate("na entrega"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
-                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
                 dia = false;
             } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
-                labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado")+": "+dat.isBigger(new TimeDate.Date())+"")+" "+lingua.translate("dias"));
+                labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dias"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
-                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
                 dia = true;
             } else {
                 labelativa = new javax.swing.JLabel(lingua.translate("Requisitado por"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
-                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
+                labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
                 painel2.setBackground(new Color(235, 250, 237));
                 atrasado = false;
                 dia = false;
             }
 
             javax.swing.JLabel lbtl1 = new javax.swing.JLabel(lingua.translate("Requisitante"));
-            lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
+            lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
             lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lbtl1.setPreferredSize(new Dimension(219, 20));
+            lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 20, 219, 20);
             painel2.add(lbtl1);
 
@@ -825,15 +828,17 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 40, 219, 20);
+            lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             painel2.add(lb1);
             if (!cla.isLoaned()) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
             } else {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
             }
-            lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
+            lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
             lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lbtl1.setPreferredSize(new Dimension(219, 20));
+            lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 70, 219, 20);
             painel2.add(lbtl1);
 
@@ -844,6 +849,7 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setText(req.getBeginDate().toString());
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 90, 219, 20);
 
@@ -855,9 +861,10 @@ public class ActionButton extends javax.swing.JDialog {
 
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora de entrega"));
             }
-            lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
+            lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
             lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lbtl1.setPreferredSize(new Dimension(219, 20));
+            lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 120, 219, 20);
             painel2.add(lbtl1);
 
@@ -889,13 +896,15 @@ public class ActionButton extends javax.swing.JDialog {
             }
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 140, 219, 20);
             painel2.add(lb1);
 
             lbtl1 = new javax.swing.JLabel(lingua.translate("Atividade"));
-            lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
+            lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
             lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            lbtl1.setForeground(Color.BLUE);
             lbtl1.setPreferredSize(new Dimension(219, 20));
             lbtl1.setBounds(0, 170, 219, 20);
             painel2.add(lbtl1);
@@ -941,14 +950,16 @@ public class ActionButton extends javax.swing.JDialog {
             }
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 190, 219, 20);
             painel2.add(lb1);
 
             if (req.getSubject().getId() != 0) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Disciplina"));
-                lbtl1.setFont(new Font("Cantarell", Font.BOLD, 14));
+                lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 lbtl1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                lbtl1.setForeground(Color.BLUE);
                 lbtl1.setPreferredSize(new Dimension(219, 20));
                 lbtl1.setBounds(0, 220, 219, 20);
                 painel2.add(lbtl1);
@@ -956,6 +967,7 @@ public class ActionButton extends javax.swing.JDialog {
                 lb1 = new javax.swing.JLabel(lingua.translate(req.getSubject().getName()));
                 lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
                 lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
                 lb1.setPreferredSize(new Dimension(219, 20));
                 lb1.setBounds(0, 240, 219, 20);
                 painel2.add(lb1);
@@ -963,13 +975,15 @@ public class ActionButton extends javax.swing.JDialog {
         } else {
             lbtl = new javax.swing.JLabel(lingua.translate("Não existem requisições"));
             painel2.setBackground(new Color(246, 246, 246));
-            lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
+            lbtl.setFont(new Font("Cantarell", Font.PLAIN, 14));
+            lbtl.setForeground(Color.BLUE);
             lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lbtl.setPreferredSize(new Dimension(219, 20));
             lbtl.setBounds(0, 100, 219, 20);
             painel2.add(lbtl);
             lbtl = new javax.swing.JLabel(" " + lingua.translate("para este recurso") + "!");
-            lbtl.setFont(new Font("Cantarell", Font.BOLD | Font.CENTER_BASELINE, 16));
+            lbtl.setForeground(Color.BLUE);
+            lbtl.setFont(new Font("Cantarell", Font.PLAIN, 14));
             lbtl.setHorizontalAlignment(javax.swing.JLabel.CENTER);
             lbtl.setPreferredSize(new Dimension(219, 20));
             lbtl.setBounds(0, 120, 219, 20);

@@ -1578,13 +1578,55 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select count(*) from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                String sql = "select count(*) from Features where descricao like '" + feature.getDescription() + "';";
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         if (rs.getInt(1) == 0) {
-                            sql = "insert into Features (descricao, quantidade, medida) values ('" + feature.getDescription() + "'," + feature.getNumber() + ",'" + feature.getUnityMeasure() + "')";
-                            return (!smt.execute(sql));
+                            con.setAutoCommit(false);
+                            sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
+                            System.out.println(sql);
+                            smt.executeUpdate(sql);
+                            java.util.List<Keys.TypeOfMaterial> tipos = feature.getTypeOfMaterial();
+                            for (Keys.TypeOfMaterial tipo : tipos) {
+                                sql = "insert into Rel_features_materials (id_caracteristica, id_tipo) values (" + this.getFeatureId(feature) + "," + tipo.getMaterialTypeID() + ") ";
+                                smt.executeUpdate(sql);
+                            }
+                            con.commit();
+                            con.setAutoCommit(true);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean insertFeatureAndAssociateWithMaterial(Keys.Feature feature, Keys.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            ResultSet rs;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select count(*) from Features where descricao like '" + feature.getDescription() + ";";
+                try {
+                    rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        if (rs.getInt(1) == 0) {
+                            con.setAutoCommit(false);
+                            sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
+                            smt.executeUpdate(sql);
+                            sql = "insert into Rel_features_materials (id_caracteristica, id_tipo, id_material, quantidade) values ("+this.getFeatureId(feature)+","+mat.getTypeOfMaterial().getMaterialTypeID()+","+mat.getId()+","+feature.getNumber()+")";
+                            smt.executeUpdate(sql);
+                            con.commit();
+                            con.setAutoCommit(true);
                         }
                     }
                 } catch (SQLException ex) {
@@ -1595,6 +1637,31 @@ public class DataBase {
         return false;
     }
 
+    
+    public int getFeatureId(Keys.Feature feature){
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and medida like '" + feature.getUnityMeasure() + "' ;";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return rs.getInt("id_caracteristica");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return -1;
+    }
+    
     public boolean deleteFeature(Keys.Feature feature) {
         if (this.isTie()) {
             Statement smt;
@@ -1606,7 +1673,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and medida like '" + feature.getUnityMeasure() + "' ;";
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -1634,7 +1701,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and medida like '" + feature.getUnityMeasure() + "' ;";
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -1649,7 +1716,7 @@ public class DataBase {
                                 ResultSet rs3 = smt.executeQuery(sql);
                                 if (rs3.next()) {
                                     if (rs3.getInt(1) == 0) {
-                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material, id_tipo)  values (" + val + "," + idmaterial + "," + idtipo + ")";
+                                        sql = "insert into Rel_features_materials (id_caracteristica, id_material, id_tipo, quantidade)  values (" + val + "," + idmaterial + "," + idtipo + "," + feature.getNumber() + ")";
                                         return (!smt.execute(sql));
                                     }
                                 }
@@ -1676,7 +1743,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and medida like '" + feature.getUnityMeasure() + "' ;";
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -1712,11 +1779,11 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica, descricao, quantidade, medida from Features where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_tipo = " + tipo.getMaterialTypeID() + ");";
+                String sql = "select id_caracteristica, descricao, medida from Features where id_caracteristica in (select distinct(id_caracteristica) from Rel_features_materials where id_tipo = " + tipo.getMaterialTypeID() + ");";
                 try {
                     rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        Keys.Feature feature = new Keys.Feature(rs.getString("descricao"), rs.getString("medida"), rs.getInt("quantidade"), tipo);
+                        Keys.Feature feature = new Keys.Feature(rs.getString("descricao"), rs.getString("medida"), 0, tipo);
                         lista.add(feature);
                     }
                 } catch (SQLException ex) {
@@ -1738,8 +1805,9 @@ public class DataBase {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 smt = null;
             }
+            
             if (smt != null) {
-                String sql = "select id_caracteristica, descricao, quantidade, medida from Features where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_material = " + mat.getId() + ");";
+                String sql = "select f.id_caracteristica, f.descricao, f.medida, t.quantidade from Features f join Rel_features_materials t using (id_caracteristica) where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_material = "+mat.getId()+");";
                 try {
                     rs = smt.executeQuery(sql);
                     while (rs.next()) {
@@ -1766,7 +1834,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and quantidade = " + feature.getNumber() + " and medida like '" + feature.getUnityMeasure() + "' ;";
+                String sql = "select id_caracteristica from Features where descricao like '" + feature.getDescription() + "' and medida like '" + feature.getUnityMeasure() + "' ;";
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
