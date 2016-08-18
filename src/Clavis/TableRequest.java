@@ -47,8 +47,9 @@ public class TableRequest {
     public static final Color DEFAULT_SELECT_FOREGROUND_COLOR = Color.WHITE;
     public static final int DEFAULT_AFTER_TIME = 0;
     public static final int DEFAULT_BEFORE_TIME = 60;
+    public static final int DEFAULT_LATE_INTERVAL = 30;
 
-    private Components.RowTable tabela;
+    private final Components.RowTable tabela;
     private final Langs.Locale lingua;
     private int selecionado;
     private RequestList requisicoes;
@@ -74,6 +75,7 @@ public class TableRequest {
     private final javax.swing.JButton btaltera;
     private final Color systemColor;
     private final String url;
+    private int atrasolegal;
 
     public TableRequest(RequestList requisicao, javax.swing.JPanel spanel, Langs.Locale lingua, boolean devolucoes, javax.swing.JButton bt1, javax.swing.JButton bt2, Color systemColor, String url) {
         this.lingua = lingua;
@@ -90,7 +92,7 @@ public class TableRequest {
         ficouvazia = false;
         this.tipomaterial = requisicao.getTypeOfMaterial().getMaterialTypeID();
         antes_hora = TableRequest.DEFAULT_BEFORE_TIME * 60;
-        depois_hora = TableRequest.DEFAULT_AFTER_TIME * 60;
+        depois_hora = -TableRequest.DEFAULT_AFTER_TIME * 60;
         cores = new Color[]{Color.GREEN.darker(), new Color(255, 149, 0), Color.BLACK};
         backColor = TableRequest.DEFAULT_BACKGROUND_COLOR;
         foreColor = TableRequest.DEFAULT_FOREGROUND_COLOR;
@@ -99,7 +101,7 @@ public class TableRequest {
         panelForegroundColor = TableRequest.DEFAULT_PANEL_FOREGROUND_COLOR;
         panel = new PanelDetails(lingua, panelColor, panelForegroundColor, requisicao.getTypeOfMaterial().getTypeOfMaterialImage(), requisicao.getTypeOfMaterial().getTypeOfMaterialName());
         tabela = new Components.RowTable(new javax.swing.JTable().getModel());
-
+        this.atrasolegal = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
     public void create() {
@@ -212,6 +214,7 @@ public class TableRequest {
         }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -231,6 +234,7 @@ public class TableRequest {
 
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
+
             @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -535,6 +539,7 @@ public class TableRequest {
         tabela.getActionMap()
                 .put("Enter", new AbstractAction() {
                     private static final long serialVersionUID = 1L;
+
                     @Override
                     public void actionPerformed(ActionEvent ae
                     ) {
@@ -547,6 +552,7 @@ public class TableRequest {
         tabela.getActionMap()
                 .put("cancel", new AbstractAction() {
                     private static final long serialVersionUID = 1L;
+
                     @Override
                     public void actionPerformed(ActionEvent ae
                     ) {
@@ -698,18 +704,26 @@ public class TableRequest {
             if (selecionado >= 0) {
                 if (requisicoes.getRequests().size() > (selecionado)) {
                     Keys.Request req = requisicoes.getSelectedRequest(selecionado);
+                    boolean estadomaterial;
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        estadomaterial = db.getStateOfMaterial(req);
+                        db.close();
+                    } else {
+                        estadomaterial = req.getMaterial().isLoaned();
+                    }
                     TimeDate.Time tempo = new TimeDate.Time();
                     TimeDate.Date data = new TimeDate.Date();
                     int valfinal;
                     int val = tempo.compareTime(req.getTimeBegin());
-                    if (!devolucoes) {
+                    if ((!devolucoes)&&(selecionado >= 0)) {
                         if ((req.getBeginDate().getDay() == data.getDay()) && (req.getBeginDate().getMonth() == data.getMonth()) && (req.getBeginDate().getYear() == data.getYear())) {
                             if (new TimeDate.Date().getDayYear() < req.getEndDate().getDayYear()) {
                                 valfinal = tempo.compareTime(req.getTimeEnd()) + ((req.getEndDate().getDayYear() - new TimeDate.Date().getDayYear()) * 86400);
                             } else {
                                 valfinal = tempo.compareTime(req.getTimeEnd());
                             }
-                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
+                            if ((val < antes_hora) && (valfinal >= depois_hora) && (!estadomaterial)) {
                                 bt2.setEnabled(true);
                                 bt3.setEnabled(true);
                             } else {
@@ -752,6 +766,14 @@ public class TableRequest {
                 if (selecionado >= 0) {
                     if (requisicoes.getRequests().size() > (selecionado)) {
                         Keys.Request req = requisicoes.getSelectedRequest(selecionado);
+                        boolean estadomaterial;
+                        if (DataBase.DataBase.testConnection(url)) {
+                            DataBase.DataBase db = new DataBase.DataBase(url);
+                            estadomaterial = db.getStateOfMaterial(req);
+                            db.close();
+                        } else {
+                            estadomaterial = req.getMaterial().isLoaned();
+                        }
                         TimeDate.Time tempo = new TimeDate.Time();
                         TimeDate.Date data = new TimeDate.Date();
                         int valfinal;
@@ -763,7 +785,7 @@ public class TableRequest {
                                 } else {
                                     valfinal = tempo.compareTime(req.getTimeEnd());
                                 }
-                                if ((val < antes_hora) && (valfinal >= depois_hora) && (!req.getMaterial().isLoaned())) {
+                                if ((val < antes_hora) && (valfinal >= depois_hora) && (!estadomaterial)) {
                                     bt2.setEnabled(true);
                                     bt3.setEnabled(true);
                                 } else {
@@ -792,7 +814,7 @@ public class TableRequest {
 
     public void addTimerColors() {
         //Timer
-        time = new Timer(1000, new ActionListener() {
+        time = new Timer(100, new ActionListener() {
             TimeDate.Time tempo;
             TimeDate.Date data;
             DefaultTableModel modelo;
@@ -842,7 +864,7 @@ public class TableRequest {
                     for (Keys.Request req : requisicoes.getRequests()) {
                         if ((req.getEndDate().getDay() == data.getDay()) && (req.getEndDate().getMonth() == data.getMonth()) && (req.getEndDate().getYear() == data.getYear())) {
                             valfinal = tempo.compareTime(req.getTimeEnd());
-                            if (valfinal >= depois_hora) {
+                            if (valfinal >= depois_hora + atrasolegal) {
                                 tabela.setBorderColor(i, cores[0]);
                             } else if (valfinal < 0) {
                                 tabela.setBorderColor(i, cores[1]);
@@ -1082,7 +1104,7 @@ public class TableRequest {
      * @param depois_hora the depois_hora to set
      */
     public void setAfterHour(int depois_hora) {
-        this.depois_hora = depois_hora * 60;
+        this.depois_hora = -depois_hora * 60;
     }
 
     /**
@@ -1121,5 +1143,21 @@ public class TableRequest {
         tabela.setSelectionForeground(foregroundSelectColor);
         tabela.repaint();
     }
+
+    /**
+     * @return the atrasolegal
+     */
+    public int getPermittedDelay() {
+        return atrasolegal;
+    }
+
+    /**
+     * @param atrasolegal the atrasolegal to set
+     */
+    public void setPermittedDelay(int atrasolegal) {
+        this.atrasolegal = -atrasolegal;
+    }
+    
+   
 
 }

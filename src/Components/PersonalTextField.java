@@ -21,22 +21,23 @@ import javax.swing.JTextField;
 public class PersonalTextField extends JTextField {
 
     private static final long serialVersionUID = 1L;
-
+    private static final Color DEFAULT_PLACEHOLDER_COLOR = new Color(205,205,205);
     private Color cor;
     private String placeholder;
     private boolean condicao;
     private javax.swing.JComponent componentedesaida;
     private String textocondicional;
+    
 
     public PersonalTextField() {
         super();
-        cor = new Color(145, 145, 145);
+        cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
     }
 
     public PersonalTextField(String texto) {
         super(texto);
-        cor = new Color(145, 145, 145);
+        cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
     }
 

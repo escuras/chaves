@@ -1587,11 +1587,10 @@ public class DataBase {
                             sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
                             System.out.println(sql);
                             smt.executeUpdate(sql);
-                            java.util.List<Keys.TypeOfMaterial> tipos = feature.getTypeOfMaterial();
-                            for (Keys.TypeOfMaterial tipo : tipos) {
-                                sql = "insert into Rel_features_materials (id_caracteristica, id_tipo) values (" + this.getFeatureId(feature) + "," + tipo.getMaterialTypeID() + ") ";
-                                smt.executeUpdate(sql);
-                            }
+                            Keys.TypeOfMaterial tipo = feature.getTypeOfMaterial();
+                            sql = "insert into Rel_features_materials (id_caracteristica, id_tipo) values (" + this.getFeatureId(feature) + "," + tipo.getMaterialTypeID() + ") ";
+                            smt.executeUpdate(sql);
+
                             con.commit();
                             con.setAutoCommit(true);
                         }
@@ -1603,7 +1602,7 @@ public class DataBase {
         }
         return false;
     }
-    
+
     public boolean insertFeatureAndAssociateWithMaterial(Keys.Feature feature, Keys.Material mat) {
         if (this.isTie()) {
             Statement smt;
@@ -1623,7 +1622,7 @@ public class DataBase {
                             con.setAutoCommit(false);
                             sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
                             smt.executeUpdate(sql);
-                            sql = "insert into Rel_features_materials (id_caracteristica, id_tipo, id_material, quantidade) values ("+this.getFeatureId(feature)+","+mat.getTypeOfMaterial().getMaterialTypeID()+","+mat.getId()+","+feature.getNumber()+")";
+                            sql = "insert into Rel_features_materials (id_caracteristica, id_tipo, id_material, quantidade) values (" + this.getFeatureId(feature) + "," + mat.getTypeOfMaterial().getMaterialTypeID() + "," + mat.getId() + "," + feature.getNumber() + ")";
                             smt.executeUpdate(sql);
                             con.commit();
                             con.setAutoCommit(true);
@@ -1637,8 +1636,7 @@ public class DataBase {
         return false;
     }
 
-    
-    public int getFeatureId(Keys.Feature feature){
+    public int getFeatureId(Keys.Feature feature) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1661,7 +1659,7 @@ public class DataBase {
         }
         return -1;
     }
-    
+
     public boolean deleteFeature(Keys.Feature feature) {
         if (this.isTie()) {
             Statement smt;
@@ -1779,7 +1777,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "select id_caracteristica, descricao, medida from Features where id_caracteristica in (select distinct(id_caracteristica) from Rel_features_materials where id_tipo = " + tipo.getMaterialTypeID() + ");";
+                String sql = "select id_caracteristica, descricao, medida from Features where id_caracteristica in (select distinct(id_caracteristica) from Rel_features_materials where id_tipo = " + tipo.getMaterialTypeID() + ") order by descricao;";
                 try {
                     rs = smt.executeQuery(sql);
                     while (rs.next()) {
@@ -1805,9 +1803,10 @@ public class DataBase {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 smt = null;
             }
-            
+
             if (smt != null) {
-                String sql = "select f.id_caracteristica, f.descricao, f.medida, t.quantidade from Features f join Rel_features_materials t using (id_caracteristica) where id_caracteristica = (select distinct(id_caracteristica) from Rel_features_materials where id_material = "+mat.getId()+");";
+                String sql = "select f.id_caracteristica, f.descricao, f.medida, t.quantidade from Features f left join Rel_features_materials t on (f.id_caracteristica = t.id_caracteristica ) where t.id_caracteristica in (select distinct(id_caracteristica) from Rel_features_materials where id_material = " + mat.getId() + ") and t.id_material =" + mat.getId() + " and t.id_material is not null order by f.descricao; ";
+                      
                 try {
                     rs = smt.executeQuery(sql);
                     while (rs.next()) {
@@ -2113,7 +2112,7 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select count(*) from Software where nome like '" + soft.getName() + "' and versao like " + soft.getVersion() + ";";
+                    String sql = "select count(*) from Software where nome like '" + soft.getName() + "' and versao like '" + soft.getVersion() + "';";
                     ResultSet rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
                         sql = "insert into Software (nome, versao) values ('" + soft.getName() + "','" + soft.getVersion() + "') ";
@@ -2202,7 +2201,7 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select nome, versao, atualizado from Software;";
+                    String sql = "select nome, versao, atualizado from Software order by nome;";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Software soft;
                     while (rs.next()) {
@@ -2229,7 +2228,7 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select nome, versao, atualizado from Software where id_software in (select id_software from Rel_material_software where codigo_material = '" + mat.getCodeOfMaterial() + "');";
+                    String sql = "select nome, versao, atualizado from Software where id_software in (select id_software from Rel_material_software where codigo_material = '" + mat.getCodeOfMaterial() + "') order by nome;";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Software soft;
                     while (rs.next()) {
@@ -2780,7 +2779,7 @@ public class DataBase {
                     + "TIME_FORMAT(hora_entrega,'%H:%i:%s')hora_entrega, "
                     + "requisicao_conjunta "
                     + "from Requests "
-                    + "where id_material = " + mat.getId() + " and (data_inicio > curdate() or (data_inicio = curdate() and hora_inicio >= curtime())) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
+                    + "where id_material = " + mat.getId() + " and (data_inicio > curdate() or (data_inicio = curdate() and hora_fim >= curtime())) and ativo = 0 and terminado = 0  order by data_inicio, hora_inicio limit 1;";
             try {
                 smt = con.prepareStatement(sql);
                 rs = smt.executeQuery();
@@ -3610,6 +3609,31 @@ public class DataBase {
             }
         }
         return null;
+    }
+
+    public boolean getStateOfMaterial(Keys.Request req) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "select estado from Materials where id_material = " + req.getMaterial().getId() + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return rs.getBoolean(1);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     public void close() {

@@ -9,25 +9,44 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.scene.Cursor;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -54,8 +73,13 @@ public class WMaterial extends javax.swing.JDialog {
     private java.util.List<Keys.Feature> features;
     private java.util.List<Keys.Software> software;
     private java.util.List<Keys.Subject> disciplinas;
-    private Components.PersonalButton btdireitacimamais;
+    private Components.PersonalButton btdireitacimaoutro;
     private String[] valores;
+    java.util.List<Keys.Feature> lfeat;
+    java.util.List<Keys.Software> lsoft;
+    java.util.List<Keys.Subject> ldis;
+    javax.swing.JSpinner sppinerquantidade;
+    javax.swing.JCheckBox checkatualizado;
 
     public WMaterial() {
         super();
@@ -65,6 +89,9 @@ public class WMaterial extends javax.swing.JDialog {
         lingua = new Langs.Locale();
         mat = new Keys.Material();
         prefs = Preferences.userNodeForPackage(getClass());
+        java.util.List<Keys.Feature> lfeat = new java.util.ArrayList<>();
+        java.util.List<Keys.Software> lsoft = new java.util.ArrayList<>();
+        java.util.List<Keys.Subject> ldis = new java.util.ArrayList<>();
     }
 
     public WMaterial(javax.swing.JDialog dialogo, Keys.Material mat, Color cor, Langs.Locale lingua, String url) {
@@ -76,6 +103,9 @@ public class WMaterial extends javax.swing.JDialog {
         this.url = url;
         this.mat = mat;
         prefs = Preferences.userNodeForPackage(getClass());
+        java.util.List<Keys.Feature> lfeat = new java.util.ArrayList<>();
+        java.util.List<Keys.Software> lsoft = new java.util.ArrayList<>();
+        java.util.List<Keys.Subject> ldis = new java.util.ArrayList<>();
 
     }
 
@@ -98,7 +128,18 @@ public class WMaterial extends javax.swing.JDialog {
         jpanelesquerda.setLayout(gl);
 
         // combobox inicial
-        javax.swing.JComboBox<String> comboboxopcoes = new javax.swing.JComboBox<>(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
+        javax.swing.JComboBox<String> comboboxopcoes;
+        switch (mat.getTypeOfMaterial().getMaterialTypeID()) {
+            case 1:
+                comboboxopcoes = new javax.swing.JComboBox<>(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores"), lingua.translate("Disciplinas relacionadas")});
+                break;
+            case 2:
+                comboboxopcoes = new javax.swing.JComboBox<>(new String[]{lingua.translate("Caraterísticas"), lingua.translate("Software em computadores")});
+                break;
+            default:
+                comboboxopcoes = new javax.swing.JComboBox<>(new String[]{lingua.translate("Caraterísticas")});
+                break;
+        }
         ((javax.swing.JLabel) comboboxopcoes.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         BasicComboPopup popupVista = (BasicComboPopup) comboboxopcoes.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
@@ -108,24 +149,41 @@ public class WMaterial extends javax.swing.JDialog {
         } else {
             comboboxopcoes.setSelectedIndex(0);
         }
-        comboboxopcoes.setPreferredSize(new Dimension(310, 26));
+        comboboxopcoes.setPreferredSize(new Dimension(310, 28));
         comboboxopcoes.setFocusable(false);
         comboboxopcoes.setBackground(new Color(213, 213, 213));
         comboboxopcoes.setBounds(0, 0, 320, 40);
         comboboxopcoes.addActionListener((ActionEvent e) -> {
-            javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{comboboxopcoes.getSelectedItem().toString()});
+            javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName()+ " "+mat.getDescription()});
             jpanelesquerda.removeAll();
             painelgeral.repaint();
-            jpanelesquerda.add(makeTable(comboboxopcoes, model, false, comboboxopcoes.getSelectedIndex()));
+            jpanelesquerda.add(makeTable(comboboxopcoes, model, true, comboboxopcoes.getSelectedIndex()));
             prefs.put("material", mat.getCodeOfMaterial());
             prefs.putInt("combobox", comboboxopcoes.getSelectedIndex());
             this.updateComboBox(comboboxopcoes);
         });
-        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{comboboxopcoes.getSelectedItem().toString()});
 
+        sppinerquantidade = new javax.swing.JSpinner();
+        sppinerquantidade.setBackground(new Color(213, 213, 213));
+        sppinerquantidade.setPreferredSize(new Dimension(150, 30));
+        javax.swing.SpinnerNumberModel sn = new javax.swing.SpinnerNumberModel(0, 0, 200, 1);
+        sppinerquantidade.setModel(sn);
+        checkatualizado = new javax.swing.JCheckBox();
+        ActionListener checkaction = (ActionEvent e) -> {
+            if (checkatualizado.isSelected()) {
+                if (DataBase.DataBase.testConnection(url)) {
+                    DataBase.DataBase db = new DataBase.DataBase(url);
+                    
+                }
+            }
+        };
+            
+        
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName()+ " "+mat.getDescription()});
+ 
         //paineis
         jpanelesquerda.removeAll();
-        jpanelesquerda.add(this.makeTable(comboboxopcoes, model, false, comboboxopcoes.getSelectedIndex()));
+        jpanelesquerda.add(this.makeTable(comboboxopcoes, model, true, comboboxopcoes.getSelectedIndex()));
 
         JPanel jpaneltituloesquerda = new javax.swing.JPanel();
         jpaneltituloesquerda.add(comboboxopcoes);
@@ -143,127 +201,437 @@ public class WMaterial extends javax.swing.JDialog {
         JPanel jpaneldireitacima = new javax.swing.JPanel(null);
         jpaneldireitacima.setPreferredSize(new java.awt.Dimension(284, 147));
 
-        javax.swing.JLabel labeladicionar = new javax.swing.JLabel(lingua.translate("Adicionar") + ":");
-        labeladicionar.setPreferredSize(new Dimension(284, 30));
-        labeladicionar.setFont(new Font("Cantarell", Font.PLAIN, 14));
-        labeladicionar.setBounds(0, 0, 284, 30);
-        labeladicionar.setHorizontalAlignment(javax.swing.JLabel.LEFT);
-        labeladicionar.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        jpaneldireitacima.add(labeladicionar);
+        javax.swing.JButton btmais = new javax.swing.JButton();
+        ImageIcon icoadd = null;
+        try {
+            BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus.png"));
+            icoadd = new ImageIcon(imo);
+        } catch (IOException ex) {
+            Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (icoadd != null) {
+            btmais.setIcon(icoadd);
+        } else {
+            btmais.setText(lingua.translate("Adicionar"));
+        }
+        btmais.setPreferredSize(new Dimension(90, 40));
+        btmais.setBackground(new Color(51, 102, 153));
+        btmais.setFocusPainted(false);
+        btmais.setEnabled(false);
+        btmais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btmais.setBounds(190, 34, 90, 40);
+        javax.swing.table.DefaultTableModel model2 = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName()+ " "+mat.getDescription()});
+        btmais.addActionListener((ActionEvent e) -> {
+            int val = comboboxopcoes.getSelectedIndex();
+            switch (val) {
+                case 1:
+                    Keys.Software soft = software.get(comboboxdireitacima.getSelectedIndex() - 1);
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        db.associateSoftwareWithMaterial(soft, mat);
+                        db.close();
+                        jpanelesquerda.removeAll();
+                        jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                    }
+                    break;
+                case 2:
+                    Keys.Subject subs = disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1);
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        db.associateClassroomWithSubject(mat, subs);
+                        db.close(); 
+                        jpanelesquerda.removeAll();
+                        jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                    }
+                    break;
+                default:
+                    Keys.Feature feat = features.get(comboboxdireitacima.getSelectedIndex() - 1);
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        feat.setNumber((int) sppinerquantidade.getValue());
+                        db.associateFeatureWithMaterial(feat, mat);
+                        db.close();
+                        jpanelesquerda.removeAll();
+                        jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                    }
+                    break;
+
+            }
+        });
+        jpaneldireitacima.add(btmais);
 
         comboboxdireitacima = new javax.swing.JComboBox<>();
         comboboxdireitacima.setEditable(true);
         comboboxdireitacima.setEnabled(true);
+        comboboxdireitacima.setAutoscrolls(true);
+        comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+        javax.swing.JTextField jtexto = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+        jtexto.setSelectionColor(Color.DARK_GRAY);
         this.updateComboBox(comboboxopcoes);
 
-        
-
-        comboboxdireitacima.setPreferredSize(new Dimension(254, 26));
-        comboboxdireitacima.setBounds(0, 35, 244, 26);
+        comboboxdireitacima.setPreferredSize(new Dimension(254, 28));
+        comboboxdireitacima.setBounds(35, 83, 244, 28);
         BasicComboPopup popupcarateristicas = (BasicComboPopup) comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
         popupcarateristicas.getList().setSelectionBackground(Color.DARK_GRAY);
         popupcarateristicas.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         comboboxdireitacima.setFocusable(true);
         comboboxdireitacima.setBackground(new Color(213, 213, 213));
+
+        comboboxdireitacima.getEditor().getEditorComponent().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (comboboxdireitacima.getSelectedIndex() == 0) {
+                    javax.swing.JTextField fil = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                    fil.setText("");
+
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (comboboxdireitacima.getSelectedIndex() == 0) {
+                    javax.swing.JTextField fil = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                    fil.setCaretColor(Color.BLACK);
+                    fil.setForeground(Color.BLACK);
+                    comboboxdireitacima.setSelectedIndex(-1);
+                }
+            }
+        });
+
+        comboboxdireitacima.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            int aux;
+            Object child = comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
+            BasicComboPopup popup = (BasicComboPopup) child;
+            javax.swing.JList list = popup.getList();
+            javax.swing.JTextField fil = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+            boolean bauxiliar = false;
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    requestFocusInWindow();
+                    updateComboBox(comboboxopcoes);
+                } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    if (comboboxdireitacima.getSelectedIndex() == 0) {
+                        fil.setCaretPosition(0);
+                        fil.setText("");
+                    }
+                } else if ((comboboxdireitacima.getSelectedIndex() == 0) && (bauxiliar) && (e.getKeyCode() != KeyEvent.VK_ENTER)) {
+                    fil.setCaretPosition(0);
+                    fil.setForeground(Color.BLACK);
+                    fil.setCaretColor(Color.BLACK);
+                    comboboxdireitacima.setSelectedIndex(-1);
+                    fil.setText("");
+                    bauxiliar = false;
+                } else if (!comboboxdireitacima.isPopupVisible()){
+                    comboboxdireitacima.setPopupVisible(true);
+                }
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int val = e.getKeyCode();
+                if ((val == KeyEvent.VK_DOWN) || (val == KeyEvent.VK_UP)) {
+                    if (comboboxdireitacima.getSelectedIndex() == 0) {
+                        comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+                        fil.setCaretColor(Color.WHITE);
+                        bauxiliar = true;
+                    } else {
+                        comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(1, 1, 1));
+                        fil.setCaretColor(Color.BLACK);
+                    }
+                    if ((val == KeyEvent.VK_DOWN) && (comboboxdireitacima.getSelectedIndex() == -1)) {
+                        comboboxdireitacima.setSelectedIndex(1);
+                    } else if (((e.getKeyCode() == KeyEvent.VK_UP) && (comboboxdireitacima.getSelectedIndex() == -1))) {
+                        comboboxdireitacima.setSelectedIndex(1);
+                    }
+                } else if ((comboboxdireitacima.getSelectedIndex() == 0) && (val == KeyEvent.VK_ENTER)) {
+                    requestFocusInWindow();
+                } else if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (fil.getText().equals(""))) {
+                    comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+                    fil.setCaretColor(Color.WHITE);
+                    bauxiliar = true;
+                    comboboxdireitacima.setSelectedIndex(0);
+                }
+                if (comboboxdireitacima.getSelectedIndex() != 0) {
+                    String va = fil.getText();
+                    aux = comboboxdireitacima.getSelectedIndex();
+                    DefaultComboBoxModel modelo = (DefaultComboBoxModel) comboboxdireitacima.getModel();
+                    for (int i = 1; i <= modelo.getSize(); i++) {
+                        if (modelo.getElementAt(i) != null) {
+                            if ((modelo.getElementAt(i).toString().toLowerCase().matches("(.*)" + va.toLowerCase() + "(.*)")) && (!va.equals(""))) {
+                                aux = i;
+                                break;
+                            }
+                        }
+                    }
+                    comboboxdireitacima.setSelectedIndex(aux);
+                    if (val == KeyEvent.VK_ENTER) {
+                        if (comboboxdireitacima.getSelectedIndex() > 0) {
+                            va = comboboxdireitacima.getSelectedItem().toString();
+                        }
+                    }
+                    fil.setText(va);
+                }
+            }
+        }
+        );
+
+        comboboxdireitacima.getEditor()
+                .getEditorComponent().addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e
+                    ) {
+                        if (comboboxdireitacima.getSelectedIndex() < 1) {
+                            comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(1, 1, 1));
+                            javax.swing.JTextField field = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                            field.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e
+                    ) {
+                        if (comboboxdireitacima.getSelectedIndex() < 1) {
+                            comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+                            updateComboBox(comboboxopcoes);
+                        }
+                    }
+
+                }
+                );
+        Object child = comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
+        BasicComboPopup popup = (BasicComboPopup) child;
+        javax.swing.JList list = popup.getList();
+        list.setCellRenderer((JList list1, Object value, int index, boolean isSelected, boolean cellHasFocus) -> {
+            javax.swing.JLabel label = new javax.swing.JLabel();
+            label.setOpaque(true);
+            label.setBackground(new Color(254, 254, 254));
+            label.setPreferredSize(new Dimension(90, 20));
+            label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+            label.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+            if (index != 0) {
+                label.setText(value.toString());
+            } else {
+                label.setForeground(new Color(205, 205, 205));
+                label.setText("");
+            }
+
+            if (isSelected) {
+                label.setBackground(Color.DARK_GRAY);
+                label.setForeground(Color.WHITE);
+            }
+            return label;
+        });
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (comboboxdireitacima.getSelectedIndex() == 0) {
+                    comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+                    requestFocusInWindow();
+                } else {
+                    comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(1, 1, 1));
+                }
+            }
+        });
         jpaneldireitacima.add(comboboxdireitacima);
 
-        btdireitacimamais = new Components.PersonalButton();
-        btdireitacimamais.setPreferredSize(new Dimension(30, 26));
-        btdireitacimamais.setBounds(250, 35, 30, 26);
-        btdireitacimamais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btdireitacimaoutro = new Components.PersonalButton();
+
+        btdireitacimaoutro.setPreferredSize(
+                new Dimension(30, 30));
+        btdireitacimaoutro.setBounds(
+                5, 81, 30, 30);
+        btdireitacimaoutro.setCursor(
+                new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ImageIcon ico = null;
+
         try {
-            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus16x24negro.png"));
+            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/outro.png"));
             ico = new ImageIcon(im);
         } catch (IOException ex) {
             Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (ico != null) {
-            btdireitacimamais.setIcon(ico);
+        if (ico
+                != null) {
+            btdireitacimaoutro.setIcon(ico);
         } else {
-            btdireitacimamais.setText("+");
+            btdireitacimaoutro.setText("+");
         }
-        btdireitacimamais.addActionListener((ActionEvent e) -> {
-            JPanel panel = new JPanel();
-            panel.setPreferredSize(new Dimension(380, 80));
-            javax.swing.JLabel ldescricao = new javax.swing.JLabel(lingua.translate("Descrição") + ": ");
-            ldescricao.setPreferredSize(new Dimension(100, 32));
-            ldescricao.setBounds(0, 0, 100, 32);
-            panel.add(ldescricao);
 
-            Components.PersonalTextField tdescricao = new Components.PersonalTextField();
-            tdescricao.setPreferredSize(new Dimension(240, 32));
-            tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-            tdescricao.setBounds(100, 0, 240, 32);
-            panel.add(tdescricao);
+        btdireitacimaoutro.addActionListener(
+                (ActionEvent e) -> {
+                    JPanel panel = new JPanel(null);
+                    panel.setPreferredSize(new Dimension(380, 100));
+                    if (comboboxopcoes.getSelectedIndex() == 0) {
+                        javax.swing.JLabel ldescricao = new javax.swing.JLabel(lingua.translate("Descrição") + ": ");
+                        ldescricao.setPreferredSize(new Dimension(100, 32));
+                        ldescricao.setFocusable(true);
+                        ldescricao.requestFocus();
+                        ldescricao.setBounds(20, 0, 100, 32);
+                        panel.add(ldescricao);
 
-            javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Medida") + ": ");
-            lmedida.setPreferredSize(new Dimension(100, 32));
-            lmedida.setBounds(0, 0, 100, 32);
-            panel.add(lmedida);
+                        Components.PersonalTextField tdescricao = new Components.PersonalTextField();
+                        tdescricao.setPreferredSize(new Dimension(240, 30));
+                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tdescricao.setBounds(120, 0, 240, 30);
+                        panel.add(tdescricao);
+                        javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Medida") + ": ");
+                        lmedida.setPreferredSize(new Dimension(100, 30));
+                        lmedida.setBounds(20, 40, 100, 30);
+                        panel.add(lmedida);
 
-            Components.PersonalTextField tmedida = new Components.PersonalTextField();
-            tmedida.setPreferredSize(new Dimension(240, 32));
-            tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-            tmedida.setBounds(100, 0, 240, 32);
-            panel.add(tmedida);
+                        Components.PersonalTextField tmedida = new Components.PersonalTextField();
+                        tmedida.setPreferredSize(new Dimension(240, 30));
+                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tmedida.setBounds(120, 40, 240, 30);
+                        panel.add(tmedida);
 
-            String[] btstexto = {lingua.translate("Adicionar"), lingua.translate("Voltar")};
-            tdescricao.addPlaceHolder("Descrição da caraterística", null);
-            tmedida.addPlaceHolder("Medida de valor", null);
-            Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outra caraterística"), 400, 250, panel, "", btstexto);
-            ImageIcon icosair = null;
-            try {
-                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/return.png"));
-                icosair = new ImageIcon(im);
-            } catch (IOException ex) {
-                Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                        String[] btstexto = {lingua.translate("Adicionar"), lingua.translate("Voltar")};
+                        tdescricao.addPlaceHolder("Descrição da caraterística", null);
+                        tdescricao.setSelectionColor(Color.DARK_GRAY);
+                        tmedida.addPlaceHolder("Medida de valor", null);
+                        Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outra caraterística"), 400, 250, panel, "", btstexto);
+                        ImageIcon icosair = null;
+                        try {
+                            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/return.png"));
+                            icosair = new ImageIcon(im);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        pop.getLeftButton().setIcon(icosair);
+                        pop.getLeftButton().setFocusable(true);
+                        pop.getLeftButton().requestFocus();
+                        tmedida.setLostCenterComponent(pop.getLeftButton());
+                        tmedida.setSelectionColor(Color.DARK_GRAY);
+                        tdescricao.setLostCenterComponent(pop.getLeftButton());
+                        int val = pop.showMessage();
+                        if (val == 1) {
+                            String desc = tdescricao.getText();
+                            String medida = tmedida.getText();
+                            if (!desc.equals("")) {
+                                if (DataBase.DataBase.testConnection(url)) {
+                                    DataBase.DataBase db = new DataBase.DataBase(url);
+                                    Keys.Feature feature = new Keys.Feature(desc, medida, 0, mat.getTypeOfMaterial());
+                                    db.insertFeature(feature);
+                                    updateComboBox(comboboxopcoes);
+                                    for (int i = 0; i < comboboxdireitacima.getItemCount(); i++) {
+                                        String aux = comboboxdireitacima.getItemAt(i);
+                                        if (aux.equals(desc)) {
+                                            comboboxdireitacima.setSelectedIndex(i);
+                                            javax.swing.JTextField fl = (javax.swing.JTextField)comboboxdireitacima.getEditor().getEditorComponent();
+                                            fl.setForeground(Color.BLACK);
+                                            break;
+                                        }
+                                    }
 
-            pop.getLeftButton().setIcon(icosair);
-            pop.getLeftButton().setFocusable(true);
-            tmedida.setLostCenterComponent(pop.getLeftButton());
-            tdescricao.setLostCenterComponent(pop.getLeftButton());
-            int val = pop.showMessage();
-            if (val == 1) {
-                String desc = tdescricao.getText();
-                String medida = tmedida.getText();
-                if (!desc.equals("")) {
-                    if (DataBase.DataBase.testConnection(url)) {
-                        DataBase.DataBase db = new DataBase.DataBase(url);
-                        Keys.Feature feature = new Keys.Feature(desc, medida, 0, mat.getTypeOfMaterial());
-                        db.insertFeature(feature);
-                        updateComboBox(comboboxopcoes);
-                        for (int i = 0; i < comboboxdireitacima.getItemCount(); i++) {
-                            String aux = comboboxdireitacima.getItemAt(i);
-                            System.out.println(aux);
-                            if (aux.equals(desc)) {
-                                comboboxdireitacima.setSelectedIndex(i);
-                                break;
+                                }
                             }
                         }
+                    } else if (comboboxopcoes.getSelectedIndex() == 1) {
+                        javax.swing.JLabel ldescricao = new javax.swing.JLabel(lingua.translate("Software") + ": ");
+                        ldescricao.setPreferredSize(new Dimension(100, 32));
+                        ldescricao.setFocusable(true);
+                        ldescricao.requestFocus();
+                        ldescricao.setBounds(30, 0, 100, 30);
+                        panel.add(ldescricao);
 
+                        Components.PersonalTextField tdescricao = new Components.PersonalTextField();
+                        tdescricao.setPreferredSize(new Dimension(240, 32));
+                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tdescricao.setBounds(100, 0, 240, 30);
+                        panel.add(tdescricao);
+
+                        javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Versão") + ": ");
+                        lmedida.setPreferredSize(new Dimension(100, 32));
+                        lmedida.setBounds(30, 40, 100, 30);
+                        panel.add(lmedida);
+
+                        Components.PersonalTextField tmedida = new Components.PersonalTextField();
+                        tmedida.setPreferredSize(new Dimension(240, 32));
+                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tmedida.setBounds(100, 40, 240, 30);
+                        panel.add(tmedida);
+
+                        String[] btstexto = {lingua.translate("Adicionar"), lingua.translate("Voltar")};
+                        tdescricao.addPlaceHolder(lingua.translate("Descrição ou nome do programa"), null);
+                        tdescricao.setSelectionColor(Color.DARK_GRAY);
+                        tmedida.addPlaceHolder(lingua.translate("Versão do programa"), null);
+                        Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outra caraterística"), 400, 250, panel, "", btstexto);
+                        ImageIcon icosair = null;
+                        try {
+                            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/return.png"));
+                            icosair = new ImageIcon(im);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        pop.getLeftButton().setIcon(icosair);
+                        pop.getLeftButton().setFocusable(true);
+                        pop.getLeftButton().requestFocus();
+                        tmedida.setLostCenterComponent(pop.getLeftButton());
+                        tmedida.setSelectionColor(Color.DARK_GRAY);
+                        tdescricao.setLostCenterComponent(pop.getLeftButton());
+                        int val = pop.showMessage();
+                        if (val == 1) {
+                            String desc = tdescricao.getText();
+                            String versao = tmedida.getText();
+                            if (!desc.equals("")) {
+                                if (DataBase.DataBase.testConnection(url)) {
+                                    DataBase.DataBase db = new DataBase.DataBase(url);
+                                    Keys.Software soft = new Keys.Software(desc, versao, true);
+                                    db.insertSoftware(soft);
+                                    updateComboBox(comboboxopcoes);
+                                    for (int i = 0; i < comboboxdireitacima.getItemCount(); i++) {
+                                        String aux = comboboxdireitacima.getItemAt(i);
+                                        if (aux.equals(desc)) {
+                                            comboboxdireitacima.setSelectedIndex(i);
+                                            javax.swing.JTextField fl = (javax.swing.JTextField)comboboxdireitacima.getEditor().getEditorComponent();
+                                            fl.setForeground(Color.BLACK);
+                                            break;
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        });
-        if (comboboxopcoes.getSelectedIndex() != 2) {
-            jpaneldireitacima.add(btdireitacimamais);
+        );
+        javax.swing.JPanel paneladicionar = new javax.swing.JPanel(null);
+
+        paneladicionar.setPreferredSize(
+                new Dimension(248, 57));
+        paneladicionar.setBounds(
+                0, 120, 284, 37);
+        jpaneldireitacima.add(paneladicionar);
+
+        drawcomponentsToAdd(comboboxopcoes, paneladicionar);
+
+        if (comboboxopcoes.getSelectedIndex()
+                != 2) {
+            jpaneldireitacima.add(btdireitacimaoutro);
         }
-        comboboxopcoes.addActionListener((ActionEvent e) -> {
-            if (comboboxopcoes.getSelectedIndex() != 2) {
-                if (!jpaneldireitacima.getComponent(1).equals(btdireitacimamais)) {
-                    jpaneldireitacima.add(btdireitacimamais);
+
+        comboboxopcoes.addActionListener(
+                (ActionEvent e) -> {
+                    drawcomponentsToAdd(comboboxopcoes, paneladicionar);
+                    if (comboboxopcoes.getSelectedIndex() != 2) {
+                        if (!jpaneldireitacima.getComponent(1).equals(btdireitacimaoutro)) {
+                            jpaneldireitacima.add(btdireitacimaoutro);
+                        }
+                    } else {
+                        jpaneldireitacima.remove(btdireitacimaoutro);
+                    }
                 }
-            } else {
-                jpaneldireitacima.remove(btdireitacimamais);
-            }
-        });
+        );
 
         JPanel jpaneldireitabaixo = new javax.swing.JPanel();
 
         jpaneldireitabaixo.setBackground(Color.PINK);
         JPanel jpanelbaixo = new javax.swing.JPanel();
+
         jpanelbaixo.setBackground(Color.ORANGE);
 
         //jpanel2 = jpanelesquerda
@@ -272,15 +640,21 @@ public class WMaterial extends javax.swing.JDialog {
         //jpanel5 = jpaneltituloesquerda
         //jpanel6 = jpaneltitulodireita verde
         //jpanel8 = jpanelbaixo laranja
-        jpanelesquerda.setPreferredSize(new java.awt.Dimension(355, 300));
+        jpanelesquerda.setPreferredSize(
+                new java.awt.Dimension(355, 300));
 
-        jpaneltituloesquerda.setPreferredSize(new java.awt.Dimension(315, 40));
+        jpaneltituloesquerda.setPreferredSize(
+                new java.awt.Dimension(315, 40));
 
-        jpaneldireitabaixo.setPreferredSize(new java.awt.Dimension(315, 147));
-        jpanelbaixo.setPreferredSize(new java.awt.Dimension(631, 70));
+        jpaneldireitabaixo.setPreferredSize(
+                new java.awt.Dimension(315, 147));
+        jpanelbaixo.setPreferredSize(
+                new java.awt.Dimension(631, 70));
 
         javax.swing.GroupLayout playout = new javax.swing.GroupLayout(painelgeral);
+
         painelgeral.setLayout(playout);
+
         playout.setHorizontalGroup(
                 playout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(playout.createSequentialGroup()
@@ -318,57 +692,88 @@ public class WMaterial extends javax.swing.JDialog {
                         .addContainerGap(63, Short.MAX_VALUE))
         );
 
-        this.addWindowListener(new WindowListener() {
+        this.addWindowListener(
+                new WindowAdapter() {
             @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e
+            ) {
                 prefs.put("material", mat.getCodeOfMaterial());
                 prefs.putInt("combobox", comboboxopcoes.getSelectedIndex());
             }
 
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosed(WindowEvent e
+            ) {
                 prefs.put("material", mat.getCodeOfMaterial());
                 prefs.putInt("combobox", comboboxopcoes.getSelectedIndex());
             }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
+        }
+        );
+        comboboxdireitacima.addActionListener((ActionEvent e) -> {
+            DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+            btmais.setEnabled(false);
+            int tamanho = modelo.getRowCount();
+            boolean altera = false;
+            int val = comboboxopcoes.getSelectedIndex();
+            switch (val) {
+                case 1:
+                    if ((comboboxopcoes.getSelectedIndex() == 1) && (comboboxdireitacima.getSelectedIndex() > 0)) {
+                        if (!lsoft.isEmpty()) {
+                            for (Keys.Software soft : lsoft) {
+                                if (software.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(soft) == 0) {
+                                    altera = true;
+                                }
+                            }
+                        }
+                        if (!altera) {
+                            btmais.setEnabled(true);
+                        } else {
+                            btmais.setEnabled(false);
+                        }
+                    } else if (comboboxdireitacima.getSelectedIndex() <= 0) {
+                        btmais.setEnabled(false);
+                    }
+                    break;
+                case 2:
+                    if ((comboboxopcoes.getSelectedIndex() == 2) && (comboboxdireitacima.getSelectedIndex() > 0)) {
+                        if (!ldis.isEmpty()) {
+                            for (Keys.Subject sub : ldis) {
+                                if (disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(sub) == 0) {
+                                    altera = true;
+                                }
+                            }
+                        }
+                        if (!altera) {
+                            btmais.setEnabled(true);
+                        } else {
+                            btmais.setEnabled(false);
+                        }
+                    } else if (comboboxdireitacima.getSelectedIndex() <= 0) {
+                        btmais.setEnabled(false);
+                    }
+                    break;
+                default:
+                    if ((comboboxopcoes.getSelectedIndex() == 0) && (comboboxdireitacima.getSelectedIndex() > 0)) {
+                        if (!lfeat.isEmpty()) {
+                            for (Keys.Feature fea : lfeat) {
+                                if (features.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(fea) == 0) {
+                                    altera = true;
+                                }
+                            }
+                        }
+                        if (!altera) {
+                            btmais.setEnabled(true);
+                        } else {
+                            btmais.setEnabled(false);
+                        }
+                    } else if (comboboxdireitacima.getSelectedIndex() <= 0) {
+                        btmais.setEnabled(false);
+                    }
+                    break;
             }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-
+            System.out.println(comboboxdireitacima.getSelectedIndex());
         });
 
-        /*javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
-        jDialog2.getContentPane().setLayout(jDialog2Layout);
-        jDialog2Layout.setHorizontalGroup(
-            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
-        );
-        jDialog2Layout.setVerticalGroup(
-            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );*/
     }
 
     public void appear() {
@@ -410,32 +815,76 @@ public class WMaterial extends javax.swing.JDialog {
             tabela = new org.jdesktop.swingx.JXTable();
             panelscroll.setPreferredSize(new Dimension(334, 300));
             panelscroll.setBounds(0, 0, 334, 300);
+            panelscroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            panelscroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             panelscroll.setViewportView(tabela);
+            panelscroll.setBorder(BorderFactory.createLineBorder(Color.black,1));
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            javax.swing.JLabel lo = new javax.swing.JLabel();
+            lo.setBackground(new Color(100, 100, 100));
+            lo.setOpaque(true);
+            panelscroll.setCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER, lo);
             tabela.setRowHeight(30);
             tabela.setModel(model);
-            tabela.setPreferredSize(new Dimension((int) panelscroll.getPreferredSize().getWidth(), (int) (panelscroll.getPreferredSize().getHeight() - 40)));
-            tabela.setBounds(panelscroll.getBounds());
+            int size = 0;
             DataBase.DataBase db = new DataBase.DataBase(url);
-            java.util.List<Keys.Feature> lfeat;
-            java.util.List<Keys.Software> lsoft;
-            java.util.List<Keys.Subject> ldis;
+            tabela.setSelectionBackground(Color.DARK_GRAY);
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             String auxiliar;
-            switch (valor) {
+            switch (mat.getTypeOfMaterial().getMaterialTypeID()) {
                 case 1:
-                    lsoft = db.getSoftwareListByMaterial(mat);
-                    for (Keys.Software soft : lsoft) {
-                        auxiliar = soft.getName() + " (" + lingua.translate("Versão") + ": " + soft.getVersion() + ")";
-                        modelo.addRow(new String[]{auxiliar});
+                    switch (valor) {
+                        case 1:
+                            lsoft = db.getSoftwareListByMaterial(mat);
+                            for (Keys.Software soft : lsoft) {
+                                auxiliar = soft.getName() + " (" + lingua.translate("Versão") + ": " + soft.getVersion() + ")";
+                                modelo.addRow(new String[]{auxiliar});
+                                size += tabela.getRowHeight();
+                            }
+                            break;
+                        case 2:
+                            ldis = db.getSubjectsByMaterial(mat);
+                            for (Keys.Subject dis : ldis) {
+                                auxiliar = dis.getName();
+                                modelo.addRow(new String[]{auxiliar});
+                                size += tabela.getRowHeight();
+                            }
+                            break;
+                        default:
+                            lfeat = db.getFeaturesByMaterial(mat);
+                            for (Keys.Feature fea : lfeat) {
+                                auxiliar = fea.getDescription();
+                                if (fea.getNumber() != 0) {
+                                    auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
+                                }
+                                modelo.addRow(new String[]{auxiliar});
+                                size += tabela.getRowHeight();
+                            }
+                            break;
                     }
                     break;
                 case 2:
-                    ldis = db.getSubjectsByMaterial(mat);
-                    for (Keys.Subject dis : ldis) {
-                        auxiliar = dis.getName();
-                        modelo.addRow(new String[]{auxiliar});
+                    switch (valor) {
+                        case 1:
+                            lsoft = db.getSoftwareListByMaterial(mat);
+                            for (Keys.Software soft : lsoft) {
+                                auxiliar = soft.getName() + " (" + lingua.translate("Versão") + ": " + soft.getVersion() + ")";
+                                modelo.addRow(new String[]{auxiliar});
+                                size += tabela.getRowHeight();
+                            }
+                            break;
+                        default:
+                            lfeat = db.getFeaturesByMaterial(mat);
+                            for (Keys.Feature fea : lfeat) {
+                                auxiliar = fea.getDescription();
+                                if (fea.getNumber() != 0) {
+                                    auxiliar += auxiliar + " " + fea.getNumber() + " (" + fea.getUnityMeasure() + ")";
+                                }
+                                modelo.addRow(new String[]{auxiliar});
+                                size += tabela.getRowHeight();
+                            }
+                            break;
                     }
                     break;
                 default:
@@ -446,12 +895,12 @@ public class WMaterial extends javax.swing.JDialog {
                             auxiliar += auxiliar + " " + fea.getNumber() + " (" + fea.getUnityMeasure() + ")";
                         }
                         modelo.addRow(new String[]{auxiliar});
+                        size += tabela.getRowHeight();
                     }
                     break;
             }
             db.close();
-            panelscroll.setBorder(null);
-            tabela.setBorder(BorderFactory.createLineBorder(new Color(1, 1, 1), 1));
+            tabela.setPreferredSize(new Dimension(334,size));
             tabela.getColumnModel().getColumn(0).setCellRenderer(renderer);
             DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
                 private static final long serialVersionUID = 1L;
@@ -463,13 +912,12 @@ public class WMaterial extends javax.swing.JDialog {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                             row, column);
                     setFont(new Font("Cantarell", Font.PLAIN, 14));
-                    this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, painelgeral.getBackground()), BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(1, 1, 1))));
+                    this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
                     return this;
                 }
-
             };
 
-            headerRenderer.setBackground(new Color(80, 80, 80));
+            headerRenderer.setBackground(new Color(100, 100, 100));
             headerRenderer.setForeground(Color.WHITE);
             headerRenderer.setPreferredSize(new Dimension(100, 30));
             headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -483,42 +931,80 @@ public class WMaterial extends javax.swing.JDialog {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             int val = comboboxopcoes.getSelectedIndex();
+            javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+            jt.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
             switch (val) {
                 case 1:
                     software = db.getSoftwareList();
-                    valores = new String[software.size() ];
-                    int j = 0;
-                    while (j < software.size()) {
-                        if (!software.get(j).getVersion().equals("")) {
-                            valores[j] = software.get(j).getName() + " (" + software.get(j).getVersion() + ")";
-                        } else {
-                            valores[j] = software.get(j).getName();
-                        }
+                    valores = new String[software.size() + 1];
+                    int j = 1;
+                    valores[0] = lingua.translate("Selecionar software") + " ...";
+                    while (j < software.size() + 1) {
+                        valores[j] = software.get(j - 1).getName();
                         j++;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
                 case 2:
                     disciplinas = db.getAllSubjects();
-                    valores = new String[disciplinas.size()];
-                    int l = 0;
-                    while (l < disciplinas.size()) {
-                        valores[l] = disciplinas.get(l).getName();
+                    valores = new String[disciplinas.size() + 1];
+                    int l = 1;
+                    valores[0] = lingua.translate("Escolher disciplina") + " ...";
+                    while (l < disciplinas.size() + 1) {
+                        valores[l] = disciplinas.get(l - 1).getName();
                         l++;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
                 default:
                     features = db.getFeaturesByTypeOfMaterial(mat.getTypeOfMaterial());
-                    valores = new String[features.size()];
-                    int i = 0;
-                    while (i < features.size()) {
-                        valores[i] = features.get(i).getDescription();
+                    valores = new String[features.size() + 1];
+                    int i = 1;
+                    valores[0] = lingua.translate("Escolher caraterística") + " ...";
+                    while (i < features.size() + 1) {
+                        valores[i] = features.get(i - 1).getDescription();
                         i++;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
             }
+            jt.setForeground(new Color(205, 205, 205));
+            requestFocusInWindow();
+            Object child = comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
+            BasicComboPopup popup = (BasicComboPopup) child;
+            javax.swing.JList list = popup.getList();
+            list.ensureIndexIsVisible(list.getSelectedIndex());
+            comboboxdireitacima.setSelectedIndex(0);
+        }
+
+    }
+
+    private void drawcomponentsToAdd(javax.swing.JComboBox<String> comboboxopcoes, javax.swing.JPanel panel) {
+
+        if (panel.getComponentCount() > 0) {
+            panel.removeAll();
+        }
+        switch (comboboxopcoes.getSelectedIndex()) {
+            case 1:
+                //bt.setBounds(0,(int)panel.getPreferredSize().getHeight() -45,90,40);
+                //panel.add(bt);
+                break;
+            case 2:
+                //bt.setBounds(0,(int)panel.getPreferredSize().getHeight() -45,90,40);
+                //panel.add(bt);
+                break;
+            default:
+                javax.swing.JLabel label = new javax.swing.JLabel(lingua.translate("Quantidade") + ": ");
+                label.setPreferredSize(new Dimension(100, 26));
+                label.setBounds(10, 0, 100, 26);
+                sppinerquantidade.setBounds(124, 0, 155, 28);
+                sppinerquantidade.setFocusable(false);
+
+                panel.add(label);
+                panel.add(sppinerquantidade);
+
+                break;
+
         }
     }
 

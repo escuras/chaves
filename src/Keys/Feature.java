@@ -9,69 +9,47 @@ package Keys;
  *
  * @author toze
  */
-public class Feature {
+public class Feature implements Comparable<Feature>{
     private String descricao;
     private String medida;
     private int quantidade;
-    private java.util.ArrayList<TypeOfMaterial> mat;
+    TypeOfMaterial material;
     
     
     public Feature(){
         this.descricao = "";
         this.medida = "";
         this.quantidade = 0;
-        this.mat = new java.util.ArrayList<>();
     }
     
     public Feature(String descricao){
         this.descricao = descricao;
         this.medida = "";
         this.quantidade = 0;
-        this.mat = new java.util.ArrayList<>();
     }
     
     public Feature(String descricao, String medida, int quantidade){
         this.descricao = descricao;
         this.medida = medida;
         this.quantidade = quantidade;
-        this.mat = new java.util.ArrayList<>();
+        material = new TypeOfMaterial();
     }
     
     public Feature(String descricao, String medida, int quantidade, TypeOfMaterial mat){
         this.descricao = descricao;
         this.medida = medida;
         this.quantidade = quantidade;
-        this.mat = new java.util.ArrayList<>();
-        this.mat.add(mat);
+        material = mat;
     }
-    
-    public Feature(String descricao, String medida, int quantidade, TypeOfMaterial[] mat){
-        this.descricao = descricao;
-        this.medida = medida;
-        this.quantidade = quantidade;
-        this.mat = new java.util.ArrayList<>();
-        int i = 0;
-        while (i < mat.length) {
-            this.mat.add(mat[i]);
-            i++;
-        }
-    }
+   
     
     public Feature(Feature feature){
         this.descricao = feature.getDescription();
         this.medida = feature.getUnityMeasure();
         this.quantidade = feature.getNumber();
-        this.mat = feature.getTypeOfMaterial();
+        this.material = feature.getTypeOfMaterial();
     }
     
-    public void addTypeOfMaterial(TypeOfMaterial mat){
-        this.mat.add(mat);
-    }
-    
-    public void removeTypeOfMaterial(TypeOfMaterial mat){
-        this.mat.remove(mat);
-    }
-
     /**
      * @return the descricao
      */
@@ -117,8 +95,19 @@ public class Feature {
     /**
      * @return the mat
      */
-    public java.util.ArrayList<TypeOfMaterial> getTypeOfMaterial() {
-        return mat;
+    public TypeOfMaterial getTypeOfMaterial() {
+        return material;
+    }
+
+    @Override
+    public int compareTo(Feature o) {
+        int val;
+        if ((val = this.getDescription().compareTo(o.getDescription())) == 0) {
+            if ((val = this.getUnityMeasure().compareTo(o.getUnityMeasure())) == 0) {
+                return this.getNumber() - o.getNumber();
+            }
+        }
+        return val;
     }
 
    

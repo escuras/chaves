@@ -1555,18 +1555,7 @@
           <Color blue="be" green="b8" red="b1" type="rgb"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
-            <CompoundBorder>
-              <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder thickness="2">
-                  <Color PropertyName="color" blue="be" green="b8" red="b1" type="rgb"/>
-                </LineBorder>
-              </Border>
-              <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </CompoundBorder>
-          </Border>
+          <Border info="null"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="13" green="13" red="e0" type="rgb"/>
@@ -1583,18 +1572,18 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 4, 4, 4, systemColor), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 4, 4, 4, systemColor), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0),1)));"/>
       </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" pref="1040" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" pref="1046" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSplitPaneInicial" alignment="0" pref="499" max="32767" attributes="0"/>
+              <Component id="jSplitPaneInicial" alignment="0" pref="505" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -1662,7 +1651,7 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanelInformaBaixoBaixo" pref="291" max="32767" attributes="0"/>
+                                      <Component id="jPanelInformaBaixoBaixo" pref="294" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jButtonProcuraBaixo" min="-2" pref="78" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -1670,7 +1659,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="jPanelLimpaPesquisaBaixo" pref="303" max="32767" attributes="0"/>
+                              <Component id="jPanelLimpaPesquisaBaixo" pref="306" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -1679,7 +1668,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneDevolucoes" pref="717" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneDevolucoes" pref="720" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1882,7 +1871,7 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="261" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="264" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -2009,7 +1998,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabelDetalhesBaixo" pref="171" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelLimpaPesquisaBaixo" pref="126" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaBaixo" pref="129" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2134,7 +2123,7 @@
                               <Component id="jLabelTitulorequisicoes" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneRequisicoes" pref="717" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneRequisicoes" pref="720" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -2142,7 +2131,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanelInformaCimaBaixo" pref="277" max="32767" attributes="0"/>
+                                      <Component id="jPanelInformaCimaBaixo" pref="280" max="32767" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="jTextFieldProcuraCima" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -2151,7 +2140,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanelDetalhesCima" pref="289" max="32767" attributes="0"/>
+                              <Component id="jPanelDetalhesCima" pref="292" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -2286,7 +2275,7 @@
                               <Component id="jButtonAtuacaoAltera" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPaneInformaCima" alignment="0" pref="277" max="32767" attributes="0"/>
+                          <Component id="jScrollPaneInformaCima" alignment="0" pref="280" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -2366,7 +2355,7 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="247" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="250" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -2496,7 +2485,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelLimpaPesquisaCima" pref="118" max="32767" attributes="0"/>
+                              <Component id="jLabelLimpaPesquisaCima" pref="121" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabelDetalhesCima" pref="165" max="32767" attributes="0"/>
                           </Group>

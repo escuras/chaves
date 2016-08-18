@@ -9,7 +9,7 @@ package Keys;
  *
  * @author toze
  */
-public class Software {
+public class Software implements Comparable<Software>{
     private String nome;
     private String versao;
     private boolean atualizado;
@@ -79,5 +79,14 @@ public class Software {
      */
     public void setUpdated(boolean atualizado) {
         this.atualizado = atualizado;
+    }
+
+    @Override
+    public int compareTo(Software o) {
+        int val;
+        if((val = this.getName().compareTo(o.getName())) == 0) {
+            return this.getVersion().compareTo(o.getVersion());
+        } 
+        return val;
     }
 }

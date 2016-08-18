@@ -18,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.File;
@@ -28,6 +27,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 
 public class ActionButton extends javax.swing.JDialog {
@@ -44,7 +44,12 @@ public class ActionButton extends javax.swing.JDialog {
     private javax.swing.JLabel labelativa;
     private final Langs.Locale lingua;
     private final Color panelcor;
-    private String url;
+    private final String url;
+    private int atraso;
+    private TimeDate.Time tim;
+    private TimeDate.Date dat;
+    private javax.swing.JLabel labelauxiliar;
+    private Timer timertempoatrasado;
 
     public ActionButton(Keys.Material m, Langs.Locale lingua, Color panelcor, String url) {
         super();
@@ -61,6 +66,8 @@ public class ActionButton extends javax.swing.JDialog {
         labelativa.setPreferredSize(new Dimension(181, 32));
         labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
+
     }
 
     public ActionButton(Keys.Classroom m, Langs.Locale lingua, Color panelcor, String url) {
@@ -78,6 +85,7 @@ public class ActionButton extends javax.swing.JDialog {
         labelativa.setPreferredSize(new Dimension(181, 32));
         labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
     public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, Color panelcor, String url) {
@@ -95,6 +103,7 @@ public class ActionButton extends javax.swing.JDialog {
         labelativa.setPreferredSize(new Dimension(181, 32));
         labelativa.setFont(new Font("Cantarell", Font.PLAIN, 18));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
     public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, Color panelcor, String url) {
@@ -113,7 +122,7 @@ public class ActionButton extends javax.swing.JDialog {
         labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
-
+        atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
     public void create() {
@@ -198,14 +207,6 @@ public class ActionButton extends javax.swing.JDialog {
             texto[0].setBorder(BorderFactory.createCompoundBorder(texto[0].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             painel1Cima.add(texto[0]);
 
-            /*AffineTransform affinetransform = new AffineTransform();     
-            FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
-            Font font = new Font("Tahoma", Font.PLAIN, 12);
-            int textwidth = (int)(font.getStringBounds(sauxiliar, frc).getWidth());
-            if (textwidth > 179) {
-                sauxiliar = sauxiliar + " ... ";
-                //texto.setText(sauxiliar);
-            }*/
             // segunda linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Estado") + ": ");
             auxiliar.setPreferredSize(new Dimension(179, 32));
@@ -606,6 +607,9 @@ public class ActionButton extends javax.swing.JDialog {
                     dialogopai.setLocation(this.getX(), this.getY());
                     dialogopai.setVisible(true);
                 }
+                if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
+                    timertempoatrasado.stop();
+                }
                 this.dispose();
             });
             painel11.add(btsair);
@@ -700,6 +704,9 @@ public class ActionButton extends javax.swing.JDialog {
                         dialogopai.setLocation(getX(), getY());
                         dialogopai.setVisible(true);
                     }
+                    if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
+                        timertempoatrasado.stop();
+                    }
                     dispose();
                 }
             });
@@ -728,18 +735,24 @@ public class ActionButton extends javax.swing.JDialog {
         DataBase.DataBase db = new DataBase.DataBase(url);
         Keys.Request req;
         java.util.Set<Keys.Request> requnion;
+        boolean emprestado;
         if (!cla.isLoaned()) {
             req = db.getNextRequest(cla);
             requnion = db.getUnionRequests(req);
+            emprestado = false;
         } else {
             req = db.getCurrentRequest(cla);
             requnion = db.getUnionRequests(req);
+            emprestado = true;
+            if (req.getId() == -1) {
+                req = db.getNextRequest(cla);
+                requnion = db.getUnionRequests(req);
+                emprestado = false;
+            }
         }
         db.close();
         javax.swing.JLabel lbtl;
         if (req.getId() != -1) {
-            TimeDate.Date dat;
-            TimeDate.Time tim;
             boolean atrasado;
             boolean dia;
             if (requnion.isEmpty()) {
@@ -755,17 +768,16 @@ public class ActionButton extends javax.swing.JDialog {
                     }
                 }
             }
-            if ((!cla.isLoaned()) && (!req.getPerson().getName().equals("sem"))) {
+            if ((!cla.isLoaned()) || (!emprestado)) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
-
                 painel2.setBackground(new Color(246, 255, 248));
                 atrasado = false;
                 dia = false;
-            } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) > 0))) {
+            } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Atrasado") + " " + lingua.translate("na entrega"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -774,7 +786,7 @@ public class ActionButton extends javax.swing.JDialog {
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
                 dia = false;
-            } else if ((cla.isLoaned()) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
+            } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dias"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -788,8 +800,9 @@ public class ActionButton extends javax.swing.JDialog {
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                painel2.setBackground(new Color(245, 245, 220));
                 labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
-                painel2.setBackground(new Color(235, 250, 237));
+
                 atrasado = false;
                 dia = false;
             }
@@ -830,7 +843,7 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setBounds(0, 40, 219, 20);
             lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             painel2.add(lb1);
-            if (!cla.isLoaned()) {
+            if (!cla.isLoaned()||(!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
             } else {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
@@ -855,7 +868,7 @@ public class ActionButton extends javax.swing.JDialog {
 
             painel2.add(lb1);
 
-            if (!cla.isLoaned()) {
+            if (!cla.isLoaned()||(!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
             } else {
 
@@ -867,8 +880,7 @@ public class ActionButton extends javax.swing.JDialog {
             lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 120, 219, 20);
             painel2.add(lbtl1);
-
-            if (!cla.isLoaned()) {
+            if (!cla.isLoaned()||(!emprestado)) {
                 if (requnion.isEmpty()) {
                     lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
                 } else {
@@ -880,8 +892,10 @@ public class ActionButton extends javax.swing.JDialog {
                     }
                     lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
                 }
+                labelauxiliar = new javax.swing.JLabel(lb1.getText());
             } else if (requnion.isEmpty()) {
                 lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
+                labelauxiliar = new javax.swing.JLabel(lb1.getText());
             } else {
                 tim = req.getTimeEnd();
                 for (Keys.Request re : requnion) {
@@ -890,16 +904,56 @@ public class ActionButton extends javax.swing.JDialog {
                     }
                     lb1 = new javax.swing.JLabel(tim.toString(0));
                 }
+                labelauxiliar = new javax.swing.JLabel(lb1.getText());
             }
             if ((atrasado) && (!dia)) {
-                lb1.setForeground(Color.RED);
+                labelauxiliar.setForeground(Color.RED);
+                double t = tim.compareTime(new TimeDate.Time()) / 60;
+                double decimal = 0;
+                if (t > 59) {
+                    t = t / 60;
+                    decimal = (int) t;
+                    decimal = t - decimal;
+                    decimal = decimal * 60;
+                    t = (int) t;
+                }
+                String hora = "" + (int) t;
+                String minutos = "" + Math.round(decimal);
+                if (hora.length() == 1) {
+                    hora = "0" + hora;
+                }
+                if (minutos.length() == 1) {
+                    minutos = "0" + minutos;
+                }
+                labelauxiliar.setText(tim.toString(0) + " (" + lingua.translate("mais") + " " + hora + ":" + minutos + ")");
+                this.timertempoatrasado = new Timer(1000, (ActionEvent e) -> {
+                    double t1 = tim.compareTime(new TimeDate.Time()) / 60;
+                    double decimal1 = 0;
+                    if (t1 > 59) {
+                        t1 = t1 / 60;
+                        decimal1 = (int) t1;
+                        decimal1 = t1 - decimal1;
+                        decimal1 = decimal1 * 60;
+                        t1 = (int) t1;
+                    }
+                    String hora1 = "" + (int) t1;
+                    String minutos1 = "" + Math.round(decimal1);
+                    if (hora1.length() == 1) {
+                        hora1 = "0" + hora1;
+                    }
+                    if (minutos1.length() == 1) {
+                        minutos1 = "0" + minutos1;
+                    }
+                    labelauxiliar.setText(tim.toString(0) + " (" + lingua.translate("mais") + " " + hora1 + ":" + minutos1 + ")");
+                });
+                timertempoatrasado.start();
             }
-            lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
-            lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-            lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
-            lb1.setPreferredSize(new Dimension(219, 20));
-            lb1.setBounds(0, 140, 219, 20);
-            painel2.add(lb1);
+            labelauxiliar.setFont(new Font("Cantarell", Font.PLAIN, 12));
+            labelauxiliar.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            labelauxiliar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
+            labelauxiliar.setPreferredSize(new Dimension(219, 20));
+            labelauxiliar.setBounds(0, 140, 219, 20);
+            painel2.add(labelauxiliar);
 
             lbtl1 = new javax.swing.JLabel(lingua.translate("Atividade"));
             lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -990,6 +1044,20 @@ public class ActionButton extends javax.swing.JDialog {
             painel2.add(lbtl);
 
         }
+    }
+
+    /**
+     * @return the atraso
+     */
+    public int getDelay() {
+        return atraso;
+    }
+
+    /**
+     * @param atraso the atraso to set
+     */
+    public void setDelay(int atraso) {
+        this.atraso = -atraso;
     }
 
 }
