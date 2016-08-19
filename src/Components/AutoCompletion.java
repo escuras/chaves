@@ -15,8 +15,8 @@ import javax.swing.text.*;
  * http://creativecommons.org/licenses/publicdomain/
  */
 public class AutoCompletion extends PlainDocument {
-JComboBox comboBox;
-ComboBoxModel model;
+JComboBox<String> comboBox;
+ComboBoxModel<String> model;
 JTextComponent editor;
 // flag to indicate if setSelectedItem has been called
 // subsequent calls to remove/insertString should be ignored

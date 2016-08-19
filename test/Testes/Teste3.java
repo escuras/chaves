@@ -23,12 +23,7 @@ public class Teste3 {
      */
     public static void main(String[] args) {
        DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
-       Keys.Software soft = new Keys.Software("Windows 10", "10.2");
-       db.insertSoftware(soft);
-       db.updateStateOfSoftware(soft, false);
-       Keys.Material mat = db.getMaterial("33");
-       db.associateSoftwareWithMaterial(soft, mat);
-       //db.deleteSoftware(soft);
+      
     }
     
   

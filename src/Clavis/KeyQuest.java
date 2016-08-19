@@ -4971,14 +4971,14 @@ public class KeyQuest extends javax.swing.JFrame {
 
         Painter<Component> textback = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(254, 254, 254));
-            g.fill3DRect(0, 0, width1 + 1, height1 + 1, true);
-
+            g.fill(new RoundRectangle2D.Double(2, 2, width1, height1-5, 8, 8));
             g.setColor(Color.DARK_GRAY);
             g.draw(new RoundRectangle2D.Double(2, 2, width1, height1 - 5, 8, 8));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(7, height1 - 2, width1, height1 - 2);
 
         };
+        
         Painter<Component> iconnormal = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(254, 254, 254));
             g.fill(new RoundRectangle2D.Double(-3, 2, width1, height1 - 5, 8, 4));
@@ -5002,8 +5002,9 @@ public class KeyQuest extends javax.swing.JFrame {
 
         };
         Painter<Component> textfocus = (Graphics2D g, Component object, int width1, int height1) -> {
-            g.setColor(new Color(254, 254, 254));
-            g.fill3DRect(0, 0, width1 + 1, height1 + 1, true);
+            g.setColor(new Color(54, 54, 54));
+            g.fill(new RoundRectangle2D.Double(2, 2, width1-5, height1-5, 8, 8));
+            //g.fill(new RoundRectangle2D.Double(0, 2, width1 - 3, height1, 6, 6));
 
         };
         Painter<Component> iconnormalspinnercima = (Graphics2D g, Component object, int width1, int height1) -> {
@@ -5080,11 +5081,10 @@ public class KeyQuest extends javax.swing.JFrame {
         laf.getDefaults().put("Spinner:\"Spinner.nextButton\"[Enabled].backgroundPainter", iconnormalspinnercima);
         laf.getDefaults().put("Spinner:\"Spinner.nextButton\"[MouseOver].backgroundPainter", iconhoverspinnercima);
         laf.getDefaults().put("Spinner:\"Spinner.nextButton\"[Pressed].backgroundPainter", iconpressedspinnercima);
-        
         laf.getDefaults().put("Spinner:\"Spinner.previousButton\"[Enabled].backgroundPainter", iconnormalspinnerbaixo);
         laf.getDefaults().put("Spinner:\"Spinner.previousButton\"[MouseOver].backgroundPainter", iconhoverspinnerbaixo);
         laf.getDefaults().put("Spinner:\"Spinner.previousButton\"[Pressed].backgroundPainter", iconpressedspinnerbaixo);
-        
+
         laf.getDefaults().put("PopupMenu[Enabled].backgroundPainter", m);
         laf.getDefaults().put("OptionPane.background", Color.WHITE);
         laf.getDefaults().put("Panel.background", Color.WHITE);

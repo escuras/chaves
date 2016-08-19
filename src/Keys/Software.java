@@ -12,30 +12,29 @@ package Keys;
 public class Software implements Comparable<Software>{
     private String nome;
     private String versao;
-    private boolean atualizado;
+    private String ano;
+    private String empresa;
 
     public Software(){
         nome = "";
         versao = "";
-        atualizado = false;
+        ano =  "";
+        empresa = "";
     }
     
-    public Software(String nome, String versao){
-        this.nome = nome;
-        this.versao = versao;
-        atualizado = false;
-    }
     
-    public Software(String nome, String versao, boolean atualizado){
+    public Software(String nome, String versao, String ano, String empresa){
         this.nome = nome;
         this.versao = versao;
-        this.atualizado = atualizado;
+        this.ano = ano;
+        this.empresa = empresa;
     }
     
     public Software(Software soft) {
         this.nome = soft.getName();
         this.versao = soft.getVersion();
-        this.atualizado = soft.isUpdated();
+        this.ano = soft.getYear();
+        this.empresa = soft.getInterprise();
     }
     
     
@@ -67,20 +66,7 @@ public class Software implements Comparable<Software>{
         this.versao = versao;
     }
 
-    /**
-     * @return the atualizado
-     */
-    public boolean isUpdated() {
-        return atualizado;
-    }
-
-    /**
-     * @param atualizado the atualizado to set
-     */
-    public void setUpdated(boolean atualizado) {
-        this.atualizado = atualizado;
-    }
-
+   
     @Override
     public int compareTo(Software o) {
         int val;
@@ -88,5 +74,33 @@ public class Software implements Comparable<Software>{
             return this.getVersion().compareTo(o.getVersion());
         } 
         return val;
+    }
+
+    /**
+     * @return the ano
+     */
+    public String getYear() {
+        return ano;
+    }
+
+    /**
+     * @param ano the ano to set
+     */
+    public void setYear(String ano) {
+        this.ano = ano;
+    }
+
+    /**
+     * @return the empresa
+     */
+    public String getInterprise() {
+        return empresa;
+    }
+
+    /**
+     * @param empresa the empresa to set
+     */
+    public void setInterprise(String empresa) {
+        this.empresa = empresa;
     }
 }

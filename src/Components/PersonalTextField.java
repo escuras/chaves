@@ -21,13 +21,14 @@ import javax.swing.JTextField;
 public class PersonalTextField extends JTextField {
 
     private static final long serialVersionUID = 1L;
-    private static final Color DEFAULT_PLACEHOLDER_COLOR = new Color(205,205,205);
+    public static final Color DEFAULT_PLACEHOLDER_COLOR = new Color(205, 205, 205);
     private Color cor;
     private String placeholder;
     private boolean condicao;
     private javax.swing.JComponent componentedesaida;
     private String textocondicional;
-    
+    private java.awt.event.FocusListener focus;
+    private java.awt.event.KeyAdapter keyevent;
 
     public PersonalTextField() {
         super();
@@ -45,8 +46,10 @@ public class PersonalTextField extends JTextField {
         Color corauxiliar = getForeground();
         setForeground(cor);
         this.componentedesaida = bt;
+        setPlaceHolderText(texto);
         setText(texto);
-        this.addFocusListener(new FocusListener() {
+        
+        focus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 getText();
@@ -64,19 +67,42 @@ public class PersonalTextField extends JTextField {
                     setForeground(cor);
                     setText(texto);
                     condicao = false;
-                }   else {
+                } else {
                     condicao = true;
                 }
             }
-        });
-        this.addKeyListener(new KeyAdapter() {
+        };
+        this.addFocusListener(focus);
+        keyevent = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    if (componentedesaida != null) componentedesaida.requestFocus();
+                    if (componentedesaida != null) {
+                        componentedesaida.requestFocus();
+                    }
                 }
             }
-        });
+        };
+        this.addKeyListener(keyevent);
+    }
+    
+    public void stopPlaceHolder(){
+        if (focus != null) {
+            this.removeFocusListener(focus);
+        }
+        if (keyevent != null) {
+            this.removeKeyListener(keyevent);
+        }
+        condicao = true;
+    }
+    
+    public void startPlaceHolder(){
+        if (focus != null) {
+            this.addFocusListener(focus);
+        }
+        if (keyevent != null) {
+            this.addKeyListener(keyevent);
+        }
     }
 
     public Color getPlaceHolderColor() {
@@ -86,28 +112,41 @@ public class PersonalTextField extends JTextField {
     public void setPlaceHolderColor(Color cor) {
         this.cor = cor;
     }
-    
-    public String getPlaceHolderText(){
+
+    public String getPlaceHolderText() {
         return placeholder;
     }
-    
-    public void setPlaceHolderText(String texto){
+
+    public void setPlaceHolderText(String texto) {
         this.placeholder = texto;
     }
-    
-    public void setLostCenterComponent(javax.swing.JComponent componente){
+
+    public void setLostCenterComponent(javax.swing.JComponent componente) {
         this.componentedesaida = componente;
     }
-    
-    public javax.swing.JComponent getLostCenterComponent(){
+
+    public javax.swing.JComponent getLostCenterComponent() {
         return this.componentedesaida;
     }
-   
+
     @Override
-    public String getText(){
+    public String getText() {
         textocondicional = super.getText();
-        if (condicao) return super.getText();
-        else return "";
+        if (condicao) {
+            return super.getText();
+        } else {
+            return "";
+        }
     }
- 
+
+    public void showPLaceHolder() {
+        setForeground(cor);
+        setText(placeholder);
+        condicao = false;
+    }
+    
+    public boolean isPlaceHolderSet(){
+        return !condicao;
+    }
+
 }

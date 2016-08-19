@@ -132,7 +132,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBackground(new java.awt.Color(255, 255, 255));
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -237,7 +237,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBackground(new java.awt.Color(255, 255, 255));
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -344,7 +344,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBackground(new java.awt.Color(255, 255, 255));
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -448,7 +448,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(254, 254, 254));
+        getPanel().setBackground(new java.awt.Color(255, 255, 255));
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -456,7 +456,7 @@ public class MessagePane {
         
         int l = (int) panelcolocado.getPreferredSize().getWidth();
         int a = (int) panelcolocado.getPreferredSize().getHeight();
-        panelcolocado.setBounds(largura / 2 - l /2, altura / 2 - a, l, a);
+        panelcolocado.setBounds(largura / 2 - l /2, altura / 2 - a +20, l, a);
         getPanel().add(panelcolocado);
         
         setButtons(new javax.swing.JButton[textobotoes.length]);

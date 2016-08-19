@@ -98,8 +98,8 @@ public class Classroom extends Material{
         this.programas.add(soft);
     }
     
-    public void addSoftware(String nome, String versao, boolean atualizado){
-        this.programas.add(new Software(nome,versao,atualizado));
+    public void addSoftware(String nome, String versao, String ano, String empresa){
+        this.programas.add(new Software(nome,versao,ano,empresa));
     }
     
     public void removeSoftare(Software soft){

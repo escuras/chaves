@@ -2075,7 +2075,7 @@ public class DataBase {
 
     }
 
-    public void associateSoftwareWithMaterial(Keys.Software soft, Keys.Material mat) {
+    public void associateSoftwareWithMaterial(Keys.Software soft, Keys.Material mat, boolean bool) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -2091,7 +2091,7 @@ public class DataBase {
                     String sql = "select count(*) from Rel_material_software where codigo_material = '" + codigomat + "' and id_software = " + idsoft + ";";
                     ResultSet rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
-                        sql = "insert into Rel_material_software (codigo_material, id_software) values ('" + codigomat + "', " + idsoft + ");";
+                        sql = "insert into Rel_material_software (codigo_material, id_software, atualizado) values ('" + codigomat + "', " + idsoft + "," + bool + ");";
                         smt.executeUpdate(sql);
                     }
                 } catch (SQLException ex) {
@@ -2112,12 +2112,38 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select count(*) from Software where nome like '" + soft.getName() + "' and versao like '" + soft.getVersion() + "';";
+                    String sql = "select count(*) from Software where nome like '" + soft.getName() + "' and versao like '" + soft.getVersion() + "' and ano like '" + soft.getYear() + "' and empresa like '" + soft.getInterprise() + "';";
                     ResultSet rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
-                        sql = "insert into Software (nome, versao) values ('" + soft.getName() + "','" + soft.getVersion() + "') ";
+                        sql = "insert into Software (nome, versao, ano, empresa) values ('" + soft.getName() + "','" + soft.getVersion() + "','" + soft.getYear() + "','" + soft.getInterprise() + "') ";
                         smt.executeUpdate(sql);
                     }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
+    public void updateSofware(Keys.Software velho, Keys.Software novo, Keys.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE,"Erro no update de software",ex);
+                smt = null;
+            }
+            if (smt != null) {
+               
+                String sql= "update Software set nome = '"+novo.getName()+"', versao = '"+novo.getVersion()+"', ano = '"+novo.getYear()+"' and empresa = '"+novo.getInterprise()+"' where id_software = "+this.getSoftwareID(velho)+" ;";
+                
+                System.out.println(sql);
+                try {
+                    con.setAutoCommit(false);
+                    smt.executeUpdate(sql);
+                    con.commit();
+                    con.setAutoCommit(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2136,8 +2162,11 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "delete from Software where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    String sql = "delete from Software where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "' and ano = '"+soft.getYear()+"' and empresa = '"+soft.getInterprise()+"';";
+                    con.setAutoCommit(false);
                     smt.executeUpdate(sql);
+                    con.commit();
+                    con.setAutoCommit(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2145,7 +2174,7 @@ public class DataBase {
         }
     }
 
-    public void updateStateOfSoftware(Keys.Software soft, boolean bool) {
+    public void updateStateOfSoftware(Keys.Software soft, Keys.Material mat, boolean bool) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -2156,13 +2185,42 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "update Software set atualizado = " + bool + " where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    String sql = "update Rel_material_software set atualizado = " + bool + " where id_software = " + this.getSoftwareID(soft) + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
+                    System.out.println(sql);
+                    con.setAutoCommit(false);
                     smt.executeUpdate(sql);
+                    con.commit();
+                    con.setAutoCommit(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+    }
+    
+    public boolean getStateOfSoftwareUpdated(Keys.Software soft, Keys.Material mat) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select atualizado from Rel_material_software where id_software = " + this.getSoftwareID(soft) + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
+                    ResultSet rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        System.out.println("++");
+                        return rs.getBoolean("atualizado");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
     }
 
     public int getSoftwareID(Keys.Software soft) {
@@ -2176,7 +2234,7 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select id_software from Software where nome =  '" + soft.getName() + "' and versao = '" + soft.getVersion() + "';";
+                    String sql = "select id_software from Software where nome like  '" + soft.getName() + "' and versao = '" + soft.getVersion() + "' and ano = '"+soft.getYear()+"' and empresa = '"+soft.getInterprise()+"';";
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         return rs.getInt("id_software");
@@ -2201,11 +2259,11 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select nome, versao, atualizado from Software order by nome;";
+                    String sql = "select nome, versao, ano, empresa from Software order by nome;";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Software soft;
                     while (rs.next()) {
-                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getBoolean("atualizado"));
+                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getString("ano"),rs.getString("empresa"));
                         lista.add(soft);
                     }
                 } catch (SQLException ex) {
@@ -2228,11 +2286,11 @@ public class DataBase {
             }
             if (smt != null) {
                 try {
-                    String sql = "select nome, versao, atualizado from Software where id_software in (select id_software from Rel_material_software where codigo_material = '" + mat.getCodeOfMaterial() + "') order by nome;";
+                    String sql = "select nome, versao, ano, empresa from Software where id_software in (select id_software from Rel_material_software where codigo_material = '" + mat.getCodeOfMaterial() + "') order by nome;";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Software soft;
                     while (rs.next()) {
-                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getBoolean("atualizado"));
+                        soft = new Keys.Software(rs.getString("nome"), rs.getString("versao"), rs.getString("ano"),rs.getString("empresa"));
                         lista.add(soft);
                     }
                 } catch (SQLException ex) {

@@ -787,7 +787,7 @@ public class ActionButton extends javax.swing.JDialog {
                 atrasado = true;
                 dia = false;
             } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
-                labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dias"));
+                labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dia(s)"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
