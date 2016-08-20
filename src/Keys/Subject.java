@@ -82,11 +82,11 @@ public class Subject implements Comparable<Subject> {
 
     @Override
     public int compareTo(Subject o) {
-         if ((o.getName().equals(this.getName()))&&(o.getCode().equals(this.getCode()))) {
-            return 0;
-        } else {
-            return 1; 
+        int val;
+        if ((val = this.getName().compareTo(o.getName())) == 0) {
+           return this.getCode().compareTo(this.getCode()); 
         }
+        return val;
     }
     
 }

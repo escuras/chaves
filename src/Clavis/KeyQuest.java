@@ -5089,7 +5089,6 @@ public class KeyQuest extends javax.swing.JFrame {
         laf.getDefaults().put("OptionPane.background", Color.WHITE);
         laf.getDefaults().put("Panel.background", Color.WHITE);
         laf.getDefaults().put("FileChooser.background", systemColor);
-
         Painter<JFileChooser> painter = (Graphics2D g, JFileChooser object, int width1, int height1) -> {
             g.setColor(Color.BLACK);
             g.draw3DRect(0, 0, width1 - 1, height1 - 1, true);

@@ -70,8 +70,10 @@ public class Software implements Comparable<Software>{
     @Override
     public int compareTo(Software o) {
         int val;
-        if((val = this.getName().compareTo(o.getName())) == 0) {
-            return this.getVersion().compareTo(o.getVersion());
+        if((val = this.getName().toLowerCase().compareTo(o.getName().toLowerCase())) == 0) {
+            if ((val = this.getVersion().toLowerCase().compareTo(o.getVersion().toLowerCase())) == 0) {
+                return this.getInterprise().toLowerCase().compareTo(o.getInterprise().toLowerCase());
+            }
         } 
         return val;
     }

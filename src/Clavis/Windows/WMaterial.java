@@ -5,6 +5,7 @@
  */
 package Clavis.Windows;
 
+import com.sun.javafx.tk.Toolkit;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -39,6 +40,7 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -61,7 +63,7 @@ public class WMaterial extends javax.swing.JDialog {
     private final Keys.Material mat;
     private final Preferences prefs;
     private org.jdesktop.swingx.JXTable tabela;
-    private javax.swing.JComboBox<String> comboboxdireitacima;
+    private final javax.swing.JComboBox<String> comboboxdireitacima;
     private java.util.List<Keys.Feature> features;
     private java.util.List<Keys.Software> software;
     private java.util.List<Keys.Subject> disciplinas;
@@ -77,13 +79,18 @@ public class WMaterial extends javax.swing.JDialog {
     private ActionListener abteditar;
     private ActionListener abtapagar;
     private ActionListener abtoogle;
+    private ListSelectionListener listlistener;
     private JPanel jpaneldireitabaixo;
-    private Components.PersonalTextField tdescricaoeditar;
-    private Components.PersonalTextField tversaoeditar;
-    private Components.PersonalTextField tanoeditar;
-    private Components.PersonalTextField tempresaeditar;
-    private javax.swing.JCheckBox tatualizadoeditar;
-    private Components.PersonalToggleButton btoogleditar;
+    private final Components.PersonalTextField tdescricaoeditar;
+    private final Components.PersonalTextField tversaoeditar;
+    private final javax.swing.JSpinner tanoeditar;
+    private final javax.swing.JSpinner tquantidadeeditar;
+    private final Components.PersonalTextField tempresaeditar;
+    private final javax.swing.JCheckBox tatualizadoeditar;
+    private final Components.PersonalToggleButton btoogleditar;
+    private final javax.swing.JLabel labeldisciplina;
+    private final javax.swing.JLabel labelcodigodisciplina;
+    private javax.swing.JButton btmais;
 
     public WMaterial() {
         super();
@@ -99,12 +106,16 @@ public class WMaterial extends javax.swing.JDialog {
         jpaneldireitabaixo = new JPanel();
         tdescricaoeditar = new Components.PersonalTextField();
         tversaoeditar = new Components.PersonalTextField();
-        tanoeditar = new Components.PersonalTextField();
+        tanoeditar = new javax.swing.JSpinner();
         tempresaeditar = new Components.PersonalTextField();
         tatualizadoeditar = new javax.swing.JCheckBox();
         btoogleditar = new Components.PersonalToggleButton();
         bteditar = new javax.swing.JButton();
         btapagar = new javax.swing.JButton();
+        labeldisciplina = new javax.swing.JLabel();
+        labelcodigodisciplina = new javax.swing.JLabel();
+        tquantidadeeditar = new javax.swing.JSpinner();
+        comboboxdireitacima = new javax.swing.JComboBox<>();
     }
 
     public WMaterial(javax.swing.JDialog dialogo, Keys.Material mat, Color cor, Langs.Locale lingua, String url) {
@@ -121,12 +132,16 @@ public class WMaterial extends javax.swing.JDialog {
         ldis = new java.util.ArrayList<>();
         tdescricaoeditar = new Components.PersonalTextField();
         tversaoeditar = new Components.PersonalTextField();
-        tanoeditar = new Components.PersonalTextField();
+        tanoeditar = new javax.swing.JSpinner();
         tempresaeditar = new Components.PersonalTextField();
         tatualizadoeditar = new javax.swing.JCheckBox();
         btoogleditar = new Components.PersonalToggleButton();
         bteditar = new javax.swing.JButton();
         btapagar = new javax.swing.JButton();
+        labeldisciplina = new javax.swing.JLabel();
+        labelcodigodisciplina = new javax.swing.JLabel();
+        tquantidadeeditar = new javax.swing.JSpinner();
+        comboboxdireitacima = new javax.swing.JComboBox<>();
     }
 
     public void create() {
@@ -143,13 +158,12 @@ public class WMaterial extends javax.swing.JDialog {
         this.add(painelgeral);
         btoogleditar.setEnabled(false);
         btoogleditar.setSelected(true);
-
         JPanel jpanelesquerda = new javax.swing.JPanel();
         jpanelesquerda.setBackground(painelgeral.getBackground());
         java.awt.GridLayout gl = new java.awt.GridLayout();
         jpanelesquerda.setLayout(gl);
         jpanelesquerda.setPreferredSize(new java.awt.Dimension(355, 300));
-
+        tdescricaoeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tdescricaoeditar));
         // combobox inicial
         javax.swing.JComboBox<String> comboboxopcoes;
         switch (mat.getTypeOfMaterial().getMaterialTypeID()) {
@@ -185,13 +199,22 @@ public class WMaterial extends javax.swing.JDialog {
             prefs.putInt("combobox", comboboxopcoes.getSelectedIndex());
             this.updateComboBox(comboboxopcoes);
             drawcomponentsRight(comboboxopcoes, jpaneldireitabaixo);
+            drawcomponentsRight(comboboxopcoes, jpaneldireitabaixo);
+            if (comboboxopcoes.getSelectedIndex() == 2) {
+                comboboxdireitacima.setBounds(20, 60, 243, 28);
+            } else {
+                comboboxdireitacima.setBounds(35, 60, 228, 28);
+            }
         });
-
         sppinerquantidade = new javax.swing.JSpinner();
+        javax.swing.JSpinner.NumberEditor editor = (javax.swing.JSpinner.NumberEditor) sppinerquantidade.getEditor();
+        editor.getFormat().setGroupingUsed(false);
+        editor.getModel().setMaximum(10000000);
+        editor.getModel().setMinimum(0);
+        editor.getModel().setValue(0);
+        editor.getModel().setStepSize(1);
         sppinerquantidade.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
         sppinerquantidade.setBackground(new Color(213, 213, 213));
-        javax.swing.SpinnerNumberModel sn = new javax.swing.SpinnerNumberModel(0, 0, 200, 1);
-        sppinerquantidade.setModel(sn);
         checkatualizado = new javax.swing.JCheckBox();
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName() + " " + mat.getDescription()});
 
@@ -218,7 +241,7 @@ public class WMaterial extends javax.swing.JDialog {
         jpaneldireitacima.setPreferredSize(new java.awt.Dimension(284, 137));
         jpaneldireitacima.setBackground(new Color(250, 255, 225));
 
-        javax.swing.JButton btmais = new javax.swing.JButton();
+        btmais = new javax.swing.JButton();
         ImageIcon icoadd = null;
         try {
             BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus.png"));
@@ -247,9 +270,17 @@ public class WMaterial extends javax.swing.JDialog {
                         if (DataBase.DataBase.testConnection(url)) {
                             DataBase.DataBase db = new DataBase.DataBase(url);
                             db.associateSoftwareWithMaterial(soft, mat, checkatualizado.isSelected());
+                            if (db.isSoftwareAssociatedWithMaterial(soft, mat)) {
+                                btmais.setEnabled(false);
+                                checkatualizado.setSelected(false);
+                                javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                                jt.setForeground(new Color(205, 205, 205));
+                                comboboxdireitacima.setSelectedIndex(0);
+                                requestFocusInWindow();
+                                jpanelesquerda.removeAll();
+                                jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                            }
                             db.close();
-                            jpanelesquerda.removeAll();
-                            jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
                         }
                     }
                     break;
@@ -259,9 +290,16 @@ public class WMaterial extends javax.swing.JDialog {
                         if (DataBase.DataBase.testConnection(url)) {
                             DataBase.DataBase db = new DataBase.DataBase(url);
                             db.associateClassroomWithSubject(mat, subs);
+                            if (db.isSubjectAssociatedWithClassroom(subs, mat)) {
+                                btmais.setEnabled(false);
+                                javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                                jt.setForeground(new Color(205, 205, 205));
+                                comboboxdireitacima.setSelectedIndex(0);
+                                requestFocusInWindow();
+                                jpanelesquerda.removeAll();
+                                jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                            }
                             db.close();
-                            jpanelesquerda.removeAll();
-                            jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
                         }
                     }
                     break;
@@ -272,9 +310,17 @@ public class WMaterial extends javax.swing.JDialog {
                             DataBase.DataBase db = new DataBase.DataBase(url);
                             feat.setNumber((int) sppinerquantidade.getValue());
                             db.associateFeatureWithMaterial(feat, mat);
-                            db.close();
-                            jpanelesquerda.removeAll();
-                            jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                            if (db.isFeatureAssociatedWithMaterial(feat, mat)) {
+                                btmais.setEnabled(false);
+                                sppinerquantidade.setValue(new TimeDate.Date().getYear());
+                                javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
+                                jt.setForeground(new Color(205, 205, 205));
+                                comboboxdireitacima.setSelectedIndex(0);
+                                requestFocusInWindow();
+                                jpanelesquerda.removeAll();
+                                jpanelesquerda.add(makeTable(comboboxopcoes, model2, true, comboboxopcoes.getSelectedIndex()));
+                                db.close();
+                            }
                         }
                     }
                     break;
@@ -282,7 +328,6 @@ public class WMaterial extends javax.swing.JDialog {
 
         });
         jpaneldireitacima.add(btmais);
-        comboboxdireitacima = new javax.swing.JComboBox<>();
         comboboxdireitacima.setEditable(true);
         comboboxdireitacima.setEnabled(true);
         comboboxdireitacima.setAutoscrolls(true);
@@ -292,7 +337,11 @@ public class WMaterial extends javax.swing.JDialog {
         this.updateComboBox(comboboxopcoes);
 
         comboboxdireitacima.setPreferredSize(new Dimension(250, 28));
-        comboboxdireitacima.setBounds(35, 60, 228, 28);
+        if (comboboxopcoes.getSelectedIndex() == 2) {
+            comboboxdireitacima.setBounds(20, 60, 243, 28);
+        } else {
+            comboboxdireitacima.setBounds(35, 60, 228, 28);
+        }
         BasicComboPopup popupcarateristicas = (BasicComboPopup) comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
         popupcarateristicas.getList().setSelectionBackground(Color.DARK_GRAY);
         popupcarateristicas.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
@@ -410,6 +459,7 @@ public class WMaterial extends javax.swing.JDialog {
                             javax.swing.JTextField field = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
                             field.setText("");
                         }
+                        tabela.clearSelection();
                     }
 
                     @Override
@@ -475,8 +525,7 @@ public class WMaterial extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (ico
-                != null) {
+        if (ico != null) {
             btdireitacimaoutro.setIcon(ico);
         } else {
             btdireitacimaoutro.setText("+");
@@ -596,12 +645,12 @@ public class WMaterial extends javax.swing.JDialog {
 
                         javax.swing.JSpinner sano = new javax.swing.JSpinner();
                         int decim = new TimeDate.Date().getYear();
-                        javax.swing.JSpinner.NumberEditor editor = (javax.swing.JSpinner.NumberEditor) sano.getEditor();
-                        editor.getFormat().setGroupingUsed(false);
-                        editor.getModel().setMaximum(decim);
-                        editor.getModel().setMinimum(1900);
-                        editor.getModel().setValue(decim);
-                        editor.getModel().setStepSize(1);
+                        javax.swing.JSpinner.NumberEditor editor2 = (javax.swing.JSpinner.NumberEditor) sano.getEditor();
+                        editor2.getFormat().setGroupingUsed(false);
+                        editor2.getModel().setMaximum(decim);
+                        editor2.getModel().setMinimum(1900);
+                        editor2.getModel().setValue(decim);
+                        editor2.getModel().setStepSize(1);
                         sano.setPreferredSize(new Dimension(100, 30));
                         sano.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
                         sano.setBounds(100, 120, 100, 30);
@@ -692,16 +741,33 @@ public class WMaterial extends javax.swing.JDialog {
         jpaneldireitabaixo.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK, 1)));
         this.drawcomponentsRight(comboboxopcoes, jpaneldireitabaixo);
 
-        JPanel jpanelbaixo = new javax.swing.JPanel();
+        JPanel jpanelbaixo = new javax.swing.JPanel(null);
+        javax.swing.JButton btsair = new javax.swing.JButton();
 
-        jpanelbaixo.setBackground(Color.ORANGE);
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/exit32x32.png") != null) {
+                BufferedImage image = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit32x32.png"));
+                ImageIcon iml = new ImageIcon(image);
+                btsair.setIcon(iml);
+            } else {
+                btsair.setText(lingua.translate("Sair"));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        //jpanel2 = jpanelesquerda
-        //jpanel4 = jpaneldireitacima azul
-        //jpanel7 = jpaneldireitabaixo rosa
-        //jpanel5 = jpaneltituloesquerda
-        //jpanel6 = jpaneltitulodireita verde
-        //jpanel8 = jpanelbaixo laranja
+        btsair.setPreferredSize(new Dimension(90, 40));
+        btsair.setBackground(new Color(1, 1, 1));
+        btsair.setFocusPainted(false);
+        btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btsair.setBounds(10, 10, 90, 40);
+        btsair.addActionListener((ActionEvent e) -> {
+            this.setVisible(false);
+            this.dispose();
+
+        });
+        jpanelbaixo.add(btsair);
+
         jpanelbaixo.setPreferredSize(new java.awt.Dimension(631, 70));
 
         javax.swing.GroupLayout playout = new javax.swing.GroupLayout(painelgeral);
@@ -790,7 +856,7 @@ public class WMaterial extends javax.swing.JDialog {
                     if ((comboboxopcoes.getSelectedIndex() == 2) && (comboboxdireitacima.getSelectedIndex() > 0)) {
                         if (!ldis.isEmpty()) {
                             for (Keys.Subject sub : ldis) {
-                                if (disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(sub) == 0) {
+                                if ((disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).getCode().equals(sub.getCode())) && (disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).getName().equals(sub.getName()))) {
                                     altera = true;
                                 }
                             }
@@ -823,7 +889,6 @@ public class WMaterial extends javax.swing.JDialog {
                     }
                     break;
             }
-            System.out.println(comboboxdireitacima.getSelectedIndex());
         });
 
     }
@@ -881,14 +946,19 @@ public class WMaterial extends javax.swing.JDialog {
             tabela.setRowHeight(30);
             tabela.setModel(model);
             int size = 0;
+            DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+            int tam = modelo.getRowCount();
+            for (int i = 0; i < tam; i++) {
+                modelo.removeRow(0);
+            }
             DataBase.DataBase db = new DataBase.DataBase(url);
             tabela.setSelectionBackground(Color.DARK_GRAY);
-            DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             String auxiliar;
             switch (mat.getTypeOfMaterial().getMaterialTypeID()) {
                 case 1:
                     switch (valor) {
                         case 1:
+                            lsoft = new java.util.ArrayList<>();
                             lsoft = db.getSoftwareListByMaterial(mat);
                             for (Keys.Software soft : lsoft) {
                                 auxiliar = soft.getName() + " (" + lingua.translate("Versão") + ": " + soft.getVersion() + ")";
@@ -983,25 +1053,33 @@ public class WMaterial extends javax.swing.JDialog {
             btapagar.setEnabled(false);
             switch (comboboxopcoes.getSelectedIndex()) {
                 case 1:
-                    tabela.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+                    if (listlistener != null) {
+                        tabela.getSelectionModel().removeListSelectionListener(listlistener);
+                    }
+                    listlistener = (ListSelectionEvent e) -> {
                         if (tabela.getSelectedRow() > -1) {
-                            Keys.Software soft = lsoft.get(tabela.getSelectedRow());
+                            Keys.Software soft = new Keys.Software(lsoft.get(tabela.getSelectedRow()));
                             tdescricaoeditar.setText(soft.getName());
                             tdescricaoeditar.stopPlaceHolder();
                             tversaoeditar.setText(soft.getVersion());
                             tversaoeditar.stopPlaceHolder();
-                            tanoeditar.setText(soft.getYear());
-                            tanoeditar.stopPlaceHolder();
-                            tempresaeditar.setText(soft.getInterprise());
+                            int val;
+                            try {
+                                val = Integer.parseInt(soft.getYear());
+                            } catch (NumberFormatException ed) {
+                                val = 2016;
+                            }
+                            tanoeditar.setValue(val);
                             tempresaeditar.stopPlaceHolder();
+                            tempresaeditar.setText(soft.getInterprise());
                             btoogleditar.setEnabled(true);
                             if (DataBase.DataBase.testConnection(url)) {
                                 DataBase.DataBase dab = new DataBase.DataBase(url);
                                 boolean v = dab.getStateOfSoftwareUpdated(soft, mat);
                                 if (v) {
-                                    tatualizadoeditar.setSelected(false);
-                                } else {
                                     tatualizadoeditar.setSelected(true);
+                                } else {
+                                    tatualizadoeditar.setSelected(false);
                                 }
                                 dab.close();
                             }
@@ -1011,21 +1089,72 @@ public class WMaterial extends javax.swing.JDialog {
                             tversaoeditar.setEnabled(false);
                             tversaoeditar.showPLaceHolder();
                             tanoeditar.setEnabled(false);
-                            tanoeditar.showPLaceHolder();
                             tempresaeditar.setEnabled(false);
                             tempresaeditar.showPLaceHolder();
                             tatualizadoeditar.setEnabled(false);
                             tatualizadoeditar.setSelected(false);
+                            tanoeditar.setValue(new TimeDate.Date().getYear());
                             btoogleditar.setSelected(true);
                             btoogleditar.setEnabled(false);
+                            bteditar.setEnabled(false);
+                            btapagar.setEnabled(false);
                         }
-                    });
+                    };
+                    break;
                 case 2:
-
+                    if (listlistener != null) {
+                        tabela.getSelectionModel().removeListSelectionListener(listlistener);
+                    }
+                    listlistener = (ListSelectionEvent e) -> {
+                        if (tabela.getSelectedRow() > -1) {
+                            Keys.Subject sub = new Keys.Subject(ldis.get(tabela.getSelectedRow()));
+                            labeldisciplina.setText(sub.getName());
+                            labeldisciplina.setBackground(new Color(254, 254, 254));
+                            labeldisciplina.setForeground(new Color(1, 1, 1));
+                            labelcodigodisciplina.setText(sub.getCode());
+                            labelcodigodisciplina.setBackground(new Color(254, 254, 254));
+                            labelcodigodisciplina.setForeground(new Color(1, 1, 1));
+                            btoogleditar.setEnabled(true);
+                        } else {
+                            labeldisciplina.setText(lingua.translate("Nome da disciplina"));
+                            labeldisciplina.setBackground(new Color(214, 217, 223));
+                            labeldisciplina.setForeground(new Color(142, 143, 145));
+                            labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
+                            labelcodigodisciplina.setBackground(new Color(214, 217, 223));
+                            labelcodigodisciplina.setForeground(new Color(142, 143, 145));
+                            btoogleditar.setEnabled(false);
+                            btapagar.setEnabled(false);
+                        }
+                    };
+                    break;
                 default:
-
+                    if (listlistener != null) {
+                        tabela.getSelectionModel().removeListSelectionListener(listlistener);
+                    }
+                    listlistener = (ListSelectionEvent e) -> {
+                        if (tabela.getSelectedRow() > -1) {
+                            Keys.Feature fea = new Keys.Feature(lfeat.get(tabela.getSelectedRow()));
+                            tdescricaoeditar.setText(fea.getDescription());
+                            tdescricaoeditar.stopPlaceHolder();
+                            tversaoeditar.setText(fea.getUnityMeasure());
+                            tversaoeditar.stopPlaceHolder();
+                            tquantidadeeditar.setValue(fea.getNumber());
+                            btoogleditar.setEnabled(true);
+                        } else {
+                            tdescricaoeditar.setEnabled(false);
+                            tdescricaoeditar.showPLaceHolder();
+                            tversaoeditar.setEnabled(false);
+                            tversaoeditar.showPLaceHolder();
+                            tquantidadeeditar.setValue(0);
+                            btoogleditar.setSelected(true);
+                            btoogleditar.setEnabled(false);
+                            bteditar.setEnabled(false);
+                            btapagar.setEnabled(false);
+                        }
+                    };
+                    break;
             }
-
+            tabela.getSelectionModel().addListSelectionListener(listlistener);
             tabela.addKeyListener(new KeyListener() {
                 @Override
                 public void keyTyped(KeyEvent e) {
@@ -1041,12 +1170,12 @@ public class WMaterial extends javax.swing.JDialog {
                         tabela.clearSelection();
                         tdescricaoeditar.startPlaceHolder();
                         tversaoeditar.startPlaceHolder();
-                        tanoeditar.startPlaceHolder();
                         tempresaeditar.startPlaceHolder();
+
                     }
                 }
-
             });
+
         }
         return panelscroll;
     }
@@ -1057,15 +1186,26 @@ public class WMaterial extends javax.swing.JDialog {
             int val = comboboxopcoes.getSelectedIndex();
             javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
             jt.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+            int muda;
             switch (val) {
                 case 1:
                     software = db.getSoftwareList();
                     valores = new String[software.size() + 1];
                     int j = 1;
-                    valores[0] = lingua.translate("Selecionar software") + " ...";
+                    valores[0] = lingua.translate("Associar software") + " ...";
                     while (j < software.size() + 1) {
                         valores[j] = software.get(j - 1).getName();
                         j++;
+                    }
+                    muda = 2;
+                    for (int ko = 0; ko < valores.length; ko++) {
+                        for (int ki = ko + 1; ki < valores.length; ki++) {
+                            if (valores[ko].toLowerCase().equals(valores[ki].toLowerCase())) {
+                                valores[ki] = valores[ki] + " (" + muda + ")";
+                            }
+                            muda++;
+                        }
+                        muda = 2;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
@@ -1073,10 +1213,20 @@ public class WMaterial extends javax.swing.JDialog {
                     disciplinas = db.getAllSubjects();
                     valores = new String[disciplinas.size() + 1];
                     int l = 1;
-                    valores[0] = lingua.translate("Escolher disciplina") + " ...";
+                    valores[0] = lingua.translate("Associar disciplina") + " ...";
                     while (l < disciplinas.size() + 1) {
                         valores[l] = disciplinas.get(l - 1).getName();
                         l++;
+                    }
+                    muda = 2;
+                    for (int ko = 0; ko < valores.length; ko++) {
+                        for (int ki = ko + 1; ki < valores.length; ki++) {
+                            if (valores[ko].toLowerCase().equals(valores[ki].toLowerCase())) {
+                                valores[ki] = valores[ki] + " (" + muda + ")";
+                            }
+                            muda++;
+                        }
+                        muda = 2;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
@@ -1084,10 +1234,20 @@ public class WMaterial extends javax.swing.JDialog {
                     features = db.getFeaturesByTypeOfMaterial(mat.getTypeOfMaterial());
                     valores = new String[features.size() + 1];
                     int i = 1;
-                    valores[0] = lingua.translate("Escolher caraterística") + " ...";
+                    valores[0] = lingua.translate("Associar caraterística") + " ...";
                     while (i < features.size() + 1) {
                         valores[i] = features.get(i - 1).getDescription();
                         i++;
+                    }
+                    muda = 2;
+                    for (int ko = 0; ko < valores.length; ko++) {
+                        for (int ki = ko + 1; ki < valores.length; ki++) {
+                            if (valores[ko].toLowerCase().equals(valores[ki].toLowerCase())) {
+                                valores[ki] = valores[ki] + " (" + muda + ")";
+                            }
+                            muda++;
+                        }
+                        muda = 2;
                     }
                     comboboxdireitacima.setModel(new javax.swing.DefaultComboBoxModel<>(valores));
                     break;
@@ -1114,9 +1274,9 @@ public class WMaterial extends javax.swing.JDialog {
                 checkatualizado.setText(lingua.translate("Atualizado") + ":");
                 checkatualizado.setHorizontalTextPosition(SwingConstants.LEFT);
                 checkatualizado.setHorizontalAlignment(SwingConstants.RIGHT);
-                System.out.println(panel.getPreferredSize().getWidth() - checkatualizado.getPreferredSize().getWidth());
                 checkatualizado.setBounds((int) (panel.getPreferredSize().getWidth() - checkatualizado.getPreferredSize().getWidth()) - 18, 0, (int) checkatualizado.getPreferredSize().getWidth(), 28);
                 panel.add(checkatualizado);
+
                 break;
             case 2:
                 break;
@@ -1124,9 +1284,9 @@ public class WMaterial extends javax.swing.JDialog {
                 javax.swing.JLabel label = new javax.swing.JLabel(lingua.translate("Quantidade") + ": ");
                 label.setPreferredSize(new Dimension(135, 26));
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
-                label.setBounds(10, 0, 135, 26);
+                label.setBounds(0, 0, 105, 26);
                 sppinerquantidade.setPreferredSize(new Dimension(110, 30));
-                sppinerquantidade.setBounds(149, 0, 104, 32);
+                sppinerquantidade.setBounds(111, 0, 142, 32);
                 sppinerquantidade.setFocusable(false);
                 panel.add(label);
                 panel.add(sppinerquantidade);
@@ -1168,7 +1328,6 @@ public class WMaterial extends javax.swing.JDialog {
         switch (comboboxopcoes.getSelectedIndex()) {
             case 1:
                 if (lsoft != null) {
-
                     //bt editar
                     bteditar = new javax.swing.JButton();
                     bteditar.setPreferredSize(new Dimension(90, 40));
@@ -1201,40 +1360,96 @@ public class WMaterial extends javax.swing.JDialog {
                             if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
                                 DataBase.DataBase db = new DataBase.DataBase(url);
                                 String n = tdescricaoeditar.getText();
-                                String v = tversaoeditar.getText();
-                                String a = tanoeditar.getText();
-                                String em = tempresaeditar.getText();
-                                boolean at = tatualizadoeditar.isSelected();
-                                Keys.Software novo = new Keys.Software(n, v, a, em);
-                                Keys.Software velho = lsoft.get(tabela.getSelectedRow());
-                                System.out.println(velho.getName());
-                                System.out.println(novo.getYear());
-                                System.out.println(novo.getInterprise());
-                                System.out.println(novo.getVersion());
-                                System.out.println(novo.getName());
-                                /*db.updateSofware(velho, novo, mat);
-                                db.updateStateOfSoftware(novo, mat, at);
-                                db.close();
-                                btoogleditar.setSelected(true);
-                                tdescricaoeditar.setEnabled(false);
-                                tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                tversaoeditar.setEnabled(false);
-                                tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                tanoeditar.setEnabled(false);
-                                tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                tempresaeditar.setEnabled(false);
-                                tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                tatualizadoeditar.setEnabled(false);
-                                bteditar.setEnabled(false);*/
-                                
+                                if (!n.equals("")) {
+                                    String v = tversaoeditar.getText();
+                                    String a = tanoeditar.getValue().toString();
+                                    String em = tempresaeditar.getText();
+                                    boolean at = tatualizadoeditar.isSelected();
+                                    Keys.Software novo = new Keys.Software(n, v, a, em);
+                                    Keys.Software velho = new Keys.Software(lsoft.get(tabela.getSelectedRow()));
+                                    int resultado = db.updateSofware(velho, novo, mat);
+                                    if (resultado == 1) {
+                                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro ao realizar o update"), 400, 200, lingua.translate("Já existe outro produto semelhante!"), new String[]{lingua.translate("Voltar")});
+                                        mensagem.showMessage();
+                                        tdescricaoeditar.setText(velho.getName());
+                                        tversaoeditar.setText(velho.getVersion());
+                                        int val;
+                                        try {
+                                            val = Integer.parseInt(velho.getYear());
+                                        } catch (NumberFormatException m) {
+                                            val = 2016;
+                                        }
+                                        tanoeditar.setValue(val);
+                                        tempresaeditar.setText(velho.getInterprise());
+                                    } else if (resultado == 0) {
+                                        btoogleditar.setSelected(true);
+                                        tdescricaoeditar.setEnabled(false);
+                                        tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tversaoeditar.setEnabled(false);
+                                        tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tanoeditar.setEnabled(false);
+                                        tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tempresaeditar.setEnabled(false);
+                                        tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tatualizadoeditar.setEnabled(false);
+                                        bteditar.setEnabled(false);
+                                        btapagar.setEnabled(false);
+                                        db.updateStateOfSoftware(novo, mat, at);
+                                        if (db.getSoftwareID(novo) > 0) {
+                                            lsoft.set(tabela.getSelectedRow(), novo);
+                                            if ((!novo.getName().equals(velho.getName())) || (!novo.getVersion().equals(velho.getVersion()))) {
+                                                String auxiliar = novo.getName() + " (" + lingua.translate("Versão") + ": " + novo.getVersion() + ")";
+                                                tabela.getModel().setValueAt(auxiliar, tabela.getSelectedRow(), 0);
+                                            }
+                                        }
+                                    }
+                                    db.close();
+                                }
                             }
                         }
                     });
                     bteditar.addActionListener(abteditar);
 
-                    btapagar.addActionListener((ActionEvent e) -> {
+                    if (abtapagar != null) {
+                        btapagar.removeActionListener(abtapagar);
+                    }
+                    abtapagar = (ActionEvent e) -> {
+                        if (DataBase.DataBase.testConnection(url)) {
+                            if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                int val = tabela.getSelectedRow();
+                                Keys.Software velho = lsoft.get(val);
+                                db.deleteAssociationBetweenSoftwareAndMaterial(velho, mat);
+                                if (!db.isSoftwareAssociatedWithMaterial(velho, mat)) {
+                                    DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+                                    modelo.removeRow(val);
+                                    tabela.clearSelection();
+                                    lsoft.remove(val);
+                                    btoogleditar.setSelected(true);
+                                    tdescricaoeditar.setEnabled(false);
+                                    tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tversaoeditar.setEnabled(false);
+                                    tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tanoeditar.setEnabled(false);
+                                    tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tempresaeditar.setEnabled(false);
+                                    tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tatualizadoeditar.setEnabled(false);
+                                    bteditar.setEnabled(false);
+                                    btapagar.setEnabled(false);
+                                    tanoeditar.setValue(new TimeDate.Date().getYear());
+                                    if (comboboxdireitacima.getSelectedIndex() > 0) {
+                                        if (software.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
+                                            btmais.setEnabled(true);
+                                        }
+                                    }
 
-                    });
+                                }
+                                db.close();
+                            }
+                        }
+                    };
+                    btapagar.addActionListener(abtapagar);
 
                     //btoogle
                     try {
@@ -1275,14 +1490,26 @@ public class WMaterial extends javax.swing.JDialog {
                             bteditar.setEnabled(true);
                             btapagar.setEnabled(true);
                         } else if (btoogleditar.isSelected()) {
+                            Keys.Software soft = lsoft.get(tabela.getSelectedRow());
                             tdescricaoeditar.setEnabled(false);
-                            tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                            tdescricaoeditar.setText(soft.getName());
                             tversaoeditar.setEnabled(false);
-                            tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                            tversaoeditar.setText(soft.getVersion());
+                            int val;
+                            try {
+                                val = Integer.parseInt(soft.getYear());
+                            } catch (NumberFormatException m) {
+                                val = 2016;
+                            }
+                            tanoeditar.setValue(val);
                             tanoeditar.setEnabled(false);
-                            tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
                             tempresaeditar.setEnabled(false);
-                            tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                            tempresaeditar.setText(soft.getInterprise());
+                            if (DataBase.DataBase.testConnection(url)) {
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                tatualizadoeditar.setSelected(db.getStateOfSoftwareUpdated(soft, mat));
+                                db.close();
+                            }
                             tatualizadoeditar.setEnabled(false);
                             bteditar.setEnabled(false);
                             btapagar.setEnabled(false);
@@ -1293,28 +1520,41 @@ public class WMaterial extends javax.swing.JDialog {
                     // fim btoogle
 
                     tdescricaoeditar.addPlaceHolder(lingua.translate("Nome do programa"), null);
+                    tdescricaoeditar.setToolTipText(lingua.translate("Nome do programa"));
                     tdescricaoeditar.setPreferredSize(new Dimension(200, 26));
                     tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tdescricaoeditar.setBounds(25, 55, 238, 26);
                     panel.add(tdescricaoeditar);
 
                     tversaoeditar.addPlaceHolder(lingua.translate("Versão de software"), null);
+                    tversaoeditar.setToolTipText(lingua.translate("Versão de software"));
                     tversaoeditar.setPreferredSize(new Dimension(200, 26));
                     tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tversaoeditar.setBounds(25, 85, 238, 26);
                     panel.add(tversaoeditar);
 
                     tempresaeditar.addPlaceHolder(lingua.translate("Empresa poprietária"), null);
+                    tempresaeditar.setToolTipText(lingua.translate("Empresa poprietária"));
                     tempresaeditar.setPreferredSize(new Dimension(200, 26));
                     tempresaeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tempresaeditar.setBounds(25, 115, 238, 26);
                     panel.add(tempresaeditar);
 
-                    tanoeditar.addPlaceHolder(lingua.translate("Ano de lançamento"), null);
-                    tanoeditar.setPreferredSize(new Dimension(200, 26));
-                    tanoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tanoeditar.setBounds(25, 145, 238, 26);
+                    // spinner ano
+                    int decim = new TimeDate.Date().getYear();
+                    javax.swing.JSpinner.NumberEditor editor = (javax.swing.JSpinner.NumberEditor) tanoeditar.getEditor();
+                    editor.getFormat().setGroupingUsed(false);
+                    editor.getModel().setMaximum(decim);
+                    editor.getModel().setMinimum(1900);
+                    editor.getModel().setValue(decim);
+                    editor.getModel().setStepSize(1);
+                    tanoeditar.setToolTipText(lingua.translate("Ano de lançamento"));
+                    tanoeditar.setPreferredSize(new Dimension(100, 30));
+                    tanoeditar.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
+                    tanoeditar.setBounds(115, 145, 148, 30);
                     panel.add(tanoeditar);
+
+                    //
                     if (tabela.getSelectedRow() > -1) {
                         tdescricaoeditar.setEnabled(true);
                         tversaoeditar.setEnabled(true);
@@ -1338,11 +1578,301 @@ public class WMaterial extends javax.swing.JDialog {
                 }
                 break;
             case 2:
-                //bt.setBounds(0,(int)panel.getPreferredSize().getHeight() -45,90,40);
-                //panel.add(bt);
+                if (ldis != null) {
+                    if (abtapagar != null) {
+                        btapagar.removeActionListener(abtapagar);
+                    }
+                    abtapagar = (ActionEvent e) -> {
+                        if (DataBase.DataBase.testConnection(url)) {
+                            if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                int val = tabela.getSelectedRow();
+                                Keys.Subject velho = ldis.get(val);
+                                db.deleteAssociationBetweenSubjectAndClassroom(velho, mat);
+                                if (!db.isSubjectAssociatedWithClassroom(velho, mat)) {
+                                    DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+                                    modelo.removeRow(val);
+                                    tabela.clearSelection();
+                                    ldis.remove(val);
+                                    btoogleditar.setSelected(true);
+                                    labeldisciplina.setText(lingua.translate("Nome da disciplina"));
+                                    labeldisciplina.setBackground(new Color(214, 217, 223));
+                                    labeldisciplina.setForeground(new Color(142, 143, 145));
+                                    labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
+                                    labelcodigodisciplina.setBackground(new Color(214, 217, 223));
+                                    labelcodigodisciplina.setForeground(new Color(214, 217, 223));
+                                    btapagar.setEnabled(false);
+                                    if (comboboxdireitacima.getSelectedIndex() > 0) {
+                                        if (disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
+                                            btmais.setEnabled(true);
+                                        }
+                                    }
+                                }
+                                db.close();
+                            }
+                        }
+                    };
+                    btapagar.addActionListener(abtapagar);
+
+                    //btoogle
+                    try {
+                        if (Clavis.KeyQuest.class.getResource("Images/lock.png") != null) {
+                            BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lock.png"));
+                            icoadd = new ImageIcon(imo);
+                        } else {
+                            icoadd = null;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (icoadd != null) {
+                        btoogleditar.setIcon(icoadd);
+                    } else {
+                        btoogleditar.setText(lingua.translate("on"));
+                    }
+                    btoogleditar.setIcon(icoadd);
+                    btoogleditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btoogleditar.setPreferredSize(new Dimension(32, 30));
+                    btoogleditar.setBounds(20, 10, 34, 30);
+                    btoogleditar.removeActionListener(abteditar);
+
+                    if (abtoogle != null) {
+                        btoogleditar.removeActionListener(abtoogle);
+                    }
+                    abtoogle = ((ActionEvent e) -> {
+                        if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                            btapagar.setEnabled(true);
+                        } else if (btoogleditar.isSelected()) {
+                            btapagar.setEnabled(false);
+                        }
+                    });
+                    btoogleditar.addActionListener(abtoogle);
+                    panel.add(btoogleditar);
+                    // fim btoogle
+
+                    labeldisciplina.setToolTipText(lingua.translate("Nome da disciplina"));
+                    labeldisciplina.setText(lingua.translate("Nome da disciplina"));
+                    labeldisciplina.setPreferredSize(new Dimension(200, 26));
+                    labeldisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    labeldisciplina.setBounds(25, 85, 238, 26);
+                    labeldisciplina.setBackground(new Color(214, 217, 223));
+                    labeldisciplina.setForeground(new Color(142, 143, 145));
+                    labeldisciplina.setOpaque(true);
+                    panel.add(labeldisciplina);
+
+                    labelcodigodisciplina.setToolTipText(lingua.translate("Código da disciplina"));
+                    labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
+                    labelcodigodisciplina.setPreferredSize(new Dimension(200, 26));
+                    labelcodigodisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    labelcodigodisciplina.setBounds(25, 115, 238, 26);
+                    labelcodigodisciplina.setBackground(new Color(214, 217, 223));
+                    labelcodigodisciplina.setForeground(new Color(142, 143, 145));
+                    labelcodigodisciplina.setOpaque(true);
+                    panel.add(labelcodigodisciplina);
+                }
                 break;
             default:
+                if (lfeat != null) {
+                    //bt editar
+                    bteditar = new javax.swing.JButton();
+                    bteditar.setPreferredSize(new Dimension(90, 40));
+                    bteditar.setBackground(new Color(51, 102, 153));
+                    bteditar.setFocusPainted(false);
+                    bteditar.setEnabled(false);
+                    bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    try {
+                        if (Clavis.KeyQuest.class.getResource("Images/edit.png") != null) {
+                            BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/edit.png"));
+                            icoadd = new ImageIcon(imo);
+                        } else {
+                            icoadd = null;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (icoadd != null) {
+                        bteditar.setIcon(icoadd);
+                    } else {
+                        bteditar.setText(lingua.translate("editar"));
+                    }
+                    bteditar.setBounds((int) (panel.getPreferredSize().getWidth() - 225), 7, 90, 40);
+                    panel.add(bteditar);
+                    if (abteditar != null) {
+                        bteditar.removeActionListener(abteditar);
+                    }
+                    abteditar = ((ActionEvent e) -> {
+                        if (DataBase.DataBase.testConnection(url)) {
+                            if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                String n = tdescricaoeditar.getText();
+                                if (!n.equals("")) {
+                                    String m = tversaoeditar.getText();
+                                    Keys.Feature novo = new Keys.Feature(n);
+                                    Keys.Feature velho = new Keys.Feature(lfeat.get(tabela.getSelectedRow()));
+                                    novo.setUnityMeasure(m);
+                                    int v;
+                                    try {
+                                        v = Integer.parseInt(tquantidadeeditar.getValue().toString());
+                                    } catch (NumberFormatException exc) {
+                                        v = 0;
+                                    }
+                                    novo.setNumber(v);
+                                    int resultado = db.updateFeatureWithAssociation(velho, novo, mat);
+                                    if (resultado == 1) {
+                                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro ao realizar o update"), 400, 200, lingua.translate("Já existe outra característica semelhante!"), new String[]{lingua.translate("Voltar")});
+                                        mensagem.showMessage();
+                                        tdescricaoeditar.setText(velho.getDescription());
+                                        tversaoeditar.setText(velho.getUnityMeasure());
+                                        tquantidadeeditar.setValue(velho.getNumber());
+                                    } else if (resultado == 0) {
+                                        btoogleditar.setSelected(true);
+                                        tdescricaoeditar.setEnabled(false);
+                                        tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tversaoeditar.setEnabled(false);
+                                        tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                        tquantidadeeditar.setEnabled(false);
+                                        bteditar.setEnabled(false);
+                                        btapagar.setEnabled(false);
+                                        if (db.getFeatureId(novo) > 0) {
+                                            lfeat.set(tabela.getSelectedRow(), novo);
+                                            String auxiliar = novo.getDescription();
+                                            if (novo.getNumber() != 0) {
+                                                auxiliar = auxiliar + " (" + novo.getNumber() + " " + novo.getUnityMeasure() + ")";
+                                            }
+                                            tabela.getModel().setValueAt(auxiliar, tabela.getSelectedRow(), 0);
+                                        }
+                                    }
+                                    db.close();
+                                }
+                            }
+                        }
+                    });
+                    bteditar.addActionListener(abteditar);
 
+                    if (abtapagar != null) {
+                        btapagar.removeActionListener(abtapagar);
+                    }
+                    abtapagar = (ActionEvent e) -> {
+                        if (DataBase.DataBase.testConnection(url)) {
+                            if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                int val = tabela.getSelectedRow();
+                                Keys.Feature velho = lfeat.get(val);
+                                db.deleteAssociationFeatureWithMaterial(velho, mat);
+                                if (!db.isFeatureAssociatedWithMaterial(velho, mat)) {
+                                    DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+                                    modelo.removeRow(val);
+                                    tabela.clearSelection();
+                                    lfeat.remove(val);
+                                    btoogleditar.setSelected(true);
+                                    tdescricaoeditar.setEnabled(false);
+                                    tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tversaoeditar.setEnabled(false);
+                                    tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    tquantidadeeditar.setEnabled(false);
+                                    bteditar.setEnabled(false);
+                                    btapagar.setEnabled(false);
+                                    tquantidadeeditar.setValue(0);
+                                    if (comboboxdireitacima.getSelectedIndex() > 0) {
+                                        if (features.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
+                                            btmais.setEnabled(true);
+                                        }
+                                    }
+                                }
+                                db.close();
+                            }
+                        }
+                    };
+                    btapagar.addActionListener(abtapagar);
+
+                    //btoogle
+                    try {
+                        if (Clavis.KeyQuest.class.getResource("Images/lock.png") != null) {
+                            BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lock.png"));
+                            icoadd = new ImageIcon(imo);
+                        } else {
+                            icoadd = null;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (icoadd != null) {
+                        btoogleditar.setIcon(icoadd);
+                    } else {
+                        btoogleditar.setText(lingua.translate("on"));
+                    }
+                    btoogleditar.setIcon(icoadd);
+                    btoogleditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btoogleditar.setPreferredSize(new Dimension(32, 30));
+                    btoogleditar.setBounds(20, 10, 34, 30);
+                    btoogleditar.removeActionListener(abteditar);
+
+                    if (abtoogle != null) {
+                        btoogleditar.removeActionListener(abtoogle);
+                    }
+                    abtoogle = ((ActionEvent e) -> {
+                        if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
+                            tdescricaoeditar.setEnabled(true);
+                            tdescricaoeditar.setForeground(Color.BLACK);
+                            tversaoeditar.setEnabled(true);
+                            tversaoeditar.setForeground(Color.BLACK);
+                            tquantidadeeditar.setEnabled(true);
+                            bteditar.setEnabled(true);
+                            btapagar.setEnabled(true);
+                        } else if (btoogleditar.isSelected()) {
+                            Keys.Feature feat = lfeat.get(tabela.getSelectedRow());
+                            tdescricaoeditar.setText(feat.getDescription());
+                            tdescricaoeditar.setEnabled(false);
+                            tversaoeditar.setEnabled(false);
+                            tversaoeditar.setText(feat.getUnityMeasure());
+                            tquantidadeeditar.setEnabled(false);
+                            tquantidadeeditar.setValue(feat.getNumber());
+                            bteditar.setEnabled(false);
+                            btapagar.setEnabled(false);
+                        }
+                    });
+                    btoogleditar.addActionListener(abtoogle);
+                    panel.add(btoogleditar);
+                    // fim btoogle
+
+                    tdescricaoeditar.addPlaceHolder(lingua.translate("Nome da caraterística"), null);
+                    tdescricaoeditar.setToolTipText(lingua.translate("Nome da caraterística"));
+                    tdescricaoeditar.setPreferredSize(new Dimension(200, 26));
+                    tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tdescricaoeditar.setBounds(25, 85, 238, 26);
+                    panel.add(tdescricaoeditar);
+
+                    tversaoeditar.addPlaceHolder(lingua.translate("Medida de valor"), null);
+                    tversaoeditar.setToolTipText(lingua.translate("Medida de valor"));
+                    tversaoeditar.setPreferredSize(new Dimension(200, 26));
+                    tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tversaoeditar.setBounds(25, 115, 238, 26);
+                    panel.add(tversaoeditar);
+
+                    // spinner quantidade
+                    javax.swing.JSpinner.NumberEditor editor = (javax.swing.JSpinner.NumberEditor) tquantidadeeditar.getEditor();
+                    editor.getFormat().setGroupingUsed(false);
+                    editor.getModel().setMaximum(10000000);
+                    editor.getModel().setMinimum(0);
+                    editor.getModel().setValue(0);
+                    editor.getModel().setStepSize(1);
+                    tquantidadeeditar.setToolTipText(lingua.translate("Quantidade da associação"));
+                    tquantidadeeditar.setPreferredSize(new Dimension(100, 30));
+                    tquantidadeeditar.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
+                    tquantidadeeditar.setBounds(115, 145, 148, 30);
+                    panel.add(tquantidadeeditar);
+
+                    //
+                    if (tabela.getSelectedRow() > -1) {
+                        tdescricaoeditar.setEnabled(true);
+                        tversaoeditar.setEnabled(true);
+                        tquantidadeeditar.setEnabled(true);
+                    } else {
+                        tdescricaoeditar.setEnabled(false);
+                        tversaoeditar.setEnabled(false);
+                        tquantidadeeditar.setEnabled(false);
+                    }
+                }
                 break;
 
         }
