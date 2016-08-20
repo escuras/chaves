@@ -194,7 +194,7 @@ public class ActionButton extends javax.swing.JDialog {
             // primeira linha
             javax.swing.JLabel auxiliar = new javax.swing.JLabel(lingua.translate("Descrição") + ": ");
             auxiliar.setPreferredSize(new Dimension(179, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
 
@@ -210,7 +210,7 @@ public class ActionButton extends javax.swing.JDialog {
             // segunda linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Estado") + ": ");
             auxiliar.setPreferredSize(new Dimension(179, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             texto[1] = new org.jdesktop.swingx.JXTextField();
@@ -230,7 +230,7 @@ public class ActionButton extends javax.swing.JDialog {
             // terceira linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Lugares") + ": ");
             auxiliar.setPreferredSize(new Dimension(181, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             sauxiliar = "" + cla.getPlaces();
@@ -244,7 +244,7 @@ public class ActionButton extends javax.swing.JDialog {
             // quarta linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Computadores") + ": ");
             auxiliar.setPreferredSize(new Dimension(181, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             sauxiliar = "" + cla.getComputers();
@@ -258,7 +258,7 @@ public class ActionButton extends javax.swing.JDialog {
             // quinta linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Projetor") + ": ");
             auxiliar.setPreferredSize(new Dimension(181, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             texto[4] = new org.jdesktop.swingx.JXTextField();
@@ -276,7 +276,7 @@ public class ActionButton extends javax.swing.JDialog {
             // sexta linha
             auxiliar = new javax.swing.JLabel(lingua.translate("Quadro interativo") + ": ");
             auxiliar.setPreferredSize(new Dimension(181, 32));
-            auxiliar.setFont(new Font("Cantarell", Font.BOLD, 14));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             texto[5] = new org.jdesktop.swingx.JXTextField();
@@ -318,6 +318,10 @@ public class ActionButton extends javax.swing.JDialog {
             }
             baux[4] = imageview.getBorder();
             bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            java.awt.event.MouseListener[] copypaste = new java.awt.event.MouseListener[texto.length - 2];
+            for (int i = 0; i < copypaste.length;i++) {
+                copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i+2]);
+            }
             bteditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -339,6 +343,7 @@ public class ActionButton extends javax.swing.JDialog {
                         for (int i = 2; i < texto.length; i++) {
                             texto[i].setFocusable(true);
                             texto[i].setBackground(Color.WHITE);
+                            texto[i].addMouseListener(copypaste[i-2]);
                             texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
                                 @Override
                                 public void keyPressed(KeyEvent e) {
@@ -394,6 +399,9 @@ public class ActionButton extends javax.swing.JDialog {
                         });
                         editar = true;
                     } else {
+                        for (int i = 2; i< texto.length; i++) {
+                            texto[i].removeMouseListener(copypaste[i-2]);
+                        }
                         javax.swing.Timer timer;
                         if (baux[0] != null) {
                             texto[2].setBorder(baux[0]);
@@ -638,7 +646,10 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-
+                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, cla,url,lingua);
+                horario.create();
+                horario.setVisible(true);
+                horario.setLocationRelativeTo(this);
             });
             painel22.add(bthorario);
 

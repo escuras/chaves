@@ -1585,7 +1585,6 @@ public class DataBase {
                         if (rs.getInt(1) == 0) {
                             con.setAutoCommit(false);
                             sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
-                            System.out.println(sql);
                             smt.executeUpdate(sql);
                             Keys.TypeOfMaterial tipo = feature.getTypeOfMaterial();
                             sql = "insert into Rel_features_materials (id_caracteristica, id_tipo) values (" + this.getFeatureId(feature) + "," + tipo.getMaterialTypeID() + ") ";
@@ -2420,7 +2419,6 @@ public class DataBase {
                     String sql = "select atualizado from Rel_material_software where id_software = " + this.getSoftwareID(soft) + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
                     ResultSet rs = smt.executeQuery(sql);
                     while (rs.next()) {
-                        System.out.println("++");
                         return rs.getBoolean("atualizado");
                     }
                 } catch (SQLException ex) {

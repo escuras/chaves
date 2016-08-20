@@ -4876,6 +4876,8 @@ public class KeyQuest extends javax.swing.JFrame {
     protected Keys.TypeOfMaterial tipomaterial;
     private final String[] spesquisa = new String[2];
     protected int pesquisa;
+    private String copiar;
+    private String colar;
     public Color systemColor;
     protected boolean scrollAtivo;
     private Thread auxiliar = new Thread();

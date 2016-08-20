@@ -52,10 +52,12 @@ public class Locale {
             local = local.replaceAll("[-./|;,:]","_");
             if (this.linguas.contains(local)) {
                 this.locale = local;
+                this.systemlocale = new java.util.Locale(local);
             }
         } else {
-            this.systemlocale = new java.util.Locale(local);
+            this.systemlocale = java.util.Locale.getDefault();
             this.locale = java.util.Locale.getDefault().toString();
+            
         }
        
     }
@@ -64,7 +66,7 @@ public class Locale {
         return (this.locale == null) ? "" : this.locale;
     }
     
-     public java.util.Locale getSystemLocale(){
+    public java.util.Locale getSystemLocale(){
         return this.systemlocale;
     }
     
