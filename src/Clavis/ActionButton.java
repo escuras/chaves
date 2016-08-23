@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,7 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.File;
@@ -51,13 +51,13 @@ public class ActionButton extends javax.swing.JDialog {
     private javax.swing.JLabel labelauxiliar;
     private Timer timertempoatrasado;
 
-    public ActionButton(Keys.Material m, Langs.Locale lingua, Color panelcor, String url) {
+    public ActionButton(Keys.Material m, Langs.Locale lingua, String url) {
         super();
         this.mat = m;
         this.cla = null;
         this.lingua = lingua;
         editar = false;
-        this.panelcor = panelcor;
+        this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
         dialogopai = null;
         bimage = null;
@@ -70,13 +70,13 @@ public class ActionButton extends javax.swing.JDialog {
 
     }
 
-    public ActionButton(Keys.Classroom m, Langs.Locale lingua, Color panelcor, String url) {
+    public ActionButton(Keys.Classroom m, Langs.Locale lingua, String url) {
         super();
         this.mat = null;
         this.cla = m;
         this.lingua = lingua;
         editar = false;
-        this.panelcor = panelcor;
+        this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
         dialogopai = null;
         bimage = null;
@@ -88,13 +88,13 @@ public class ActionButton extends javax.swing.JDialog {
         atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, Color panelcor, String url) {
+    public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, String url) {
         super(dialogo);
         this.mat = m;
         this.cla = null;
         this.lingua = lingua;
         editar = false;
-        this.panelcor = panelcor;
+        this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
         dialogopai = dialogo;
         bimage = null;
@@ -106,13 +106,13 @@ public class ActionButton extends javax.swing.JDialog {
         atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, Color panelcor, String url) {
+    public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, String url) {
         super(dialogo);
         this.cla = m;
         this.mat = null;
         this.lingua = lingua;
         editar = false;
-        this.panelcor = panelcor;
+        this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
         dialogopai = dialogo;
         bimage = null;
@@ -133,8 +133,10 @@ public class ActionButton extends javax.swing.JDialog {
             this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(cla.getTypeOfMaterialName()) + ": " + lingua.translate("sala") + " " + lingua.translate(cla.getDescription()));
             this.setMinimumSize(new java.awt.Dimension(700, 500));
             this.setResizable(false);
+
             javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
             painel.setBorder(border);
+            KeyQuest.addtoPropertyListener(painel, true);
             javax.swing.GroupLayout janelaLayout = new javax.swing.GroupLayout(this.getContentPane());
             this.getContentPane().setLayout(janelaLayout);
             janelaLayout.setHorizontalGroup(
@@ -319,230 +321,232 @@ public class ActionButton extends javax.swing.JDialog {
             baux[4] = imageview.getBorder();
             bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             java.awt.event.MouseListener[] copypaste = new java.awt.event.MouseListener[texto.length - 2];
-            for (int i = 0; i < copypaste.length;i++) {
-                copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i+2]);
+            for (int i = 0; i < copypaste.length; i++) {
+                copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i + 2]);
             }
             bteditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (!editar) {
-                        java.awt.image.BufferedImage imagebtok1 = null;
-                        try {
-                            imagebtok1 = ImageIO.read(getClass().getResourceAsStream("Images/save.png"));
-                        } catch (IOException ex) {
-                        }
-                        if (imagebtok1 != null) {
-                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
-                            bteditar.setIcon(iconbtok);
-                        }
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
-                        }
-                        imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                        bteditar.setToolTipText(lingua.translate("Gravar"));
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setFocusable(true);
-                            texto[i].setBackground(Color.WHITE);
-                            texto[i].addMouseListener(copypaste[i-2]);
-                            texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
+                    if (DataBase.DataBase.testConnection(url)) {
+                        if (!editar) {
+                            java.awt.image.BufferedImage imagebtok1 = null;
+                            try {
+                                imagebtok1 = ImageIO.read(getClass().getResourceAsStream("Images/save.png"));
+                            } catch (IOException ex) {
+                            }
+                            if (imagebtok1 != null) {
+                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
+                                bteditar.setIcon(iconbtok);
+                            }
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
+                            }
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            bteditar.setToolTipText(lingua.translate("Gravar"));
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setFocusable(true);
+                                texto[i].setBackground(Color.WHITE);
+                                texto[i].addMouseListener(copypaste[i - 2]);
+                                texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
+                                    @Override
+                                    public void keyPressed(KeyEvent e) {
+                                        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+                                            for (JTextField texto1 : texto) {
+                                                texto1.setFocusable(false);
+                                                texto1.setBackground(new Color(249, 249, 249));
+                                            }
+                                            editar = false;
+                                            java.awt.image.BufferedImage imagebtok2 = null;
+                                            try {
+                                                imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+                                            } catch (IOException ex) {
+                                            }
+                                            if (imagebtok2 != null) {
+                                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
+                                                bteditar.setIcon(iconbtok);
+                                            }
+                                            bteditar.setToolTipText(lingua.translate("Editar campos"));
+                                        }
+                                    }
+                                });
+                            }
+                            imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            imageview.addMouseListener(new java.awt.event.MouseAdapter() {
                                 @Override
-                                public void keyPressed(KeyEvent e) {
-                                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
-                                        for (JTextField texto1 : texto) {
-                                            texto1.setFocusable(false);
-                                            texto1.setBackground(new Color(249, 249, 249));
-                                        }
-                                        editar = false;
-                                        java.awt.image.BufferedImage imagebtok2 = null;
-                                        try {
-                                            imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
-                                        } catch (IOException ex) {
-                                        }
-                                        if (imagebtok2 != null) {
-                                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
-                                            bteditar.setIcon(iconbtok);
-                                        }
-                                        bteditar.setToolTipText(lingua.translate("Editar campos"));
+                                public void mouseClicked(MouseEvent e) {
+                                    FileIOAux.ImageExtension image;
+                                    image = bimage;
+                                    UIManager.put("TextField.background", new Color(234, 234, 234));
+                                    UIManager.put("List.background", new Color(234, 234, 234));
+                                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                                        alterado = true;
+                                    } else {
+                                        bimage = image;
+                                    }
+                                }
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
+                                    }
+                                }
+
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
                                     }
                                 }
                             });
-                        }
-                        imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                        imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                        imageview.addMouseListener(new java.awt.event.MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                FileIOAux.ImageExtension image;
-                                image = bimage;
-                                UIManager.put("TextField.background", new Color(234, 234, 234));
-                                UIManager.put("List.background", new Color(234, 234, 234));
-                                if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
-                                    alterado = true;
-                                } else {
-                                    bimage = image;
-                                }
+                            editar = true;
+                        } else {
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].removeMouseListener(copypaste[i - 2]);
                             }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                if (bimage != null) {
-                                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
-                                }
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                if (bimage != null) {
-                                    imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
-                                }
-                            }
-                        });
-                        editar = true;
-                    } else {
-                        for (int i = 2; i< texto.length; i++) {
-                            texto[i].removeMouseListener(copypaste[i-2]);
-                        }
-                        javax.swing.Timer timer;
-                        if (baux[0] != null) {
-                            texto[2].setBorder(baux[0]);
-                        }
-                        for (JTextField texto1 : texto) {
-                            texto1.setFocusable(false);
-                            texto1.setBackground(new Color(249, 249, 249));
-                        }
-                        for (int i = 2; i < texto.length; i++) {
-                            texto[i].setBorder(baux[i - 2]);
-                        }
-                        imageview.setBorder(baux[4]);
-                        imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                        editar = false;
-                        java.awt.image.BufferedImage imagebtok3 = null;
-                        try {
-                            imagebtok3 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
-                        } catch (IOException ex) {
-                        }
-                        if (imagebtok3 != null) {
-                            javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok3);
-                            bteditar.setIcon(iconbtok);
-                        }
-                        bteditar.setToolTipText(lingua.translate("Editar campos"));
-                        boolean auxiliar1 = false;
-                        if (!texto[2].getText().matches("^\\d+$")) {
-                            auxiliar1 = true;
-                            baux[0] = texto[2].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                            javax.swing.Timer timer;
+                            if (baux[0] != null) {
                                 texto[2].setBorder(baux[0]);
-                                texto[2].setText("" + cla.getPlaces());
-                                bteditar.setEnabled(true);
-                            });
-                            texto[2].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
-                            timer.setRepeats(false);
-                            bteditar.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!texto[3].getText().matches("^\\d+$")) {
-                            auxiliar1 = true;
-                            baux[1] = texto[3].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[3].setBorder(baux[1]);
-                                texto[3].setText("" + cla.getComputers());
-                                bteditar.setEnabled(true);
-                            });
-                            texto[3].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
-                            timer.setRepeats(false);
-                            bteditar.setEnabled(false);
-                            timer.start();
-                        }
-                        if ((!texto[4].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[4].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[4].getText().toLowerCase().equals("nao"))) {
-                            auxiliar1 = true;
-                            baux[2] = texto[4].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[4].setBorder(baux[2]);
-                                if (cla.hasProjector()) {
-                                    texto[4].setText(lingua.translate("Sim").toLowerCase());
+                            }
+                            for (JTextField texto1 : texto) {
+                                texto1.setFocusable(false);
+                                texto1.setBackground(new Color(249, 249, 249));
+                            }
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setBorder(baux[i - 2]);
+                            }
+                            imageview.setBorder(baux[4]);
+                            imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                            editar = false;
+                            java.awt.image.BufferedImage imagebtok3 = null;
+                            try {
+                                imagebtok3 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+                            } catch (IOException ex) {
+                            }
+                            if (imagebtok3 != null) {
+                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok3);
+                                bteditar.setIcon(iconbtok);
+                            }
+                            bteditar.setToolTipText(lingua.translate("Editar campos"));
+                            boolean auxiliar1 = false;
+                            if (!texto[2].getText().matches("^\\d+$")) {
+                                auxiliar1 = true;
+                                baux[0] = texto[2].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[2].setBorder(baux[0]);
+                                    texto[2].setText("" + cla.getPlaces());
+                                    bteditar.setEnabled(true);
+                                });
+                                texto[2].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
+                                timer.setRepeats(false);
+                                bteditar.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!texto[3].getText().matches("^\\d+$")) {
+                                auxiliar1 = true;
+                                baux[1] = texto[3].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[3].setBorder(baux[1]);
+                                    texto[3].setText("" + cla.getComputers());
+                                    bteditar.setEnabled(true);
+                                });
+                                texto[3].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
+                                timer.setRepeats(false);
+                                bteditar.setEnabled(false);
+                                timer.start();
+                            }
+                            if ((!texto[4].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[4].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[4].getText().toLowerCase().equals("nao"))) {
+                                auxiliar1 = true;
+                                baux[2] = texto[4].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[4].setBorder(baux[2]);
+                                    if (cla.hasProjector()) {
+                                        texto[4].setText(lingua.translate("Sim").toLowerCase());
+                                    } else {
+                                        texto[4].setText(lingua.translate("Nao").toLowerCase());
+                                    }
+                                    bteditar.setEnabled(true);
+                                });
+                                texto[4].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[2]));
+                                timer.setRepeats(false);
+                                bteditar.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!(texto[5].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[5].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[5].getText().toLowerCase().equals("nao"))) {
+                                auxiliar1 = true;
+                                baux[3] = texto[5].getBorder();
+                                timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
+                                    texto[5].setBorder(baux[3]);
+                                    if (cla.hasInteractiveTable()) {
+                                        texto[5].setText(lingua.translate("Sim").toLowerCase());
+                                    } else {
+                                        texto[5].setText(lingua.translate("Nao").toLowerCase());
+                                    }
+                                    bteditar.setEnabled(true);
+                                });
+                                texto[5].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[3]));
+                                timer.setRepeats(false);
+                                bteditar.setEnabled(false);
+                                timer.start();
+                            }
+                            if (!auxiliar1) {
+                                if (texto[2].getText().length() > 1) {
+                                    int i = 0;
+                                    while (i < texto[2].getText().length()) {
+                                        if (texto[2].getText().charAt(i) == '0') {
+                                            texto[2].setText(texto[2].getText().replaceFirst("0", ""));
+                                        }
+                                        if (texto[2].getText().charAt(i) != '0') {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (texto[3].getText().length() > 1) {
+                                    int i = 0;
+                                    while (i < texto[3].getText().length()) {
+                                        if (texto[3].getText().charAt(i) == '0') {
+                                            texto[3].setText(texto[3].getText().replaceFirst("0", ""));
+                                        }
+                                        if (texto[3].getText().charAt(i) != '0') {
+                                            break;
+                                        }
+                                    }
+                                }
+                                cla.setPlaces(Integer.valueOf(texto[2].getText()));
+                                cla.setComputers(Integer.valueOf(texto[3].getText()));
+                                if ((texto[4].getText().toLowerCase().equals("nao"))) {
+                                    texto[4].setText("não");
                                 } else {
-                                    texto[4].setText(lingua.translate("Nao").toLowerCase());
+                                    texto[4].setText(texto[4].getText().toLowerCase());
                                 }
-                                bteditar.setEnabled(true);
-                            });
-                            texto[4].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[2]));
-                            timer.setRepeats(false);
-                            bteditar.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!(texto[5].getText().toLowerCase().equals(lingua.translate("Sim").toLowerCase())) && (!texto[5].getText().toLowerCase().equals(lingua.translate("Nao").toLowerCase())) && (!texto[5].getText().toLowerCase().equals("nao"))) {
-                            auxiliar1 = true;
-                            baux[3] = texto[5].getBorder();
-                            timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
-                                texto[5].setBorder(baux[3]);
-                                if (cla.hasInteractiveTable()) {
-                                    texto[5].setText(lingua.translate("Sim").toLowerCase());
+                                if (texto[4].getText().equals(lingua.translate("Sim").toLowerCase())) {
+                                    cla.setProjector(true);
                                 } else {
-                                    texto[5].setText(lingua.translate("Nao").toLowerCase());
+                                    cla.setProjector(false);
                                 }
-                                bteditar.setEnabled(true);
-                            });
-                            texto[5].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[3]));
-                            timer.setRepeats(false);
-                            bteditar.setEnabled(false);
-                            timer.start();
-                        }
-                        if (!auxiliar1) {
-                            if (texto[2].getText().length() > 1) {
-                                int i = 0;
-                                while (i < texto[2].getText().length()) {
-                                    if (texto[2].getText().charAt(i) == '0') {
-                                        texto[2].setText(texto[2].getText().replaceFirst("0", ""));
-                                    }
-                                    if (texto[2].getText().charAt(i) != '0') {
-                                        break;
-                                    }
+                                if ((texto[5].getText().toLowerCase().equals("nao"))) {
+                                    texto[5].setText("não");
+                                } else {
+                                    texto[5].setText(texto[5].getText().toLowerCase());
                                 }
-                            }
-                            if (texto[3].getText().length() > 1) {
-                                int i = 0;
-                                while (i < texto[3].getText().length()) {
-                                    if (texto[3].getText().charAt(i) == '0') {
-                                        texto[3].setText(texto[3].getText().replaceFirst("0", ""));
-                                    }
-                                    if (texto[3].getText().charAt(i) != '0') {
-                                        break;
-                                    }
+                                if (texto[5].getText().equals(lingua.translate("Sim").toLowerCase())) {
+                                    cla.setInteractiveTable(true);
+                                } else {
+                                    cla.setInteractiveTable(false);
                                 }
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                db.updateClassroom(cla);
+                                if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
+                                    cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
+                                    alterado = false;
+                                    db.updateMaterial(cla);
+                                }
+                                for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
+                                    imageview.removeMouseListener(l);
+                                }
+                                db.close();
                             }
-                            cla.setPlaces(Integer.valueOf(texto[2].getText()));
-                            cla.setComputers(Integer.valueOf(texto[3].getText()));
-                            if ((texto[4].getText().toLowerCase().equals("nao"))) {
-                                texto[4].setText("não");
-                            } else {
-                                texto[4].setText(texto[4].getText().toLowerCase());
-                            }
-                            if (texto[4].getText().equals(lingua.translate("Sim").toLowerCase())) {
-                                cla.setProjector(true);
-                            } else {
-                                cla.setProjector(false);
-                            }
-                            if ((texto[5].getText().toLowerCase().equals("nao"))) {
-                                texto[5].setText("não");
-                            } else {
-                                texto[5].setText(texto[5].getText().toLowerCase());
-                            }
-                            if (texto[5].getText().equals(lingua.translate("Sim").toLowerCase())) {
-                                cla.setInteractiveTable(true);
-                            } else {
-                                cla.setInteractiveTable(false);
-                            }
-                            DataBase.DataBase db = new DataBase.DataBase(url);
-                            db.updateClassroom(cla);
-                            if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
-                                cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
-                                alterado = false;
-                                db.updateMaterial(cla);
-                            }
-                            for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
-                                imageview.removeMouseListener(l);
-                            }
-                            db.close();
                         }
                     }
                 }
@@ -568,9 +572,21 @@ public class ActionButton extends javax.swing.JDialog {
             btMais.setToolTipText(lingua.translate("Mais dados"));
             btMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btMais.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, cla, panelcor, lingua, url);
-                janela.create();
-                janela.appear();
+                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, cla, lingua, url);
+
+                Window[] windows = Window.getWindows();
+                boolean pode_se = true;
+                if (windows != null) {
+                    for (Window w : windows) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WMaterial)) {
+                            pode_se = false;
+                        }
+                    }
+                }
+                if (pode_se) {
+                    janela.create();
+                    janela.appear();
+                }
             });
             painel1Baixo.add(btMais);
 
@@ -646,10 +662,20 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, cla,url,lingua);
-                horario.create();
-                horario.setVisible(true);
-                horario.setLocationRelativeTo(this);
+                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, cla, url, lingua);
+                Window[] windows = Window.getWindows();
+                boolean pode_se = true;
+                if (windows != null) {
+                    for (Window w : windows) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WHorario)) {
+                            pode_se = false;
+                        }
+                    }
+                }
+                if (pode_se) {
+                    horario.create();
+                    horario.appear();
+                }
             });
             painel22.add(bthorario);
 
@@ -854,7 +880,7 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setBounds(0, 40, 219, 20);
             lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             painel2.add(lb1);
-            if (!cla.isLoaned()||(!emprestado)) {
+            if (!cla.isLoaned() || (!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
             } else {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
@@ -879,7 +905,7 @@ public class ActionButton extends javax.swing.JDialog {
 
             painel2.add(lb1);
 
-            if (!cla.isLoaned()||(!emprestado)) {
+            if (!cla.isLoaned() || (!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
             } else {
 
@@ -891,7 +917,7 @@ public class ActionButton extends javax.swing.JDialog {
             lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 120, 219, 20);
             painel2.add(lbtl1);
-            if (!cla.isLoaned()||(!emprestado)) {
+            if (!cla.isLoaned() || (!emprestado)) {
                 if (requnion.isEmpty()) {
                     lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
                 } else {
