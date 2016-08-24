@@ -186,7 +186,7 @@ public class RequestList {
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
         DataBase.DataBase db = new DataBase.DataBase(bd);
         if (db.isTie()) {
-            this.requests = new ArrayList<>(db.getRequestsByTime(bool, time, this.date1, this.date2, estado, terminado));
+            this.requests = new ArrayList<>(db.getRequestsByTime(this.getTypeOfMaterial(), bool, time, this.date1, this.date2, estado, terminado));
             Collections.sort(requests);
             this.treatUnionRequests();
         }
@@ -196,7 +196,7 @@ public class RequestList {
     public void searchBy(int opcao, String person) {
         DataBase.DataBase db = new DataBase.DataBase(bd);
         if (db.isTie()) {
-            this.requests = new ArrayList<>(db.getRequests(opcao, person, this.date1, this.date2, estado, terminado));
+            this.requests = new ArrayList<>(db.getRequests(opcao, this.getTypeOfMaterial(), person, this.date1, this.date2, estado, terminado));
             Collections.sort(requests);
             this.treatUnionRequests();
         }
@@ -328,43 +328,114 @@ public class RequestList {
     }
 
     private void calcDates() {
-        Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
-        TimeDate.Date hoje = new TimeDate.Date();
-        int dia_auxiliar = 0;
-        switch (this.getView()) {
-            case 1:
-                dia_auxiliar = 1;
-                while (fer_auxiliar.hasNext()) {
-                    TimeDate.Holiday der = fer_auxiliar.next();
-                    if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+        if (!estado) {
+            Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
+            TimeDate.Date hoje = new TimeDate.Date();
+            int dia_auxiliar = 0;
+            switch (this.getView()) {
+                case 1:
+                    dia_auxiliar = 1;
+                    while (fer_auxiliar.hasNext()) {
+                        TimeDate.Holiday der = fer_auxiliar.next();
+                        if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+                            dia_auxiliar++;
+                        }
+                    }
+                    if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
                         dia_auxiliar++;
                     }
-                }
-                if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
-                    dia_auxiliar++;
-                }
-                this.date1 = hoje;
-                this.date2 = hoje.dateAfter(dia_auxiliar);
-                break;
-            case 2:
-                dia_auxiliar = 6;
-                this.date1 = hoje;
-                this.date2 = hoje.dateAfter(dia_auxiliar);
-                break;
-            case 3:
-                dia_auxiliar = 13;
-                this.date1 = hoje;
-                this.date2 = hoje.dateAfter(dia_auxiliar);
-                break;
-            case 4:
-                dia_auxiliar = TimeDate.Date.daysOfTheCurrentMonth(hoje);
-                this.date1 = hoje;
-                this.date2 = hoje.dateAfter(dia_auxiliar);
-                break;
-            default:
-                this.date1 = hoje;
-                this.date2 = hoje.dateAfter(dia_auxiliar);
+                    this.date1 = hoje;
+                    this.date2 = hoje.dateAfter(dia_auxiliar);
+                    break;
+                case 2:
+                    dia_auxiliar = 6;
+                    this.date1 = hoje;
+                    this.date2 = hoje.dateAfter(dia_auxiliar);
+                    break;
+                case 3:
+                    dia_auxiliar = 13;
+                    this.date1 = hoje;
+                    this.date2 = hoje.dateAfter(dia_auxiliar);
+                    break;
+                case 4:
+                    dia_auxiliar = TimeDate.Date.daysOfTheCurrentMonth(hoje);
+                    this.date1 = hoje;
+                    this.date2 = hoje.dateAfter(dia_auxiliar);
+                    break;
+                default:
+                    this.date1 = hoje;
+                    this.date2 = hoje.dateAfter(dia_auxiliar);
 
+            }
+        } else {
+            Iterator<TimeDate.Holiday> fer_auxiliar = feriados.getHolidays().iterator();
+            TimeDate.Date hoje = new TimeDate.Date();
+            int dia_auxiliar = 0;
+            switch (this.getView()) {
+                case 1:
+                    dia_auxiliar = 1;
+                    while (fer_auxiliar.hasNext()) {
+                        TimeDate.Holiday der = fer_auxiliar.next();
+                        if ((der.getDay() == hoje.dateAfter(1).getDay()) && (der.getMonth() == hoje.dateAfter(1).getMonth())) {
+                            dia_auxiliar++;
+                        }
+                    }
+                    if (TimeDate.WeekDay.getDayWeek(hoje.dateAfter(1)) == 1) {
+                        dia_auxiliar++;
+                    }
+                    this.date1 = hoje.dateBefore(dia_auxiliar);
+                    if (DataBase.DataBase.testConnection(bd)) {
+                        DataBase.DataBase db = new DataBase.DataBase(bd);
+                        this.date2 = db.getLastdateOnActiveRequests(this.getTypeOfMaterial());
+                        db.close();
+                    } else {
+                        this.date2 = hoje.dateAfter(dia_auxiliar);
+                    }
+                    break;
+                case 2:
+                    dia_auxiliar = 6;
+                    this.date1 = hoje.dateBefore(dia_auxiliar);
+                    if (DataBase.DataBase.testConnection(bd)) {
+                        DataBase.DataBase db = new DataBase.DataBase(bd);
+                        this.date2 = db.getLastdateOnActiveRequests(this.getTypeOfMaterial());
+                        db.close();
+                    } else {
+                        this.date2 = hoje.dateAfter(dia_auxiliar);
+                    }
+                    break;
+                case 3:
+                    dia_auxiliar = 13;
+                    this.date1 = hoje.dateBefore(dia_auxiliar);
+                    if (DataBase.DataBase.testConnection(bd)) {
+                        DataBase.DataBase db = new DataBase.DataBase(bd);
+                        this.date2 = db.getLastdateOnActiveRequests(this.getTypeOfMaterial());
+                        db.close();
+                    } else {
+                        this.date2 = hoje.dateAfter(dia_auxiliar);
+                    }
+                    break;
+                case 4:
+                    dia_auxiliar = TimeDate.Date.daysOfTheCurrentMonth(hoje);
+                    this.date1 = hoje.dateBefore(dia_auxiliar);
+                    if (DataBase.DataBase.testConnection(bd)) {
+                        DataBase.DataBase db = new DataBase.DataBase(bd);
+                        this.date2 = db.getLastdateOnActiveRequests(this.getTypeOfMaterial());
+                        db.close();
+                    } else {
+                        this.date2 = hoje;
+                    }
+                    break;
+                default:
+                    this.date1 = hoje.dateBefore(dia_auxiliar);
+                    if (DataBase.DataBase.testConnection(bd)) {
+                        DataBase.DataBase db = new DataBase.DataBase(bd);
+                        this.date2 = db.getLastdateOnActiveRequests(this.getTypeOfMaterial());
+                        db.close();
+                    } else {
+                        this.date2 = hoje;
+                    }
+
+            }
         }
     }
 }

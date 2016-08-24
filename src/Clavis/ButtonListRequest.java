@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,44 +44,44 @@ public class ButtonListRequest {
     private javax.swing.JLabel labelativa;
     private javax.swing.JDialog dialogoanterior;
 
-    public ButtonListRequest(String url, javax.swing.JDialog dialogo, RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, Color panelcolor) {
+    public ButtonListRequest(String url, javax.swing.JDialog dialogo, RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa) {
         this.mater = new HashSet<>();
         this.lingua = lingua;
         this.url = url;
         this.dialogoanterior = dialogo;
 
-        this.panelcor = panelcolor;
+        this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-        DataBase.DataBase db = new DataBase.DataBase(csv);
 
         dim = new Dimension(80, 80);
         this.btcor1 = new Color(54, 54, 154);
         this.btcor2 = new Color(145, 145, 254);
         this.tpanel = tpanel;
         this.tipopesquisa = tipopesquisa;
-        if (db.isTie()) {
+        if (DataBase.DataBase.testConnection(url)) {
             int val = req.getTypeOfMaterial().getMaterialTypeID();
+            DataBase.DataBase db = new DataBase.DataBase(csv);
             switch (tipopesquisa) {
                 case 0:
                     if (val == 1) {
                         mater = new TreeSet<>(db.getClassrooms(0));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                        mater = new TreeSet<>(db.getMaterialsByType(val, 0));
                     }
                     break;
                 case 1:
                     if (val == 1) {
                         mater = new TreeSet<>(db.getClassrooms(1));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                        mater = new TreeSet<>(db.getMaterialsByType(val, 1));
                     }
                     break;
                 default:
                     if (val == 1) {
                         mater = new TreeSet<>(db.getClassrooms(2));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val));
+                        mater = new TreeSet<>(db.getMaterialsByType(val, 2));
                     }
                     break;
             }
@@ -133,16 +134,20 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, panelcor, url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
                         BufferedImage ima;
                         try {
-                            String auximage = "Images/" + m.getTypeOfMaterialImage() + ".png";
-                            if (this.getClass().getResource(auximage) != null) {
-                                ima = ImageIO.read(getClass().getResourceAsStream(auximage));
+                            File file = new File(new File("").getAbsolutePath()
+                                    + System.getProperty("file.separator")
+                                    + "Resources" + System.getProperty("file.separator")
+                                    + "Images" + System.getProperty("file.separator")
+                                    + m.getTypeOfMaterialImage() + ".png");
+                            if (file.isFile()) {
+                                ima = ImageIO.read(file);
                                 ima = FileIOAux.ImageAux.resize(ima, 40, 40);
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);
@@ -169,7 +174,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, panelcor, url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url);
                         dialogoanterior.setVisible(false);
                         at.open();
                     });
@@ -177,9 +182,13 @@ public class ButtonListRequest {
                     if (m.getMaterialImage().equals("sem")) {
                         BufferedImage ima;
                         try {
-                            String auximage = "Images/" + m.getTypeOfMaterialImage() + ".png";
-                            if (this.getClass().getResource(auximage) != null) {
-                                ima = ImageIO.read(getClass().getResourceAsStream(auximage));
+                             File file = new File(new File("").getAbsolutePath()
+                                    + System.getProperty("file.separator")
+                                    + "Resources" + System.getProperty("file.separator")
+                                    + "Images" + System.getProperty("file.separator")
+                                    + m.getTypeOfMaterialImage() + ".png");
+                            if (file.isFile()) {
+                                ima = ImageIO.read(file);
                                 ima = FileIOAux.ImageAux.resize(ima, 40, 40);
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);

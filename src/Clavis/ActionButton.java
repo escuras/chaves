@@ -126,40 +126,46 @@ public class ActionButton extends javax.swing.JDialog {
     }
 
     public void create() {
+        painel = new javax.swing.JPanel();
+        painel.setBackground(new java.awt.Color(254, 254, 254));
+        painel.setPreferredSize(new java.awt.Dimension(660, 528));
+        this.setMinimumSize(new java.awt.Dimension(700, 500));
+        this.setResizable(false);
+
+        javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        painel.setBorder(border);
+        KeyQuest.addtoPropertyListener(painel, true);
+        javax.swing.GroupLayout janelaLayout = new javax.swing.GroupLayout(this.getContentPane());
+        this.getContentPane().setLayout(janelaLayout);
+        janelaLayout.setHorizontalGroup(
+                janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(painel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        janelaLayout.setVerticalGroup(
+                janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(painel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        // titulos 
+        javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Informação"));
+        label1.setPreferredSize(new Dimension(181, 32));
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("Cantarell", Font.PLAIN, 14));
+        label1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        label1.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+
+        // painel de informcao geral
+        javax.swing.JPanel painel1 = new javax.swing.JPanel();
+        painel1.setBackground(Color.WHITE);
+        painel1.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK, 1)));
+        javax.swing.JPanel painelimagem = new javax.swing.JPanel(null);
+        painelimagem.setPreferredSize(new Dimension(360, 60));
+        painelimagem.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        painelimagem.setBackground(Color.WHITE);
+        painelimagem.setBounds(0, 0, 360, 60);
+        painel1.add(painelimagem);
         if (cla != null) {
-            painel = new javax.swing.JPanel();
-            painel.setBackground(new java.awt.Color(254, 254, 254));
-            painel.setPreferredSize(new java.awt.Dimension(660, 528));
             this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(cla.getTypeOfMaterialName()) + ": " + lingua.translate("sala") + " " + lingua.translate(cla.getDescription()));
-            this.setMinimumSize(new java.awt.Dimension(700, 500));
-            this.setResizable(false);
-
-            javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-            painel.setBorder(border);
-            KeyQuest.addtoPropertyListener(painel, true);
-            javax.swing.GroupLayout janelaLayout = new javax.swing.GroupLayout(this.getContentPane());
-            this.getContentPane().setLayout(janelaLayout);
-            janelaLayout.setHorizontalGroup(
-                    janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            janelaLayout.setVerticalGroup(
-                    janelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-
-            // titulos 
-            javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Informação"));
-            label1.setPreferredSize(new Dimension(181, 32));
-            label1.setForeground(Color.BLACK);
-            label1.setFont(new Font("Cantarell", Font.PLAIN, 14));
-            label1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-            label1.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
-
-            // painel de informcao geral
-            javax.swing.JPanel painel1 = new javax.swing.JPanel();
-            painel1.setBackground(Color.WHITE);
-            painel1.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK, 1)));
             javax.swing.JLabel imageview = new javax.swing.JLabel();
             imageview.setPreferredSize(new Dimension(60, 50));
             imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -175,13 +181,7 @@ public class ActionButton extends javax.swing.JDialog {
                 bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
                 imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
             }
-            javax.swing.JPanel painelimagem = new javax.swing.JPanel(null);
-            painelimagem.setPreferredSize(new Dimension(360, 60));
-            painelimagem.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-            painelimagem.setBackground(Color.WHITE);
-            painelimagem.setBounds(0, 0, 360, 60);
             painelimagem.add(imageview);
-            painel1.add(painelimagem);
 
             // painel de informacao top
             javax.swing.JPanel painel1Cima = new javax.swing.JPanel();
@@ -747,25 +747,405 @@ public class ActionButton extends javax.swing.JDialog {
                     dispose();
                 }
             });
+        } else {
+            this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(mat.getTypeOfMaterialName()) + ": " + lingua.translate("sala") + " " + lingua.translate(mat.getDescription()));
+            javax.swing.JLabel imageview = new javax.swing.JLabel();
+            imageview.setPreferredSize(new Dimension(60, 50));
+            imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+            imageview.setVerticalAlignment(javax.swing.JLabel.CENTER);
+            imageview.setBounds(14, 10, 60, 50);
+            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1), BorderFactory.createLineBorder(Color.BLACK, 1)));
+            if (!mat.getMaterialImage().equals("sem")) {
+                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(mat.getMaterialImage()));
+                imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
+            } else {
+                String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + mat.getTypeOfMaterialImage() + ".png";
+                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
+                imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
+            }
+            painel1.add(painelimagem);
+
+            // painel de informacao top
+            javax.swing.JPanel painel1Cima = new javax.swing.JPanel();
+            GridLayout glayout1 = new GridLayout(6, 2);
+            painel1Cima.setLayout(glayout1);
+            painel1Cima.setBackground(Color.WHITE);
+            painel1Cima.setPreferredSize(new Dimension(370, 180));
+            painel1Cima.setBounds(0, 40, 360, 180);
+            painel1Cima.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
+
+            // adicionando componentes ao painel de informacao top
+            // primeira linha
+            javax.swing.JLabel auxiliar = new javax.swing.JLabel(lingua.translate("Descrição") + ": ");
+            auxiliar.setPreferredSize(new Dimension(179, 32));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
+            auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
+            painel1Cima.add(auxiliar);
+
+            String sauxiliar = lingua.translate(mat.getTypeOfMaterial().getTypeOfMaterialName()) + " " + lingua.translate(mat.getDescription());
+            texto = new org.jdesktop.swingx.JXTextField[6];
+            texto[0] = new org.jdesktop.swingx.JXTextField();
+            texto[0].setText(sauxiliar);
+            texto[0].setBackground(new Color(249, 249, 249));
+            texto[0].setFocusable(false);
+            texto[0].setBorder(BorderFactory.createCompoundBorder(texto[0].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+            painel1Cima.add(texto[0]);
+
+            // segunda linha
+            auxiliar = new javax.swing.JLabel(lingua.translate("Estado") + ": ");
+            auxiliar.setPreferredSize(new Dimension(179, 32));
+            auxiliar.setFont(new Font("Cantarell", Font.PLAIN, 14));
+            auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
+            painel1Cima.add(auxiliar);
+            texto[1] = new org.jdesktop.swingx.JXTextField();
+            if (mat.isLoaned()) {
+                sauxiliar = lingua.translate("ocupado");
+                texto[1].setForeground(Color.RED);
+            } else {
+                sauxiliar = lingua.translate("livre");
+                texto[1].setForeground(new Color(0, 102, 0));
+            }
+            texto[1].setText(sauxiliar);
+            texto[1].setBackground(new Color(249, 249, 249));
+            texto[1].setFocusable(false);
+            texto[1].setBorder(BorderFactory.createCompoundBorder(texto[1].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+            painel1Cima.add(texto[1]);
+
+            javax.swing.JPanel painel1Baixo = new javax.swing.JPanel();
+            painel1Baixo.setPreferredSize(new Dimension(370, 40));
+            painel1Baixo.setBackground(Color.WHITE);
+            painel1Baixo.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+            painel1Baixo.setLayout(null);
+
+            javax.swing.JButton bteditar = new javax.swing.JButton();
+            java.awt.image.BufferedImage imagebtok = null;
+            try {
+                imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebtok != null) {
+                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);
+                bteditar.setIcon(iconbtok);
+            }
+            bteditar.setToolTipText(lingua.translate("Editar campos"));
+            bteditar.setPreferredSize(new Dimension(90, 40));
+            bteditar.setBounds(260, 0, 90, 40);
+            bteditar.setFocusPainted(false);
+            bteditar.setBackground(new Color(51, 102, 153));
+            javax.swing.border.Border baux[] = new javax.swing.border.Border[3];
+            for (int i = 0; i < 2; i++) {
+                baux[i] = texto[i].getBorder();
+            }
+            baux[2] = imageview.getBorder();
+            bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            java.awt.event.MouseListener[] copypaste = new java.awt.event.MouseListener[texto.length - 2];
+            for (int i = 0; i < copypaste.length; i++) {
+                copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i + 2]);
+            }
+            bteditar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (DataBase.DataBase.testConnection(url)) {
+                        if (!editar) {
+                            java.awt.image.BufferedImage imagebtok1 = null;
+                            try {
+                                imagebtok1 = ImageIO.read(getClass().getResourceAsStream("Images/save.png"));
+                            } catch (IOException ex) {
+                            }
+                            if (imagebtok1 != null) {
+                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok1);
+                                bteditar.setIcon(iconbtok);
+                            }
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), baux[i - 2]));
+                            }
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            bteditar.setToolTipText(lingua.translate("Gravar"));
+                            for (int i = 2; i < texto.length; i++) {
+                                texto[i].setFocusable(true);
+                                texto[i].setBackground(Color.WHITE);
+                                texto[i].addMouseListener(copypaste[i - 2]);
+                                texto[i].addKeyListener(new java.awt.event.KeyAdapter() {
+                                    @Override
+                                    public void keyPressed(KeyEvent e) {
+                                        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+                                            for (JTextField texto1 : texto) {
+                                                texto1.setFocusable(false);
+                                                texto1.setBackground(new Color(249, 249, 249));
+                                            }
+                                            editar = false;
+                                            java.awt.image.BufferedImage imagebtok2 = null;
+                                            try {
+                                                imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
+                                            } catch (IOException ex) {
+                                            }
+                                            if (imagebtok2 != null) {
+                                                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok2);
+                                                bteditar.setIcon(iconbtok);
+                                            }
+                                            bteditar.setToolTipText(lingua.translate("Editar campos"));
+                                        }
+                                    }
+                                });
+                            }
+                            imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                            imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                            imageview.addMouseListener(new java.awt.event.MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    FileIOAux.ImageExtension image;
+                                    image = bimage;
+                                    UIManager.put("TextField.background", new Color(234, 234, 234));
+                                    UIManager.put("List.background", new Color(234, 234, 234));
+                                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                                        alterado = true;
+                                    } else {
+                                        bimage = image;
+                                    }
+                                }
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
+                                    }
+                                }
+
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+                                    if (bimage != null) {
+                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
+                                    }
+                                }
+                            });
+                            editar = true;
+                        } else {
+
+                            boolean auxiliar1 = false;
+
+                            if (!auxiliar1) {
+
+                                for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
+                                    imageview.removeMouseListener(l);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            });
+
+            painel1Baixo.add(bteditar);
+
+            // bt mais
+            javax.swing.JButton btMais = new javax.swing.JButton();
+            imagebtok = null;
+            try {
+                imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/plus24x24.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebtok != null) {
+                javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);
+                btMais.setIcon(iconbtok);
+            }
+            btMais.setPreferredSize(new Dimension(90, 40));
+            btMais.setBounds(165, 0, 90, 40);
+            btMais.setFocusPainted(false);
+            btMais.setBackground(new Color(51, 102, 153));
+            btMais.setToolTipText(lingua.translate("Mais dados"));
+            btMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btMais.addActionListener((ActionEvent e) -> {
+                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, mat, lingua, url);
+
+                Window[] windows = Window.getWindows();
+                boolean pode_se = true;
+                if (windows != null) {
+                    for (Window w : windows) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WMaterial)) {
+                            pode_se = false;
+                        }
+                    }
+                }
+                if (pode_se) {
+                    janela.create();
+                    janela.appear();
+                }
+            });
+            painel1Baixo.add(btMais);
+
+            painel1.add(painel1Cima);
+            painel1.add(painel1Baixo);
+
+            // painel esquerda
+            javax.swing.JPanel painel2 = new javax.swing.JPanel();
+            BoxLayout blayout2 = new BoxLayout(painel2, BoxLayout.Y_AXIS);
+
+            painel2.setLayout(null);
+            painel2.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK, 1)));
+
+            this.createPanelRight(painel2);
+
+            javax.swing.JPanel painel11 = new javax.swing.JPanel();
+
+            painel11.setBackground(new Color(254, 254, 254));
+            painel11.setPreferredSize(new Dimension(360, 40));
+            painel11.setLayout(null);
+
+// bt sair
+            javax.swing.JButton btsair = new javax.swing.JButton();
+            btsair.setPreferredSize(new Dimension(90, 40));
+            java.awt.image.BufferedImage imagebtsair = null;
+            try {
+                imagebtsair = ImageIO.read(getClass().getResourceAsStream("Images/exit26x24.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebtsair != null) {
+                javax.swing.ImageIcon iconbtsair = new javax.swing.ImageIcon(imagebtsair);
+                btsair.setIcon(iconbtsair);
+            }
+            btsair.setBounds(5, 0, 90, 40);
+            btsair.setToolTipText(lingua.translate("Sair"));
+            btsair.setBackground(new Color(5, 5, 5));
+            btsair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btsair.setFocusPainted(false);
+            btsair.addActionListener((ActionEvent e) -> {
+                this.setVisible(false);
+                if (dialogopai != null) {
+                    dialogopai.setLocation(this.getX(), this.getY());
+                    dialogopai.setVisible(true);
+                }
+                if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
+                    timertempoatrasado.stop();
+                }
+                this.dispose();
+            });
+            painel11.add(btsair);
+
+            javax.swing.JPanel painel22 = new javax.swing.JPanel();
+            //BoxLayout blayout22 = new BoxLayout(painel22, BoxLayout.Y_AXIS);
+            //painel22.setLayout(blayout22);
+            painel22.setBackground(new Color(254, 254, 254));
+            painel22.setLayout(null);
+
+//bthorario
+            javax.swing.JButton bthorario = new javax.swing.JButton();
+            bthorario.setPreferredSize(new Dimension(90, 40));
+            java.awt.image.BufferedImage imagebthorario = null;
+            try {
+                imagebthorario = ImageIO.read(getClass().getResourceAsStream("Images/calendario.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebthorario != null) {
+                javax.swing.ImageIcon iconbthorario = new javax.swing.ImageIcon(imagebthorario);
+                bthorario.setIcon(iconbthorario);
+            }
+            bthorario.setBounds(5, 0, 90, 40);
+            bthorario.setToolTipText(lingua.translate("Horário"));
+            bthorario.setBackground(new Color(51, 102, 153));
+            bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            bthorario.setFocusPainted(false);
+            bthorario.addActionListener((ActionEvent e) -> {
+                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, mat, url, lingua);
+                Window[] windows = Window.getWindows();
+                boolean pode_se = true;
+                if (windows != null) {
+                    for (Window w : windows) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WHorario)) {
+                            pode_se = false;
+                        }
+                    }
+                }
+                if (pode_se) {
+                    horario.create();
+                    horario.appear();
+                }
+            });
+            painel22.add(bthorario);
+
+// btreq
+            javax.swing.JButton btreq = new javax.swing.JButton();
+            btreq.setPreferredSize(new Dimension(90, 40));
+            btreq.setToolTipText(lingua.translate("Requisitar"));
+            java.awt.image.BufferedImage imagebtreq = null;
+            try {
+                imagebtreq = ImageIO.read(getClass().getResourceAsStream("Images/request.png"));
+            } catch (IOException ex) {
+            }
+            if (imagebtreq != null) {
+                javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
+                btreq.setIcon(iconbtreq);
+            }
+            btreq.setBackground(new Color(57, 147, 2));
+            btreq.setContentAreaFilled(true);
+            btreq.setFocusPainted(false);
+            btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btreq.setBounds(100, 0, 90, 40);
+            painel22.add(btreq);
+            javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
+            painel.setLayout(painelLayout);
+            painelLayout.setHorizontalGroup(
+                    painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelLayout.createSequentialGroup()
+                            .addGap(39, 39, 39)
+                            .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(painel1, 0, 380, Short.MAX_VALUE)
+                                    .addComponent(painel11, 0, 180, Short.MAX_VALUE)
+                                    .addComponent(label1, 0, 380, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(painel22, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                                    .addComponent(painel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelativa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addContainerGap(64, Short.MAX_VALUE))
+            );
+            painelLayout.setVerticalGroup(
+                    painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelLayout.createSequentialGroup()
+                            .addGap(32, 32, 32)
+                            .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelativa, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(painel2, 0, 310, Short.MAX_VALUE)
+                                    .addComponent(painel1, 0, 310, Short.MAX_VALUE))
+                            .addGap(10, 10, 10)
+                            .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(painel11, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                                    .addComponent(painel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addContainerGap(59, Short.MAX_VALUE))
+            );
+            this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    setVisible(false);
+                    if (dialogopai != null) {
+                        dialogopai.setLocation(getX(), getY());
+                        dialogopai.setVisible(true);
+                    }
+                    if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
+                        timertempoatrasado.stop();
+                    }
+                    dispose();
+                }
+            });
+
         }
 
     }
 
     public void open() {
-        if ((mat == null) && (cla != null)) {
-            this.create();
-            if (dialogopai != null) {
-                this.setLocation(dialogopai.getX(), dialogopai.getY());
-            } else {
-                Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-                int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-                int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-                this.setLocation(x, y);
-            }
-            this.setVisible(true);
-        } else if ((cla == null) && (mat != null)) {
-            JOptionPane.showMessageDialog(null, "Ola mundo " + mat.getDescription());
+        this.create();
+        if (dialogopai != null) {
+            this.setLocation(dialogopai.getX(), dialogopai.getY());
+        } else {
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+            int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+            this.setLocation(x, y);
         }
+        this.setVisible(true);
+
     }
 
     private void createPanelRight(javax.swing.JPanel painel2) {
@@ -773,16 +1153,32 @@ public class ActionButton extends javax.swing.JDialog {
         Keys.Request req;
         java.util.Set<Keys.Request> requnion;
         boolean emprestado;
-        if (!cla.isLoaned()) {
-            req = db.getNextRequest(cla);
+        if (cla != null) {
+            if (!cla.isLoaned()) {
+                req = db.getNextRequest(cla);
+                requnion = db.getUnionRequests(req);
+                emprestado = false;
+            } else {
+                req = db.getCurrentRequest(cla);
+                requnion = db.getUnionRequests(req);
+                emprestado = true;
+                if (req.getId() == -1) {
+                    req = db.getNextRequest(cla);
+                    requnion = db.getUnionRequests(req);
+                    emprestado = false;
+                }
+            }
+        } else if (!mat.isLoaned()) {
+            req = db.getNextRequest(mat);
             requnion = db.getUnionRequests(req);
             emprestado = false;
         } else {
-            req = db.getCurrentRequest(cla);
+            
+            req = db.getCurrentRequest(mat);
             requnion = db.getUnionRequests(req);
             emprestado = true;
             if (req.getId() == -1) {
-                req = db.getNextRequest(cla);
+                req = db.getNextRequest(mat);
                 requnion = db.getUnionRequests(req);
                 emprestado = false;
             }
@@ -805,7 +1201,46 @@ public class ActionButton extends javax.swing.JDialog {
                     }
                 }
             }
-            if ((!cla.isLoaned()) || (!emprestado)) {
+            if (cla != null) {
+                if ((!cla.isLoaned()) || (!emprestado)) {
+                    labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+                    painel2.setBackground(new Color(246, 255, 248));
+                    atrasado = false;
+                    dia = false;
+                } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
+                    labelativa = new javax.swing.JLabel(lingua.translate("Atrasado") + " " + lingua.translate("na entrega"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+                    painel2.setBackground(new Color(255, 246, 248));
+                    atrasado = true;
+                    dia = false;
+                } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
+                    labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dia(s)"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+                    painel2.setBackground(new Color(255, 246, 248));
+                    atrasado = true;
+                    dia = true;
+                } else {
+                    labelativa = new javax.swing.JLabel(lingua.translate("Requisitado por"));
+                    labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
+                    labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                    painel2.setBackground(new Color(245, 245, 220));
+                    labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+
+                    atrasado = false;
+                    dia = false;
+                }
+            } else if ((!mat.isLoaned()) || (!emprestado)) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -814,7 +1249,7 @@ public class ActionButton extends javax.swing.JDialog {
                 painel2.setBackground(new Color(246, 255, 248));
                 atrasado = false;
                 dia = false;
-            } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
+            } else if ((mat.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Atrasado") + " " + lingua.translate("na entrega"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -823,7 +1258,7 @@ public class ActionButton extends javax.swing.JDialog {
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
                 dia = false;
-            } else if ((cla.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
+            } else if ((mat.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dia(s)"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -839,7 +1274,6 @@ public class ActionButton extends javax.swing.JDialog {
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 painel2.setBackground(new Color(245, 245, 220));
                 labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
-
                 atrasado = false;
                 dia = false;
             }
@@ -880,7 +1314,13 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setBounds(0, 40, 219, 20);
             lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             painel2.add(lb1);
-            if (!cla.isLoaned() || (!emprestado)) {
+            if (cla != null) {
+                if (!cla.isLoaned() || (!emprestado)) {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
+                } else {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
+                }
+            } else if (!mat.isLoaned() || (!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Dia"));
             } else {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Até ao dia"));
@@ -904,11 +1344,15 @@ public class ActionButton extends javax.swing.JDialog {
             lb1.setBounds(0, 90, 219, 20);
 
             painel2.add(lb1);
-
-            if (!cla.isLoaned() || (!emprestado)) {
+            if (cla != null) {
+                if (!cla.isLoaned() || (!emprestado)) {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
+                } else {
+                    lbtl1 = new javax.swing.JLabel(lingua.translate("Hora de entrega"));
+                }
+            } else if (!mat.isLoaned() || (!emprestado)) {
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora"));
             } else {
-
                 lbtl1 = new javax.swing.JLabel(lingua.translate("Hora de entrega"));
             }
             lbtl1.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -917,9 +1361,36 @@ public class ActionButton extends javax.swing.JDialog {
             lbtl1.setForeground(Color.BLUE);
             lbtl1.setBounds(0, 120, 219, 20);
             painel2.add(lbtl1);
-            if (!cla.isLoaned() || (!emprestado)) {
+            if (cla != null) {
+                if (!cla.isLoaned() || (!emprestado)) {
+                    if (requnion.isEmpty()) {
+                        lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
+                    } else {
+                        tim = req.getTimeEnd();
+                        for (Keys.Request re : requnion) {
+                            if (re.getTimeEnd().compareTime(tim) < 0) {
+                                tim = re.getTimeEnd();
+                            }
+                        }
+                        lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + " " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
+                    }
+                    labelauxiliar = new javax.swing.JLabel(lb1.getText());
+                } else if (requnion.isEmpty()) {
+                    lb1 = new javax.swing.JLabel(req.getTimeEnd().toString(0));
+                    labelauxiliar = new javax.swing.JLabel(lb1.getText());
+                } else {
+                    tim = req.getTimeEnd();
+                    for (Keys.Request re : requnion) {
+                        if (re.getTimeEnd().compareTime(tim) < 0) {
+                            tim = re.getTimeEnd();
+                        }
+                        lb1 = new javax.swing.JLabel(tim.toString(0));
+                    }
+                    labelauxiliar = new javax.swing.JLabel(lb1.getText());
+                }
+            } else if (!mat.isLoaned() || (!emprestado)) {
                 if (requnion.isEmpty()) {
-                    lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + req.getTimeEnd().toString(0) + ".");
+                    lb1 = new javax.swing.JLabel(lingua.translate("Hora de início") + ": " + req.getTimeBegin().toString(0));
                 } else {
                     tim = req.getTimeEnd();
                     for (Keys.Request re : requnion) {
@@ -927,7 +1398,7 @@ public class ActionButton extends javax.swing.JDialog {
                             tim = re.getTimeEnd();
                         }
                     }
-                    lb1 = new javax.swing.JLabel(lingua.translate("Desde as") + ": " + req.getTimeBegin().toString(0) + " " + lingua.translate("até às") + " " + tim.toString(0) + ".");
+                    lb1 = new javax.swing.JLabel(lingua.translate("Hora de entrega") + ": " + tim.toString(0));
                 }
                 labelauxiliar = new javax.swing.JLabel(lb1.getText());
             } else if (requnion.isEmpty()) {
@@ -999,45 +1470,52 @@ public class ActionButton extends javax.swing.JDialog {
             lbtl1.setPreferredSize(new Dimension(219, 20));
             lbtl1.setBounds(0, 170, 219, 20);
             painel2.add(lbtl1);
+            if (cla != null) {
+                if ((!req.getActivity().equals("sem"))&&(!req.getActivity().equals(""))) {
+                    if (requnion.isEmpty()) {
+                        lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
+                    } else {
+                        lb1 = new javax.swing.JLabel(lingua.translate("Múltiplas atividades"));
+                        String[] auxiliar = new String[requnion.size() + 2];
+                        auxiliar[0] = "Múltiplas atividades:::";
+                        auxiliar[1] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                        int i = 2;
+                        for (Keys.Request re : requnion) {
+                            auxiliar[i] = re.getActivity() + ";;;" + re.getTimeBegin().toString(0) + ";;;" + re.getTimeEnd().toString(0);
+                            i++;
+                        }
+                        Components.PopUpMenu pop = new Components.PopUpMenu(auxiliar, lingua);
+                        pop.create();
+                        lb1.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mousePressed(MouseEvent e) {
+                                if (!pop.isShowing()) {
+                                    pop.show(e.getComponent(), e.getX(), e.getY());
+                                }
+                            }
 
-            if (!req.getActivity().equals("sem")) {
-                if (requnion.isEmpty()) {
-                    lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
-                } else {
-                    lb1 = new javax.swing.JLabel(lingua.translate("Múltiplas atividades"));
-                    String[] auxiliar = new String[requnion.size() + 2];
-                    auxiliar[0] = "Múltiplas atividades:::";
-                    auxiliar[1] = req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
-                    int i = 2;
-                    for (Keys.Request re : requnion) {
-                        auxiliar[i] = re.getActivity() + ";;;" + re.getTimeBegin().toString(0) + ";;;" + re.getTimeEnd().toString(0);
-                        i++;
-                    }
-                    Components.PopUpMenu pop = new Components.PopUpMenu(auxiliar, lingua);
-                    pop.create();
-                    lb1.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            if (!pop.isShowing()) {
+                            @Override
+                            public void mouseEntered(MouseEvent e) {
+                                e.getComponent().setForeground(new Color(145, 145, 145));
                                 pop.show(e.getComponent(), e.getX(), e.getY());
                             }
-                        }
 
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            e.getComponent().setForeground(new Color(145, 145, 145));
-                            pop.show(e.getComponent(), e.getX(), e.getY());
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            e.getComponent().setForeground(new Color(1, 1, 1));
-                            pop.setVisible(false);
-                        }
-                    });
+                            @Override
+                            public void mouseExited(MouseEvent e) {
+                                e.getComponent().setForeground(new Color(1, 1, 1));
+                                pop.setVisible(false);
+                            }
+                        });
+                    }
+                } else {
+                    lb1 = new javax.swing.JLabel(lingua.translate("Não existe descrição"));
                 }
             } else {
-                lb1 = new javax.swing.JLabel(lingua.translate("Não existe descrição"));
+                if ((!req.getActivity().equals("sem"))&&(!req.getActivity().equals(""))) {
+                    lb1 = new javax.swing.JLabel(lingua.translate(req.getActivity()));
+                } else {
+                    lb1 = new javax.swing.JLabel(lingua.translate("Não existe descrição"));
+                }
             }
             lb1.setFont(new Font("Cantarell", Font.PLAIN, 12));
             lb1.setHorizontalAlignment(javax.swing.JLabel.CENTER);

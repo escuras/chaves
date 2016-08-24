@@ -37,12 +37,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -74,16 +77,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.PopupMenuUI;
-import javax.swing.plaf.ViewportUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import org.jdesktop.swingx.border.DropShadowBorder;
 
 /**
  *
@@ -166,6 +164,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelMudaCorSlider = new javax.swing.JPanel();
         jLabelAuxiliarScroll = new javax.swing.JLabel();
         jComboBoxScrollAtivo = new javax.swing.JComboBox<>();
+        jLabelCorSistema = new javax.swing.JLabel();
+        jComboBoxCorSistema = new javax.swing.JComboBox<>();
         jDialogListaBotoes = new javax.swing.JDialog();
         jPanelListaBotoes = new javax.swing.JPanel();
         jScrollPaneMaterialBotoes = new javax.swing.JScrollPane();
@@ -537,6 +537,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
         jPanelDefHolidays.setBorder(border11);
+        KeyQuest.addtoPropertyListener(jPanelDefHolidays,true);
 
         jDialogDefHolidays.setTitle(lingua.translate("Editar")+" "+lingua.translate("Feriados"));
 
@@ -877,6 +878,7 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border border111 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
 
         jPanelDefBreaks.setBorder(border111);
+        KeyQuest.addtoPropertyListener(jPanelDefBreaks,true);
 
         jDialogDefBreaks.setTitle(lingua.translate("Editar_períodos_de_interrupção"));
 
@@ -968,7 +970,7 @@ public class KeyQuest extends javax.swing.JFrame {
         );
         jPanelMudaCorSliderLayout.setVerticalGroup(
             jPanelMudaCorSliderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 172, Short.MAX_VALUE)
+            .addGap(0, 137, Short.MAX_VALUE)
         );
 
         jLabelAuxiliarScroll.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
@@ -981,39 +983,54 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jLabelCorSistema.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabelCorSistema.setText("Cor do sistema:");
+        jLabelCorSistema.setMaximumSize(new java.awt.Dimension(3337, 21));
+        jLabelCorSistema.setMinimumSize(new java.awt.Dimension(37, 21));
+        jLabelCorSistema.setPreferredSize(new java.awt.Dimension(37, 21));
+
+        jComboBoxCorSistema.setBackground(new java.awt.Color(213, 213, 213));
+        jComboBoxCorSistema.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxCorSistemaItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelDefOpcoesLayout = new javax.swing.GroupLayout(jPanelDefOpcoes);
         jPanelDefOpcoes.setLayout(jPanelDefOpcoesLayout);
         jPanelDefOpcoesLayout.setHorizontalGroup(
             jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelTituloDefOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                    .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                            .addGap(215, 215, 215)
-                            .addComponent(jPanelMudaCorSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE))
-                        .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                            .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                            .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabelMudaLinguagem, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jLabelMudaTemaQuadros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(34, 34, 34)
-                            .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBoxMudaTema, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBoxMudaLinguagem, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                            .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabelAuxiliarScroll, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelMudaTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jSliderTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                .addComponent(jComboBoxScrollAtivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelTituloDefOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefOpcoesLayout.createSequentialGroup()
+                                .addComponent(jLabelLinguaMuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefOpcoesLayout.createSequentialGroup()
+                                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabelMudaLinguagem, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(jLabelMudaTemaQuadros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxMudaTema, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxMudaLinguagem, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefOpcoesLayout.createSequentialGroup()
+                                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabelCorSistema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabelAuxiliarScroll, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabelMudaTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSliderTamanhoDivisor, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxScrollAtivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxCorSistema, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jPanelMudaCorSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanelDefOpcoesLayout.setVerticalGroup(
@@ -1041,9 +1058,13 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAuxiliarScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxScrollAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(8, 8, 8)
+                .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCorSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxCorSistema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jPanelMudaCorSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Definições"));
@@ -1085,6 +1106,13 @@ public class KeyQuest extends javax.swing.JFrame {
         BasicComboPopup popupMudaScroll2 = (BasicComboPopup) jComboBoxScrollAtivo.getAccessibleContext().getAccessibleChild(0);
         popupMudaScroll2.getList().setSelectionBackground(Color.DARK_GRAY);
         popupMudaScroll2.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        jLabelCorSistema.setText(lingua.translate("Cor do sistema")+":");
+        jComboBoxCorSistema.setFocusable(false);
+
+        jComboBoxCorSistema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Azul"),lingua.translate("Verde"),lingua.translate("Vermelho"),lingua.translate("Amarelo"),lingua.translate("Ciano"),lingua.translate("Cinzento"), lingua.translate("Branco")}));
+        BasicComboPopup popupcorsistema = (BasicComboPopup) jComboBoxCorSistema.getAccessibleContext().getAccessibleChild(0);
+        popupcorsistema.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupcorsistema.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
 
         javax.swing.GroupLayout jDialogDefOpcoesLayout = new javax.swing.GroupLayout(jDialogDefOpcoes.getContentPane());
         jDialogDefOpcoes.getContentPane().setLayout(jDialogDefOpcoesLayout);
@@ -1100,6 +1128,7 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderDefOpcoes = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
 
         jPanelDefOpcoes.setBorder(borderDefOpcoes);
+        KeyQuest.addtoPropertyListener(jPanelDefOpcoes,true);
 
         jDialogListaBotoes.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialogListaBotoes.setResizable(false);
@@ -1166,6 +1195,7 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderlistabotoes = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
 
         jPanelListaBotoes.setBorder(borderlistabotoes);
+        KeyQuest.addtoPropertyListener(jPanelListaBotoes,true);
 
         jDialog1.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialog1.setResizable(false);
@@ -1549,6 +1579,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1])+" ... ");
         jTextFieldProcuraBaixo.setFocusAccelerator('x');
         jTextFieldProcuraBaixo.setCaretPosition(0);
+        jTextFieldProcuraBaixo.setSelectionColor(Color.DARK_GRAY);
         jTextFieldProcuraBaixo.addMouseListener(new java.awt.event.MouseAdapter() {
             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
             String copiar = "";
@@ -1913,6 +1944,7 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.border.Border borderpesquisacima2 = BorderFactory.createCompoundBorder(borderpesquisacima1,borderpesquisacima3);
         jTextFieldProcuraCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(borderpesquisacima2, javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10)));
         jTextFieldProcuraCima.setCaretPosition(0);
+        jTextFieldProcuraCima.setSelectionColor(Color.DARK_GRAY);
         jTextFieldProcuraCima.addMouseListener(new java.awt.event.MouseAdapter() {
             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
             String copiar = "";
@@ -2955,17 +2987,19 @@ public class KeyQuest extends javax.swing.JFrame {
 
             } else if (pesquisa == 2) {
                 String aux = jTextFieldProcuraBaixo.getText();
-                if (aux.matches("^\\d*\\d[:/]*\\d*\\d[:/]*\\d*\\d*")) {
+                if (aux.matches("^\\d*\\d[:/]*\\d*\\d*[:/]*\\d*\\d*")) {
                     aux = aux.replace("/", ":");
                     String[] auxilia = aux.split(":");
                     int horas;
                     int minutos;
                     int segundos;
+                    System.out.println(auxilia[0]);
                     if (auxilia.length < 2) {
                         if ((auxilia[0].charAt(0) == '0') && (auxilia[0].length() > 1)) {
                             auxilia[0] = auxilia[0].replaceFirst("0", "");
                         }
                         horas = Integer.valueOf(auxilia[0]);
+                        System.out.println(horas);
                         minutos = 0;
                         segundos = 0;
                     } else if (auxilia.length < 3) {
@@ -2996,6 +3030,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         minutos = 60;
                         segundos = 60;
                     }
+                    System.out.println(horas);
                     if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
                         this.requestFocusInWindow();
                         if (ligacao) {
@@ -3049,7 +3084,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if ((!jTextFieldProcuraBaixo.getText().equals("")) && (!jTextFieldProcuraBaixo.getText().equals(lingua.translate(spesquisa[1]) + " ... "))) {
             if (pesquisa == 2) {
                 String aux = jTextFieldProcuraBaixo.getText();
-                if (aux.matches("^\\d*\\d[:/]*\\d*\\d[:/]*\\d*\\d*")) {
+                if (aux.matches("^\\d*\\d[:/]*\\d*\\d*[:/]*\\d*\\d*")) {
                     aux = aux.replace("/", ":");
                     String[] auxilia = aux.split(":");
                     int horas;
@@ -3139,11 +3174,11 @@ public class KeyQuest extends javax.swing.JFrame {
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
         if (requisicoes.isConnected()) {
             jTabbedPaneMaterialBotoes.removeAll();
-            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2, systemColor);
+            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 2);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0, systemColor);
+            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 0);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1, systemColor);
+            btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
 
             jDialogListaBotoes.setVisible(true);
@@ -3345,7 +3380,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if ((!jTextFieldProcuraCima.getText().equals("")) && (!jTextFieldProcuraCima.getText().equals(lingua.translate(spesquisa[0]) + " ... "))) {
             if (pesquisa == 2) {
                 String aux = jTextFieldProcuraCima.getText();
-                if (aux.matches("^\\d*\\d[:/]*\\d*\\d[:/]*\\d*\\d*")) {
+                if (aux.matches("^\\d*\\d[:/]*\\d*\\d*[:/]*\\d*\\d*")) {
                     aux = aux.replace("/", ":");
                     String[] auxilia = aux.split(":");
                     int horas;
@@ -3673,6 +3708,47 @@ public class KeyQuest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxScrollAtivoActionPerformed
 
+    private void jComboBoxCorSistemaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCorSistemaItemStateChanged
+        opcaocor = jComboBoxCorSistema.getSelectedIndex();
+        switch (opcaocor) {
+            case 0:
+                systemColor = new Components.Color(177, 184, 190);
+                break;
+            case 1:
+                systemColor = new Components.Color(168,184,163);
+                break;
+            case 2:
+                systemColor = new Components.Color(186,170,170);
+                break;
+            case 3:
+                systemColor = new Components.Color(236,237,206);
+                break;
+            case 4:
+                systemColor = new Components.Color(190, 209, 208);
+                break;
+            case 5:
+                systemColor = new Components.Color(191, 191, 191);
+                break;
+            case 6:
+                systemColor = new Components.Color(245, 245, 245);
+                break;
+            default: 
+                systemColor = new Components.Color(177, 184, 190);
+                break;
+        }
+        prefs.save();
+        jPanelInicial.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 4, 4, 4, systemColor), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1)));
+        jPanel3.setBackground(systemColor);
+        for (int i = 0; i < paineis.size(); i++) {
+            if (paineis.get(i).isBorder()) {
+                paineis.get(i).getPanel().setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 4, systemColor), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1)));
+            } else {
+                paineis.get(i).getPanel().setBackground(systemColor);
+            }
+           
+        }
+    }//GEN-LAST:event_jComboBoxCorSistemaItemStateChanged
+
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
             int ano = Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString());
@@ -3883,7 +3959,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 prefs.save();
             }
         });
-        this.createAspect();
+        
         this.drawDivisor();
 
         // Comportamento do duplo clique no separador  
@@ -3991,7 +4067,7 @@ public class KeyQuest extends javax.swing.JFrame {
             jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Nenhum")}));
             aux = 0;
         }
-        
+        this.createAspect();
         createMenu();
         Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
         //cbd.update();
@@ -4049,7 +4125,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jMenuFicheiro.setText(lingua.translate("Ficheiro"));
         jMenuFicheiro.setMnemonic(lingua.translate("Ficheiro").charAt(0));
         JMenuItem itemSair = new JMenuItem();
-
         itemSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.ALT_MASK));
         itemSair.setText(lingua.translate("Sair"));
         itemSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4180,6 +4255,7 @@ public class KeyQuest extends javax.swing.JFrame {
         } else {
             jComboBoxScrollAtivo.setSelectedIndex(1);
         }
+        jComboBoxCorSistema.setSelectedIndex(opcaocor);
     }
 
     private void drawTimeComboBoxes() {
@@ -4328,7 +4404,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if (lista_req != null) {
             lista_req.getTable().clearSelection();
         }
-        lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, false, jButtonAtuacaoConfirma, jButtonAtuacaoAltera, systemColor, this.urlbd);
+        lista_req = new TableRequest(requisicoes, jPanelInformaCimaCima, lingua, false, jButtonAtuacaoConfirma, jButtonAtuacaoAltera, this.urlbd);
         lista_req.create();
         lista_req.addListenenerSelectionRequisitions(jButtonAtuacaoConfirma, jButtonAtuacaoAltera);
         jScrollPaneRequisicoes.setViewportView(lista_req.getTable());
@@ -4351,7 +4427,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 if ((scroll != null) && (scroll.isRunning())) {
                     if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
                         scroll.stop();
-                        scroll.setInitialDelay(10000);
+                        scroll.setInitialDelay(60000);
                         scroll.start();
                     }
                 }
@@ -4371,7 +4447,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if (lista_dev != null) {
             lista_dev.getTable().clearSelection();
         }
-        lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true, jButtonConfirmaDevolucao, jButtonAlteraDevolucao, systemColor, this.urlbd);
+        lista_dev = new TableRequest(devolucoes, jPanelInformaBaixoCima, lingua, true, jButtonConfirmaDevolucao, jButtonAlteraDevolucao, this.urlbd);
         lista_dev.create();
         lista_dev.addListenenerSelectionRequisitions(jButtonConfirmaDevolucao, jButtonAlteraDevolucao);
         jScrollPaneDevolucoes.setViewportView(lista_dev.getTable());
@@ -4399,7 +4475,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     public void exit(ActionEvent e) {
-        systemColor = new Color(177, 184, 190);
+        systemColor = new Components.Color(177, 184, 190);
         //systemColor = new Color(142,142,142);
         prefs.save();
         this.dispose();
@@ -4753,6 +4829,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButtonProcuraCima;
     javax.swing.JComboBox<String> jComboBox1;
     javax.swing.JComboBox<String> jComboBox2;
+    javax.swing.JComboBox<String> jComboBoxCorSistema;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio;
     javax.swing.JComboBox<String> jComboBoxDefBreaksDiaFim;
@@ -4775,6 +4852,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JLabel jLabel3;
     javax.swing.JLabel jLabel4;
     javax.swing.JLabel jLabelAuxiliarScroll;
+    javax.swing.JLabel jLabelCorSistema;
     javax.swing.JLabel jLabelDefBreaksAnoFim;
     javax.swing.JLabel jLabelDefBreaksAnoInicio;
     javax.swing.JLabel jLabelDefBreaksDiaFim;
@@ -4872,13 +4950,14 @@ public class KeyQuest extends javax.swing.JFrame {
     protected TimeDate.BreakPeriodList intervalos;
     protected int vista = 0;
     protected String tema = "claro";
+    protected int opcaocor;
     private Timer scroll;
     protected Keys.TypeOfMaterial tipomaterial;
     private final String[] spesquisa = new String[2];
     protected int pesquisa;
     private String copiar;
     private String colar;
-    public Color systemColor;
+    public static Color systemColor;
     protected boolean scrollAtivo;
     private Thread auxiliar = new Thread();
     protected byte[] bitpagina = new byte[2];
@@ -4887,6 +4966,7 @@ public class KeyQuest extends javax.swing.JFrame {
     private final String DEFAULT_URlBD = "jdbc:mysql://localhost:3306/clavis?autoReconnect=false&useSSL=false&user=root&password=sobral";
     private boolean ligacao = false;
     private boolean estado = false;
+    private static java.util.List<PainelAuxiliar> paineis = new java.util.ArrayList<>();
 
     public void addTestConnection() {
         estado = ligacao;
@@ -5070,8 +5150,7 @@ public class KeyQuest extends javax.swing.JFrame {
             g.setColor(new Color(145, 145, 145));
             g.drawLine(0, height1 - 2, width1 - 7, height1 - 2);
         };
-
-
+        laf.getDefaults().put("MenuItem[MouseOver].backgroundPainter",p);
         laf.getDefaults().put("ComboBox:\"ComboBox.arrowButton\"[Editable+Enabled].backgroundPainter", iconnormal);
         laf.getDefaults().put("ComboBox:\"ComboBox.arrowButton\"[Editable+MouseOver].backgroundPainter", iconnormal);
         laf.getDefaults().put("ComboBox:\"ComboBox.textField\"[Enabled].backgroundPainter", textback);
@@ -5101,5 +5180,32 @@ public class KeyQuest extends javax.swing.JFrame {
         };
         laf.getDefaults().put("FileChooser[Enabled].backgroundPainter", painter);
 
+    }
+    
+    public static java.awt.Color getSystemColor(){
+        return systemColor;
+    }
+    
+    public static void addtoPropertyListener(javax.swing.JPanel pane,boolean border){
+        paineis.add(new PainelAuxiliar(pane,border));
+    }
+    
+    private static class PainelAuxiliar {
+
+        boolean border;
+        javax.swing.JPanel panel;
+
+        private PainelAuxiliar(javax.swing.JPanel panel, boolean border) {
+            this.panel = panel;
+            this.border = border;
+        }
+
+        private JPanel getPanel() {
+            return panel;
+        }
+
+        private boolean isBorder() {
+            return border;
+        }
     }
 }

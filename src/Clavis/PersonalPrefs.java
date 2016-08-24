@@ -41,7 +41,8 @@ public class PersonalPrefs extends KeyQuest {
         green = userPrefs.getInt("sverde",184);
         blue = userPrefs.getInt("sazul",190);
         pesquisa = userPrefs.getInt("pesquisa", 0);
-        systemColor = new java.awt.Color(red, green, blue);
+        opcaocor = userPrefs.getInt("opcaocompra", 0);
+        systemColor = new Components.Color(red, green, blue);
         int idtipo = userPrefs.getInt("idtipo",1);
         String desctipo = userPrefs.get("desctipo","Sala de aula");
         int totaltipo = userPrefs.getInt("totaltipo",0);
@@ -70,6 +71,7 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putBoolean("booleanLanguage", booleanBoxLanguage);
         userPrefs.putInt("vista", vista);
         userPrefs.put("tema", tema);
+        userPrefs.putInt("opcaocor", opcaocor);
         userPrefs.putBoolean("scrollAtiv",scrollAtivo);
         userPrefs.putInt("vermelho",cordivisor.getRed());
         userPrefs.putInt("verde",cordivisor.getGreen());

@@ -110,7 +110,7 @@ public class Clavicela {
         //ma.setMaterialImage(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.getImageFromFileChooser(null,cla),100,100), FileIOAux.ImageAux.extensao);
 
 //System.out.println(ma.getMaterialImage());
-        Set<Material> tmas = teste.getMaterialsByType(2);
+        Set<Material> tmas = teste.getMaterialsByType(2,2);
         Object[] mater = tmas.toArray();
         if (tmas.size() > 0) {
             for (int i=0 ; i<tmas.size();i++){

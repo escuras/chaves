@@ -18,7 +18,7 @@ public class NewClass1 {
     public static void main(String[] args) {
         
         DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
-        Set<Material> tmas = db.getMaterialsByType(2);
+        Set<Material> tmas = db.getMaterialsByType(2,0);
         if (tmas.size() > 0) {
             for (int i=0 ; i<tmas.size();i++){
             }

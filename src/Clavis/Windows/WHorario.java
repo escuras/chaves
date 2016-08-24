@@ -5,9 +5,32 @@
  */
 package Clavis.Windows;
 
+import Clavis.KeyQuest;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,23 +38,29 @@ import javax.swing.JDialog;
  */
 public class WHorario extends JDialog {
 
-    
+    private final static long SerialVersionUID = 1L;
+
     private final javax.swing.JDialog componentepai;
     private java.awt.Color painelcor;
     private final Keys.Material mat;
     private final Preferences prefs;
     private final String url;
     private final Langs.Locale lingua;
+    private TimeDate.Date inicio;
+    private TimeDate.Date fim;
+    private java.util.Set<Keys.Request> lista;
+
     /**
      * Creates new form NewJPanel
      */
-  
     /**
      * Creates new form NewJPanel
+     *
      * @param comp
      * @param cor
      * @param mat
      * @param url
+     * @param lingua
      */
     public WHorario(javax.swing.JDialog comp, java.awt.Color cor, Keys.Material mat, String url, Langs.Locale lingua) {
         componentepai = comp;
@@ -40,6 +69,9 @@ public class WHorario extends JDialog {
         this.url = url;
         prefs = Preferences.userNodeForPackage(this.getClass());
         this.lingua = lingua;
+        inicio = new TimeDate.Date();
+        fim = new TimeDate.Date();
+        lista = new java.util.HashSet<>();
     }
 
     /**
@@ -53,13 +85,14 @@ public class WHorario extends JDialog {
 
         jPanelInicial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
-        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
+        jTable1 =  new org.jdesktop.swingx.JXTable(); ;
+        jButtonSair = new javax.swing.JButton();
+        jXDatePickerInicio = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePickerFim = new org.jdesktop.swingx.JXDatePicker();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(700, 500));
         setResizable(false);
@@ -69,51 +102,131 @@ public class WHorario extends JDialog {
         jPanelInicial.setMinimumSize(new java.awt.Dimension(700, 400));
         jPanelInicial.setPreferredSize(new java.awt.Dimension(700, 400));
 
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder1.setCornerSize(6);
+        dropShadowBorder1.setShadowSize(3);
+        dropShadowBorder1.setShowLeftShadow(true);
+        dropShadowBorder1.setShowTopShadow(true);
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+
+        jTable1.setBorder(null);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                lingua.translate("Utilizador"), lingua.translate("Início"), lingua.translate("Fim"), lingua.translate("Estado")
             }
         ));
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(120);
+        jTable1.getColumnModel().getColumn(2).setMinWidth(90);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(120);
         jScrollPane1.setViewportView(jTable1);
+        Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
+        UIManager.put("Table.focusCellHighlightBorder", border);
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        javax.swing.JLabel lo = new javax.swing.JLabel();
+        lo.setBackground(new Color(100, 100, 100));
+        lo.setOpaque(true);
+        jScrollPane1.setCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER, lo);
+        jTable1.setRowHeight(30);
+        jTable1.setEditable(false);
+        jTable1.setSelectionBackground(Color.DARK_GRAY);
+        jTable1.getColumnModel().getColumn(1).setCellRenderer(renderer);
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(renderer);
+        jTable1.getColumnModel().getColumn(3).setCellRenderer(renderer);
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 2L;
 
-        jButton1.setText("jButton1");
-        jButton1.setMaximumSize(new java.awt.Dimension(90, 40));
-        jButton1.setMinimumSize(new java.awt.Dimension(90, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
+                this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, new Color(1, 1, 1)));
+                return this;
+            }
+        };
+        DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 3L;
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setFont(new Font("Cantarell", Font.PLAIN, 14));
+                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
+                this.setBackground(new Color(100, 100, 100));
+                setForeground(Color.WHITE);
+                setPreferredSize(new Dimension(100, 40));
+                setHorizontalAlignment(javax.swing.JLabel.CENTER);
+                return this;
+            }
+        };
+        headerRenderer.setBackground(new Color(100, 100, 100));
+        headerRenderer.setForeground(Color.WHITE);
+        headerRenderer.setPreferredSize(new Dimension(100, 40));
+        headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        for (int i= 0; i < jTable1.getColumnCount(); i++) {
+            if (i == 0) {
+                jTable1.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
+            } else {
+                jTable1.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+            }
+        }
 
-        jXDatePicker1.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jXDatePicker1.setMaximumSize(new java.awt.Dimension(1155551, 26));
-        jXDatePicker1.setMinimumSize(new java.awt.Dimension(66, 26));
-        jXDatePicker1.setPreferredSize(new java.awt.Dimension(121, 26));
+        jButtonSair.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonSair.setFocusPainted(false);
+        jButtonSair.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonSair.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonSair.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
 
-        jXDatePicker2.setMaximumSize(new java.awt.Dimension(1155551, 26));
-        jXDatePicker2.setMinimumSize(new java.awt.Dimension(66, 26));
-        jXDatePicker2.setPreferredSize(new java.awt.Dimension(111, 26));
+        jXDatePickerInicio.setBackground(new java.awt.Color(254, 254, 254));
+        jXDatePickerInicio.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jXDatePickerInicio.setMaximumSize(new java.awt.Dimension(1155551, 26));
+        jXDatePickerInicio.setMinimumSize(new java.awt.Dimension(66, 26));
+        jXDatePickerInicio.setPreferredSize(new java.awt.Dimension(131, 26));
+
+        jXDatePickerFim.setBackground(new java.awt.Color(254, 254, 254));
+        jXDatePickerFim.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jXDatePickerFim.setMaximumSize(new java.awt.Dimension(1155551, 26));
+        jXDatePickerFim.setMinimumSize(new java.awt.Dimension(66, 26));
+        jXDatePickerFim.setPreferredSize(new java.awt.Dimension(121, 26));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Início");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jLabel1.setMaximumSize(new java.awt.Dimension(3343446, 26));
         jLabel1.setMinimumSize(new java.awt.Dimension(36, 26));
         jLabel1.setPreferredSize(new java.awt.Dimension(100, 26));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("Fim");
         jLabel2.setMaximumSize(new java.awt.Dimension(355557, 26));
         jLabel2.setMinimumSize(new java.awt.Dimension(37, 26));
         jLabel2.setPreferredSize(new java.awt.Dimension(100, 26));
 
         jLabel3.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Registos de atividade ");
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder2.setCornerSize(6);
+        dropShadowBorder2.setShadowSize(3);
+        dropShadowBorder2.setShowRightShadow(false);
+        jLabel3.setBorder(dropShadowBorder2);
         jLabel3.setMaximumSize(new java.awt.Dimension(355557, 26));
         jLabel3.setMinimumSize(new java.awt.Dimension(37, 26));
         jLabel3.setPreferredSize(new java.awt.Dimension(186, 26));
+
+        jButton1.setBackground(new java.awt.Color(51, 102, 153));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.setMaximumSize(new java.awt.Dimension(5345, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
 
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
@@ -124,38 +237,95 @@ public class WHorario extends JDialog {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                    .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        jXDatePicker1.setBackground(Color.black);
+        try{
+            if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon imic = new ImageIcon(im);
+                if (imic != null) {
+                    jButtonSair.setIcon(imic);
+                }
+            }
+        } catch(IOException eo) {}
+        javax.swing.JPanel pan2 = new javax.swing.JPanel(null);
+        javax.swing.JLabel fil2 = new javax.swing.JLabel("testes");
+        fil2.setBounds(0, 0, 300, 26);
+        fil2.setHorizontalAlignment(SwingConstants.CENTER);
+        pan2.setPreferredSize(new Dimension(300,30));
+        pan2.setBounds(0, 0, 300, 30);
+        pan2.add(fil2);
+        jXDatePickerInicio.setLinkPanel(pan2);
+
+        jXDatePickerInicio.setLocale(lingua.systemlocale);
+        jXDatePickerInicio.getEditor().setSelectionColor(Color.DARK_GRAY);
+        jXDatePickerInicio.getEditor().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), BorderFactory.createLineBorder(Color.BLACK,1)));
+        jXDatePickerInicio.getEditor().setHorizontalAlignment(SwingConstants.CENTER);
+        javax.swing.JButton bbt2 = (javax.swing.JButton) jXDatePickerInicio.getComponent(1);
+        bbt2.setBackground(Color.WHITE);
+
+        jXDatePickerInicio.addActionListener(actionJXDatePickerInicio());
+        jXDatePickerInicio.setFormats("dd/m/yyyy");
+        javax.swing.JPanel pan = new javax.swing.JPanel(null);
+        javax.swing.JLabel fil = new javax.swing.JLabel("testes");
+        fil.setBounds(0, 0, 300, 26);
+        fil.setHorizontalAlignment(SwingConstants.CENTER);
+        pan.setPreferredSize(new Dimension(300,30));
+        pan.setBounds(0, 0, 300, 30);
+        pan.add(fil);
+        jXDatePickerFim.setLinkPanel(pan);
+
+        Component[] t = jXDatePickerFim.getLinkPanel().getComponents();
+
+        jXDatePickerFim.setLocale(lingua.systemlocale);
+        jXDatePickerFim.getEditor().setSelectionColor(Color.DARK_GRAY);
+        jXDatePickerFim.getEditor().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), BorderFactory.createLineBorder(Color.BLACK,1)));
+        jXDatePickerFim.getEditor().setHorizontalAlignment(SwingConstants.CENTER);
+        javax.swing.JButton bbt = (javax.swing.JButton) jXDatePickerFim.getComponent(1);
+        bbt.setBackground(Color.WHITE);
+        jXDatePickerFim.addActionListener(actionJXDatePickerFim());
+        jLabel1.setText(lingua.translate("Início"));
+        jLabel2.setText(lingua.translate("Fim"));
+        try{
+            if (Clavis.KeyQuest.class.getResource("Images/print.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/print.png"));
+                ImageIcon imic = new ImageIcon(im);
+                if (imic != null) {
+                    jButton1.setIcon(imic);
+                }
+            }
+        } catch(IOException eo) {}
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,22 +339,190 @@ public class WHorario extends JDialog {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        this.close();
+    }//GEN-LAST:event_jButtonSairActionPerformed
+
     /**
      * @return the painelcor
      */
     public java.awt.Color getPainelcor() {
         return painelcor;
     }
-    
+
     public void appear() {
         this.setVisible(true);
-        this.setLocationRelativeTo(getParentWindow());
+        this.setLocationRelativeTo(this.componentepai);
     }
-    
-    public void create(){
+
+    public void close() {
+        this.setVisible(false);
+        this.dispose();
+    }
+
+    public void create() {
         initComponents();
-        jXDatePicker1.setLocale(lingua.systemlocale);
-        this.add(jPanelInicial);
+        KeyQuest.addtoPropertyListener(jPanelInicial, true);
+        String dat = new TimeDate.Date().toString();
+        String[] auxiliar = prefs.get("datainicio", dat).split("/");
+        if (auxiliar[0].length() > 1) {
+            if (auxiliar[0].charAt(0) == '0') {
+                auxiliar[0] = auxiliar[0].replaceFirst("0", "");
+            }
+        }
+        if (auxiliar[1].length() > 1) {
+            if (auxiliar[1].charAt(0) == '0') {
+                auxiliar[1] = auxiliar[1].replaceFirst("0", "");
+            }
+        }
+        if (auxiliar[2].length() > 1) {
+            if (auxiliar[2].charAt(0) == '0') {
+                auxiliar[2] = auxiliar[2].replaceFirst("0", "");
+            }
+        }
+        inicio = new TimeDate.Date(Integer.valueOf(auxiliar[0]), Integer.valueOf(auxiliar[1]), Integer.valueOf(auxiliar[2]));
+        auxiliar = prefs.get("datafim", dat).split("/");
+        if (auxiliar[0].length() > 1) {
+            if (auxiliar[0].charAt(0) == '0') {
+                auxiliar[0] = auxiliar[0].replaceFirst("0", "");
+            }
+        }
+        if (auxiliar[1].length() > 1) {
+            if (auxiliar[1].charAt(0) == '0') {
+                auxiliar[1] = auxiliar[1].replaceFirst("0", "");
+            }
+        }
+        if (auxiliar[2].length() > 1) {
+            if (auxiliar[2].charAt(0) == '0') {
+                auxiliar[2] = auxiliar[2].replaceFirst("0", "");
+            }
+        }
+        fim = new TimeDate.Date(Integer.valueOf(auxiliar[0]), Integer.valueOf(auxiliar[1]), Integer.valueOf(auxiliar[2]));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Date date;
+        try {
+            date = sdf.parse(fim.toString());
+        } catch (ParseException ex) {
+            date = new Date();
+        }
+        jXDatePickerFim.setDate(date);
+        try {
+            date = sdf.parse(inicio.toString());
+        } catch (ParseException ex) {
+            date = new Date();
+        }
+        jXDatePickerInicio.setDate(date);
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            java.util.Set<Keys.Request> requisicoes = db.getRequestsByMaterialByDateInterval(mat, inicio, fim);
+            db.close();
+            String estado = "";
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+            for (Keys.Request req : requisicoes) {
+                if (req.isTerminated()) {
+                    estado = lingua.translate("terminado");
+                } else if (req.isActive()) {
+                    estado = lingua.translate("em curso");
+                } else if (req.getSubstitute() > 0) {
+                    estado = lingua.translate("substituído");
+                } else if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                    estado = lingua.translate("atrasado");
+                } else if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                    estado = lingua.translate("não realizado");
+                } else {
+                    estado = lingua.translate("por realizar");
+                }
+                Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                modelo.addRow(ob);
+            }
+        }
+    }
+
+    public void refreshtable(int val) {
+        String estado;
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        if (modelo.getRowCount() > 0) {
+            int tam = modelo.getRowCount();
+            for (int h = 0; h < tam; h++) {
+                modelo.removeRow(0);
+            }
+        }
+        java.util.Set<Keys.Request> requisicoes = new java.util.HashSet<>();
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            requisicoes = db.getRequestsByMaterialByDateInterval(mat, inicio, fim);
+            db.close();
+        }
+        lista = new java.util.HashSet<>();
+        switch (val) {
+            case 0:
+                for (Keys.Request req : requisicoes) {
+                    if (req.isTerminated()) {
+                        estado = lingua.translate("terminado");
+                    } else if (req.isActive()) {
+                        estado = lingua.translate("em curso");
+                    } else if (req.getSubstitute() > 0) {
+                        estado = lingua.translate("substituído");
+                    } else if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("atrasado");
+                    } else if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("não realizado");
+                    } else {
+                        estado = lingua.translate("por realizar");
+                    }
+                    Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                    modelo.addRow(ob);
+                    lista.add(req);
+                }
+
+                break;
+            case 1:
+
+                for (Keys.Request req : requisicoes) {
+                    if (req.isTerminated()) {
+                        estado = lingua.translate("terminado");
+                        Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                        modelo.addRow(ob);
+                    }
+                    lista.add(req);
+                }
+
+                break;
+            case 2:
+                for (Keys.Request req : requisicoes) {
+                    if (req.isActive()) {
+                        estado = lingua.translate("em curso");
+                        Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                        modelo.addRow(ob);
+                        lista.add(req);
+                    }
+                }
+                break;
+
+        }
+    }
+
+    public ActionListener actionJXDatePickerInicio() {
+        ActionListener l = (ActionEvent e) -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+            String date = sdf.format(jXDatePickerInicio.getDate());
+            String[] aux = date.split("/");
+            inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+            prefs.put("datainicio", inicio.toString());
+        };
+        return l;
+    }
+
+    public ActionListener actionJXDatePickerFim() {
+        ActionListener l = (ActionEvent e) -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+            String date = sdf.format(jXDatePickerFim.getDate());
+            String[] aux = date.split("/");
+            fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+            prefs.put("datafim", fim.toString());
+        };
+        return l;
     }
 
     /**
@@ -197,14 +535,18 @@ public class WHorario extends JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelInicial;
     private javax.swing.JScrollPane jScrollPane1;
+    /*
     private javax.swing.JTable jTable1;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
+    */
+    private org.jdesktop.swingx.JXTable jTable1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePickerFim;
+    private org.jdesktop.swingx.JXDatePicker jXDatePickerInicio;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -233,5 +575,47 @@ public class WHorario extends JDialog {
      */
     public String getUrl() {
         return url;
+    }
+
+    /**
+     * @return the inicio
+     */
+    public TimeDate.Date getBeginning() {
+        return inicio;
+    }
+
+    /**
+     * @param inicio the inicio to set
+     */
+    public void setBeginning(TimeDate.Date inicio) {
+        this.inicio = inicio;
+    }
+
+    /**
+     * @return the fim
+     */
+    public TimeDate.Date getEnd() {
+        return fim;
+    }
+
+    /**
+     * @param fim the fim to set
+     */
+    public void setEnd(TimeDate.Date fim) {
+        this.fim = fim;
+    }
+
+    /**
+     * @return the lista
+     */
+    public java.util.Set<Keys.Request> getList() {
+        return lista;
+    }
+
+    /**
+     * @param lista the lista to set
+     */
+    public void setList(java.util.Set<Keys.Request> lista) {
+        this.lista = lista;
     }
 }

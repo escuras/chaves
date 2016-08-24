@@ -5,16 +5,11 @@
  */
 package Langs;
 
-import java.awt.Toolkit;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,7 +47,8 @@ public class Locale {
             local = local.replaceAll("[-./|;,:]","_");
             if (this.linguas.contains(local)) {
                 this.locale = local;
-                this.systemlocale = new java.util.Locale(local);
+                String []aux = local.split("_");
+                this.systemlocale = new java.util.Locale(aux[0],aux[1]);
             }
         } else {
             this.systemlocale = java.util.Locale.getDefault();

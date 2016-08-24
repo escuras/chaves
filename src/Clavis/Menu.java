@@ -10,6 +10,9 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JMenuBar;
 
 /**
@@ -26,7 +29,7 @@ public class Menu extends JMenuBar {
     }
 
     public void setColor(Color color) {
-        this.bgcolor= SystemColor.windowBorder;
+        this.bgcolor= color;
         com.sun.java.swing.plaf.gtk.GTKLookAndFeel.updateStyles(this);
     }
 

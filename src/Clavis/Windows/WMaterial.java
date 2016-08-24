@@ -5,6 +5,7 @@
  */
 package Clavis.Windows;
 
+import Clavis.KeyQuest;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -35,6 +36,8 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -112,10 +115,10 @@ public class WMaterial extends javax.swing.JDialog {
         comboboxdireitacima = new javax.swing.JComboBox<>();
     }
 
-    public WMaterial(javax.swing.JDialog dialogo, Keys.Material mat, Color cor, Langs.Locale lingua, String url) {
+    public WMaterial(javax.swing.JDialog dialogo, Keys.Material mat, Langs.Locale lingua, String url) {
         super(dialogo);
         this.dialogopai = dialogo;
-        panelcor = cor;
+        panelcor = KeyQuest.getSystemColor();
         painelgeral = new JPanel();
         this.lingua = lingua;
         this.url = url;
@@ -139,7 +142,7 @@ public class WMaterial extends javax.swing.JDialog {
     }
 
     public void create() {
-
+        this.setTitle(lingua.translate("Mais definições do recurso")+": "+lingua.translate(mat.getTypeOfMaterial().getTypeOfMaterialName())+" "+lingua.translate(mat.getDescription()));
         this.setPreferredSize(new Dimension(700, 500));
         this.setResizable(false);
         this.setMinimumSize(new Dimension(700, 500));
@@ -147,6 +150,7 @@ public class WMaterial extends javax.swing.JDialog {
         this.setBackground(new Color(254, 254, 254));
         painelgeral.setPreferredSize(new Dimension(7000, 500));
         painelgeral.setBounds(0, 0, 700, 500);
+        KeyQuest.addtoPropertyListener(painelgeral, true);
         javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
         painelgeral.setBorder(border);
         this.add(painelgeral);
@@ -240,7 +244,7 @@ public class WMaterial extends javax.swing.JDialog {
         jpaneldireitacima.setBackground(new Color(250, 255, 225));
 
         btmais = new javax.swing.JButton();
-        
+
         ImageIcon icoadd = null;
         try {
             BufferedImage imo = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus24x24.png"));
@@ -346,7 +350,7 @@ public class WMaterial extends javax.swing.JDialog {
         popupcarateristicas.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         comboboxdireitacima.setFocusable(true);
         comboboxdireitacima.setBackground(new Color(213, 213, 213));
-        
+
         comboboxdireitacima.getEditor().getEditorComponent().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -367,7 +371,6 @@ public class WMaterial extends javax.swing.JDialog {
                 }
             }
         });
-       
 
         comboboxdireitacima.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             int aux;
@@ -396,6 +399,10 @@ public class WMaterial extends javax.swing.JDialog {
                     bauxiliar = false;
                 } else if (!comboboxdireitacima.isPopupVisible()) {
                     comboboxdireitacima.setPopupVisible(true);
+                } else if ((comboboxdireitacima.getSelectedIndex() == 1) && (e.getKeyCode() == KeyEvent.VK_UP)) {
+                    comboboxdireitacima.getEditor().getEditorComponent().setForeground(new Color(205, 205, 205));
+                    fil.setCaretColor(Color.WHITE);
+
                 }
             }
 
@@ -424,7 +431,7 @@ public class WMaterial extends javax.swing.JDialog {
                     bauxiliar = true;
                     comboboxdireitacima.setSelectedIndex(0);
                 }
-                
+
                 if (comboboxdireitacima.getSelectedIndex() != 0) {
                     String va = fil.getText();
                     aux = comboboxdireitacima.getSelectedIndex();
@@ -948,7 +955,9 @@ public class WMaterial extends javax.swing.JDialog {
     private javax.swing.JScrollPane makeTable(javax.swing.JComboBox<String> comboboxopcoes, DefaultTableModel model, boolean ativa, int valor) {
         javax.swing.JScrollPane panelscroll = new javax.swing.JScrollPane();
         if (DataBase.DataBase.testConnection(url)) {
-            tabela = new org.jdesktop.swingx.JXTable();
+            tabela = new org.jdesktop.swingx.JXTable(); 
+            Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
+            UIManager.put("Table.focusCellHighlightBorder", border);
             tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             panelscroll.setPreferredSize(new Dimension(334, 300));
             panelscroll.setBounds(0, 0, 334, 300);
@@ -1021,7 +1030,7 @@ public class WMaterial extends javax.swing.JDialog {
                             for (Keys.Feature fea : lfeat) {
                                 auxiliar = fea.getDescription();
                                 if (fea.getNumber() != 0) {
-                                    auxiliar += auxiliar + " " + fea.getNumber() + " (" + fea.getUnityMeasure() + ")";
+                                    auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
                                 }
                                 modelo.addRow(new String[]{auxiliar});
                                 size += tabela.getRowHeight();
@@ -1034,7 +1043,7 @@ public class WMaterial extends javax.swing.JDialog {
                     for (Keys.Feature fea : lfeat) {
                         auxiliar = fea.getDescription();
                         if (fea.getNumber() != 0) {
-                            auxiliar += auxiliar + " " + fea.getNumber() + " (" + fea.getUnityMeasure() + ")";
+                            auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
                         }
                         modelo.addRow(new String[]{auxiliar});
                         size += tabela.getRowHeight();

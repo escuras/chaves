@@ -5,6 +5,7 @@
         <group>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/EfectsOnDivisor.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WHorario.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/Date.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/InsertRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalTextField.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/FileHolidays.java</file>
@@ -12,6 +13,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/SplitElement.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Request.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ScrollBar.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/Color.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Classroom.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/lista</file>
@@ -30,11 +32,12 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Mae.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/TypeOfMaterial.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ModifiedFlowLayout.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/FileIOAux/ImageExtension.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/EditorCell.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/ActionButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Function.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/GenericRoundedButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste2.java</file>
-            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/NewJFrame.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ToolBar.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/AutoCompletion.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/TableRequest.java</file>
@@ -49,6 +52,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_pt_PT.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Clavicela.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/ElementsCSV.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/HelloWorld.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/UpdateCSVonDB.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste4.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/RequestList.java</file>
@@ -65,6 +69,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/SimpleCacheManager.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/ObjectCSV.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/HandlingCSV.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/FileChooser_es_ES.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/BreakPeriodList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/PanelDetails.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/FileBreakPeriods.java</file>
