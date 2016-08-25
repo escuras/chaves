@@ -142,7 +142,7 @@ public class WMaterial extends javax.swing.JDialog {
     }
 
     public void create() {
-        this.setTitle(lingua.translate("Mais definições do recurso")+": "+lingua.translate(mat.getTypeOfMaterial().getTypeOfMaterialName())+" "+lingua.translate(mat.getDescription()));
+        this.setTitle(lingua.translate("Mais definições do recurso") + ": " + lingua.translate(mat.getTypeOfMaterial().getTypeOfMaterialName()) + " " + lingua.translate(mat.getDescription()));
         this.setPreferredSize(new Dimension(700, 500));
         this.setResizable(false);
         this.setMinimumSize(new Dimension(700, 500));
@@ -193,7 +193,7 @@ public class WMaterial extends javax.swing.JDialog {
         comboboxopcoes.setBackground(new Color(213, 213, 213));
         comboboxopcoes.setBounds(0, 0, 320, 40);
         comboboxopcoes.addActionListener((ActionEvent e) -> {
-            javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName() + " " + mat.getDescription()});
+            javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate(mat.getTypeOfMaterial().getTypeOfMaterialName()) + " " + lingua.translate(mat.getDescription())});
             jpanelesquerda.removeAll();
             painelgeral.repaint();
             jpanelesquerda.add(makeTable(comboboxopcoes, model, true, comboboxopcoes.getSelectedIndex()));
@@ -206,6 +206,19 @@ public class WMaterial extends javax.swing.JDialog {
                 comboboxdireitacima.setBounds(20, 60, 243, 28);
             } else {
                 comboboxdireitacima.setBounds(35, 60, 228, 28);
+            }
+            switch (comboboxopcoes.getSelectedIndex()) {
+                case 1:
+                    btdireitacimaoutro.setToolTipText(lingua.translate("Adicionar software"));
+                    btmais.setToolTipText(lingua.translate("Associar software ao recurso"));
+                    break;
+                case 2:
+                    btmais.setToolTipText(lingua.translate("Associar disciplina ao recurso"));
+                    break;
+                default:
+                    btdireitacimaoutro.setToolTipText(lingua.translate("Adicionar caraterística"));
+                    btmais.setToolTipText(lingua.translate("Associar caraterística ao recurso"));
+                    break;
             }
         });
         sppinerquantidade = new javax.swing.JSpinner();
@@ -231,7 +244,7 @@ public class WMaterial extends javax.swing.JDialog {
 
         JPanel jpaneltitulodireita = new javax.swing.JPanel(null);
         jpaneltitulodireita.setPreferredSize(new java.awt.Dimension(284, 40));
-        javax.swing.JLabel labeltitulodireita = new javax.swing.JLabel(lingua.translate("Editar"));
+        javax.swing.JLabel labeltitulodireita = new javax.swing.JLabel(lingua.translate("Painéis de edição"));
         labeltitulodireita.setPreferredSize(new Dimension(285, 40));
         labeltitulodireita.setFont(new Font("Cantarell", Font.PLAIN, 14));
         labeltitulodireita.setBounds(0, 0, 284, 40);
@@ -467,6 +480,7 @@ public class WMaterial extends javax.swing.JDialog {
                             field.setText("");
                         }
                         tabela.clearSelection();
+                        btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                     }
 
                     @Override
@@ -525,7 +539,7 @@ public class WMaterial extends javax.swing.JDialog {
         btdireitacimaoutro.setBounds(8, 58, 28, 28);
         btdireitacimaoutro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         switch (comboboxopcoes.getSelectedIndex()) {
-            case 01:
+            case 1:
                 btdireitacimaoutro.setToolTipText(lingua.translate("Adicionar software"));
                 btmais.setToolTipText(lingua.translate("Associar software ao recurso"));
                 break;
@@ -557,10 +571,10 @@ public class WMaterial extends javax.swing.JDialog {
                     if (comboboxopcoes.getSelectedIndex() == 0) {
                         panel.setPreferredSize(new Dimension(380, 100));
                         javax.swing.JLabel ldescricao = new javax.swing.JLabel(lingua.translate("Descrição") + ": ");
-                        ldescricao.setPreferredSize(new Dimension(100, 32));
+                        ldescricao.setPreferredSize(new Dimension(120, 32));
                         ldescricao.setFocusable(true);
                         ldescricao.requestFocus();
-                        ldescricao.setBounds(20, 0, 100, 32);
+                        ldescricao.setBounds(20, 0, 120, 32);
                         panel.add(ldescricao);
 
                         Components.PersonalTextField tdescricao = new Components.PersonalTextField();
@@ -569,8 +583,8 @@ public class WMaterial extends javax.swing.JDialog {
                         tdescricao.setBounds(120, 0, 240, 30);
                         panel.add(tdescricao);
                         javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Medida") + ": ");
-                        lmedida.setPreferredSize(new Dimension(100, 30));
-                        lmedida.setBounds(20, 40, 100, 30);
+                        lmedida.setPreferredSize(new Dimension(120, 30));
+                        lmedida.setBounds(20, 40, 120, 30);
                         tdescricao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tdescricao));
                         panel.add(lmedida);
 
@@ -582,9 +596,11 @@ public class WMaterial extends javax.swing.JDialog {
                         panel.add(tmedida);
 
                         String[] btstexto = {lingua.translate("Adicionar"), lingua.translate("Voltar")};
-                        tdescricao.addPlaceHolder("Descrição da caraterística", null);
+                        tdescricao.addPlaceHolder(lingua.translate("Descrição da caraterística"), null);
+                        tdescricao.setToolTipText(lingua.translate("Descricao da caraterística"));
                         tdescricao.setSelectionColor(Color.DARK_GRAY);
-                        tmedida.addPlaceHolder("Medida de valor", null);
+                        tmedida.addPlaceHolder(lingua.translate("Medida de valor"), null);
+                        tmedida.setToolTipText(lingua.translate("Medida de valor"));
                         Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outra caraterística"), 400, 250, panel, "", btstexto);
                         ImageIcon icosair = null;
                         try {
@@ -626,46 +642,46 @@ public class WMaterial extends javax.swing.JDialog {
                     } else if (comboboxopcoes.getSelectedIndex() == 1) {
                         panel.setPreferredSize(new Dimension(380, 150));
                         javax.swing.JLabel ldescricao = new javax.swing.JLabel(lingua.translate("Software") + ": ");
-                        ldescricao.setPreferredSize(new Dimension(100, 32));
+                        ldescricao.setPreferredSize(new Dimension(120, 32));
                         ldescricao.setFocusable(true);
                         ldescricao.requestFocus();
-                        ldescricao.setBounds(30, 0, 100, 30);
+                        ldescricao.setBounds(30, 0, 120, 30);
                         panel.add(ldescricao);
 
                         Components.PersonalTextField tdescricao = new Components.PersonalTextField();
                         tdescricao.setPreferredSize(new Dimension(240, 32));
                         tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                        tdescricao.setBounds(100, 0, 240, 30);
+                        tdescricao.setBounds(120, 0, 240, 30);
                         tdescricao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tdescricao));
                         panel.add(tdescricao);
 
                         javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Versão") + ": ");
-                        lmedida.setPreferredSize(new Dimension(100, 32));
-                        lmedida.setBounds(30, 40, 100, 30);
+                        lmedida.setPreferredSize(new Dimension(120, 32));
+                        lmedida.setBounds(30, 40, 120, 30);
                         panel.add(lmedida);
 
                         Components.PersonalTextField tmedida = new Components.PersonalTextField();
                         tmedida.setPreferredSize(new Dimension(240, 32));
                         tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                        tmedida.setBounds(100, 40, 240, 30);
+                        tmedida.setBounds(120, 40, 240, 30);
                         tmedida.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tmedida));
                         panel.add(tmedida);
 
                         javax.swing.JLabel lempresa = new javax.swing.JLabel(lingua.translate("Empresa") + ": ");
-                        lempresa.setPreferredSize(new Dimension(100, 32));
-                        lempresa.setBounds(30, 80, 100, 30);
+                        lempresa.setPreferredSize(new Dimension(120, 32));
+                        lempresa.setBounds(30, 80, 120, 30);
                         panel.add(lempresa);
 
                         Components.PersonalTextField tempresa = new Components.PersonalTextField();
                         tempresa.setPreferredSize(new Dimension(240, 32));
                         tempresa.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tempresa));
                         tempresa.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                        tempresa.setBounds(100, 80, 240, 30);
+                        tempresa.setBounds(120, 80, 240, 30);
                         panel.add(tempresa);
 
                         javax.swing.JLabel lano = new javax.swing.JLabel(lingua.translate("Ano") + ": ");
-                        lano.setPreferredSize(new Dimension(120, 32));
-                        lano.setBounds(30, 120, 100, 30);
+                        lano.setPreferredSize(new Dimension(140, 32));
+                        lano.setBounds(30, 120, 120, 30);
                         panel.add(lano);
 
                         javax.swing.JSpinner sano = new javax.swing.JSpinner();
@@ -676,17 +692,20 @@ public class WMaterial extends javax.swing.JDialog {
                         editor2.getModel().setMinimum(1900);
                         editor2.getModel().setValue(decim);
                         editor2.getModel().setStepSize(1);
-                        sano.setPreferredSize(new Dimension(100, 30));
+                        sano.setPreferredSize(new Dimension(120, 30));
                         sano.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-                        sano.setBounds(100, 120, 100, 30);
+                        sano.setBounds(120, 120, 100, 30);
                         panel.add(sano);
                         sano.setToolTipText(lingua.translate("Ano de lançamento"));
                         String[] btstexto = {lingua.translate("Adicionar"), lingua.translate("Voltar")};
                         tdescricao.addPlaceHolder(lingua.translate("Nome do programa"), null);
+                        tdescricao.setToolTipText(lingua.translate("Nome do programa"));
                         tdescricao.setSelectionColor(Color.DARK_GRAY);
                         tmedida.addPlaceHolder(lingua.translate("Versão de software"), null);
+                        tmedida.setToolTipText(lingua.translate("Versão de software"));
                         tempresa.addPlaceHolder(lingua.translate("Empresa proprietária"), null);
-                        Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outra caraterística"), 400, 340, panel, "", btstexto);
+                        tempresa.setToolTipText(lingua.translate("Empresa proprietária"));
+                        Components.MessagePane pop = new Components.MessagePane(this, Components.MessagePane.ACAO, panelcor, lingua.translate("Adicionar outro programa"), 400, 340, panel, "", btstexto);
                         ImageIcon icosair = null;
                         try {
                             BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/return.png"));
@@ -955,7 +974,7 @@ public class WMaterial extends javax.swing.JDialog {
     private javax.swing.JScrollPane makeTable(javax.swing.JComboBox<String> comboboxopcoes, DefaultTableModel model, boolean ativa, int valor) {
         javax.swing.JScrollPane panelscroll = new javax.swing.JScrollPane();
         if (DataBase.DataBase.testConnection(url)) {
-            tabela = new org.jdesktop.swingx.JXTable(); 
+            tabela = new org.jdesktop.swingx.JXTable();
             Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
             UIManager.put("Table.focusCellHighlightBorder", border);
             tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -997,7 +1016,7 @@ public class WMaterial extends javax.swing.JDialog {
                         case 2:
                             ldis = db.getSubjectsByMaterial(mat);
                             for (Keys.Subject dis : ldis) {
-                                auxiliar = dis.getName();
+                                auxiliar = lingua.translate(dis.getName());
                                 modelo.addRow(new String[]{auxiliar});
                                 size += tabela.getRowHeight();
                             }
@@ -1005,7 +1024,7 @@ public class WMaterial extends javax.swing.JDialog {
                         default:
                             lfeat = db.getFeaturesByMaterial(mat);
                             for (Keys.Feature fea : lfeat) {
-                                auxiliar = fea.getDescription();
+                                auxiliar = lingua.translate(fea.getDescription());
                                 if (fea.getNumber() != 0) {
                                     auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
                                 }
@@ -1028,7 +1047,7 @@ public class WMaterial extends javax.swing.JDialog {
                         default:
                             lfeat = db.getFeaturesByMaterial(mat);
                             for (Keys.Feature fea : lfeat) {
-                                auxiliar = fea.getDescription();
+                                auxiliar = lingua.translate(fea.getDescription());
                                 if (fea.getNumber() != 0) {
                                     auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
                                 }
@@ -1041,7 +1060,7 @@ public class WMaterial extends javax.swing.JDialog {
                 default:
                     lfeat = db.getFeaturesByMaterial(mat);
                     for (Keys.Feature fea : lfeat) {
-                        auxiliar = fea.getDescription();
+                        auxiliar = lingua.translate(fea.getDescription());
                         if (fea.getNumber() != 0) {
                             auxiliar = auxiliar + " (" + fea.getNumber() + " " + fea.getUnityMeasure() + ")";
                         }
@@ -1199,7 +1218,7 @@ public class WMaterial extends javax.swing.JDialog {
                         tdescricaoeditar.startPlaceHolder();
                         tversaoeditar.startPlaceHolder();
                         tempresaeditar.startPlaceHolder();
-
+                        btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                     }
                 }
             });
@@ -1378,7 +1397,7 @@ public class WMaterial extends javax.swing.JDialog {
                     if (icoadd != null) {
                         bteditar.setIcon(icoadd);
                     } else {
-                        bteditar.setText(lingua.translate("editar"));
+                        bteditar.setText(lingua.translate("Editar"));
                     }
                     bteditar.setBounds((int) (panel.getPreferredSize().getWidth() - 225), 7, 90, 40);
                     panel.add(bteditar);
@@ -1495,7 +1514,7 @@ public class WMaterial extends javax.swing.JDialog {
                     if (icoadd != null) {
                         btoogleditar.setIcon(icoadd);
                     } else {
-                        btoogleditar.setText(lingua.translate("on"));
+                        btoogleditar.setText(lingua.translate("Bloqueado"));
                     }
                     btoogleditar.setIcon(icoadd);
                     btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
@@ -1520,7 +1539,9 @@ public class WMaterial extends javax.swing.JDialog {
                             tatualizadoeditar.setEnabled(true);
                             bteditar.setEnabled(true);
                             btapagar.setEnabled(true);
+                            btoogleditar.setToolTipText(lingua.translate("Bloquear"));
                         } else if (btoogleditar.isSelected()) {
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                             Keys.Software soft = lsoft.get(tabela.getSelectedRow());
                             tdescricaoeditar.setEnabled(false);
                             tdescricaoeditar.setText(soft.getName());
@@ -1564,8 +1585,8 @@ public class WMaterial extends javax.swing.JDialog {
                     tversaoeditar.setBounds(25, 85, 238, 26);
                     panel.add(tversaoeditar);
 
-                    tempresaeditar.addPlaceHolder(lingua.translate("Empresa poprietária"), null);
-                    tempresaeditar.setToolTipText(lingua.translate("Empresa poprietária"));
+                    tempresaeditar.addPlaceHolder(lingua.translate("Empresa proprietária"), null);
+                    tempresaeditar.setToolTipText(lingua.translate("Empresa proprietária"));
                     tempresaeditar.setPreferredSize(new Dimension(200, 26));
                     tempresaeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tempresaeditar.setBounds(25, 115, 238, 26);
@@ -1659,7 +1680,7 @@ public class WMaterial extends javax.swing.JDialog {
                     if (icoadd != null) {
                         btoogleditar.setIcon(icoadd);
                     } else {
-                        btoogleditar.setText(lingua.translate("on"));
+                        btoogleditar.setText(lingua.translate("Bloqueado"));
                     }
                     btoogleditar.setIcon(icoadd);
                     btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
@@ -1674,8 +1695,10 @@ public class WMaterial extends javax.swing.JDialog {
                     abtoogle = ((ActionEvent e) -> {
                         if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
                             btapagar.setEnabled(true);
+                            btoogleditar.setToolTipText(lingua.translate("Bloquear"));
                         } else if (btoogleditar.isSelected()) {
                             btapagar.setEnabled(false);
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                         }
                     });
                     btoogleditar.addActionListener(abtoogle);
@@ -1726,7 +1749,7 @@ public class WMaterial extends javax.swing.JDialog {
                     if (icoadd != null) {
                         bteditar.setIcon(icoadd);
                     } else {
-                        bteditar.setText(lingua.translate("editar"));
+                        bteditar.setText(lingua.translate("Editar"));
                     }
                     bteditar.setBounds((int) (panel.getPreferredSize().getWidth() - 225), 7, 90, 40);
                     panel.add(bteditar);
@@ -1768,7 +1791,7 @@ public class WMaterial extends javax.swing.JDialog {
                                         btapagar.setEnabled(false);
                                         if (db.getFeatureId(novo) > 0) {
                                             lfeat.set(tabela.getSelectedRow(), novo);
-                                            String auxiliar = novo.getDescription();
+                                            String auxiliar = lingua.translate(novo.getDescription());
                                             if (novo.getNumber() != 0) {
                                                 auxiliar = auxiliar + " (" + novo.getNumber() + " " + novo.getUnityMeasure() + ")";
                                             }
@@ -1853,7 +1876,9 @@ public class WMaterial extends javax.swing.JDialog {
                             tquantidadeeditar.setEnabled(true);
                             bteditar.setEnabled(true);
                             btapagar.setEnabled(true);
+                            btoogleditar.setToolTipText(lingua.translate("Bloquear"));
                         } else if (btoogleditar.isSelected()) {
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                             Keys.Feature feat = lfeat.get(tabela.getSelectedRow());
                             tdescricaoeditar.setText(feat.getDescription());
                             tdescricaoeditar.setEnabled(false);

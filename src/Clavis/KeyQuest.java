@@ -1155,7 +1155,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jTabbedPaneMaterialBotoes.setMaximumSize(new java.awt.Dimension(2000, 32767));
         jTabbedPaneMaterialBotoes.setMinimumSize(new java.awt.Dimension(250, 400));
         jTabbedPaneMaterialBotoes.setOpaque(true);
-        jTabbedPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(0, 0));
+        jTabbedPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(654, 338));
+        jTabbedPaneMaterialBotoes.setRequestFocusEnabled(false);
         jScrollPaneMaterialBotoes.setViewportView(jTabbedPaneMaterialBotoes);
 
         jLabel2.setText("jLabel2");
@@ -1176,8 +1177,8 @@ public class KeyQuest extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelListaBotoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1406,17 +1407,21 @@ public class KeyQuest extends javax.swing.JFrame {
             jButtonConfirmaDevolucao.setText(lingua.translate("Confirmar"));
             Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jButtonConfirmaDevolucao.setToolTipText(lingua.translate("Confirmar_devolucao"));
+        jButtonConfirmaDevolucao.setToolTipText(lingua.translate("Confirmar devolucao"));
         java.awt.image.BufferedImage imagebtdevcancelar = null;
         javax.swing.ImageIcon iconbtdevcancelar = new javax.swing.ImageIcon();
         try {
-            imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream("Images/oculos.png"));
-            iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);
-            jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);
+            if (this.getClass().getResource("Images/oculos.png") != null) {
+                imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream("Images/oculos.png"));
+                iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);
+                jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);
+            } else {
+                jButtonAlteraDevolucao.setText("Ver");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jButtonAlteraDevolucao.setToolTipText(lingua.translate("Alterar_devolucao"));
+        jButtonAlteraDevolucao.setToolTipText(lingua.translate("Ver requisição"));
 
         jButtonProcuraBaixo.setBorder(null);
         jButtonProcuraBaixo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -2206,7 +2211,7 @@ public class KeyQuest extends javax.swing.JFrame {
             javax.swing.ImageIcon iconbtreq = new javax.swing.ImageIcon(imagebtreq);
             jToggleButtonBarRequisicoes.setIcon(iconbtreq);
         }
-        jToggleButtonBarRequisicoes.setToolTipText(lingua.translate("Aba_requisicoes"));
+        jToggleButtonBarRequisicoes.setToolTipText(lingua.translate("Aba de levantamentos"));
         java.awt.image.BufferedImage imagebtent = null;
         try {
             imagebtent = ImageIO.read(getClass().getResourceAsStream("Images/cima.png"));
@@ -2217,6 +2222,7 @@ public class KeyQuest extends javax.swing.JFrame {
             javax.swing.ImageIcon iconbtent = new javax.swing.ImageIcon(imagebtent);
             jToggleButtonBarEntregas.setIcon(iconbtent);
         }
+        jToggleButtonBarEntregas.setToolTipText(lingua.translate("Aba de devoluções"));
         BasicComboPopup popupVista = (BasicComboPopup) jComboBoxVista.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));

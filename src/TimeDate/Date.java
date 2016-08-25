@@ -294,6 +294,37 @@ public class Date {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         return sdia + " " + locale.translate(meses[this.mes - 1]) + " " + sano;
     }
+    
+    public String toStringWithMonthWord(Langs.Locale lingua) {
+        String sdia;
+        if (dia < 10) {
+            sdia = "0" + this.dia;
+        } else {
+            sdia = "" + this.dia;
+        }
+        String sano;
+        if (ano > 0) {
+            if (ano < 10) {
+                sano = "000" + this.ano;
+            } else if (ano < 100) {
+                sano = "00" + this.ano;
+            } else if (ano < 1000) {
+                sano = "0" + this.ano;
+            } else {
+                sano = "" + this.ano;
+            }
+        } else if (ano > -10) {
+            sano = "-000" + -this.ano;
+        } else if (ano > -100) {
+            sano = "-00" + -this.ano;
+        } else if (ano > -1000) {
+            sano = "-0" + -this.ano;
+        } else {
+            sano = "" + this.ano;
+        }
+        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        return sdia + " " + lingua.translate(meses[this.mes - 1]) + " " + sano;
+    }
 
     public boolean betweenDates(Date date, Date date2) {
         if (date.getYear() > date2.getYear()) {

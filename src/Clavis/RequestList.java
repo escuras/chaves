@@ -438,4 +438,31 @@ public class RequestList {
             }
         }
     }
+    
+    
+    public static java.util.List<Keys.Request> simplifyRequests(java.util.Set<Keys.Request> requests) {
+        Set<Keys.Request> requisi = new java.util.HashSet<>(requests);
+        java.util.ArrayList<Keys.Request> requisicoes = new java.util.ArrayList<>(requisi);
+        Collections.sort(requisicoes);
+        int i;
+        for (Keys.Request req : requests) {
+            i = 0;
+            for (Keys.Request req2 : requests) {
+                if ((req.getId() == req2.getUnionRequest()) && (req2.getUnionRequest() > 0)) {
+                    if (i == 0) {
+                        String auxiliar = "Múltiplas atividades:::" + req.getActivity() + ";;;" + req.getTimeBegin().toString(0) + ";;;" + req.getTimeEnd().toString(0);
+                        req.setActivity(auxiliar);
+                        i++;
+                    }
+                    req.setEndDate(req2.getEndDate());
+                    req.setTimeEnd(req2.getTimeEnd());
+                    req.setActivity(req.getActivity() + ":::" + req2.getActivity() + ";;;" + req2.getTimeBegin().toString(0) + ";;;" + req2.getTimeEnd().toString(0));
+                    requisicoes.remove(req2);
+                }
+            }
+        }
+        java.util.List<Keys.Request> requess = new ArrayList<>(requisicoes);
+        Collections.sort(requess);
+        return requess;
+    }
 }

@@ -117,19 +117,19 @@ public class TableRequest {
             ficouvazia = false;
             vazia = false;
             if (!devolucoes) {
-                tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate("Sala"), lingua.translate("Data"), lingua.translate("Levantamento")}));
+                tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate(requisicoes.getTypeOfMaterial().getTypeOfMaterialName()), lingua.translate("Hora"), lingua.translate("Data")}));
             } else {
-                tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate("Sala"), lingua.translate("Data"), lingua.translate("Devolução")}));
+                tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Utilizador"), lingua.translate(requisicoes.getTypeOfMaterial().getTypeOfMaterialName()), lingua.translate("Hora"), lingua.translate("Data")}));
             }
             DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
             if (!devolucoes) {
                 for (Keys.Request req : requisicoes.getRequests()) {
-                    Object[] ob = {"  " + req.getPerson().getName(), req.getMaterial().getDescription(), req.getBeginDate().toString(), req.getTimeBegin().toString(0)};
+                    Object[] ob = {"  " + req.getPerson().getName(), req.getMaterial().getDescription(), req.getTimeBegin().toString(0), req.getBeginDate().toStringWithMonthWord(lingua)};
                     modelo.addRow(ob);
                 }
             } else {
                 for (Keys.Request req : requisicoes.getRequests()) {
-                    Object[] ob = {"   " + req.getPerson().getName(), req.getMaterial().getDescription(), req.getEndDate().toString(), req.getTimeEnd().toString(0)};
+                    Object[] ob = {"   " + req.getPerson().getName(), req.getMaterial().getDescription(), req.getTimeEnd().toString(0), req.getEndDate().toStringWithMonthWord(lingua)};
                     modelo.addRow(ob);
                 }
             }
@@ -182,17 +182,11 @@ public class TableRequest {
         tabela.setRowHeight(35);
 
         if (tabela.getColumnCount() > 1) {
-            if (!devolucoes) {
-                tabela.getColumnModel().getColumn(0).setPreferredWidth(350);
-                tabela.getColumnModel().getColumn(1).setMinWidth(100);
-                tabela.getColumnModel().getColumn(2).setMinWidth(110);
-                tabela.getColumnModel().getColumn(3).setMinWidth(100);
-            } else {
-                tabela.getColumnModel().getColumn(0).setPreferredWidth(300);
-                tabela.getColumnModel().getColumn(1).setMinWidth(100);
-                tabela.getColumnModel().getColumn(2).setMinWidth(150);
+            
+                tabela.getColumnModel().getColumn(0).setPreferredWidth(280);
+                tabela.getColumnModel().getColumn(1).setMinWidth(150);
+                tabela.getColumnModel().getColumn(2).setMinWidth(80);
                 tabela.getColumnModel().getColumn(3).setMinWidth(150);
-            }
         }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
@@ -224,14 +218,18 @@ public class TableRequest {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)));
+                this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)),BorderFactory.createEmptyBorder(0, 20, 0, 0)));
                 return this;
             }
 
         };
         headerRenderer2.setBackground(new Color(165, 165, 165));
         headerRenderer2.setForeground(Color.WHITE);
-        headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        if (tabela.getColumnCount() > 1) {
+            headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+        } else {
+            headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        }
 
         for (int i = 0; i < tabela.getModel().getColumnCount(); i++) {
             if (i == 0) {
@@ -268,8 +266,7 @@ public class TableRequest {
         // Alinhamento do texto na tabela
         DefaultTableCellRenderer renderer2 = new DefaultTableCellRenderer();
 
-        if (tabela.getColumnCount()
-                > 1) {
+        if (tabela.getColumnCount() > 1) {
             int i = 0;
             while (i < tabela.getColumnCount()) {
                 switch (i % 4) {
@@ -355,11 +352,11 @@ public class TableRequest {
                                     DataBase.DataBase db = new DataBase.DataBase(url);
                                     Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
                                     db.close();
-                                    Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, url);
+                                    Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, url, null);
                                     bt.create();
                                     bt.open();
                                 } else {
-                                    Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, url);
+                                    Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, url, null);
                                     bt.create();
                                     bt.open();
                                 }
@@ -426,11 +423,11 @@ public class TableRequest {
                                 DataBase.DataBase db = new DataBase.DataBase(url);
                                 Keys.Classroom cla = db.getClassroom(getSelectedRequest().getMaterial());
                                 db.close();
-                                Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, url);
+                                Clavis.ActionButton bt = new Clavis.ActionButton(cla, lingua, url, null);
                                 bt.create();
                                 bt.open();
                             } else {
-                                Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, url);
+                                Clavis.ActionButton bt = new Clavis.ActionButton(getSelectedRequest().getMaterial(), lingua, url, null);
                                 bt.create();
                                 bt.open();
                             }
@@ -515,12 +512,9 @@ public class TableRequest {
                 );
 
         tabela.setPreferredScrollableViewportSize(tabela.getPreferredSize());
-        tabela.setShowGrid(
-                false);
-        tabela.setShowHorizontalLines(
-                true);
-        tabela.setFocusable(
-                true);
+        tabela.setShowGrid(false);
+        tabela.setShowHorizontalLines(true);
+        tabela.setFocusable(true);
         tabela.setGridColor(Color.WHITE);
 
         tabela.getInputMap(JComponent.WHEN_FOCUSED)

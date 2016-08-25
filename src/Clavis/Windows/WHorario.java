@@ -113,7 +113,7 @@ public class WHorario extends JDialog {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {},
             new String [] {
-                lingua.translate("Utilizador"), lingua.translate("Início"), lingua.translate("Fim"), lingua.translate("Estado")
+                lingua.translate("Utilizador"), lingua.translate("Horário"), lingua.translate("Data"), lingua.translate("Estado")
             }
         ));
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
@@ -153,20 +153,21 @@ public class WHorario extends JDialog {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)));
+                this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)),BorderFactory.createEmptyBorder(0, 20, 0, 0)));
                 this.setBackground(new Color(100, 100, 100));
                 setForeground(Color.WHITE);
                 setPreferredSize(new Dimension(100, 40));
-                setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 return this;
             }
         };
+
         headerRenderer.setBackground(new Color(100, 100, 100));
         headerRenderer.setForeground(Color.WHITE);
         headerRenderer.setPreferredSize(new Dimension(100, 40));
         headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         for (int i= 0; i < jTable1.getColumnCount(); i++) {
             if (i == 0) {
+                headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                 jTable1.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer2);
             } else {
                 jTable1.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
@@ -296,7 +297,7 @@ public class WHorario extends JDialog {
         bbt2.setBackground(Color.WHITE);
 
         jXDatePickerInicio.addActionListener(actionJXDatePickerInicio());
-        jXDatePickerInicio.setFormats("dd/m/yyyy");
+        jXDatePickerInicio.setFormats("dd/MM/yyyy");
         javax.swing.JPanel pan = new javax.swing.JPanel(null);
         javax.swing.JLabel fil = new javax.swing.JLabel("testes");
         fil.setBounds(0, 0, 300, 26);
@@ -315,6 +316,7 @@ public class WHorario extends JDialog {
         javax.swing.JButton bbt = (javax.swing.JButton) jXDatePickerFim.getComponent(1);
         bbt.setBackground(Color.WHITE);
         jXDatePickerFim.addActionListener(actionJXDatePickerFim());
+        jXDatePickerFim.setFormats("dd/MM/yyyy");
         jLabel1.setText(lingua.translate("Início"));
         jLabel2.setText(lingua.translate("Fim"));
         try{
@@ -415,7 +417,8 @@ public class WHorario extends JDialog {
         jXDatePickerInicio.setDate(date);
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-            java.util.Set<Keys.Request> requisicoes = db.getRequestsByMaterialByDateInterval(mat, inicio, fim);
+            
+            java.util.List<Keys.Request> requisicoes = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(mat, inicio, fim));
             db.close();
             String estado = "";
             DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();

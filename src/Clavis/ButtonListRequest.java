@@ -123,8 +123,7 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
-                button.setBounds(0, 0, 80, 80);
-                button.setSize(new Dimension(80, 80));
+                button.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
                 if (!(n instanceof Keys.Classroom)) {
                     Keys.Material m = (Keys.Material) n;
                     if (m.isLoaned()) {
@@ -133,8 +132,10 @@ public class ButtonListRequest {
                         button.setBackground(btcor2);
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
+                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName())+": "+m.getDescription());
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
+                        dialogoanterior.setVisible(false);
                         at.open();
                     });
                     javax.swing.ImageIcon ic;
@@ -148,7 +149,7 @@ public class ButtonListRequest {
                                     + m.getTypeOfMaterialImage() + ".png");
                             if (file.isFile()) {
                                 ima = ImageIO.read(file);
-                                ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                                ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);
                                 button.setIcon(ic);
@@ -159,7 +160,7 @@ public class ButtonListRequest {
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
                         if (ima != null) {
-                            ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                            ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
@@ -173,8 +174,9 @@ public class ButtonListRequest {
                         button.setBackground(btcor2);
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
+                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName())+": "+m.getDescription());
                     button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url);
+                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
                         dialogoanterior.setVisible(false);
                         at.open();
                     });
@@ -189,7 +191,7 @@ public class ButtonListRequest {
                                     + m.getTypeOfMaterialImage() + ".png");
                             if (file.isFile()) {
                                 ima = ImageIO.read(file);
-                                ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                                ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);
                                 button.setIcon(ic);
@@ -200,7 +202,7 @@ public class ButtonListRequest {
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
                         if (ima != null) {
-                            ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                            ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
@@ -213,36 +215,29 @@ public class ButtonListRequest {
         }
         return bLista;
     }
-
+   
     public javax.swing.JScrollPane getScrollPane() {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
         this.bLista = this.getButtons();
+        int valorborder = 50; 
         if (!this.bLista.isEmpty()) {
             pane.setLayout(new Components.ModifiedFlowLayout());
-            pane.setBorder(new EmptyBorder(40, 80, 40, 80));
+            pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
             pane.setBackground(new Color(245, 245, 220));
-            aux.setPreferredSize(new Dimension(0, 300));
-            pane.setPreferredSize(new Dimension(0, 300));
-            int g = 0;
-            int v = 0;
             bLista.stream().forEach((bt) -> {
                 pane.add(bt, BorderLayout.PAGE_END);
-
             });
-            int altura;
-            int valinicial = 50;
-            int i = 0;
+            int largura = (int) (pane.getPreferredSize().getWidth() - (valorborder*2));
+            int valorbotoes = largura / (int)(dim.getWidth());
+            int valinicial = 20 + (int)dim.getHeight() + 30;
+            int i = 1;
             while (i < bLista.size()) {
-                if ((i % 5 + 1) == 1) {
-                    valinicial += bLista.get(i).getHeight() + 10;
+                if ((i % valorbotoes) == 0) {
+                    valinicial += bLista.get(i).getHeight() + 5;
                 }
                 i++;
             }
-            if (valinicial > 300) {
-                altura = valinicial;
-                pane.setPreferredSize(new Dimension(0, altura));
-            }
-
+            pane.setPreferredSize(new Dimension(0, valinicial));
         }
         aux.setViewportView(pane);
         return aux;

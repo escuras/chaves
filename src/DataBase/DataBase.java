@@ -1047,7 +1047,7 @@ public class DataBase {
         return sala;
     }
 
-    public boolean updateClassroom(Keys.Classroom clas) {
+    public int updateClassroom(Keys.Classroom clas) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1061,17 +1061,17 @@ public class DataBase {
                 sql = "update Classrooms set quadro_interativo = " + clas.hasInteractiveTable() + ", ncomputadores = " + clas.getComputers() + ", lugares = " + clas.getPlaces() + ", projetor = " + clas.hasProjector() + " where codigo_sala = '" + clas.getCodeOfMaterial() + "';";
                 try {
                     smt.execute(sql);
-                    return true;
+                    return 0;
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return -2;
                 }
             }
-
         }
-        return false;
+        return -1;
     }
 
-    public boolean updateMaterial(Keys.Material mat) {
+    public int updateMaterial(Keys.Material mat, boolean image) {
         if (this.isTie()) {
             String sql;
             Statement smt;
@@ -1082,16 +1082,22 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                sql = "update Materials set codigo = '" + mat.getCodeOfMaterial() + "', descricao = '" + mat.getDescription() + "', imagem = '" + mat.getMaterialImage() + "' where id_material = " + mat.getId() + ";";
+                if (image) {
+                    sql = "update Materials set codigo = '" + mat.getCodeOfMaterial() + "', descricao = '" + mat.getDescription() + "', imagem = '" + mat.getMaterialImage() + "' where id_material = " + mat.getId() + ";";
+                } else {
+                    sql = "update Materials set codigo = '" + mat.getCodeOfMaterial() + "', descricao = '" + mat.getDescription() + "' where id_material = " + mat.getId() + ";";
+                }
                 try {
                     smt.execute(sql);
-                    return true;
+                    return 0;
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return -2;
                 }
+               
             }
         }
-        return false;
+        return -1;
     }
 
     public boolean insertMaterials(java.util.Set<Keys.Material> materiais) {
