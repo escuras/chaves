@@ -11,13 +11,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -28,6 +31,7 @@ public class MessagePane {
     public static final int AVISO = 1;
     public static final int INFORMACAO = 0;
     public static final int ACAO = 2;
+    public static final java.awt.Color BACKGROUND_COLOR = new java.awt.Color(255,255,255);  
     private javax.swing.JPanel panel;
     int largura;
     int altura;
@@ -45,8 +49,11 @@ public class MessagePane {
     java.awt.Component componentpai;
     String textomensagem;
     String[] textobotoes;
+    boolean visivel;
+    private java.awt.Color corpanel;
 
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, String texto, String[] bt) {
+        this.visivel = false;
         this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
@@ -57,9 +64,11 @@ public class MessagePane {
         this.textomensagem = texto;
         this.textobotoes = bt;
         this.showSimpleMessage();
+        this.corpanel = BACKGROUND_COLOR;
     }
     
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JLabel[] objetos, String texto, String[] bt) {
+        this.visivel = false;
         this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
@@ -71,9 +80,11 @@ public class MessagePane {
         this.textomensagem = texto;
         this.textobotoes = bt;
         this.showLabelMessage();
+        this.corpanel = BACKGROUND_COLOR;
     }
     
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JPanel panelcolocado, String texto, String[] bto) {
+        this.visivel = false;
         this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
@@ -85,9 +96,11 @@ public class MessagePane {
         this.textomensagem = texto;
         this.textobotoes = bto;
         this.showPanelMessage();
+        this.corpanel = BACKGROUND_COLOR;
     }
 
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, javax.swing.JComponent[] componentes, String texto, String[] bto) {
+        this.visivel = false;
         this.panel = new javax.swing.JPanel(null);
         this.largura = largura;
         this.altura = altura;
@@ -99,6 +112,11 @@ public class MessagePane {
         this.textomensagem = texto;
         this.textobotoes = bto;
         this.showComponentMessage();
+        this.corpanel = BACKGROUND_COLOR;
+    }
+    
+    public boolean isVisible(){
+        return visivel;
     }
     
     
@@ -107,7 +125,9 @@ public class MessagePane {
             dialogo.setLocationRelativeTo(componentpai);
             dialogo.setModal(true);
             dialogo.setVisible(true);
+            this.visivel = true;
         }
+        this.visivel = false;
         return resposta;
     }
 
@@ -132,7 +152,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(255, 255, 255));
+        getPanel().setBackground(getPanelColor());
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -237,7 +257,7 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(255, 255, 255));
+        getPanel().setBackground(getPanelColor());
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
@@ -344,20 +364,17 @@ public class MessagePane {
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
         dialogo.setTitle(titulo);
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(255, 255, 255));
+        getPanel().setBackground(getPanelColor());
         getPanel().setBounds(0, 0, this.largura, this.altura);
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
         getPanel().setBorder(border22);
 
         int k = 0;
-        int alturaauxiliar = 0;
         while (k < componentes.length){
             int l = componentes[k].getWidth();
             int a = componentes[k].getHeight();
-            
             componentes[k].setBounds(0, 0, 200, 100);
-            alturaauxiliar += a + 5;
             getPanel().add(componentes[k]);
             k++;
         }
@@ -446,19 +463,38 @@ public class MessagePane {
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
+        dialogo.addMouseListener(new MouseAdapter(){
+         
+            @Override
+            public void mousePressed(MouseEvent e) {
+               dialogo.requestFocusInWindow();
+            }
+
+            
+        });
         dialogo.setTitle(titulo);
+        if (panelcolocado.getPreferredSize().getHeight() > this.altura -100) {
+            panelcolocado.setPreferredSize(new Dimension((int)panelcolocado.getPreferredSize().getWidth(),this.altura -100));
+        }
+        if (panelcolocado.getPreferredSize().getWidth() > this.largura -20) {
+            panelcolocado.setPreferredSize(new Dimension(this.largura - 20, (int)panelcolocado.getPreferredSize().getHeight()));
+        }
         getPanel().setPreferredSize(new java.awt.Dimension(this.largura, altura));
-        getPanel().setBackground(new java.awt.Color(255, 255, 255));
+        getPanel().setBackground(getPanelColor());
         getPanel().setBounds(0, 0, this.largura, this.altura);
+      
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
         getPanel().setBorder(border22);
         
         int l = (int) panelcolocado.getPreferredSize().getWidth();
         int a = (int) panelcolocado.getPreferredSize().getHeight();
-        panelcolocado.setBounds(largura / 2 - l /2, altura / 2 - a +20, l, a);
-        getPanel().add(panelcolocado);
+        panelcolocado.setBounds(largura / 2 - l /2, altura / 2 - a + 20 , l, a);
         
+        getPanel().add(panelcolocado);
+        if (getPanel().getComponent(0).getLocation().getY() < 0) {
+            getPanel().getComponent(0).setLocation((int)panelcolocado.getBounds().getX(), 10);
+        }
         setButtons(new javax.swing.JButton[textobotoes.length]);
         if (textobotoes.length == 2) {
             getButtons()[1] = new javax.swing.JButton();
@@ -561,4 +597,18 @@ public class MessagePane {
         return botoes[0];
     }
 
+    /**
+     * @return the corpanel
+     */
+    public java.awt.Color getPanelColor() {
+        return corpanel;
+    }
+
+    /**
+     * @param corpanel the corpanel to set
+     */
+    public void setPanelColor(java.awt.Color corpanel) {
+        this.corpanel = corpanel;
+    }
+    
 }

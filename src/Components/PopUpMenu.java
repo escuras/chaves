@@ -54,6 +54,19 @@ public class PopUpMenu extends JPopupMenu {
         }
     }
 
+    public PopUpMenu(String[] titulos, ActionListener[] act, KeyStroke[] keys) {
+        int i = 0;
+        item = new JMenuItem[titulos.length];
+        if (titulos.length == act.length) {
+            while (i < titulos.length) {
+                item[i] = new JMenuItem(titulos[i]);
+                item[i].addActionListener(act[i]);
+                item[i].setAccelerator(keys[i]);
+                i++;
+            }
+        }
+    }
+
     public PopUpMenu(String[] titulos, ActionListener[] act, String colar, String copiar) {
         int i = 0;
         item = new JMenuItem[titulos.length];
@@ -136,7 +149,7 @@ public class PopUpMenu extends JPopupMenu {
         }
     }
 
-    public static java.awt.event.MouseListener simpleCopyPaste(Langs.Locale lingua, javax.swing.JComponent fil) {
+    public static java.awt.event.MouseListener simpleCopyPaste(Langs.Locale lingua, javax.swing.JComponent fil, boolean focus) {
         JMenuItem[] itens = new JMenuItem[2];
         String[] titulos = {lingua.translate("Copiar"), lingua.translate("Colar")};
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -193,41 +206,43 @@ public class PopUpMenu extends JPopupMenu {
         itens[0].addActionListener(list2);
         itens[0].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
         PopUpMenu menu = new PopUpMenu(itens);
+        menu.setFocusable(focus);
         menu.create();
         java.awt.event.MouseListener mouse = new java.awt.event.MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    if (fil instanceof javax.swing.JTextField) {
-                        if (((javax.swing.JTextField) fil).getSelectedText() == null) {
-                            itens[1].setEnabled(false);
-                        } else {
-                            itens[1].setEnabled(true);
-                        }
-                    } else if (fil instanceof javax.swing.JComboBox<?>) {
-                        javax.swing.JComboBox<?> tor = ((javax.swing.JComboBox) fil);
-                        javax.swing.JTextField texto = (javax.swing.JTextField) tor.getEditor().getEditorComponent();
-                        if (((javax.swing.JTextField) fil).getSelectedText() == null) {
-                            itens[1].setEnabled(false);
-                        } else {
-                            itens[1].setEnabled(true);
-                        }
-                    }
-                    Transferable t = c.getContents(null);
-                    if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                        try {
-                            Object ol = t.getTransferData(DataFlavor.stringFlavor);
-                            String colarl = (String) t.getTransferData(DataFlavor.stringFlavor);
-                            System.out.println("colarl: " + colarl);
-                            if ((colarl == null) || (colarl.equals(""))) {
-                                itens[0].setEnabled(false);
+                if (fil.isFocusOwner()) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        if (fil instanceof javax.swing.JTextField) {
+                            if (((javax.swing.JTextField) fil).getSelectedText() == null) {
+                                itens[1].setEnabled(false);
                             } else {
-                                itens[0].setEnabled(true);
+                                itens[1].setEnabled(true);
                             }
-                        } catch (UnsupportedFlavorException | IOException eo) {
+                        } else if (fil instanceof javax.swing.JComboBox<?>) {
+                            javax.swing.JComboBox<?> tor = ((javax.swing.JComboBox) fil);
+                            javax.swing.JTextField texto = (javax.swing.JTextField) tor.getEditor().getEditorComponent();
+                            if (((javax.swing.JTextField) fil).getSelectedText() == null) {
+                                itens[1].setEnabled(false);
+                            } else {
+                                itens[1].setEnabled(true);
+                            }
                         }
+                        Transferable t = c.getContents(null);
+                        if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                            try {
+                                Object ol = t.getTransferData(DataFlavor.stringFlavor);
+                                String colarl = (String) t.getTransferData(DataFlavor.stringFlavor);
+                                if ((colarl == null) || (colarl.equals(""))) {
+                                    itens[0].setEnabled(false);
+                                } else {
+                                    itens[0].setEnabled(true);
+                                }
+                            } catch (UnsupportedFlavorException | IOException eo) {
+                            }
+                        }
+                        menu.show(e.getComponent(), e.getX(), e.getY());
                     }
-                    menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
 

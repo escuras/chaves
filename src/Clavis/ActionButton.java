@@ -6,6 +6,7 @@
 package Clavis;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -351,9 +352,37 @@ public class ActionButton extends javax.swing.JDialog {
             baux[7] = imageview.getBorder();
             bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             java.awt.event.MouseListener[] copypaste = new java.awt.event.MouseListener[7];
+            java.awt.event.MouseListener mouseimage = new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    FileIOAux.ImageExtension image;
+                    image = bimage;
+                    UIManager.put("TextField.background", new Color(234, 234, 234));
+                    UIManager.put("List.background", new Color(234, 234, 234));
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                        alterado = true;
+                    } else {
+                        bimage = image;
+                    }
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (bimage != null) {
+                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (bimage != null) {
+                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
+                    }
+                }
+            };
             for (int i = 0; i < copypaste.length; i++) {
                 if (i != 2) {
-                    copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i]);
+                    copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i],true);
                 }
             }
             bteditar.addActionListener(new ActionListener() {
@@ -391,8 +420,46 @@ public class ActionButton extends javax.swing.JDialog {
                                             if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
                                                 for (JTextField texto1 : texto) {
                                                     texto1.setFocusable(false);
+                                                    texto1.setText(cla.getDescription());
                                                     texto1.setBackground(new Color(249, 249, 249));
                                                 }
+                                                for (int i = 0; i < texto.length; i++) {
+                                                    if (i != 2) {
+                                                        texto[i].setBorder(baux[i]);
+                                                        switch (i) {
+                                                            case 0:
+                                                                String sauxiliar = lingua.translate("sala") + " " + lingua.translate(cla.getDescription());
+                                                                texto[0].setText(sauxiliar);
+                                                                break;
+                                                            case 1:
+                                                                texto[1].setText(cla.getCodeOfMaterial());
+                                                                break;
+                                                            case 3:
+                                                                texto[3].setText("" + cla.getPlaces());
+                                                                break;
+                                                            case 4:
+                                                                texto[4].setText("" + cla.getComputers());
+                                                                break;
+                                                            case 5:
+                                                                if (cla.hasProjector()) {
+                                                                    texto[5].setText(lingua.translate("Sim").toLowerCase());
+                                                                } else {
+                                                                    texto[5].setText(lingua.translate("Nao").toLowerCase());
+                                                                }
+                                                                break;
+                                                            case 6:
+                                                                if (cla.hasInteractiveTable()) {
+                                                                    texto[6].setText(lingua.translate("Sim").toLowerCase());
+                                                                } else {
+                                                                    texto[6].setText(lingua.translate("Nao").toLowerCase());
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                }
+                                                imageview.setBorder(baux[7]);
+                                                imageview.removeMouseListener(mouseimage);
+                                                imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                                                 editar = false;
                                                 java.awt.image.BufferedImage imagebtok2 = null;
                                                 try {
@@ -411,34 +478,7 @@ public class ActionButton extends javax.swing.JDialog {
                             }
                             imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                             imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                            imageview.addMouseListener(new java.awt.event.MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    FileIOAux.ImageExtension image;
-                                    image = bimage;
-                                    UIManager.put("TextField.background", new Color(234, 234, 234));
-                                    UIManager.put("List.background", new Color(234, 234, 234));
-                                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
-                                        alterado = true;
-                                    } else {
-                                        bimage = image;
-                                    }
-                                }
-
-                                @Override
-                                public void mouseEntered(MouseEvent e) {
-                                    if (bimage != null) {
-                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
-                                    }
-                                }
-
-                                @Override
-                                public void mouseExited(MouseEvent e) {
-                                    if (bimage != null) {
-                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
-                                    }
-                                }
-                            });
+                            imageview.addMouseListener(mouseimage);
                             editar = true;
                         } else {
                             for (int i = 0; i < texto.length; i++) {
@@ -1010,12 +1050,40 @@ public class ActionButton extends javax.swing.JDialog {
             bteditar.setBackground(new Color(51, 102, 153));
 
             javax.swing.border.Border baux[] = new javax.swing.border.Border[3];
+            java.awt.event.MouseListener mouseimage = new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    FileIOAux.ImageExtension image;
+                    image = bimage;
+                    UIManager.put("TextField.background", new Color(234, 234, 234));
+                    UIManager.put("List.background", new Color(234, 234, 234));
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                        alterado = true;
+                    } else {
+                        bimage = image;
+                    }
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (bimage != null) {
+                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (bimage != null) {
+                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
+                    }
+                }
+            };
             baux[0] = texto[0].getBorder();
             baux[1] = texto[1].getBorder();
             baux[2] = imageview.getBorder();
             bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            java.awt.event.MouseListener copypaste = Components.PopUpMenu.simpleCopyPaste(lingua, texto[0]);
-            java.awt.event.MouseListener copypaste2 = Components.PopUpMenu.simpleCopyPaste(lingua, texto[1]);
+            java.awt.event.MouseListener copypaste = Components.PopUpMenu.simpleCopyPaste(lingua, texto[0],true);
+            java.awt.event.MouseListener copypaste2 = Components.PopUpMenu.simpleCopyPaste(lingua, texto[1],true);
             bteditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1048,7 +1116,11 @@ public class ActionButton extends javax.swing.JDialog {
                                         texto[0].setBorder(baux[0]);
                                         texto[1].setText(mat.getCodeOfMaterial());
                                         texto[1].setBorder(baux[1]);
+                                        imageview.setBorder(baux[2]);
+                                        imageview.removeMouseListener(mouseimage);
+                                        imageview.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                                         editar = false;
+                                        imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                                         java.awt.image.BufferedImage imagebtok2 = null;
                                         try {
                                             imagebtok2 = ImageIO.read(getClass().getResourceAsStream("Images/edit.png"));
@@ -1080,6 +1152,9 @@ public class ActionButton extends javax.swing.JDialog {
                                         texto[0].setBorder(baux[0]);
                                         texto[1].setText(mat.getCodeOfMaterial());
                                         texto[1].setBorder(baux[1]);
+                                        imageview.setBorder(baux[2]);
+                                        imageview.removeMouseListener(mouseimage);
+                                        imageview.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                                         editar = false;
                                         java.awt.image.BufferedImage imagebtok2 = null;
                                         try {
@@ -1096,34 +1171,7 @@ public class ActionButton extends javax.swing.JDialog {
                             });
                             imageview.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                             imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLUE), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                            imageview.addMouseListener(new java.awt.event.MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    FileIOAux.ImageExtension image;
-                                    image = bimage;
-                                    UIManager.put("TextField.background", new Color(234, 234, 234));
-                                    UIManager.put("List.background", new Color(234, 234, 234));
-                                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
-                                        alterado = true;
-                                    } else {
-                                        bimage = image;
-                                    }
-                                }
-
-                                @Override
-                                public void mouseEntered(MouseEvent e) {
-                                    if (bimage != null) {
-                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 54, 44)));
-                                    }
-                                }
-
-                                @Override
-                                public void mouseExited(MouseEvent e) {
-                                    if (bimage != null) {
-                                        imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
-                                    }
-                                }
-                            });
+                            imageview.addMouseListener(mouseimage);
                             editar = true;
                         } else {
                             texto[0].removeMouseListener(copypaste);

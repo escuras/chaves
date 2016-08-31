@@ -17,8 +17,8 @@ public class Mae {
         Familia santos = new Familia("Troca",6);
         santos.escreveFamilia();
         
-        int h= 1;
-      
+        
+       
         
     } 
     

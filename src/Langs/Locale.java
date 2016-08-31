@@ -17,6 +17,30 @@ import java.util.ResourceBundle;
  */
 public class Locale {
 
+    public static Locale getLocale_pt_PT(){
+        Locale local = new Locale();
+        local.setLocale("pt_PT");
+        return local;
+    }
+    
+    public static Locale getLocale_es_ES(){
+        Locale local = new Locale();
+        local.setLocale("es_ES");
+        return local;
+    }
+     
+    public static Locale getLocale_en_US(){
+        Locale local = new Locale();
+        local.setLocale("en_US");
+        return local;
+    } 
+    
+     public static Locale getLocale_fr_FR(){
+        Locale local = new Locale();
+        local.setLocale("fr_FR");
+        return local;
+    }
+    
     public Collection<String> linguas;
     public String locale;
     public java.util.Locale systemlocale;

@@ -6,31 +6,66 @@
 package Clavis.Windows;
 
 import Clavis.KeyQuest;
+import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.standard.PageRanges;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 
 /**
  *
@@ -48,7 +83,9 @@ public class WHorario extends JDialog {
     private final Langs.Locale lingua;
     private TimeDate.Date inicio;
     private TimeDate.Date fim;
-    private java.util.Set<Keys.Request> lista;
+    private java.util.List<Keys.Request> lista;
+    private MouseAdapter mouseaction;
+    private String[][] valores;
 
     /**
      * Creates new form NewJPanel
@@ -71,7 +108,7 @@ public class WHorario extends JDialog {
         this.lingua = lingua;
         inicio = new TimeDate.Date();
         fim = new TimeDate.Date();
-        lista = new java.util.HashSet<>();
+        lista = new java.util.ArrayList<>();
     }
 
     /**
@@ -91,8 +128,9 @@ public class WHorario extends JDialog {
         jXDatePickerFim = new org.jdesktop.swingx.JXDatePicker();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButtonImprimir = new javax.swing.JButton();
+        jComboBoxEstado = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(700, 500));
         setResizable(false);
@@ -105,27 +143,38 @@ public class WHorario extends JDialog {
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder1.setCornerSize(6);
         dropShadowBorder1.setShadowSize(3);
-        dropShadowBorder1.setShowLeftShadow(true);
-        dropShadowBorder1.setShowTopShadow(true);
         jScrollPane1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
 
         jTable1.setBorder(null);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                lingua.translate("Utilizador"), lingua.translate("Horário"), lingua.translate("Data"), lingua.translate("Estado")
-            }
-        ));
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-        jTable1.getColumnModel().getColumn(1).setMinWidth(120);
-        jTable1.getColumnModel().getColumn(2).setMinWidth(90);
-        jTable1.getColumnModel().getColumn(3).setMinWidth(120);
+        if (mat.getTypeOfMaterial().getMaterialTypeID() == 1) {
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {},
+                new String [] {
+                    lingua.translate("Utilizador"), lingua.translate("Horário"), lingua.translate("Data"), lingua.translate("Estado")
+                }
+            ));
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(120);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(120);
+        } else {
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {},
+                new String [] {
+                    lingua.translate("Utilizador"), lingua.translate("Data"), lingua.translate("Estado")
+                }
+            ));
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(120);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(120);
+        }
         jScrollPane1.setViewportView(jTable1);
         Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
         UIManager.put("Table.focusCellHighlightBorder", border);
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        renderer.setFocusable(false);
         javax.swing.JLabel lo = new javax.swing.JLabel();
         lo.setBackground(new Color(100, 100, 100));
         lo.setOpaque(true);
@@ -135,7 +184,9 @@ public class WHorario extends JDialog {
         jTable1.setSelectionBackground(Color.DARK_GRAY);
         jTable1.getColumnModel().getColumn(1).setCellRenderer(renderer);
         jTable1.getColumnModel().getColumn(2).setCellRenderer(renderer);
-        jTable1.getColumnModel().getColumn(3).setCellRenderer(renderer);
+        if (mat.getTypeOfMaterial().getMaterialTypeID() == 1) {
+            jTable1.getColumnModel().getColumn(3).setCellRenderer(renderer);
+        }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 2L;
 
@@ -187,88 +238,134 @@ public class WHorario extends JDialog {
         });
 
         jXDatePickerInicio.setBackground(new java.awt.Color(254, 254, 254));
+        jXDatePickerInicio.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
         jXDatePickerInicio.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jXDatePickerInicio.setMaximumSize(new java.awt.Dimension(1155551, 26));
         jXDatePickerInicio.setMinimumSize(new java.awt.Dimension(66, 26));
         jXDatePickerInicio.setPreferredSize(new java.awt.Dimension(131, 26));
+        jXDatePickerInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePickerInicioActionPerformed(evt);
+            }
+        });
 
         jXDatePickerFim.setBackground(new java.awt.Color(254, 254, 254));
+        jXDatePickerFim.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
         jXDatePickerFim.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jXDatePickerFim.setMaximumSize(new java.awt.Dimension(1155551, 26));
         jXDatePickerFim.setMinimumSize(new java.awt.Dimension(66, 26));
         jXDatePickerFim.setPreferredSize(new java.awt.Dimension(121, 26));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel1.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Início");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setMaximumSize(new java.awt.Dimension(3343446, 26));
+        jLabel1.setMaximumSize(new java.awt.Dimension(3343446, 96));
         jLabel1.setMinimumSize(new java.awt.Dimension(36, 26));
-        jLabel1.setPreferredSize(new java.awt.Dimension(100, 26));
+        jLabel1.setOpaque(true);
+        jLabel1.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel2.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel2.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Fim");
-        jLabel2.setMaximumSize(new java.awt.Dimension(355557, 26));
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel2.setMaximumSize(new java.awt.Dimension(355557, 96));
         jLabel2.setMinimumSize(new java.awt.Dimension(37, 26));
-        jLabel2.setPreferredSize(new java.awt.Dimension(100, 26));
+        jLabel2.setOpaque(true);
+        jLabel2.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        jLabel3.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jButtonImprimir.setBackground(new java.awt.Color(51, 102, 153));
+        jButtonImprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonImprimir.setFocusPainted(false);
+        jButtonImprimir.setMaximumSize(new java.awt.Dimension(5345, 40));
+        jButtonImprimir.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImprimirActionPerformed(evt);
+            }
+        });
+
+        jComboBoxEstado.setBackground(new java.awt.Color(213, 213, 213));
+        jComboBoxEstado.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(5, 1, 1, 1)));
+        jComboBoxEstado.setFocusable(false);
+        jComboBoxEstado.setMinimumSize(new java.awt.Dimension(35, 26));
+        jComboBoxEstado.setPreferredSize(new java.awt.Dimension(131, 26));
+        jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEstadoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel3.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(254, 254, 254));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Registos de atividade ");
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder2.setCornerSize(6);
-        dropShadowBorder2.setShadowSize(3);
-        dropShadowBorder2.setShowRightShadow(false);
-        jLabel3.setBorder(dropShadowBorder2);
-        jLabel3.setMaximumSize(new java.awt.Dimension(355557, 26));
+        jLabel3.setText("Estado");
+        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel3.setMaximumSize(new java.awt.Dimension(355557, 96));
         jLabel3.setMinimumSize(new java.awt.Dimension(37, 26));
-        jLabel3.setPreferredSize(new java.awt.Dimension(186, 26));
-
-        jButton1.setBackground(new java.awt.Color(51, 102, 153));
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setFocusPainted(false);
-        jButton1.setMaximumSize(new java.awt.Dimension(5345, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
+        jLabel3.setOpaque(true);
+        jLabel3.setPreferredSize(new java.awt.Dimension(100, 20));
 
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
         jPanelInicialLayout.setHorizontalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(42, 42, 42)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(42, 42, 42))
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
                         .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 11, Short.MAX_VALUE))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))))
+            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(jXDatePickerFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxEstado, 0, 152, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         try{
@@ -291,12 +388,12 @@ public class WHorario extends JDialog {
 
         jXDatePickerInicio.setLocale(lingua.systemlocale);
         jXDatePickerInicio.getEditor().setSelectionColor(Color.DARK_GRAY);
-        jXDatePickerInicio.getEditor().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), BorderFactory.createLineBorder(Color.BLACK,1)));
+        jXDatePickerInicio.getEditor().setBorder(BorderFactory.createEmptyBorder());
         jXDatePickerInicio.getEditor().setHorizontalAlignment(SwingConstants.CENTER);
         javax.swing.JButton bbt2 = (javax.swing.JButton) jXDatePickerInicio.getComponent(1);
         bbt2.setBackground(Color.WHITE);
 
-        jXDatePickerInicio.addActionListener(actionJXDatePickerInicio());
+        jXDatePickerInicio.addActionListener(actionJXDatePicker());
         jXDatePickerInicio.setFormats("dd/MM/yyyy");
         javax.swing.JPanel pan = new javax.swing.JPanel(null);
         javax.swing.JLabel fil = new javax.swing.JLabel("testes");
@@ -311,11 +408,11 @@ public class WHorario extends JDialog {
 
         jXDatePickerFim.setLocale(lingua.systemlocale);
         jXDatePickerFim.getEditor().setSelectionColor(Color.DARK_GRAY);
-        jXDatePickerFim.getEditor().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), BorderFactory.createLineBorder(Color.BLACK,1)));
+        jXDatePickerFim.getEditor().setBorder(BorderFactory.createEmptyBorder());
         jXDatePickerFim.getEditor().setHorizontalAlignment(SwingConstants.CENTER);
         javax.swing.JButton bbt = (javax.swing.JButton) jXDatePickerFim.getComponent(1);
         bbt.setBackground(Color.WHITE);
-        jXDatePickerFim.addActionListener(actionJXDatePickerFim());
+        jXDatePickerFim.addActionListener(actionJXDatePicker());
         jXDatePickerFim.setFormats("dd/MM/yyyy");
         jLabel1.setText(lingua.translate("Início"));
         jLabel2.setText(lingua.translate("Fim"));
@@ -324,16 +421,22 @@ public class WHorario extends JDialog {
                 BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/print.png"));
                 ImageIcon imic = new ImageIcon(im);
                 if (imic != null) {
-                    jButton1.setIcon(imic);
+                    jButtonImprimir.setIcon(imic);
                 }
             }
         } catch(IOException eo) {}
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("Todos"), lingua.translate("terminado"), lingua.translate("em curso"), lingua.translate("substituído"), lingua.translate("atrasado"), lingua.translate("não realizado"),lingua.translate("por realizar") }));
+        Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);
+        ((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        jLabel3.setText(lingua.translate("Estado"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 688, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,6 +447,276 @@ public class WHorario extends JDialog {
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         this.close();
     }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
+        int val = jComboBoxEstado.getSelectedIndex();
+        prefs.putInt("comboboxvalue", val);
+        this.refreshTable(val);
+
+    }//GEN-LAST:event_jComboBoxEstadoActionPerformed
+
+    private void jXDatePickerInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePickerInicioActionPerformed
+
+    private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
+        try {
+            FileOutputStream out = null;
+            String ficheiro = "doc.xls";
+            ficheiro = "test.pdf";
+            if ((valores != null) && (valores.length > 0)) {
+                // this.createXLSDocument(ficheiro, valores);
+                System.out.println(this.createPDFDocument(ficheiro, valores));
+            }
+            this.printPDF(ficheiro);
+            Desktop.getDesktop().open(new File(ficheiro));
+        } catch (IOException ex) {
+            Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonImprimirActionPerformed
+
+    public int createPDFDocument(String nome, String[][] valores) {
+        PDDocument doc = new PDDocument();
+        try {
+            drawTable(doc, valores);
+            doc.save(nome);
+            doc.close();
+            return doc.getNumberOfPages();
+        } catch (IOException ex) {
+            Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+
+    }
+
+    /**
+     * @see
+     * http://fahdshariff.blogspot.pt/2010/10/creating-tables-with-pdfbox.html
+     */
+    private void drawTable(PDDocument doc, String[][] content) throws IOException {
+
+        float y = 700f;
+        float margin = 40f;
+        final int rows = content.length;
+        final int cols = content[0].length;
+        final float rowHeight = 20f;
+        int maximolinhas = (int) (y / (rowHeight + 2));
+
+        float tableHeight;
+        int paginas = 0;
+        int linhas;
+
+        if (rows < maximolinhas) {
+            tableHeight = rowHeight * rows;
+            linhas = rows;
+            paginas++;
+        } else {
+            tableHeight = rowHeight * maximolinhas;
+            linhas = maximolinhas;
+            int auxiliar = 0;
+            while (auxiliar < rows) {
+                paginas++;
+                auxiliar += maximolinhas;
+            }
+        }
+        final float cellMargin = 5f;
+        float tamanhotexto = 12f;
+        float dimensao = 0f;
+        float auxiliar;
+        PDFont font = PDType1Font.HELVETICA;
+        for (String[] content1 : content) {
+            auxiliar = font.getStringWidth(content1[0]) / 1000 * tamanhotexto;
+            if (dimensao < auxiliar) {
+                dimensao = auxiliar;
+            }
+        }
+        int passagem = 0;
+        int passagemdepagina = 0;
+        while (passagem < paginas) {
+            PDPage page = new PDPage();
+            doc.addPage(page);
+            PDPageContentStream contentStream = null;
+            try {
+                contentStream = new PDPageContentStream(doc, page);
+            } catch (IOException ex) {
+                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
+            float firstcolWidth = dimensao + 2 * cellMargin;
+            float colWidth = (tableWidth - firstcolWidth) / (float) (cols - 1);
+            if (passagem == 1) {
+                y += 40;
+            }
+            float nexty = y;
+
+            for (int i = 0; i <= linhas; i++) {
+                if (i < linhas) {
+                    if ((i % 2) == 0) {
+                        contentStream.setNonStrokingColor(200, 200, 200);
+                        contentStream.addRect(margin, nexty - rowHeight, tableWidth, rowHeight);
+                        contentStream.fill();
+                    }
+                }
+                contentStream.setNonStrokingColor(0, 0, 0);
+                contentStream.moveTo(margin, nexty);
+                contentStream.lineTo(margin + tableWidth, nexty);
+                contentStream.stroke();
+                nexty -= rowHeight;
+            }
+
+            //draw the columns
+            float nextx = margin;
+            for (int i = 0; i <= cols; i++) {
+                contentStream.moveTo(nextx, y);
+                if (linhas < maximolinhas) {
+                    tableHeight = rowHeight * linhas;
+                } else {
+                    tableHeight = rowHeight * maximolinhas;
+                }
+                contentStream.lineTo(nextx, y - tableHeight);
+                contentStream.stroke();
+                if (i == 0) {
+                    nextx += firstcolWidth;
+                } else {
+                    nextx += colWidth;
+                }
+            }
+
+            contentStream.setFont(font, tamanhotexto);
+
+            float textx = margin + cellMargin;
+            float texty = y - 15;
+            for (int i = 0; i < linhas; i++) {
+                for (int j = 0; j < content[i + passagemdepagina].length; j++) {
+                    String text = content[i + passagemdepagina][j];
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(textx, texty);
+                    contentStream.showText(text);
+                    contentStream.endText();
+                    if (j == 0) {
+                        textx += firstcolWidth;
+                    } else {
+                        textx += colWidth;
+                    }
+                }
+                texty -= rowHeight;
+                textx = margin + cellMargin;
+            }
+            contentStream.close();
+            passagem++;
+            maximolinhas = (int) (y / (rowHeight + 1));
+            linhas = rows - (maximolinhas * passagem);
+            if (linhas > maximolinhas) {
+                linhas = maximolinhas;
+            }
+            passagemdepagina = maximolinhas * passagem;
+
+        }
+    }
+
+    public void createXLSDocument(String nome, String[][] valores) {
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet(nome);
+        HSSFRow row;
+        HSSFCell cell;
+        for (int i = 0; i < valores.length; i++) {
+            row = sheet.createRow(i);
+            for (int j = 0; j < valores[i].length; j++) {
+                cell = row.createCell(j);
+                cell.setCellValue(valores[i][j]);
+                if (valores[i][j] != null) {
+                    sheet.setColumnWidth(j, 255 * valores[i][j].length() + 4);
+                    CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
+                }
+            }
+        }
+        wb.setPrintArea(0, 0, valores[0].length, 0, valores.length);
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        FileOutputStream out;
+        File file = new File(nome);
+        if (file.canWrite()) {
+            try {
+                out = new FileOutputStream(file);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+                out = null;
+            }
+            if (out != null) {
+                try {
+                    wb.write(out);
+                    out.close();
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(file);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public boolean isFileOpen(File file) {
+        boolean cond;
+        try {
+            org.apache.commons.io.FileUtils.touch(file);
+            cond = true;
+        } catch (IOException e) {
+            cond = false;
+        }
+        return cond;
+    }
+
+    public void printPDF(String destino) {
+       
+        
+        PrinterJob ptrabalho = PrinterJob.getPrinterJob();
+        PrintService servico = null;
+        HashPrintRequestAttributeSet printParams = new HashPrintRequestAttributeSet();
+        javax.print.PrintService[] service = PrinterJob.lookupPrintServices(); 
+        int g =0 ;
+        while (g < service.length){
+            System.out.println(service[g].getName());
+            g++;
+        }
+        
+        PrintService[] pservices = PrintServiceLookup.lookupPrintServices(null, null);
+        
+        if (ptrabalho.printDialog(printParams)) {
+            PageRanges pageRanges = (PageRanges) printParams.get(PageRanges.class);
+            
+            int pagesToBePrinted = getNumberOfPages(pageRanges);
+            servico = ptrabalho.getPrintService();
+        }
+        if (servico != null) {
+            FileInputStream fis;
+            try {
+
+                fis = new FileInputStream(destino);
+                Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
+                DocPrintJob printJob = servico.createPrintJob();
+                printJob.print(pdfDoc, printParams);
+
+                fis.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PrintException | IOException ex) {
+                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    int getNumberOfPages(PageRanges pageRanges) {
+        int pages = 0;
+        int[][] ranges = pageRanges.getMembers();
+        for (int i = 0; i < ranges.length; i++) {
+            pages += 1;
+            if (ranges[i].length == 2) {
+                pages += ranges[i][1] - ranges[i][0];
+            }
+        }
+        pages = Math.min(pages, 3);
+        return pages;
+    }
 
     /**
      * @return the painelcor
@@ -364,6 +737,7 @@ public class WHorario extends JDialog {
 
     public void create() {
         initComponents();
+        this.setTitle(lingua.translate("Registos de empréstimo para o recurso") + ": " + lingua.translate(mat.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(mat.getDescription()));
         KeyQuest.addtoPropertyListener(jPanelInicial, true);
         String dat = new TimeDate.Date().toString();
         String[] auxiliar = prefs.get("datainicio", dat).split("/");
@@ -417,32 +791,144 @@ public class WHorario extends JDialog {
         jXDatePickerInicio.setDate(date);
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-            
             java.util.List<Keys.Request> requisicoes = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(mat, inicio, fim));
             db.close();
-            String estado = "";
+            String estado;
             DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-            for (Keys.Request req : requisicoes) {
-                if (req.isTerminated()) {
-                    estado = lingua.translate("terminado");
-                } else if (req.isActive()) {
-                    estado = lingua.translate("em curso");
-                } else if (req.getSubstitute() > 0) {
-                    estado = lingua.translate("substituído");
-                } else if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
-                    estado = lingua.translate("atrasado");
-                } else if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
-                    estado = lingua.translate("não realizado");
+            if (requisicoes.size() > 0) {
+                if (mat.getMaterialTypeID() == 1) {
+                    valores = new String[requisicoes.size()][4];
                 } else {
-                    estado = lingua.translate("por realizar");
+                    valores = new String[requisicoes.size()][3];
                 }
-                Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
-                modelo.addRow(ob);
+                int andamento = 0;
+                lista = new java.util.ArrayList<>();
+                for (Keys.Request req : requisicoes) {
+                    if (req.isTerminated()) {
+                        estado = lingua.translate("terminado");
+                    } else if (req.isActive()) {
+                        estado = lingua.translate("em curso");
+                    } else if (req.getSubstitute() > 0) {
+                        estado = lingua.translate("substituído");
+                    } else if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("atrasado");
+                    } else if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("não realizado");
+                    } else {
+                        estado = lingua.translate("por realizar");
+                    }
+                    if (mat.getMaterialTypeID() == 1) {
+                        Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                        modelo.addRow(ob);
+                        valores[andamento][0] = req.getPerson().getName();
+                        valores[andamento][1] = req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0);
+                        valores[andamento][2] = req.getBeginDate().toString();
+                        valores[andamento][3] = estado;
+                    } else {
+                        Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                        modelo.addRow(ob);
+                        valores[andamento][0] = req.getPerson().getName();
+                        valores[andamento][1] = req.getBeginDate().toString();
+                        valores[andamento][2] = estado;
+                    }
+                    lista.add(req);
+                    andamento++;
+                }
             }
         }
+        jComboBoxEstado.setSelectedIndex(prefs.getInt("comboboxvalue", 0));
+        String[] opcoes = {lingua.translate("Ver detalhes da requisição"), lingua.translate("Ver requisicões com a mesma data"), lingua.translate("Ver requisicões com o mesmo estado")};
+        ActionListener[] eventos = new ActionListener[opcoes.length];
+        eventos[0] = (ActionEvent r) -> {
+            Border border = BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK, 1)), BorderFactory.createEmptyBorder(0, 10, 0, 10));
+            int val = jTable1.getSelectedRow();
+            Keys.Request req = lista.get(val);
+            javax.swing.JPanel pan = new javax.swing.JPanel(null);
+            pan.setPreferredSize(new Dimension(500, 300));
+            pan.setBounds(0, 20, 500, 400);
+            pan.setBackground(Components.MessagePane.BACKGROUND_COLOR);
+            javax.swing.JLabel lrecurso1 = new javax.swing.JLabel(lingua.translate("Recurso") + ": ");
+            lrecurso1.setBounds(20, 20, 120, 26);
+            lrecurso1.setFocusable(true);
+            lrecurso1.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+            pan.add(lrecurso1);
+            javax.swing.JLabel lrecurso11 = new javax.swing.JLabel(lingua.translate(req.getMaterial().getTypeOfMaterialName()) + " " + lingua.translate(req.getMaterial().getDescription()));
+            lrecurso11.setBounds(160, 20, 260, 26);
+            lrecurso11.setBorder(border);
+            pan.add(lrecurso11);
+            javax.swing.JLabel lrecurso2 = new javax.swing.JLabel(lingua.translate("Utilizador") + ": ");
+            lrecurso2.setBounds(20, 50, 120, 26);
+            lrecurso2.setFocusable(true);
+            lrecurso2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+            pan.add(lrecurso2);
+            javax.swing.JLabel lrecurso22 = new javax.swing.JLabel(req.getPerson().getName());
+            lrecurso22.setBounds(160, 50, 260, 26);
+            lrecurso22.setBorder(border);
+            pan.add(lrecurso22);
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate(""), 500, 400, pan, "", new String[]{lingua.translate("Alterar"), lingua.translate("Voltar")});
+            mensagem.showMessage();
+        };
+        eventos[1] = (ActionEvent r) -> {
+            String val = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 2).toString();
+            SimpleDateFormat sdf_auxiliar = new SimpleDateFormat("dd/MM/yyyy");
+            Date data_auxiliar;
+            try {
+                data_auxiliar = sdf_auxiliar.parse(val);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(data_auxiliar);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+                int mes = cal.get(Calendar.MONTH) + 1;
+                int ano = cal.get(Calendar.YEAR);
+                inicio = new TimeDate.Date(dia, mes, ano);
+                fim = new TimeDate.Date(dia, mes, ano);
+            } catch (ParseException ex) {
+                data_auxiliar = new Date();
+            }
+            jXDatePickerFim.setDate(data_auxiliar);
+            jXDatePickerInicio.setDate(data_auxiliar);
+            refreshTable(jComboBoxEstado.getSelectedIndex());
+        };
+        eventos[2] = (ActionEvent r) -> {
+            String val = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 3).toString();
+            for (int i = 0; i < jComboBoxEstado.getItemCount(); i++) {
+                if (jComboBoxEstado.getItemAt(i).equals(val)) {
+                    jComboBoxEstado.setSelectedIndex(i);
+                }
+            }
+        };
+        KeyStroke[] strokes = new KeyStroke[opcoes.length];
+        strokes[0] = KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK);
+        strokes[1] = KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK);
+        strokes[2] = KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK);
+        Components.PopUpMenu pop = new Components.PopUpMenu(opcoes, eventos, strokes);
+        pop.create();
+        mouseaction = new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                java.awt.Point ponto = new java.awt.Point(e.getX(), e.getY());
+                if (jTable1.rowAtPoint(ponto) > -1) {
+                    jTable1.setRowSelectionInterval(jTable1.rowAtPoint(ponto), jTable1.rowAtPoint(new java.awt.Point(e.getX(), e.getY())));
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    if (jTable1.getSelectedRow() >= 0) {
+                        java.awt.Point ponto = new java.awt.Point(e.getX(), e.getY());
+                        if (jTable1.rowAtPoint(ponto) > -1) {
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    }
+                }
+            }
+
+        };
+        jTable1.addMouseListener(mouseaction);
     }
 
-    public void refreshtable(int val) {
+    public void refreshTable(int val) {
         String estado;
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         if (modelo.getRowCount() > 0) {
@@ -451,13 +937,14 @@ public class WHorario extends JDialog {
                 modelo.removeRow(0);
             }
         }
-        java.util.Set<Keys.Request> requisicoes = new java.util.HashSet<>();
+
+        java.util.List<Keys.Request> requisicoes = new java.util.ArrayList<>();
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-            requisicoes = db.getRequestsByMaterialByDateInterval(mat, inicio, fim);
+            requisicoes = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(mat, inicio, fim));
             db.close();
         }
-        lista = new java.util.HashSet<>();
+        lista = new java.util.ArrayList<>();
         switch (val) {
             case 0:
                 for (Keys.Request req : requisicoes) {
@@ -474,56 +961,152 @@ public class WHorario extends JDialog {
                     } else {
                         estado = lingua.translate("por realizar");
                     }
-                    Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
-                    modelo.addRow(ob);
-                    lista.add(req);
-                }
-
-                break;
-            case 1:
-
-                for (Keys.Request req : requisicoes) {
-                    if (req.isTerminated()) {
-                        estado = lingua.translate("terminado");
+                    if (mat.getMaterialTypeID() == 1) {
                         Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                        modelo.addRow(ob);
+                    } else {
+                        Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
                         modelo.addRow(ob);
                     }
                     lista.add(req);
+                }
+                break;
+            case 1:
+                for (Keys.Request req : requisicoes) {
+                    if (req.isTerminated()) {
+                        estado = lingua.translate("terminado");
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
+                        lista.add(req);
+                    }
                 }
 
                 break;
             case 2:
                 for (Keys.Request req : requisicoes) {
-                    if (req.isActive()) {
+                    if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) < 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) < 0)))) {
                         estado = lingua.translate("em curso");
-                        Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
-                        modelo.addRow(ob);
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
                         lista.add(req);
                     }
                 }
                 break;
-
+            case 3:
+                for (Keys.Request req : requisicoes) {
+                    if (req.getSubstitute() > 0) {
+                        estado = lingua.translate("substituído");
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
+                        lista.add(req);
+                    }
+                }
+                break;
+            case 4:
+                for (Keys.Request req : requisicoes) {
+                    if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("atrasado");
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
+                        lista.add(req);
+                    }
+                }
+                break;
+            case 5:
+                for (Keys.Request req : requisicoes) {
+                    if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                        estado = lingua.translate("não realizado");
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
+                        lista.add(req);
+                    }
+                }
+                break;
+            case 6:
+                for (Keys.Request req : requisicoes) {
+                    if ((!req.isActive()) && (!req.isTerminated()) && ((req.getEndDate().isBigger(new TimeDate.Date()) < 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) < 0)))) {
+                        estado = lingua.translate("por realizar");
+                        if (mat.getMaterialTypeID() == 1) {
+                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        } else {
+                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), estado};
+                            modelo.addRow(ob);
+                        }
+                        lista.add(req);
+                    }
+                }
+                break;
+        }
+        if (mat.getMaterialTypeID() == 1) {
+            valores = new String[lista.size()][4];
+        } else {
+            valores = new String[lista.size()][3];
+        }
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).isTerminated()) {
+                estado = lingua.translate("terminado");
+            } else if (lista.get(i).isActive()) {
+                estado = lingua.translate("em curso");
+            } else if (lista.get(i).getSubstitute() > 0) {
+                estado = lingua.translate("substituído");
+            } else if ((lista.get(i).isActive()) && ((lista.get(i).getEndDate().isBigger(new TimeDate.Date()) > 0) || ((lista.get(i).getEndDate().isBigger(new TimeDate.Date()) == 0) && (lista.get(i).getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                estado = lingua.translate("atrasado");
+            } else if ((!lista.get(i).isActive()) && ((lista.get(i).getEndDate().isBigger(new TimeDate.Date()) > 0) || ((lista.get(i).getEndDate().isBigger(new TimeDate.Date()) == 0) && (lista.get(i).getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
+                estado = lingua.translate("não realizado");
+            } else {
+                estado = lingua.translate("por realizar");
+            }
+            if (mat.getMaterialTypeID() == 1) {
+                valores[i][0] = lista.get(i).getPerson().getName();
+                valores[i][1] = lista.get(i).getTimeBegin().toString(0) + " - " + lista.get(i).getTimeEnd().toString(0);
+                valores[i][2] = lista.get(i).getBeginDate().toString();
+                valores[i][3] = estado;
+            } else {
+                valores[i][0] = lista.get(i).getPerson().getName();
+                valores[i][2] = lista.get(i).getBeginDate().toString();
+                valores[i][3] = estado;
+            }
         }
     }
 
-    public ActionListener actionJXDatePickerInicio() {
+    public ActionListener actionJXDatePicker() {
         ActionListener l = (ActionEvent e) -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-            String date = sdf.format(jXDatePickerInicio.getDate());
-            String[] aux = date.split("/");
-            inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
-            prefs.put("datainicio", inicio.toString());
-        };
-        return l;
-    }
-
-    public ActionListener actionJXDatePickerFim() {
-        ActionListener l = (ActionEvent e) -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String date = sdf.format(jXDatePickerFim.getDate());
             String[] aux = date.split("/");
             fim = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
+            date = sdf.format(jXDatePickerInicio.getDate());
+            aux = date.split("/");
+            inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
             prefs.put("datafim", fim.toString());
+            prefs.put("datainicio", inicio.toString());
+            this.refreshTable(jComboBoxEstado.getSelectedIndex());
         };
         return l;
     }
@@ -537,8 +1120,9 @@ public class WHorario extends JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonImprimir;
     private javax.swing.JButton jButtonSair;
+    private javax.swing.JComboBox<String> jComboBoxEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -611,14 +1195,14 @@ public class WHorario extends JDialog {
     /**
      * @return the lista
      */
-    public java.util.Set<Keys.Request> getList() {
+    public java.util.List<Keys.Request> getList() {
         return lista;
     }
 
     /**
      * @param lista the lista to set
      */
-    public void setList(java.util.Set<Keys.Request> lista) {
+    public void setList(java.util.List<Keys.Request> lista) {
         this.lista = lista;
     }
 }

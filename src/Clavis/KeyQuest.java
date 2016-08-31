@@ -5196,6 +5196,12 @@ public class KeyQuest extends javax.swing.JFrame {
         paineis.add(new PainelAuxiliar(pane,border));
     }
     
+    public static void addVisualComboBox(javax.swing.JComboBox<?> combo){
+        BasicComboPopup popupVista = (BasicComboPopup) combo.getAccessibleContext().getAccessibleChild(0);
+        popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+    }
+    
     private static class PainelAuxiliar {
 
         boolean border;
