@@ -17,8 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
-import java.awt.print.PageFormat;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,6 +134,7 @@ public class WHorario extends JDialog {
         jButtonImprimir = new javax.swing.JButton();
         jComboBoxEstado = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jButtonExportar = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(700, 500));
         setResizable(false);
@@ -143,6 +147,7 @@ public class WHorario extends JDialog {
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder1.setCornerSize(6);
         dropShadowBorder1.setShadowSize(3);
+        dropShadowBorder1.setShowLeftShadow(true);
         jScrollPane1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
 
         jTable1.setBorder(null);
@@ -238,7 +243,11 @@ public class WHorario extends JDialog {
         });
 
         jXDatePickerInicio.setBackground(new java.awt.Color(254, 254, 254));
-        jXDatePickerInicio.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder2.setCornerSize(6);
+        dropShadowBorder2.setShadowSize(3);
+        dropShadowBorder2.setShowLeftShadow(true);
+        jXDatePickerInicio.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder2, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jXDatePickerInicio.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jXDatePickerInicio.setMaximumSize(new java.awt.Dimension(1155551, 26));
         jXDatePickerInicio.setMinimumSize(new java.awt.Dimension(66, 26));
@@ -250,7 +259,11 @@ public class WHorario extends JDialog {
         });
 
         jXDatePickerFim.setBackground(new java.awt.Color(254, 254, 254));
-        jXDatePickerFim.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder3.setCornerSize(6);
+        dropShadowBorder3.setShadowSize(3);
+        dropShadowBorder3.setShowLeftShadow(true);
+        jXDatePickerFim.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder3, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jXDatePickerFim.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jXDatePickerFim.setMaximumSize(new java.awt.Dimension(1155551, 26));
         jXDatePickerFim.setMinimumSize(new java.awt.Dimension(66, 26));
@@ -293,10 +306,14 @@ public class WHorario extends JDialog {
         });
 
         jComboBoxEstado.setBackground(new java.awt.Color(213, 213, 213));
-        jComboBoxEstado.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(5, 1, 1, 1)));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder4.setCornerSize(6);
+        dropShadowBorder4.setShadowSize(3);
+        dropShadowBorder4.setShowRightShadow(false);
+        jComboBoxEstado.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createEmptyBorder(0, 1, 1, 1)));
         jComboBoxEstado.setFocusable(false);
-        jComboBoxEstado.setMinimumSize(new java.awt.Dimension(35, 26));
-        jComboBoxEstado.setPreferredSize(new java.awt.Dimension(131, 26));
+        jComboBoxEstado.setMinimumSize(new java.awt.Dimension(35, 22));
+        jComboBoxEstado.setPreferredSize(new java.awt.Dimension(125, 28));
         jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxEstadoActionPerformed(evt);
@@ -315,6 +332,17 @@ public class WHorario extends JDialog {
         jLabel3.setOpaque(true);
         jLabel3.setPreferredSize(new java.awt.Dimension(100, 20));
 
+        jButtonExportar.setBackground(new java.awt.Color(51, 102, 153));
+        jButtonExportar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonExportar.setFocusPainted(false);
+        jButtonExportar.setMaximumSize(new java.awt.Dimension(5345, 40));
+        jButtonExportar.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
         jPanelInicialLayout.setHorizontalGroup(
@@ -329,10 +357,12 @@ public class WHorario extends JDialog {
                         .addGap(5, 5, 5)
                         .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                .addGap(110, 110, 110)
+                .addGap(71, 71, 71)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
@@ -340,10 +370,10 @@ public class WHorario extends JDialog {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                     .addComponent(jXDatePickerFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxEstado, 0, 152, Short.MAX_VALUE))
+                .addGap(91, 91, 91)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelInicialLayout.setVerticalGroup(
@@ -358,14 +388,15 @@ public class WHorario extends JDialog {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         try{
@@ -429,6 +460,15 @@ public class WHorario extends JDialog {
         Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);
         ((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         jLabel3.setText(lingua.translate("Estado"));
+        try{
+            if (Clavis.KeyQuest.class.getResource("Images/exportar.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exportar.png"));
+                ImageIcon imic = new ImageIcon(im);
+                if (imic != null) {
+                    jButtonExportar.setIcon(imic);
+                }
+            }
+        } catch(IOException eo) {}
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -446,6 +486,7 @@ public class WHorario extends JDialog {
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         this.close();
+
     }//GEN-LAST:event_jButtonSairActionPerformed
 
     private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
@@ -460,32 +501,38 @@ public class WHorario extends JDialog {
     }//GEN-LAST:event_jXDatePickerInicioActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-        try {
-            FileOutputStream out = null;
-            String ficheiro = "doc.xls";
-            ficheiro = "test.pdf";
-            if ((valores != null) && (valores.length > 0)) {
-                // this.createXLSDocument(ficheiro, valores);
-                System.out.println(this.createPDFDocument(ficheiro, valores));
-            }
-            this.printPDF(ficheiro);
-            Desktop.getDesktop().open(new File(ficheiro));
-        } catch (IOException ex) {
-            Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+        if ((valores != null) && (valores.length > 0)) {
+            File file = new File("doc.pdf");
+            createPDFDocument("doc.pdf", valores);
+            FileIOAux.PrintAux print = new FileIOAux.PrintAux(file, lingua, this);
+            print.print();
+            file.delete();
+        } else {
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, painelcor, lingua.translate("Erro de impressão"), 400, 200, lingua.translate("Não existem valores para imprimir") + ".", new String[]{lingua.translate("Voltar")});
+            mensagem.showMessage();
         }
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
-    public int createPDFDocument(String nome, String[][] valores) {
+    private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
+        if ((valores != null) && (valores.length > 0)) {
+             this.createXLSDocument("doc.xls", valores);
+        } else {
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, painelcor, lingua.translate("Erro de exportação"), 400, 200, lingua.translate("Não existem valores para exportar") + ".", new String[]{lingua.translate("Voltar")});
+            mensagem.showMessage();
+        }
+    }//GEN-LAST:event_jButtonExportarActionPerformed
+
+    public void createPDFDocument(String nome, String[][] valores) {
         PDDocument doc = new PDDocument();
         try {
-            drawTable(doc, valores);
+            String titulo = lingua.translate("Registo de empréstimos / requisições do recurso")+": "+lingua.translate(mat.getTypeOfMaterialName())+" "+lingua.translate(mat.getDescription());
+            String subtitulo = lingua.translate("Desde")+": "+inicio.toString()+" "+lingua.translate("até")+": "+fim.toString();
+            drawTable(doc, valores,titulo,subtitulo);
             doc.save(nome);
             doc.close();
-            return doc.getNumberOfPages();
         } catch (IOException ex) {
             Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
 
     }
 
@@ -493,10 +540,10 @@ public class WHorario extends JDialog {
      * @see
      * http://fahdshariff.blogspot.pt/2010/10/creating-tables-with-pdfbox.html
      */
-    private void drawTable(PDDocument doc, String[][] content) throws IOException {
+    private static void drawTable(PDDocument doc, String[][] content, String titulo, String subtitulo) throws IOException {
 
-        float y = 700f;
-        float margin = 40f;
+        float y = 680f;
+        float margin = 60f;
         final int rows = content.length;
         final int cols = content[0].length;
         final float rowHeight = 20f;
@@ -520,18 +567,36 @@ public class WHorario extends JDialog {
             }
         }
         final float cellMargin = 5f;
-        float tamanhotexto = 12f;
+        float tamanhotexto = 10f;
         float dimensao = 0f;
         float auxiliar;
-        PDFont font = PDType1Font.HELVETICA;
+        PDFont font = PDType1Font.COURIER;
         for (String[] content1 : content) {
             auxiliar = font.getStringWidth(content1[0]) / 1000 * tamanhotexto;
+            if (auxiliar > 222.0f) {
+                String nome = content1[0];
+                String[] texto = nome.split(" ");
+                nome = nome.replace(texto[0], "");
+                nome = nome.replace(texto[texto.length - 1], "");
+                int i = 1;
+                while (auxiliar > 222.0f) {
+                    if (texto[i].length() > 2) {
+                        nome = nome.replace(texto[i], texto[i].charAt(0) + ".");
+                    } else {
+                        nome = nome.replace(texto[i], "");
+                    }
+                    auxiliar = font.getStringWidth(texto[0] + nome + texto[texto.length - 1]) / 1000 * tamanhotexto;
+                    i++;
+                }
+                content1[0] = texto[0] + nome + texto[texto.length - 1];
+            }
             if (dimensao < auxiliar) {
                 dimensao = auxiliar;
             }
         }
         int passagem = 0;
         int passagemdepagina = 0;
+        
         while (passagem < paginas) {
             PDPage page = new PDPage();
             doc.addPage(page);
@@ -541,68 +606,100 @@ public class WHorario extends JDialog {
             } catch (IOException ex) {
                 Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
             }
-            float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-            float firstcolWidth = dimensao + 2 * cellMargin;
-            float colWidth = (tableWidth - firstcolWidth) / (float) (cols - 1);
-            if (passagem == 1) {
-                y += 40;
-            }
-            float nexty = y;
-
-            for (int i = 0; i <= linhas; i++) {
-                if (i < linhas) {
-                    if ((i % 2) == 0) {
-                        contentStream.setNonStrokingColor(200, 200, 200);
-                        contentStream.addRect(margin, nexty - rowHeight, tableWidth, rowHeight);
-                        contentStream.fill();
-                    }
-                }
-                contentStream.setNonStrokingColor(0, 0, 0);
-                contentStream.moveTo(margin, nexty);
-                contentStream.lineTo(margin + tableWidth, nexty);
-                contentStream.stroke();
-                nexty -= rowHeight;
-            }
-
-            //draw the columns
-            float nextx = margin;
-            for (int i = 0; i <= cols; i++) {
-                contentStream.moveTo(nextx, y);
-                if (linhas < maximolinhas) {
-                    tableHeight = rowHeight * linhas;
-                } else {
-                    tableHeight = rowHeight * maximolinhas;
-                }
-                contentStream.lineTo(nextx, y - tableHeight);
-                contentStream.stroke();
-                if (i == 0) {
-                    nextx += firstcolWidth;
-                } else {
-                    nextx += colWidth;
-                }
-            }
-
-            contentStream.setFont(font, tamanhotexto);
-
-            float textx = margin + cellMargin;
-            float texty = y - 15;
-            for (int i = 0; i < linhas; i++) {
-                for (int j = 0; j < content[i + passagemdepagina].length; j++) {
-                    String text = content[i + passagemdepagina][j];
+            if (contentStream != null) {
+                contentStream.setFont(font, tamanhotexto);
+                float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
+                float firstcolWidth = dimensao + 2 * cellMargin;
+                float colWidth = (tableWidth - firstcolWidth) / (float) (cols - 1);
+                if (passagem == 0){
                     contentStream.beginText();
-                    contentStream.newLineAtOffset(textx, texty);
-                    contentStream.showText(text);
+                    float posicao = margin + (tableWidth/2) - ((font.getStringWidth(titulo) / 1000 * tamanhotexto)/2);
+                    contentStream.newLineAtOffset(posicao,page.getMediaBox().getHeight() - 60);
+                    contentStream.showText(titulo);
                     contentStream.endText();
-                    if (j == 0) {
-                        textx += firstcolWidth;
+                    contentStream.beginText();
+                    posicao = margin + (tableWidth/2) - ((font.getStringWidth(subtitulo) / 1000 * tamanhotexto)/2);
+                    contentStream.newLineAtOffset(posicao, page.getMediaBox().getHeight() - 80);
+                    contentStream.showText(subtitulo);
+                    contentStream.endText();
+                }
+                if (passagem == 1) {
+                    y += 40;
+                }
+                float nexty = y;
+
+                for (int i = 0; i <= linhas; i++) {
+                    if (i < linhas) {
+                        if ((i % 2) == 0) {
+                            contentStream.setNonStrokingColor(200, 200, 200);
+                            contentStream.addRect(margin, nexty - rowHeight, tableWidth, rowHeight);
+                            contentStream.fill();
+                        }
+                    }
+                    contentStream.setNonStrokingColor(0, 0, 0);
+                    contentStream.moveTo(margin, nexty);
+                    contentStream.lineTo(margin + tableWidth, nexty);
+                    contentStream.stroke();
+                    nexty -= rowHeight;
+                }
+
+                //draw the columns
+                float nextx = margin;
+                for (int i = 0; i <= cols; i++) {
+                    contentStream.moveTo(nextx, y);
+                    if (linhas < maximolinhas) {
+                        tableHeight = rowHeight * linhas;
                     } else {
-                        textx += colWidth;
+                        tableHeight = rowHeight * maximolinhas;
+                    }
+                    contentStream.lineTo(nextx, y - tableHeight);
+                    contentStream.stroke();
+                    if (i == 0) {
+                        nextx += firstcolWidth;
+                    } else {
+                        nextx += colWidth;
                     }
                 }
-                texty -= rowHeight;
-                textx = margin + cellMargin;
+
+                
+
+                float textx = margin;
+                float texty = y - 15;
+                float ttexto;
+                float tauxiliar;
+                for (int i = 0; i < linhas; i++) {
+                    for (int j = 0; j < content[i + passagemdepagina].length; j++) {
+                        String text = content[i + passagemdepagina][j];
+                        if (j > 0) {
+                            ttexto = font.getStringWidth(text) / 1000 * tamanhotexto;
+                            tauxiliar = (colWidth / 2) - (ttexto / 2);
+                            if (tauxiliar > 0) {
+                                ttexto = textx + ((colWidth / 2) - (ttexto / 2));
+                            } else {
+                                ttexto = textx + cellMargin;
+                            }
+                        } else {
+                            ttexto = textx + cellMargin;
+                        }
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset(ttexto, texty);
+                        contentStream.showText(text);
+                        contentStream.endText();
+                        if (j == 0) {
+                            textx += firstcolWidth;
+                        } else {
+                            textx += colWidth;
+                        }
+                    }
+                    texty -= rowHeight;
+                    textx = margin;
+                }
+                contentStream.beginText();
+                contentStream.newLineAtOffset((tableWidth/2)+margin, 40);
+                contentStream.showText(""+(passagem+1));
+                contentStream.endText();
+                contentStream.close();
             }
-            contentStream.close();
             passagem++;
             maximolinhas = (int) (y / (rowHeight + 1));
             linhas = rows - (maximolinhas * passagem);
@@ -610,7 +707,6 @@ public class WHorario extends JDialog {
                 linhas = maximolinhas;
             }
             passagemdepagina = maximolinhas * passagem;
-
         }
     }
 
@@ -633,7 +729,10 @@ public class WHorario extends JDialog {
         wb.setPrintArea(0, 0, valores[0].length, 0, valores.length);
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         FileOutputStream out;
-        File file = new File(nome);
+        String sfile = new File("").getAbsolutePath()
+                + System.getProperty("file.separator")
+                + nome;
+        File file = new File(sfile);
         if (file.canWrite()) {
             try {
                 out = new FileOutputStream(file);
@@ -647,6 +746,9 @@ public class WHorario extends JDialog {
                     out.close();
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop().open(file);
+                    }  else {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, painelcor, lingua.translate("Nota"), 400, 200, lingua.translate("O documento \"doc.xls\" foi criado na pasta raiz do programa") + ".", new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
@@ -666,58 +768,6 @@ public class WHorario extends JDialog {
         return cond;
     }
 
-    public void printPDF(String destino) {
-       
-        
-        PrinterJob ptrabalho = PrinterJob.getPrinterJob();
-        PrintService servico = null;
-        HashPrintRequestAttributeSet printParams = new HashPrintRequestAttributeSet();
-        javax.print.PrintService[] service = PrinterJob.lookupPrintServices(); 
-        int g =0 ;
-        while (g < service.length){
-            System.out.println(service[g].getName());
-            g++;
-        }
-        
-        PrintService[] pservices = PrintServiceLookup.lookupPrintServices(null, null);
-        
-        if (ptrabalho.printDialog(printParams)) {
-            PageRanges pageRanges = (PageRanges) printParams.get(PageRanges.class);
-            
-            int pagesToBePrinted = getNumberOfPages(pageRanges);
-            servico = ptrabalho.getPrintService();
-        }
-        if (servico != null) {
-            FileInputStream fis;
-            try {
-
-                fis = new FileInputStream(destino);
-                Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
-                DocPrintJob printJob = servico.createPrintJob();
-                printJob.print(pdfDoc, printParams);
-
-                fis.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (PrintException | IOException ex) {
-                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    int getNumberOfPages(PageRanges pageRanges) {
-        int pages = 0;
-        int[][] ranges = pageRanges.getMembers();
-        for (int i = 0; i < ranges.length; i++) {
-            pages += 1;
-            if (ranges[i].length == 2) {
-                pages += ranges[i][1] - ranges[i][0];
-            }
-        }
-        pages = Math.min(pages, 3);
-        return pages;
-    }
-
     /**
      * @return the painelcor
      */
@@ -732,11 +782,21 @@ public class WHorario extends JDialog {
 
     public void close() {
         this.setVisible(false);
+        File fil = new File("doc.pdf");
+        if (fil.exists()) {
+            fil.delete();
+        }
         this.dispose();
     }
 
-    public void create() {
+    public synchronized void create() {
         initComponents();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                close();
+            }
+        });
         this.setTitle(lingua.translate("Registos de empréstimo para o recurso") + ": " + lingua.translate(mat.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(mat.getDescription()));
         KeyQuest.addtoPropertyListener(jPanelInicial, true);
         String dat = new TimeDate.Date().toString();
@@ -850,22 +910,173 @@ public class WHorario extends JDialog {
             javax.swing.JLabel lrecurso1 = new javax.swing.JLabel(lingua.translate("Recurso") + ": ");
             lrecurso1.setBounds(20, 20, 120, 26);
             lrecurso1.setFocusable(true);
-            lrecurso1.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+            lrecurso1.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso1);
             javax.swing.JLabel lrecurso11 = new javax.swing.JLabel(lingua.translate(req.getMaterial().getTypeOfMaterialName()) + " " + lingua.translate(req.getMaterial().getDescription()));
-            lrecurso11.setBounds(160, 20, 260, 26);
+            lrecurso11.setBounds(140, 20, 330, 26);
             lrecurso11.setBorder(border);
             pan.add(lrecurso11);
             javax.swing.JLabel lrecurso2 = new javax.swing.JLabel(lingua.translate("Utilizador") + ": ");
             lrecurso2.setBounds(20, 50, 120, 26);
             lrecurso2.setFocusable(true);
-            lrecurso2.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+            lrecurso2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso2);
             javax.swing.JLabel lrecurso22 = new javax.swing.JLabel(req.getPerson().getName());
-            lrecurso22.setBounds(160, 50, 260, 26);
+            lrecurso22.setBounds(140, 50, 330, 26);
             lrecurso22.setBorder(border);
             pan.add(lrecurso22);
-            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate(""), 500, 400, pan, "", new String[]{lingua.translate("Alterar"), lingua.translate("Voltar")});
+            javax.swing.JLabel lrecurso3 = new javax.swing.JLabel(lingua.translate("Data inicial") + ": ");
+            lrecurso3.setBounds(20, 80, 120, 26);
+            lrecurso3.setFocusable(true);
+            lrecurso3.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+            pan.add(lrecurso3);
+            javax.swing.JLabel lrecurso33 = new javax.swing.JLabel(req.getBeginDate().toStringWithMonthWord(lingua));
+            lrecurso33.setBounds(140, 80, 330, 26);
+            lrecurso33.setBorder(border);
+            pan.add(lrecurso33);
+            javax.swing.JLabel lrecurso4 = new javax.swing.JLabel(lingua.translate("Data final") + ": ");
+            lrecurso4.setBounds(20, 110, 120, 26);
+            lrecurso4.setFocusable(true);
+            lrecurso4.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+            pan.add(lrecurso4);
+            javax.swing.JLabel lrecurso44 = new javax.swing.JLabel(req.getEndDate().toStringWithMonthWord(lingua));
+            lrecurso44.setBounds(140, 110, 330, 26);
+            lrecurso44.setBorder(border);
+            pan.add(lrecurso44);
+            
+            javax.swing.JLabel lrecurso5 = new javax.swing.JLabel(lingua.translate("Atividade") + ": ");
+            lrecurso5.setBounds(20, 140, 120, 26);
+            lrecurso5.setFocusable(true);
+            lrecurso5.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+            pan.add(lrecurso5);
+            javax.swing.JLabel lrecurso55;
+            if (req.getActivity().equals("")) {
+                lrecurso55 = new javax.swing.JLabel(lingua.translate("sem descrição"));
+            } else {
+                System.out.println(req.getActivity());
+                String[] saux = req.getActivity().split(":::");
+                String atividade;
+                boolean situacao = false;
+                if (saux.length > 1) {
+                    situacao = true;
+                    atividade = saux[0];
+                } else{
+                    atividade = req.getActivity();
+                }
+                if (req.getSubject().getId() > 0) {
+                    lrecurso55 = new javax.swing.JLabel(lingua.translate(atividade)+ ": "+ req.getSubject().getName());
+                } else {
+                    lrecurso55 = new javax.swing.JLabel(lingua.translate(atividade));
+                }
+                if (situacao) {
+                    Components.PopUpMenu pop = new Components.PopUpMenu(saux, lingua);
+                    pop.create();
+                    lrecurso55.addMouseListener(new MouseAdapter(){
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                        
+                        @Override
+                        public void mouseExited(MouseEvent e){
+                            pop.setVisible(false);
+                        }
+
+                        
+                    });
+                }
+            }
+            lrecurso55.setBounds(140, 140, 330, 26);
+            lrecurso55.setBorder(border);
+            pan.add(lrecurso55);
+            int distancia = 170;
+            if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
+                javax.swing.JLabel lrecurso6 = new javax.swing.JLabel(lingua.translate("Horário") + ": ");
+                lrecurso6.setBounds(20, distancia, 120, 26);
+                lrecurso6.setFocusable(true);
+                lrecurso6.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+                pan.add(lrecurso6);
+                javax.swing.JLabel lrecurso66 = new javax.swing.JLabel(req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0));
+                lrecurso66.setBounds(140, distancia, 330, 26);
+                lrecurso66.setBorder(border);
+                pan.add(lrecurso66);
+                distancia = 200;
+            }
+            if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
+                javax.swing.JLabel lrecurso7 = new javax.swing.JLabel(lingua.translate("Dia da semana")+": ");
+                lrecurso7.setBounds(20, distancia, 120, 26);
+                lrecurso7.setFocusable(true);
+                lrecurso7.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+                pan.add(lrecurso7);
+                javax.swing.JLabel lrecurso77 = new javax.swing.JLabel(lingua.translate(req.getWeekDay().perDayName()));
+                lrecurso77.setBounds(140, distancia, 330, 26);
+                lrecurso77.setBorder(border);
+                pan.add(lrecurso77);
+                if (distancia == 200) {
+                    distancia  = 230;
+                } else {
+                    distancia = 200;
+                }
+            }
+            if (req.isTerminated() || req.isActive()) {
+                javax.swing.JLabel lrecurso8 = new javax.swing.JLabel(lingua.translate("Levantamento")+": ");
+                lrecurso8.setBounds(20, distancia, 120, 26);
+                lrecurso8.setFocusable(true);
+                lrecurso8.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+                pan.add(lrecurso8);
+                javax.swing.JLabel lrecurso88;
+                if ((req.getLiftDate() != null)&&(req.getLiftTime() != null)) {
+                    lrecurso88 = new javax.swing.JLabel(req.getLiftDate().toString() +" "+lingua.translate("às")+" "+req.getLiftTime().toString(0));
+                } else {
+                    lrecurso88 = new javax.swing.JLabel(lingua.translate("sem dados para apresentar"));
+                }
+                lrecurso88.setBounds(140, distancia, 330, 26);
+                lrecurso88.setBorder(border);
+                pan.add(lrecurso88);
+                switch (distancia) {
+                    case 200:
+                        distancia  = 230;
+                        break;
+                    case 230:
+                        distancia = 260;
+                        break;
+                    default:
+                        distancia = 200;
+                        break;
+                }
+            } 
+            if (req.isTerminated()) {
+                javax.swing.JLabel lrecurso9 = new javax.swing.JLabel(lingua.translate("Entrega")+": ");
+                lrecurso9.setBounds(20, distancia, 120, 26);
+                lrecurso9.setFocusable(true);
+                lrecurso9.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+                pan.add(lrecurso9);
+                javax.swing.JLabel lrecurso99;
+                if ((req.getDeliveryDate() != null)&&(req.getDeliveryTime() != null)) {
+                    lrecurso99 = new javax.swing.JLabel(req.getDeliveryDate().toString() +" "+lingua.translate("às")+" "+req.getDeliveryTime().toString(0));
+                } else {
+                    lrecurso99 = new javax.swing.JLabel(lingua.translate("sem dados para apresentar"));
+                }
+                lrecurso99.setBounds(140, distancia, 330, 26);
+                lrecurso99.setBorder(border);
+                pan.add(lrecurso99);
+               switch (distancia) {
+                    case 200:
+                        distancia  = 230;
+                        break;
+                    case 230:
+                        distancia = 260;
+                        break;
+                    case 260:
+                        distancia = 290;
+                        break;
+                    default:
+                        distancia = 200;
+                        break;
+                }
+            }
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate(""), 500, 400, pan, "", new String[]{lingua.translate("Voltar")});
             mensagem.showMessage();
         };
         eventos[1] = (ActionEvent r) -> {
@@ -926,9 +1137,10 @@ public class WHorario extends JDialog {
 
         };
         jTable1.addMouseListener(mouseaction);
+
     }
 
-    public void refreshTable(int val) {
+    public synchronized void refreshTable(int val) {
         String estado;
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         if (modelo.getRowCount() > 0) {
@@ -1089,8 +1301,8 @@ public class WHorario extends JDialog {
                 valores[i][3] = estado;
             } else {
                 valores[i][0] = lista.get(i).getPerson().getName();
-                valores[i][2] = lista.get(i).getBeginDate().toString();
-                valores[i][3] = estado;
+                valores[i][1] = lista.get(i).getBeginDate().toString();
+                valores[i][2] = estado;
             }
         }
     }
@@ -1120,6 +1332,7 @@ public class WHorario extends JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonExportar;
     private javax.swing.JButton jButtonImprimir;
     private javax.swing.JButton jButtonSair;
     private javax.swing.JComboBox<String> jComboBoxEstado;

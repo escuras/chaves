@@ -145,6 +145,7 @@ public class MessagePane {
                 break;
         }
         dialogo = new javax.swing.JDialog();
+        dialogo.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
@@ -252,6 +253,7 @@ public class MessagePane {
         dialogo = new javax.swing.JDialog();
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
+        dialogo.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
@@ -359,6 +361,7 @@ public class MessagePane {
         dialogo = new javax.swing.JDialog();
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
+        dialogo.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setMaximumSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setBackground(new java.awt.Color(224, 224, 224));
@@ -458,6 +461,7 @@ public class MessagePane {
                 break;
         }
         dialogo = new javax.swing.JDialog();
+        dialogo.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         dialogo.setPreferredSize(new java.awt.Dimension(this.largura, altura));
         dialogo.setResizable(false);
         dialogo.setMinimumSize(new java.awt.Dimension(this.largura, altura));

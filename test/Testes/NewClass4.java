@@ -18,8 +18,8 @@ public static void main(String[] args) throws IOException {
         
         File file = new File("test.pdf");
         Langs.Locale lingua = Langs.Locale.getLocale_pt_PT();
-        FileIOAux.PrintAux print = new FileIOAux.PrintAux(file,lingua);
-        print.imprimeParametros();
+        FileIOAux.PrintAux print = new FileIOAux.PrintAux(file,lingua,null);
+        print.print();
     
     }
 
