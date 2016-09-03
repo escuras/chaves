@@ -10,72 +10,32 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.print.Book;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import java.awt.print.PrinterGraphics;
 import java.awt.print.PrinterJob;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.print.Paper;
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
 import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.ServiceUI;
-import javax.print.SimpleDoc;
 import javax.print.attribute.Attribute;
-import javax.print.attribute.DocAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.Chromaticity;
 import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.NumberOfDocuments;
-import javax.print.attribute.standard.OrientationRequested;
 import javax.print.attribute.standard.PageRanges;
 import javax.print.attribute.standard.PrintQuality;
-import javax.print.attribute.standard.PrinterState;
-import javax.print.attribute.standard.PrinterStateReason;
 import javax.print.attribute.standard.Sides;
-import javax.print.event.PrintJobAdapter;
-import javax.print.event.PrintJobEvent;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.plaf.basic.BasicComboPopup;
-import javax.swing.text.JTextComponent;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
-import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
-import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
 /**
  *
@@ -193,9 +153,7 @@ public class PrintAux {
                     bim[i] = pdfRenderer.renderImage(i);
                 }
                 document.close();
-            } else {
-                System.out.println("nulo");
-            }
+            } 
         } catch (IOException ex) {
             Logger.getLogger(PrintAux.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,7 +213,7 @@ public class PrintAux {
             for (int i = 0; i < ativo.length; i++) {
                 ativo[i] = false;
             }
-            javax.swing.JLabel label0 = new javax.swing.JLabel(lingua.translate("Impressora: "));
+            javax.swing.JLabel label0 = new javax.swing.JLabel(lingua.translate("Impressora")+": ");
             label0.setPreferredSize(new java.awt.Dimension(160, 26));
             label0.setBounds(10, 60, 200, 26);
 
@@ -579,59 +537,5 @@ public class PrintAux {
      */
     public PDDocument getDocument() {
         return doc;
-    }
-}
-
-class paintContent implements Printable {
-
-    @Override
-    public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {
-        System.out.println("Page index = " + pageIndex);
-        // pageIndex 1 corresponds to page number 2.
-        if (pageIndex > 2) {
-            return Printable.NO_SUCH_PAGE;
-        }
-
-        Graphics2D g2 = (Graphics2D) g;
-
-        double w = pf.getImageableWidth();
-        double h = pf.getImageableHeight();
-
-        int xo = (int) pf.getImageableX();
-        int yo = (int) pf.getImageableY();
-
-        Rectangle2D r = new Rectangle2D.Double(xo, yo, w, h);
-
-        g2.setColor(Color.red);
-        g2.draw(r);
-
-        return Printable.PAGE_EXISTS;
-    }
-}
-
-class paintCover implements Printable {
-
-    @Override
-    public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {
-        Graphics2D g2 = (Graphics2D) g;
-
-        double w = pf.getImageableWidth();
-        double h = pf.getImageableHeight();
-
-        int xo = (int) pf.getImageableX();
-        int yo = (int) pf.getImageableY();
-
-        Rectangle2D r = new Rectangle2D.Double(xo, yo, w, h);
-
-        g2.setColor(Color.red);
-        g2.draw(r);
-
-        PrinterGraphics p = (PrinterGraphics) g2;
-        String s = p.getPrinterJob().getJobName();
-
-        g2.setPaint(Color.black);
-        g2.drawString(s, 0, 0);
-
-        return Printable.PAGE_EXISTS;
     }
 }

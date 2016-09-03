@@ -24,6 +24,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -54,9 +55,9 @@ public class ActionButton extends javax.swing.JDialog {
     private TimeDate.Date dat;
     private javax.swing.JLabel labelauxiliar;
     private Timer timertempoatrasado;
-    private final javax.swing.JButton btchamada;
+    private final PersonalButtonRequest btchamada;
 
-    public ActionButton(Keys.Material m, Langs.Locale lingua, String url, javax.swing.JButton btchamada) {
+    public ActionButton(Keys.Material m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
         super();
         this.mat = m;
         this.cla = null;
@@ -76,7 +77,7 @@ public class ActionButton extends javax.swing.JDialog {
         this.btchamada = btchamada;
     }
 
-    public ActionButton(Keys.Classroom m, Langs.Locale lingua, String url, javax.swing.JButton btchamada) {
+    public ActionButton(Keys.Classroom m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
         super();
         this.mat = null;
         this.cla = m;
@@ -96,7 +97,7 @@ public class ActionButton extends javax.swing.JDialog {
         this.btchamada = btchamada;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, String url, javax.swing.JButton btchamada) {
+    public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
         super(dialogo);
         this.mat = m;
         this.cla = null;
@@ -116,7 +117,7 @@ public class ActionButton extends javax.swing.JDialog {
         this.btchamada = btchamada;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, String url, javax.swing.JButton btchamada) {
+    public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
         super(dialogo);
         this.cla = m;
         this.mat = null;
@@ -207,6 +208,7 @@ public class ActionButton extends javax.swing.JDialog {
 
             texto[0] = new org.jdesktop.swingx.JXTextField();
             texto[0].setText(sauxiliar);
+            texto[0].setSelectionColor(Color.DARK_GRAY);
             texto[0].setBackground(new Color(249, 249, 249));
             texto[0].setFocusable(false);
             texto[0].setBounds(181, 22, 165, 30);
@@ -232,6 +234,7 @@ public class ActionButton extends javax.swing.JDialog {
 
             texto[1] = new org.jdesktop.swingx.JXTextField();
             texto[1].setText(cla.getCodeOfMaterial());
+            texto[1].setSelectionColor(Color.DARK_GRAY);
             texto[1].setBackground(new Color(249, 249, 249));
             texto[1].setFocusable(false);
             texto[1].setBorder(BorderFactory.createCompoundBorder(texto[1].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
@@ -254,6 +257,7 @@ public class ActionButton extends javax.swing.JDialog {
             texto[2].setText(sauxiliar);
             texto[2].setBackground(new Color(249, 249, 249));
             texto[2].setFocusable(false);
+            texto[2].setSelectionColor(Color.DARK_GRAY);
             texto[2].setBorder(BorderFactory.createCompoundBorder(texto[2].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             painel1Cima.add(texto[2]);
 
@@ -266,6 +270,7 @@ public class ActionButton extends javax.swing.JDialog {
             sauxiliar = "" + cla.getPlaces();
             texto[3] = new org.jdesktop.swingx.JXTextField();
             texto[3].setText(sauxiliar);
+            texto[3].setSelectionColor(Color.DARK_GRAY);
             texto[3].setBackground(new Color(249, 249, 249));
             texto[3].setFocusable(false);
             texto[3].setBorder(BorderFactory.createCompoundBorder(texto[3].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
@@ -280,6 +285,7 @@ public class ActionButton extends javax.swing.JDialog {
             sauxiliar = "" + cla.getComputers();
             texto[4] = new org.jdesktop.swingx.JXTextField();
             texto[4].setText(sauxiliar);
+            texto[4].setSelectionColor(Color.DARK_GRAY);
             texto[4].setBackground(new Color(249, 249, 249));
             texto[4].setFocusable(false);
             texto[4].setBorder(BorderFactory.createCompoundBorder(texto[4].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
@@ -300,6 +306,7 @@ public class ActionButton extends javax.swing.JDialog {
             texto[5].setText(sauxiliar);
             texto[5].setBackground(new Color(249, 249, 249));
             texto[5].setFocusable(false);
+            texto[5].setSelectionColor(Color.DARK_GRAY);
             texto[5].setBorder(BorderFactory.createCompoundBorder(texto[5].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             painel1Cima.add(texto[5]);
 
@@ -317,6 +324,7 @@ public class ActionButton extends javax.swing.JDialog {
             }
             texto[6].setBackground(new Color(249, 249, 249));
             texto[6].setFocusable(false);
+            texto[6].setSelectionColor(Color.DARK_GRAY);
             texto[6].setBorder(BorderFactory.createCompoundBorder(texto[6].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             texto[6].setText(sauxiliar);
             painel1Cima.add(texto[6]);
@@ -382,7 +390,7 @@ public class ActionButton extends javax.swing.JDialog {
             };
             for (int i = 0; i < copypaste.length; i++) {
                 if (i != 2) {
-                    copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i],true);
+                    copypaste[i] = Components.PopUpMenu.simpleCopyPaste(lingua, texto[i], true);
                 }
             }
             bteditar.addActionListener(new ActionListener() {
@@ -638,8 +646,7 @@ public class ActionButton extends javax.swing.JDialog {
                                         }
                                     }
                                 }
-                            } else {
-                                cla.setDescription(texto[0].getText());
+                            } else if (DataBase.DataBase.testConnection(url)) {
                                 cla.setCodeOfMaterial(texto[1].getText());
                                 if (texto[3].getText().length() > 1) {
                                     int i = 0;
@@ -685,40 +692,45 @@ public class ActionButton extends javax.swing.JDialog {
                                 } else {
                                     cla.setInteractiveTable(false);
                                 }
-                                if (DataBase.DataBase.testConnection(url)) {
-                                    DataBase.DataBase db = new DataBase.DataBase(url);
-                                    if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
-                                        cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
-                                    }
-                                    int val = db.updateMaterial(cla, alterado);
-                                    int val2 = db.updateClassroom(cla);
-                                    if ((val < 0) || (val2 < 0)) {
-                                        Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("O update não foi concretizado (parcial ou totalmente)."), new String[]{lingua.translate("Voltar")});
-                                        message.showMessage();
-                                    }
-                                    String sauxiliar = lingua.translate("sala") + " " + lingua.translate(cla.getDescription());
-                                    texto[0].setText(sauxiliar);
-                                    if (btchamada != null) {
-                                        btchamada.setText(cla.getDescription());
-                                        javax.swing.ImageIcon ic;
-                                        if (alterado) {
-                                            BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(cla.getMaterialImage());
-                                            if (ima != null) {
-                                                ima = FileIOAux.ImageAux.resize(ima, 40, 40);
-                                                ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
-                                                ic = new javax.swing.ImageIcon(ima);
-                                                btchamada.setIcon(ic);
-                                            }
-                                        }
-                                    }
-                                    for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
-                                        imageview.removeMouseListener(l);
-                                    }
-                                    db.close();
-                                } else {
-                                    Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("Erro de conexão à base de dados") + ".", new String[]{lingua.translate("Voltar")});
+                                String chamada = cla.getDescription();
+                                cla.setDescription(texto[0].getText());
+                                DataBase.DataBase db = new DataBase.DataBase(url);
+                                if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
+                                    cla.setMaterialImage(bimage.getImage(), bimage.getExtension());
+                                }
+                                int val = db.updateMaterial(cla, alterado);
+                                int val2 = db.updateClassroom(cla);
+
+                                if ((val < 0) || (val2 < 0)) {
+                                    Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("O update não foi concretizado (parcial ou totalmente)."), new String[]{lingua.translate("Voltar")});
                                     message.showMessage();
                                 }
+                                String sauxiliar = lingua.translate("sala") + " " + lingua.translate(cla.getDescription());
+                                texto[0].setText(sauxiliar);
+                                if (btchamada != null) {
+                                    javax.swing.ImageIcon ic;
+                                    if (alterado) {
+                                        BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(cla.getMaterialImage());
+                                        if (ima != null) {
+                                            ima = FileIOAux.ImageAux.resize(ima, 40, 40);
+                                            ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
+                                            ic = new javax.swing.ImageIcon(ima);
+                                            btchamada.setIcon(ic);
+                                        }
+                                    }
+                                    if (!chamada.equals(texto[0].getText())) {
+                                        btchamada.setText(cla.getDescription());
+                                        btchamada.setDescription(cla.getDescription());
+                                        sortAfterRename();
+                                    }
+                                }
+                                for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
+                                    imageview.removeMouseListener(l);
+                                }
+                                db.close();
+                            } else {
+                                Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("Erro de conexão à base de dados") + ".", new String[]{lingua.translate("Voltar")});
+                                message.showMessage();
                             }
                             alterado = false;
                         }
@@ -769,8 +781,6 @@ public class ActionButton extends javax.swing.JDialog {
 
             // painel esquerda
             javax.swing.JPanel painel2 = new javax.swing.JPanel();
-            BoxLayout blayout2 = new BoxLayout(painel2, BoxLayout.Y_AXIS);
-
             painel2.setLayout(null);
             painel2.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK, 1)));
 
@@ -883,6 +893,34 @@ public class ActionButton extends javax.swing.JDialog {
             });
             painel22.add(bthorario);
 
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                Keys.Request req = db.getCurrentRequest(cla);
+                db.close();
+                if ((cla.isLoaned()) || (req.getId() > 0)) {
+                    javax.swing.JButton btentrega = new javax.swing.JButton();
+                    btentrega.setPreferredSize(new Dimension(90, 40));
+                    btentrega.setBackground(new Color(165, 42, 42));
+                    btentrega.setBounds(100, 0, 90, 40);
+                    try {
+                        if (Clavis.KeyQuest.class.getResource("Images/entrega.png") != null) {
+                            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/entrega.png"));
+                            javax.swing.ImageIcon ico = new javax.swing.ImageIcon(im);
+                            btentrega.setIcon(ico);
+                        } else {
+                            btentrega.setText(lingua.translate("Devolver"));
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    btentrega.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btentrega.setToolTipText(lingua.translate("Marcar devolução"));
+                    painel22.add(btentrega);
+                    btentrega.addActionListener((ActionEvent e) -> {
+                        this.confirmDelivery(btentrega, painel22, painel2, req, cla);
+                    });
+                }
+            }
             javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
             painel.setLayout(painelLayout);
             painelLayout.setHorizontalGroup(
@@ -982,6 +1020,7 @@ public class ActionButton extends javax.swing.JDialog {
             texto[0] = new org.jdesktop.swingx.JXTextField();
             texto[0].setText(sauxiliar);
             texto[0].setBackground(new Color(249, 249, 249));
+            texto[0].setSelectionColor(Color.DARK_GRAY);
             texto[0].setBounds(140, 12, 210, 28);
             texto[0].setFocusable(false);
 
@@ -999,6 +1038,7 @@ public class ActionButton extends javax.swing.JDialog {
             sauxiliar = lingua.translate(mat.getCodeOfMaterial());
             texto[1] = new org.jdesktop.swingx.JXTextField();
             texto[1].setText(sauxiliar);
+            texto[1].setSelectionColor(Color.DARK_GRAY);
             texto[1].setBackground(new Color(249, 249, 249));
             texto[1].setBounds(140, 42, 210, 28);
             texto[1].setFocusable(false);
@@ -1023,6 +1063,7 @@ public class ActionButton extends javax.swing.JDialog {
             texto[2].setText(sauxiliar);
             texto[2].setBackground(new Color(249, 249, 249));
             texto[2].setFocusable(false);
+            texto[2].setSelectionColor(Color.DARK_GRAY);
             texto[2].setBounds(140, 72, 210, 28);
             texto[2].setBorder(BorderFactory.createCompoundBorder(texto[2].getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             painel1Cima.add(texto[2]);
@@ -1082,8 +1123,8 @@ public class ActionButton extends javax.swing.JDialog {
             baux[1] = texto[1].getBorder();
             baux[2] = imageview.getBorder();
             bteditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            java.awt.event.MouseListener copypaste = Components.PopUpMenu.simpleCopyPaste(lingua, texto[0],true);
-            java.awt.event.MouseListener copypaste2 = Components.PopUpMenu.simpleCopyPaste(lingua, texto[1],true);
+            java.awt.event.MouseListener copypaste = Components.PopUpMenu.simpleCopyPaste(lingua, texto[0], true);
+            java.awt.event.MouseListener copypaste2 = Components.PopUpMenu.simpleCopyPaste(lingua, texto[1], true);
             bteditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1241,6 +1282,7 @@ public class ActionButton extends javax.swing.JDialog {
                                     if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
                                         mat.setMaterialImage(bimage.getImage(), bimage.getExtension());
                                     }
+                                    String chamada = mat.getDescription();
                                     mat.setDescription(texto[0].getText());
                                     mat.setCodeOfMaterial(texto[1].getText());
                                     int val = db.updateMaterial(mat, alterado);
@@ -1254,7 +1296,6 @@ public class ActionButton extends javax.swing.JDialog {
                                     }
                                     db.close();
                                     if (btchamada != null) {
-                                        btchamada.setText(mat.getDescription());
                                         javax.swing.ImageIcon ic;
                                         if (alterado) {
                                             BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(mat.getMaterialImage());
@@ -1264,6 +1305,11 @@ public class ActionButton extends javax.swing.JDialog {
                                                 ic = new javax.swing.ImageIcon(ima);
                                                 btchamada.setIcon(ic);
                                             }
+                                        }
+                                        if (!chamada.equals(texto[0].getText())) {
+                                            btchamada.setText(mat.getDescription());
+                                            btchamada.setDescription(mat.getDescription());
+                                            sortAfterRename();
                                         }
                                     }
                                     texto[0].setBorder(baux[0]);
@@ -1326,7 +1372,6 @@ public class ActionButton extends javax.swing.JDialog {
 
             // painel esquerda
             javax.swing.JPanel painel2 = new javax.swing.JPanel();
-            BoxLayout blayout2 = new BoxLayout(painel2, BoxLayout.Y_AXIS);
 
             painel2.setLayout(null);
             painel2.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK, 1)));
@@ -1438,6 +1483,35 @@ public class ActionButton extends javax.swing.JDialog {
             });
             painel22.add(bthorario);
 
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                Keys.Request req = db.getCurrentRequest(mat);
+                db.close();
+                if ((mat.isLoaned()) || (req.getId() > 0)) {
+                    javax.swing.JButton btentrega = new javax.swing.JButton();
+                    btentrega.setPreferredSize(new Dimension(90, 40));
+                    btentrega.setBounds(100, 0, 90, 40);
+                    btentrega.setBackground(new Color(165, 42, 42));
+                    try {
+                        if (Clavis.KeyQuest.class.getResource("Images/entrega.png") != null) {
+                            BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/entrega.png"));
+                            javax.swing.ImageIcon ico = new javax.swing.ImageIcon(im);
+                            btentrega.setIcon(ico);
+                        } else {
+                            btentrega.setText(lingua.translate("Devolver"));
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    btentrega.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btentrega.setToolTipText(lingua.translate("Marcar devolução"));
+                    painel22.add(btentrega);
+                    btentrega.addActionListener((ActionEvent e) -> {
+                        this.confirmDelivery(btentrega, painel22, painel2, req, mat);
+                    });
+                }
+            }
+
             javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
             painel.setLayout(painelLayout);
             painelLayout.setHorizontalGroup(
@@ -1498,7 +1572,6 @@ public class ActionButton extends javax.swing.JDialog {
             });
 
         }
-
     }
 
     public void open() {
@@ -1513,6 +1586,129 @@ public class ActionButton extends javax.swing.JDialog {
         }
         this.setVisible(true);
 
+    }
+
+    public void confirmDelivery(javax.swing.JButton bt, javax.swing.JPanel panel1, javax.swing.JPanel panel2, Keys.Request req, Keys.Material mat) {
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            db.changeRequestTerminateState(req);
+            int val = db.getNextRequest(mat).getId();
+            db.close();
+            req.setTerminated();
+            bt.setVisible(false);
+            panel1.remove(bt);
+            if (val > 0) {
+                labelativa.setText(lingua.translate("Próxima requisição"));
+            } else {
+                labelativa.setText(lingua.translate("Estado"));
+            }
+
+            texto[2].setText(lingua.translate("livre"));
+            texto[2].setForeground(new Color(0, 102, 0));
+            panel2.removeAll();
+            mat.setLoaned(false);
+            this.createPanelRight(panel2);
+            if (btchamada != null) {
+                btchamada.setBackground(Clavis.ButtonListRequest.FREE_COLOR);
+                if ((Clavis.KeyQuest.getMaterialsButtonsTable() != null) && (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2) != null)) {
+                    javax.swing.JScrollPane ps = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2));
+                    javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
+                    javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
+                    for (int i = 0; i < pan.getComponentCount(); i++) {
+                        PersonalButtonRequest pb = (PersonalButtonRequest) pan.getComponent(i);
+                        if (pb.getValue() == btchamada.getValue()) {
+                            pan.remove(i);
+                        }
+                    }
+
+                    javax.swing.JScrollPane ps1 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1));
+                    javax.swing.JViewport jv1 = (javax.swing.JViewport) ps1.getComponent(0);
+                    javax.swing.JPanel pan1 = (javax.swing.JPanel) jv1.getComponent(0);
+                    java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
+                    try {
+                        novo.add((PersonalButtonRequest) btchamada.clone());
+                    } catch (CloneNotSupportedException ex) {
+                        Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    for (int i = 0; i < pan1.getComponentCount(); i++) {
+                        novo.add(((PersonalButtonRequest) pan1.getComponent(i)));
+                    }
+                    pan1.removeAll();
+                    for (PersonalButtonRequest n : novo) {
+                        pan1.add(n);
+                    }
+                    javax.swing.JScrollPane ps0 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(0));
+                    javax.swing.JViewport jv0 = (javax.swing.JViewport) ps0.getComponent(0);
+                    javax.swing.JPanel pan0 = (javax.swing.JPanel) jv0.getComponent(0);
+                    novo = new java.util.TreeSet<>();
+                    for (int i = 0; i < pan0.getComponentCount(); i++) {
+                        novo.add(((PersonalButtonRequest) pan0.getComponent(i)));
+                    }
+                    pan0.removeAll();
+                    for (PersonalButtonRequest n : novo) {
+                        pan0.add(n);
+                    }
+                }
+            }
+        }
+    }
+
+    public void sortAfterRename() {
+        if (Clavis.KeyQuest.getMaterialsButtonsTable() != null) {
+            javax.swing.JScrollPane ps0 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(0));
+            javax.swing.JViewport jv0 = (javax.swing.JViewport) ps0.getComponent(0);
+            javax.swing.JPanel pan0 = (javax.swing.JPanel) jv0.getComponent(0);
+            java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
+            for (int i = 0; i < pan0.getComponentCount(); i++) {
+                novo.add(((PersonalButtonRequest) pan0.getComponent(i)));
+            }
+            pan0.removeAll();
+            for (PersonalButtonRequest n : novo) {
+                pan0.add(n);
+            }
+            if (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentCount() > 1) {
+                javax.swing.JScrollPane ps1 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1));
+                javax.swing.JViewport jv1 = (javax.swing.JViewport) ps1.getComponent(0);
+                javax.swing.JPanel pan1 = (javax.swing.JPanel) jv1.getComponent(0);
+                novo = new java.util.TreeSet<>();
+                for (int i = 0; i < pan1.getComponentCount(); i++) {
+                    PersonalButtonRequest btr = ((PersonalButtonRequest) pan1.getComponent(i));
+                    if (btr.getValue() == btchamada.getValue()) {
+                        try {
+                            novo.add((PersonalButtonRequest) btchamada.clone());
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        novo.add(btr);
+                    }
+                }
+                pan1.removeAll();
+                for (PersonalButtonRequest n : novo) {
+                    pan1.add(n);
+                }
+                javax.swing.JScrollPane ps2 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2));
+                javax.swing.JViewport jv2 = (javax.swing.JViewport) ps2.getComponent(0);
+                javax.swing.JPanel pan2 = (javax.swing.JPanel) jv2.getComponent(0);
+                novo = new java.util.TreeSet<>();
+                for (int i = 0; i < pan2.getComponentCount(); i++) {
+                    PersonalButtonRequest btr = ((PersonalButtonRequest) pan2.getComponent(i));
+                    if (btr.getValue() == btchamada.getValue()) {
+                        try {
+                            novo.add((PersonalButtonRequest) btchamada.clone());
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        novo.add(btr);
+                    }
+                }
+                pan2.removeAll();
+                for (PersonalButtonRequest n : novo) {
+                    pan2.add(n);
+                }
+            }
+        }
     }
 
     private void createPanelRight(javax.swing.JPanel painel2) {

@@ -3186,7 +3186,7 @@ public class KeyQuest extends javax.swing.JFrame {
             jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
             btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-
+            
             jDialogListaBotoes.setVisible(true);
             jDialogListaBotoes.setLocationRelativeTo(this);
         }
@@ -4921,7 +4921,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JSeparator jSeparator4;
     javax.swing.JSlider jSliderTamanhoDivisor;
     javax.swing.JSplitPane jSplitPaneInicial;
-    javax.swing.JTabbedPane jTabbedPaneMaterialBotoes;
+    static javax.swing.JTabbedPane jTabbedPaneMaterialBotoes;
     javax.swing.JTextField jTextFieldDefBreaksNome;
     javax.swing.JTextField jTextFieldProcuraBaixo;
     javax.swing.JTextField jTextFieldProcuraCima;
@@ -5186,6 +5186,10 @@ public class KeyQuest extends javax.swing.JFrame {
         };
         laf.getDefaults().put("FileChooser[Enabled].backgroundPainter", painter);
 
+    }
+    
+    public static javax.swing.JTabbedPane getMaterialsButtonsTable(){
+        return jTabbedPaneMaterialBotoes;
     }
     
     public static java.awt.Color getSystemColor(){

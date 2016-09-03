@@ -4043,6 +4043,7 @@ public class DataBase {
                 con.setAutoCommit(false);
                 smt = con.prepareStatement(sql);
                 smt.executeUpdate();
+                con.commit();
                 sql = "update Materials set estado = 1 where codigo = '" + req.getMaterial().getCodeOfMaterial() + "';";
                 smt2 = con.prepareStatement(sql);
                 smt2.executeLargeUpdate();
@@ -4067,6 +4068,7 @@ public class DataBase {
                 con.setAutoCommit(false);
                 smt = con.prepareStatement(sql);
                 smt.executeUpdate();
+                con.commit();
                 sql = "update Materials set estado = 0 where codigo = '" + req.getMaterial().getCodeOfMaterial() + "';";
                 smt2 = con.prepareStatement(sql);
                 smt2.executeUpdate();

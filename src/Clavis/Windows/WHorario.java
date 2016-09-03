@@ -231,6 +231,7 @@ public class WHorario extends JDialog {
         }
 
         jButtonSair.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonSair.setToolTipText("");
         jButtonSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonSair.setFocusPainted(false);
         jButtonSair.setMaximumSize(new java.awt.Dimension(90, 40));
@@ -408,6 +409,8 @@ public class WHorario extends JDialog {
                 }
             }
         } catch(IOException eo) {}
+
+        jButtonSair.setToolTipText(lingua.translate("Voltar"));
         javax.swing.JPanel pan2 = new javax.swing.JPanel(null);
         javax.swing.JLabel fil2 = new javax.swing.JLabel("testes");
         fil2.setBounds(0, 0, 300, 26);
@@ -456,6 +459,8 @@ public class WHorario extends JDialog {
                 }
             }
         } catch(IOException eo) {}
+
+        jButtonImprimir.setToolTipText(lingua.translate("Imprimir"));
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("Todos"), lingua.translate("terminado"), lingua.translate("em curso"), lingua.translate("substituído"), lingua.translate("atrasado"), lingua.translate("não realizado"),lingua.translate("por realizar") }));
         Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);
         ((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -469,6 +474,8 @@ public class WHorario extends JDialog {
                 }
             }
         } catch(IOException eo) {}
+
+        jButtonExportar.setToolTipText(lingua.translate("Exportar para excel"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -908,7 +915,7 @@ public class WHorario extends JDialog {
             pan.setBounds(0, 20, 500, 400);
             pan.setBackground(Components.MessagePane.BACKGROUND_COLOR);
             javax.swing.JLabel lrecurso1 = new javax.swing.JLabel(lingua.translate("Recurso") + ": ");
-            lrecurso1.setBounds(20, 20, 120, 26);
+            lrecurso1.setBounds(10, 20, 120, 26);
             lrecurso1.setFocusable(true);
             lrecurso1.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso1);
@@ -917,7 +924,7 @@ public class WHorario extends JDialog {
             lrecurso11.setBorder(border);
             pan.add(lrecurso11);
             javax.swing.JLabel lrecurso2 = new javax.swing.JLabel(lingua.translate("Utilizador") + ": ");
-            lrecurso2.setBounds(20, 50, 120, 26);
+            lrecurso2.setBounds(10, 50, 120, 26);
             lrecurso2.setFocusable(true);
             lrecurso2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso2);
@@ -926,7 +933,7 @@ public class WHorario extends JDialog {
             lrecurso22.setBorder(border);
             pan.add(lrecurso22);
             javax.swing.JLabel lrecurso3 = new javax.swing.JLabel(lingua.translate("Data inicial") + ": ");
-            lrecurso3.setBounds(20, 80, 120, 26);
+            lrecurso3.setBounds(10, 80, 120, 26);
             lrecurso3.setFocusable(true);
             lrecurso3.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso3);
@@ -935,7 +942,7 @@ public class WHorario extends JDialog {
             lrecurso33.setBorder(border);
             pan.add(lrecurso33);
             javax.swing.JLabel lrecurso4 = new javax.swing.JLabel(lingua.translate("Data final") + ": ");
-            lrecurso4.setBounds(20, 110, 120, 26);
+            lrecurso4.setBounds(10, 110, 120, 26);
             lrecurso4.setFocusable(true);
             lrecurso4.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso4);
@@ -945,7 +952,7 @@ public class WHorario extends JDialog {
             pan.add(lrecurso44);
             
             javax.swing.JLabel lrecurso5 = new javax.swing.JLabel(lingua.translate("Atividade") + ": ");
-            lrecurso5.setBounds(20, 140, 120, 26);
+            lrecurso5.setBounds(10, 140, 120, 26);
             lrecurso5.setFocusable(true);
             lrecurso5.setHorizontalAlignment(javax.swing.JLabel.LEFT);
             pan.add(lrecurso5);
@@ -953,7 +960,6 @@ public class WHorario extends JDialog {
             if (req.getActivity().equals("")) {
                 lrecurso55 = new javax.swing.JLabel(lingua.translate("sem descrição"));
             } else {
-                System.out.println(req.getActivity());
                 String[] saux = req.getActivity().split(":::");
                 String atividade;
                 boolean situacao = false;
@@ -993,7 +999,7 @@ public class WHorario extends JDialog {
             int distancia = 170;
             if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
                 javax.swing.JLabel lrecurso6 = new javax.swing.JLabel(lingua.translate("Horário") + ": ");
-                lrecurso6.setBounds(20, distancia, 120, 26);
+                lrecurso6.setBounds(10, distancia, 120, 26);
                 lrecurso6.setFocusable(true);
                 lrecurso6.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                 pan.add(lrecurso6);
@@ -1005,7 +1011,7 @@ public class WHorario extends JDialog {
             }
             if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
                 javax.swing.JLabel lrecurso7 = new javax.swing.JLabel(lingua.translate("Dia da semana")+": ");
-                lrecurso7.setBounds(20, distancia, 120, 26);
+                lrecurso7.setBounds(10, distancia, 120, 26);
                 lrecurso7.setFocusable(true);
                 lrecurso7.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                 pan.add(lrecurso7);
@@ -1021,7 +1027,7 @@ public class WHorario extends JDialog {
             }
             if (req.isTerminated() || req.isActive()) {
                 javax.swing.JLabel lrecurso8 = new javax.swing.JLabel(lingua.translate("Levantamento")+": ");
-                lrecurso8.setBounds(20, distancia, 120, 26);
+                lrecurso8.setBounds(10, distancia, 120, 26);
                 lrecurso8.setFocusable(true);
                 lrecurso8.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                 pan.add(lrecurso8);
@@ -1048,7 +1054,7 @@ public class WHorario extends JDialog {
             } 
             if (req.isTerminated()) {
                 javax.swing.JLabel lrecurso9 = new javax.swing.JLabel(lingua.translate("Entrega")+": ");
-                lrecurso9.setBounds(20, distancia, 120, 26);
+                lrecurso9.setBounds(10, distancia, 120, 26);
                 lrecurso9.setFocusable(true);
                 lrecurso9.setHorizontalAlignment(javax.swing.JLabel.LEFT);
                 pan.add(lrecurso9);

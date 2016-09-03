@@ -29,6 +29,8 @@ import javax.swing.SwingConstants;
  */
 public class ButtonListRequest {
 
+    public static final Color OCCUPIED_COLOR = new Color(120, 120, 120);
+    public static final Color FREE_COLOR = new Color(170, 170, 170);
     private List<javax.swing.JButton> bLista;
     private Set<Keys.Material> mater;
     private Dimension dim;
@@ -49,14 +51,12 @@ public class ButtonListRequest {
         this.lingua = lingua;
         this.url = url;
         this.dialogoanterior = dialogo;
-
         this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-
         dim = new Dimension(80, 80);
-        this.btcor1 = new Color(54, 54, 154);
-        this.btcor2 = new Color(145, 145, 254);
+        this.btcor1 = ButtonListRequest.OCCUPIED_COLOR;
+        this.btcor2 = ButtonListRequest.FREE_COLOR;
         this.tpanel = tpanel;
         this.tipopesquisa = tipopesquisa;
         if (DataBase.DataBase.testConnection(url)) {
@@ -111,10 +111,9 @@ public class ButtonListRequest {
 
     public List<javax.swing.JButton> getButtons() {
         this.bLista = new ArrayList<>();
-        int segue = 0;
         if (!this.mater.isEmpty()) {
             for (Object n : this.mater) {
-                javax.swing.JButton button = new javax.swing.JButton();
+                PersonalButtonRequest button = new PersonalButtonRequest();
                 button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setPreferredSize(dim);
@@ -123,16 +122,18 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
-                button.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
+                button.setBounds(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
                 if (!(n instanceof Keys.Classroom)) {
                     Keys.Material m = (Keys.Material) n;
+                    button.setValue(m.getId());
+                    button.setDescription(m.getDescription());
                     if (m.isLoaned()) {
                         button.setBackground(btcor1);
                     } else {
                         button.setBackground(btcor2);
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
-                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName())+": "+m.getDescription());
+                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
                     button.addActionListener((ActionEvent e) -> {
                         ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
                         dialogoanterior.setVisible(false);
@@ -149,7 +150,7 @@ public class ButtonListRequest {
                                     + m.getTypeOfMaterialImage() + ".png");
                             if (file.isFile()) {
                                 ima = ImageIO.read(file);
-                                ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
+                                ima = FileIOAux.ImageAux.resize(ima, dim.width - (dim.width / 2), dim.height - (dim.height / 2));
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);
                                 button.setIcon(ic);
@@ -160,7 +161,7 @@ public class ButtonListRequest {
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
                         if (ima != null) {
-                            ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
+                            ima = FileIOAux.ImageAux.resize(ima, dim.width - (dim.width / 2), dim.height - (dim.height / 2));
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
@@ -168,13 +169,15 @@ public class ButtonListRequest {
                     }
                 } else {
                     Keys.Classroom m = (Keys.Classroom) n;
+                    button.setValue(m.getId());
+                    button.setDescription(m.getDescription());
                     if (m.isLoaned()) {
                         button.setBackground(btcor1);
                     } else {
                         button.setBackground(btcor2);
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
-                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName())+": "+m.getDescription());
+                    button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
                     button.addActionListener((ActionEvent e) -> {
                         ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
                         dialogoanterior.setVisible(false);
@@ -184,14 +187,14 @@ public class ButtonListRequest {
                     if (m.getMaterialImage().equals("sem")) {
                         BufferedImage ima;
                         try {
-                             File file = new File(new File("").getAbsolutePath()
+                            File file = new File(new File("").getAbsolutePath()
                                     + System.getProperty("file.separator")
                                     + "Resources" + System.getProperty("file.separator")
                                     + "Images" + System.getProperty("file.separator")
                                     + m.getTypeOfMaterialImage() + ".png");
                             if (file.isFile()) {
                                 ima = ImageIO.read(file);
-                                ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
+                                ima = FileIOAux.ImageAux.resize(ima, dim.width - (dim.width / 2), dim.height - (dim.height / 2));
                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                                 ic = new javax.swing.ImageIcon(ima);
                                 button.setIcon(ic);
@@ -202,7 +205,7 @@ public class ButtonListRequest {
                     } else {
                         BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(m.getMaterialImage());
                         if (ima != null) {
-                            ima = FileIOAux.ImageAux.resize(ima, dim.width -(dim.width/2), dim.height - (dim.height/2));
+                            ima = FileIOAux.ImageAux.resize(ima, dim.width - (dim.width / 2), dim.height - (dim.height / 2));
                             ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
                             ic = new javax.swing.ImageIcon(ima);
                             button.setIcon(ic);
@@ -210,16 +213,19 @@ public class ButtonListRequest {
                     }
                 }
                 bLista.add(button);
-                segue++;
             }
         }
         return bLista;
     }
-   
+
+    public void sortList() {
+
+    }
+
     public javax.swing.JScrollPane getScrollPane() {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
         this.bLista = this.getButtons();
-        int valorborder = 50; 
+        int valorborder = 50;
         if (!this.bLista.isEmpty()) {
             pane.setLayout(new Components.ModifiedFlowLayout());
             pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
@@ -227,9 +233,9 @@ public class ButtonListRequest {
             bLista.stream().forEach((bt) -> {
                 pane.add(bt, BorderLayout.PAGE_END);
             });
-            int largura = (int) (pane.getPreferredSize().getWidth() - (valorborder*2));
-            int valorbotoes = largura / (int)(dim.getWidth());
-            int valinicial = 20 + (int)dim.getHeight() + 30;
+            int largura = (int) (pane.getPreferredSize().getWidth() - (valorborder * 2));
+            int valorbotoes = largura / (int) (dim.getWidth());
+            int valinicial = 20 + (int) dim.getHeight() + 30;
             int i = 1;
             while (i < bLista.size()) {
                 if ((i % valorbotoes) == 0) {
@@ -242,5 +248,70 @@ public class ButtonListRequest {
         aux.setViewportView(pane);
         return aux;
     }
+}
 
+class PersonalButtonRequest extends javax.swing.JButton implements Comparable<PersonalButtonRequest>, Cloneable {
+
+    int valor;
+    String designacao;
+
+    public PersonalButtonRequest() {
+        super();
+        valor = -1;
+        designacao = "";
+    }
+
+    public PersonalButtonRequest(int val, String designacao) {
+        super();
+        valor = val;
+        this.designacao = designacao;
+    }
+
+    public void setValue(int val) {
+        valor = val;
+    }
+
+    public int getValue() {
+        return valor;
+    }
+
+    public void setDescription(String designacao) {
+        this.designacao = designacao;
+    }
+
+    public String getDescription() {
+        return designacao;
+    }
+
+    @Override
+    public int compareTo(PersonalButtonRequest o) {
+        
+        if((this.getText().matches("\\d+"))&&(o.getText().matches("\\d+"))) {
+            String texto = this.getText();
+            String texto2 = o.getText();
+            while (texto.charAt(0) == '0') {
+                texto = texto.replaceFirst("0", "");
+            }
+            while (texto2.charAt(0) == '0') {
+                texto2 = texto2.replaceFirst("0", "");
+            }
+            int val1 = Integer.parseInt(texto);
+            int val2 = Integer.parseInt(texto2);
+            return (val1 - val2);
+        }
+        int val;
+        val = this.getDescription().compareTo(o.getDescription());
+        if (val == 0) {
+            val = this.getText().compareTo(o.getText());
+            if (val == 0) {
+                val = this.getValue() - o.getValue();
+            }
+        }
+        return val;
+    }
+    
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

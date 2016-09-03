@@ -1425,6 +1425,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="UIManager.put(&quot;TabbedPane.background&quot;, Color.WHITE);&#xa;UIManager.put(&quot;TabbedPane.selected&quot;, Color.red);"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
