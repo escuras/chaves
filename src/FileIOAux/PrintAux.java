@@ -5,7 +5,7 @@
  */
 package FileIOAux;
 
-import Clavis.Windows.WHorario;
+import Clavis.Windows.WShedule;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -124,7 +124,7 @@ public class PrintAux {
                 job.print(parametros);
                 pdf.close();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(WHorario.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(WShedule.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException | PrinterException ex) {
                 Logger.getLogger(PrintAux.class.getName()).log(Level.SEVERE, null, ex);
             }

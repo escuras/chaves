@@ -130,6 +130,12 @@ public class MessagePane {
         this.visivel = false;
         return resposta;
     }
+    
+    public void closeWindow(){
+        this.dialogo.setVisible(false);
+        this.dialogo.dispose();
+        visivel = false;
+    }
 
     private void showSimpleMessage() {
         resposta = -1;

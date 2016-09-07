@@ -82,6 +82,7 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -4159,6 +4160,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jMenuFicheiro.add(itemSair);
 
         menu.add(jMenuFicheiro);
+        
         jMenuDefinicoes.setText(lingua.translate("Definições"));
         jMenuDefinicoes.setMnemonic(lingua.translate("Definições").charAt(0));
         JMenuItem itemFeriados = new JMenuItem();
@@ -4168,8 +4170,8 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFeriados.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriadosActionPerformed(evt);
         });
-
         jMenuDefinicoes.add(itemFeriados);
+        
         JMenuItem itemFerias = new JMenuItem();
         itemFerias.setText(lingua.translate("Editar_Periodos_Interrupcao"));
         itemFerias.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4177,8 +4179,8 @@ public class KeyQuest extends javax.swing.JFrame {
         itemFerias.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemFeriasActionPerformed(evt);
         });
-
         jMenuDefinicoes.add(itemFerias);
+        
         JMenuItem itemDefinicoes = new JMenuItem();
         itemDefinicoes.setText(lingua.translate("Definicoes_visualizacao"));
         itemDefinicoes.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4186,10 +4188,45 @@ public class KeyQuest extends javax.swing.JFrame {
         itemDefinicoes.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemDefinicoesActionPerformed(evt);
         });
-
         jMenuDefinicoes.add(itemDefinicoes);
         menu.add(jMenuDefinicoes);
+        
+        
+        JMenu jMenuMovimentos = new JMenu();
+        jMenuMovimentos.setText(lingua.translate("Movimentos"));
+        jMenuMovimentos.setMnemonic(lingua.translate("Movimentos").charAt(0));
+        menu.add(jMenuMovimentos);
+        
+        JMenuItem itemRequisicao = new JMenuItem();
+        itemRequisicao.setText(lingua.translate("Efetuar requisição"));
+        itemRequisicao.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemRequisicao.setAccelerator(KeyStroke.getKeyStroke(itemDefinicoes.getText().charAt(0), Event.ALT_MASK));
+        itemRequisicao.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemRequisicoesActionPerformed(evt);
+        });
+        jMenuMovimentos.add(itemRequisicao);
+        
         this.setJMenuBar(menu);
+    }
+    
+    private void itemRequisicoesActionPerformed(java.awt.event.ActionEvent evt){
+        Window[] w = Window.getWindows();
+        int g = 0;
+        int mov = -1;
+        while (g < w.length) {
+            if (w[g] instanceof Clavis.Windows.WRequest) {
+                mov = g;
+            }
+            g++;
+        }
+        if ((mov > -1)&&(w[mov].isVisible())) {
+            w[mov].toFront();
+            w[mov].repaint();
+        } else {
+          Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(systemColor, new Color(255,255,255), urlbd, lingua);
+          wreq.create();
+          wreq.appear();
+        }
     }
 
     private void addDayChangeTimer() {
@@ -4399,7 +4436,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     }
 
-    private synchronized void calculateList(Keys.TypeOfMaterial material) {
+    public synchronized void calculateList(Keys.TypeOfMaterial material) {
         if (!ligacao) {
             material = new Keys.TypeOfMaterial(-1, "Nenhum", -1, -1, "sem");
         }
@@ -4814,10 +4851,10 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton jButtonAlteraDevolucao;
-    javax.swing.JButton jButtonAtuacaoAltera;
-    javax.swing.JButton jButtonAtuacaoConfirma;
-    javax.swing.JButton jButtonConfirmaDevolucao;
+    static javax.swing.JButton jButtonAlteraDevolucao;
+    static javax.swing.JButton jButtonAtuacaoAltera;
+    static javax.swing.JButton jButtonAtuacaoConfirma;
+    static javax.swing.JButton jButtonConfirmaDevolucao;
     javax.swing.JButton jButtonDefBreakApagar;
     javax.swing.JButton jButtonDefBreaksAdicionar;
     javax.swing.JButton jButtonDefBreaksVoltar;
@@ -4947,8 +4984,8 @@ public class KeyQuest extends javax.swing.JFrame {
     private static PersonalPrefs prefs;
     protected Langs.Locale lingua;
     private ButtonListRequest btrequests;
-    private TableRequest lista_req;
-    private TableRequest lista_dev;
+    private static TableRequest lista_req;
+    private static TableRequest lista_dev;
     protected int tdivisor = 40;
     private boolean mudoutema;
     protected Color cordivisor;
@@ -5190,6 +5227,27 @@ public class KeyQuest extends javax.swing.JFrame {
     
     public static javax.swing.JTabbedPane getMaterialsButtonsTable(){
         return jTabbedPaneMaterialBotoes;
+    }
+    
+    public static void refreshDevolutionTable(Keys.Request req){
+        int conta = 0;
+        DefaultTableModel  r = (DefaultTableModel)lista_dev.getTable().getModel();
+        RequestList rl = lista_dev.getRequestList();
+        int i = 0;
+        int valor = 0;
+        for (Keys.Request req2 : rl.getRequests()) {
+            if (req2.getPerson().compareTo(req.getPerson()) == 0) {
+                valor = i;
+            }
+            i++;
+        }
+        lista_dev.removeIndex(valor);
+        lista_req.getTable().clearSelection();
+        lista_dev.getTable().clearSelection();
+        jButtonAtuacaoAltera.setEnabled(false);
+        jButtonAlteraDevolucao.setEnabled(false);
+        jButtonConfirmaDevolucao.setEnabled(false);
+        jButtonAtuacaoConfirma.setEnabled(false);
     }
     
     public static java.awt.Color getSystemColor(){

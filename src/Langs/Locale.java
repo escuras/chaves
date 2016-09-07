@@ -132,6 +132,16 @@ public class Locale {
         return this.traducao;  
     }
     
+     public String translateWithPlural(String traducao){
+        String original = traducao;
+        traducao += ".plural";
+        String outra =  this.translate(traducao);
+        if (traducao.equals(outra)) {
+            return original;
+        } 
+        return outra;
+    }
+    
     
     public String translate(String traducao,String bundle){
         String [] valores = this.locale.split("[-./|;,:_]");

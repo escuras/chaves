@@ -53,17 +53,17 @@ public class PersonalComboBox extends javax.swing.JComboBox {
 
     public void addcopyPaste(Langs.Locale lingua) {
         javax.swing.JTextField fil = (javax.swing.JTextField) this.getEditor().getEditorComponent();
-        fil.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, fil,false));
+        fil.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, fil, false));
     }
 
     public void create() {
         this.setEditable(true);
         this.setEnabled(true);
         this.setAutoscrolls(true);
+        
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.getModel();
-        modelo.addElement(textodeajuda);
+        modelo.addElement("");
         javax.swing.JTextField fil = (javax.swing.JTextField) this.getEditor().getEditorComponent();
-        this.setSelectedIndex(0);
         if (this.getSelectedIndex() == 0) {
             fil.setForeground(new Color(205, 205, 205));
         } else {
@@ -77,6 +77,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
         popcar.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         this.setFocusable(true);
         this.setBackground(this.getBackgroundColor());
+        this.setSelectedIndex(0);
         this.getEditor().getEditorComponent().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -85,7 +86,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                         javax.swing.JTextField fil = (javax.swing.JTextField) getEditor().getEditorComponent();
                         fil.setText("");
                     }
-                } 
+                }
             }
 
             @Override
@@ -116,7 +117,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                     label.setText(value.toString());
                 } else {
                     label.setForeground(new java.awt.Color(205, 205, 205));
-                    label.setText(value.toString());
+                    label.setText("");
                 }
 
                 if (isSelected) {
@@ -131,6 +132,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
             public void mouseReleased(MouseEvent e) {
                 if (getSelectedIndex() == 0) {
                     getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
+                    fil.setText(textodeajuda);
                     perdefocus.requestFocus();
                 } else {
                     getEditor().getEditorComponent().setForeground(selectForegroundColor);
@@ -153,6 +155,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                 if (getSelectedIndex() < 1) {
                     fil.setForeground(new java.awt.Color(205, 205, 205));
                     setSelectedIndex(0);
+                    fil.setText(textodeajuda);
                 }
             }
         });
@@ -185,7 +188,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                     getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
                     fil.setCaretColor(new Color(255, 255, 255));
 
-                } 
+                }
             }
 
             @Override
@@ -204,15 +207,15 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                         setSelectedIndex(1);
                     } else if (((e.getKeyCode() == KeyEvent.VK_UP) && (getSelectedIndex() == -1))) {
                         setSelectedIndex(1);
-                    }
+                    } 
                 } else if ((getSelectedIndex() == 0) && (val == KeyEvent.VK_ENTER)) {
                     perdefocus.requestFocusInWindow();
                 } else if ((isPopupVisible()) && (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (fil.getText().equals("")) && (getSelectedIndex() > 0)) {
                     getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
                     fil.setCaretColor(new Color(255, 255, 255));
-                    //setPopupVisible(false);
                     bauxiliar = true;
                     setSelectedIndex(0);
+                    fil.setText(textodeajuda);
                 } else if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (getSelectedIndex() == 0)) {
                     fil.setCaretColor(new Color(1, 1, 1));
                 }
@@ -223,7 +226,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                         DefaultComboBoxModel<?> modelo = (DefaultComboBoxModel) getModel();
                         for (int i = 1; i <= modelo.getSize(); i++) {
                             if (modelo.getElementAt(i) != null) {
-                                if ((modelo.getElementAt(i).toString().toLowerCase().matches("(.*)" + va.toLowerCase().replaceAll("[^a-zA-Z]+","") + "(.*)")) && (!va.equals(""))) {
+                                if ((modelo.getElementAt(i).toString().toLowerCase().matches("(.*)" + va.toLowerCase().replaceAll("[^a-zA-Z0-9 .,;:-_]+", "") + "(.*)")) && (!va.equals(""))) {
                                     aux = i;
                                     break;
                                 }
@@ -248,6 +251,54 @@ public class PersonalComboBox extends javax.swing.JComboBox {
      */
     public java.awt.Color getSelectForegroundColor() {
         return selectForegroundColor;
+    }
+
+    @Override
+    public void setSelectedIndex(int val) {
+        if (val == 0) {
+            getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setText(textodeajuda);
+        } else if (val > 0) {
+            getEditor().getEditorComponent().setForeground(this.selectForegroundColor);
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(this.selectForegroundColor);
+        }
+        super.setSelectedIndex(val);
+
+    }
+
+    @Override
+    public void setSelectedItem(Object val) {
+        int situacao = -1;
+        if ((val != null) && (!this.isEditable)) {
+            for (int i = 0; i < dataModel.getSize(); i++) {
+                Object element = dataModel.getElementAt(i);
+                if (val.equals(element)) {
+                    situacao = i;
+                    break;
+                }
+            }
+        }
+        if (situacao == 0) {
+            getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setText(textodeajuda);
+        } else if (situacao > 0) {
+            getEditor().getEditorComponent().setForeground(this.selectForegroundColor);
+            ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(this.selectForegroundColor);
+        }
+        super.setSelectedItem(val);
+    }
+
+    @Override
+    public void removeAllItems() {
+        super.removeAllItems();
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.getModel();
+        modelo.addElement("");
+        super.setSelectedIndex(0);
+        getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
+        ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));
+        ((javax.swing.JTextField) getEditor().getEditorComponent()).setText(textodeajuda);
     }
 
     /**

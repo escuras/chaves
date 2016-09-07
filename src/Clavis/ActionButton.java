@@ -8,6 +8,7 @@ package Clavis;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -30,6 +31,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -365,13 +367,18 @@ public class ActionButton extends javax.swing.JDialog {
                 public void mouseClicked(MouseEvent e) {
                     FileIOAux.ImageExtension image;
                     image = bimage;
-                    UIManager.put("TextField.background", new Color(234, 234, 234));
-                    UIManager.put("List.background", new Color(234, 234, 234));
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                    
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null){
                         alterado = true;
                     } else {
                         bimage = image;
                     }
+                    /*
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                        alterado = true;
+                    } else {
+                        bimage = image;
+                    }*/
                 }
 
                 @Override
@@ -816,7 +823,7 @@ public class ActionButton extends javax.swing.JDialog {
                     if (windows[i] instanceof Clavis.Windows.WMaterial) {
                         windows[i].setVisible(false);
                         windows[i].dispose();
-                    } else if (windows[i] instanceof Clavis.Windows.WHorario) {
+                    } else if (windows[i] instanceof Clavis.Windows.WShedule) {
                         windows[i].setVisible(false);
                         windows[i].dispose();
                     }
@@ -850,6 +857,12 @@ public class ActionButton extends javax.swing.JDialog {
             btreq.setFocusPainted(false);
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(285, 0, 90, 40);
+            btreq.addActionListener((ActionEvent e) -> {
+                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255,255,255), url, lingua, cla);
+                wreq.create();
+                wreq.setVisible(true);
+                wreq.setLocationRelativeTo(this);
+            });
             painel11.add(btreq);
 
             javax.swing.JPanel painel22 = new javax.swing.JPanel();
@@ -876,12 +889,12 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, cla, url, lingua);
+                Clavis.Windows.WShedule horario = new Clavis.Windows.WShedule(this, panelcor, cla, url, lingua);
                 Window[] windows = Window.getWindows();
                 boolean pode_se = true;
                 if (windows != null) {
                     for (Window w : windows) {
-                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WHorario)) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WShedule)) {
                             pode_se = false;
                         }
                     }
@@ -964,7 +977,7 @@ public class ActionButton extends javax.swing.JDialog {
                         if (windows[i] instanceof Clavis.Windows.WMaterial) {
                             windows[i].setVisible(false);
                             windows[i].dispose();
-                        } else if (windows[i] instanceof Clavis.Windows.WHorario) {
+                        } else if (windows[i] instanceof Clavis.Windows.WShedule) {
                             windows[i].setVisible(false);
                             windows[i].dispose();
                         }
@@ -1098,11 +1111,18 @@ public class ActionButton extends javax.swing.JDialog {
                     image = bimage;
                     UIManager.put("TextField.background", new Color(234, 234, 234));
                     UIManager.put("List.background", new Color(234, 234, 234));
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null){
                         alterado = true;
                     } else {
                         bimage = image;
                     }
+                    /*
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
+                        alterado = true;
+                    } else {
+                        bimage = image;
+                    }*/
+                    
                 }
 
                 @Override
@@ -1408,7 +1428,7 @@ public class ActionButton extends javax.swing.JDialog {
                     if (windows[i] instanceof Clavis.Windows.WMaterial) {
                         windows[i].setVisible(false);
                         windows[i].dispose();
-                    } else if (windows[i] instanceof Clavis.Windows.WHorario) {
+                    } else if (windows[i] instanceof Clavis.Windows.WShedule) {
                         windows[i].setVisible(false);
                         windows[i].dispose();
                     }
@@ -1440,6 +1460,12 @@ public class ActionButton extends javax.swing.JDialog {
             btreq.setBackground(new Color(57, 147, 2));
             btreq.setContentAreaFilled(true);
             btreq.setFocusPainted(false);
+            btreq.addActionListener((ActionEvent e) -> {
+                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255,255,255), url, lingua, mat);
+                wreq.create();
+                wreq.setVisible(true);
+                wreq.setLocationRelativeTo(this);
+            });
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(285, 0, 90, 40);
             painel11.add(btreq);
@@ -1466,12 +1492,12 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WHorario horario = new Clavis.Windows.WHorario(this, panelcor, mat, url, lingua);
+                Clavis.Windows.WShedule horario = new Clavis.Windows.WShedule(this, panelcor, mat, url, lingua);
                 Window[] windows = Window.getWindows();
                 boolean pode_se = true;
                 if (windows != null) {
                     for (Window w : windows) {
-                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WHorario)) {
+                        if ((w.isShowing()) && (w instanceof Clavis.Windows.WShedule)) {
                             pode_se = false;
                         }
                     }
@@ -1555,7 +1581,7 @@ public class ActionButton extends javax.swing.JDialog {
                         if (windows[i] instanceof Clavis.Windows.WMaterial) {
                             windows[i].setVisible(false);
                             windows[i].dispose();
-                        } else if (windows[i] instanceof Clavis.Windows.WHorario) {
+                        } else if (windows[i] instanceof Clavis.Windows.WShedule) {
                             windows[i].setVisible(false);
                             windows[i].dispose();
                         }
@@ -1591,7 +1617,14 @@ public class ActionButton extends javax.swing.JDialog {
     public void confirmDelivery(javax.swing.JButton bt, javax.swing.JPanel panel1, javax.swing.JPanel panel2, Keys.Request req, Keys.Material mat) {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
+            java.util.Set<Keys.Request> reqs = db.getUnionRequests(req);
             db.changeRequestTerminateState(req);
+            if (reqs.size() > 0) {
+                for (Keys.Request re : reqs) {
+                    db.changeRequestTerminateState(re);
+                }
+            }  
+            Clavis.KeyQuest.refreshDevolutionTable(req);
             int val = db.getNextRequest(mat).getId();
             db.close();
             req.setTerminated();

@@ -4,7 +4,6 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/EfectsOnDivisor.java</file>
-            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WHorario.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/Date.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Threads/InsertRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalTextField.java</file>
@@ -27,6 +26,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/ClassStudents.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalToggleButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/AutocompleteJComboBox.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/TestSplashScreen.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/DataBase/DataBase.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Menu.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/FileIOAux/PrintAux.java</file>
@@ -41,25 +41,30 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/GenericRoundedButton.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste2.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/ToolBar.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Nova.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/AutoCompletion.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/TableRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Material.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalCounter.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/DinamicHoliday.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/NewClass1.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/PersonalPrefs.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalComboBox.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Subject.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/FileIOAux/ImageAux.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/MessagePane.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_en_US.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_pt_PT.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Clavicela.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/ElementsCSV.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WShedule.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/UpdateCSVonDB.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste4.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/RequestList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Person.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_fr_FR.properties</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/PleaseWaitEg.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/KeyQuest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/Holiday.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/ButtonListRequest.java</file>

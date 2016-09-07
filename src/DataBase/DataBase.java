@@ -944,6 +944,58 @@ public class DataBase {
         }
         return materiais;
     }
+    
+    public java.util.List<Keys.TypeOfMaterial> getTypesOfMaterialWithSoftware(){
+        java.util.List<Keys.TypeOfMaterial> tipos = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch(SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, e.getMessage());
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select id_tipo, descricao, total, livres, imagem from TypesOfMaterial where tem_software = 1";
+                    Keys.TypeOfMaterial tipo;
+                    ResultSet rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        tipo = new Keys.TypeOfMaterial(rs.getInt("id_tipo"), rs.getString("descricao"), rs.getInt("total"), rs.getInt("livres"), rs.getString("imagem"));
+                        tipos.add(tipo);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return tipos;
+    } 
+    
+     public boolean isTypeOfMaterialHavingSoftware(Keys.TypeOfMaterial tipo){
+        java.util.List<Keys.TypeOfMaterial> tipos = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch(SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, e.getMessage());
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select tem_software from TypesOfMaterial where id_tipo = "+tipo.getMaterialTypeID()+";";
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        return rs.getBoolean("tem_software");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    } 
 
     public java.util.Set<Keys.Classroom> getClassrooms(int tipopesquisa) {
         java.util.Set<Keys.Classroom> classrooms = new java.util.TreeSet<>();
@@ -1491,7 +1543,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "Select * from TypesOfMaterial;";
+                String sql = "Select * from TypesOfMaterial order by descricao;";
                 Keys.TypeOfMaterial tipo;
                 try {
                     ResultSet rs = smt.executeQuery(sql);

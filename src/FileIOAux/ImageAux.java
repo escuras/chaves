@@ -10,8 +10,11 @@ import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.awt.FileDialog;
+import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -90,7 +93,7 @@ public class ImageAux {
                     return true;
                 }
                 final String name = f.getName();
-                return name.endsWith(".png") || name.endsWith(".jpg");
+                return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
             }
 
             @Override
@@ -105,7 +108,6 @@ public class ImageAux {
             extensao = verifyExtension(fimagem.getSelectedFile());
             try {
                 if (validateExtension(extensao)) {
-
                     bimagem = new FileIOAux.ImageExtension(ImageIO.read(fimagem.getSelectedFile()), extensao);
                 }
             } catch (IOException ex) {
@@ -116,15 +118,39 @@ public class ImageAux {
         }
         return bimagem;
     }
-    
-    private static void makeFileChooserVisual(Langs.Locale lingua){
-        
-        
+
+    public static FileIOAux.ImageExtension getImageFromFileDialog(String titulo, javax.swing.JLabel comp, javax.swing.JDialog dialogo, int largura, int altura) {
+        FileDialog fil = new java.awt.FileDialog(dialogo, titulo, java.awt.FileDialog.LOAD);
+        fil.setFilenameFilter((File dir, String name) -> {
+            return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
+        });
+        fil.setLocationRelativeTo(dialogo);
+        fil.setVisible(true);
+        FileIOAux.ImageExtension bimagem = null;
+        if (fil.getFile() != null) {
+            File fi = fil.getFiles()[0];
+            extensao = verifyExtension(fi);
+            try {
+                if (validateExtension(extensao)) {
+                    bimagem = new FileIOAux.ImageExtension(ImageIO.read(fi), extensao);
+                }
+            } catch (IOException ex) {
+            }
+        }
+        if (bimagem != null) {
+            comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(), largura, altura)));
+        }
+        return bimagem;
+    }
+
+    private static void makeFileChooserVisual(Langs.Locale lingua) {
+
         // botoes baixo
-        javax.swing.JPanel painelbaix = (javax.swing.JPanel)((javax.swing.JPanel) fimagem.getComponent(3)).getComponent(3);
-        javax.swing.JButton bt1 = (javax.swing.JButton)painelbaix.getComponent(0);
-        bt1.setPreferredSize(new java.awt.Dimension(90,40));
-        bt1.setBackground(new Color(51,102,153));
+        javax.swing.JPanel painelbaix = (javax.swing.JPanel) ((javax.swing.JPanel) fimagem.getComponent(3)).getComponent(3);
+        javax.swing.JButton bt1 = (javax.swing.JButton) painelbaix.getComponent(0);
+        bt1.setPreferredSize(new java.awt.Dimension(90, 40));
+        bt1.setBackground(new Color(51, 102, 153));
+        bt1.setBackground(new Color(1, 1, 1));
         bt1.setFocusPainted(false);
         bt1.setToolTipText(lingua.translate("Confirmar"));
         bt1.setFocusPainted(false);
@@ -142,49 +168,44 @@ public class ImageAux {
         bt1.setIcon(ico);
         try {
             if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
-                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/delete.png"));
                 ico = new ImageIcon(im);
             }
         } catch (IOException ex) {
             Logger.getLogger(WMaterial.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        javax.swing.JButton bt2 = (javax.swing.JButton)painelbaix.getComponent(1);
+
+        javax.swing.JButton bt2 = (javax.swing.JButton) painelbaix.getComponent(1);
         bt2.setIcon(ico);
         bt2.setFocusPainted(false);
         bt2.setText("");
         bt2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bt2.setToolTipText(lingua.translate("Voltar"));
-        bt2.setPreferredSize(new java.awt.Dimension(90,40));
-        bt2.setBackground(new Color(1,1,1));
+        bt2.setPreferredSize(new java.awt.Dimension(90, 40));
+        bt2.setBackground(new Color(1, 1, 1));
         bt2.setFocusPainted(false);
-          // fim botoes em baixo
-        
-        
-        
-        javax.swing.JPanel painelbaixo = (javax.swing.JPanel)((javax.swing.JPanel) fimagem.getComponent(3)).getComponent(2);
-        javax.swing.JComboBox<?> silrb = (javax.swing.JComboBox )painelbaixo.getComponent(1);
-         
+        // fim botoes em baixo
+
+        javax.swing.JPanel painelbaixo = (javax.swing.JPanel) ((javax.swing.JPanel) fimagem.getComponent(3)).getComponent(2);
+        javax.swing.JComboBox<?> silrb = (javax.swing.JComboBox) painelbaixo.getComponent(1);
+
         BasicComboPopup popupb = (BasicComboPopup) silrb.getAccessibleContext().getAccessibleChild(0);
         popupb.getList().setSelectionBackground(Color.DARK_GRAY);
         popupb.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         silrb.setBackground(new Color(213, 213, 213));
         silrb.setFocusable(false);
-        
-        
+
         javax.swing.JComboBox<?> silrd = (javax.swing.JComboBox) (((javax.swing.JPanel) fimagem.getComponent(0)).getComponent(2));
-      
-        
+
         // painel de cima
         javax.swing.JPanel pn = (javax.swing.JPanel) (((javax.swing.JPanel) fimagem.getComponent(0)).getComponent(0));
-       
+
         BasicComboPopup popupa = (BasicComboPopup) silrd.getAccessibleContext().getAccessibleChild(0);
         popupa.getList().setSelectionBackground(Color.DARK_GRAY);
         popupa.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         silrd.setBackground(new Color(213, 213, 213));
         silrd.setFocusable(false);
-        
-        
+
         try {
             if (Clavis.KeyQuest.class.getResource("Images/cima.png") != null) {
                 BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/cima.png"));
@@ -221,7 +242,7 @@ public class ImageAux {
         ((javax.swing.JButton) pn.getComponent(4)).setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ((javax.swing.JButton) pn.getComponent(4)).setBackground(new Color(254, 254, 254));
         ((javax.swing.JButton) pn.getComponent(4)).setFocusPainted(false);
-         try {
+        try {
             if (Clavis.KeyQuest.class.getResource("Images/list.png") != null) {
                 BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/list.png"));
                 ico = new ImageIcon(im);
@@ -261,9 +282,8 @@ public class ImageAux {
             ((javax.swing.JToggleButton) pn.getComponent(7)).setBackground(new Color(154, 154, 154));
         });
         ((javax.swing.JToggleButton) pn.getComponent(7)).setFocusPainted(false);
-        
+
         // fim painel cima
-        
     }
 
     public static BufferedImage getImageFromFile(java.io.File file) {
@@ -466,7 +486,7 @@ public class ImageAux {
         UIManager.put("FileChooser.lookInLabelText", rb.getString("lookInLabelText"));
         UIManager.put("FileChooser.filesOfTypeLabelText", rb.getString("filesOfTypeLabelText"));
         UIManager.put("FileChooser.upFolderToolTipText", rb.getString("upFolderToolTipText"));
-        
+
 
         /*
         

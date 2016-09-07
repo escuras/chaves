@@ -182,11 +182,11 @@ public class TableRequest {
         tabela.setRowHeight(35);
 
         if (tabela.getColumnCount() > 1) {
-            
-                tabela.getColumnModel().getColumn(0).setPreferredWidth(280);
-                tabela.getColumnModel().getColumn(1).setMinWidth(150);
-                tabela.getColumnModel().getColumn(2).setMinWidth(80);
-                tabela.getColumnModel().getColumn(3).setMinWidth(150);
+
+            tabela.getColumnModel().getColumn(0).setPreferredWidth(280);
+            tabela.getColumnModel().getColumn(1).setMinWidth(150);
+            tabela.getColumnModel().getColumn(2).setMinWidth(80);
+            tabela.getColumnModel().getColumn(3).setMinWidth(150);
         }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
@@ -218,7 +218,7 @@ public class TableRequest {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
                         row, column);
                 setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)),BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+                this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 0, 0)), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
                 return this;
             }
 
@@ -685,7 +685,18 @@ public class TableRequest {
         requisicoes.reMake();
         this.procura = false;
         this.create();
+    }
 
+    public void removeIndex(int i) {
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        modelo.removeRow(i);
+        requisicoes.getRequests().remove(i);
+        if (modelo.getRowCount() == 0) {
+            ficouvazia = true;
+            tabela.removeBorderColor(0);
+            tabela.repaint();
+        }
+        this.create();
     }
 
     public void addListenenerSelectionRequisitions(javax.swing.JButton bt2, javax.swing.JButton bt3) {
@@ -861,12 +872,10 @@ public class TableRequest {
                             } else {
                                 tabela.removeBorderColor(i);
                             }
+                        } else if (data.isBigger(req.getEndDate()) < 0) {
+                            tabela.setBorderColor(i, cores[1]);
                         } else {
-                            if (data.isBigger(req.getEndDate()) < 0) {
-                                tabela.setBorderColor(i, cores[1]);
-                            } else {
-                                tabela.removeBorderColor(i);
-                            }
+                            tabela.removeBorderColor(i);
                         }
                         tabela.repaint();
                         i++;

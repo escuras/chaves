@@ -51,6 +51,7 @@ public class PersonalPrefs extends KeyQuest {
         tipomaterial= new Keys.TypeOfMaterial(idtipo, desctipo, totaltipo, livrestipo, imagemtipo);
         init();
         caracteristicsJFrame();
+        
         this.setPreferedSize(maximizada, x, y, largura, altura);
     }
     

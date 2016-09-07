@@ -1958,6 +1958,7 @@
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevok;&#xa;javax.swing.ImageIcon iconbtdevok = new javax.swing.ImageIcon();&#xa;try {&#xa;    imagebtdevok = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;    if (imagebtdevok != null) {&#xa;        iconbtdevok = new javax.swing.ImageIcon(imagebtdevok);&#xa;        jButtonConfirmaDevolucao.setIcon(iconbtdevok);&#xa;    } &#xa;} catch (IOException ex) {&#xa;    jButtonConfirmaDevolucao.setText(lingua.translate(&quot;Confirmar&quot;));&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonConfirmaDevolucao.setToolTipText(lingua.translate(&quot;Confirmar devolucao&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonAlteraDevolucao">
@@ -1985,6 +1986,7 @@
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtdevcancelar = null;&#xa;javax.swing.ImageIcon iconbtdevcancelar = new javax.swing.ImageIcon(); &#xa;try {&#xa;    if (this.getClass().getResource(&quot;Images/oculos.png&quot;) != null) {&#xa;        imagebtdevcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/oculos.png&quot;));&#xa;        iconbtdevcancelar = new javax.swing.ImageIcon(imagebtdevcancelar);&#xa;        jButtonAlteraDevolucao.setIcon(iconbtdevcancelar);&#xa;    } else {&#xa;        jButtonAlteraDevolucao.setText(&quot;Ver&quot;);&#xa;    }&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;jButtonAlteraDevolucao.setToolTipText(lingua.translate(&quot;Ver requisi&#xe7;&#xe3;o&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -2442,6 +2444,7 @@
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtok = null;&#xa;try {&#xa;    imagebtok = ImageIO.read(getClass().getResourceAsStream(&quot;Images/ok.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtok = new javax.swing.ImageIcon(imagebtok);&#xa;    jButtonAtuacaoConfirma.setIcon(iconbtok);&#xa;}&#xa;jButtonAtuacaoConfirma.setToolTipText(lingua.translate(&quot;Confirmar_emprestimo&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonAtuacaoAltera">
@@ -2472,6 +2475,7 @@
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="java.awt.image.BufferedImage imagebtcancelar = null;&#xa;try {&#xa;    imagebtcancelar = ImageIO.read(getClass().getResourceAsStream(&quot;Images/substituir.png&quot;));&#xa;} catch (IOException ex) {&#xa;    Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);&#xa;}&#xa;if (imagebtok != null) {&#xa;    javax.swing.ImageIcon iconbtcancelar = new javax.swing.ImageIcon(imagebtcancelar);&#xa;    jButtonAtuacaoAltera.setIcon(iconbtcancelar);&#xa;}&#xa;jButtonAtuacaoAltera.setToolTipText(lingua.translate(&quot;Alterar_requisicao&quot;));"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
