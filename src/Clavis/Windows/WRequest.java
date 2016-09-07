@@ -125,6 +125,11 @@ public class WRequest extends javax.swing.JFrame {
         jSpinnerQuantidade = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jLabelPessoa = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBoxNomeUtilizador = new Components.PersonalComboBox(jLabelRecurso);
+        jLabel11 = new javax.swing.JLabel();
+        jComboBoxCodigoUtilizador = new Components.PersonalComboBox(jLabelRecurso);
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner(new SpinnerDateModel());
@@ -140,7 +145,6 @@ public class WRequest extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanelInicial.setBackground(new java.awt.Color(254, 254, 254));
         jPanelInicial.setMinimumSize(new java.awt.Dimension(900, 500));
@@ -169,7 +173,6 @@ public class WRequest extends javax.swing.JFrame {
         jComboBoxTipoMaterial.setMinimumSize(new java.awt.Dimension(35, 30));
         jComboBoxTipoMaterial.setPreferredSize(new java.awt.Dimension(35, 30));
 
-        jLabel2.setText("Tipo de material:");
         jLabel2.setMaximumSize(new java.awt.Dimension(4444444, 26));
         jLabel2.setMinimumSize(new java.awt.Dimension(104, 26));
         jLabel2.setPreferredSize(new java.awt.Dimension(104, 26));
@@ -183,12 +186,11 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Recurso espcífico:");
         jLabel3.setMaximumSize(new java.awt.Dimension(444444, 26));
         jLabel3.setMinimumSize(new java.awt.Dimension(104, 26));
         jLabel3.setPreferredSize(new java.awt.Dimension(104, 26));
 
-        jLabel5.setText("Quantidade:");
+        jLabel5.setToolTipText("");
         jLabel5.setMaximumSize(new java.awt.Dimension(3333337, 26));
         jLabel5.setMinimumSize(new java.awt.Dimension(104, 26));
         jLabel5.setPreferredSize(new java.awt.Dimension(104, 26));
@@ -222,7 +224,7 @@ public class WRequest extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxMaterial, 0, 214, Short.MAX_VALUE))
+                                .addComponent(jComboBoxMaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,9 +239,9 @@ public class WRequest extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jLabelRecurso, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxTipoMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,16 +255,19 @@ public class WRequest extends javax.swing.JFrame {
                         .addComponent(jSpinnerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBoxMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(12, 12, 12))
         );
 
         jLabelRecurso.setText(lingua.translate("Recurso"));
         jComboBoxTipoMaterial.setBackgroundColor(new Color(213,213,213));
         jComboBoxTipoMaterial.setHelpText("Tipo de material");
         jComboBoxTipoMaterial.create();
+        jLabel2.setText(lingua.translate("Tipo de material")+": ");
         jComboBoxMaterial.create();
+        jLabel3.setText(lingua.translate("Recurso específico")+": ");
+        jLabel5.setText(lingua.translate("Quantidade")+": ");
         try {
             if (Clavis.KeyQuest.class.getResource("Images/searchbranco.png") != null) {
                 BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/searchbranco.png"));
@@ -283,16 +288,87 @@ public class WRequest extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(424, 250));
         jPanel2.setPreferredSize(new java.awt.Dimension(424, 250));
 
+        jLabelPessoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder4.setCornerSize(6);
+        dropShadowBorder4.setShadowSize(3);
+        dropShadowBorder4.setShowLeftShadow(true);
+        dropShadowBorder4.setShowTopShadow(true);
+        jLabelPessoa.setBorder(dropShadowBorder4);
+        jLabelPessoa.setMinimumSize(new java.awt.Dimension(47, 30));
+        jLabelPessoa.setName(""); // NOI18N
+        jLabelPessoa.setPreferredSize(new java.awt.Dimension(47, 30));
+
+        jLabel8.setToolTipText("");
+        jLabel8.setMaximumSize(new java.awt.Dimension(374444, 26));
+        jLabel8.setMinimumSize(new java.awt.Dimension(37, 26));
+        jLabel8.setPreferredSize(new java.awt.Dimension(147, 26));
+
+        jComboBoxNomeUtilizador.setMinimumSize(new java.awt.Dimension(35, 30));
+        jComboBoxNomeUtilizador.setPreferredSize(new java.awt.Dimension(35, 30));
+        jComboBoxNomeUtilizador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxNomeUtilizadorActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setMaximumSize(new java.awt.Dimension(433332, 30));
+        jLabel11.setMinimumSize(new java.awt.Dimension(129, 30));
+        jLabel11.setPreferredSize(new java.awt.Dimension(129, 30));
+
+        jComboBoxCodigoUtilizador.setMinimumSize(new java.awt.Dimension(35, 30));
+        jComboBoxCodigoUtilizador.setPreferredSize(new java.awt.Dimension(35, 30));
+        jComboBoxCodigoUtilizador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCodigoUtilizadorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelPessoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(24, 24, 24))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxNomeUtilizador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxCodigoUtilizador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(30, 30, 30))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxNomeUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabelPessoa.setText(lingua.translate("Utilizador"));
+        jLabel8.setText(lingua.translate("Nome de utilizador")+": ");
+        jComboBoxNomeUtilizador.setBackgroundColor(new Color(213,213,213));
+        jComboBoxNomeUtilizador.setHelpText(lingua.translate("Nome de utilizador")+" ...");
+        jComboBoxNomeUtilizador.create();
+        jLabel11.setText(lingua.translate("Código")+": ");
+        jComboBoxCodigoUtilizador.setBackgroundColor(new Color(213,213,213));
+        jComboBoxCodigoUtilizador.setHelpText(lingua.translate("Código na instituição")+" ...");
+        jComboBoxCodigoUtilizador.create();
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -309,11 +385,11 @@ public class WRequest extends javax.swing.JFrame {
         jLabel7.setOpaque(true);
         jLabel7.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder4.setCornerSize(6);
-        dropShadowBorder4.setShadowSize(3);
-        dropShadowBorder4.setShowLeftShadow(true);
-        jSpinner1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder5.setCornerSize(6);
+        dropShadowBorder5.setShadowSize(3);
+        dropShadowBorder5.setShowLeftShadow(true);
+        jSpinner1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jSpinner1.setMinimumSize(new java.awt.Dimension(50, 30));
         jSpinner1.setPreferredSize(new java.awt.Dimension(50, 30));
 
@@ -331,11 +407,11 @@ public class WRequest extends javax.swing.JFrame {
         jLabel6.setPreferredSize(new java.awt.Dimension(149, 20));
 
         jXDatePicker1.setBackground(new java.awt.Color(254, 254, 254));
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder5.setCornerSize(6);
-        dropShadowBorder5.setShadowSize(3);
-        dropShadowBorder5.setShowLeftShadow(true);
-        jXDatePicker1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder6.setCornerSize(6);
+        dropShadowBorder6.setShadowSize(3);
+        dropShadowBorder6.setShowLeftShadow(true);
+        jXDatePicker1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder6, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jXDatePicker1.setMaximumSize(new java.awt.Dimension(111, 30));
         jXDatePicker1.setMinimumSize(new java.awt.Dimension(111, 30));
         jXDatePicker1.setPreferredSize(new java.awt.Dimension(111, 30));
@@ -346,12 +422,12 @@ public class WRequest extends javax.swing.JFrame {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder6.setCornerSize(6);
-        dropShadowBorder6.setShadowSize(3);
-        dropShadowBorder6.setShowLeftShadow(true);
-        dropShadowBorder6.setShowTopShadow(true);
-        jLabel1.setBorder(dropShadowBorder6);
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder7.setCornerSize(6);
+        dropShadowBorder7.setShadowSize(3);
+        dropShadowBorder7.setShowLeftShadow(true);
+        dropShadowBorder7.setShowTopShadow(true);
+        jLabel1.setBorder(dropShadowBorder7);
         jLabel1.setMaximumSize(new java.awt.Dimension(131333, 300));
         jLabel1.setMinimumSize(new java.awt.Dimension(131, 30));
         jLabel1.setPreferredSize(new java.awt.Dimension(131, 30));
@@ -361,7 +437,7 @@ public class WRequest extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(84, Short.MAX_VALUE)
+                .addContainerGap(74, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -372,7 +448,7 @@ public class WRequest extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(32, 32, 32))
+                .addGap(50, 50, 50))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,11 +499,11 @@ public class WRequest extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder7.setCornerSize(6);
-        dropShadowBorder7.setShadowSize(3);
-        dropShadowBorder7.setShowLeftShadow(true);
-        jSpinner2.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder7, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder8.setCornerSize(6);
+        dropShadowBorder8.setShadowSize(3);
+        dropShadowBorder8.setShowLeftShadow(true);
+        jSpinner2.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder8, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jSpinner2.setMinimumSize(new java.awt.Dimension(50, 30));
         jSpinner2.setPreferredSize(new java.awt.Dimension(50, 30));
 
@@ -445,12 +521,12 @@ public class WRequest extends javax.swing.JFrame {
         jLabel9.setPreferredSize(new java.awt.Dimension(100, 20));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder8.setCornerSize(6);
-        dropShadowBorder8.setShadowSize(3);
-        dropShadowBorder8.setShowLeftShadow(true);
-        dropShadowBorder8.setShowTopShadow(true);
-        jLabel4.setBorder(dropShadowBorder8);
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder9.setCornerSize(6);
+        dropShadowBorder9.setShadowSize(3);
+        dropShadowBorder9.setShowLeftShadow(true);
+        dropShadowBorder9.setShowTopShadow(true);
+        jLabel4.setBorder(dropShadowBorder9);
         jLabel4.setMaximumSize(new java.awt.Dimension(131333, 300));
         jLabel4.setMinimumSize(new java.awt.Dimension(131, 30));
         jLabel4.setPreferredSize(new java.awt.Dimension(131, 30));
@@ -469,11 +545,11 @@ public class WRequest extends javax.swing.JFrame {
         jLabel10.setPreferredSize(new java.awt.Dimension(149, 20));
 
         jXDatePicker2.setBackground(new java.awt.Color(254, 254, 254));
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder9.setCornerSize(6);
-        dropShadowBorder9.setShadowSize(3);
-        dropShadowBorder9.setShowLeftShadow(true);
-        jXDatePicker2.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder9, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder10 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder10.setCornerSize(6);
+        dropShadowBorder10.setShadowSize(3);
+        dropShadowBorder10.setShowLeftShadow(true);
+        jXDatePicker2.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder10, javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0))));
         jXDatePicker2.setMaximumSize(new java.awt.Dimension(111, 30));
         jXDatePicker2.setMinimumSize(new java.awt.Dimension(111, 30));
         jXDatePicker2.setPreferredSize(new java.awt.Dimension(111, 30));
@@ -493,7 +569,7 @@ public class WRequest extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -557,13 +633,16 @@ public class WRequest extends javax.swing.JFrame {
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         jPanelInicialLayout.setVerticalGroup(
@@ -575,9 +654,9 @@ public class WRequest extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(223, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -613,6 +692,14 @@ public class WRequest extends javax.swing.JFrame {
     private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
+
+    private void jComboBoxNomeUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNomeUtilizadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxNomeUtilizadorActionPerformed
+
+    private void jComboBoxCodigoUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCodigoUtilizadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxCodigoUtilizadorActionPerformed
 
     private void init() {
         this.setTitle(lingua.translate("Registo de requisição"));
@@ -656,7 +743,13 @@ public class WRequest extends javax.swing.JFrame {
         tx.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
         javax.swing.JTextField txm = (javax.swing.JTextField) jComboBoxMaterial.getEditor().getEditorComponent();
         txm.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
+        javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getEditor().getEditorComponent();
+        txmutilizador.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
+        javax.swing.JTextField txmcodigo = (javax.swing.JTextField) jComboBoxCodigoUtilizador.getEditor().getEditorComponent();
+        txmcodigo.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
         txm.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txmcodigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txmutilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         tx.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinnerQuantidade.getEditor();
         javax.swing.JTextField txx = editor.getTextField();
@@ -758,9 +851,17 @@ public class WRequest extends javax.swing.JFrame {
                     jComboBoxTipoMaterial.setSelectedIndex(0);
                 }
             }
+            java.util.List<Keys.Person> p = db.getPersons();
+            DefaultComboBoxModel<Keys.Person> modelop = (DefaultComboBoxModel) jComboBoxNomeUtilizador.getModel();
+            p.stream().forEach((pes) -> {
+                modelop.addElement(pes);
+            });
+            jComboBoxNomeUtilizador.setSelectedIndex(0);
             db.close();
-
+            
+            
         }
+        
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowAdapterImpl());
         pack();
@@ -781,22 +882,33 @@ public class WRequest extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     /*
+    private javax.swing.JComboBox<String> jComboBoxCodigoUtilizador;
+    */
+    private Components.PersonalComboBox jComboBoxCodigoUtilizador;
+    /*
     private javax.swing.JComboBox<String> jComboBoxMaterial;
     */
     private Components.PersonalComboBox jComboBoxMaterial;
+    /*
+    private javax.swing.JComboBox<String> jComboBoxNomeUtilizador;
+    */
+    private Components.PersonalComboBox jComboBoxNomeUtilizador;
     /*
     private javax.swing.JComboBox<String> jComboBoxTipoMaterial;
     */
     private Components.PersonalComboBox jComboBoxTipoMaterial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelPessoa;
     private javax.swing.JLabel jLabelRecurso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

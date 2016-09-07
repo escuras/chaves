@@ -218,10 +218,6 @@ public class ButtonListRequest {
         return bLista;
     }
 
-    public void sortList() {
-
-    }
-
     public javax.swing.JScrollPane getScrollPane() {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
         this.bLista = this.getButtons();

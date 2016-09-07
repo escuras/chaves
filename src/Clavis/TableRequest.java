@@ -1062,6 +1062,61 @@ public class TableRequest {
             this.addPanel(spanel, panel.alternativePanel());
         }
     }
+    
+    public void refreshPanel() {
+        if (tabela.getColumnCount() > 1) {
+            int select = TableRequest.this.selecionado;
+            if (select >= 0) {
+                Object[] baux = requisicoes.getRequests().toArray();
+                Keys.Request req = (Keys.Request) baux[select];
+                String[] results;
+                String[] titulos;
+                String atividade;
+                if ((req.getActivity().equals("") || (req.getActivity().equals("sem")))) {
+                    atividade = lingua.translate("Não existe descrição");
+                } else {
+                    atividade = req.getActivity();
+                }
+                if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
+                    if (!devolucoes) {
+                        titulos = new String[]{"Recurso", "Utilizador", "Data", "Atividade", "Disciplina", "Horário", "Dia da semana"};
+                        results = new String[]{lingua.translate(req.getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(req.getMaterial().getDescription()), req.getPerson().getName(), req.getBeginDate().toString(), lingua.translate(atividade), lingua.translate(req.getSubject().getName()), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getWeekDay().perDayName()};
+                    } else {
+                        titulos = new String[]{"Recurso", "Utilizador", "Data", "Atividade", "Disciplina", "Hora de devolução", "Dia da semana"};
+                        results = new String[]{lingua.translate(req.getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(req.getMaterial().getDescription()), req.getPerson().getName(), req.getBeginDate().toString(), lingua.translate(atividade), lingua.translate(req.getSubject().getName()), req.getTimeEnd().toString(0), req.getWeekDay().perDayName()};
+                    }
+                } else if (!devolucoes) {
+                    titulos = new String[]{"Recurso", "Utilizador", "Data de levantamento", "Data de devolução", "Atividade", "Disciplina", "Hora de levantamento", "Dia da semana (levantamento)"};
+                    results = new String[]{lingua.translate(req.getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(req.getMaterial().getDescription()), req.getPerson().getName(), req.getBeginDate().toStringWithMonthWord(), req.getEndDate().toStringWithMonthWord(), lingua.translate(atividade), lingua.translate(req.getSubject().getName()), req.getTimeBegin().toString(0), req.getWeekDay().perDayName()};
+                } else {
+                    try {
+                        titulos = new String[]{"Recurso", "Utilizador", "Data de devolução", "Atividade", "Disciplina", "Hora de devolução", "Dia da semana (devolução)"};
+                        results = new String[]{lingua.translate(req.getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(req.getMaterial().getDescription()), req.getPerson().getName(), req.getEndDate().toStringWithMonthWord(), lingua.translate(atividade), lingua.translate(req.getSubject().getName()), req.getTimeEnd().toString(0), new TimeDate.WeekDay(req.getEndDate()).perDayName()};
+                    } catch (ParseException ex) {
+                        titulos = new String[]{"Recurso", "Utilizador", "Data de devolução", "Atividade", "Disciplina", "Hora de devolução", "Dia da semana (devolução)"};
+                        results = new String[]{lingua.translate(req.getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(req.getMaterial().getDescription()), req.getPerson().getName(), req.getEndDate().toStringWithMonthWord(), lingua.translate(atividade), lingua.translate(req.getSubject().getName()), req.getTimeEnd().toString(0), ""};
+                    }
+                }
+                panel = new PanelDetails(panelColor, panelForegroundColor, titulos, results, lingua, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), this.getSelectedRequest().getMaterial().getMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName(), spanel);
+                panel.setInterval(2);
+                panel.create();
+                spanel.setPreferredSize(panel.getPreferredSize());
+                this.addPanel(spanel, panel);
+            } else {
+                panel = new PanelDetails(lingua, panelColor, panelForegroundColor, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName());
+                panel.setInterval(2);
+                panel.create();
+                spanel.setPreferredSize(panel.alternativePanel().getPreferredSize());
+                this.addPanel(spanel, panel.alternativePanel());
+            }
+        } else {
+            panel = new PanelDetails(lingua, panelColor, panelForegroundColor, requisicoes.getTypeOfMaterial().getTypeOfMaterialImage(), requisicoes.getTypeOfMaterial().getTypeOfMaterialName());
+            panel.setInterval(2);
+            panel.create();
+            spanel.setPreferredSize(panel.alternativePanel().getPreferredSize());
+            this.addPanel(spanel, panel.alternativePanel());
+        }
+    }
 
     /**
      * @return the spanel

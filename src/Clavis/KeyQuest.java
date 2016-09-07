@@ -1132,6 +1132,7 @@ public class KeyQuest extends javax.swing.JFrame {
         KeyQuest.addtoPropertyListener(jPanelDefOpcoes,true);
 
         jDialogListaBotoes.setMinimumSize(new java.awt.Dimension(700, 500));
+        jDialogListaBotoes.setModal(true);
         jDialogListaBotoes.setResizable(false);
         jDialogListaBotoes.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -1198,6 +1199,8 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jPanelListaBotoes.setBorder(borderlistabotoes);
         KeyQuest.addtoPropertyListener(jPanelListaBotoes,true);
+
+        jDialogListaBotoes.setName("ListaBotoes");
 
         jDialog1.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialog1.setResizable(false);
@@ -2937,13 +2940,18 @@ public class KeyQuest extends javax.swing.JFrame {
     private void jButtonAtualizarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarListaActionPerformed
         Keys.TypeOfMaterial mat = tiposmateriais.get(jComboBoxListaBotoes.getSelectedIndex());
         this.calculateList(mat);
-
     }//GEN-LAST:event_jButtonAtualizarListaActionPerformed
 
     private void jButtonConfirmaDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaDevolucaoActionPerformed
         DataBase.DataBase db = new DataBase.DataBase(urlbd);
         Keys.Request req = lista_dev.getSelectedRequest();
         if (req != null) {
+            if (lista_dev.isResultOfASearch()) {
+                if (jLabelLimpaPesquisaBaixo != null) {
+                    jLabelLimpaPesquisaBaixo.setVisible(false);
+                }
+                jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
+            }
             java.util.Set<Keys.Request> lista = lista_dev.getRequestList().getDifferentUnionRequest(req);
             if (lista.size() > 0) {
                 lista.stream().forEach((l) -> {
@@ -2951,6 +2959,9 @@ public class KeyQuest extends javax.swing.JFrame {
                 });
             } else {
                 db.changeRequestTerminateState(req);
+            }
+            if (lista_dev.isResultOfASearch()) {
+                this.calculateList(tipomaterial);
             }
             lista_dev.removeSelectedRequest();
             lista_req.getTable().clearSelection();
@@ -3083,7 +3094,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
             jTextFieldProcuraBaixo.setForeground(new Color(201, 201, 201));
             jTextFieldProcuraBaixo.setText(lingua.translate(spesquisa[1]) + " ... ");
-
         }
     }//GEN-LAST:event_jTextFieldProcuraBaixoKeyPressed
 
@@ -3187,7 +3197,7 @@ public class KeyQuest extends javax.swing.JFrame {
             jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
             btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-            
+
             jDialogListaBotoes.setVisible(true);
             jDialogListaBotoes.setLocationRelativeTo(this);
         }
@@ -3613,6 +3623,15 @@ public class KeyQuest extends javax.swing.JFrame {
         DataBase.DataBase db = new DataBase.DataBase(urlbd);
         Keys.Request req = lista_req.getSelectedRequest();
         if (req != null) {
+            if (lista_req.isResultOfASearch()) {
+                lista_req.destroySearch();
+                lista_req.addTimerColors();
+                lista_req.startTimerColors();
+                if (jLabelLimpaPesquisaCima != null) {
+                    jLabelLimpaPesquisaCima.setVisible(false);
+                }
+                jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
+            }
             java.util.Set<Keys.Request> lista = lista_req.getRequestList().getDifferentUnionRequest(req);
             if (lista.size() > 0) {
                 lista.stream().forEach((l) -> {
@@ -3622,11 +3641,6 @@ public class KeyQuest extends javax.swing.JFrame {
                 db.changeRequestActiveState(req);
             }
             lista_req.removeSelectedRequest();
-            if (tema.equals("escuro")) {
-                this.temaEscuro();
-            } else {
-                this.temaClaro();
-            }
         }
         db.close();
         this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
@@ -3722,13 +3736,13 @@ public class KeyQuest extends javax.swing.JFrame {
                 systemColor = new Components.Color(177, 184, 190);
                 break;
             case 1:
-                systemColor = new Components.Color(168,184,163);
+                systemColor = new Components.Color(168, 184, 163);
                 break;
             case 2:
-                systemColor = new Components.Color(186,170,170);
+                systemColor = new Components.Color(186, 170, 170);
                 break;
             case 3:
-                systemColor = new Components.Color(236,237,206);
+                systemColor = new Components.Color(236, 237, 206);
                 break;
             case 4:
                 systemColor = new Components.Color(190, 209, 208);
@@ -3739,7 +3753,7 @@ public class KeyQuest extends javax.swing.JFrame {
             case 6:
                 systemColor = new Components.Color(245, 245, 245);
                 break;
-            default: 
+            default:
                 systemColor = new Components.Color(177, 184, 190);
                 break;
         }
@@ -3752,7 +3766,7 @@ public class KeyQuest extends javax.swing.JFrame {
             } else {
                 paineis.get(i).getPanel().setBackground(systemColor);
             }
-           
+
         }
     }//GEN-LAST:event_jComboBoxCorSistemaItemStateChanged
 
@@ -3966,7 +3980,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 prefs.save();
             }
         });
-        
+
         this.drawDivisor();
 
         // Comportamento do duplo clique no separador  
@@ -4160,7 +4174,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jMenuFicheiro.add(itemSair);
 
         menu.add(jMenuFicheiro);
-        
+
         jMenuDefinicoes.setText(lingua.translate("Definições"));
         jMenuDefinicoes.setMnemonic(lingua.translate("Definições").charAt(0));
         JMenuItem itemFeriados = new JMenuItem();
@@ -4171,7 +4185,7 @@ public class KeyQuest extends javax.swing.JFrame {
             itemFeriadosActionPerformed(evt);
         });
         jMenuDefinicoes.add(itemFeriados);
-        
+
         JMenuItem itemFerias = new JMenuItem();
         itemFerias.setText(lingua.translate("Editar_Periodos_Interrupcao"));
         itemFerias.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4180,7 +4194,7 @@ public class KeyQuest extends javax.swing.JFrame {
             itemFeriasActionPerformed(evt);
         });
         jMenuDefinicoes.add(itemFerias);
-        
+
         JMenuItem itemDefinicoes = new JMenuItem();
         itemDefinicoes.setText(lingua.translate("Definicoes_visualizacao"));
         itemDefinicoes.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4190,13 +4204,12 @@ public class KeyQuest extends javax.swing.JFrame {
         });
         jMenuDefinicoes.add(itemDefinicoes);
         menu.add(jMenuDefinicoes);
-        
-        
+
         JMenu jMenuMovimentos = new JMenu();
         jMenuMovimentos.setText(lingua.translate("Movimentos"));
         jMenuMovimentos.setMnemonic(lingua.translate("Movimentos").charAt(0));
         menu.add(jMenuMovimentos);
-        
+
         JMenuItem itemRequisicao = new JMenuItem();
         itemRequisicao.setText(lingua.translate("Efetuar requisição"));
         itemRequisicao.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4205,11 +4218,11 @@ public class KeyQuest extends javax.swing.JFrame {
             itemRequisicoesActionPerformed(evt);
         });
         jMenuMovimentos.add(itemRequisicao);
-        
+
         this.setJMenuBar(menu);
     }
-    
-    private void itemRequisicoesActionPerformed(java.awt.event.ActionEvent evt){
+
+    private void itemRequisicoesActionPerformed(java.awt.event.ActionEvent evt) {
         Window[] w = Window.getWindows();
         int g = 0;
         int mov = -1;
@@ -4219,13 +4232,13 @@ public class KeyQuest extends javax.swing.JFrame {
             }
             g++;
         }
-        if ((mov > -1)&&(w[mov].isVisible())) {
+        if ((mov > -1) && (w[mov].isVisible())) {
             w[mov].toFront();
             w[mov].repaint();
         } else {
-          Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(systemColor, new Color(255,255,255), urlbd, lingua);
-          wreq.create();
-          wreq.appear();
+            Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(systemColor, new Color(255, 255, 255), urlbd, lingua);
+            wreq.create();
+            wreq.appear();
         }
     }
 
@@ -5063,6 +5076,14 @@ public class KeyQuest extends javax.swing.JFrame {
     public String getURLbd() {
         return this.urlbd;
     }
+    
+    public static TableRequest getListRequest(){
+        return lista_req;
+    }
+    
+    public static TableRequest getListDevolutions(){
+        return lista_dev;
+    }
 
     private void createAspect() {
         NimbusLookAndFeel laf = new NimbusLookAndFeel();
@@ -5096,20 +5117,20 @@ public class KeyQuest extends javax.swing.JFrame {
 
         Painter<Component> textback = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(254, 254, 254));
-            g.fill(new RoundRectangle2D.Double(2, 2, width1, height1-5, 8, 8));
+            g.fill(new RoundRectangle2D.Double(2, 2, width1, height1 - 5, 8, 8));
             g.setColor(Color.DARK_GRAY);
             g.draw(new RoundRectangle2D.Double(2, 2, width1, height1 - 5, 8, 8));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(7, height1 - 2, width1, height1 - 2);
 
         };
-        
+
         Painter<Component> iconnormal = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(254, 254, 254));
             g.fill(new RoundRectangle2D.Double(-3, 2, width1, height1 - 5, 8, 4));
             g.setColor(Color.DARK_GRAY);
             g.drawLine(0, 2, 0, height1 - 3);
-            
+
             g.draw(new RoundRectangle2D.Double(-3, 2, width1, height1 - 5, 8, 4));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(0, height1 - 2, width1 - 7, height1 - 2);
@@ -5128,7 +5149,7 @@ public class KeyQuest extends javax.swing.JFrame {
         };
         Painter<Component> textfocus = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(54, 54, 54));
-            g.fill(new RoundRectangle2D.Double(2, 2, width1-5, height1-5, 8, 8));
+            g.fill(new RoundRectangle2D.Double(2, 2, width1 - 5, height1 - 5, 8, 8));
             //g.fill(new RoundRectangle2D.Double(0, 2, width1 - 3, height1, 6, 6));
 
         };
@@ -5140,12 +5161,12 @@ public class KeyQuest extends javax.swing.JFrame {
             g.drawLine(0, height1 - 1, width1 - 3, height1 - 1);
             g.draw(new RoundRectangle2D.Double(-2, 2, width1 - 1, height1, 6, 6));
         };
-        
+
         Painter<Component> iconnormalspinnerbaixo = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(104, 154, 154));
-            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1-2, 6, 6));
+            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1 - 2, 6, 6));
             g.setColor(Color.DARK_GRAY);
-            g.drawLine(0, 0, 0, height1-2);
+            g.drawLine(0, 0, 0, height1 - 2);
             g.draw(new RoundRectangle2D.Double(-2, -3, width1 - 1, height1, 6, 6));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(0, height1 - 2, width1 - 7, height1 - 2);
@@ -5159,15 +5180,15 @@ public class KeyQuest extends javax.swing.JFrame {
             g.drawLine(0, 2, 0, height1);
             g.drawLine(0, height1 - 1, width1 - 3, height1 - 1);
             g.draw(new RoundRectangle2D.Double(-2, 2, width1 - 1, height1, 6, 6));
-            
+
         };
-        
+
         Painter<Component> iconhoverspinnerbaixo = (Graphics2D g, Component object, int width1, int height1) -> {
             java.awt.GradientPaint paint = new java.awt.GradientPaint(0, 0, Color.WHITE, 0, height1 / 2, new Color(185, 185, 185), true);
             g.setPaint(paint);
-            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1-3, 6, 6));
+            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1 - 3, 6, 6));
             g.setColor(Color.DARK_GRAY);
-            g.drawLine(0, 0, 0, height1-2);
+            g.drawLine(0, 0, 0, height1 - 2);
             g.draw(new RoundRectangle2D.Double(-2, -3, width1 - 1, height1, 6, 6));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(0, height1 - 2, width1 - 7, height1 - 2);
@@ -5182,18 +5203,18 @@ public class KeyQuest extends javax.swing.JFrame {
             g.drawLine(0, height1 - 1, width1 - 3, height1 - 1);
             g.draw(new RoundRectangle2D.Double(-2, 2, width1 - 1, height1, 6, 6));
         };
-        
-         Painter<Component> iconpressedspinnerbaixo = (Graphics2D g, Component object, int width1, int height1) -> {
+
+        Painter<Component> iconpressedspinnerbaixo = (Graphics2D g, Component object, int width1, int height1) -> {
             java.awt.GradientPaint paint = new java.awt.GradientPaint(0, 0, Color.WHITE, 0, height1 / 2, new Color(85, 85, 85), true);
             g.setPaint(paint);
-            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1-3, 6, 6));
+            g.fill(new RoundRectangle2D.Double(-2, -1, width1 - 1, height1 - 3, 6, 6));
             g.setColor(Color.DARK_GRAY);
-            g.drawLine(0, 0, 0, height1-2);
+            g.drawLine(0, 0, 0, height1 - 2);
             g.draw(new RoundRectangle2D.Double(-2, -3, width1 - 1, height1, 6, 6));
             g.setColor(new Color(145, 145, 145));
             g.drawLine(0, height1 - 2, width1 - 7, height1 - 2);
         };
-        laf.getDefaults().put("MenuItem[MouseOver].backgroundPainter",p);
+        laf.getDefaults().put("MenuItem[MouseOver].backgroundPainter", p);
         laf.getDefaults().put("ComboBox:\"ComboBox.arrowButton\"[Editable+Enabled].backgroundPainter", iconnormal);
         laf.getDefaults().put("ComboBox:\"ComboBox.arrowButton\"[Editable+MouseOver].backgroundPainter", iconnormal);
         laf.getDefaults().put("ComboBox:\"ComboBox.textField\"[Enabled].backgroundPainter", textback);
@@ -5224,14 +5245,14 @@ public class KeyQuest extends javax.swing.JFrame {
         laf.getDefaults().put("FileChooser[Enabled].backgroundPainter", painter);
 
     }
-    
-    public static javax.swing.JTabbedPane getMaterialsButtonsTable(){
+
+    public static javax.swing.JTabbedPane getMaterialsButtonsTable() {
         return jTabbedPaneMaterialBotoes;
     }
-    
-    public static void refreshDevolutionTable(Keys.Request req){
+
+    public static void refreshDevolutionTable(Keys.Request req) {
         int conta = 0;
-        DefaultTableModel  r = (DefaultTableModel)lista_dev.getTable().getModel();
+        DefaultTableModel r = (DefaultTableModel) lista_dev.getTable().getModel();
         RequestList rl = lista_dev.getRequestList();
         int i = 0;
         int valor = 0;
@@ -5249,21 +5270,21 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonConfirmaDevolucao.setEnabled(false);
         jButtonAtuacaoConfirma.setEnabled(false);
     }
-    
-    public static java.awt.Color getSystemColor(){
+
+    public static java.awt.Color getSystemColor() {
         return systemColor;
     }
-    
-    public static void addtoPropertyListener(javax.swing.JPanel pane,boolean border){
-        paineis.add(new PainelAuxiliar(pane,border));
+
+    public static void addtoPropertyListener(javax.swing.JPanel pane, boolean border) {
+        paineis.add(new PainelAuxiliar(pane, border));
     }
-    
-    public static void addVisualComboBox(javax.swing.JComboBox<?> combo){
+
+    public static void addVisualComboBox(javax.swing.JComboBox<?> combo) {
         BasicComboPopup popupVista = (BasicComboPopup) combo.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
     }
-    
+
     private static class PainelAuxiliar {
 
         boolean border;

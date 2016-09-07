@@ -78,7 +78,7 @@ import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
  *
  * @author toze
  */
-public class WShedule extends JFrame {
+public class WShedule extends JDialog {
 
     private final static long serialVersionUID = 1L;
 
@@ -507,7 +507,6 @@ public class WShedule extends JFrame {
         prefs.putInt("altura", this.getHeight());
         prefs.putInt("x", getX());
         prefs.putInt("y", getY());
-        prefs.putInt("maximizada", this.getExtendedState());
         this.close();
 
     }//GEN-LAST:event_jButtonSairActionPerformed
@@ -835,8 +834,6 @@ public class WShedule extends JFrame {
         int altura = prefs.getInt("altura", (int) this.getPreferredSize().getHeight());
         int x = prefs.getInt("x", this.getX());
         int y = prefs.getInt("y", this.getY());
-        int max = prefs.getInt("maximizada", this.getExtendedState());
-        this.setExtendedState(max);
         this.setBounds(x, y, largura, altura);
         this.setVisible(true);
         this.setLocationRelativeTo(this.componentepai);
@@ -847,7 +844,6 @@ public class WShedule extends JFrame {
         prefs.putInt("altura", getHeight());
         prefs.putInt("x", getX());
         prefs.putInt("y", getY());
-        prefs.putInt("maximizada", getExtendedState());
         this.setVisible(false);
         File fil = new File("doc.pdf");
         if (fil.exists()) {
@@ -858,6 +854,7 @@ public class WShedule extends JFrame {
 
     public synchronized void create() {
         initComponents();
+        this.setModal(true);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

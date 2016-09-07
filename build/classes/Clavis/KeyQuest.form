@@ -1315,11 +1315,15 @@
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[700, 500]"/>
         </Property>
+        <Property name="modal" type="boolean" value="true"/>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="jDialogListaBotoesWindowClosing"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="jDialogListaBotoes.setName(&quot;ListaBotoes&quot;);"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

@@ -18,6 +18,8 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**

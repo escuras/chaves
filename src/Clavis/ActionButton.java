@@ -8,7 +8,6 @@ package Clavis;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -25,19 +24,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-public class ActionButton extends javax.swing.JDialog {
+public final class ActionButton extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
     private final Keys.Material mat;
@@ -58,6 +53,27 @@ public class ActionButton extends javax.swing.JDialog {
     private javax.swing.JLabel labelauxiliar;
     private Timer timertempoatrasado;
     private final PersonalButtonRequest btchamada;
+    private static ActionButton app = null;
+
+    public ActionButton() {
+        super();
+        this.mat = null;
+        this.cla = null;
+        this.lingua = Langs.Locale.getLocale_pt_PT();
+        editar = false;
+        this.panelcor = KeyQuest.getSystemColor();
+        this.url = "";
+        dialogopai = null;
+        bimage = null;
+        this.alterado = false;
+        labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
+        labelativa.setPreferredSize(new Dimension(181, 32));
+        labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
+        labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        labelativa.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+        atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
+        this.btchamada = null;
+    }
 
     public ActionButton(Keys.Material m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
         super();
@@ -367,8 +383,8 @@ public class ActionButton extends javax.swing.JDialog {
                 public void mouseClicked(MouseEvent e) {
                     FileIOAux.ImageExtension image;
                     image = bimage;
-                    
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null){
+
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null) {
                         alterado = true;
                     } else {
                         bimage = image;
@@ -734,6 +750,17 @@ public class ActionButton extends javax.swing.JDialog {
                                 for (java.awt.event.MouseListener l : imageview.getMouseListeners()) {
                                     imageview.removeMouseListener(l);
                                 }
+                                RequestList lista = Clavis.KeyQuest.getListRequest().getRequestList();
+                                int jaestoucansado = 0;
+                                for (Keys.Request r : lista.getRequests()) {
+                                    if (r.getMaterial().getId() == getMaterial().getId()) {
+                                        r.setMaterial(getMaterial());
+                                        Clavis.KeyQuest.getListRequest().getTable().setValueAt(r.getMaterial().getDescription(), jaestoucansado, 1);
+
+                                    }
+                                    jaestoucansado++;
+                                }
+                                Clavis.KeyQuest.getListRequest().refreshPanel();
                                 db.close();
                             } else {
                                 Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("Erro de conexão à base de dados") + ".", new String[]{lingua.translate("Voltar")});
@@ -858,8 +885,9 @@ public class ActionButton extends javax.swing.JDialog {
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(285, 0, 90, 40);
             btreq.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255,255,255), url, lingua, cla);
+                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255, 255, 255), url, lingua, cla);
                 wreq.create();
+                this.dispose();
                 wreq.setVisible(true);
                 wreq.setLocationRelativeTo(this);
             });
@@ -993,7 +1021,7 @@ public class ActionButton extends javax.swing.JDialog {
                 }
             });
         } else {
-            this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(mat.getTypeOfMaterialName()) + ": " + lingua.translate(mat.getDescription()));
+            this.setTitle(lingua.translate("Detalhes") + " " + lingua.translate("de") + " " + lingua.translate(getMaterial().getTypeOfMaterialName()) + ": " + lingua.translate(getMaterial().getDescription()));
             javax.swing.JLabel imageview = new javax.swing.JLabel();
             imageview.setPreferredSize(new Dimension(60, 50));
             imageview.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -1001,10 +1029,10 @@ public class ActionButton extends javax.swing.JDialog {
             imageview.setBounds(14, 10, 60, 50);
             imageview.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1), BorderFactory.createLineBorder(Color.BLACK, 1)));
             if (!mat.getMaterialImage().equals("sem")) {
-                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(mat.getMaterialImage()));
+                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(getMaterial().getMaterialImage()));
                 imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
             } else {
-                String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + mat.getTypeOfMaterialImage() + ".png";
+                String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + getMaterial().getTypeOfMaterialImage() + ".png";
                 bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
                 imageview.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
             }
@@ -1028,7 +1056,7 @@ public class ActionButton extends javax.swing.JDialog {
             auxiliar.setBounds(20, 10, 110, 28);
             painel1Cima.add(auxiliar);
 
-            String sauxiliar = lingua.translate(mat.getDescription());
+            String sauxiliar = lingua.translate(getMaterial().getDescription());
             texto = new org.jdesktop.swingx.JXTextField[3];
             texto[0] = new org.jdesktop.swingx.JXTextField();
             texto[0].setText(sauxiliar);
@@ -1048,7 +1076,7 @@ public class ActionButton extends javax.swing.JDialog {
             auxiliar.setBounds(20, 40, 110, 28);
             painel1Cima.add(auxiliar);
 
-            sauxiliar = lingua.translate(mat.getCodeOfMaterial());
+            sauxiliar = lingua.translate(getMaterial().getCodeOfMaterial());
             texto[1] = new org.jdesktop.swingx.JXTextField();
             texto[1].setText(sauxiliar);
             texto[1].setSelectionColor(Color.DARK_GRAY);
@@ -1066,7 +1094,7 @@ public class ActionButton extends javax.swing.JDialog {
             auxiliar.setHorizontalAlignment(javax.swing.JLabel.LEADING);
             painel1Cima.add(auxiliar);
             texto[2] = new org.jdesktop.swingx.JXTextField();
-            if (mat.isLoaned()) {
+            if (getMaterial().isLoaned()) {
                 sauxiliar = lingua.translate("ocupado");
                 texto[2].setForeground(Color.RED);
             } else {
@@ -1111,7 +1139,7 @@ public class ActionButton extends javax.swing.JDialog {
                     image = bimage;
                     UIManager.put("TextField.background", new Color(234, 234, 234));
                     UIManager.put("List.background", new Color(234, 234, 234));
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null){
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null) {
                         alterado = true;
                     } else {
                         bimage = image;
@@ -1122,7 +1150,7 @@ public class ActionButton extends javax.swing.JDialog {
                     } else {
                         bimage = image;
                     }*/
-                    
+
                 }
 
                 @Override
@@ -1173,9 +1201,9 @@ public class ActionButton extends javax.swing.JDialog {
                                             texto1.setFocusable(false);
                                             texto1.setBackground(new Color(249, 249, 249));
                                         }
-                                        texto[0].setText(mat.getDescription());
+                                        texto[0].setText(getMaterial().getDescription());
                                         texto[0].setBorder(baux[0]);
-                                        texto[1].setText(mat.getCodeOfMaterial());
+                                        texto[1].setText(getMaterial().getCodeOfMaterial());
                                         texto[1].setBorder(baux[1]);
                                         imageview.setBorder(baux[2]);
                                         imageview.removeMouseListener(mouseimage);
@@ -1209,9 +1237,9 @@ public class ActionButton extends javax.swing.JDialog {
                                             texto1.setFocusable(false);
                                             texto1.setBackground(new Color(249, 249, 249));
                                         }
-                                        texto[0].setText(mat.getDescription());
+                                        texto[0].setText(getMaterial().getDescription());
                                         texto[0].setBorder(baux[0]);
-                                        texto[1].setText(mat.getCodeOfMaterial());
+                                        texto[1].setText(getMaterial().getCodeOfMaterial());
                                         texto[1].setBorder(baux[1]);
                                         imageview.setBorder(baux[2]);
                                         imageview.removeMouseListener(mouseimage);
@@ -1261,12 +1289,12 @@ public class ActionButton extends javax.swing.JDialog {
                                 baux[0] = texto[0].getBorder();
                                 timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
                                     texto[0].setBorder(baux[0]);
-                                    texto[0].setText(mat.getDescription());
+                                    texto[0].setText(getMaterial().getDescription());
                                     texto[1].setBorder(baux[1]);
                                     bteditar.setEnabled(true);
 
                                 });
-                                texto[1].setText(mat.getCodeOfMaterial());
+                                texto[1].setText(getMaterial().getCodeOfMaterial());
                                 texto[0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[0]));
                                 texto[1].setFocusable(false);
                                 texto[1].setBackground(new Color(249, 249, 249));
@@ -1281,11 +1309,11 @@ public class ActionButton extends javax.swing.JDialog {
                                 baux[1] = texto[1].getBorder();
                                 timer = new javax.swing.Timer(2000, (ActionEvent et) -> {
                                     texto[1].setBorder(baux[1]);
-                                    texto[1].setText(mat.getCodeOfMaterial());
+                                    texto[1].setText(getMaterial().getCodeOfMaterial());
                                     texto[0].setBorder(baux[0]);
                                     bteditar.setEnabled(true);
                                 });
-                                texto[0].setText(mat.getDescription());
+                                texto[0].setText(getMaterial().getDescription());
                                 texto[1].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), baux[1]));
                                 texto[0].setFocusable(false);
                                 texto[0].setBackground(new Color(249, 249, 249));
@@ -1300,12 +1328,12 @@ public class ActionButton extends javax.swing.JDialog {
                                 if (DataBase.DataBase.testConnection(url)) {
                                     DataBase.DataBase db = new DataBase.DataBase(url);
                                     if ((bimage != null) && (!bimage.getExtension().equals("")) && (alterado)) {
-                                        mat.setMaterialImage(bimage.getImage(), bimage.getExtension());
+                                        getMaterial().setMaterialImage(bimage.getImage(), bimage.getExtension());
                                     }
-                                    String chamada = mat.getDescription();
-                                    mat.setDescription(texto[0].getText());
-                                    mat.setCodeOfMaterial(texto[1].getText());
-                                    int val = db.updateMaterial(mat, alterado);
+                                    String chamada = getMaterial().getDescription();
+                                    getMaterial().setDescription(texto[0].getText());
+                                    getMaterial().setCodeOfMaterial(texto[1].getText());
+                                    int val = db.updateMaterial(getMaterial(), alterado);
                                     if (val < 0) {
                                         Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("O update não foi concretizado."), new String[]{lingua.translate("Voltar")});
                                         message.showMessage();
@@ -1318,7 +1346,7 @@ public class ActionButton extends javax.swing.JDialog {
                                     if (btchamada != null) {
                                         javax.swing.ImageIcon ic;
                                         if (alterado) {
-                                            BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(mat.getMaterialImage());
+                                            BufferedImage ima = FileIOAux.ImageAux.transformFromBase64IntoImage(getMaterial().getMaterialImage());
                                             if (ima != null) {
                                                 ima = FileIOAux.ImageAux.resize(ima, 40, 40);
                                                 ima = FileIOAux.ImageAux.makeRoundedCorner(ima, 45);
@@ -1327,8 +1355,8 @@ public class ActionButton extends javax.swing.JDialog {
                                             }
                                         }
                                         if (!chamada.equals(texto[0].getText())) {
-                                            btchamada.setText(mat.getDescription());
-                                            btchamada.setDescription(mat.getDescription());
+                                            btchamada.setText(getMaterial().getDescription());
+                                            btchamada.setDescription(getMaterial().getDescription());
                                             sortAfterRename();
                                         }
                                     }
@@ -1338,6 +1366,17 @@ public class ActionButton extends javax.swing.JDialog {
                                     texto[1].setBorder(baux[1]);
                                     texto[1].setFocusable(false);
                                     texto[1].setBackground(new Color(249, 249, 249));
+                                    RequestList lista = Clavis.KeyQuest.getListRequest().getRequestList();
+                                    int jaestoucansado = 0;
+                                    for (Keys.Request r : lista.getRequests()) {
+                                        if (r.getMaterial().getId() == getMaterial().getId()) {
+                                            r.setMaterial(getMaterial());
+                                            Clavis.KeyQuest.getListRequest().getTable().setValueAt(r.getMaterial().getDescription(), jaestoucansado, 1);
+
+                                        }
+                                        jaestoucansado++;
+                                    }
+                                    Clavis.KeyQuest.getListRequest().refreshPanel();
                                 } else {
                                     Components.MessagePane message = new Components.MessagePane(Clavis.ActionButton.getWindows()[0], Components.MessagePane.AVISO, Clavis.KeyQuest.systemColor, lingua.translate("Aviso"), 400, 200, lingua.translate("Erro de conexão à base de dados") + ".", new String[]{lingua.translate("Voltar")});
                                     message.showMessage();
@@ -1348,9 +1387,7 @@ public class ActionButton extends javax.swing.JDialog {
                     }
                 }
             });
-
             painel1Baixo.add(bteditar);
-
             // bt mais
             javax.swing.JButton btMais = new javax.swing.JButton();
             imagebtok = null;
@@ -1369,7 +1406,7 @@ public class ActionButton extends javax.swing.JDialog {
             btMais.setToolTipText(lingua.translate("Mais dados"));
             btMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btMais.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, mat, lingua, url);
+                Clavis.Windows.WMaterial janela = new Clavis.Windows.WMaterial(this, getMaterial(), lingua, url);
 
                 Window[] windows = Window.getWindows();
                 boolean pode_se = true;
@@ -1461,8 +1498,9 @@ public class ActionButton extends javax.swing.JDialog {
             btreq.setContentAreaFilled(true);
             btreq.setFocusPainted(false);
             btreq.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255,255,255), url, lingua, mat);
+                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255, 255, 255), url, lingua, getMaterial());
                 wreq.create();
+                this.dispose();
                 wreq.setVisible(true);
                 wreq.setLocationRelativeTo(this);
             });
@@ -1492,7 +1530,7 @@ public class ActionButton extends javax.swing.JDialog {
             bthorario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             bthorario.setFocusPainted(false);
             bthorario.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WShedule horario = new Clavis.Windows.WShedule(this, panelcor, mat, url, lingua);
+                Clavis.Windows.WShedule horario = new Clavis.Windows.WShedule(this, panelcor, getMaterial(), url, lingua);
                 Window[] windows = Window.getWindows();
                 boolean pode_se = true;
                 if (windows != null) {
@@ -1511,9 +1549,9 @@ public class ActionButton extends javax.swing.JDialog {
 
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);
-                Keys.Request req = db.getCurrentRequest(mat);
+                Keys.Request req = db.getCurrentRequest(getMaterial());
                 db.close();
-                if ((mat.isLoaned()) || (req.getId() > 0)) {
+                if ((getMaterial().isLoaned()) || (req.getId() > 0)) {
                     javax.swing.JButton btentrega = new javax.swing.JButton();
                     btentrega.setPreferredSize(new Dimension(90, 40));
                     btentrega.setBounds(100, 0, 90, 40);
@@ -1533,9 +1571,10 @@ public class ActionButton extends javax.swing.JDialog {
                     btentrega.setToolTipText(lingua.translate("Marcar devolução"));
                     painel22.add(btentrega);
                     btentrega.addActionListener((ActionEvent e) -> {
-                        this.confirmDelivery(btentrega, painel22, painel2, req, mat);
+                        this.confirmDelivery(btentrega, painel22, painel2, req, getMaterial());
                     });
                 }
+
             }
 
             javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
@@ -1610,8 +1649,8 @@ public class ActionButton extends javax.swing.JDialog {
             int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
             this.setLocation(x, y);
         }
+        this.setModal(true);
         this.setVisible(true);
-
     }
 
     public void confirmDelivery(javax.swing.JButton bt, javax.swing.JPanel panel1, javax.swing.JPanel panel2, Keys.Request req, Keys.Material mat) {
@@ -1623,7 +1662,7 @@ public class ActionButton extends javax.swing.JDialog {
                 for (Keys.Request re : reqs) {
                     db.changeRequestTerminateState(re);
                 }
-            }  
+            }
             Clavis.KeyQuest.refreshDevolutionTable(req);
             int val = db.getNextRequest(mat).getId();
             db.close();
@@ -1765,16 +1804,16 @@ public class ActionButton extends javax.swing.JDialog {
                 }
             }
         } else if (!mat.isLoaned()) {
-            req = db.getNextRequest(mat);
+            req = db.getNextRequest(getMaterial());
             requnion = db.getUnionRequests(req);
             emprestado = false;
         } else {
 
-            req = db.getCurrentRequest(mat);
+            req = db.getCurrentRequest(getMaterial());
             requnion = db.getUnionRequests(req);
             emprestado = true;
             if (req.getId() == -1) {
-                req = db.getNextRequest(mat);
+                req = db.getNextRequest(getMaterial());
                 requnion = db.getUnionRequests(req);
                 emprestado = false;
             }
@@ -1845,7 +1884,7 @@ public class ActionButton extends javax.swing.JDialog {
                 painel2.setBackground(new Color(246, 255, 248));
                 atrasado = false;
                 dia = false;
-            } else if ((mat.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
+            } else if ((getMaterial().isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) == 0) && (tim.compareTime(new TimeDate.Time()) + atraso > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Atrasado") + " " + lingua.translate("na entrega"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -1854,7 +1893,7 @@ public class ActionButton extends javax.swing.JDialog {
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
                 dia = false;
-            } else if ((mat.isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
+            } else if ((getMaterial().isLoaned()) && (emprestado) && ((dat.isBigger(new TimeDate.Date()) > 0))) {
                 labelativa = new javax.swing.JLabel(lingua.translate(lingua.translate("Atrasado") + ": " + dat.isBigger(new TimeDate.Date()) + "") + " " + lingua.translate("dia(s)"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
@@ -2167,6 +2206,21 @@ public class ActionButton extends javax.swing.JDialog {
      */
     public void setDelay(int atraso) {
         this.atraso = -atraso;
+    }
+
+    public static synchronized ActionButton getActionButton() {
+        //if (app == null) app = new ActionButton();
+        return app;
+    }
+
+    /**
+     * @return the mat
+     */
+    public Keys.Material getMaterial() {
+        if (mat == null) {
+            return cla;
+        }
+        return mat;
     }
 
 }

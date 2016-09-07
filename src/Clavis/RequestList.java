@@ -165,30 +165,61 @@ public class RequestList {
                 return o2.getEndDate().isBigger(o1.getEndDate());
             }
         });
-        /*
-        Keys.Request auxiliar;
-        int val = 0;
-        if (!requests.isEmpty()) {
-            for (int i = 0; i < requests.size(); i++) {
-                auxiliar = requests.get(i);
-                for (int j = i; j < requests.size(); j++) {
-                    if (auxiliar.getEndDate().isBigger(requests.get(j).getEndDate()) < 0) {
-                        val = j;
-                        auxiliar = requests.get(j);
-                    }
-                }
-                requests.set(val, requests.get(i));
-                requests.set(i, auxiliar);
-            }
-        }*/
     }
 
     public void searchByTime(Boolean bool, TimeDate.Time time, Boolean estado, Boolean terminado) {
         DataBase.DataBase db = new DataBase.DataBase(bd);
         if (db.isTie()) {
             this.requests = new ArrayList<>(db.getRequestsByTime(this.getTypeOfMaterial(), bool, time, this.date1, this.date2, estado, terminado));
+            java.util.Set<Keys.Request> requestauxiliar = new java.util.HashSet<>();
+            System.out.println(bool);
+            if (bool) {
+                Keys.Request sai = null;
+                Keys.Request entra;
+                java.util.Set<Keys.Request> reqs;
+                java.util.List<Keys.Request> lista = new java.util.ArrayList<>(requests);
+                for (Keys.Request re : lista) {
+                    if (re.getUnionRequest() > 0) {
+                        System.out.println(re.getUnionRequest());
+                        entra = db.getRequestByID(re.getUnionRequest());
+                        System.out.println(entra.getId());
+                        reqs = db.getUnionRequests(entra);
+                        sai = re;
+                        if ((reqs.size() > 0)&&(entra != null)) {
+                            requests.remove(sai);
+                            for (Keys.Request r : reqs) {
+                                requests.add(r);
+                            }
+                            requests.add(entra);
+                        }
+                    }
+                }
+            } else {
+                requests.stream().map((re) -> db.getUnionRequests(re)).filter((res) -> (res.size() > 0)).forEach((res) -> {
+                    res.stream().forEach((rew) -> {
+                        requestauxiliar.add(rew);
+                    });
+                });
+                if (requestauxiliar.size() > 0) {
+                    requestauxiliar.stream().forEach((rew) -> {
+                        requests.add(rew);
+                    });
+                }
+            }
             Collections.sort(requests);
             this.treatUnionRequests();
+            /*Keys.Request g = null;
+            if (estado) {
+                for (Keys.Request re : requests) {
+                    if (re.getTimeEnd().compareTime(time) < 0) {
+                        g = re;
+                    }
+                    System.out.println(re.getTimeEnd());
+                }
+            }
+            if (g != null) {
+                requests.remove(g);
+            }*/
         }
         db.close();
     }
@@ -197,6 +228,17 @@ public class RequestList {
         DataBase.DataBase db = new DataBase.DataBase(bd);
         if (db.isTie()) {
             this.requests = new ArrayList<>(db.getRequests(opcao, this.getTypeOfMaterial(), person, this.date1, this.date2, estado, terminado));
+            java.util.Set<Keys.Request> requestauxiliar = new java.util.HashSet<>();
+            requests.stream().map((re) -> db.getUnionRequests(re)).filter((res) -> (res.size() > 0)).forEach((res) -> {
+                res.stream().forEach((rew) -> {
+                    requestauxiliar.add(rew);
+                });
+            });
+            if (requestauxiliar.size() > 0) {
+                requestauxiliar.stream().forEach((rew) -> {
+                    requests.add(rew);
+                });
+            }
             Collections.sort(requests);
             this.treatUnionRequests();
         }
@@ -438,8 +480,7 @@ public class RequestList {
             }
         }
     }
-    
-    
+
     public static java.util.List<Keys.Request> simplifyRequests(java.util.Set<Keys.Request> requests) {
         Set<Keys.Request> requisi = new java.util.HashSet<>(requests);
         java.util.ArrayList<Keys.Request> requisicoes = new java.util.ArrayList<>(requisi);
