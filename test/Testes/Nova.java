@@ -43,8 +43,7 @@ public class Nova extends javax.swing.JFrame{
         
     }
     public static final void main( String[] args){
-        Nova nova = new Nova();
-        nova.create();
+      
     }
 }
 

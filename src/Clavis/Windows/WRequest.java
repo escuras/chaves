@@ -41,6 +41,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  *
@@ -62,6 +63,7 @@ public class WRequest extends javax.swing.JFrame {
     private Preferences prefs;
     boolean entrou;
     Timer tim;
+    java.util.List<Keys.Person> pessoas;
 
     /**
      * Creates new form WRequest
@@ -129,7 +131,10 @@ public class WRequest extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jComboBoxNomeUtilizador = new Components.PersonalComboBox(jLabelRecurso);
         jLabel11 = new javax.swing.JLabel();
-        jComboBoxCodigoUtilizador = new Components.PersonalComboBox(jLabelRecurso);
+        personalTextFieldCodigoUtilizador = new Components.PersonalTextField();
+        jLabel12 = new javax.swing.JLabel();
+        personalTextFieldEmailUtilizador = new Components.PersonalTextField();
+        jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner(new SpinnerDateModel());
@@ -142,6 +147,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
+        jPanel5 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
@@ -152,13 +158,14 @@ public class WRequest extends javax.swing.JFrame {
         jPanelInicial.setPreferredSize(new java.awt.Dimension(900, 500));
         jPanelInicial.setRequestFocusEnabled(false);
 
-        jPanel1.setBackground(new java.awt.Color(227, 233, 238));
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder1.setCornerSize(6);
         dropShadowBorder1.setShadowSize(3);
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jPanel1.setMinimumSize(new java.awt.Dimension(424, 250));
 
+        jLabelRecurso.setBackground(new java.awt.Color(252, 252, 252));
         jLabelRecurso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder2.setCornerSize(6);
@@ -168,6 +175,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabelRecurso.setBorder(dropShadowBorder2);
         jLabelRecurso.setMinimumSize(new java.awt.Dimension(47, 30));
         jLabelRecurso.setName(""); // NOI18N
+        jLabelRecurso.setOpaque(true);
         jLabelRecurso.setPreferredSize(new java.awt.Dimension(47, 30));
 
         jComboBoxTipoMaterial.setMinimumSize(new java.awt.Dimension(35, 30));
@@ -257,7 +265,7 @@ public class WRequest extends javax.swing.JFrame {
                         .addComponent(jComboBoxMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabelRecurso.setText(lingua.translate("Recurso"));
@@ -269,8 +277,8 @@ public class WRequest extends javax.swing.JFrame {
         jLabel3.setText(lingua.translate("Recurso específico")+": ");
         jLabel5.setText(lingua.translate("Quantidade")+": ");
         try {
-            if (Clavis.KeyQuest.class.getResource("Images/searchbranco.png") != null) {
-                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/searchbranco.png"));
+            if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
                 ImageIcon ic = new ImageIcon(im);
                 jButton1.setIcon(ic);
             } else {
@@ -278,7 +286,10 @@ public class WRequest extends javax.swing.JFrame {
             }
         } catch(IOException e){}
 
-        jPanel2.setBackground(new java.awt.Color(245, 242, 236));
+        jButton1.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder3.setCornerSize(6);
         dropShadowBorder3.setShadowSize(3);
@@ -288,6 +299,7 @@ public class WRequest extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(424, 250));
         jPanel2.setPreferredSize(new java.awt.Dimension(424, 250));
 
+        jLabelPessoa.setBackground(new java.awt.Color(252, 252, 252));
         jLabelPessoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder4.setCornerSize(6);
@@ -297,6 +309,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabelPessoa.setBorder(dropShadowBorder4);
         jLabelPessoa.setMinimumSize(new java.awt.Dimension(47, 30));
         jLabelPessoa.setName(""); // NOI18N
+        jLabelPessoa.setOpaque(true);
         jLabelPessoa.setPreferredSize(new java.awt.Dimension(47, 30));
 
         jLabel8.setToolTipText("");
@@ -316,13 +329,23 @@ public class WRequest extends javax.swing.JFrame {
         jLabel11.setMinimumSize(new java.awt.Dimension(129, 30));
         jLabel11.setPreferredSize(new java.awt.Dimension(129, 30));
 
-        jComboBoxCodigoUtilizador.setMinimumSize(new java.awt.Dimension(35, 30));
-        jComboBoxCodigoUtilizador.setPreferredSize(new java.awt.Dimension(35, 30));
-        jComboBoxCodigoUtilizador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxCodigoUtilizadorActionPerformed(evt);
-            }
-        });
+        personalTextFieldCodigoUtilizador.setBorder(null);
+        personalTextFieldCodigoUtilizador.setMinimumSize(new java.awt.Dimension(10, 30));
+        personalTextFieldCodigoUtilizador.setPreferredSize(new java.awt.Dimension(107, 30));
+
+        jLabel12.setMaximumSize(new java.awt.Dimension(444444, 30));
+        jLabel12.setMinimumSize(new java.awt.Dimension(129, 30));
+        jLabel12.setPreferredSize(new java.awt.Dimension(129, 30));
+
+        personalTextFieldEmailUtilizador.setBorder(null);
+        personalTextFieldEmailUtilizador.setMinimumSize(new java.awt.Dimension(10, 30));
+        personalTextFieldEmailUtilizador.setPreferredSize(new java.awt.Dimension(107, 30));
+
+        jButton2.setBackground(new java.awt.Color(51, 102, 153));
+        jButton2.setFocusPainted(false);
+        jButton2.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButton2.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButton2.setPreferredSize(new java.awt.Dimension(90, 40));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -334,14 +357,21 @@ public class WRequest extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabelPessoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(24, 24, 24))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxNomeUtilizador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxCodigoUtilizador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(personalTextFieldCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxNomeUtilizador, 0, 228, Short.MAX_VALUE)
+                                    .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(30, 30, 30))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -353,22 +383,46 @@ public class WRequest extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxNomeUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(personalTextFieldCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabelPessoa.setText(lingua.translate("Utilizador"));
-        jLabel8.setText(lingua.translate("Nome de utilizador")+": ");
+        jLabel8.setText(lingua.translate("Nome")+": ");
         jComboBoxNomeUtilizador.setBackgroundColor(new Color(213,213,213));
         jComboBoxNomeUtilizador.setHelpText(lingua.translate("Nome de utilizador")+" ...");
         jComboBoxNomeUtilizador.create();
-        jLabel11.setText(lingua.translate("Código")+": ");
-        jComboBoxCodigoUtilizador.setBackgroundColor(new Color(213,213,213));
-        jComboBoxCodigoUtilizador.setHelpText(lingua.translate("Código na instituição")+" ...");
-        jComboBoxCodigoUtilizador.create();
+        jLabel11.setText(lingua.translate("Email")+": ");
+        personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate("Código de identificação")+" ...", jLabelRecurso);
+
+        personalTextFieldCodigoUtilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+        jLabel12.setText(lingua.translate("Identificação")+": ");
+        personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate("Correio eletrónico")+" ...", jLabelRecurso);
+
+        personalTextFieldEmailUtilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/plus24x24.png") != null) {
+                BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus24x24.png"));
+                ImageIcon ic2 = new ImageIcon(im2);
+                jButton2.setIcon(ic2);
+            } else {
+                jButton2.setText(lingua.translate("Adicionar"));
+            }
+        } catch(IOException e){}
+
+        jButton2.setToolTipText(lingua.translate("Adicionar utilizador"));
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -421,6 +475,7 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(252, 252, 252));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder7.setCornerSize(6);
@@ -430,6 +485,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel1.setBorder(dropShadowBorder7);
         jLabel1.setMaximumSize(new java.awt.Dimension(131333, 300));
         jLabel1.setMinimumSize(new java.awt.Dimension(131, 30));
+        jLabel1.setOpaque(true);
         jLabel1.setPreferredSize(new java.awt.Dimension(131, 30));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -520,6 +576,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel9.setOpaque(true);
         jLabel9.setPreferredSize(new java.awt.Dimension(100, 20));
 
+        jLabel4.setBackground(new java.awt.Color(252, 252, 252));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder9.setCornerSize(6);
@@ -529,6 +586,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel4.setBorder(dropShadowBorder9);
         jLabel4.setMaximumSize(new java.awt.Dimension(131333, 300));
         jLabel4.setMinimumSize(new java.awt.Dimension(131, 30));
+        jLabel4.setOpaque(true);
         jLabel4.setPreferredSize(new java.awt.Dimension(131, 30));
 
         jLabel10.setBackground(new java.awt.Color(100, 100, 100));
@@ -627,22 +685,35 @@ public class WRequest extends javax.swing.JFrame {
         jXDatePicker2.setFormats("dd/MM/yyyy");
         jXDatePicker2.setDate(new java.util.Date());
 
+        jPanel5.setBackground(new java.awt.Color(50, 50, 50));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 868, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 228, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
         jPanelInicialLayout.setHorizontalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInicialLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(6, 6, 6))
-                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(6, 6, 6)))
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))))
                 .addGap(16, 16, 16))
         );
         jPanelInicialLayout.setVerticalGroup(
@@ -654,9 +725,11 @@ public class WRequest extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -696,10 +769,6 @@ public class WRequest extends javax.swing.JFrame {
     private void jComboBoxNomeUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNomeUtilizadorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxNomeUtilizadorActionPerformed
-
-    private void jComboBoxCodigoUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCodigoUtilizadorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxCodigoUtilizadorActionPerformed
 
     private void init() {
         this.setTitle(lingua.translate("Registo de requisição"));
@@ -745,14 +814,15 @@ public class WRequest extends javax.swing.JFrame {
         txm.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
         javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getEditor().getEditorComponent();
         txmutilizador.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
-        javax.swing.JTextField txmcodigo = (javax.swing.JTextField) jComboBoxCodigoUtilizador.getEditor().getEditorComponent();
-        txmcodigo.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
         txm.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txmcodigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txmutilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         tx.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinnerQuantidade.getEditor();
         javax.swing.JTextField txx = editor.getTextField();
+        jComboBoxTipoMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.RIGHT);
+        jComboBoxMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.RIGHT);
+        jComboBoxNomeUtilizador.setHorizontalTextPosition((int) javax.swing.JLabel.RIGHT);
+        
         txx.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -775,8 +845,32 @@ public class WRequest extends javax.swing.JFrame {
                 }
             }
         });
+        javax.swing.JButton lo = new javax.swing.JButton("isto");
+        lo.setBounds(0, 0, 40, 50);
+                        jPanel5.setLayout(null);
+                        jPanel5.add(lo);
         jSpinnerQuantidade.addChangeListener((ChangeEvent e) -> {
             if ((int) jSpinnerQuantidade.getValue() > 0) {
+                if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
+                    int val = (int) jSpinnerQuantidade.getValue(); 
+                    int frente = 0;
+                    jPanel5.removeAll();
+                    for (int i = 0; i < val; i++) {
+                        Components.PersonalLabel p = new Components.PersonalLabel(jPanel5);
+                        p.setBackground(new java.awt.Color(123, 204, 205));
+                        p.randomXY();
+                        p.create();
+                        p.setOpaque(true);
+                        javax.swing.JLabel l = new javax.swing.JLabel("isto");
+                        l.setOpaque(true);
+                        l.setBackground(Color.WHITE);
+                        l.setBounds(90, 40, 40, 40);
+                        jPanel5.add(p);
+                        jPanel5.revalidate();
+                        jPanel5.repaint();
+                        frente += 50;
+                    }
+                }
                 //    jComboBoxMaterial.setSelectedIndex(0);
             }
         });
@@ -816,11 +910,26 @@ public class WRequest extends javax.swing.JFrame {
                     spineditor.getModel().setMaximum(1);
                     jSpinnerQuantidade.setValue(1);
                 }
+                
             }
         });
         jComboBoxMaterial.addActionListener((ActionEvent e) -> {
             if (jComboBoxMaterial.getSelectedIndex() > 0) {
                 jSpinnerQuantidade.setValue(1);
+            }
+        });
+
+        jComboBoxNomeUtilizador.addActionListener((ActionEvent e) -> {
+            if (jComboBoxNomeUtilizador.getSelectedIndex() > 0) {
+                Keys.Person p = pessoas.get(jComboBoxNomeUtilizador.getSelectedIndex() - 1);
+                String email;
+                if ((p.getEmail().equals("")) || (p.getEmail().equals("sem"))) {
+                    email = lingua.translate("Não existe registo de email");
+                } else {
+                    email = p.getEmail();
+                }
+                personalTextFieldEmailUtilizador.setText(email);
+                personalTextFieldCodigoUtilizador.setText(p.getIdentification());
             }
         });
         if (DataBase.DataBase.testConnection(url)) {
@@ -852,20 +961,75 @@ public class WRequest extends javax.swing.JFrame {
                 }
             }
             java.util.List<Keys.Person> p = db.getPersons();
+            pessoas = p;
+            int var;
+            for (int i = 0; i < p.size() - 1; i++) {
+                var = 2;
+                for (int j = i + 1; j < p.size(); j++) {
+                    if (p.get(i).getName().equals(p.get(j).getName())) {
+                        p.get(j).setName(p.get(j).getName() + " (" + var + ")");
+                        var++;
+                    }
+                }
+            }
             DefaultComboBoxModel<Keys.Person> modelop = (DefaultComboBoxModel) jComboBoxNomeUtilizador.getModel();
             p.stream().forEach((pes) -> {
                 modelop.addElement(pes);
             });
             jComboBoxNomeUtilizador.setSelectedIndex(0);
+            personalTextFieldCodigoUtilizador.addActionListener((ActionEvent e) -> {
+                boolean encontrou = false;
+                for (Keys.Person pp : p) {
+                    if (pp.getIdentification().equals(personalTextFieldCodigoUtilizador.getText())) {
+                        jComboBoxNomeUtilizador.setSelectedItem(pp);
+                        personalTextFieldEmailUtilizador.stopPlaceHolder();
+                        String email;
+                        if ((pp.getEmail().equals("")) || (pp.getEmail().equals("sem"))) {
+                            email = lingua.translate("Não existe registo de email");
+                        } else {
+                            email = pp.getEmail();
+                        }
+                        encontrou = true;
+                        personalTextFieldEmailUtilizador.setText(email);
+
+                    }
+                }
+                if (!encontrou) {
+                    jComboBoxNomeUtilizador.setSelectedIndex(0);
+                    jComboBoxNomeUtilizador.setSelectedIndex(0);
+                    personalTextFieldEmailUtilizador.startPlaceHolder();
+                    personalTextFieldEmailUtilizador.showPLaceHolder();
+                }
+            });
+            personalTextFieldEmailUtilizador.addActionListener((ActionEvent e) -> {
+                boolean encontrou = false;
+                for (Keys.Person pp : p) {
+                    if ((!pp.getEmail().equals("")) && (!pp.getEmail().equals("sem"))) {
+                        if (pp.getEmail().equals(personalTextFieldEmailUtilizador.getText())) {
+                            jComboBoxNomeUtilizador.setSelectedItem(pp);
+                            personalTextFieldEmailUtilizador.stopPlaceHolder();
+                            String email = pp.getEmail();
+                            encontrou = true;
+                            personalTextFieldEmailUtilizador.setText(email);
+                        }
+                    }
+                }
+                if (!encontrou) {
+                    jComboBoxNomeUtilizador.setSelectedIndex(0);
+                    jComboBoxNomeUtilizador.setSelectedIndex(0);
+                    personalTextFieldCodigoUtilizador.startPlaceHolder();
+                    personalTextFieldCodigoUtilizador.showPLaceHolder();
+                }
+            });
             db.close();
-            
-            
+
         }
-        
+
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowAdapterImpl());
         pack();
     }
+   
 
     public static final void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -881,10 +1045,7 @@ public class WRequest extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    /*
-    private javax.swing.JComboBox<String> jComboBoxCodigoUtilizador;
-    */
-    private Components.PersonalComboBox jComboBoxCodigoUtilizador;
+    private javax.swing.JButton jButton2;
     /*
     private javax.swing.JComboBox<String> jComboBoxMaterial;
     */
@@ -900,6 +1061,7 @@ public class WRequest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -914,12 +1076,15 @@ public class WRequest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelInicial;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinnerQuantidade;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
+    private Components.PersonalTextField personalTextFieldCodigoUtilizador;
+    private Components.PersonalTextField personalTextFieldEmailUtilizador;
     // End of variables declaration//GEN-END:variables
 
     /**

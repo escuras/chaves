@@ -62,7 +62,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
         this.setEditable(true);
         this.setEnabled(true);
         this.setAutoscrolls(true);
-        
+
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.getModel();
         modelo.addElement("");
         javax.swing.JTextField fil = (javax.swing.JTextField) this.getEditor().getEditorComponent();
@@ -199,6 +199,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                 if ((val == KeyEvent.VK_DOWN) || (val == KeyEvent.VK_UP)) {
                     if (getSelectedIndex() == 0) {
                         getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
+                        fil.setText(textodeajuda);
                         fil.setCaretColor(new Color(255, 255, 255));
                         bauxiliar = true;
                     } else {
@@ -209,7 +210,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                         setSelectedIndex(1);
                     } else if (((e.getKeyCode() == KeyEvent.VK_UP) && (getSelectedIndex() == -1))) {
                         setSelectedIndex(1);
-                    } 
+                    }
                 } else if ((getSelectedIndex() == 0) && (val == KeyEvent.VK_ENTER)) {
                     perdefocus.requestFocusInWindow();
                 } else if ((isPopupVisible()) && (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (fil.getText().equals("")) && (getSelectedIndex() > 0)) {
@@ -228,10 +229,24 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                         DefaultComboBoxModel<?> modelo = (DefaultComboBoxModel) getModel();
                         for (int i = 1; i <= modelo.getSize(); i++) {
                             if (modelo.getElementAt(i) != null) {
-                                if ((modelo.getElementAt(i).toString().toLowerCase().matches("(.*)" + va.toLowerCase().replaceAll("[^a-zA-Z0-9 .,;:-_]+", "") + "(.*)")) && (!va.equals(""))) {
+                                String mov = va;
+                                String mov2 = modelo.getElementAt(i).toString();
+                                mov = mov.replaceAll("áàãäâ", "a");
+                                mov = mov.replaceAll("íìîĩï", "i");
+                                mov = mov.replaceAll("éèêẽë", "e");
+                                mov = mov.replaceAll("úùũüû", "u");
+                                mov = mov.replaceAll("óòôõö", "o");
+                                mov = mov.replaceAll("ñ", "n");
+                                mov2 = mov2.replaceAll("[áàãäâ]", "a");
+                                mov2 = mov2.replaceAll("[íìîĩï]", "i");
+                                mov2 = mov2.replaceAll("[éèêẽë]", "e");
+                                mov2 = mov2.replaceAll("[úùũüû]", "u");
+                                mov2 = mov2.replaceAll("[óòôõö]", "o");
+                                mov2 = mov2.replaceAll("[ñ]", "n");
+                                if ((mov2.toLowerCase().matches("(.*)" + mov.toLowerCase().replaceAll("[\\[\\]\\(\\)\\/\\{\\}\"\\#$%&=\\\\]+", "") + "(.*)")) && (!mov.equals(""))) {
                                     aux = i;
                                     break;
-                                }
+                                } 
                             }
                         }
                         setSelectedIndex(aux);
@@ -240,7 +255,9 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                                 va = getSelectedItem().toString();
                             }
                         }
-                        fil.setText(va);
+                        if (fil.getCaretPosition() == fil.getText().length()) {
+                            fil.setText(va);
+                        }
                     }
                 }
             }
@@ -272,7 +289,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
     @Override
     public void setSelectedItem(Object val) {
         int situacao = -1;
-        if ((val != null) && (!this.isEditable)) {
+        if (val != null) {
             for (int i = 0; i < dataModel.getSize(); i++) {
                 Object element = dataModel.getElementAt(i);
                 if (val.equals(element)) {
@@ -281,6 +298,7 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                 }
             }
         }
+        System.out.println(situacao);
         if (situacao == 0) {
             getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
             ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));

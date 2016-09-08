@@ -3197,9 +3197,10 @@ public class KeyQuest extends javax.swing.JFrame {
             jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
             btrequests = new ButtonListRequest(urlbd, jDialogListaBotoes, requisicoes, urlbd, lingua, jTabbedPaneMaterialBotoes, 1);
             jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-
+            java.awt.Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            java.awt.Point po = new java.awt.Point((int)dim.getWidth()/2 -jDialogListaBotoes.getWidth()/2, (int)dim.getHeight()/2 - jDialogListaBotoes.getHeight()/2);
+            jDialogListaBotoes.setLocation(po);
             jDialogListaBotoes.setVisible(true);
-            jDialogListaBotoes.setLocationRelativeTo(this);
         }
     }//GEN-LAST:event_jButtonListaBotoesActionPerformed
 
@@ -4217,6 +4218,8 @@ public class KeyQuest extends javax.swing.JFrame {
         itemRequisicao.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemRequisicoesActionPerformed(evt);
         });
+        
+      
         jMenuMovimentos.add(itemRequisicao);
 
         this.setJMenuBar(menu);

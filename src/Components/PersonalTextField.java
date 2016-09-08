@@ -29,6 +29,7 @@ public class PersonalTextField extends JTextField {
     private String textocondicional;
     private java.awt.event.FocusListener focus;
     private java.awt.event.KeyAdapter keyevent;
+    Color corauxiliar;
 
     public PersonalTextField() {
         super();
@@ -37,18 +38,18 @@ public class PersonalTextField extends JTextField {
     }
 
     public PersonalTextField(String texto) {
-        super(texto);
+        super();
         cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
     }
 
     public void addPlaceHolder(String texto, javax.swing.JComponent bt) {
-        Color corauxiliar = getForeground();
+        corauxiliar = getForeground();
         setForeground(cor);
         this.componentedesaida = bt;
         setPlaceHolderText(texto);
-        setText(texto);
-        
+        super.setText(texto);
+
         focus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -64,9 +65,7 @@ public class PersonalTextField extends JTextField {
             public void focusLost(FocusEvent e) {
                 getText();
                 if (textocondicional.equals("")) {
-                    setForeground(cor);
-                    setText(texto);
-                    condicao = false;
+                    showPLaceHolder();
                 } else {
                     condicao = true;
                 }
@@ -86,7 +85,14 @@ public class PersonalTextField extends JTextField {
         this.addKeyListener(keyevent);
     }
     
-    public void stopPlaceHolder(){
+    
+    @Override
+    public void setText(String text){
+        setForeground(corauxiliar);
+        super.setText(text);
+    }
+
+    public void stopPlaceHolder() {
         if (focus != null) {
             this.removeFocusListener(focus);
         }
@@ -95,8 +101,8 @@ public class PersonalTextField extends JTextField {
         }
         condicao = true;
     }
-    
-    public void startPlaceHolder(){
+
+    public void startPlaceHolder() {
         if (focus != null) {
             this.addFocusListener(focus);
         }
@@ -141,11 +147,11 @@ public class PersonalTextField extends JTextField {
 
     public void showPLaceHolder() {
         setForeground(cor);
-        setText(placeholder);
+        super.setText(placeholder);
         condicao = false;
     }
-    
-    public boolean isPlaceHolderSet(){
+
+    public boolean isPlaceHolderSet() {
         return !condicao;
     }
 

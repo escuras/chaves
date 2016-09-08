@@ -457,13 +457,27 @@ public class WMaterial extends javax.swing.JDialog {
                     comboboxdireitacima.setSelectedIndex(0);
                 }
 
-                if (comboboxdireitacima.getSelectedIndex() != 0) {
+                if ((comboboxdireitacima.getSelectedIndex() != 0) && (e.getKeyCode() != KeyEvent.VK_LEFT) && (e.getKeyCode() != KeyEvent.VK_RIGHT)) {
                     String va = fil.getText();
                     aux = comboboxdireitacima.getSelectedIndex();
                     DefaultComboBoxModel<?> modelo = (DefaultComboBoxModel) comboboxdireitacima.getModel();
                     for (int i = 1; i <= modelo.getSize(); i++) {
                         if (modelo.getElementAt(i) != null) {
-                            if ((modelo.getElementAt(i).toString().toLowerCase().matches("(.*)" + va.toLowerCase() + "(.*)")) && (!va.equals(""))) {
+                            String mov = va;
+                            String mov2 = modelo.getElementAt(i).toString();
+                            mov = mov.replaceAll("áàãäâ", "a");
+                            mov = mov.replaceAll("íìîĩï", "i");
+                            mov = mov.replaceAll("éèêẽë", "e");
+                            mov = mov.replaceAll("úùũüû", "u");
+                            mov = mov.replaceAll("óòôõö", "o");
+                            mov = mov.replaceAll("ñ", "n");
+                            mov2 = mov2.replaceAll("[áàãäâ]", "a");
+                            mov2 = mov2.replaceAll("[íìîĩï]", "i");
+                            mov2 = mov2.replaceAll("[éèêẽë]", "e");
+                            mov2 = mov2.replaceAll("[úùũüû]", "u");
+                            mov2 = mov2.replaceAll("[óòôõö]", "o");
+                            mov2 = mov2.replaceAll("[ñ]", "n");
+                            if ((mov2.toLowerCase().matches("(.*)" + mov.toLowerCase().replaceAll("[\\[\\]\\(\\)\\/\\{\\}\"\\#$%&=\\\\]+", "") + "(.*)")) && (!mov.equals(""))) {
                                 aux = i;
                                 break;
                             }
@@ -475,7 +489,9 @@ public class WMaterial extends javax.swing.JDialog {
                             va = comboboxdireitacima.getSelectedItem().toString();
                         }
                     }
-                    fil.setText(va);
+                    if (fil.getCaretPosition() == fil.getText().length()) {
+                        fil.setText(va);
+                    }
                 }
             }
         }
