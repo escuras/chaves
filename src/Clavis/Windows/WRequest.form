@@ -3,8 +3,18 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[900, 650]"/>
+    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[900, 600]"/>
+      <Dimension value="[900, 650]"/>
+    </Property>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[900, 650]"/>
+    </Property>
+    <Property name="resizable" type="boolean" value="false"/>
+    <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[900, 650]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -31,7 +41,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelInicial" pref="600" max="32767" attributes="0"/>
+          <Component id="jPanelInicial" alignment="0" pref="599" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -57,23 +67,33 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jPanel5" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel3" max="32767" attributes="0"/>
-                              <Component id="jPanel1" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jPanel1" max="32767" attributes="0"/>
+                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel4" max="32767" attributes="0"/>
-                              <Component id="jPanel2" pref="428" max="32767" attributes="0"/>
+                              <Component id="jPanel4" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="30" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="jButtonSair" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="621" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jButtonRequisitar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -90,9 +110,27 @@
                       <Component id="jPanel1" min="-2" pref="230" max="-2" attributes="0"/>
                       <Component id="jPanel2" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel5" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="56" max="32767" attributes="0"/>
+                                  <Component id="jButtonSair" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonRequisitar" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -109,6 +147,7 @@
                   <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
                     <Property name="cornerSize" value="6"/>
                     <Property name="shadowSize" value="3"/>
+                    <Property name="showLeftShadow" value="true"/>
                   </PropertyBean>
                   <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -128,7 +167,9 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="jButtonAtualizar" min="-2" pref="90" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonPesquisa" min="-2" pref="90" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -136,7 +177,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel3" min="-2" pref="147" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jComboBoxMaterial" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxMaterial" pref="209" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
@@ -181,7 +222,10 @@
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jButtonPesquisa" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="jButtonAtualizar" min="-2" pref="40" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -228,7 +272,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxTipoMaterial.setBackgroundColor(new Color(213,213,213));&#xa;jComboBoxTipoMaterial.setHelpText(&quot;Tipo de material&quot;);&#xa;jComboBoxTipoMaterial.create();"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxTipoMaterial.setBackgroundColor(new Color(213,213,213));&#xa;jComboBoxTipoMaterial.setHelpText(lingua.translate(&quot;Tipo de material&quot;)+&quot; ...&quot;);&#xa;jComboBoxTipoMaterial.create();"/>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalComboBox(jLabelRecurso)"/>
                 <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private Components.PersonalComboBox jComboBoxTipoMaterial;"/>
                 <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
@@ -318,7 +362,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="jButtonPesquisa">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="66" red="33" type="rgb"/>
@@ -335,10 +379,36 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPesquisaActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/lupa.png&quot;) != null) {&#xa;    BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/lupa.png&quot;));&#xa;        ImageIcon ic = new ImageIcon(im);&#xa;        jButton1.setIcon(ic);&#xa;    } else {&#xa;        jButton1.setText(lingua.translate(&quot;Pesquisa&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButton1.setToolTipText(lingua.translate(&quot;Filtrar atrav&#xe9;s de pesquisa&quot;));&#xa;jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/lupa.png&quot;) != null) {&#xa;    BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/lupa.png&quot;));&#xa;        ImageIcon ic = new ImageIcon(im);&#xa;        jButtonPesquisa.setIcon(ic);&#xa;    } else {&#xa;        jButtonPesquisa.setText(lingua.translate(&quot;Pesquisa&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonPesquisa.setToolTipText(lingua.translate(&quot;Filtrar atrav&#xe9;s de pesquisa&quot;));&#xa;jButtonPesquisa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonAtualizar">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="99" green="66" red="33" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+                <Property name="focusPainted" type="boolean" value="false"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 40]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtualizarActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/refresh.png&quot;) != null) {&#xa;        BufferedImage imAtualizar = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/refresh.png&quot;));&#xa;        ImageIcon icAtualizar = new ImageIcon(imAtualizar);&#xa;        jButtonAtualizar.setIcon(icAtualizar);&#xa;    } else {&#xa;        jButtonAtualizar.setText(lingua.translate(&quot;Atualizar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonAtualizar.setToolTipText(lingua.translate(&quot;Atualizar recursos dispon&#xed;veis&quot;));&#xa;jButtonAtualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -355,7 +425,6 @@
                     <Property name="cornerSize" value="6"/>
                     <Property name="shadowSize" value="3"/>
                     <Property name="showLeftShadow" value="true"/>
-                    <Property name="showRightShadow" value="false"/>
                   </PropertyBean>
                   <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -385,7 +454,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="jButton2" min="-2" pref="90" max="-2" attributes="0"/>
+                                      <Component id="jButtonMaisUtilizador" min="-2" pref="90" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -395,8 +464,8 @@
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="personalTextFieldCodigoUtilizador" max="32767" attributes="0"/>
-                                          <Component id="jComboBoxNomeUtilizador" pref="228" max="32767" attributes="0"/>
+                                          <Component id="personalTextFieldCodigoUtilizador" pref="221" max="32767" attributes="0"/>
+                                          <Component id="jComboBoxNomeUtilizador" max="32767" attributes="0"/>
                                           <Component id="personalTextFieldEmailUtilizador" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -428,7 +497,7 @@
                           <Component id="jLabel12" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="jButtonMaisUtilizador" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -523,6 +592,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[10, 30]"/>
                 </Property>
@@ -531,7 +601,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate(&quot;C&#xf3;digo de identifica&#xe7;&#xe3;o&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldCodigoUtilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);&#xa;personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate(&quot;C&#xf3;digo de identifica&#xe7;&#xe3;o&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
@@ -555,6 +625,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[10, 30]"/>
                 </Property>
@@ -563,10 +634,10 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate(&quot;Correio eletr&#xf3;nico&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldEmailUtilizador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate(&quot;Correio eletr&#xf3;nico&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="jButtonMaisUtilizador">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="66" red="33" type="rgb"/>
@@ -583,7 +654,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24.png&quot;) != null) {&#xa;        BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24.png&quot;));&#xa;        ImageIcon ic2 = new ImageIcon(im2);&#xa;        jButton2.setIcon(ic2);&#xa;    } else {&#xa;        jButton2.setText(lingua.translate(&quot;Adicionar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButton2.setToolTipText(lingua.translate(&quot;Adicionar utilizador&quot;));&#xa;jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24.png&quot;) != null) {&#xa;        BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24.png&quot;));&#xa;        ImageIcon ic2 = new ImageIcon(im2);&#xa;        jButtonMaisUtilizador.setIcon(ic2);&#xa;    } else {&#xa;        jButtonMaisUtilizador.setText(lingua.translate(&quot;Adicionar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonMaisUtilizador.setToolTipText(lingua.translate(&quot;Adicionar utilizador&quot;));&#xa;jButtonMaisUtilizador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -599,7 +670,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jLabel1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
@@ -614,7 +685,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -820,12 +891,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" pref="310" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel4" alignment="1" min="-2" pref="310" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jXDatePicker2" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
@@ -1031,26 +1098,114 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel5">
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="32" green="32" red="32" type="rgb"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
+                <Property name="cornerSize" type="int" value="6"/>
+                <Property name="shadowSize" type="int" value="3"/>
+                <Property name="showLeftShadow" type="boolean" value="true"/>
+                <Property name="showTopShadow" type="boolean" value="true"/>
+              </PropertyBean>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[621, 218]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[621, 218]"/>
             </Property>
           </Properties>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="868" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="228" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="jPanelConteudo">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="32" green="32" red="32" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder>
+                      <Color PropertyName="color" blue="fe" green="fe" red="fe" type="rgb"/>
+                    </LineBorder>
+                  </Border>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[612, 208]"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[612, 208]"/>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+            </Container>
+          </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="jButtonSair">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1" green="1" red="1" type="rgb"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSairActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/exit26x24.png&quot;) != null) {&#xa;        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/exit26x24.png&quot;));&#xa;        ImageIcon imo = new ImageIcon(im);&#xa;        jButtonSair.setIcon(imo);&#xa;    } else {&#xa;        jButtonSair.setText(lingua.translate(&quot;Sair&quot;));&#xa;    }&#xa;} catch(IOException e) {}"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonRequisitar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="66" red="33" type="rgb"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRequisitarActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/save.png&quot;) != null) {&#xa;        BufferedImage im3 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/save.png&quot;));&#xa;        ImageIcon ic3 = new ImageIcon(im3);&#xa;        jButtonRequisitar.setIcon(ic3);&#xa;    } else {&#xa;        jButtonRequisitar.setText(lingua.translate(&quot;Requisitar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonRequisitar.setToolTipText(lingua.translate(&quot;Efetuar requisi&#xe7;&#xe3;o&quot;));"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

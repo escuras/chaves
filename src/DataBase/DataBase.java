@@ -5,6 +5,9 @@
  */
 package DataBase;
 
+import Keys.Material;
+import TimeDate.Date;
+import TimeDate.Time;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,7 +86,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "Select * from Persons;";
+                String sql = "Select * from Persons order by nome;";
                 Keys.Person pessoa;
                 ResultSet rs;
                 ResultSet rs2;
@@ -823,7 +827,6 @@ public class DataBase {
                                 }
                                 return mat;
                             }
-
                         }
                     }
                 } catch (SQLException ex) {
@@ -873,7 +876,6 @@ public class DataBase {
                                 }
                                 return mat;
                             }
-
                         }
                     }
                 } catch (SQLException ex) {
@@ -1250,6 +1252,23 @@ public class DataBase {
             return true;
         }
         return false;
+    }
+    
+    public void insertRequist(Keys.Material mat, Keys.Person pessoa){
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch(SQLException e) {
+                smt = null;
+            } 
+            if (smt != null) {
+                String sql = "insert into Requisitions (id_material,"
+                        + "id_pessoa, id_atividade, data_inicio"
+                        + "data_fim, hora_inicio, hora_fim"
+                        + "dia_semana, origem, codigo_turma)";
+            }
+        }
     }
 
     public boolean insertSubject(Keys.Subject sub) {
@@ -2042,7 +2061,6 @@ public class DataBase {
                                         + "and id_pessoa = " + id_pessoa + " and "
                                         + "data_inicio = STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y') and "
                                         + "data_fim = STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y') and "
-                                        + "quantidade = " + request.getQuantity() + " and "
                                         + "hora_inicio ='" + request.getTimeBegin().toString() + "' and "
                                         + "hora_fim = '" + request.getTimeEnd().toString() + "' and "
                                         + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
@@ -2059,7 +2077,6 @@ public class DataBase {
                                             + "and id_pessoa = " + id_pessoa + " and "
                                             + "data_inicio = STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y') and "
                                             + "data_fim = STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y') and "
-                                            + "quantidade = " + request.getQuantity() + " and "
                                             + "hora_fim = '" + request.getTimeBegin().toString() + "' and "
                                             + "dia_semana = " + request.getWeekDay().getDayNumber() + " and "
                                             + "id_requisicao in (select id_requisicao from Rel_requests_studentsclasses where codigo_turma = '" + request.getStudentsClass().getCode() + "') and "
@@ -2072,10 +2089,10 @@ public class DataBase {
                                         } else {
                                             numero = rs5.getInt("id_requisicao");
                                         }
-                                        sql = "insert into Requests (id_material,id_pessoa,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade,requisicao_conjunta) "
+                                        sql = "insert into Requests (id_material,id_pessoa,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,substituido,id_atividade,requisicao_conjunta) "
                                                 + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + "," + numero + ");";
+                                                + request.getWeekDay().getDayNumber() + "'csv',false,false,0," + id_atividade + "," + numero + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
                                         try {
@@ -2090,10 +2107,10 @@ public class DataBase {
                                             this.associateRequestWithStudentClass(id, request.getStudentsClass().getCode());
                                         }
                                     } else {
-                                        sql = "insert into Requests (id_material,id_pessoa, data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,quantidade,origem,ativo,terminado,substituido,id_atividade) "
+                                        sql = "insert into Requests (id_material,id_pessoa, data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,substituido,id_atividade) "
                                                 + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + ",1,'csv',false,false,0," + id_atividade + ");";
+                                                + request.getWeekDay().getDayNumber() + "'csv',false,false,0," + id_atividade + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
                                         try {
@@ -2139,7 +2156,6 @@ public class DataBase {
                         + "and id_pessoa = " + id_pessoa + " and "
                         + "data_inicio = STR_TO_DATE('" + req.getBeginDate().toString() + "','%d/%m/%Y') and "
                         + "data_fim = STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') and "
-                        + "quantidade = " + req.getQuantity() + " and "
                         + "hora_inicio ='" + req.getTimeBegin().toString() + "' and "
                         + "hora_fim = '" + req.getTimeEnd().toString() + "' and "
                         + "dia_semana = " + req.getWeekDay().getDayNumber() + " and "
@@ -2759,7 +2775,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -2840,7 +2856,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2859,7 +2875,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -2942,7 +2958,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -2961,7 +2977,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3045,7 +3061,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3064,7 +3080,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3146,7 +3162,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3165,7 +3181,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -3246,7 +3262,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -3322,7 +3338,7 @@ public class DataBase {
                     + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, codigo_turma, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento,"
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento,"
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3403,7 +3419,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -3438,7 +3454,7 @@ public class DataBase {
                             + "inicio,DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio,"
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim,"
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                            + "dia_semana, origem, ativo, terminado, substituido, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -3521,7 +3537,7 @@ public class DataBase {
                             dentrega = null;
                             tentrega = null;
                         }
-                        request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                        request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                         requisicoes.add(request);
                     }
                 }
@@ -3566,7 +3582,7 @@ public class DataBase {
                                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                                    + "dia_semana, origem, ativo, terminado, substituido, "
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3584,7 +3600,7 @@ public class DataBase {
                                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                                    + "dia_semana, origem, ativo, terminado, substituido, "
                                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega, "
@@ -3670,7 +3686,7 @@ public class DataBase {
                                     dentrega = null;
                                     tentrega = null;
                                 }
-                                request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                                request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                                 requisicoes.add(request);
                             }
                         }
@@ -3699,7 +3715,7 @@ public class DataBase {
                             + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                            + "dia_semana, origem, ativo, terminado, substituido, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3718,7 +3734,7 @@ public class DataBase {
                             + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                             + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                             + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                            + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                            + "dia_semana, origem, ativo, terminado, substituido, "
                             + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                             + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                             + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3804,7 +3820,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(ido, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3833,7 +3849,7 @@ public class DataBase {
                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -3917,7 +3933,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -3997,7 +4013,7 @@ public class DataBase {
                         + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                         + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                         + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                        + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                        + "dia_semana, origem, ativo, terminado, substituido, "
                         + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                         + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                         + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -4075,7 +4091,7 @@ public class DataBase {
                             dentrega = null;
                             tentrega = null;
                         }
-                        req = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                        req = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     }
                 } catch (SQLException ex) {
                 }
@@ -4097,7 +4113,7 @@ public class DataBase {
                     + "DATE_FORMAT(data_fim,'%d/%m/%Y') fim, "
                     + "TIME_FORMAT(hora_inicio,'%H:%i:%s') tinicio, "
                     + "TIME_FORMAT(hora_fim,'%H:%i:%s') tfim, "
-                    + "dia_semana, quantidade, origem, ativo, terminado, substituido, "
+                    + "dia_semana, origem, ativo, terminado, substituido, "
                     + "DATE_FORMAT(data_levantamento,'%d/%m/%Y') data_levantamento, "
                     + "TIME_FORMAT(hora_levantamento,'%H:%i:%s')hora_levantamento, "
                     + "DATE_FORMAT(data_entrega,'%d/%m/%Y') data_entrega,"
@@ -4179,7 +4195,7 @@ public class DataBase {
                         dentrega = null;
                         tentrega = null;
                     }
-                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), rs.getInt("quantidade"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
+                    request = new Keys.Request(id, inicio, fim, dia, tinicio, tfim, pessoa, material, disciplinas, atividade, turmas, origem, rs.getBoolean("ativo"), rs.getBoolean("terminado"), rs.getInt("substituido"), dlevantamento, tlevantamento, dentrega, tentrega, rs.getInt("requisicao_conjunta"));
                     requisicoes.add(request);
                 }
             } catch (SQLException ex) {
@@ -4304,4 +4320,154 @@ public class DataBase {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Set<Material> getFreeMaterialsBetweenDates(int materialTypeID, Date dat1, Date dat2, Time tim1, Time tim2) {
+        java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
+        if (this.isTie()) {
+            Statement smt;
+            Statement smt2;
+            ResultSet rs2;
+            ResultSet rs3;
+            Statement aux;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from Materials where id_tipo='" + materialTypeID + "' order by descricao asc;";
+                Keys.Material material;
+                int idmaterial;
+                boolean passa;
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        idmaterial = rs.getInt("id_material");
+                        sql = "select id_requisicao, DATE_FORMAT(data_inicio,'%d/%m/%Y') data_inicio, "
+                                + "TIME_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, "
+                                + "DATE_FORMAT(data_fim,'%d/%m/%Y') data_fim, "
+                                + "TIME_FORMAT(hora_fim,'%H:%i:%s') hora_fim from Requests "
+                                + "where id_material = " + idmaterial + " and (data_inicio between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or data_fim between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y'));";
+                        smt2 = con.createStatement();
+                        rs3 = smt2.executeQuery(sql);
+                        passa = false;
+                        TimeDate.Time timdown = new TimeDate.Time(23,59, 59);
+                        TimeDate.Time timtop = new TimeDate.Time(0, 0, 0);
+                        TimeDate.Date datatop = new TimeDate.Date(1, 1, 1);
+                        TimeDate.Time timauxiliarinicio;
+                        TimeDate.Time timauxiliarfim;
+                        TimeDate.Date datauxiliar;
+                        String[] sdata;
+                        String[] tempo;
+                        while (rs3.next()) {
+                            sdata = rs3.getString("data_fim").split("/");
+                            datauxiliar = new TimeDate.Date(Integer.valueOf(sdata[0]), Integer.valueOf(sdata[1]), Integer.valueOf(sdata[2]));
+                            if (dat1.isBigger(dat2) == 0) {
+                                tempo = rs3.getString("hora_inicio").split(":");
+                                if ((tempo[0].length() > 1) && (tempo[0].charAt(0) == '0')) {
+                                    tempo[0] = tempo[0].replaceFirst("0", "");
+                                }
+                                if ((tempo[1].length() > 1) && (tempo[1].charAt(0) == '0')) {
+                                    tempo[1] = tempo[1].replaceFirst("0", "");
+                                }
+                                if ((tempo[2].length() > 1) && (tempo[2].charAt(0) == '0')) {
+                                    tempo[2] = tempo[2].replaceFirst("0", "");
+                                }
+                                timauxiliarinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
+                                if (timdown.compareTime(timauxiliarinicio) < 0) {
+                                    timdown = timauxiliarinicio;
+                                }
+                            }
+                            tempo = rs3.getString("hora_fim").split(":");
+                            if ((tempo[0].length() > 1) && (tempo[0].charAt(0) == '0')) {
+                                tempo[0] = tempo[0].replaceFirst("0", "");
+                            }
+                            if ((tempo[1].length() > 1) && (tempo[1].charAt(0) == '0')) {
+                                tempo[1] = tempo[1].replaceFirst("0", "");
+                            }
+                            if ((tempo[2].length() > 1) && (tempo[2].charAt(0) == '0')) {
+                                tempo[2] = tempo[2].replaceFirst("0", "");
+                            }
+                            timauxiliarfim = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
+                            if (timtop.compareTime(timauxiliarfim) > 0) {
+                                timtop = timauxiliarfim;
+                            }
+                            if (datatop.isBigger(datauxiliar) > 0) {
+                                datatop = datauxiliar;
+                            }
+                            passa = true;
+                        }
+                        if (!passa) {
+                            sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
+                            aux = con.createStatement();
+                            rs2 = aux.executeQuery(sql);
+                            if (rs2.next()) {
+                                Keys.TypeOfMaterial tipo;
+                                if (!rs2.getString("Imagem").equals("sem")) {
+                                    tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
+                                } else {
+                                    tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
+                                }
+                                if (!rs.getString("imagem").equals("sem")) {
+                                    material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                } else {
+                                    material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                }
+                                materiais.add(material);
+                            }
+                        } else if ((dat1.isBigger(dat2) == 0) && (timdown.compareTime(new TimeDate.Time(23,59,59)) > 0) && (timtop.isValid())) {
+                            if ((timtop.compareTime(tim1) >= 0) || (timdown.compareTime(tim2) <= 0)) {
+                                sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
+                                aux = con.createStatement();
+                                rs2 = aux.executeQuery(sql);
+                                if (rs2.next()) {
+                                    Keys.TypeOfMaterial tipo;
+                                    if (!rs2.getString("Imagem").equals("sem")) {
+                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
+                                    } else {
+                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
+                                    }
+                                    if (!rs.getString("imagem").equals("sem")) {
+                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                    } else {
+                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                    }
+                                    materiais.add(material);
+                                }
+                            }
+                        } else if ((dat1.isBigger(datatop) == 0)&&(timtop.isValid())) {
+                            if (timtop.compareTime(tim1) >= 0) {
+                                sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
+                                aux = con.createStatement();
+                                rs2 = aux.executeQuery(sql);
+                                if (rs2.next()) {
+                                    Keys.TypeOfMaterial tipo;
+                                    if (!rs2.getString("Imagem").equals("sem")) {
+                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
+                                    } else {
+                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
+                                    }
+                                    if (!rs.getString("imagem").equals("sem")) {
+                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                    } else {
+                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                    }
+                                    materiais.add(material);
+                                }
+                            }
+                        }
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return materiais;
+    }
+
 }

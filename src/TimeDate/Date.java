@@ -5,6 +5,7 @@
  */
 package TimeDate;
 
+import java.util.Calendar;
 import org.joda.time.DateTime;
 
 /**
@@ -67,6 +68,17 @@ public class Date {
             this.diasdoano = -1;
             this.semanasdoano = -1;
         }
+        this.locale = new Langs.Locale();
+    }
+    
+    public Date(java.util.Date date) {
+        Calendar g = Calendar.getInstance();
+        g.setTime(date);
+        this.mes = g.get(Calendar.MONTH)+1;
+        this.ano = g.get(Calendar.YEAR);
+        this.dia = g.get(Calendar.DAY_OF_MONTH);
+        this.diasdoano = this.getDayOfTheYear();
+        this.semanasdoano = this.getWeekOfTheYear();
         this.locale = new Langs.Locale();
     }
 
@@ -193,6 +205,9 @@ public class Date {
 
     @Override
     public String toString() {
+        if ((dia < 0)||(mes < 0)) {
+            return "Data inválida";
+        }
         String sdia;
         if (dia < 10) {
             sdia = "0" + this.dia;
@@ -229,6 +244,9 @@ public class Date {
     }
 
     public String toString(String simbolo) {
+        if ((dia < 0)||(mes < 0)) {
+            return "Data inválida";
+        }
         String sdia;
         if (dia < 10) {
             sdia = "0" + this.dia;
@@ -265,6 +283,9 @@ public class Date {
     }
 
     public String toStringWithMonthWord() {
+        if ((dia < 0)||(mes < 0)) {
+            return "Data inválida";
+        }
         String sdia;
         if (dia < 10) {
             sdia = "0" + this.dia;
@@ -296,6 +317,9 @@ public class Date {
     }
     
     public String toStringWithMonthWord(Langs.Locale lingua) {
+        if ((dia < 0)||(mes < 0)) {
+            return lingua.translate("Data inválida");
+        }
         String sdia;
         if (dia < 10) {
             sdia = "0" + this.dia;

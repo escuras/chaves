@@ -285,6 +285,11 @@ public class PersonalComboBox extends javax.swing.JComboBox {
         super.setSelectedIndex(val);
 
     }
+    
+    @Override
+    public int getItemCount() {
+        return (super.getItemCount()-1);
+    }
 
     @Override
     public void setSelectedItem(Object val) {
@@ -298,7 +303,6 @@ public class PersonalComboBox extends javax.swing.JComboBox {
                 }
             }
         }
-        System.out.println(situacao);
         if (situacao == 0) {
             getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
             ((javax.swing.JTextField) getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));

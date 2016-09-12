@@ -32,7 +32,6 @@ public class Request implements Comparable<Request> {
     private boolean ativo;
     private boolean terminado;
     private int substituido;
-    private int quantidade;
     private Date data_levantamento;
     private Date data_entrega;
     private Time tempo_levantamento;
@@ -63,7 +62,6 @@ public class Request implements Comparable<Request> {
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
-        this.quantidade = 1;
         this.tempo_levantamento = null;
         this.tempo_entrega = null;
         this.data_entrega = null;
@@ -91,7 +89,6 @@ public class Request implements Comparable<Request> {
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
-        this.quantidade = 1;
         this.tempo_levantamento = null;
         this.tempo_entrega = null;
         this.data_entrega = null;
@@ -102,35 +99,7 @@ public class Request implements Comparable<Request> {
         this.id_conjunta = 0;
     }
 
-    public Request(Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, String origem, int quantidade) {
-        this.begin = date;
-        this.end = date2;
-        this.id = -1;
-        this.dia = dia;
-        this.tinicio = tinicio;
-        this.tfim = tfim;
-        this.pessoa = pessoa;
-        this.material = material;
-        this.disciplina = new Subject();
-        this.disciplinas = new java.util.HashSet<>();
-        this.disciplinas.add(disciplina);
-        this.atividade = "sem";
-        this.origem = origem;
-        this.ativo = false;
-        this.terminado = false;
-        this.substituido = 0;
-        this.quantidade = quantidade;
-        this.tempo_levantamento = null;
-        this.tempo_entrega = null;
-        this.data_entrega = null;
-        this.data_levantamento = null;
-        this.turma = new ClassStudents();
-        this.turmas = new java.util.HashSet<>();
-        this.turmas.add(turma);
-        this.id_conjunta = 0;
-    }
-
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -147,7 +116,6 @@ public class Request implements Comparable<Request> {
         this.ativo = ativo;
         this.terminado = terminado;
         this.substituido = substituido;
-        this.quantidade = quantidade;
         this.tempo_levantamento = tempo_levantamento;
         this.tempo_entrega = tempo_entrega;
         this.data_entrega = data_entrega;
@@ -158,7 +126,7 @@ public class Request implements Comparable<Request> {
         this.id_conjunta = id_conjunta;
     }
     
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -178,7 +146,6 @@ public class Request implements Comparable<Request> {
         this.ativo = ativo;
         this.terminado = terminado;
         this.substituido = substituido;
-        this.quantidade = quantidade;
         this.tempo_levantamento = tempo_levantamento;
         this.tempo_entrega = tempo_entrega;
         this.data_entrega = data_entrega;
@@ -192,7 +159,7 @@ public class Request implements Comparable<Request> {
         this.id_conjunta = id_conjunta;
     }
     
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, java.util.Set<Keys.Subject> disciplinas, String atividade, ClassStudents turma, String origem, boolean ativo, boolean terminado, int substituido, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -212,7 +179,6 @@ public class Request implements Comparable<Request> {
         this.ativo = ativo;
         this.terminado = terminado;
         this.substituido = substituido;
-        this.quantidade = quantidade;
         this.tempo_levantamento = tempo_levantamento;
         this.tempo_entrega = tempo_entrega;
         this.data_entrega = data_entrega;
@@ -223,7 +189,7 @@ public class Request implements Comparable<Request> {
         this.id_conjunta = id_conjunta;
     }
     
-    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, int quantidade, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
+    public Request(int id, Date date, Date date2, WeekDay dia, Time tinicio, Time tfim, Person pessoa, Material material, Subject disciplina, String atividade, java.util.Set<Keys.ClassStudents> turmas, String origem, boolean ativo, boolean terminado, int substituido, TimeDate.Date data_levantamento, TimeDate.Time tempo_levantamento, TimeDate.Date data_entrega, TimeDate.Time tempo_entrega, int id_conjunta) {
         this.begin = date;
         this.end = date2;
         this.dia = dia;
@@ -240,7 +206,6 @@ public class Request implements Comparable<Request> {
         this.ativo = ativo;
         this.terminado = terminado;
         this.substituido = substituido;
-        this.quantidade = quantidade;
         this.tempo_levantamento = tempo_levantamento;
         this.tempo_entrega = tempo_entrega;
         this.data_entrega = data_entrega;
@@ -271,7 +236,6 @@ public class Request implements Comparable<Request> {
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
-        this.quantidade = 1;
         this.tempo_levantamento = null;
         this.tempo_entrega = null;
         this.data_entrega = null;
@@ -302,7 +266,6 @@ public class Request implements Comparable<Request> {
         this.ativo = false;
         this.terminado = false;
         this.substituido = 0;
-        this.quantidade = 1;
         this.tempo_levantamento = null;
         this.tempo_entrega = null;
         this.data_entrega = null;
@@ -333,7 +296,6 @@ public class Request implements Comparable<Request> {
         this.ativo = req.isActive();
         this.terminado = req.isTerminated();
         this.substituido = req.getSubstitute();
-        this.quantidade = req.getQuantity();
         this.data_entrega = req.getDeliveryDate();
         this.data_levantamento = req.getLiftDate();
         this.tempo_entrega = req.getDeliveryTime();
@@ -550,20 +512,6 @@ public class Request implements Comparable<Request> {
      */
     public void setSubstitute(int substituido) {
         this.substituido = substituido;
-    }
-
-    /**
-     * @return the quantidade
-     */
-    public int getQuantity() {
-        return quantidade;
-    }
-
-    /**
-     * @param quantidade the quantidade to set
-     */
-    public void setQuantity(int quantidade) {
-        this.quantidade = quantidade;
     }
 
     /**
