@@ -6,8 +6,6 @@
 package Components;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -134,7 +132,8 @@ public class PersonalTextField extends JTextField {
     public javax.swing.JComponent getLostCenterComponent() {
         return this.componentedesaida;
     }
-
+    
+   
     @Override
     public String getText() {
         textocondicional = super.getText();

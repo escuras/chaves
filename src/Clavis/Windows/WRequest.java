@@ -10,32 +10,39 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -60,6 +67,12 @@ public class WRequest extends javax.swing.JFrame {
     Components.PersonalLabel pl;
     boolean mexeu;
     int tipomaterialselecionado;
+    Components.PersonalCombo jComboBoxTipoMaterial;
+    Components.PersonalCombo jComboBoxMaterial;
+    Components.PersonalCombo jComboBoxNomeUtilizador;
+    java.util.List<Keys.ClassStudents> reqturmas;
+    java.util.List<Keys.Subject> reqdisciplinas;
+    String reqatividade;
 
     /**
      * Creates new form WRequest
@@ -76,6 +89,12 @@ public class WRequest extends javax.swing.JFrame {
         spineditor = null;
         mexeu = false;
         tipomaterialselecionado = 0;
+        jComboBoxTipoMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxNomeUtilizador = new Components.PersonalCombo(jLabelRecurso);
+        reqturmas = new java.util.ArrayList<>();
+        reqdisciplinas = new java.util.ArrayList<>();
+        reqatividade = "";
     }
 
     public WRequest(java.awt.Color corborda, java.awt.Color corfundo, String url, Langs.Locale lingua) {
@@ -90,6 +109,12 @@ public class WRequest extends javax.swing.JFrame {
         spineditor = null;
         mexeu = false;
         tipomaterialselecionado = 0;
+        jComboBoxTipoMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxNomeUtilizador = new Components.PersonalCombo(jLabelRecurso);
+        reqturmas = new java.util.ArrayList<>();
+        reqdisciplinas = new java.util.ArrayList<>();
+        reqatividade = "";
     }
 
     public WRequest(java.awt.Color corborda, java.awt.Color corfundo, String url, Langs.Locale lingua, Keys.Material mat) {
@@ -104,6 +129,12 @@ public class WRequest extends javax.swing.JFrame {
         spineditor = null;
         mexeu = false;
         tipomaterialselecionado = 0;
+        jComboBoxTipoMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxMaterial = new Components.PersonalCombo(jLabelRecurso);
+        jComboBoxNomeUtilizador = new Components.PersonalCombo(jLabelRecurso);
+        reqturmas = new java.util.ArrayList<>();
+        reqdisciplinas = new java.util.ArrayList<>();
+        reqatividade = "";
     }
 
     /**
@@ -118,9 +149,9 @@ public class WRequest extends javax.swing.JFrame {
         jPanelInicial = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabelRecurso = new javax.swing.JLabel();
-        jComboBoxTipoMaterial = new Components.PersonalComboBox(jLabelRecurso);
+        jComboBoxTipoM = jComboBoxTipoMaterial.getComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jComboBoxMaterial = new Components.PersonalComboBox(jLabelRecurso);
+        jComboBoxM = jComboBoxMaterial.getComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jSpinnerQuantidade = new javax.swing.JSpinner();
@@ -129,7 +160,7 @@ public class WRequest extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabelPessoa = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBoxNomeUtilizador = new Components.PersonalComboBox(jLabelRecurso);
+        jComboBoxNomeU = jComboBoxNomeUtilizador.getComboBox();
         jLabel11 = new javax.swing.JLabel();
         personalTextFieldCodigoUtilizador = new Components.PersonalTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -151,6 +182,7 @@ public class WRequest extends javax.swing.JFrame {
         jPanelConteudo = new javax.swing.JPanel();
         jButtonSair = new javax.swing.JButton();
         jButtonRequisitar = new javax.swing.JButton();
+        jButtonAlgoMais = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(900, 650));
@@ -186,19 +218,19 @@ public class WRequest extends javax.swing.JFrame {
         jLabelRecurso.setOpaque(true);
         jLabelRecurso.setPreferredSize(new java.awt.Dimension(47, 30));
 
-        jComboBoxTipoMaterial.setMinimumSize(new java.awt.Dimension(35, 30));
-        jComboBoxTipoMaterial.setPreferredSize(new java.awt.Dimension(35, 30));
+        jComboBoxTipoM.setMinimumSize(new java.awt.Dimension(35, 28));
+        jComboBoxTipoM.setPreferredSize(new java.awt.Dimension(35, 28));
 
         jLabel2.setMaximumSize(new java.awt.Dimension(4444444, 26));
         jLabel2.setMinimumSize(new java.awt.Dimension(104, 26));
         jLabel2.setPreferredSize(new java.awt.Dimension(104, 26));
 
         jComboBoxMaterial.setHelpText(lingua.translate("Escolha de recurso")+" ...");
-        jComboBoxMaterial.setMinimumSize(new java.awt.Dimension(35, 30));
-        jComboBoxMaterial.setPreferredSize(new java.awt.Dimension(35, 30));
-        jComboBoxMaterial.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxM.setMinimumSize(new java.awt.Dimension(35, 28));
+        jComboBoxM.setPreferredSize(new java.awt.Dimension(35, 28));
+        jComboBoxM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxMaterialActionPerformed(evt);
+                jComboBoxMActionPerformed(evt);
             }
         });
 
@@ -254,7 +286,7 @@ public class WRequest extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxMaterial, 0, 209, Short.MAX_VALUE))
+                                .addComponent(jComboBoxM, 0, 221, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,7 +294,7 @@ public class WRequest extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSpinnerQuantidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxTipoMaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jComboBoxTipoM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jLabelRecurso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(24, 24, 24))
         );
@@ -273,7 +305,7 @@ public class WRequest extends javax.swing.JFrame {
                 .addComponent(jLabelRecurso, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxTipoMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxTipoM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -284,7 +316,7 @@ public class WRequest extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jSpinnerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxM, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,11 +384,11 @@ public class WRequest extends javax.swing.JFrame {
         jLabel8.setMinimumSize(new java.awt.Dimension(37, 26));
         jLabel8.setPreferredSize(new java.awt.Dimension(147, 26));
 
-        jComboBoxNomeUtilizador.setMinimumSize(new java.awt.Dimension(35, 30));
-        jComboBoxNomeUtilizador.setPreferredSize(new java.awt.Dimension(35, 30));
-        jComboBoxNomeUtilizador.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxNomeU.setMinimumSize(new java.awt.Dimension(35, 28));
+        jComboBoxNomeU.setPreferredSize(new java.awt.Dimension(35, 28));
+        jComboBoxNomeU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxNomeUtilizadorActionPerformed(evt);
+                jComboBoxNomeUActionPerformed(evt);
             }
         });
 
@@ -407,7 +439,7 @@ public class WRequest extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(personalTextFieldCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxNomeUtilizador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxNomeU, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(30, 30, 30))))
         );
@@ -419,7 +451,7 @@ public class WRequest extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxNomeUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBoxNomeU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -442,10 +474,14 @@ public class WRequest extends javax.swing.JFrame {
         personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate("Código de identificação")+" ...", jLabelRecurso);
 
         personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+        Border f = BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK));
+        personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));
         jLabel12.setText(lingua.translate("Identificação")+": ");
         personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate("Correio eletrónico")+" ...", jLabelRecurso);
 
         personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+
+        personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/plus24x24.png") != null) {
                 BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/plus24x24.png"));
@@ -769,6 +805,18 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
 
+        jButtonAlgoMais.setBackground(new java.awt.Color(51, 102, 153));
+        jButtonAlgoMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAlgoMais.setFocusPainted(false);
+        jButtonAlgoMais.setMaximumSize(new java.awt.Dimension(532222, 2222));
+        jButtonAlgoMais.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonAlgoMais.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonAlgoMais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlgoMaisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
         jPanelInicialLayout.setHorizontalGroup(
@@ -784,16 +832,18 @@ public class WRequest extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(30, Short.MAX_VALUE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonRequisitar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonRequisitar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAlgoMais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -806,21 +856,16 @@ public class WRequest extends javax.swing.JFrame {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(21, 21, 21))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jButtonAlgoMais, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonRequisitar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))))
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonRequisitar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(21, 21, 21))
         );
 
         try {
@@ -843,6 +888,17 @@ public class WRequest extends javax.swing.JFrame {
         } catch(IOException e){}
 
         jButtonRequisitar.setToolTipText(lingua.translate("Efetuar requisição"));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/algomais.png") != null) {
+                BufferedImage imalgomais = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/algomais.png"));
+                ImageIcon icalgomais = new ImageIcon(imalgomais);
+                jButtonAlgoMais.setIcon(icalgomais);
+            } else {
+                jButtonAlgoMais.setText(lingua.translate("Algo mais"));
+            }
+        } catch(IOException e){}
+
+        jButtonAlgoMais.setToolTipText(lingua.translate("Acrescentar mais informação"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -862,9 +918,9 @@ public class WRequest extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBoxMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMaterialActionPerformed
+    private void jComboBoxMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxMaterialActionPerformed
+    }//GEN-LAST:event_jComboBoxMActionPerformed
 
     private void jButtonPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaActionPerformed
         // TODO add your handling code here:
@@ -878,9 +934,9 @@ public class WRequest extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
-    private void jComboBoxNomeUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNomeUtilizadorActionPerformed
+    private void jComboBoxNomeUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNomeUActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxNomeUtilizadorActionPerformed
+    }//GEN-LAST:event_jComboBoxNomeUActionPerformed
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         // TODO add your handling code here:
@@ -899,8 +955,23 @@ public class WRequest extends javax.swing.JFrame {
 
     private void jButtonRequisitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRequisitarActionPerformed
         java.util.List<Keys.Material> mats = pl.getSelectedOnes();
-        
+
     }//GEN-LAST:event_jButtonRequisitarActionPerformed
+
+    private void jButtonAlgoMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgoMaisActionPerformed
+        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, this.createPanelMoreInfo(500, 350), "", new String[]{"Confirmar", "Voltar"});
+        if (mensagem.showMessage() == 1) {
+            if (!reqatividade.equals("")) {
+                jButtonAlgoMais.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+            }
+            
+        } else {
+            reqatividade = "";
+            reqturmas = new java.util.ArrayList<>();
+            reqdisciplinas = new java.util.ArrayList<>();
+            jButtonAlgoMais.setBorder(null);
+        }
+    }//GEN-LAST:event_jButtonAlgoMaisActionPerformed
 
     private void init() {
         this.setTitle(lingua.translate("Registo de requisição"));
@@ -921,24 +992,27 @@ public class WRequest extends javax.swing.JFrame {
         initComponents();
         init();
         jLabelRecurso.requestFocus();
+        jComboBoxMaterial.setComponentFocus(jLabelRecurso);
+        jComboBoxTipoMaterial.setComponentFocus(jLabelRecurso);
+        jComboBoxNomeUtilizador.setComponentFocus(jLabelRecurso);
         spineditor = (javax.swing.JSpinner.NumberEditor) jSpinnerQuantidade.getEditor();
         spineditor.getFormat().setGroupingUsed(false);
         spineditor.getModel().setMinimum(1);
         spineditor.getModel().setValue(1);
         spineditor.getModel().setStepSize(1);
         spineditor.getTextField().setSelectionColor(Color.DARK_GRAY);
-        javax.swing.JTextField tx = (javax.swing.JTextField) jComboBoxTipoMaterial.getEditor().getEditorComponent();
+        javax.swing.JTextField tx = (javax.swing.JTextField) jComboBoxTipoMaterial.getComboBox().getEditor().getEditorComponent();
         tx.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
-        javax.swing.JTextField txm = (javax.swing.JTextField) jComboBoxMaterial.getEditor().getEditorComponent();
+        javax.swing.JTextField txm = (javax.swing.JTextField) jComboBoxMaterial.getComboBox().getEditor().getEditorComponent();
         txm.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
-        javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getEditor().getEditorComponent();
+        javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent();
         txmutilizador.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 8));
         txm.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txmutilizador.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tx.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinnerQuantidade.getEditor();
         javax.swing.JTextField txx = editor.getTextField();
-       
+
         jComboBoxTipoMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.CENTER);
         jComboBoxMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.CENTER);
         jComboBoxNomeUtilizador.setHorizontalTextPosition((int) javax.swing.JLabel.CENTER);
@@ -983,11 +1057,11 @@ public class WRequest extends javax.swing.JFrame {
         });
         entrou = false;
         jComboBoxTipoMaterial.addActionListener((ActionEvent e) -> {
-            if ((jComboBoxTipoMaterial.getSelectedIndex() > 0)&&(jComboBoxTipoMaterial.getSelectedIndex() != tipomaterialselecionado)) {
+            if ((jComboBoxTipoMaterial.getSelectedIndex() > 0) && (jComboBoxTipoMaterial.getSelectedIndex() != tipomaterialselecionado)) {
                 updateComboMaterialBox();
                 pl.go(true, null);
                 tipomaterialselecionado = jComboBoxTipoMaterial.getSelectedIndex();
-            } else if (jComboBoxTipoMaterial.getSelectedIndex() == 0){
+            } else if (jComboBoxTipoMaterial.getSelectedIndex() == 0) {
                 jComboBoxMaterial.removeAllItems();
                 jComboBoxMaterial.setSelectedIndex(0);
                 spineditor.getModel().setMaximum(1);
@@ -1002,7 +1076,10 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxNomeUtilizador.addItemListener((ItemEvent e) -> {
+        jComboBoxNomeUtilizador.getComboBox().addItemListener((ItemEvent e) -> {
+            System.out.println("item " + e.getItem());
+            System.out.println("selectable " + e.getItemSelectable());
+            System.out.println("statechange " + e.getStateChange());
             if (jComboBoxNomeUtilizador.getSelectedIndex() > 0) {
                 Keys.Person p = pessoas.get(jComboBoxNomeUtilizador.getSelectedIndex() - 1);
                 String email;
@@ -1013,12 +1090,11 @@ public class WRequest extends javax.swing.JFrame {
                 }
                 personalTextFieldEmailUtilizador.setText(email);
                 personalTextFieldCodigoUtilizador.setText(p.getIdentification());
-            } else if (jComboBoxNomeUtilizador.getSelectedIndex() == 0) {
+            } else if ((jComboBoxNomeUtilizador.getSelectedIndex() == 0) && (!e.getItem().toString().equals(""))) {
                 personalTextFieldEmailUtilizador.startPlaceHolder();
                 personalTextFieldEmailUtilizador.showPLaceHolder();
                 personalTextFieldCodigoUtilizador.startPlaceHolder();
                 personalTextFieldCodigoUtilizador.showPLaceHolder();
-                this.requestFocusInWindow();
             }
         });
         if (DataBase.DataBase.testConnection(url)) {
@@ -1055,7 +1131,7 @@ public class WRequest extends javax.swing.JFrame {
             for (int i = 0; i < p.size() - 1; i++) {
                 var = 2;
                 for (int j = i + 1; j < p.size(); j++) {
-                    p.get(j).setName(this.treatLongStrings(p.get(j).getName(), 80, jComboBoxNomeUtilizador.getEditor().getEditorComponent().getFont()));
+                    p.get(j).setName(this.treatLongStrings(p.get(j).getName(), 80, jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().getFont()));
                     if (p.get(i).getName().equals(p.get(j).getName())) {
                         p.get(j).setName(p.get(j).getName() + " (" + var + ")");
                         var++;
@@ -1188,7 +1264,7 @@ public class WRequest extends javax.swing.JFrame {
                     mexeu = true;
                 }
             });
-            javax.swing.JTextField tf = (javax.swing.JTextField) jComboBoxMaterial.getEditor().getEditorComponent();
+            javax.swing.JTextField tf = (javax.swing.JTextField) jComboBoxMaterial.getComboBox().getEditor().getEditorComponent();
             tf.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -1207,9 +1283,8 @@ public class WRequest extends javax.swing.JFrame {
         jButtonSair.addActionListener((ActionEvent e) -> {
             this.close();
         });
-        jComboBoxTipoMaterial.setLightWeightPopupEnabled(true);
-        jComboBoxMaterial.setLightWeightPopupEnabled(true);
-       
+        jComboBoxTipoMaterial.getComboBox().setLightWeightPopupEnabled(true);
+        jComboBoxMaterial.getComboBox().setLightWeightPopupEnabled(true);
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowAdapterImpl());
         pack();
@@ -1220,7 +1295,6 @@ public class WRequest extends javax.swing.JFrame {
             WRequest wr = new WRequest();
             wr.create();
             wr.setVisible(true);
-
         });
     }
 
@@ -1298,24 +1372,31 @@ public class WRequest extends javax.swing.JFrame {
             }
         }
     }
+
+    public static int getSizeOfString(String l, Font font) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) (font.getStringBounds(l, frc).getWidth());
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAlgoMais;
     private javax.swing.JButton jButtonAtualizar;
     private javax.swing.JButton jButtonMaisUtilizador;
     private javax.swing.JButton jButtonPesquisa;
     private javax.swing.JButton jButtonRequisitar;
     private javax.swing.JButton jButtonSair;
     /*
-    private javax.swing.JComboBox<String> jComboBoxMaterial;
+    private javax.swing.JComboBox<String> jComboBoxM;
     */
-    private Components.PersonalComboBox jComboBoxMaterial;
+    private javax.swing.JComboBox<Object> jComboBoxM;
     /*
-    private javax.swing.JComboBox<String> jComboBoxNomeUtilizador;
+    private javax.swing.JComboBox<String> jComboBoxNomeU;
     */
-    private Components.PersonalComboBox jComboBoxNomeUtilizador;
+    private javax.swing.JComboBox<Object> jComboBoxNomeU;
     /*
-    private javax.swing.JComboBox<String> jComboBoxTipoMaterial;
+    private javax.swing.JComboBox<String> jComboBoxTipoM;
     */
-    private Components.PersonalComboBox jComboBoxTipoMaterial;
+    private javax.swing.JComboBox<Object> jComboBoxTipoM;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1369,5 +1450,434 @@ public class WRequest extends javax.swing.JFrame {
         public void windowClosing(WindowEvent e) {
             close();
         }
+    }
+
+    private javax.swing.JPanel createPanelMoreInfo(int largura, int altura) {
+        javax.swing.JPanel panel = new javax.swing.JPanel(null);
+        panel.setPreferredSize(new Dimension(largura, altura));
+        panel.setMinimumSize(new Dimension(largura, altura));
+        panel.setSize(largura, altura);
+
+        javax.swing.JLabel label1 = new javax.swing.JLabel();
+        label1.setSize(largura / 3, 30);
+        label1.setFocusable(true);
+        label1.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        label1.setHorizontalTextPosition(javax.swing.JLabel.TRAILING);
+        label1.setBounds(40, 20, 100, 30);
+        label1.setText(lingua.translate("Atividade") + ": ");
+        Components.PersonalButton btatividade = new Components.PersonalButton();
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/outro.png") != null) {
+                BufferedImage bfbtatividade = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/outro.png"));
+                ImageIcon icbtatividade = new ImageIcon(bfbtatividade);
+                btatividade.setIcon(icbtatividade);
+            } else {
+                btatividade.setText("+");
+            }
+        } catch (IOException e) {
+
+        }
+        btatividade.setPreferredSize(new Dimension(28, 28));
+        btatividade.setBounds(415, 20, 28, 28);
+        btatividade.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Components.PersonalCombo cbatividade = new Components.PersonalCombo(label1);
+        cbatividade.setPreferredSize(new Dimension(250, 28));
+        cbatividade.getComboBox().setBounds(140, 20, 270, 28);
+        cbatividade.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
+        cbatividade.create();
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            java.util.Set<String> atividades = db.getActivities();
+            db.close();
+            atividades.stream().forEach((atividade) -> {
+                cbatividade.getComboBox().addItem(lingua.translate(atividade));
+            });
+        }
+        cbatividade.setSelectedIndex(0);
+
+        // paineis inferiores
+        javax.swing.JPanel panesquerda = new javax.swing.JPanel(null);
+        panesquerda.setPreferredSize(new Dimension(250, 220));
+        panesquerda.setBounds(0, 70, 250, 220);
+        panel.add(panesquerda);
+        javax.swing.JLabel labelturmas = new javax.swing.JLabel(lingua.translate("Turmas"));
+        labelturmas.setPreferredSize(new Dimension(200, 30));
+        labelturmas.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        labelturmas.setBounds(10, 0, 230, 28);
+        labelturmas.setOpaque(true);
+        labelturmas.setFocusable(true);
+        labelturmas.setBackground(new Color(252, 252, 252));
+        panesquerda.add(labelturmas);
+
+        Components.PersonalButton bturmas = new Components.PersonalButton();
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/ok16x16.png") != null) {
+                BufferedImage bfbturmas = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok16x16.png"));
+                ImageIcon icbturmas = new ImageIcon(bfbturmas);
+                bturmas.setIcon(icbturmas);
+            } else {
+                bturmas.setText("+");
+            }
+        } catch (IOException e) {
+
+        }
+        bturmas.setPreferredSize(new Dimension(28, 28));
+        bturmas.setBounds(10, 40, 28, 28);
+        bturmas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panesquerda.add(bturmas);
+        Components.PersonalCombo cbturmas = new Components.PersonalCombo(labelturmas);
+        cbturmas.create();
+        cbturmas.setPreferredSize(new Dimension(200, 28));
+        cbturmas.getComboBox().setBounds(40, 40, 200, 28);
+        cbturmas.setHelpText(lingua.translate("Turmas a participar ..."));
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            java.util.List<Keys.ClassStudents> turmas = db.getStudentsClasses();
+            System.out.println(turmas.size());
+            db.close();
+            turmas.stream().forEach((turma) -> {
+                cbturmas.getComboBox().addItem(turma);
+            });
+        }
+        cbturmas.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
+        panesquerda.add(cbturmas.getComboBox());
+
+        DefaultListModel<Keys.ClassStudents> ll = new DefaultListModel();
+        javax.swing.JList<Keys.ClassStudents> lturmas = new javax.swing.JList<>(ll);
+        javax.swing.CellRendererPane pon = (javax.swing.CellRendererPane) lturmas.getComponent(0);
+        pon.setPreferredSize(new Dimension(230, 100));
+
+        for (int j = 0; j < pon.getComponentCount(); j++) {
+            System.out.println(pon.getComponent(j));
+        }
+        lturmas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        lturmas.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 2L;
+
+            @Override
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+                label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                label.setPreferredSize(new Dimension(150, 25));
+                if (isSelected) {
+                    label.setBackground(Color.GRAY);
+                    label.setForeground(Color.WHITE);
+                    label.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                }
+                return label;
+            }
+        });
+        lturmas.setPreferredSize(new Dimension(220, 130));
+        lturmas.setBackground(new Color(215, 215, 215));
+        javax.swing.JScrollPane sturmas = new javax.swing.JScrollPane(lturmas);
+        sturmas.setPreferredSize(new Dimension(230, 140));
+        sturmas.setBounds(10, 78, 230, 140);
+        sturmas.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
+        sturmas.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        panesquerda.add(sturmas);
+
+        javax.swing.JPanel pandireita = new javax.swing.JPanel(null);
+        pandireita.setPreferredSize(new Dimension(250, 220));
+        pandireita.setBounds(260, 70, 250, 220);
+        panel.add(pandireita);
+
+        javax.swing.JLabel labeldisciplinas = new javax.swing.JLabel(lingua.translate("Disciplinas"));
+        labeldisciplinas.setPreferredSize(new Dimension(200, 28));
+        labeldisciplinas.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        labeldisciplinas.setBounds(10, 0, 230, 28);
+        labeldisciplinas.setOpaque(true);
+        labeldisciplinas.setFocusable(true);
+        labeldisciplinas.setBackground(new Color(252, 252, 252));
+        labeldisciplinas.setBorder(labelturmas.getBorder());
+        pandireita.add(labeldisciplinas);
+
+        Components.PersonalButton bdisciplinas = new Components.PersonalButton();
+        bdisciplinas.setIcon(bturmas.getIcon());
+        bdisciplinas.setPreferredSize(new Dimension(28, 28));
+        bdisciplinas.setBounds(10, 40, 28, 28);
+        bdisciplinas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pandireita.add(bdisciplinas);
+
+        Components.PersonalCombo cbdisciplinas = new Components.PersonalCombo(labeldisciplinas);
+        cbdisciplinas.create();
+        cbdisciplinas.setPreferredSize(new Dimension(200, 28));
+        cbdisciplinas.getComboBox().setBounds(40, 40, 200, 28);
+        cbdisciplinas.setHelpText(lingua.translate("Disciplinas envolvidas ..."));
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            java.util.List<Keys.Subject> disciplinas = db.getSubjectsAll();
+            db.close();
+            disciplinas.stream().forEach((disciplina) -> {
+                cbdisciplinas.getComboBox().addItem(disciplina);
+            });
+        }
+        cbdisciplinas.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
+        pandireita.add(cbdisciplinas.getComboBox());
+
+        DefaultListModel<Keys.Subject> ss = new DefaultListModel();
+        javax.swing.JList<Keys.Subject> ldisciplinas = new javax.swing.JList<>(ss);
+        ldisciplinas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        ldisciplinas.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 2L;
+
+            @Override
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+                label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                label.setPreferredSize(new Dimension(150, 25));
+                if (isSelected) {
+                    label.setBackground(Color.GRAY);
+                    label.setForeground(Color.WHITE);
+                    label.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                }
+                return label;
+            }
+        });
+        ldisciplinas.setPreferredSize(new Dimension(220, 130));
+        ldisciplinas.setBackground(new Color(235, 235, 235));
+
+        javax.swing.JScrollPane sdisciplinas = new javax.swing.JScrollPane(ldisciplinas);
+        sdisciplinas.setPreferredSize(new Dimension(230, 140));
+        sdisciplinas.setBounds(10, 78, 230, 140);
+        sdisciplinas.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.BLACK)));
+        sdisciplinas.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pandireita.add(sdisciplinas);
+
+        panel.add(btatividade);
+        panel.add(label1);
+        panel.add(cbatividade.getComboBox());
+
+        btatividade.addActionListener((ActionEvent e) -> {
+            javax.swing.JPanel panel2 = new javax.swing.JPanel();
+            panel2.setPreferredSize(new Dimension(400, 100));
+            javax.swing.JLabel lb1 = new javax.swing.JLabel();
+            lb1.setText(lingua.translate("Designação") + ":");
+            lb1.setPreferredSize(new Dimension(100, 30));
+            lb1.setFocusable(true);
+            lb1.requestFocus();
+            Components.PersonalTextField tx = new Components.PersonalTextField();
+            tx.addPlaceHolder(lingua.translate("Nome da atividade"), lb1);
+            tx.setPreferredSize(new Dimension(250, 30));
+            tx.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            Border f = BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK));
+            tx.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+            panel2.add(lb1);
+            panel2.add(tx);
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar atividade"), 400, 220, panel2, "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+            if (mensagem.showMessage() == 1) {
+                if (!tx.getText().equals("")) {
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        db.insertActivity(tx.getText());
+                        java.util.Set<String> atividades = db.getActivities();
+                        db.close();
+                        cbatividade.removeAllItems();
+                        atividades.stream().forEach((atividade) -> {
+                            cbatividade.getComboBox().addItem(lingua.translate(atividade));
+                        });
+                        cbatividade.setSelectedIndex(0);
+                    }
+                }
+            }
+        });
+
+        bturmas.addActionListener((ActionEvent e) -> {
+            if (cbturmas.getSelectedIndex() > 0) {
+                Keys.ClassStudents s = (Keys.ClassStudents) cbturmas.getSelectedItem();
+                if (!ll.contains(s)) {
+                    reqturmas.add(s);
+                    ll.addElement(s);
+                    if (((ll.getSize() * 25) + 10) > lturmas.getPreferredSize().getHeight()) {
+                        lturmas.setPreferredSize(new Dimension((int) lturmas.getPreferredSize().getWidth(), (int) lturmas.getPreferredSize().getHeight() + 25));
+                    }
+                }
+            }
+        });
+
+        bdisciplinas.addActionListener((ActionEvent e) -> {
+            if (cbdisciplinas.getSelectedIndex() > 0) {
+                Keys.Subject s = (Keys.Subject) cbdisciplinas.getSelectedItem();
+                if (!ss.contains(s)) {
+                    reqdisciplinas.add(s);
+                    ss.addElement(s);
+                    if (((ss.getSize() * 25) + 10) > ldisciplinas.getPreferredSize().getHeight()) {
+                        ldisciplinas.setPreferredSize(new Dimension((int) ldisciplinas.getPreferredSize().getWidth(), (int) ldisciplinas.getPreferredSize().getHeight() + 25));
+                    }
+                }
+            }
+        });
+
+        lturmas.addKeyListener(new KeyAdapter() {
+            Components.MessagePane mensagem;
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER:
+                        if (lturmas.getSelectedIndex() > -1) {
+                            Keys.ClassStudents turma = lturmas.getSelectedValue();
+                            String envia = "<html><div style='text-align:left;font-size:11px;'>"
+                                    + "<b>" + lingua.translate("Nome") + ": </b> " + lingua.translate(turma.getName())
+                                    + "<br/><b>" + lingua.translate("Código") + ": </b> " + lingua.translate(turma.getCode())
+                                    + "<br/><b>" + lingua.translate("Curso") + ": </b> " + lingua.translate(turma.getDegree())
+                                    + "<br/> </div></html>";
+                            mensagem = new Components.MessagePane(null, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Informação"), 300, 200, envia, new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                        }
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        lturmas.clearSelection();
+                        break;
+                    case KeyEvent.VK_DELETE:
+                        reqturmas.remove(lturmas.getSelectedIndex());
+                        ll.remove(lturmas.getSelectedIndex());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        if (!reqatividade.equals("")) {
+            cbatividade.setSelectedItem(reqatividade);
+            for (int i=0; i < reqturmas.size(); i++) {
+                ll.addElement(reqturmas.get(i));
+            }
+            for (int i=0; i < reqdisciplinas.size(); i++) {
+                ss.addElement(reqdisciplinas.get(i));
+            }
+            cbturmas.setSelectedIndex(0);
+            cbdisciplinas.setSelectedIndex(0);
+        } else {
+            cbturmas.setEnabled(false);
+            cbdisciplinas.setEnabled(false);
+        }
+        
+        cbatividade.addActionListener((ActionEvent e) -> {
+            if (cbatividade.getSelectedItem() != null) {
+                 if (cbatividade.getSelectedIndex() <= 0) {
+                    cbturmas.setEnabled(false);
+                    cbdisciplinas.setEnabled(false);
+                 } else {
+                    cbturmas.setEnabled(true);
+                    cbdisciplinas.setEnabled(true);
+                   
+                 }
+                reqatividade = cbatividade.getSelectedItem().toString();
+            }
+           
+        });
+        
+        
+        lturmas.addMouseListener(new MouseAdapter() {
+            Components.PopUpMenu poplturmas;
+            Components.MessagePane mensagem;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    if (lturmas.getSelectedIndex() > -1) {
+                        Keys.ClassStudents turma = lturmas.getSelectedValue();
+                        String envia = "<html><div style='text-align:left;font-size:11px;'>"
+                                + "<b>" + lingua.translate("Nome") + ": </b> " + lingua.translate(turma.getName())
+                                + "<br/><b>" + lingua.translate("Código") + ": </b> " + lingua.translate(turma.getCode())
+                                + "<br/><b>" + lingua.translate("Curso") + ": </b> " + lingua.translate(turma.getDegree())
+                                + "<br/> </div></html>";
+                        mensagem = new Components.MessagePane(null, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Informação"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    int sel = lturmas.locationToIndex(new java.awt.Point(e.getX(), e.getY()));
+                    lturmas.setSelectedIndex(sel);
+                    if (lturmas.getSelectedIndex() > -1) {
+                        String[] titulos = {lingua.translate("Remover")};
+                        ActionListener[] acts = new ActionListener[1];
+                        acts[0] = (ActionEvent e1) -> {
+                            reqturmas.remove(lturmas.getSelectedIndex());
+                            ll.remove(lturmas.getSelectedIndex());
+                        };
+                        poplturmas = new Components.PopUpMenu(titulos, acts);
+                        poplturmas.create();
+                        poplturmas.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
+
+        ldisciplinas.addKeyListener(new KeyAdapter() {
+            Components.MessagePane mensagem;
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER:
+                        if (ldisciplinas.getSelectedIndex() > -1) {
+                            Keys.Subject disciplina = ldisciplinas.getSelectedValue();
+                            String envia = "<html><div style='text-align:left;font-size:11px;'>"
+                                    + "<b>" + lingua.translate("Nome") + ": </b> " + lingua.translate(disciplina.getName())
+                                    + "<br/><b>" + lingua.translate("Código") + ": </b> " + lingua.translate(disciplina.getCode())
+                                    + "<br/> </div></html>";
+                            mensagem = new Components.MessagePane(null, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Informação"), 300, 200, envia, new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                        }
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        ldisciplinas.clearSelection();
+                        break;
+                    case KeyEvent.VK_DELETE:
+                        reqdisciplinas.remove(ldisciplinas.getSelectedIndex());
+                        ss.remove(ldisciplinas.getSelectedIndex());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        ldisciplinas.addMouseListener(new MouseAdapter() {
+            Components.PopUpMenu popdisciplinas;
+            Components.MessagePane mensagem;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    if (ldisciplinas.getSelectedIndex() > -1) {
+                        Keys.Subject disciplina = ldisciplinas.getSelectedValue();
+                        String envia = "<html><div style='text-align:left;font-size:11px;'>"
+                                + "<b>" + lingua.translate("Nome") + ": </b> " + lingua.translate(disciplina.getName())
+                                + "<br/><b>" + lingua.translate("Código") + ": </b> " + lingua.translate(disciplina.getCode())
+                                + "<br/> </div></html>";
+                        mensagem = new Components.MessagePane(null, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Informação"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    int sel = ldisciplinas.locationToIndex(new java.awt.Point(e.getX(), e.getY()));
+                    ldisciplinas.setSelectedIndex(sel);
+                    if (ldisciplinas.getSelectedIndex() > -1) {
+                        String[] titulos = {lingua.translate("Remover")};
+                        ActionListener[] acts = new ActionListener[1];
+                        acts[0] = (ActionEvent e1) -> {
+                            reqdisciplinas.remove(ldisciplinas.getSelectedIndex());
+                            ss.remove(ldisciplinas.getSelectedIndex());
+                        };
+                        popdisciplinas = new Components.PopUpMenu(titulos, acts);
+                        popdisciplinas.create();
+                        popdisciplinas.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
+        return panel;
     }
 }

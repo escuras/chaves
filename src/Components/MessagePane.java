@@ -11,6 +11,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -239,6 +242,16 @@ public class MessagePane {
             });
             getPanel().add(getButtons()[0]);
         }
+        if (textobotoes.length == 1) {
+            dialogo.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)||(e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+                        closeWindow();
+                    }
+                }
+            });
+        }
         dialogo.add(getPanel());
     }
     
@@ -347,6 +360,16 @@ public class MessagePane {
             });
             getPanel().add(getButtons()[0]);
         }
+        if (textobotoes.length == 1) {
+            dialogo.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)||(e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+                        closeWindow();
+                    }
+                }
+            });
+        }
         dialogo.add(getPanel());
     }
     
@@ -449,6 +472,16 @@ public class MessagePane {
                 }
             });
             getPanel().add(getButtons()[0]);
+        }
+        if (textobotoes.length == 1) {
+            dialogo.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)||(e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+                        closeWindow();
+                    }
+                }
+            });
         }
         dialogo.add(getPanel());
     }
@@ -567,6 +600,16 @@ public class MessagePane {
                 }
             });
             getPanel().add(getButtons()[0]);
+        } 
+        if (textobotoes.length == 1) {
+            dialogo.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)||(e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+                        closeWindow();
+                    }
+                }
+            });
         }
         dialogo.add(getPanel());
     }

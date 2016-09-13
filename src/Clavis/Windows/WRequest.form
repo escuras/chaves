@@ -82,7 +82,6 @@
                               <Component id="jPanel4" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="30" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -90,10 +89,14 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="621" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jButtonRequisitar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jButtonRequisitar" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonAlgoMais" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -110,27 +113,19 @@
                       <Component id="jPanel1" min="-2" pref="230" max="-2" attributes="0"/>
                       <Component id="jPanel2" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="56" max="32767" attributes="0"/>
-                                  <Component id="jButtonSair" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                              </Group>
+                          <Component id="jButtonAlgoMais" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jButtonSair" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonRequisitar" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jButtonRequisitar" min="-2" pref="40" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -177,7 +172,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel3" min="-2" pref="147" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jComboBoxMaterial" pref="209" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxM" pref="221" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
@@ -187,7 +182,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jSpinnerQuantidade" max="32767" attributes="0"/>
-                                          <Component id="jComboBoxTipoMaterial" max="32767" attributes="0"/>
+                                          <Component id="jComboBoxTipoM" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabelRecurso" alignment="1" max="32767" attributes="0"/>
@@ -205,7 +200,7 @@
                       <Component id="jLabelRecurso" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jComboBoxTipoMaterial" max="32767" attributes="0"/>
+                          <Component id="jComboBoxTipoM" max="32767" attributes="0"/>
                           <Component id="jLabel2" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -218,7 +213,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jSpinnerQuantidade" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBoxMaterial" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jComboBoxM" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -259,22 +254,22 @@
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelRecurso.setText(lingua.translate(&quot;Recurso&quot;));"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBoxTipoMaterial">
+            <Component class="javax.swing.JComboBox" name="jComboBoxTipoM">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxTipoMaterial.setBackgroundColor(new Color(213,213,213));&#xa;jComboBoxTipoMaterial.setHelpText(lingua.translate(&quot;Tipo de material&quot;)+&quot; ...&quot;);&#xa;jComboBoxTipoMaterial.create();"/>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalComboBox(jLabelRecurso)"/>
-                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private Components.PersonalComboBox jComboBoxTipoMaterial;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="jComboBoxTipoMaterial.getComboBox()"/>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private javax.swing.JComboBox&lt;Object&gt; jComboBoxTipoM;"/>
                 <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -295,25 +290,25 @@
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel2.setText(lingua.translate(&quot;Tipo de material&quot;)+&quot;: &quot;);"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBoxMaterial">
+            <Component class="javax.swing.JComboBox" name="jComboBoxM">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMaterialActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxMaterial.create();"/>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalComboBox(jLabelRecurso)"/>
-                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private Components.PersonalComboBox jComboBoxMaterial;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="jComboBoxMaterial.getComboBox()"/>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private javax.swing.JComboBox&lt;Object&gt; jComboBoxM;"/>
                 <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jComboBoxMaterial.setHelpText(lingua.translate(&quot;Escolha de recurso&quot;)+&quot; ...&quot;);"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -465,7 +460,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="personalTextFieldCodigoUtilizador" pref="221" max="32767" attributes="0"/>
-                                          <Component id="jComboBoxNomeUtilizador" max="32767" attributes="0"/>
+                                          <Component id="jComboBoxNomeU" max="32767" attributes="0"/>
                                           <Component id="personalTextFieldEmailUtilizador" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -484,7 +479,7 @@
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel8" max="32767" attributes="0"/>
-                          <Component id="jComboBoxNomeUtilizador" max="32767" attributes="0"/>
+                          <Component id="jComboBoxNomeU" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -548,25 +543,25 @@
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel8.setText(lingua.translate(&quot;Nome&quot;)+&quot;: &quot;);"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBoxNomeUtilizador">
+            <Component class="javax.swing.JComboBox" name="jComboBoxNomeU">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[35, 30]"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new java.awt.Dimension(35, 28)" type="code"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxNomeUtilizadorActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxNomeUActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxNomeUtilizador.setBackgroundColor(new Color(213,213,213));&#xa;jComboBoxNomeUtilizador.setHelpText(lingua.translate(&quot;Nome de utilizador&quot;)+&quot; ...&quot;);&#xa;jComboBoxNomeUtilizador.create();"/>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.PersonalComboBox(jLabelRecurso)"/>
-                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private Components.PersonalComboBox jComboBoxNomeUtilizador;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="jComboBoxNomeUtilizador.getComboBox()"/>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private javax.swing.JComboBox&lt;Object&gt; jComboBoxNomeU;"/>
                 <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -601,7 +596,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate(&quot;C&#xf3;digo de identifica&#xe7;&#xe3;o&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate(&quot;C&#xf3;digo de identifica&#xe7;&#xe3;o&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;Border f = BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK));&#xa;personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
@@ -634,7 +629,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate(&quot;Correio eletr&#xf3;nico&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate(&quot;Correio eletr&#xf3;nico&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2), BorderFactory.createLineBorder(Color.BLACK, 1, false)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));&#xa;&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonMaisUtilizador">
@@ -1204,6 +1199,32 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/save.png&quot;) != null) {&#xa;        BufferedImage im3 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/save.png&quot;));&#xa;        ImageIcon ic3 = new ImageIcon(im3);&#xa;        jButtonRequisitar.setIcon(ic3);&#xa;    } else {&#xa;        jButtonRequisitar.setText(lingua.translate(&quot;Requisitar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonRequisitar.setToolTipText(lingua.translate(&quot;Efetuar requisi&#xe7;&#xe3;o&quot;));"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonAlgoMais">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="66" red="33" type="rgb"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[532222, 2222]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[90, 40]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAlgoMaisActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/algomais.png&quot;) != null) {&#xa;        BufferedImage imalgomais = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/algomais.png&quot;));&#xa;        ImageIcon icalgomais = new ImageIcon(imalgomais);&#xa;        jButtonAlgoMais.setIcon(icalgomais);&#xa;    } else {&#xa;        jButtonAlgoMais.setText(lingua.translate(&quot;Algo mais&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonAlgoMais.setToolTipText(lingua.translate(&quot;Acrescentar mais informa&#xe7;&#xe3;o&quot;));"/>
           </AuxValues>
         </Component>
       </SubComponents>

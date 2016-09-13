@@ -505,7 +505,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "Select (codigo,descricao,numero_alunos,codigo_curso,descricao_curso) from StudentsClasses";
+                String sql = "Select codigo, descricao, numero_alunos, codigo_curso, descricao_curso from StudentsClasses";
                 Keys.ClassStudents turma;
                 try {
                     ResultSet rs = smt.executeQuery(sql);
@@ -1375,6 +1375,34 @@ public class DataBase {
             if (smt != null) {
                 try {
                     String sql = "select id_disciplina, descricao, codigo from Subjects where id_disciplina in (select id_disciplina from Rel_classrooms_subjects where codigo_sala = '" + mat.getCodeOfMaterial() + "');";
+                    ResultSet rs = smt.executeQuery(sql);
+                    Keys.Subject disciplina;
+                    while (rs.next()) {
+                        disciplina = new Keys.Subject(rs.getInt("id_disciplina"), rs.getString("descricao"), rs.getString("codigo"));
+                        disciplinas.add(disciplina);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return disciplinas;
+    }
+    
+    
+     public java.util.List<Keys.Subject> getSubjectsAll() {
+        java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql = "select id_disciplina, descricao, codigo from Subjects;";
                     ResultSet rs = smt.executeQuery(sql);
                     Keys.Subject disciplina;
                     while (rs.next()) {

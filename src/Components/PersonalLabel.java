@@ -8,7 +8,6 @@ package Components;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.BorderFactory;
 

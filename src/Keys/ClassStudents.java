@@ -118,6 +118,11 @@ public class ClassStudents implements Comparable<ClassStudents> {
     public void setDegree(String curso) {
         this.curso = curso;
     }
+    
+    @Override
+    public String toString(){
+        return this.designacao;
+    }
 
 
     @Override

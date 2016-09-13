@@ -42,6 +42,15 @@ public class PopUpMenu extends JPopupMenu {
         this.item = item;
     }
 
+    public PopUpMenu(String[] titulos) {
+        int i = 0;
+        item = new JMenuItem[titulos.length];
+        while (i < titulos.length) {
+            item[i] = new JMenuItem(titulos[i]);
+            i++;
+        }
+    }
+
     public PopUpMenu(String[] titulos, ActionListener[] act) {
         int i = 0;
         item = new JMenuItem[titulos.length];

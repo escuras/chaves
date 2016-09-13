@@ -89,4 +89,9 @@ public class Subject implements Comparable<Subject> {
         return val;
     }
     
+    @Override
+    public String toString(){
+        return this.getName();
+    }
+    
 }
