@@ -10,7 +10,7 @@ package Keys;
  *
  * @author toze
  */
-public class Function {
+public class Function implements Comparable<Function> {
     private String descricao;
     private int id;
     private int privilegio;
@@ -87,6 +87,22 @@ public class Function {
     public void setPrivilege(int privilegio) {
         this.privilegio = privilegio;
     }
+    
+    @Override
+    public String toString(){
+        return this.getName();
+    }
+
+    @Override
+    public int compareTo(Function o) {
+        int val = this.getName().compareTo(o.getName());
+        if (val == 0) {
+            val = this.getId() - o.getId();
+        }
+        return val;
+    }
+    
+    
 }
 
 

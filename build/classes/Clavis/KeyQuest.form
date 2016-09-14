@@ -90,10 +90,10 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabelListaFeriadosDefeito" pref="34" max="32767" attributes="0"/>
-                          <Component id="jLabelListaFeriadosEscolhidos" max="32767" attributes="0"/>
+                          <Component id="jLabelListaFeriadosDefeito" pref="30" max="32767" attributes="0"/>
+                          <Component id="jLabelListaFeriadosEscolhidos" pref="30" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -128,7 +128,7 @@
                           </Group>
                           <Component id="jPanelListaFeriadosEscolhidos" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="82" max="32767" attributes="0"/>
+                      <EmptySpace pref="80" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -136,18 +136,18 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelListaFeriadosDefeito">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fa" green="fa" red="fa" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Lista de feriados fixos por defeito: "/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
-                    <Property name="cornerSize" type="int" value="6"/>
-                    <Property name="shadowSize" type="int" value="3"/>
-                    <Property name="showRightShadow" type="boolean" value="false"/>
-                  </PropertyBean>
+                  <Border info="null"/>
                 </Property>
+                <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelListaFeriadosDefeito.setText(lingua.translate(&quot;Lista_feriados_por_defeito&quot;));"/>
@@ -279,18 +279,18 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabelListaFeriadosEscolhidos">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fa" green="fa" red="fa" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Lista de feriados fixos por defeito: "/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
-                    <Property name="cornerSize" type="int" value="6"/>
-                    <Property name="shadowSize" type="int" value="3"/>
-                    <Property name="showRightShadow" type="boolean" value="false"/>
-                  </PropertyBean>
+                  <Border info="null"/>
                 </Property>
+                <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelListaFeriadosEscolhidos.setText(lingua.translate(&quot;Lista_feriados_escolhidos&quot;));"/>
@@ -558,9 +558,9 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="45" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jLabelDefBreaksInicio" min="-2" pref="25" max="-2" attributes="0"/>
@@ -604,7 +604,7 @@
                           </Group>
                           <Component id="jPanel2" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="28" max="32767" attributes="0"/>
+                      <EmptySpace pref="37" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButtonDefBreakApagar" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jButtonDefBreaksVoltar" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
@@ -696,18 +696,18 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fa" green="fa" red="fa" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Adicionar per&#xed;odos:"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <PropertyBean type="org.jdesktop.swingx.border.DropShadowBorder">
-                    <Property name="cornerSize" type="int" value="6"/>
-                    <Property name="shadowSize" type="int" value="3"/>
-                    <Property name="showRightShadow" type="boolean" value="false"/>
-                  </PropertyBean>
+                  <Border info="null"/>
                 </Property>
+                <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;Adicionar_periodos&quot;));"/>
@@ -2785,9 +2785,7 @@
               <StringArray count="0"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder/>
-              </Border>
+              <Border info="null"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2813,6 +2811,9 @@
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2871,6 +2872,9 @@
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

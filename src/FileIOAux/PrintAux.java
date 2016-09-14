@@ -224,8 +224,8 @@ public class PrintAux {
                 p[il] = servicos.get(il).getName();
             }
             javax.swing.JComboBox<String> comboimpressoras = new javax.swing.JComboBox<>(p);
-            comboimpressoras.setPreferredSize(new Dimension(140, 26));
-            comboimpressoras.setBounds(210, 60, 180, 26);
+            comboimpressoras.setPreferredSize(new Dimension(140, 28));
+            comboimpressoras.setBounds(210, 60, 180,28);
             ((javax.swing.JLabel) comboimpressoras.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
             BasicComboPopup popupVista = (BasicComboPopup) comboimpressoras.getAccessibleContext().getAccessibleChild(0);
             popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
@@ -286,10 +286,9 @@ public class PrintAux {
             editor2.getModel().setValue(1);
             editor2.getModel().setStepSize(1);
             editor2.getTextField().setSelectionColor(Color.DARK_GRAY);
-            spincopias.setPreferredSize(new Dimension(140, 30));
+            spincopias.setPreferredSize(new Dimension(140, 28));
             editor2.getTextField().setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-            spincopias.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-            spincopias.setBounds(210, 110, 180, 30);
+            spincopias.setBounds(210, 110, 180, 28);
             if (!ativo[0]) {
                 spincopias.setEnabled(false);
             }
@@ -315,9 +314,8 @@ public class PrintAux {
             editormax.getModel().setMinimum(1);
             editormax.getModel().setStepSize(1);
             editormax.getTextField().setSelectionColor(Color.DARK_GRAY);
-            spinmax.setPreferredSize(new Dimension(80, 30));
-            spinmax.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-            spinmax.setBounds(310, 160, 80, 30);
+            spinmax.setPreferredSize(new Dimension(80, 28));
+            spinmax.setBounds(310, 160, 80, 28);
             if (!ativo[1]) {
                 spinmax.setEnabled(false);
             }
@@ -340,9 +338,8 @@ public class PrintAux {
             editormin.getModel().setMinimum(1);
             editormin.getModel().setStepSize(1);
             editormin.getTextField().setSelectionColor(Color.DARK_GRAY);
-            spinmin.setPreferredSize(new Dimension(80, 30));
-            spinmin.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-            spinmin.setBounds(210, 160, 80, 30);
+            spinmin.setPreferredSize(new Dimension(80, 28));
+            spinmin.setBounds(210, 160, 80, 28);
             if (!ativo[1]) {
                 spinmin.setEnabled(false);
             }
@@ -375,8 +372,8 @@ public class PrintAux {
             panel.add(label3);
         }
         javax.swing.JComboBox<Object> combosides = new javax.swing.JComboBox<>(vals.toArray());
-        combosides.setPreferredSize(new Dimension(140, 26));
-        combosides.setBounds(210, 210, 180, 26);
+        combosides.setPreferredSize(new Dimension(140, 28));
+        combosides.setBounds(210, 210, 180, 28);
         combosides.setBackground(new Color(213, 213, 213));
         combosides.setFocusable(false);
         ((javax.swing.JLabel) combosides.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -395,8 +392,8 @@ public class PrintAux {
         vals.add(lingua.translate("alta"));
         if (criacao) {
             javax.swing.JLabel label4 = new javax.swing.JLabel(lingua.translate("Qualidade da impressão") + ": ");
-            label4.setPreferredSize(new java.awt.Dimension(160, 26));
-            label4.setBounds(10, 260, 200, 26);
+            label4.setPreferredSize(new java.awt.Dimension(160, 28));
+            label4.setBounds(10, 260, 200, 28);
             panel.add(label4);
         }
         javax.swing.JComboBox<Object> comboqualidade = new javax.swing.JComboBox<>(vals.toArray());
@@ -406,8 +403,8 @@ public class PrintAux {
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         comboqualidade.setBackground(new Color(213, 213, 213));
         comboqualidade.setFocusable(false);
-        comboqualidade.setPreferredSize(new Dimension(140, 26));
-        comboqualidade.setBounds(210, 260, 180, 26);
+        comboqualidade.setPreferredSize(new Dimension(140, 28));
+        comboqualidade.setBounds(210, 260, 180, 28);
         if (!ativo[3]) {
             comboqualidade.setEnabled(false);
         }
@@ -440,8 +437,8 @@ public class PrintAux {
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         combocores.setBackground(new Color(213, 213, 213));
         combocores.setFocusable(false);
-        combocores.setPreferredSize(new Dimension(140, 26));
-        combocores.setBounds(210, 310, 180, 26);
+        combocores.setPreferredSize(new Dimension(140, 28));
+        combocores.setBounds(210, 310, 180, 28);
         if (!ativo[4]) {
             comboqualidade.setEnabled(false);
         }

@@ -105,12 +105,12 @@
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jXDatePickerInicio" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jXDatePickerFim" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="jXDatePickerInicio" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="jXDatePickerFim" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="jComboBoxEstado" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="368" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="465" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jButtonImprimir" min="-2" pref="40" max="-2" attributes="0"/>
@@ -393,18 +393,7 @@
               <StringArray count="0"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
-                <CompoundBorder>
-                  <PropertyBean PropertyName="outside" type="org.jdesktop.swingx.border.DropShadowBorder">
-                    <Property name="cornerSize" value="6"/>
-                    <Property name="shadowSize" value="3"/>
-                    <Property name="showRightShadow" value="false"/>
-                  </PropertyBean>
-                  <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                    <EmptyBorder bottom="1" left="1" right="1" top="0"/>
-                  </Border>
-                </CompoundBorder>
-              </Border>
+              <Border info="null"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -418,7 +407,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxEstadoActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;Todos&quot;), lingua.translate(&quot;terminado&quot;), lingua.translate(&quot;em curso&quot;), lingua.translate(&quot;substitu&#xed;do&quot;), lingua.translate(&quot;atrasado&quot;), lingua.translate(&quot;n&#xe3;o realizado&quot;),lingua.translate(&quot;por realizar&quot;) }));&#xa;Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);&#xa;((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { lingua.translate(&quot;todos&quot;), lingua.translate(&quot;terminado&quot;), lingua.translate(&quot;n&#xe3;o realizado&quot;),lingua.translate(&quot;por realizar&quot;) }));&#xa;Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);&#xa;((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

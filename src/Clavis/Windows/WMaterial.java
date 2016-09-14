@@ -240,8 +240,6 @@ public class WMaterial extends javax.swing.JDialog {
         editor.getModel().setMinimum(0);
         editor.getModel().setValue(0);
         editor.getModel().setStepSize(1);
-        sppinerquantidade.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-        sppinerquantidade.setBackground(new Color(213, 213, 213));
         checkatualizado = new javax.swing.JCheckBox();
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{mat.getTypeOfMaterial().getTypeOfMaterialName() + " " + mat.getDescription()});
 
@@ -257,11 +255,12 @@ public class WMaterial extends javax.swing.JDialog {
         JPanel jpaneltitulodireita = new javax.swing.JPanel(null);
         jpaneltitulodireita.setPreferredSize(new java.awt.Dimension(284, 40));
         javax.swing.JLabel labeltitulodireita = new javax.swing.JLabel(lingua.translate("Painéis de edição"));
-        labeltitulodireita.setPreferredSize(new Dimension(285, 40));
+        labeltitulodireita.setPreferredSize(new Dimension(285, 30));
         labeltitulodireita.setFont(new Font("Cantarell", Font.PLAIN, 14));
-        labeltitulodireita.setBounds(0, 0, 284, 40);
+        labeltitulodireita.setBounds(0, 0, 284, 30);
         labeltitulodireita.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        labeltitulodireita.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, false));
+        labeltitulodireita.setOpaque(true);
+        labeltitulodireita.setBackground(new Color(250,250,250));
         jpaneltitulodireita.add(labeltitulodireita);
         // adicionar carateristicas e software
         JPanel jpaneldireitacima = new javax.swing.JPanel(null);
@@ -465,12 +464,12 @@ public class WMaterial extends javax.swing.JDialog {
                         if (modelo.getElementAt(i) != null) {
                             String mov = va;
                             String mov2 = modelo.getElementAt(i).toString();
-                            mov = mov.replaceAll("áàãäâ", "a");
-                            mov = mov.replaceAll("íìîĩï", "i");
-                            mov = mov.replaceAll("éèêẽë", "e");
-                            mov = mov.replaceAll("úùũüû", "u");
-                            mov = mov.replaceAll("óòôõö", "o");
-                            mov = mov.replaceAll("ñ", "n");
+                            mov = mov.replaceAll("[áàãäâ]", "a");
+                            mov = mov.replaceAll("[íìîĩï]", "i");
+                            mov = mov.replaceAll("[éèêẽë]", "e");
+                            mov = mov.replaceAll("[úùũüû]", "u");
+                            mov = mov.replaceAll("[óòôõö]", "o");
+                            mov = mov.replaceAll("[ñ]", "n");
                             mov2 = mov2.replaceAll("[áàãäâ]", "a");
                             mov2 = mov2.replaceAll("[íìîĩï]", "i");
                             mov2 = mov2.replaceAll("[éèêẽë]", "e");
@@ -607,7 +606,7 @@ public class WMaterial extends javax.swing.JDialog {
 
                         Components.PersonalTextField tdescricao = new Components.PersonalTextField();
                         tdescricao.setPreferredSize(new Dimension(240, 30));
-                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                         tdescricao.setBounds(120, 0, 240, 30);
                         panel.add(tdescricao);
                         javax.swing.JLabel lmedida = new javax.swing.JLabel(lingua.translate("Medida") + ": ");
@@ -619,7 +618,7 @@ public class WMaterial extends javax.swing.JDialog {
                         Components.PersonalTextField tmedida = new Components.PersonalTextField();
                         tmedida.setPreferredSize(new Dimension(240, 30));
                         tmedida.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tmedida, true));
-                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                         tmedida.setBounds(120, 40, 240, 30);
                         panel.add(tmedida);
 
@@ -678,7 +677,7 @@ public class WMaterial extends javax.swing.JDialog {
 
                         Components.PersonalTextField tdescricao = new Components.PersonalTextField();
                         tdescricao.setPreferredSize(new Dimension(240, 32));
-                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tdescricao.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                         tdescricao.setBounds(120, 0, 240, 30);
                         tdescricao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tdescricao, true));
                         panel.add(tdescricao);
@@ -690,7 +689,7 @@ public class WMaterial extends javax.swing.JDialog {
 
                         Components.PersonalTextField tmedida = new Components.PersonalTextField();
                         tmedida.setPreferredSize(new Dimension(240, 32));
-                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tmedida.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                         tmedida.setBounds(120, 40, 240, 30);
                         tmedida.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tmedida, true));
                         panel.add(tmedida);
@@ -704,7 +703,7 @@ public class WMaterial extends javax.swing.JDialog {
                         tempresa.setPreferredSize(new Dimension(240, 32));
                         tempresa.setSelectionColor(Color.DARK_GRAY);
                         tempresa.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tempresa, true));
-                        tempresa.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                        tempresa.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                         tempresa.setBounds(120, 80, 240, 30);
                         panel.add(tempresa);
 
@@ -723,7 +722,6 @@ public class WMaterial extends javax.swing.JDialog {
                         editor2.getModel().setStepSize(1);
                         editor2.getTextField().setSelectionColor(Color.DARK_GRAY);
                         sano.setPreferredSize(new Dimension(120, 30));
-                        sano.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
                         sano.setBounds(120, 120, 100, 30);
                         panel.add(sano);
                         sano.setToolTipText(lingua.translate("Ano de lançamento"));
@@ -1372,8 +1370,8 @@ public class WMaterial extends javax.swing.JDialog {
                 label.setPreferredSize(new Dimension(135, 26));
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
                 label.setBounds(0, 0, 105, 26);
-                sppinerquantidade.setPreferredSize(new Dimension(110, 30));
-                sppinerquantidade.setBounds(111, 0, 142, 32);
+                sppinerquantidade.setPreferredSize(new Dimension(110, 28));
+                sppinerquantidade.setBounds(111, 0, 142, 28);
                 sppinerquantidade.setFocusable(false);
                 panel.add(label);
                 panel.add(sppinerquantidade);
@@ -1613,24 +1611,24 @@ public class WMaterial extends javax.swing.JDialog {
 
                     tdescricaoeditar.addPlaceHolder(lingua.translate("Nome do programa"), null);
                     tdescricaoeditar.setToolTipText(lingua.translate("Nome do programa"));
-                    tdescricaoeditar.setPreferredSize(new Dimension(200, 26));
-                    tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tdescricaoeditar.setBounds(25, 55, 238, 26);
+                    tdescricaoeditar.setPreferredSize(new Dimension(200, 28));
+                    tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tdescricaoeditar.setBounds(25, 55, 238, 28);
                     panel.add(tdescricaoeditar);
 
                     tversaoeditar.addPlaceHolder(lingua.translate("Versão de software"), null);
                     tversaoeditar.setToolTipText(lingua.translate("Versão de software"));
-                    tversaoeditar.setPreferredSize(new Dimension(200, 26));
-                    tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tversaoeditar.setBounds(25, 85, 238, 26);
+                    tversaoeditar.setPreferredSize(new Dimension(200, 28));
+                    tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tversaoeditar.setBounds(25, 85, 238, 28);
                     panel.add(tversaoeditar);
 
                     tempresaeditar.addPlaceHolder(lingua.translate("Empresa proprietária"), null);
                     tempresaeditar.setToolTipText(lingua.translate("Empresa proprietária"));
-                    tempresaeditar.setPreferredSize(new Dimension(200, 26));
+                    tempresaeditar.setPreferredSize(new Dimension(200, 28));
                     tempresaeditar.setSelectionColor(Color.DARK_GRAY);
-                    tempresaeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tempresaeditar.setBounds(25, 115, 238, 26);
+                    tempresaeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tempresaeditar.setBounds(25, 115, 238, 28);
                     panel.add(tempresaeditar);
 
                     // spinner ano
@@ -1643,9 +1641,8 @@ public class WMaterial extends javax.swing.JDialog {
                     editor.getModel().setStepSize(1);
                     editor.getTextField().setSelectionColor(Color.DARK_GRAY);
                     tanoeditar.setToolTipText(lingua.translate("Ano de lançamento"));
-                    tanoeditar.setPreferredSize(new Dimension(100, 30));
-                    tanoeditar.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-                    tanoeditar.setBounds(115, 145, 148, 30);
+                    tanoeditar.setPreferredSize(new Dimension(100, 28));
+                    tanoeditar.setBounds(115, 145, 148, 28);
                     panel.add(tanoeditar);
 
                     //
@@ -1665,8 +1662,8 @@ public class WMaterial extends javax.swing.JDialog {
                     tatualizadoeditar.setText(lingua.translate("Atualizado") + ":");
                     tatualizadoeditar.setHorizontalTextPosition(SwingConstants.LEFT);
                     tatualizadoeditar.setHorizontalAlignment(SwingConstants.RIGHT);
-                    tatualizadoeditar.setPreferredSize(new Dimension(200, 26));
-                    tatualizadoeditar.setBounds(25, 175, 235, 26);
+                    tatualizadoeditar.setPreferredSize(new Dimension(200, 28));
+                    tatualizadoeditar.setBounds(25, 175, 235, 28);
                     panel.add(tatualizadoeditar);
 
                 }
@@ -1749,9 +1746,9 @@ public class WMaterial extends javax.swing.JDialog {
 
                     labeldisciplina.setToolTipText(lingua.translate("Nome da disciplina"));
                     labeldisciplina.setText(lingua.translate("Nome da disciplina"));
-                    labeldisciplina.setPreferredSize(new Dimension(200, 26));
-                    labeldisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    labeldisciplina.setBounds(25, 85, 238, 26);
+                    labeldisciplina.setPreferredSize(new Dimension(200, 28));
+                    labeldisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    labeldisciplina.setBounds(25, 85, 238, 28);
                     labeldisciplina.setBackground(new Color(214, 217, 223));
                     labeldisciplina.setForeground(new Color(142, 143, 145));
                     labeldisciplina.setOpaque(true);
@@ -1759,9 +1756,9 @@ public class WMaterial extends javax.swing.JDialog {
 
                     labelcodigodisciplina.setToolTipText(lingua.translate("Código da disciplina"));
                     labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
-                    labelcodigodisciplina.setPreferredSize(new Dimension(200, 26));
-                    labelcodigodisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    labelcodigodisciplina.setBounds(25, 115, 238, 26);
+                    labelcodigodisciplina.setPreferredSize(new Dimension(200, 28));
+                    labelcodigodisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    labelcodigodisciplina.setBounds(25, 115, 238, 28);
                     labelcodigodisciplina.setBackground(new Color(214, 217, 223));
                     labelcodigodisciplina.setForeground(new Color(142, 143, 145));
                     labelcodigodisciplina.setOpaque(true);
@@ -1938,17 +1935,17 @@ public class WMaterial extends javax.swing.JDialog {
 
                     tdescricaoeditar.addPlaceHolder(lingua.translate("Nome da caraterística"), null);
                     tdescricaoeditar.setToolTipText(lingua.translate("Nome da caraterística"));
-                    tdescricaoeditar.setPreferredSize(new Dimension(200, 26));
-                    tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tdescricaoeditar.setBounds(25, 85, 238, 26);
+                    tdescricaoeditar.setPreferredSize(new Dimension(200, 28));
+                    tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tdescricaoeditar.setBounds(25, 85, 238, 28);
                     tdescricaoeditar.setSelectionColor(Color.DARK_GRAY);
                     panel.add(tdescricaoeditar);
 
                     tversaoeditar.addPlaceHolder(lingua.translate("Medida de valor"), null);
                     tversaoeditar.setToolTipText(lingua.translate("Medida de valor"));
-                    tversaoeditar.setPreferredSize(new Dimension(200, 26));
-                    tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
-                    tversaoeditar.setBounds(25, 115, 238, 26);
+                    tversaoeditar.setPreferredSize(new Dimension(200, 28));
+                    tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
+                    tversaoeditar.setBounds(25, 115, 238, 28);
                     tversaoeditar.setSelectionColor(Color.DARK_GRAY);
                     panel.add(tversaoeditar);
 
@@ -1962,9 +1959,8 @@ public class WMaterial extends javax.swing.JDialog {
                     editor.getTextField().setSelectionColor(Color.DARK_GRAY);
                     tquantidadeeditar.setToolTipText(lingua.translate("Quantidade da associação"));
 
-                    tquantidadeeditar.setPreferredSize(new Dimension(100, 30));
-                    tquantidadeeditar.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK)));
-                    tquantidadeeditar.setBounds(115, 145, 148, 30);
+                    tquantidadeeditar.setPreferredSize(new Dimension(100, 28));
+                    tquantidadeeditar.setBounds(115, 145, 148, 28);
                     panel.add(tquantidadeeditar);
 
                     //

@@ -242,12 +242,12 @@ public class PersonalCombo {
                             if (modelo.getElementAt(i) != null) {
                                 String mov = va;
                                 String mov2 = modelo.getElementAt(i).toString();
-                                mov = mov.replaceAll("áàãäâ", "a");
-                                mov = mov.replaceAll("íìîĩï", "i");
-                                mov = mov.replaceAll("éèêẽë", "e");
-                                mov = mov.replaceAll("úùũüû", "u");
-                                mov = mov.replaceAll("óòôõö", "o");
-                                mov = mov.replaceAll("ñ", "n");
+                                mov = mov.replaceAll("[áàãäâ]", "a");
+                                mov = mov.replaceAll("[íìîĩï]", "i");
+                                mov = mov.replaceAll("[éèêẽë]", "e");
+                                mov = mov.replaceAll("[úùũüû]", "u");
+                                mov = mov.replaceAll("[óòôõö]", "o");
+                                mov = mov.replaceAll("[ñ]", "n");
                                 mov2 = mov2.replaceAll("[áàãäâ]", "a");
                                 mov2 = mov2.replaceAll("[íìîĩï]", "i");
                                 mov2 = mov2.replaceAll("[éèêẽë]", "e");
@@ -457,6 +457,12 @@ public class PersonalCombo {
     
     public javax.swing.JComponent getComponentFocus(){
         return perdefocus;
+    }
+    
+     public static void setHorizontalTextPosition(int posicaotexto, javax.swing.JComboBox pos) {
+        javax.swing.JTextField fil = (javax.swing.JTextField) pos.getEditor().getEditorComponent();
+        fil.setHorizontalAlignment(posicaotexto);
+        ((javax.swing.JLabel) pos.getRenderer()).setHorizontalAlignment(posicaotexto);
     }
 
 }

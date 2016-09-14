@@ -196,15 +196,19 @@ public class PopUpMenu extends JPopupMenu {
                     if (texto.getSelectedText() == null) {
                         String inicio = texto.getText().substring(0, pos);
                         String fim = texto.getText().substring(pos, tamanho);
+                        int tam = colarl.length();
                         colarl = inicio + colarl + fim;
                         texto.setText(colarl);
+                        texto.setCaretPosition(pos+tam);
                     } else {
                         pos = texto.getSelectionStart();
                         int posseguinte = texto.getSelectionEnd();
                         String inicio = texto.getText().substring(0, pos);
                         String fim = texto.getText().substring(posseguinte, tamanho);
+                        int tam = colarl.length();
                         colarl = inicio + colarl + fim;
                         texto.setText(colarl);
+                        texto.setCaretPosition(pos+tam);
                     }
                 } catch (UnsupportedFlavorException | IOException eo) {
                 }
@@ -213,7 +217,7 @@ public class PopUpMenu extends JPopupMenu {
         itens[1].addActionListener(list);
         itens[1].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
         itens[0].addActionListener(list2);
-        itens[0].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
+        itens[0].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK));
         PopUpMenu menu = new PopUpMenu(itens);
         menu.setFocusable(focus);
         menu.create();

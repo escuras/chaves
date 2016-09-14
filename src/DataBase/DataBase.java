@@ -559,7 +559,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "Select * from Functions;";
+                String sql = "Select * from Functions order by privilegio, id_funcao, descricao;";
                 Keys.Function funcao;
                 try {
                     ResultSet rs = smt.executeQuery(sql);

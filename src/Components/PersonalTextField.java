@@ -6,6 +6,7 @@
 package Components;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -18,8 +19,9 @@ import javax.swing.JTextField;
  */
 public class PersonalTextField extends JTextField {
 
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
     public static final Color DEFAULT_PLACEHOLDER_COLOR = new Color(205, 205, 205);
+    public String DEFAULT_TEXT_PLACEHOLDER = "Introduza o valor ...";
     private Color cor;
     private String placeholder;
     private boolean condicao;
@@ -33,12 +35,15 @@ public class PersonalTextField extends JTextField {
         super();
         cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
+        this.placeholder = DEFAULT_TEXT_PLACEHOLDER;
     }
 
     public PersonalTextField(String texto) {
         super();
         cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
+        this.placeholder = texto;
+        
     }
 
     public void addPlaceHolder(String texto, javax.swing.JComponent bt) {
@@ -47,7 +52,7 @@ public class PersonalTextField extends JTextField {
         this.componentedesaida = bt;
         setPlaceHolderText(texto);
         super.setText(texto);
-
+        this.setSelectionColor(new Color(50,50,50));
         focus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -82,10 +87,9 @@ public class PersonalTextField extends JTextField {
         };
         this.addKeyListener(keyevent);
     }
-    
-    
+
     @Override
-    public void setText(String text){
+    public void setText(String text) {
         setForeground(corauxiliar);
         super.setText(text);
     }
@@ -99,14 +103,103 @@ public class PersonalTextField extends JTextField {
         }
         condicao = true;
     }
+    
+    private void putText(String texto){
+        super.setText(texto);
+    }
 
     public void startPlaceHolder() {
-        if (focus != null) {
-            this.addFocusListener(focus);
-        }
-        if (keyevent != null) {
-            this.addKeyListener(keyevent);
-        }
+        focus = new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                getText();
+                if (textocondicional.equals(placeholder)) {
+                    setForeground(corauxiliar);
+                    setText("");
+                }
+                condicao = true;
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                getText();
+                if (textocondicional.equals("")) {
+                    showPLaceHolder();
+                } else {
+                    condicao = true;
+                }
+            }
+        };
+        this.addFocusListener(focus);
+
+        keyevent = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    if (componentedesaida != null) {
+                        componentedesaida.requestFocus();
+                    }
+                }
+            }
+        };
+        this.addKeyListener(keyevent);
+    }
+
+    public void showWithCondition(String only, boolean cond) {
+        this.stopPlaceHolder();
+        setForeground(cor);
+        super.setText(only);
+        condicao = false;
+        focus = new FocusListener() {
+            int i = 0;
+            String passa;
+            @Override
+            public void focusGained(FocusEvent e) {
+                getText();
+                if (cond) {
+                    passa = only;
+                    i++;
+                } else {
+                    passa = placeholder;
+                    i++;
+                }
+                if (textocondicional.equals(passa)) {
+                    setForeground(corauxiliar);
+                    setText("");
+                }
+                condicao = true;
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                getText();
+                if (textocondicional.equals("")) {
+                    setForeground(cor);
+                    putText(passa);
+                    condicao = false;
+                } else {
+                    condicao = true;
+                }
+            }
+        };
+        this.addFocusListener(focus);
+
+        keyevent = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    if (componentedesaida != null) {
+                        componentedesaida.requestFocus();
+                    }
+                }
+            }
+        };
+        this.addKeyListener(keyevent);
+    }
+    
+    public void restartPlaceHolder(){
+        this.stopPlaceHolder();
+        this.startPlaceHolder();
     }
 
     public Color getPlaceHolderColor() {
@@ -132,8 +225,7 @@ public class PersonalTextField extends JTextField {
     public javax.swing.JComponent getLostCenterComponent() {
         return this.componentedesaida;
     }
-    
-   
+
     @Override
     public String getText() {
         textocondicional = super.getText();
@@ -147,11 +239,19 @@ public class PersonalTextField extends JTextField {
     public void showPLaceHolder() {
         setForeground(cor);
         super.setText(placeholder);
+        componentedesaida.requestFocus();
         condicao = false;
     }
 
     public boolean isPlaceHolderSet() {
         return !condicao;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 4, 4);
+        super.paintComponent(g);
     }
 
 }

@@ -316,11 +316,7 @@ public class WShedule extends JDialog {
         });
 
         jComboBoxEstado.setBackground(new java.awt.Color(213, 213, 213));
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder4.setCornerSize(6);
-        dropShadowBorder4.setShadowSize(3);
-        dropShadowBorder4.setShowRightShadow(false);
-        jComboBoxEstado.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createEmptyBorder(0, 1, 1, 1)));
+        jComboBoxEstado.setBorder(null);
         jComboBoxEstado.setFocusable(false);
         jComboBoxEstado.setMinimumSize(new java.awt.Dimension(35, 22));
         jComboBoxEstado.setPreferredSize(new java.awt.Dimension(125, 28));
@@ -396,11 +392,11 @@ public class WShedule extends JDialog {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePickerInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePickerFim, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -472,7 +468,7 @@ public class WShedule extends JDialog {
         } catch(IOException eo) {}
 
         jButtonImprimir.setToolTipText(lingua.translate("Imprimir"));
-        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("Todos"), lingua.translate("terminado"), lingua.translate("em curso"), lingua.translate("substituído"), lingua.translate("atrasado"), lingua.translate("não realizado"),lingua.translate("por realizar") }));
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { lingua.translate("todos"), lingua.translate("terminado"), lingua.translate("não realizado"),lingua.translate("por realizar") }));
         Clavis.KeyQuest.addVisualComboBox(jComboBoxEstado);
         ((javax.swing.JLabel)jComboBoxEstado.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
         jLabel3.setText(lingua.translate("Estado"));
@@ -1375,162 +1371,6 @@ public class WShedule extends JDialog {
                 }
                 break;
             case 2:
-                estado = lingua.translate("em curso");
-                for (Keys.Request req : requisicoes) {
-                    if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) < 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) < 0)))) {
-                        String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
-                        if (multipla.length > 1) {
-                            saux = multipla[0];
-                            Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
-                            pop.create();
-                            jTable1.addMouseListener(new MouseAdapter() {
-                                int x = andamento;
-                                int y = 3;
-
-                                @Override
-                                public void mousePressed(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        int row = jTable1.rowAtPoint(e.getPoint());
-                                        int col = jTable1.columnAtPoint(e.getPoint());
-                                        if ((row == x) && (col == y)) {
-                                            pop.show(e.getComponent(), e.getX(), e.getY());
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void mouseReleased(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        if (pop.isShowing()) {
-                                            pop.setVisible(false);
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            saux = req.getActivity();
-                        }
-                        if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
-                        }
-                        if (mat.getMaterialTypeID() == 1) {
-                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
-                            modelo.addRow(ob);
-                        } else {
-                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), req.getEndDate().toString(), saux};
-                            modelo.addRow(ob);
-                        }
-                        lista.add(req);
-                        andamento++;
-                    }
-                }
-                break;
-            case 3:
-                estado = lingua.translate("substituído");
-                for (Keys.Request req : requisicoes) {
-                    if (req.getSubstitute() > 0) {
-                        String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
-                        if (multipla.length > 1) {
-                            saux = multipla[0];
-                            Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
-                            pop.create();
-                            jTable1.addMouseListener(new MouseAdapter() {
-                                int x = andamento;
-                                int y = 3;
-
-                                @Override
-                                public void mousePressed(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        int row = jTable1.rowAtPoint(e.getPoint());
-                                        int col = jTable1.columnAtPoint(e.getPoint());
-                                        if ((row == x) && (col == y)) {
-                                            pop.show(e.getComponent(), e.getX(), e.getY());
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void mouseReleased(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        if (pop.isShowing()) {
-                                            pop.setVisible(false);
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            saux = req.getActivity();
-                        }
-                        if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
-                        }
-                        if (mat.getMaterialTypeID() == 1) {
-                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
-                            modelo.addRow(ob);
-                        } else {
-                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), req.getEndDate().toString(), saux};
-                            modelo.addRow(ob);
-                        }
-                        lista.add(req);
-                        andamento++;
-                    }
-                }
-                break;
-            case 4:
-                estado = lingua.translate("atrasado");
-                for (Keys.Request req : requisicoes) {
-                    if ((req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
-                        String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
-                        if (multipla.length > 1) {
-                            saux = multipla[0];
-                            Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
-                            pop.create();
-                            jTable1.addMouseListener(new MouseAdapter() {
-                                int x = andamento;
-                                int y = 3;
-
-                                @Override
-                                public void mousePressed(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        int row = jTable1.rowAtPoint(e.getPoint());
-                                        int col = jTable1.columnAtPoint(e.getPoint());
-                                        if ((row == x) && (col == y)) {
-                                            pop.show(e.getComponent(), e.getX(), e.getY());
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void mouseReleased(MouseEvent e) {
-                                    if (e.getButton() == MouseEvent.BUTTON1) {
-                                        if (pop.isShowing()) {
-                                            pop.setVisible(false);
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            saux = req.getActivity();
-                        }
-                        if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
-                        }
-                        if (mat.getMaterialTypeID() == 1) {
-                            Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
-                            modelo.addRow(ob);
-                        } else {
-                            Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), req.getEndDate().toString(), saux};
-                            modelo.addRow(ob);
-                        }
-                        lista.add(req);
-                        andamento++;
-                    }
-                }
-                break;
-            case 5:
                 estado = lingua.translate("não realizado");
                 for (Keys.Request req : requisicoes) {
                     if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
@@ -1582,7 +1422,7 @@ public class WShedule extends JDialog {
                     }
                 }
                 break;
-            case 6:
+            case 3:
                 estado = lingua.translate("por realizar");
                 for (Keys.Request req : requisicoes) {
                     if ((!req.isActive()) && (!req.isTerminated()) && ((req.getEndDate().isBigger(new TimeDate.Date()) < 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) < 0)))) {
