@@ -274,7 +274,8 @@ public class DataBase {
         }
     }
 
-    public boolean insertPerson(Keys.Person pessoa) {
+    public int insertPerson(Keys.Person pessoa) {
+        System.out.println(this.isTie());
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -282,13 +283,30 @@ public class DataBase {
             String identificacao = pessoa.getIdentification();
             String email = pessoa.getEmail();
             String telefone = pessoa.getPhone();
-            String sql = "select count(*) from Persons where identificacao like '" + identificacao + "';";
+            String sql;
+            if ((identificacao.equals("")) && (!email.equals(""))) {
+                sql = "select count(*) from Persons where email = '" + email + "';";
+                identificacao = "sem";
+            } else if ((!identificacao.equals("")) && (email.equals(""))) {
+                sql = "select count(*) from Persons where identificacao = '" + identificacao + "';";
+                email = "sem";
+            } else if ((!identificacao.equals("")) && (!email.equals(""))) {
+                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' or email = '" + email + "';";
+            } else {
+                return 0;
+            }
+            if (telefone.equals("")) {
+                telefone = "sem";
+            }
+            if (nome.equals("")) {
+                return 0;
+            }
             try {
                 con.setAutoCommit(false);
                 smt = con.createStatement();
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                return -4;
             }
             if (smt != null) {
                 ResultSet rs;
@@ -296,10 +314,11 @@ public class DataBase {
                     rs = smt.executeQuery(sql);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                    return false;
+                    return -4;
                 }
                 try {
                     if (rs.next()) {
+                        System.out.println(rs.getInt(1));
                         if (rs.getInt(1) == 0) {
                             sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
                             smt2 = con.createStatement();
@@ -317,50 +336,88 @@ public class DataBase {
                                 smt.execute(sql);
                                 con.commit();
                                 con.setAutoCommit(true);
-                                return true;
+                                return 1;
+                            } else {
+                                return 0;
                             }
+                        } else {
+                            return -1;
                         }
+                    } else {
+                        return -2;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                    return false;
+                    return -3;
                 }
             }
         }
-        return false;
+        return -5;
     }
 
-    public boolean updatePerson(Keys.Person pessoa) {
+    public int updatePerson(Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
+            if (pessoa.getEmail().equals("")) {
+                pessoa.setEmail("sem");
+            }
+            if (pessoa.getPhone().equals("")) {
+                pessoa.setPhone("sem");
+            }
+            if (pessoa.getIdentification().equals("")) {
+                pessoa.setIdentification("sem");
+            }
             String identificacao = pessoa.getIdentification();
             String email = pessoa.getEmail();
             String telefone = pessoa.getPhone();
             String sql;
             if (pessoa.getId() < 0) {
-                sql = "select id_pessoa from Persons where identificacao like '" + identificacao + "';";
+                if ((identificacao.equals("sem")) && (!email.equals("sem"))) {
+                    sql = "select id_pessoa from Persons where email like '" + identificacao + "';";
+                } else if (email.equals("sem")) {
+                    sql = "select id_pessoa from Persons where identificacao like '" + identificacao + "';";
+                } else if ((!identificacao.equals("sem")) && (!email.equals("sem"))) {
+                    sql = "select id_pessoa from Persons where identificacao = '" + identificacao + "' or email = '" + email + "';";
+                } else {
+                    return 0;
+                }
                 try {
                     smt = con.createStatement();
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         pessoa.setId(rs.getInt("id_pessoa"));
+                    } else {
+                        return -1;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                    return false;
+                    return -2;
                 }
             }
+            if ((identificacao.equals("sem")) && (!email.equals("sem"))) {
+                sql = "select count(*) from Persons where email = '" + email + "' and id_pessoa <> "+pessoa.getId()+";";
+                identificacao = "sem";
+            } else if ((!identificacao.equals("sem")) && (email.equals("sem"))) {
+                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' and id_pessoa <> "+pessoa.getId()+";";
+                email = "sem";
+            } else if ((!identificacao.equals("sem")) && (!email.equals("sem"))) {
+                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' or email = '" + email + "' and id_pessoa <> "+pessoa.getId()+";";
+            } else {
+                return 0;
+            }
             try {
-                if (pessoa.getId() >= 0) {
+                smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql); 
+                if (rs.next() && (rs.getInt(1) == 0) && pessoa.getId() >= 0) {
                     sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
                     con.setAutoCommit(false);
                     smt2 = con.createStatement();
-                    smt = con.createStatement();
                     ResultSet rs2 = smt2.executeQuery(sql);
                     if (rs2.next()) {
+                        System.out.println(rs2.getInt("id_funcao"));
                         int privilegio;
-                        if (pessoa.getPrivilege() < 0) {
+                        if (pessoa.getPrivilege() <= 0) {
                             privilegio = rs2.getInt("privilegio");
                         } else {
                             privilegio = pessoa.getPrivilege();
@@ -377,14 +434,19 @@ public class DataBase {
                         smt.executeUpdate(sql);
                         con.commit();
                         con.setAutoCommit(true);
+                        return 1;
+                    } else {
+                        return 0;
                     }
+                } else {
+                    return 0;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                return -2;
             }
         }
-        return true;
+        return -2;
     }
 
     public boolean alterPrivilegeInPerson(Keys.Person pessoa, int valor) {
@@ -1253,15 +1315,15 @@ public class DataBase {
         }
         return false;
     }
-    
-    public void insertRequist(Keys.Material mat, Keys.Person pessoa){
+
+    public void insertRequest(Keys.Material mat, Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
             try {
                 smt = con.createStatement();
-            } catch(SQLException e) {
+            } catch (SQLException e) {
                 smt = null;
-            } 
+            }
             if (smt != null) {
                 String sql = "insert into Requisitions (id_material,"
                         + "id_pessoa, id_atividade, data_inicio"
@@ -1282,9 +1344,13 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                sql = "insert into Subjects (descricao,codigo) values ('" + sub.getName() + "','" + sub.getCode() + "');";
+                sql = "select count(*) from Subjects where descricao like '" + sub.getName() + "' or codigo like '" + sub.getCode() + "';";
                 try {
-                    return (!smt.execute(sql));
+                    ResultSet rs = smt.executeQuery(sql);
+                    if ((rs != null) && (rs.getInt(1) == 0)) {
+                        sql = "insert into Subjects (descricao,codigo) values ('" + sub.getName() + "','" + sub.getCode() + "');";
+                        return (!smt.execute(sql));
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1310,7 +1376,7 @@ public class DataBase {
                 ResultSet rs;
                 boolean cond = false;
                 for (Keys.Subject sub : subs) {
-                    sql = "select count(*) from Subjects where descricao like '" + sub.getName() + "' and codigo like '" + sub.getCode() + "';";
+                    sql = "select count(*) from Subjects where descricao like '" + sub.getName() + "' or codigo like '" + sub.getCode() + "';";
                     if (smt2 != null) {
                         try {
                             rs = smt2.executeQuery(sql);
@@ -1388,9 +1454,8 @@ public class DataBase {
         }
         return disciplinas;
     }
-    
-    
-     public java.util.List<Keys.Subject> getSubjectsAll() {
+
+    public java.util.List<Keys.Subject> getSubjectsAll() {
         java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
         if (this.isTie()) {
             Statement smt;
@@ -4381,7 +4446,7 @@ public class DataBase {
                         smt2 = con.createStatement();
                         rs3 = smt2.executeQuery(sql);
                         passa = false;
-                        TimeDate.Time timdown = new TimeDate.Time(23,59, 59);
+                        TimeDate.Time timdown = new TimeDate.Time(23, 59, 59);
                         TimeDate.Time timtop = new TimeDate.Time(0, 0, 0);
                         TimeDate.Date datatop = new TimeDate.Date(1, 1, 1);
                         TimeDate.Time timauxiliarinicio;
@@ -4445,7 +4510,7 @@ public class DataBase {
                                 }
                                 materiais.add(material);
                             }
-                        } else if ((dat1.isBigger(dat2) == 0) && (timdown.compareTime(new TimeDate.Time(23,59,59)) > 0) && (timtop.isValid())) {
+                        } else if ((dat1.isBigger(dat2) == 0) && (timdown.compareTime(new TimeDate.Time(23, 59, 59)) > 0) && (timtop.isValid())) {
                             if ((timtop.compareTime(tim1) >= 0) || (timdown.compareTime(tim2) <= 0)) {
                                 sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
                                 aux = con.createStatement();
@@ -4465,7 +4530,7 @@ public class DataBase {
                                     materiais.add(material);
                                 }
                             }
-                        } else if ((dat1.isBigger(datatop) == 0)&&(timtop.isValid())) {
+                        } else if ((dat1.isBigger(datatop) == 0) && (timtop.isValid())) {
                             if (timtop.compareTime(tim1) >= 0) {
                                 sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
                                 aux = con.createStatement();

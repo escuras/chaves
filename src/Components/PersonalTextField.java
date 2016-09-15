@@ -83,9 +83,11 @@ public class PersonalTextField extends JTextField {
                         componentedesaida.requestFocus();
                     }
                 }
+             
             }
         };
         this.addKeyListener(keyevent);
+        
     }
 
     @Override
@@ -109,6 +111,7 @@ public class PersonalTextField extends JTextField {
     }
 
     public void startPlaceHolder() {
+        condicao = false;
         focus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -118,6 +121,7 @@ public class PersonalTextField extends JTextField {
                     setText("");
                 }
                 condicao = true;
+                
             }
 
             @Override
@@ -239,7 +243,13 @@ public class PersonalTextField extends JTextField {
     public void showPLaceHolder() {
         setForeground(cor);
         super.setText(placeholder);
-        componentedesaida.requestFocus();
+        condicao = false;
+    }
+    
+    public void showPLaceHolder(javax.swing.JComponent j) {
+        setForeground(cor);
+        super.setText(placeholder);
+        j.requestFocus();
         condicao = false;
     }
 

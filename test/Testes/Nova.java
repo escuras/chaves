@@ -44,6 +44,13 @@ public class Nova extends javax.swing.JFrame{
     }
     public static final void main( String[] args){
       
+        String um = "253456456";
+        
+                if (um.matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))")) {
+                    System.out.println("sim");
+                }else {
+                    System.out.println("nao");
+                }
     }
 }
 

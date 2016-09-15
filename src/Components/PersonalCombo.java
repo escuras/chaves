@@ -89,6 +89,7 @@ public class PersonalCombo {
                         javax.swing.JTextField fil = (javax.swing.JTextField) combo.getEditor().getEditorComponent();
                         fil.setText("");
                     }
+                    fil.grabFocus();
                 }
             }
 
@@ -99,8 +100,8 @@ public class PersonalCombo {
                         javax.swing.JTextField fil = (javax.swing.JTextField) combo.getEditor().getEditorComponent();
                         fil.setCaretColor(java.awt.Color.BLACK);
                         fil.setForeground(java.awt.Color.BLACK);
-                        combo.setSelectedIndex(-1);
                     }
+                    fil.grabFocus();
                 }
             }
         });

@@ -6,21 +6,22 @@
 package Clavis.Windows;
 
 import java.awt.Color;
-import Components.*;
 import Langs.Locale;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -33,7 +34,6 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -49,6 +49,7 @@ public class WUsers extends javax.swing.JFrame {
     private java.util.List<Keys.Function> lfuncoes;
     private java.util.List<Keys.Person> lpessoas;
     private Keys.Person selecionado;
+    private int iselecionado;
     private javax.swing.JFrame frame;
 
     public WUsers(Color corfundo, Color corborda, String url, Locale lingua, boolean superuser, javax.swing.JFrame frame) {
@@ -60,6 +61,7 @@ public class WUsers extends javax.swing.JFrame {
         this.lfuncoes = new java.util.ArrayList<>();
         this.lpessoas = new java.util.ArrayList<>();
         this.selecionado = null;
+        this.iselecionado = -1;
         this.frame = frame;
     }
 
@@ -99,7 +101,6 @@ public class WUsers extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(900, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(900, 600));
 
@@ -107,8 +108,10 @@ public class WUsers extends javax.swing.JFrame {
         jPanelInicial.setMinimumSize(new java.awt.Dimension(900, 500));
         jPanelInicial.setPreferredSize(new java.awt.Dimension(900, 500));
 
-        jPanel1.setBackground(new java.awt.Color(249, 254, 254));
-        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        jPanel1.setBackground(new java.awt.Color(252, 253, 252));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder1.setShowLeftShadow(true);
+        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jPanel1.setMinimumSize(new java.awt.Dimension(420, 440));
         jPanel1.setPreferredSize(new java.awt.Dimension(420, 440));
 
@@ -132,32 +135,32 @@ public class WUsers extends javax.swing.JFrame {
         jLabelAdicionarFuncao.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarFuncao.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder1.setCornerSize(6);
-        dropShadowBorder1.setShadowSize(2);
-        dropShadowBorder1.setShowLeftShadow(true);
-        dropShadowBorder1.setShowTopShadow(true);
-        txAdicionarNome.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
-        txAdicionarNome.setMaximumSize(new java.awt.Dimension(254, 30));
-        txAdicionarNome.setMinimumSize(new java.awt.Dimension(254, 30));
-        txAdicionarNome.setPreferredSize(new java.awt.Dimension(254, 30));
-
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder2.setCornerSize(6);
         dropShadowBorder2.setShadowSize(2);
         dropShadowBorder2.setShowLeftShadow(true);
         dropShadowBorder2.setShowTopShadow(true);
-        txAdicionarEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder2, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
-        txAdicionarEmail.setMaximumSize(new java.awt.Dimension(254, 30));
-        txAdicionarEmail.setMinimumSize(new java.awt.Dimension(254, 30));
-        txAdicionarEmail.setPreferredSize(new java.awt.Dimension(254, 30));
+        txAdicionarNome.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder2, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        txAdicionarNome.setMaximumSize(new java.awt.Dimension(254, 30));
+        txAdicionarNome.setMinimumSize(new java.awt.Dimension(254, 30));
+        txAdicionarNome.setPreferredSize(new java.awt.Dimension(254, 30));
 
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder3.setCornerSize(6);
         dropShadowBorder3.setShadowSize(2);
         dropShadowBorder3.setShowLeftShadow(true);
         dropShadowBorder3.setShowTopShadow(true);
-        txAdicionarTelefone.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder3, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        txAdicionarEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder3, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        txAdicionarEmail.setMaximumSize(new java.awt.Dimension(254, 30));
+        txAdicionarEmail.setMinimumSize(new java.awt.Dimension(254, 30));
+        txAdicionarEmail.setPreferredSize(new java.awt.Dimension(254, 30));
+
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder4.setCornerSize(6);
+        dropShadowBorder4.setShadowSize(2);
+        dropShadowBorder4.setShowLeftShadow(true);
+        dropShadowBorder4.setShowTopShadow(true);
+        txAdicionarTelefone.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
         txAdicionarTelefone.setMaximumSize(new java.awt.Dimension(254, 30));
         txAdicionarTelefone.setMinimumSize(new java.awt.Dimension(254, 30));
         txAdicionarTelefone.setPreferredSize(new java.awt.Dimension(254, 30));
@@ -174,12 +177,12 @@ public class WUsers extends javax.swing.JFrame {
         jLabelAdicionarIdentificacao.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarIdentificacao.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder4.setCornerSize(6);
-        dropShadowBorder4.setShadowSize(2);
-        dropShadowBorder4.setShowLeftShadow(true);
-        dropShadowBorder4.setShowTopShadow(true);
-        txAdicionarIdentificacao.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder5.setCornerSize(6);
+        dropShadowBorder5.setShadowSize(2);
+        dropShadowBorder5.setShowLeftShadow(true);
+        dropShadowBorder5.setShowTopShadow(true);
+        txAdicionarIdentificacao.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
         txAdicionarIdentificacao.setEnabled(false);
         txAdicionarIdentificacao.setMaximumSize(new java.awt.Dimension(254, 30));
         txAdicionarIdentificacao.setMinimumSize(new java.awt.Dimension(254, 30));
@@ -222,7 +225,7 @@ public class WUsers extends javax.swing.JFrame {
                         .addComponent(jComboBoxAdicionarFuncao, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txAdicionarTelefone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(txAdicionarEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,7 +337,7 @@ public class WUsers extends javax.swing.JFrame {
         jLabelEditar.setOpaque(true);
         jLabelEditar.setPreferredSize(new java.awt.Dimension(420, 30));
 
-        jButtonAdicionarGuardar.setBackground(new java.awt.Color(51, 102, 153));
+        jButtonAdicionarGuardar.setBackground(new java.awt.Color(51, 142, 2));
         jButtonAdicionarGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonAdicionarGuardar.setFocusPainted(false);
         jButtonAdicionarGuardar.setMaximumSize(new java.awt.Dimension(90, 40));
@@ -370,12 +373,12 @@ public class WUsers extends javax.swing.JFrame {
             }
         });
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder5.setCornerSize(6);
-        dropShadowBorder5.setShadowSize(2);
-        dropShadowBorder5.setShowLeftShadow(true);
-        dropShadowBorder5.setShowTopShadow(true);
-        txPesquisa.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder6.setCornerSize(6);
+        dropShadowBorder6.setShadowSize(2);
+        dropShadowBorder6.setShowLeftShadow(true);
+        dropShadowBorder6.setShowTopShadow(true);
+        txPesquisa.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder6, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10))));
         txPesquisa.setMaximumSize(new java.awt.Dimension(315, 30));
         txPesquisa.setMinimumSize(new java.awt.Dimension(315, 30));
         txPesquisa.setPreferredSize(new java.awt.Dimension(315, 30));
@@ -393,20 +396,21 @@ public class WUsers extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelTituloAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                        .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButtonAdicionarGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabelTituloAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(jButtonAdicionarGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(121, 121, 121)
+                                .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,25 +421,24 @@ public class WUsers extends javax.swing.JFrame {
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelTituloAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonAdicionarGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonReiniciar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAdicionarGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 
@@ -452,8 +455,10 @@ public class WUsers extends javax.swing.JFrame {
         jButtonExit.setToolTipText(lingua.translate("Voltar"));
         if (selecionado == null) {
             jLabelTituloAdicionar.setText(lingua.translate("Adicionar utilizador"));
+            jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(57,142,2)));
         } else {
             jLabelTituloAdicionar.setText(lingua.translate("Editar utilizador"));
+            jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(51,102,153)));
         }
         jLabelEditar.setText(lingua.translate("Lista de utilizadores"));
         if (selecionado == null) {
@@ -479,8 +484,10 @@ public class WUsers extends javax.swing.JFrame {
         }
         if (selecionado == null) {
             jButtonAdicionarGuardar.setToolTipText(lingua.translate("Registar novo utilizador")+".");
+            jButtonAdicionarGuardar.setBackground(new Color(57,142,2));
         } else {
             jButtonAdicionarGuardar.setToolTipText(lingua.translate("Guardar novos valores")+".");
+            jButtonAdicionarGuardar.setBackground(new Color(51,102,153));
         }
         if (selecionado != null) {
             jButtonReiniciar.setVisible(true);
@@ -568,10 +575,14 @@ public class WUsers extends javax.swing.JFrame {
                     break;
                 }
                 i++;
-            } if (sel != null) {
+            }
+            if (sel != null) {
                 jTableUtilizadores.setRowSelectionInterval(i, i);
                 this.select(i);
-            } 
+                txPesquisa.requestFocus();
+            }
+        } else {
+            this.clearSelection();
         }
     }//GEN-LAST:event_jButtonPesquisaActionPerformed
 
@@ -580,12 +591,167 @@ public class WUsers extends javax.swing.JFrame {
     }//GEN-LAST:event_txAdicionarIdentificacaoActionPerformed
 
     private void jButtonAdicionarGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarGuardarActionPerformed
-        // TODO add your handling code here:
+        if (getSelectedItem() != null) {
+            Keys.Function f = (Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem();
+            boolean alterado = false;
+            Keys.Person paux = new Keys.Person();
+            if (!txAdicionarNome.getText().equals("")) {
+                if (jComboBoxAdicionarFuncao.getSelectedIndex() > 0) {
+                    if ((!txAdicionarIdentificacao.getText().equals("")) || (!txAdicionarEmail.getText().equals(""))) {
+                        if (((!txAdicionarEmail.getText().equals(""))) && (!txAdicionarEmail.getText().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$"))) {
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                            this.requestFocus();
+                            alterado = false;
+                        } else if ((!txAdicionarTelefone.getText().equals("")) && (!txAdicionarTelefone.getText().matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))"))) {
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                            this.requestFocus();
+                            alterado = false;
+                        } else {
+                            paux.setEmail(txAdicionarEmail.getText());
+                            paux.setName(txAdicionarNome.getText());
+                            paux.setIdentification(txAdicionarIdentificacao.getText());
+                            paux.setPhone(txAdicionarTelefone.getText());
+                            paux.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
+                            if (isSuperuser()) {
+                                int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
+                                paux.setPrivilege(priv);
+                            } else {
+                                paux.setPrivilege(2);
+                            }
+                            alterado = true;
+                        }
+                    } else {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Preencha um destes campos: \"E-mail\" ou \"Identificação\""), new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                        this.requestFocus();
+                        alterado = false;
+                    }
+                } else if (!txAdicionarEmail.getText().equals("")) {
+                    if (txAdicionarEmail.getText().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")) {
+                        if ((!txAdicionarTelefone.getText().equals("")) && (!txAdicionarTelefone.getText().matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))"))) {
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                            this.requestFocus();
+                            alterado = false;
+                        } else {
+                            paux.setEmail(txAdicionarEmail.getText());
+                            paux.setName(txAdicionarNome.getText());
+                            paux.setIdentification("");
+                            paux.setPhone(txAdicionarTelefone.getText());
+                            paux.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
+                            if (isSuperuser()) {
+                                int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
+                                paux.setPrivilege(priv);
+                            } else {
+                                paux.setPrivilege(1);
+                            }
+                            alterado = true;
+                        }
+                    } else {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                        this.requestFocus();
+                        alterado = false;
+                    }
+                } else {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Preencha o campo: \"E-mail\""), new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                    this.requestFocus();
+                    alterado = false;
+                }
+            }
+            if ((alterado) && (DataBase.DataBase.testConnection(url))) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                selecionado = paux;
+                int val = db.updatePerson(getSelectedItem());
+                if (val == 1) {
+                    db.close();
+                    selecionado = paux;
+                    this.changeValueOnTable(getSelectedItem().getName(), getSelectedItem().getPhone(), iselecionado);
+                    this.clearSelection();
+                    if (frame instanceof Clavis.Windows.WRequest) {
+                        ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
+                    }
+                    this.requestFocus();
+                } else if (val == 0) {
+                    db.close();
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Verifique a validade / exclusividade da identificação ou e-mail") + ".", new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                    this.requestFocus();
+                } else {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Houve um erro na gravação dos novos valores") + ".", new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                    this.requestFocus();
+                }
+            }
+        } else if (!txAdicionarNome.getText().equals("")) {
+            Keys.Person p = new Keys.Person();
+            if ((!txAdicionarIdentificacao.getText().equals("")) || (!txAdicionarEmail.getText().equals(""))) {
+                if (!txAdicionarEmail.getText().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")) {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                    this.requestFocus();
+                } else if ((!txAdicionarTelefone.getText().equals("")) && (!txAdicionarTelefone.getText().matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))"))) {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                    this.requestFocus();
+                } else {
+                    p.setEmail(txAdicionarEmail.getText());
+                    p.setName(txAdicionarNome.getText());
+                    p.setIdentification(txAdicionarIdentificacao.getText());
+                    p.setPhone(txAdicionarTelefone.getText());
+                    p.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
+                    if (isSuperuser()) {
+                        int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
+                        p.setPrivilege(priv);
+                    } else {
+                        p.setPrivilege(2);
+                    }
+                    if (DataBase.DataBase.testConnection(url)) {
+                        DataBase.DataBase db = new DataBase.DataBase(url);
+                        int v = db.insertPerson(p);
+                        System.out.println(v);
+                        if (v == 1) {
+                            db.close();
+                            this.refreshTable();
+                            this.clearSelection();
+                            if (frame instanceof Clavis.Windows.WRequest) {
+                                ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, false);
+                            }
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O utilizador foi registado") + ".", new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                            this.requestFocus();
+                        } else {
+                            db.close();
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Verifique a validade / exclusividade da identificação ou e-mail") + ".", new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                            this.requestFocus();
+                        }
+                    } else {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Problema na ligação à base de dados") + ".", new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                        this.requestFocus();
+                    }
+                }
+            } else {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Prencha um destes campos: \"E-mail\", \"Identificação\"") + ".", new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
+                this.requestFocus();
+            }
+        } else {
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Preencha, pelo menos, os campos \"Nome\" e (\"E-mail\" ou \"Identificação\")") + ".", new String[]{lingua.translate("Voltar")});
+            mensagem.showMessage();
+            this.requestFocus();
+        }
+
     }//GEN-LAST:event_jButtonAdicionarGuardarActionPerformed
 
     public void create() {
-        this.setTitle(lingua.translate("Registo de utilizador"));
-        if (frame != null) {
+
+        this.setTitle(lingua.translate("Registo de utilizadores"));
+        if (getParentFrame() != null) {
             this.setAlwaysOnTop(true);
         }
         this.setBackground(corfundo);
@@ -615,51 +781,112 @@ public class WUsers extends javax.swing.JFrame {
                 modelo.addElement(lista.get(i));
             }
         }
-        jComboBoxAdicionarFuncao.addActionListener((ActionEvent e) -> {
-            if ((jComboBoxAdicionarFuncao.getItemCount() > 0) && (jComboBoxAdicionarFuncao.getSelectedIndex() > 0)) {
-                txAdicionarIdentificacao.setEnabled(true);
-            } else {
-                txAdicionarIdentificacao.setText("");
-                txAdicionarIdentificacao.showPLaceHolder();
-                txAdicionarIdentificacao.setEnabled(false);
+
+        jComboBoxAdicionarFuncao.addItemListener((ItemEvent e) -> {
+            if (selecionado == null) {
+                if ((jComboBoxAdicionarFuncao.getItemCount() > 0) && (jComboBoxAdicionarFuncao.getSelectedIndex() > 0)) {
+                    txAdicionarIdentificacao.setEnabled(true);
+                    jSpinnerAdicionarPrivilegio.setValue(2);
+                } else {
+                    txAdicionarIdentificacao.showPLaceHolder();
+                    txAdicionarIdentificacao.setEnabled(false);
+                }
+            } else if (selecionado != null) {
+                if ((jComboBoxAdicionarFuncao.getItemCount() > 0) && (jComboBoxAdicionarFuncao.getSelectedIndex() > 0)) {
+                    if (selecionado.getFunction().getId() == ((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem()).getId()) {
+                        if (selecionado.getIdentification().equals("sem")) {
+                            txAdicionarIdentificacao.startPlaceHolder();
+                            txAdicionarIdentificacao.showPLaceHolder();
+                        } else {
+                            txAdicionarIdentificacao.setText(selecionado.getIdentification());
+                        }
+                    } else {
+                        txAdicionarIdentificacao.startPlaceHolder();
+                        txAdicionarIdentificacao.showPLaceHolder();
+                    }
+                } else {
+                    txAdicionarIdentificacao.setText("");
+                    txAdicionarIdentificacao.showPLaceHolder();
+                    txAdicionarIdentificacao.setEnabled(false);
+                    jTableUtilizadores.requestFocus();
+                }
+                if (!((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem()).getName().equals("Não tem")) {
+                    txAdicionarIdentificacao.setEnabled(true);
+                    jTableUtilizadores.requestFocus();
+                } else {
+                    txAdicionarIdentificacao.setEnabled(false);
+                    jTableUtilizadores.requestFocus();
+                }
             }
         });
-
-        // tabela
         makeTable();
-        txPesquisa.addActionListener((ActionEvent e)-> {
+        txPesquisa.addActionListener((ActionEvent e) -> {
             jButtonPesquisa.doClick();
         });
         jLabelAdicionarNome.requestFocus();
-        txAdicionarNome.addMouseListener( Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarNome, false));
-        txAdicionarEmail.addMouseListener( Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarEmail, false));
-        txAdicionarTelefone.addMouseListener( Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarTelefone, false));
-        txAdicionarIdentificacao.addMouseListener( Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarIdentificacao, false));
-        txPesquisa.addMouseListener( Components.PopUpMenu.simpleCopyPaste(lingua, txPesquisa, false));
+        txAdicionarNome.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarNome, false));
+        txAdicionarEmail.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarEmail, false));
+        txAdicionarTelefone.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarTelefone, false));
+        txAdicionarIdentificacao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarIdentificacao, false));
+        txPesquisa.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txPesquisa, false));
+
     }
 
     private void close() {
         this.setVisible(false);
         this.dispose();
-        if (frame != null) {
-            frame.setLocation(this.getX(), this.getY());
-            frame.setVisible(true);
+        if (getParentFrame() != null) {
+            getParentFrame().setLocation(this.getX(), this.getY());
+            getParentFrame().setVisible(true);
         }
     }
 
-    public void makeTable() {
+    private void refreshTable() {
+        DataBase.DataBase db = new DataBase.DataBase(url);
+        lpessoas = db.getPersons();
+        db.close();
+        this.clearTable();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTableUtilizadores.getModel();
+        for (Keys.Person p : lpessoas) {
+            Object[] objetos = {p.getName(), p.getPhone()};
+            model.addRow(objetos);
+        }
+    }
+
+    private void changeValueOnTable(String nome, String telefone, int valor) {
+        DataBase.DataBase db = new DataBase.DataBase(url);
+        lpessoas = db.getPersons();
+        db.close();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTableUtilizadores.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (i == valor) {
+                model.setValueAt(nome, i, 0);
+            }
+        }
+    }
+
+    private void clearTable() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTableUtilizadores.getModel();
+        int tam = model.getRowCount();
+        for (int i = 0; i < tam; i++) {
+            model.removeRow(0);
+        }
+    }
+
+    private void makeTable() {
         jTableUtilizadores.setBorder(null);
         javax.swing.table.DefaultTableModel model;
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             lpessoas = db.getPersons();
+            db.close();
             if (lpessoas.isEmpty()) {
                 model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Situação")});
                 model.addRow(new Object[]{lingua.translate("Lista vazia")});
             } else {
-                model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome"), lingua.translate("Contato telefónico")});
+                model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome")});
                 for (Keys.Person p : lpessoas) {
-                    Object[] objetos = {p.getName(), p.getPhone()};
+                    Object[] objetos = {p.getName()};
                     model.addRow(objetos);
                 }
             }
@@ -668,11 +895,6 @@ public class WUsers extends javax.swing.JFrame {
             model.addRow(new Object[]{lingua.translate("Problema na ligação à base de dados") + "!"});
         }
         jTableUtilizadores.setModel(model);
-        jTableUtilizadores.getColumnModel().getColumn(0).setMinWidth(200);
-        jTableUtilizadores.getColumnModel().getColumn(0).setPreferredWidth(220);
-        if (jTableUtilizadores.getColumnCount() > 1) {
-            jTableUtilizadores.getColumnModel().getColumn(1).setMinWidth(140);
-        }
         Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
         UIManager.put("Table.focusCellHighlightBorder", border);
         jTableUtilizadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -680,7 +902,7 @@ public class WUsers extends javax.swing.JFrame {
         jScrollPaneUtilizadores.setOpaque(true);
         jScrollPaneUtilizadores.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         jScrollPaneUtilizadores.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPaneUtilizadores.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, false), BorderFactory.createLineBorder(Color.black, 1)));
+        jScrollPaneUtilizadores.setBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, true, true, true), BorderFactory.createLineBorder(Color.black, 1)));
         javax.swing.JLabel lo = new javax.swing.JLabel();
         lo.setBackground(new Color(100, 100, 100));
         lo.setOpaque(true);
@@ -689,31 +911,12 @@ public class WUsers extends javax.swing.JFrame {
         jTableUtilizadores.setEditable(false);
         jTableUtilizadores.setSelectionBackground(Color.DARK_GRAY);
 
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-
         DefaultTableCellRenderer renderer2 = new DefaultTableCellRenderer();
-        if (jTableUtilizadores.getColumnCount() > 1) {
-            renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
-        } else {
-            renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        }
-        renderer.setFocusable(false);
+        renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+        
+        //renderer.setFocusable(false);
         jTableUtilizadores.getColumnModel().getColumn(0).setCellRenderer(renderer2);
-        if (jTableUtilizadores.getColumnCount() > 1) {
-            jTableUtilizadores.getColumnModel().getColumn(1).setCellRenderer(renderer);
-        }
-        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
-            private static final long serialVersionUID = 2L;
 
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                setFont(new Font("Cantarell", Font.PLAIN, 14));
-                this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, new Color(1, 1, 1)));
-                return this;
-            }
-        };
         DefaultTableCellRenderer headerRenderer2 = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 3L;
 
@@ -724,27 +927,21 @@ public class WUsers extends javax.swing.JFrame {
                 this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(1, 1, 1)), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
                 this.setBackground(new Color(100, 100, 100));
                 setForeground(Color.WHITE);
+                setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 setPreferredSize(new Dimension(100, 40));
                 return this;
             }
         };
-        headerRenderer.setBackground(new Color(100, 100, 100));
-        headerRenderer.setForeground(Color.WHITE);
-        headerRenderer.setPreferredSize(new Dimension(100, 40));
-        headerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        headerRenderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         jTableUtilizadores.getColumnModel().getColumn(0).setHeaderRenderer(headerRenderer2);
-        if (jTableUtilizadores.getColumnCount() > 1) {
-            jTableUtilizadores.getColumnModel().getColumn(1).setHeaderRenderer(headerRenderer);
-        }
-
         jTableUtilizadores.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                java.awt.Point ponto = e.getPoint();
-                int sel = jTableUtilizadores.rowAtPoint(ponto);
-                if ((sel == jTableUtilizadores.getSelectedRow()) && (sel >= 0)) {
-                    select(sel);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    java.awt.Point ponto = e.getPoint();
+                    int sel = jTableUtilizadores.rowAtPoint(ponto);
+                    if ((sel == jTableUtilizadores.getSelectedRow()) && (sel >= 0)) {
+                        select(sel);
+                    }
                 }
             }
         });
@@ -765,51 +962,57 @@ public class WUsers extends javax.swing.JFrame {
                 }
             }
         });
+
     }
 
     private void select(int sel) {
         if (lpessoas.size() > 0) {
             Keys.Person p = lpessoas.get(sel);
-            selecionado = p;
+            setSelectedItem(p);
+            iselecionado = sel;
             txAdicionarNome.stopPlaceHolder();
             txAdicionarNome.setText(p.getName());
             txAdicionarNome.setCaretPosition(0);
-            txAdicionarNome.startPlaceHolder();
             if (p.getEmail().equals("sem")) {
-                txAdicionarEmail.showWithCondition(lingua.translate("Não existe um email associado") + "!", selecionado != null);
+                txAdicionarEmail.showWithCondition(lingua.translate("Não existe um email associado") + "!", getSelectedItem() != null);
             } else {
                 txAdicionarEmail.stopPlaceHolder();
                 txAdicionarEmail.setText(p.getEmail());
                 txAdicionarNome.setCaretPosition(0);
-                txAdicionarEmail.startPlaceHolder();
             }
             if (p.getPhone().equals("sem")) {
-                txAdicionarTelefone.showWithCondition(lingua.translate("Não existe nenhum registo") + "!", selecionado != null);
+                txAdicionarTelefone.showWithCondition(lingua.translate("Não existe nenhum registo") + "!", getSelectedItem() != null);
             } else {
                 txAdicionarTelefone.stopPlaceHolder();
                 txAdicionarTelefone.setText(p.getPhone());
                 txAdicionarNome.setCaretPosition(0);
-                txAdicionarTelefone.startPlaceHolder();
             }
-            if (p.getIdentification().equals("sem")) {
-                txAdicionarIdentificacao.showWithCondition(lingua.translate("Não existe código ou identificação") + "!", selecionado != null);
-            } else {
-                txAdicionarIdentificacao.stopPlaceHolder();
-                txAdicionarIdentificacao.setText(p.getPhone());
-                txAdicionarNome.setCaretPosition(0);
-                txAdicionarIdentificacao.startPlaceHolder();
+
+            if (!p.getFunction().getName().equals("Não tem")) {
+                txAdicionarIdentificacao.setEnabled(true);
+            } else if (txAdicionarIdentificacao.isEnabled()) {
+                txAdicionarIdentificacao.showPLaceHolder(jTableUtilizadores);
+                txAdicionarIdentificacao.setEnabled(false);
             }
-            jSpinnerAdicionarPrivilegio.setValue(p.getPrivilege());
-            for (int j = 0; j < lfuncoes.size(); j++) {
-                Keys.Function fo = lfuncoes.get(j);
-                if (fo.compareTo(p.getFunction()) == 0) {
-                    jComboBoxAdicionarFuncao.setSelectedIndex(j);
-                    break;
+            if (txAdicionarIdentificacao.isEnabled()) {
+                if (p.getIdentification().equals("sem")) {
+                    txAdicionarIdentificacao.showWithCondition(lingua.translate("Não existe código ou identificação") + "!", getSelectedItem() != null);
+                    jTableUtilizadores.requestFocus();
+                } else {
+                    txAdicionarIdentificacao.stopPlaceHolder();
+                    txAdicionarIdentificacao.setText(p.getIdentification());
+                    jTableUtilizadores.requestFocus();
                 }
             }
-            if (!p.getIdentification().equals("")) {
-                txAdicionarIdentificacao.setText(p.getIdentification());
-                txAdicionarNome.setCaretPosition(0);
+            if (jSpinnerAdicionarPrivilegio.isVisible()) {
+                jSpinnerAdicionarPrivilegio.setValue(p.getPrivilege());
+                for (int j = 0; j < lfuncoes.size(); j++) {
+                    Keys.Function fo = lfuncoes.get(j);
+                    if (fo.compareTo(p.getFunction()) == 0) {
+                        jComboBoxAdicionarFuncao.setSelectedIndex(j);
+                        break;
+                    }
+                }
             }
             jButtonReiniciar.setVisible(true);
         }
@@ -825,33 +1028,30 @@ public class WUsers extends javax.swing.JFrame {
         }
         jButtonAdicionarGuardar.setToolTipText(lingua.translate("Guardar novos valores") + ".");
         jLabelTituloAdicionar.setText(lingua.translate("Editar valores de utilizador"));
-        jLabelAdicionarNome.requestFocus();
+        jButtonAdicionarGuardar.setBackground(new Color(51, 102, 153));
+        jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(51, 102, 153)));
 
     }
 
     private void clearSelection() {
         if (lpessoas.size() > 0) {
-            txAdicionarNome.setText("");
-            txAdicionarNome.showPLaceHolder();
-            txAdicionarEmail.setText("");
-            txAdicionarEmail.showPLaceHolder();
-            txAdicionarTelefone.setText("");
-            txAdicionarTelefone.showPLaceHolder();
-            if (jComboBoxAdicionarFuncao.getModel().getSize() > 0) {
-                jComboBoxAdicionarFuncao.setSelectedIndex(0);
-            }
-            txAdicionarIdentificacao.setText("");
-            txAdicionarTelefone.showPLaceHolder();
-            selecionado = null;
             txAdicionarTelefone.restartPlaceHolder();
             txAdicionarEmail.restartPlaceHolder();
             txAdicionarNome.restartPlaceHolder();
             txAdicionarIdentificacao.restartPlaceHolder();
+            txAdicionarNome.showPLaceHolder();
+            txAdicionarEmail.showPLaceHolder();
+            txAdicionarTelefone.showPLaceHolder();
+            txAdicionarIdentificacao.showPLaceHolder();
+            if (jComboBoxAdicionarFuncao.getModel().getSize() > 0) {
+                jComboBoxAdicionarFuncao.setSelectedIndex(0);
+            }
+            setSelectedItem(null);
+            iselecionado = -1;
             jSpinnerAdicionarPrivilegio.setValue(1);
         }
         jTableUtilizadores.clearSelection();
         jButtonReiniciar.setVisible(false);
-        jLabelAdicionarNome.requestFocus();
         try {
             if (Clavis.KeyQuest.class.getResource("Images/save.png") != null) {
                 BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/save.png"));
@@ -863,7 +1063,10 @@ public class WUsers extends javax.swing.JFrame {
         } catch (IOException e) {
         }
         jButtonAdicionarGuardar.setToolTipText(lingua.translate("Registar novo utilizador") + ".");
+        jButtonAdicionarGuardar.setBackground(new Color(57, 142, 2));
         jLabelTituloAdicionar.setText(lingua.translate("Adicionar utilizador"));
+        jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(57, 142, 2)));
+        jLabelAdicionarNome.requestFocus();
     }
 
     public static void main(String args[]) {
@@ -930,4 +1133,46 @@ public class WUsers extends javax.swing.JFrame {
     private Components.PersonalTextField txAdicionarTelefone;
     private Components.PersonalTextField txPesquisa;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the superuser
+     */
+    public boolean isSuperuser() {
+        return superuser;
+    }
+
+    /**
+     * @param superuser the superuser to set
+     */
+    public void setSuperuser(boolean superuser) {
+        this.superuser = superuser;
+    }
+
+    /**
+     * @return the selecionado
+     */
+    public Keys.Person getSelectedItem() {
+        return selecionado;
+    }
+
+    /**
+     * @param selecionado the selecionado to set
+     */
+    public void setSelectedItem(Keys.Person selecionado) {
+        this.selecionado = selecionado;
+    }
+
+    /**
+     * @return the frame
+     */
+    public javax.swing.JFrame getParentFrame() {
+        return frame;
+    }
+
+    /**
+     * @param frame the frame to set
+     */
+    public void setParentFrame(javax.swing.JFrame frame) {
+        this.frame = frame;
+    }
 }
