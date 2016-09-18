@@ -275,7 +275,6 @@ public class DataBase {
     }
 
     public int insertPerson(Keys.Person pessoa) {
-        System.out.println(this.isTie());
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
@@ -397,12 +396,10 @@ public class DataBase {
             }
             if ((identificacao.equals("sem")) && (!email.equals("sem"))) {
                 sql = "select count(*) from Persons where email = '" + email + "' and id_pessoa <> "+pessoa.getId()+";";
-                identificacao = "sem";
             } else if ((!identificacao.equals("sem")) && (email.equals("sem"))) {
                 sql = "select count(*) from Persons where identificacao = '" + identificacao + "' and id_pessoa <> "+pessoa.getId()+";";
-                email = "sem";
             } else if ((!identificacao.equals("sem")) && (!email.equals("sem"))) {
-                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' or email = '" + email + "' and id_pessoa <> "+pessoa.getId()+";";
+                sql = "select count(*) from Persons where (identificacao = '" + identificacao + "' or email = '" + email + "') and id_pessoa <> "+pessoa.getId()+";";
             } else {
                 return 0;
             }
@@ -1455,33 +1452,6 @@ public class DataBase {
         return disciplinas;
     }
 
-    public java.util.List<Keys.Subject> getSubjectsAll() {
-        java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
-        if (this.isTie()) {
-            Statement smt;
-            try {
-                smt = con.createStatement();
-            } catch (SQLException ex) {
-                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                smt = null;
-            }
-            if (smt != null) {
-                try {
-                    String sql = "select id_disciplina, descricao, codigo from Subjects;";
-                    ResultSet rs = smt.executeQuery(sql);
-                    Keys.Subject disciplina;
-                    while (rs.next()) {
-                        disciplina = new Keys.Subject(rs.getInt("id_disciplina"), rs.getString("descricao"), rs.getString("codigo"));
-                        disciplinas.add(disciplina);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        return disciplinas;
-    }
-
     public java.util.List<Keys.Subject> getAllSubjects() {
         java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>();
         if (this.isTie()) {
@@ -1839,6 +1809,36 @@ public class DataBase {
         }
         return -1;
     }
+    
+    
+    public int[] getMinMaxValuesFeature(Keys.Feature feature) {
+        int [] valores= new int[0];
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                smt = null;
+            }
+            int id = this.getFeatureId(feature);
+            if (smt != null) {
+                String sql = "select min(quantidade), max(quantidade) from Rel_features_materials where id_caracteristica = " + id + ";";
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.next()) {
+                        valores = new int[2];
+                        valores[0] = rs.getInt(1);
+                        valores[1] = rs.getInt(2);
+                        return valores;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return valores;
+    }
 
     public int updateFeatureWithoutAssociation(Keys.Feature velho, Keys.Feature novo) {
         if (this.isTie()) {
@@ -2043,6 +2043,8 @@ public class DataBase {
         }
         return lista;
     }
+    
+  
 
     public java.util.List<Keys.Feature> getFeaturesByMaterial(Keys.Material mat) {
         java.util.List<Keys.Feature> lista = new java.util.ArrayList<>();

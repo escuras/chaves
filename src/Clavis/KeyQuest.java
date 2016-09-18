@@ -5006,6 +5006,7 @@ public class KeyQuest extends javax.swing.JFrame {
     protected TimeDate.BreakPeriodList intervalos;
     protected int vista = 0;
     protected String tema = "claro";
+    private static boolean superuser = false;
     protected int opcaocor;
     private Timer scroll;
     protected Keys.TypeOfMaterial tipomaterial;
@@ -5309,6 +5310,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public static javax.swing.JTabbedPane getMaterialsButtonsTable() {
         return jTabbedPaneMaterialBotoes;
+    }
+    
+    public static boolean isSuperuser(){
+        return superuser;
     }
 
     public static void refreshDevolutionTable(Keys.Request req) {

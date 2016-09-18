@@ -166,16 +166,16 @@
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabel3" min="-2" pref="147" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jComboBoxM" pref="221" max="32767" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" pref="135" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxM" pref="239" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel2" min="-2" pref="147" max="-2" attributes="0"/>
-                                          <Component id="jLabel5" min="-2" pref="147" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel5" pref="135" max="32767" attributes="0"/>
+                                          <Component id="jLabel2" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jSpinnerQuantidade" max="32767" attributes="0"/>
                                           <Component id="jComboBoxTipoM" max="32767" attributes="0"/>
@@ -230,7 +230,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder/>
+                  </Border>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[47, 30]"/>
@@ -445,13 +447,13 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel12" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel11" min="-2" pref="114" max="-2" attributes="0"/>
+                                          <Component id="jLabel12" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="personalTextFieldEmailUtilizador" alignment="0" pref="221" max="32767" attributes="0"/>
+                                          <Component id="personalTextFieldEmailUtilizador" alignment="0" pref="242" max="32767" attributes="0"/>
                                           <Component id="personalTextFieldCodigoUtilizador" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -474,18 +476,18 @@
                       <Component id="jLabelPessoa" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jComboBoxNomeU" max="32767" attributes="0"/>
                           <Component id="jLabel8" pref="40" max="32767" attributes="0"/>
+                          <Component id="jComboBoxNomeU" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel11" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="personalTextFieldEmailUtilizador" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="personalTextFieldEmailUtilizador" max="32767" attributes="0"/>
-                          <Component id="jLabel11" pref="36" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="personalTextFieldCodigoUtilizador" max="32767" attributes="0"/>
                           <Component id="jLabel12" pref="34" max="32767" attributes="0"/>
+                          <Component id="personalTextFieldCodigoUtilizador" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -505,7 +507,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder/>
+                  </Border>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[47, 30]"/>
@@ -622,6 +626,9 @@
                   <Dimension value="[107, 28]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="personalTextFieldEmailUtilizadorActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="personalTextFieldEmailUtilizador.addPlaceHolder(lingua.translate(&quot;Correio eletr&#xf3;nico&quot;)+&quot; ...&quot;, jLabelRecurso);&#xa;&#xa;personalTextFieldEmailUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));"/>
               </AuxValues>
@@ -646,7 +653,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMaisUtilizadorActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24.png&quot;) != null) {&#xa;        BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24.png&quot;));&#xa;        ImageIcon ic2 = new ImageIcon(im2);&#xa;        jButtonMaisUtilizador.setIcon(ic2);&#xa;    } else {&#xa;        jButtonMaisUtilizador.setText(lingua.translate(&quot;Adicionar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonMaisUtilizador.setToolTipText(lingua.translate(&quot;Adicionar utilizador&quot;));&#xa;jButtonMaisUtilizador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24.png&quot;) != null) {&#xa;        BufferedImage im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24.png&quot;));&#xa;        ImageIcon ic2 = new ImageIcon(im2);&#xa;        jButtonMaisUtilizador.setIcon(ic2);&#xa;    } else {&#xa;        jButtonMaisUtilizador.setText(lingua.translate(&quot;Adicionar&quot;));&#xa;    }&#xa;} catch(IOException e){}&#xa;&#xa;jButtonMaisUtilizador.setToolTipText(lingua.translate(&quot;Adicionar / editar utilizadores&quot;));&#xa;jButtonMaisUtilizador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonAlgoMais">
@@ -874,7 +881,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder/>
+                  </Border>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[131333, 300]"/>
@@ -1017,7 +1026,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder/>
+                  </Border>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[131333, 300]"/>
@@ -1186,7 +1197,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSairActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/exit26x24.png&quot;) != null) {&#xa;        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/exit26x24.png&quot;));&#xa;        ImageIcon imo = new ImageIcon(im);&#xa;        jButtonSair.setIcon(imo);&#xa;    } else {&#xa;        jButtonSair.setText(lingua.translate(&quot;Sair&quot;));&#xa;    }&#xa;} catch(IOException e) {}"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/exit26x24.png&quot;) != null) {&#xa;        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/exit26x24.png&quot;));&#xa;        ImageIcon imo = new ImageIcon(im);&#xa;        jButtonSair.setIcon(imo);&#xa;    } else {&#xa;        jButtonSair.setText(lingua.translate(&quot;Sair&quot;));&#xa;    }&#xa;} catch(IOException e) {}&#xa;jButtonSair.setToolTipText(lingua.translate(&quot;Sair&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonRequisitar">

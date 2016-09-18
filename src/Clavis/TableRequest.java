@@ -663,7 +663,28 @@ public class TableRequest {
             tabela.removeBorderColor(0);
         }
         this.create();
+    }
 
+    public void editPerson(Keys.Person p) {
+        java.util.List<Keys.Request> reqs = this.getRequestList().getRequests();
+        boolean alterou  = false;
+        for (Keys.Request r : reqs) {
+            if (p != null) {
+                if (r.getPerson().getId() == p.getId()) {
+                    r.getPerson().setEmail(p.getEmail());
+                    r.getPerson().setIdentification(p.getIdentification());
+                    r.getPerson().setFunction(p.getFunction());
+                    r.getPerson().setName(p.getName());
+                    r.getPerson().setPhone(p.getPhone());
+                    r.getPerson().setPrivilege(p.getPrivilege());
+                    alterou = true;
+                }
+            }
+        }
+        if (alterou) {
+            this.clean();
+            this.create();
+        }
     }
 
     public void serchByTime(Boolean bool, TimeDate.Time time) {
@@ -1062,7 +1083,7 @@ public class TableRequest {
             this.addPanel(spanel, panel.alternativePanel());
         }
     }
-    
+
     public void refreshPanel() {
         if (tabela.getColumnCount() > 1) {
             int select = TableRequest.this.selecionado;

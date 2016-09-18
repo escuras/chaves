@@ -75,7 +75,7 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jButtonPesquisa" min="-2" pref="90" max="-2" attributes="0"/>
@@ -93,7 +93,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabelEditar" min="-2" max="-2" attributes="0"/>
                       <Component id="jPanel2" max="32767" attributes="0"/>
@@ -114,12 +114,17 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="jPanel1" min="-2" pref="312" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txPesquisa" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="jButtonPesquisa" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                  <Component id="txPesquisa" min="-2" pref="53" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jButtonPesquisa" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="33" max="32767" attributes="0"/>
+                          <EmptySpace min="33" pref="97" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jButtonReiniciar" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonExit" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
@@ -508,7 +513,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (superuser) {&#xa;    jLabelAdicionarPrivilegio.setVisible(true);&#xa;} else {&#xa;    jLabelAdicionarPrivilegio.setVisible(false);&#xa;}&#xa;jLabelAdicionarPrivilegio.setText(lingua.translate(&quot;Privil&#xe9;gio&quot;)+&quot;:&quot;);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.isSuperuser()) {&#xa;    jLabelAdicionarPrivilegio.setVisible(true);&#xa;} else {&#xa;    jLabelAdicionarPrivilegio.setVisible(false);&#xa;}&#xa;jLabelAdicionarPrivilegio.setText(lingua.translate(&quot;Privil&#xe9;gio&quot;)+&quot;:&quot;);"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JSpinner" name="jSpinnerAdicionarPrivilegio">
@@ -524,7 +529,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (superuser) {&#xa;    jSpinnerAdicionarPrivilegio.setVisible(true);&#xa;} else {&#xa;    jSpinnerAdicionarPrivilegio.setVisible(false);&#xa;}"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.isSuperuser()) {&#xa;    jSpinnerAdicionarPrivilegio.setVisible(true);&#xa;} else {&#xa;    jSpinnerAdicionarPrivilegio.setVisible(false);&#xa;}"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -638,6 +643,11 @@
               <Color blue="fa" green="fa" red="fa" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[36222222, 12222222]"/>
@@ -729,7 +739,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPesquisaActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/lupa.png&quot;) != null) {&#xa;        BufferedImage bfexit = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/lupa.png&quot;));&#xa;        ImageIcon imexit = new ImageIcon(bfexit);&#xa;        jButtonPesquisa.setIcon(imexit);&#xa;    } else {&#xa;        jButtonPesquisa.setText(lingua.translate(&quot;Pesquisar&quot;));&#xa;    }&#xa;&#xa;} catch (IOException e) {}&#xa;jButtonExit.setToolTipText(lingua.translate(&quot;Pesquisar por utilizador&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try {&#xa;    if (Clavis.KeyQuest.class.getResource(&quot;Images/lupa.png&quot;) != null) {&#xa;        BufferedImage bfexit = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/lupa.png&quot;));&#xa;        ImageIcon imexit = new ImageIcon(bfexit);&#xa;        jButtonPesquisa.setIcon(imexit);&#xa;    } else {&#xa;        jButtonPesquisa.setText(lingua.translate(&quot;Pesquisar&quot;));&#xa;    }&#xa;&#xa;} catch (IOException e) {}&#xa;jButtonPesquisa.setToolTipText(lingua.translate(&quot;Pesquisar por utilizador&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="Components.PersonalTextField" name="txPesquisa">

@@ -45,19 +45,17 @@ public class WUsers extends javax.swing.JFrame {
     private Color corborda;
     private String url;
     private Locale lingua;
-    private boolean superuser;
     private java.util.List<Keys.Function> lfuncoes;
     private java.util.List<Keys.Person> lpessoas;
     private Keys.Person selecionado;
     private int iselecionado;
     private javax.swing.JFrame frame;
 
-    public WUsers(Color corfundo, Color corborda, String url, Locale lingua, boolean superuser, javax.swing.JFrame frame) {
+    public WUsers(Color corfundo, Color corborda, String url, Locale lingua, javax.swing.JFrame frame) {
         this.corborda = corborda;
         this.corfundo = corfundo;
         this.lingua = lingua;
         this.url = url;
-        this.superuser = superuser;
         this.lfuncoes = new java.util.ArrayList<>();
         this.lpessoas = new java.util.ArrayList<>();
         this.selecionado = null;
@@ -272,13 +270,13 @@ public class WUsers extends javax.swing.JFrame {
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
         jLabelAdicionarIdentificacao.setText(lingua.translate("Identificação")+":");
         txAdicionarIdentificacao.addPlaceHolder(lingua.translate("Identificação na instituição")+" ...", jLabelAdicionarNome);
-        if (superuser) {
+        if (Clavis.KeyQuest.isSuperuser()) {
             jLabelAdicionarPrivilegio.setVisible(true);
         } else {
             jLabelAdicionarPrivilegio.setVisible(false);
         }
         jLabelAdicionarPrivilegio.setText(lingua.translate("Privilégio")+":");
-        if (superuser) {
+        if (Clavis.KeyQuest.isSuperuser()) {
             jSpinnerAdicionarPrivilegio.setVisible(true);
         } else {
             jSpinnerAdicionarPrivilegio.setVisible(false);
@@ -331,6 +329,7 @@ public class WUsers extends javax.swing.JFrame {
 
         jLabelEditar.setBackground(new java.awt.Color(250, 250, 250));
         jLabelEditar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelEditar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelEditar.setMaximumSize(new java.awt.Dimension(36222222, 12222222));
         jLabelEditar.setMinimumSize(new java.awt.Dimension(100, 30));
@@ -399,7 +398,7 @@ public class WUsers extends javax.swing.JFrame {
                                 .addComponent(jLabelTituloAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addGap(32, 32, 32)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
                                 .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -412,7 +411,7 @@ public class WUsers extends javax.swing.JFrame {
                                 .addGap(121, 121, 121)
                                 .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -429,11 +428,14 @@ public class WUsers extends javax.swing.JFrame {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 97, Short.MAX_VALUE)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonReiniciar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -515,7 +517,7 @@ public class WUsers extends javax.swing.JFrame {
             }
 
         } catch (IOException e) {}
-        jButtonExit.setToolTipText(lingua.translate("Pesquisar por utilizador"));
+        jButtonPesquisa.setToolTipText(lingua.translate("Pesquisar por utilizador"));
         txPesquisa.addPlaceHolder(lingua.translate("Caixa de pesquisa")+" ...", jLabelAdicionarNome);
 
         txPesquisa.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, jPanelInicial.getBackground()), txPesquisa.getBorder()));
@@ -609,12 +611,13 @@ public class WUsers extends javax.swing.JFrame {
                             this.requestFocus();
                             alterado = false;
                         } else {
+                            paux.setId(selecionado.getId());
                             paux.setEmail(txAdicionarEmail.getText());
                             paux.setName(txAdicionarNome.getText());
                             paux.setIdentification(txAdicionarIdentificacao.getText());
                             paux.setPhone(txAdicionarTelefone.getText());
                             paux.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
-                            if (isSuperuser()) {
+                            if (Clavis.KeyQuest.isSuperuser()) {
                                 int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
                                 paux.setPrivilege(priv);
                             } else {
@@ -636,12 +639,13 @@ public class WUsers extends javax.swing.JFrame {
                             this.requestFocus();
                             alterado = false;
                         } else {
+                            paux.setId(selecionado.getId());
                             paux.setEmail(txAdicionarEmail.getText());
                             paux.setName(txAdicionarNome.getText());
                             paux.setIdentification("");
                             paux.setPhone(txAdicionarTelefone.getText());
                             paux.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
-                            if (isSuperuser()) {
+                            if (Clavis.KeyQuest.isSuperuser()) {
                                 int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
                                 paux.setPrivilege(priv);
                             } else {
@@ -669,6 +673,8 @@ public class WUsers extends javax.swing.JFrame {
                 if (val == 1) {
                     db.close();
                     selecionado = paux;
+                    Clavis.KeyQuest.getListDevolutions().editPerson(selecionado);
+                    Clavis.KeyQuest.getListRequest().editPerson(selecionado);
                     this.changeValueOnTable(getSelectedItem().getName(), getSelectedItem().getPhone(), iselecionado);
                     this.clearSelection();
                     if (frame instanceof Clavis.Windows.WRequest) {
@@ -703,7 +709,7 @@ public class WUsers extends javax.swing.JFrame {
                     p.setIdentification(txAdicionarIdentificacao.getText());
                     p.setPhone(txAdicionarTelefone.getText());
                     p.setFunction((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem());
-                    if (isSuperuser()) {
+                    if (Clavis.KeyQuest.isSuperuser()) {
                         int priv = (int) jSpinnerAdicionarPrivilegio.getValue();
                         p.setPrivilege(priv);
                     } else {
@@ -829,6 +835,14 @@ public class WUsers extends javax.swing.JFrame {
         txAdicionarTelefone.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarTelefone, false));
         txAdicionarIdentificacao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarIdentificacao, false));
         txPesquisa.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txPesquisa, false));
+        if ((lpessoas.size() > 0)&&(frame != null)) {
+            if (frame instanceof Clavis.Windows.WRequest){
+               if (WRequest.getSelectedPerson() != null) {
+                   int val = this.serchPerson(WRequest.getSelectedPerson());
+                   this.select(val);
+               } 
+            }
+        }
 
     }
 
@@ -872,10 +886,20 @@ public class WUsers extends javax.swing.JFrame {
             model.removeRow(0);
         }
     }
+    
+    private int serchPerson(Keys.Person p){
+        for (int i=0; i<lpessoas.size();i++) {
+            if (lpessoas.get(i).compareTo(p) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     private void makeTable() {
         jTableUtilizadores.setBorder(null);
         javax.swing.table.DefaultTableModel model;
+        boolean ha_problema = false;
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             lpessoas = db.getPersons();
@@ -883,6 +907,7 @@ public class WUsers extends javax.swing.JFrame {
             if (lpessoas.isEmpty()) {
                 model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Situação")});
                 model.addRow(new Object[]{lingua.translate("Lista vazia")});
+                ha_problema = true;
             } else {
                 model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Nome")});
                 for (Keys.Person p : lpessoas) {
@@ -893,6 +918,7 @@ public class WUsers extends javax.swing.JFrame {
         } else {
             model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Situação")});
             model.addRow(new Object[]{lingua.translate("Problema na ligação à base de dados") + "!"});
+            ha_problema = true;
         }
         jTableUtilizadores.setModel(model);
         Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
@@ -912,8 +938,12 @@ public class WUsers extends javax.swing.JFrame {
         jTableUtilizadores.setSelectionBackground(Color.DARK_GRAY);
 
         DefaultTableCellRenderer renderer2 = new DefaultTableCellRenderer();
-        renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
-        
+        if (!ha_problema) {
+            renderer2.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+        } else {
+            renderer2.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        }
+
         //renderer.setFocusable(false);
         jTableUtilizadores.getColumnModel().getColumn(0).setCellRenderer(renderer2);
 
@@ -1006,12 +1036,12 @@ public class WUsers extends javax.swing.JFrame {
             }
             if (jSpinnerAdicionarPrivilegio.isVisible()) {
                 jSpinnerAdicionarPrivilegio.setValue(p.getPrivilege());
-                for (int j = 0; j < lfuncoes.size(); j++) {
-                    Keys.Function fo = lfuncoes.get(j);
-                    if (fo.compareTo(p.getFunction()) == 0) {
-                        jComboBoxAdicionarFuncao.setSelectedIndex(j);
-                        break;
-                    }
+            }
+            for (int j = 0; j < lfuncoes.size(); j++) {
+                Keys.Function fo = lfuncoes.get(j);
+                if (fo.compareTo(p.getFunction()) == 0) {
+                    jComboBoxAdicionarFuncao.setSelectedIndex(j);
+                    break;
                 }
             }
             jButtonReiniciar.setVisible(true);
@@ -1096,7 +1126,7 @@ public class WUsers extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WUsers s = new WUsers(Color.WHITE, Color.CYAN, "", Locale.getLocale_pt_PT(), true, null);
+                WUsers s = new WUsers(Color.WHITE, Color.CYAN, "", Locale.getLocale_pt_PT(), null);
                 s.create();
                 s.setVisible(true);
 
@@ -1133,20 +1163,6 @@ public class WUsers extends javax.swing.JFrame {
     private Components.PersonalTextField txAdicionarTelefone;
     private Components.PersonalTextField txPesquisa;
     // End of variables declaration//GEN-END:variables
-
-    /**
-     * @return the superuser
-     */
-    public boolean isSuperuser() {
-        return superuser;
-    }
-
-    /**
-     * @param superuser the superuser to set
-     */
-    public void setSuperuser(boolean superuser) {
-        this.superuser = superuser;
-    }
 
     /**
      * @return the selecionado
