@@ -891,9 +891,9 @@ public final class ActionButton extends javax.swing.JDialog {
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(285, 0, 90, 40);
             btreq.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255, 255, 255), url, lingua, cla);
+                Clavis.Windows.WRequestSpecific wreq = new Clavis.Windows.WRequestSpecific(panelcor, painel.getBackground(), getMaterial(), url, lingua, this);
                 wreq.create();
-                this.dispose();
+                this.setVisible(false);
                 wreq.setVisible(true);
                 wreq.setLocationRelativeTo(this);
             });
@@ -1505,9 +1505,9 @@ public final class ActionButton extends javax.swing.JDialog {
             btreq.setContentAreaFilled(true);
             btreq.setFocusPainted(false);
             btreq.addActionListener((ActionEvent e) -> {
-                Clavis.Windows.WRequest wreq = new Clavis.Windows.WRequest(panelcor, new Color(255, 255, 255), url, lingua, getMaterial());
+                Clavis.Windows.WRequestSpecific wreq = new Clavis.Windows.WRequestSpecific(panelcor, painel.getBackground(), getMaterial(), url, lingua, this);
                 wreq.create();
-                this.dispose();
+                this.setVisible(false);
                 wreq.setVisible(true);
                 wreq.setLocationRelativeTo(this);
             });

@@ -11,23 +11,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -41,8 +37,6 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -60,8 +54,9 @@ public class WRequest extends javax.swing.JFrame {
     private final String url;
     private javax.swing.JSpinner.NumberEditor spineditor;
     private java.util.List<Keys.TypeOfMaterial> tlista;
-    private java.util.Set<Keys.Material> mlista;
+    private static java.util.Set<Keys.Material> mlista;
     boolean entrou;
+    boolean bpesquisa;
     java.util.List<Keys.Person> pessoas;
     static Keys.Person pessoaescolhida;
     Components.PersonalLabel pl;
@@ -69,7 +64,7 @@ public class WRequest extends javax.swing.JFrame {
     int tipomaterialselecionado;
     static Keys.TypeOfMaterial tiposelecionado;
     Components.PersonalCombo jComboBoxTipoMaterial;
-    Components.PersonalCombo jComboBoxMaterial;
+    static Components.PersonalCombo jComboBoxMaterial;
     Components.PersonalCombo jComboBoxNomeUtilizador;
     java.util.List<Keys.ClassStudents> reqturmas;
     java.util.List<Keys.Subject> reqdisciplinas;
@@ -96,6 +91,7 @@ public class WRequest extends javax.swing.JFrame {
         reqturmas = new java.util.ArrayList<>();
         reqdisciplinas = new java.util.ArrayList<>();
         reqatividade = "";
+        bpesquisa = false;
     }
 
     public WRequest(java.awt.Color corborda, java.awt.Color corfundo, String url, Langs.Locale lingua) {
@@ -116,6 +112,7 @@ public class WRequest extends javax.swing.JFrame {
         reqturmas = new java.util.ArrayList<>();
         reqdisciplinas = new java.util.ArrayList<>();
         reqatividade = "";
+        bpesquisa = false;
     }
 
     public WRequest(java.awt.Color corborda, java.awt.Color corfundo, String url, Langs.Locale lingua, Keys.Material mat) {
@@ -136,6 +133,7 @@ public class WRequest extends javax.swing.JFrame {
         reqturmas = new java.util.ArrayList<>();
         reqdisciplinas = new java.util.ArrayList<>();
         reqatividade = "";
+        bpesquisa = false;
     }
 
     /**
@@ -442,9 +440,6 @@ public class WRequest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAlgoMais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabelPessoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(24, 24, 24))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -453,13 +448,14 @@ public class WRequest extends javax.swing.JFrame {
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                                    .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                                     .addComponent(personalTextFieldCodigoUtilizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxNomeU, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(30, 30, 30))))
+                                .addComponent(jComboBoxNomeU, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelPessoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(24, 24, 24))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,6 +624,7 @@ public class WRequest extends javax.swing.JFrame {
         ff.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jLabel1.setText(lingua.translate("Início"));
         javax.swing.JPanel pan2 = new javax.swing.JPanel(null);
+        pan2.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20), BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)));
         String compoe = lingua.translate("Hoje é dia")+": "+new TimeDate.Date().toString();
         javax.swing.JLabel fil2 = new javax.swing.JLabel(compoe);
         fil2.setBounds(0, 0, 300, 26);
@@ -701,11 +698,6 @@ public class WRequest extends javax.swing.JFrame {
         jXDatePicker2.setMaximumSize(new java.awt.Dimension(111, 30));
         jXDatePicker2.setMinimumSize(new java.awt.Dimension(111, 30));
         jXDatePicker2.setPreferredSize(new java.awt.Dimension(111, 30));
-        jXDatePicker2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXDatePicker2ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -918,21 +910,74 @@ public class WRequest extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxMActionPerformed
 
     private void jButtonPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaActionPerformed
-        //if (tiposelecionado != null) {
-            Clavis.Windows.WSearch ws = new Clavis.Windows.WSearch(corfundo, corborda, url, lingua, this,tiposelecionado, mlista);
+        if (bpesquisa) {
+            int val = jComboBoxMaterial.getSelectedIndex() - 1;
+            Keys.Material ajuda = null;
+            if (val >= 0) {
+                int i = 0;
+                Keys.Material m = null;
+                for (Keys.Material mo : mlista) {
+                    if (i == val) {
+                        m = mo;
+                        break;
+                    }
+                    i++;
+                }
+                this.updateComboMaterialBox(null);
+                if (m != null) {
+                    int g = 0;
+                    for (Keys.Material mo : mlista) {
+                        if (m.compareTo(mo) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(g + 1);
+                            ajuda = mo;
+                            break;
+                        }
+                        g++;
+                    }
+                }
+            } else {
+                this.updateComboMaterialBox(null);
+            }
+            jButtonPesquisa.setBorder(null);
+
+            if (pl != null) {
+                if (mlista.size() < (int) jSpinnerQuantidade.getValue()) {
+                    jSpinnerQuantidade.setValue(mlista.size());
+                }
+                if (val < 0) {
+                    int valor = (int) jSpinnerQuantidade.getValue();
+                    pl.set(valor);
+                    pl.setNewList(mlista);
+                    pl.go(true, null);
+                } else if (ajuda != null) {
+                    pl.go(false, ajuda);
+                }
+                bpesquisa = false;
+                try {
+                    if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
+                        ImageIcon ic = new ImageIcon(im);
+                        jButtonPesquisa.setIcon(ic);
+                    } else {
+                        jButtonPesquisa.setText(lingua.translate("Pesquisa"));
+                    }
+                } catch (IOException e) {
+                }
+                jButtonPesquisa.setBackground(new Color(51, 102, 153));
+                jButtonPesquisa.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
+
+            }
+        } else if (tiposelecionado != null) {
+            Clavis.Windows.WSearch ws = new Clavis.Windows.WSearch(corfundo, corborda, url, lingua, this, tiposelecionado, mlista);
             ws.create();
             ws.appear();
             this.setVisible(false);
-        //}
+        }
     }//GEN-LAST:event_jButtonPesquisaActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
-
-    private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
     private void jComboBoxNomeUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNomeUActionPerformed
         // TODO add your handling code here:
@@ -943,19 +988,99 @@ public class WRequest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSairActionPerformed
 
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
-        this.updateComboMaterialBox();
+        TimeDate.Date datatual = new TimeDate.Date();
+        TimeDate.Date dat1 = new TimeDate.Date(this.jXDatePicker1.getDate());
+        TimeDate.Date dat2 = new TimeDate.Date(this.jXDatePicker2.getDate());
+        if (datatual.isBigger(dat1) < 0) {
+            this.jXDatePicker1.setDate(new Date());
+        }
+        if (datatual.isBigger(dat2) < 0) {
+            this.jXDatePicker2.setDate(new Date());
+        }
+        int val = jComboBoxMaterial.getSelectedIndex() - 1;
+        boolean ficou_o_mesmo = false;
+        Keys.Material m = null;
+        if (val >= 0) {
+            int i = 0;
+            for (Keys.Material mo : mlista) {
+                if (i == val) {
+                    m = mo;
+                    break;
+                }
+                i++;
+            }
+        }
+        this.updateComboMaterialBox(null);
+        if (m != null) {
+            int g = 0;
+            for (Keys.Material mo : mlista) {
+                if (m.compareTo(mo) == 0) {
+                    jComboBoxMaterial.setSelectedIndex(g + 1);
+                    ficou_o_mesmo = true;
+                    break;
+                }
+                g++;
+            }
+        }
+        bpesquisa = false;
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
+                ImageIcon ic = new ImageIcon(im);
+                jButtonPesquisa.setIcon(ic);
+            } else {
+                jButtonPesquisa.setText(lingua.translate("Pesquisa"));
+            }
+        } catch (IOException e) {
+        }
+        jButtonPesquisa.setBorder(null);
+        jButtonPesquisa.setBackground(new Color(51, 102, 153));
+        jButtonPesquisa.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
         if (mexeu) {
             jButtonAtualizar.setBorder(null);
-            if (pl != null) {
-                pl.go(true, null);
+            if (!ficou_o_mesmo) {
+                if (pl != null) {
+                    pl.go(true, null);
+                }
             }
             mexeu = false;
         }
+
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     private void jButtonRequisitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRequisitarActionPerformed
         java.util.List<Keys.Material> mats = pl.getSelectedOnes();
-
+        String atividade = reqatividade;
+        java.util.List<Keys.ClassStudents> turmas = reqturmas;
+        java.util.List<Keys.Subject> disciplinas = reqdisciplinas;
+        TimeDate.Date data1 = new TimeDate.Date(jXDatePicker1.getDate());
+        TimeDate.Date data2 = new TimeDate.Date(jXDatePicker2.getDate());
+        TimeDate.Time tempo1 = this.getTime(jSpinner1);
+        TimeDate.Time tempo2 = this.getTime(jSpinner2);
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            int i = 0;
+            int resultado = -1;
+            while (i < mats.size()) {
+                resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
+                if (resultado < 1) {
+                    break;
+                }
+                i++;
+            }
+            Clavis.KeyQuest.refreshTables();
+            jComboBoxTipoMaterial.setSelectedIndex(0);
+            jComboBoxMaterial.setSelectedIndex(0);
+            jSpinnerQuantidade.setValue(0);
+            jComboBoxNomeUtilizador.setSelectedIndex(0);
+            if (i < mats.size()) {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("Houve um problema com o registo das requisições") + ".", new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
+            } else {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("Requisição efetuada com sucesso"), new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
+            }
+        }
     }//GEN-LAST:event_jButtonRequisitarActionPerformed
 
     private void jButtonAlgoMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgoMaisActionPerformed
@@ -1012,8 +1137,8 @@ public class WRequest extends javax.swing.JFrame {
         jComboBoxNomeUtilizador.setComponentFocus(jLabelRecurso);
         spineditor = (javax.swing.JSpinner.NumberEditor) jSpinnerQuantidade.getEditor();
         spineditor.getFormat().setGroupingUsed(false);
-        spineditor.getModel().setMinimum(1);
-        spineditor.getModel().setValue(1);
+        spineditor.getModel().setMinimum(0);
+        spineditor.getModel().setValue(0);
         spineditor.getModel().setStepSize(1);
         spineditor.getTextField().setSelectionColor(Color.DARK_GRAY);
         javax.swing.JTextField tx = (javax.swing.JTextField) jComboBoxTipoMaterial.getComboBox().getEditor().getEditorComponent();
@@ -1056,9 +1181,12 @@ public class WRequest extends javax.swing.JFrame {
 
         pl = new Components.PersonalLabel(jPanelConteudo, 120, 150, mlista);
         jSpinnerQuantidade.addChangeListener((ChangeEvent e) -> {
-            if ((int) jSpinnerQuantidade.getValue() > 0) {
+            if ((int) jSpinnerQuantidade.getValue() >= 0) {
                 if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
                     int val = (int) jSpinnerQuantidade.getValue();
+                    if (val == 0) {
+                        jComboBoxMaterial.setSelectedIndex(0);
+                    }
                     jPanelConteudo.removeAll();
                     pl.set(val);
                     pl.setNewList(mlista);
@@ -1069,23 +1197,41 @@ public class WRequest extends javax.swing.JFrame {
                     jPanelConteudo.repaint();
                 }
             }
+            this.changeStateButtons();
         });
         entrou = false;
         jComboBoxTipoMaterial.addActionListener((ActionEvent e) -> {
             if ((jComboBoxTipoMaterial.getSelectedIndex() > 0) && (jComboBoxTipoMaterial.getSelectedIndex() != tipomaterialselecionado)) {
-                updateComboMaterialBox();
-                pl.go(true, null);
                 tipomaterialselecionado = jComboBoxTipoMaterial.getSelectedIndex();
-                tiposelecionado = tlista.get(tipomaterialselecionado -1);
+                tiposelecionado = tlista.get(tipomaterialselecionado - 1);
+                updateComboMaterialBox(null);
+                int val = (int) jSpinnerQuantidade.getValue();
+                pl.set(val);
+                pl.setNewList(mlista);
+                pl.go(true, null);
             } else if (jComboBoxTipoMaterial.getSelectedIndex() == 0) {
                 jComboBoxMaterial.removeAllItems();
                 jComboBoxMaterial.setSelectedIndex(0);
                 spineditor.getModel().setMaximum(1);
-                jSpinnerQuantidade.setValue(1);
+                jSpinnerQuantidade.setValue(0);
                 tipomaterialselecionado = 0;
-                jButtonAlgoMais.setEnabled(false);
-                jButtonRequisitar.setEnabled(false);
                 tiposelecionado = null;
+                bpesquisa = false;
+                jButtonPesquisa.setBorder(null);
+                try {
+                    if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
+                        ImageIcon ic = new ImageIcon(im);
+                        jButtonPesquisa.setIcon(ic);
+                    } else {
+                        jButtonPesquisa.setText(lingua.translate("Pesquisa"));
+                    }
+                } catch (IOException ex) {
+                }
+                jButtonPesquisa.setBackground(new Color(51, 102, 153));
+                jButtonPesquisa.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
+                jButtonAtualizar.setBorder(null);
+                mexeu = false;
             }
             this.changeStateButtons();
         });
@@ -1171,7 +1317,6 @@ public class WRequest extends javax.swing.JFrame {
                     if (pp.getIdentification().equals(personalTextFieldCodigoUtilizador.getText())) {
                         jComboBoxNomeUtilizador.setSelectedItem(pp);
                         personalTextFieldEmailUtilizador.stopPlaceHolder();
-                        String email;
                         pessoaescolhida = pp;
                         if ((pp.getEmail().equals("")) || (pp.getEmail().equals("sem"))) {
                             personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
@@ -1190,12 +1335,10 @@ public class WRequest extends javax.swing.JFrame {
                     jComboBoxNomeUtilizador.setSelectedIndex(0);
                     personalTextFieldEmailUtilizador.restartPlaceHolder();
                     personalTextFieldEmailUtilizador.showPLaceHolder();
-
                 }
                 this.changeStateButtons();
             });
             personalTextFieldCodigoUtilizador.addKeyListener(new KeyAdapter() {
-
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -1207,10 +1350,6 @@ public class WRequest extends javax.swing.JFrame {
                             jComboBoxNomeUtilizador.setSelectedIndex(0);
                         }
                     }
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
                 }
 
             });
@@ -1248,9 +1387,17 @@ public class WRequest extends javax.swing.JFrame {
                 if (date1.isBigger(date2) == 0) {
                     TimeDate.Time tim = this.getTime(jSpinner1);
                     TimeDate.Time tim2 = this.getTime(jSpinner2);
+                    TimeDate.Date datahoje = new TimeDate.Date();
+                    if (date1.isBigger(datahoje) == 0) {
+                        TimeDate.Time timatual = new TimeDate.Time();
+                        if (timatual.compareTime(tim) < 0) {
+                            jSpinner1.setValue(new Date());
+                        }
+                    }
                     if (tim.compareTime(tim2) < 0) {
                         jSpinner2.setValue(jSpinner1.getValue());
                     }
+
                 }
                 if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
                     jButtonAtualizar.setBorder(BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
@@ -1264,6 +1411,13 @@ public class WRequest extends javax.swing.JFrame {
                 if (date1.isBigger(date2) == 0) {
                     TimeDate.Time tim = this.getTime(jSpinner1);
                     TimeDate.Time tim2 = this.getTime(jSpinner2);
+                    TimeDate.Date datahoje = new TimeDate.Date();
+                    if (date1.isBigger(datahoje) == 0) {
+                        TimeDate.Time timatual = new TimeDate.Time();
+                        if (timatual.compareTime(tim2) < 0) {
+                            jSpinner2.setValue(new Date());
+                        }
+                    }
                     if (tim2.compareTime(tim) > 0) {
                         jSpinner1.setValue(jSpinner2.getValue());
                     }
@@ -1281,6 +1435,13 @@ public class WRequest extends javax.swing.JFrame {
                 } else if (date1.isBigger(date2) == 0) {
                     TimeDate.Time tim = this.getTime(jSpinner1);
                     TimeDate.Time tim2 = this.getTime(jSpinner2);
+                    TimeDate.Date datahoje = new TimeDate.Date();
+                    if (date1.isBigger(datahoje) == 0) {
+                        TimeDate.Time timatual = new TimeDate.Time();
+                        if (timatual.compareTime(tim) < 0) {
+                            jSpinner1.setValue(new Date());
+                        }
+                    }
                     if (tim.compareTime(tim2) < 0) {
                         jSpinner2.setValue(jSpinner1.getValue());
                     }
@@ -1299,6 +1460,13 @@ public class WRequest extends javax.swing.JFrame {
                 } else if (date1.isBigger(date2) == 0) {
                     TimeDate.Time tim = this.getTime(jSpinner1);
                     TimeDate.Time tim2 = this.getTime(jSpinner2);
+                    TimeDate.Date datahoje = new TimeDate.Date();
+                    if (date1.isBigger(datahoje) == 0) {
+                        TimeDate.Time timatual = new TimeDate.Time();
+                        if (timatual.compareTime(tim) < 0) {
+                            jSpinner1.setValue(new Date());
+                        }
+                    }
                     if (tim.compareTime(tim2) < 0) {
                         jSpinner2.setValue(jSpinner1.getValue());
                     }
@@ -1306,20 +1474,6 @@ public class WRequest extends javax.swing.JFrame {
                 if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
                     jButtonAtualizar.setBorder(BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
                     mexeu = true;
-                }
-            });
-            javax.swing.JTextField tf = (javax.swing.JTextField) jComboBoxMaterial.getComboBox().getEditor().getEditorComponent();
-            tf.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    updateComboMaterialBox();
-                    jButtonAtualizar.setBorder(null);
-                    if (mexeu) {
-                        if (pl != null) {
-                            pl.go(true, null);
-                        }
-                        mexeu = false;
-                    }
                 }
             });
             db.close();
@@ -1417,36 +1571,98 @@ public class WRequest extends javax.swing.JFrame {
         return new TimeDate.Time(horas, minutos, segundos);
     }
 
-    private synchronized void updateComboMaterialBox() {
-        if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
+    private synchronized void updateComboMaterialBox(java.util.Set<Keys.Material> lista) {
+        if (lista == null) {
+            if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
+                jComboBoxMaterial.removeAllItems();
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                java.util.Date datad = jXDatePicker1.getDate();
+                Calendar f = Calendar.getInstance();
+                f.setTime(datad);
+                TimeDate.Date dat1 = new TimeDate.Date(jXDatePicker1.getDate());
+                TimeDate.Date dat2 = new TimeDate.Date(jXDatePicker2.getDate());
+                TimeDate.Time tim1 = getTime(jSpinner1);
+                TimeDate.Time tim2 = getTime(jSpinner2);
+                if (dat1.isBigger(dat2) >= 0) {
+                    mlista = db.getFreeMaterialsBetweenDates(tlista.get(jComboBoxTipoMaterial.getSelectedIndex() - 1).getMaterialTypeID(), dat1, dat2, tim1, tim2);
+                    DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+                    int i = 0;
+                    int valor = 0;
+                    for (Keys.Material n : mlista) {
+                        if (n.getMaterialTypeID() == 1) {
+                            n = new Keys.Material(n) {
+                                @Override
+                                public String toString() {
+                                    return this.getTypeOfMaterialName() + " " + this.getDescription();
+                                }
+                            };
+                        }
+                        modelo.addElement(n);
+                        if ((mat != null) && (n.getId() == mat.getId()) && (!entrou)) {
+                            valor = i;
+                            entrou = true;
+                        }
+                        i++;
+                    }
+                    jComboBoxMaterial.setSelectedIndex(valor);
+                    spineditor.getModel().setMaximum(jComboBoxMaterial.getItemCount());
+                    if (mlista.size() < (int) jSpinnerQuantidade.getValue()) {
+                        jSpinnerQuantidade.setValue(mlista.size());
+                    }
+                }
+            }
+        } else {
+            mlista = lista;
+            int valorsel = jComboBoxMaterial.getSelectedIndex();
             jComboBoxMaterial.removeAllItems();
-            DataBase.DataBase db = new DataBase.DataBase(url);
-            java.util.Date datad = jXDatePicker1.getDate();
-            Calendar f = Calendar.getInstance();
-            f.setTime(datad);
-            TimeDate.Date dat1 = new TimeDate.Date(jXDatePicker1.getDate());
-            TimeDate.Date dat2 = new TimeDate.Date(jXDatePicker2.getDate());
-            TimeDate.Time tim1 = getTime(jSpinner1);
-            TimeDate.Time tim2 = getTime(jSpinner2);
-            if (dat1.isBigger(dat2) >= 0) {
-                mlista = db.getFreeMaterialsBetweenDates(tlista.get(jComboBoxTipoMaterial.getSelectedIndex() - 1).getMaterialTypeID(), dat1, dat2, tim1, tim2);
-                DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+            DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+            for (Keys.Material n : mlista) {
+                n = new Keys.Material(n) {
+                    @Override
+                    public String toString() {
+                        return this.getTypeOfMaterialName() + " " + this.getDescription();
+                    }
+                };
+                modelo.addElement(n);
+            }
+            
+            spineditor.getModel().setMaximum(jComboBoxMaterial.getItemCount());
+            if (mlista.size() < (int) jSpinnerQuantidade.getValue()) {
+                jSpinnerQuantidade.setValue(mlista.size());
+            }
+            int val = (int) jSpinnerQuantidade.getValue();
+            pl.set(val);
+            pl.setNewList(mlista);
+            pl.go(true, null);
+            if (valorsel >= 0) {
+                Keys.Material m = pl.getSelectedOnes().get(0);
                 int i = 0;
-                int valor = 0;
-                for (Keys.Material n : mlista) {
-                    String nome = lingua.translate(n.getDescription());
-                    modelo.addElement(n);
-                    if ((mat != null) && (n.getId() == mat.getId()) && (!entrou)) {
-                        valor = i;
-                        entrou = true;
+                for (Keys.Material b : mlista) {
+                    if (b.compareTo(m) == 0) {
+                        jComboBoxMaterial.setSelectedIndex(i+1);
+                        break;
                     }
                     i++;
                 }
-                jComboBoxMaterial.setSelectedIndex(valor);
-                spineditor.getModel().setMaximum(jComboBoxMaterial.getItemCount());
-                if (mlista.size() < (int) jSpinnerQuantidade.getValue()) {
-                    jSpinnerQuantidade.setValue(mlista.size());
+            } else {
+                jComboBoxMaterial.setSelectedIndex(0);
+            }
+            if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
+                jButtonPesquisa.setBorder(BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+                jButtonPesquisa.setBackground(new Color(253, 67, 67));
+                try {
+                    if (Clavis.KeyQuest.class.getResource("Images/limpar.png") != null) {
+                        BufferedImage im3 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/limpar.png"));
+                        ImageIcon ic3 = new ImageIcon(im3);
+                        jButtonPesquisa.setIcon(ic3);
+                    } else {
+                        jButtonPesquisa.setText(lingua.translate("Limpar"));
+                    }
+                } catch (IOException e) {
                 }
+                jButtonPesquisa.setToolTipText(lingua.translate("Limpar seleção por pesquisa"));
+                bpesquisa = true;
+                mexeu = true;
             }
         }
     }
@@ -1454,11 +1670,18 @@ public class WRequest extends javax.swing.JFrame {
     private void changeStateButtons() {
         if ((pessoaescolhida != null) && (jComboBoxTipoMaterial.getSelectedIndex() > 0)) {
             jButtonAlgoMais.setEnabled(true);
-            jButtonRequisitar.setEnabled(true);
+            if (((int) jSpinnerQuantidade.getValue()) > 0) {
+                jButtonRequisitar.setEnabled(true);
+            } else {
+                jButtonRequisitar.setEnabled(false);
+            }
+            jButtonPesquisa.setEnabled(true);
         } else if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
             jButtonAlgoMais.setEnabled(true);
+            jButtonPesquisa.setEnabled(true);
             jButtonRequisitar.setEnabled(false);
         } else {
+            jButtonPesquisa.setEnabled(false);
             jButtonAlgoMais.setEnabled(false);
             jButtonRequisitar.setEnabled(false);
         }
@@ -1501,7 +1724,7 @@ public class WRequest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelPessoa;
-    private javax.swing.JLabel jLabelRecurso;
+    private static javax.swing.JLabel jLabelRecurso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1625,7 +1848,6 @@ public class WRequest extends javax.swing.JFrame {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.ClassStudents> turmas = db.getStudentsClasses();
-            System.out.println(turmas.size());
             db.close();
             turmas.stream().forEach((turma) -> {
                 cbturmas.getComboBox().addItem(turma);
@@ -1639,9 +1861,6 @@ public class WRequest extends javax.swing.JFrame {
         javax.swing.CellRendererPane pon = (javax.swing.CellRendererPane) lturmas.getComponent(0);
         pon.setPreferredSize(new Dimension(230, 100));
 
-        for (int j = 0; j < pon.getComponentCount(); j++) {
-            System.out.println(pon.getComponent(j));
-        }
         lturmas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         lturmas.setCellRenderer(new DefaultListCellRenderer() {
             private static final long serialVersionUID = 2L;
@@ -1972,5 +2191,53 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
         return panel;
+    }
+
+    public java.util.Set<Keys.Material> getMaterialsList() {
+        return mlista;
+    }
+
+    public void setMaterialsList(java.util.Set<Keys.Material> lista) {
+        int val = jComboBoxMaterial.getSelectedIndex() - 1;
+        if (val >= 0) {
+            int i = 0;
+            Keys.Material m = null;
+            for (Keys.Material mo : mlista) {
+                if (i == val) {
+                    m = mo;
+                    break;
+                }
+                i++;
+            }
+            this.updateComboMaterialBox(lista);
+            if (m != null) {
+                int g = 0;
+                for (Keys.Material mo : mlista) {
+                    if (m.compareTo(mo) == 0) {
+                        jComboBoxMaterial.setSelectedIndex(g + 1);
+                        break;
+                    }
+                    g++;
+                }
+            }
+        } else {
+            this.updateComboMaterialBox(lista);
+        }
+    }
+
+    public java.util.List<Keys.Person> getPersonsList() {
+        return pessoas;
+    }
+
+    public static void updateComboMaterialOnSpecialRequest(Keys.Material m) {
+        int i = 0;
+        for (Keys.Material mo : mlista) {
+            if (mo.compareTo(m) == 0) {
+                jComboBoxMaterial.setSelectedIndex(i+1);
+                jLabelRecurso.requestFocus();
+                break;
+            }
+            i++;
+        }
     }
 }

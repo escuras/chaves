@@ -53,6 +53,7 @@ public class MessagePane {
     String textomensagem;
     String[] textobotoes;
     boolean visivel;
+    int qualdeles;
     private java.awt.Color corpanel;
 
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, String texto, String[] bt) {
@@ -67,6 +68,7 @@ public class MessagePane {
         this.textomensagem = texto;
         this.textobotoes = bt;
         this.showSimpleMessage();
+        qualdeles = 0;
         this.corpanel = BACKGROUND_COLOR;
     }
     
@@ -82,6 +84,7 @@ public class MessagePane {
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bt;
+        qualdeles = 1;
         this.showLabelMessage();
         this.corpanel = BACKGROUND_COLOR;
     }
@@ -98,6 +101,7 @@ public class MessagePane {
         this.componentpai = comp;
         this.textomensagem = texto;
         this.textobotoes = bto;
+        qualdeles = 2;
         this.showPanelMessage();
         this.corpanel = BACKGROUND_COLOR;
     }
@@ -113,6 +117,7 @@ public class MessagePane {
         this.tipo = tipo;
         this.componentpai = comp;
         this.textomensagem = texto;
+        qualdeles = 3;
         this.textobotoes = bto;
         this.showComponentMessage();
         this.corpanel = BACKGROUND_COLOR;
@@ -662,6 +667,26 @@ public class MessagePane {
      */
     public void setPanelColor(java.awt.Color corpanel) {
         this.corpanel = corpanel;
+    }
+    
+    public void refreshAction (String[] s){
+        this.panel = new javax.swing.JPanel(null);
+        this.textobotoes = s;
+        switch(qualdeles){
+            case 0:
+                this.showSimpleMessage();
+                break;
+            case 1:
+                this.showLabelMessage();
+                break;
+            case 2:
+                this.showPanelMessage();
+                break;
+            default:
+                this.showComponentMessage();
+                break;
+        };
+        
     }
     
 }

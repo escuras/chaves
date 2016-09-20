@@ -395,17 +395,17 @@ public class DataBase {
                 }
             }
             if ((identificacao.equals("sem")) && (!email.equals("sem"))) {
-                sql = "select count(*) from Persons where email = '" + email + "' and id_pessoa <> "+pessoa.getId()+";";
+                sql = "select count(*) from Persons where email = '" + email + "' and id_pessoa <> " + pessoa.getId() + ";";
             } else if ((!identificacao.equals("sem")) && (email.equals("sem"))) {
-                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' and id_pessoa <> "+pessoa.getId()+";";
+                sql = "select count(*) from Persons where identificacao = '" + identificacao + "' and id_pessoa <> " + pessoa.getId() + ";";
             } else if ((!identificacao.equals("sem")) && (!email.equals("sem"))) {
-                sql = "select count(*) from Persons where (identificacao = '" + identificacao + "' or email = '" + email + "') and id_pessoa <> "+pessoa.getId()+";";
+                sql = "select count(*) from Persons where (identificacao = '" + identificacao + "' or email = '" + email + "') and id_pessoa <> " + pessoa.getId() + ";";
             } else {
                 return 0;
             }
             try {
                 smt = con.createStatement();
-                ResultSet rs = smt.executeQuery(sql); 
+                ResultSet rs = smt.executeQuery(sql);
                 if (rs.next() && (rs.getInt(1) == 0) && pessoa.getId() >= 0) {
                     sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
                     con.setAutoCommit(false);
@@ -1313,7 +1313,7 @@ public class DataBase {
         return false;
     }
 
-    public void insertRequest(Keys.Material mat, Keys.Person pessoa) {
+    public int insertRequest(Keys.Material mat, Keys.Person pessoa, String atividade, java.util.List<Keys.ClassStudents> turmas, java.util.List<Keys.Subject> disciplinas, TimeDate.Date data1, TimeDate.Date data2, TimeDate.Time tempo1, TimeDate.Time tempo2) {
         if (this.isTie()) {
             Statement smt;
             try {
@@ -1322,12 +1322,170 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "insert into Requisitions (id_material,"
-                        + "id_pessoa, id_atividade, data_inicio"
-                        + "data_fim, hora_inicio, hora_fim"
-                        + "dia_semana, origem, codigo_turma)";
+                try {
+                    int id_atividade = -1;
+                    if (!atividade.equals("")) {
+                        id_atividade = this.getActivityID(atividade);
+                    }
+                    int id_pessoa = pessoa.getId();
+                    if (id_pessoa <= 0) {
+                        id_pessoa = this.getPersonID(pessoa);
+                        if (id_pessoa <= 0) {
+                            return -1;
+                        }
+                    }
+                    int id_material = mat.getId();
+                    if (id_material <= 0) {
+                        id_material = this.getMaterialID(mat);
+                        if (id_material <= 0) {
+                            return -1;
+                        }
+                    }
+                    String sql;
+                    if (id_atividade >= 0) {
+                        sql = "insert into Requests (id_material, "
+                                + "id_pessoa, id_atividade, data_inicio, "
+                                + "data_fim, hora_inicio, hora_fim, "
+                                + "dia_semana, origem) values (" + id_material + ", " + id_pessoa + ""
+                                + ", " + id_atividade + ", STR_TO_DATE('" + data1.toString() + "','%d/%m/%Y')"
+                                + ", STR_TO_DATE('" + data2.toString() + "','%d/%m/%Y') "
+                                + ", STR_TO_DATE('" + data1.toString() + " " + tempo1.toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", STR_TO_DATE('" + data2.toString() + " " + tempo2.toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", " + TimeDate.WeekDay.getDayWeek(data1) + ", 'local') ";
+                    } else {
+                        sql = "insert into Requests (id_material, "
+                                + "id_pessoa, data_inicio, "
+                                + "data_fim, hora_inicio, hora_fim, "
+                                + "dia_semana, origem) values (" + id_material + ", " + id_pessoa + ""
+                                + ", STR_TO_DATE('" + data1.toString() + "','%d/%m/%Y')"
+                                + ", STR_TO_DATE('" + data2.toString() + "','%d/%m/%Y') "
+                                + ", STR_TO_DATE('" + data1.toString() + " " + tempo1.toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", STR_TO_DATE('" + data2.toString() + " " + tempo2.toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", " + TimeDate.WeekDay.getDayWeek(data1) + ", 'local') ";
+                    }
+                    smt.executeUpdate(sql);
+                    int i = 0;
+                    int id_requisicao = this.getRequestID(id_pessoa, id_material, data1, data2, tempo1, tempo2);
+                    if (id_requisicao < 0) {
+                        return -1;
+                    }
+                    while (i < turmas.size()) {
+                        Keys.ClassStudents turma = turmas.get(i);
+                        this.associateRequestWithStudentClass(id_requisicao, turma.getCode());
+                        i++;
+                    }
+                    i = 0;
+                    while (i < disciplinas.size()) {
+                        Keys.Subject disciplina = disciplinas.get(i);
+                        int id_disciplina = disciplina.getId();
+                        if (id_disciplina <= 0) {
+                            id_disciplina = this.getSubjectID(disciplina);
+                            if (id_disciplina <= 0) {
+                                continue;
+                            }
+                        }
+                        this.associateRequestWithDiscipline(id_requisicao, id_disciplina);
+                        i++;
+                    }
+                    return 1;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
+        return -1;
+    }
+
+    public int getActivityID(String def) {
+
+        if (this.isTie()) {
+            String sql = "select id_atividade from Activities where lower(descricao) like lower('" + def + "');";
+            try {
+                Statement smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
+    public int getRequestID(int id_pessoa, int id_material, TimeDate.Date datainicio, TimeDate.Date datafim, TimeDate.Time tempoinicio, TimeDate.Time tempofim) {
+
+        if (this.isTie()) {
+            String sql = "select id_requisicao from Requests where id_material = " + id_material + ""
+                    + " and id_pessoa = " + id_pessoa + " and DATE_FORMAT(data_inicio,'%d/%m/%Y') = '" + datainicio.toString() + "'"
+                    + " and DATE_FORMAT(data_fim,'%d/%m/%Y') = '" + datafim.toString() + "'"
+                    + " and TIME_FORMAT(hora_inicio,'%H:%i:%s') = '" + tempoinicio.toString() + "'"
+                    + " and TIME_FORMAT(hora_fim,'%H:%i:%s') = '" + tempofim.toString() + "'"
+                    + " and dia_semana = " + TimeDate.WeekDay.getDayWeek(datainicio) + ";";
+            try {
+                Statement smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
+    public int getSubjectID(Keys.Subject sub) {
+
+        if (this.isTie()) {
+            String sql = "select id_disciplina from Subjects where codigo like '" + sub.getCode() + "' and descricao like '" + sub.getName() + "'";
+            try {
+                Statement smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
+    public int getMaterialID(Keys.Material mat) {
+        if (this.isTie()) {
+            String sql = "select id_material from Materials where codigo = '" + mat.getCodeOfMaterial() + "' and descricao = '" + mat.getDescription() + "'"
+                    + " and id_tipo = " + mat.getMaterialTypeID() + " and imagem = '" + mat.getMaterialImage() + "'";
+            try {
+                Statement smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
+    public int getPersonID(Keys.Person p) {
+
+        if (this.isTie()) {
+            String sql = "select id_pessoa from Persons where nome = '" + p.getName() + "' and identificacao = '" + p.getIdentification() + ""
+                    + "' and email = '" + p.getEmail() + "' and telefone = '" + p.getPhone() + "';";
+            try {
+                Statement smt = con.createStatement();
+                ResultSet rs = smt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
     }
 
     public boolean insertSubject(Keys.Subject sub) {
@@ -1809,10 +1967,9 @@ public class DataBase {
         }
         return -1;
     }
-    
-    
+
     public int[] getMinMaxValuesFeature(Keys.Feature feature) {
-        int [] valores= new int[0];
+        int[] valores = new int[0];
         if (this.isTie()) {
             Statement smt;
             try {
@@ -2043,8 +2200,6 @@ public class DataBase {
         }
         return lista;
     }
-    
-  
 
     public java.util.List<Keys.Feature> getFeaturesByMaterial(Keys.Material mat) {
         java.util.List<Keys.Feature> lista = new java.util.ArrayList<>();
@@ -4444,7 +4599,7 @@ public class DataBase {
                                 + "TIME_FORMAT(hora_fim,'%H:%i:%s') hora_fim from Requests "
                                 + "where id_material = " + idmaterial + " and (data_inicio between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
                                 + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or data_fim between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
-                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y'));";
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y')) and data_entrega is null and hora_entrega is null;";
                         smt2 = con.createStatement();
                         rs3 = smt2.executeQuery(sql);
                         passa = false;
@@ -4471,7 +4626,7 @@ public class DataBase {
                                     tempo[2] = tempo[2].replaceFirst("0", "");
                                 }
                                 timauxiliarinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
-                                if (timdown.compareTime(timauxiliarinicio) < 0) {
+                                if (timdown.compareTime(timauxiliarinicio) <= 0) {
                                     timdown = timauxiliarinicio;
                                 }
                             }
@@ -4486,7 +4641,7 @@ public class DataBase {
                                 tempo[2] = tempo[2].replaceFirst("0", "");
                             }
                             timauxiliarfim = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
-                            if (timtop.compareTime(timauxiliarfim) > 0) {
+                            if (timtop.compareTime(timauxiliarfim) >= 0) {
                                 timtop = timauxiliarfim;
                             }
                             if (datatop.isBigger(datauxiliar) > 0) {
@@ -4513,7 +4668,7 @@ public class DataBase {
                                 materiais.add(material);
                             }
                         } else if ((dat1.isBigger(dat2) == 0) && (timdown.compareTime(new TimeDate.Time(23, 59, 59)) > 0) && (timtop.isValid())) {
-                            if ((timtop.compareTime(tim1) >= 0) || (timdown.compareTime(tim2) <= 0)) {
+                            if ((timtop.compareTime(tim1) > 0) || (timdown.compareTime(tim2) < 0)) {
                                 sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
                                 aux = con.createStatement();
                                 rs2 = aux.executeQuery(sql);
@@ -4533,7 +4688,7 @@ public class DataBase {
                                 }
                             }
                         } else if ((dat1.isBigger(datatop) == 0) && (timtop.isValid())) {
-                            if (timtop.compareTime(tim1) >= 0) {
+                            if (timtop.compareTime(tim1) > 0) {
                                 sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
                                 aux = con.createStatement();
                                 rs2 = aux.executeQuery(sql);
@@ -4564,5 +4719,35 @@ public class DataBase {
         }
         return materiais;
     }
+}
 
+class Interval {
+
+    TimeDate.Date dat1;
+    TimeDate.Date dat2;
+    TimeDate.Time tempo1;
+    TimeDate.Time tempo2;
+
+    public Interval(TimeDate.Date dat1, TimeDate.Date dat2, TimeDate.Time tim1, TimeDate.Time tim2) {
+        this.dat1 = dat1;
+        this.dat2 = dat2;
+        this.tempo1 = tim1;
+        this.tempo2 = tim2;
+    }
+
+    public TimeDate.Date getFirstDate() {
+        return dat1;
+    }
+
+    public TimeDate.Date getLastDate() {
+        return dat2;
+    }
+
+    public TimeDate.Time getFirstTime() {
+        return tempo1;
+    }
+
+    public TimeDate.Time getlasTime() {
+        return tempo2;
+    }
 }

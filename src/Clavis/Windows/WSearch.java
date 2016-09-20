@@ -27,6 +27,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.ParseException;
@@ -56,6 +59,8 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.DefaultFormatterFactory;
@@ -130,7 +135,6 @@ public class WSearch extends javax.swing.JFrame {
         jButtonTransferir = new Components.PersonalButton();
         jScrollPaneCima = new javax.swing.JScrollPane();
         jListCima = new javax.swing.JList<>();
-        jButtonApagarSelecao = new javax.swing.JButton();
         jLabelCarateristicas = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jComboBoxCarateristicas = new javax.swing.JComboBox<>();
@@ -190,6 +194,11 @@ public class WSearch extends javax.swing.JFrame {
         jButtonConfirmar.setMaximumSize(new java.awt.Dimension(90, 40));
         jButtonConfirmar.setMinimumSize(new java.awt.Dimension(90, 40));
         jButtonConfirmar.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmarActionPerformed(evt);
+            }
+        });
 
         jComboBoxAspetos.setBackground(new java.awt.Color(253, 253, 253));
         jComboBoxAspetos.setFocusable(false);
@@ -219,18 +228,6 @@ public class WSearch extends javax.swing.JFrame {
 
         jScrollPaneCima.setViewportView(jListCima);
         jListCima.setToolTipText(lingua.translate("Aspetos a transferir para o quadro em baixo")+".");
-
-        jButtonApagarSelecao.setBackground(new java.awt.Color(253, 67, 67));
-        jButtonApagarSelecao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonApagarSelecao.setFocusPainted(false);
-        jButtonApagarSelecao.setMaximumSize(new java.awt.Dimension(90, 40));
-        jButtonApagarSelecao.setMinimumSize(new java.awt.Dimension(90, 40));
-        jButtonApagarSelecao.setPreferredSize(new java.awt.Dimension(90, 40));
-        jButtonApagarSelecao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApagarSelecaoActionPerformed(evt);
-            }
-        });
 
         jLabelCarateristicas.setBackground(new java.awt.Color(254, 254, 254));
         jLabelCarateristicas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -317,7 +314,7 @@ public class WSearch extends javax.swing.JFrame {
                     .addComponent(jLabelMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxCarateristicas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,38 +364,36 @@ public class WSearch extends javax.swing.JFrame {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelInicialLayout.createSequentialGroup()
                         .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonApagarSelecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, 292, Short.MAX_VALUE)
                     .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
+                        .addGap(3, 3, 3)
+                        .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(2, 2, 2))
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGap(170, 170, 170)
+                                .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxAspetos, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(201, 201, 201)
-                                        .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBoxAspetos, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPaneCima, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(148, 148, 148))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPaneCima, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
         jPanelInicialLayout.setVerticalGroup(
@@ -419,19 +414,20 @@ public class WSearch extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonConfirmar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonApagarSelecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonConfirmar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(35, 35, 35))
         );
 
@@ -478,17 +474,6 @@ public class WSearch extends javax.swing.JFrame {
             }
         } catch (IOException e) {}
         jButtonTransferir.setToolTipText(lingua.translate("Transferir motivo de filtro para o quadro em baixo")+".");
-        try {
-            if (Clavis.KeyQuest.class.getResource("Images/limpar.png") != null) {
-                BufferedImage bfexit = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/limpar.png"));
-                ImageIcon imexit = new ImageIcon(bfexit);
-                jButtonApagarSelecao.setIcon(imexit);
-            } else {
-                jButtonApagarSelecao.setText(lingua.translate("Limpar"));
-            }
-
-        } catch (IOException e) {}
-        jButtonApagarSelecao.setToolTipText(lingua.translate("Limpar seleção"));
         jLabelCarateristicas.setText(lingua.translate("Caraterísticas"));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/seta_baixo_negro.png") != null) {
@@ -501,8 +486,8 @@ public class WSearch extends javax.swing.JFrame {
         } catch (IOException e) {}
         jButtonTransferir2.setToolTipText(lingua.translate("Transferir caraterística para o quadro em baixo")+".");
         try {
-            if (Clavis.KeyQuest.class.getResource("Images/seta_cima_negro.png") != null) {
-                BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/seta_cima_negro.png"));
+            if (Clavis.KeyQuest.class.getResource("Images/apagar_negro.png") != null) {
+                BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/apagar_negro.png"));
                 ImageIcon imsave = new ImageIcon(bfsave);
                 jButtonRetirar2.setIcon(imsave);
             } else {
@@ -538,7 +523,7 @@ public class WSearch extends javax.swing.JFrame {
             Keys.Feature fea = fealista.get(valor);
             boolean nao_tem = true;
             for (HelpFeature f : selfealista) {
-                if ((f.getDescription().equals(fea.getDescription()))&&(f.getUnityMeasure().equals(fea.getUnityMeasure()))&&(f.getTypeOfMaterial().equals(fea.getTypeOfMaterial()))) {
+                if ((f.getDescription().equals(fea.getDescription())) && (f.getUnityMeasure().equals(fea.getUnityMeasure())) && (f.getTypeOfMaterial().equals(fea.getTypeOfMaterial()))) {
                     nao_tem = false;
                     if (!f.getUnityMeasure().equals("")) {
                         f.setNumber(jSliderMedida.getValue());
@@ -546,14 +531,14 @@ public class WSearch extends javax.swing.JFrame {
                         teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                         int indice = f.getIndex();
                         StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
-                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel)jListBaixo.getModel();
-                        for (int i = 0; i < mo.getSize(); i++){
+                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel) jListBaixo.getModel();
+                        for (int i = 0; i < mo.getSize(); i++) {
                             StringAuxiliar s = mo.get(i);
-                            if ((s.getComboBoxValue().equals(aux.getComboBoxValue()))&&(s.getIndex() == aux.getIndex())) {
-                                ((DefaultListModel)jListBaixo.getModel()).setElementAt(aux, i);
+                            if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
+                                ((DefaultListModel) jListBaixo.getModel()).setElementAt(aux, i);
                             }
                         }
-                        
+
                     } else {
                         int val = jSliderMedida.getValue();
                         String teste;
@@ -565,11 +550,11 @@ public class WSearch extends javax.swing.JFrame {
                         teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                         int indice = f.getIndex();
                         StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
-                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel)jListBaixo.getModel();
-                        for (int i = 0; i < mo.getSize(); i++){
+                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel) jListBaixo.getModel();
+                        for (int i = 0; i < mo.getSize(); i++) {
                             StringAuxiliar s = mo.get(i);
-                            if ((s.getComboBoxValue().equals(aux.getComboBoxValue()))&&(s.getIndex() == aux.getIndex())) {
-                                ((DefaultListModel)jListBaixo.getModel()).setElementAt(aux, i);
+                            if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
+                                ((DefaultListModel) jListBaixo.getModel()).setElementAt(aux, i);
                             }
                         }
                     }
@@ -612,45 +597,19 @@ public class WSearch extends javax.swing.JFrame {
         this.close();
     }//GEN-LAST:event_jButtonExitActionPerformed
 
-    private void jButtonApagarSelecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarSelecaoActionPerformed
-
-        for (int i = jListBaixo.getModel().getSize() - 1; i >= 0; i--) {
-            StringAuxiliar auxiliar = jListBaixo.getModel().getElementAt(i);
-            if (auxiliar.getComboBoxValue().equals("software")) {
-                for (int g = 0; g < selsoftlista.size(); g++) {
-                    if (selsoftlista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selsoftlista.remove(g);
-                    }
-                }
-            } else if (auxiliar.getComboBoxValue().equals("disciplina")) {
-                for (int g = 0; g < selsublista.size(); g++) {
-                    if (selsublista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selsublista.remove(g);
-                    }
-                }
-            } else if (auxiliar.getComboBoxValue().equals("carateristica")) {
-                for (int g = 0; g < selfealista.size(); g++) {
-                    if (selfealista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selfealista.remove(g);
-                    }
-                }
-            }
-            ((DefaultListModel) jListBaixo.getModel()).remove(i);
-        }
-        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
-        if ((jListCima.isEnabled()) && (jListCima.getSelectedIndex() >= 0)) {
-            jListCima.clearSelection();
-        }
-        if (jComboBoxCarateristicas.getModel().getSize() > 0) {
-            jComboBoxCarateristicas.setSelectedIndex(0);
-        }
-
-    }//GEN-LAST:event_jButtonApagarSelecaoActionPerformed
-
     private void jButtonRetirar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirar2ActionPerformed
         DefaultListModel modelo = (DefaultListModel) jListBaixo.getModel();
         this.removeFromDownList(modelo);
     }//GEN-LAST:event_jButtonRetirar2ActionPerformed
+
+    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        if (materiais.size() > 0) {
+            this.close();
+            if (frame instanceof WRequest) {
+                ((Clavis.Windows.WRequest) frame).setMaterialsList(materiais);
+            }
+        }
+    }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     public void close() {
         int x = this.getX();
@@ -675,7 +634,7 @@ public class WSearch extends javax.swing.JFrame {
                 }
                 db.close();
             }
-             jButtonConfirmar.setEnabled(true);
+            jButtonConfirmar.setEnabled(true);
         } else if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             tipos = db.getTypesOfMaterial();
@@ -705,7 +664,7 @@ public class WSearch extends javax.swing.JFrame {
                 db.close();
             }
         }
-        
+
         DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
         if (tem_software) {
             jComboBoxAspetos.setEnabled(true);
@@ -743,6 +702,7 @@ public class WSearch extends javax.swing.JFrame {
             jComboBoxCarateristicas.setModel(model);
             jComboBoxTipo.setEnabled(false);
             jComboBoxAspetos.setEnabled(false);
+            jButtonConfirmar.setEnabled(false);
         }
         jComboBoxTipo.addActionListener((ActionEvent e) -> {
             Keys.TypeOfMaterial tip = (Keys.TypeOfMaterial) jComboBoxTipo.getSelectedItem();
@@ -772,9 +732,9 @@ public class WSearch extends javax.swing.JFrame {
                 selsoftlista = new java.util.ArrayList<>();
                 selsublista = new java.util.ArrayList<>();
                 selfealista = new java.util.ArrayList<>();
-                ((DefaultListModel)jListBaixo.getModel()).removeAllElements();
+                ((DefaultListModel) jListBaixo.getModel()).removeAllElements();
                 materiais = db.getMaterialsByType(tipo.getMaterialTypeID(), 2);
-                materiaisoriginal = new java.util.TreeSet<>(materiais);
+                materiaisoriginal = materiais;
                 this.makeTable();
                 db.close();
                 updateValuesMeasureObjects();
@@ -908,6 +868,18 @@ public class WSearch extends javax.swing.JFrame {
         if ((materiais != null) && (materiais.size() > 0)) {
             materiaisoriginal = new java.util.TreeSet<>(materiais);
         }
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                close();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+        });
     }
 
     private void updateValuesMeasureObjects() {
@@ -929,6 +901,10 @@ public class WSearch extends javax.swing.JFrame {
                     if (val[0] != val[1]) {
                         mod.setMinimum(val[0]);
                         mod.setMaximum(val[1]);
+                        jSliderMedida.setModel(mod);
+                        jSliderMedida.setMinorTickSpacing(val[0]);
+                        jSliderMedida.setMajorTickSpacing(val[1]);
+                        jSliderMedida.setValue(val[1]);
                         if (tem_medida) {
                             jLabelMaximo.setText("" + val[1]);
                             jLabelMinimo.setText("" + val[0]);
@@ -941,14 +917,14 @@ public class WSearch extends javax.swing.JFrame {
                             jTextFieldMedida.setText(lingua.translate("Sim"));
                             jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
                         }
-                        jSliderMedida.setModel(mod);
-                        jSliderMedida.setMinorTickSpacing(val[0]);
-                        jSliderMedida.setMajorTickSpacing(val[1]);
-                        jSliderMedida.setValue(val[1]);
                     } else {
                         val[1] = val[0] + 1;
                         mod.setMinimum(val[0]);
                         mod.setMaximum(val[1]);
+                        jSliderMedida.setModel(mod);
+                        jSliderMedida.setMinorTickSpacing(val[0]);
+                        jSliderMedida.setMajorTickSpacing(val[1]);
+                        jSliderMedida.setValue(val[1]);
                         if (tem_medida) {
                             jLabelMaximo.setText("" + val[1]);
                             jLabelMinimo.setText("" + val[0]);
@@ -961,10 +937,6 @@ public class WSearch extends javax.swing.JFrame {
                             jTextFieldMedida.setText(lingua.translate("Sim"));
                             jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
                         }
-                        jSliderMedida.setModel(mod);
-                        jSliderMedida.setMinorTickSpacing(val[0]);
-                        jSliderMedida.setMajorTickSpacing(val[1]);
-                        jSliderMedida.setValue(val[1]);
                     }
                 }
             } else {
@@ -1411,19 +1383,40 @@ public class WSearch extends javax.swing.JFrame {
             @Override
             public void intervalAdded(ListDataEvent e) {
                 updateMaterialsList();
+                if (frame != null) {
+                    if (materiais.size() > 0) {
+                        jButtonConfirmar.setEnabled(true);
+                    } else {
+                        jButtonConfirmar.setEnabled(false);
+                    }
+                }
             }
 
             @Override
             public void intervalRemoved(ListDataEvent e) {
                 updateMaterialsList();
+                if (frame != null) {
+                    if (materiais.size() > 0) {
+                        jButtonConfirmar.setEnabled(true);
+                    } else {
+                        jButtonConfirmar.setEnabled(false);
+                    }
+                }
             }
 
             @Override
             public void contentsChanged(ListDataEvent e) {
                 updateMaterialsList();
+                if (frame != null) {
+                    if (materiais.size() > 0) {
+                        jButtonConfirmar.setEnabled(true);
+                    } else {
+                        jButtonConfirmar.setEnabled(false);
+                    }
+                }
             }
         });
-        jListBaixo.addListSelectionListener(new ListSelectionListener(){
+        jListBaixo.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (jListBaixo.getSelectedIndex() >= 0) {
@@ -1432,7 +1425,7 @@ public class WSearch extends javax.swing.JFrame {
                     jButtonRetirar2.setEnabled(false);
                 }
             }
-            
+
         });
     }
 
@@ -1642,7 +1635,6 @@ public class WSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonApagarSelecao;
     private javax.swing.JButton jButtonConfirmar;
     private javax.swing.JButton jButtonExit;
     /*

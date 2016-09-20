@@ -245,6 +245,7 @@
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelRecurso.setText(lingua.translate(&quot;Recurso&quot;));"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxTipoM">
@@ -440,30 +441,27 @@
                               <Component id="jButtonAlgoMais" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabelPessoa" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel11" min="-2" pref="114" max="-2" attributes="0"/>
                                           <Component id="jLabel12" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="personalTextFieldEmailUtilizador" alignment="0" pref="242" max="32767" attributes="0"/>
-                                          <Component id="personalTextFieldCodigoUtilizador" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="personalTextFieldEmailUtilizador" pref="248" max="32767" attributes="0"/>
+                                          <Component id="personalTextFieldCodigoUtilizador" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Component id="jLabel8" min="-2" pref="73" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jComboBoxNomeU" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="jLabelPessoa" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -871,7 +869,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXDatePicker1ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.JPanel pan2 = new javax.swing.JPanel(null);&#xa;String compoe = lingua.translate(&quot;Hoje &#xe9; dia&quot;)+&quot;: &quot;+new TimeDate.Date().toString();&#xa;javax.swing.JLabel fil2 = new javax.swing.JLabel(compoe);&#xa;fil2.setBounds(0, 0, 300, 26);&#xa;fil2.setHorizontalAlignment(SwingConstants.CENTER);&#xa;pan2.setPreferredSize(new Dimension(300,30));&#xa;pan2.setBounds(0, 0, 300, 30);&#xa;pan2.add(fil2);&#xa;jXDatePicker1.setLinkPanel(pan2);&#xa;&#xa;jXDatePicker1.setLocale(lingua.systemlocale);&#xa;jXDatePicker1.getEditor().setSelectionColor(Color.DARK_GRAY);&#xa;jXDatePicker1.getEditor().setBorder(BorderFactory.createEmptyBorder());&#xa;jXDatePicker1.getEditor().setHorizontalAlignment(SwingConstants.CENTER);&#xa;javax.swing.JButton bbt2 = (javax.swing.JButton) jXDatePicker1.getComponent(1);&#xa;bbt2.setBackground(Color.WHITE);&#xa;&#xa;jXDatePicker1.setFormats(&quot;dd/MM/yyyy&quot;);&#xa;jXDatePicker1.setDate(new java.util.Date());"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.JPanel pan2 = new javax.swing.JPanel(null);&#xa;pan2.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20), BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)));&#xa;String compoe = lingua.translate(&quot;Hoje &#xe9; dia&quot;)+&quot;: &quot;+new TimeDate.Date().toString();&#xa;javax.swing.JLabel fil2 = new javax.swing.JLabel(compoe);&#xa;fil2.setBounds(0, 0, 300, 26);&#xa;fil2.setHorizontalAlignment(SwingConstants.CENTER);&#xa;pan2.setPreferredSize(new Dimension(300,30));&#xa;pan2.setBounds(0, 0, 300, 30);&#xa;pan2.add(fil2);&#xa;jXDatePicker1.setLinkPanel(pan2);&#xa;&#xa;jXDatePicker1.setLocale(lingua.systemlocale);&#xa;jXDatePicker1.getEditor().setSelectionColor(Color.DARK_GRAY);&#xa;jXDatePicker1.getEditor().setBorder(BorderFactory.createEmptyBorder());&#xa;jXDatePicker1.getEditor().setHorizontalAlignment(SwingConstants.CENTER);&#xa;javax.swing.JButton bbt2 = (javax.swing.JButton) jXDatePicker1.getComponent(1);&#xa;bbt2.setBackground(Color.WHITE);&#xa;&#xa;jXDatePicker1.setFormats(&quot;dd/MM/yyyy&quot;);&#xa;jXDatePicker1.setDate(new java.util.Date());"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
@@ -1109,9 +1107,6 @@
                   <Dimension value="[111, 30]"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXDatePicker2ActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.JPanel pan3 = new javax.swing.JPanel(null);&#xa;pan3.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20), BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)));&#xa;String compoe2 = lingua.translate(&quot;Hoje &#xe9; dia&quot;)+&quot;: &quot;+new TimeDate.Date().toString();&#xa;javax.swing.JLabel fil3 = new javax.swing.JLabel(compoe2);&#xa;fil3.setBounds(0, 0, 300, 26);&#xa;fil3.setHorizontalAlignment(SwingConstants.CENTER);&#xa;pan3.setPreferredSize(new Dimension(300,30));&#xa;pan3.setBounds(0, 0, 300, 30);&#xa;pan3.add(fil3);&#xa;jXDatePicker2.setLinkPanel(pan3);&#xa;&#xa;jXDatePicker2.setLocale(lingua.systemlocale);&#xa;jXDatePicker2.getEditor().setSelectionColor(Color.DARK_GRAY);&#xa;jXDatePicker2.getEditor().setBorder(BorderFactory.createEmptyBorder());&#xa;jXDatePicker2.getEditor().setHorizontalAlignment(SwingConstants.CENTER);&#xa;javax.swing.JButton bbt3 = (javax.swing.JButton) jXDatePicker2.getComponent(1);&#xa;bbt3.setBackground(Color.WHITE);&#xa;&#xa;jXDatePicker2.setFormats(&quot;dd/MM/yyyy&quot;);&#xa;jXDatePicker2.setDate(new java.util.Date());"/>
               </AuxValues>

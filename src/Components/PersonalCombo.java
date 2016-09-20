@@ -153,6 +153,7 @@ public class PersonalCombo {
                     fil.setCaretColor(new Color(1, 1, 1));
                     fil.setText("");
                     combo.setSelectedIndex(-1);
+                    combo.showPopup();
                 }
             }
 

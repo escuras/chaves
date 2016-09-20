@@ -1816,6 +1816,7 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTituloDevolucoes.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelInformaBaixoBaixo">
@@ -2092,6 +2093,7 @@
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaBaixo.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaBaixo.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;jLabelLimpaPesquisaBaixo.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_dev.destroySearch();&#xa;                lista_dev.addTimerColors();&#xa;                lista_dev.startTimerColors();&#xa;                jLabelLimpaPesquisaBaixo.setVisible(false);&#xa;                jLabelTituloDevolucoes.setText(lingua.translate(&quot;lista_devolucoes&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaBaixo.setForeground(new Color(1,1,1));&#xa;            }&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelDetalhesBaixo">
@@ -2291,6 +2293,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelTitulorequisicoes.setFont(new Font(&quot;Cantarell&quot;,Font.PLAIN,16));"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                   </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanelInformaCimaBaixo">
@@ -2583,6 +2586,7 @@
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLimpaPesquisaCima.setText(lingua.translate(&quot;Limpar pesquisa&quot;));&#xa;jLabelLimpaPesquisaCima.setCursor(new Cursor(Cursor.HAND_CURSOR));&#xa;jLabelLimpaPesquisaCima.setVisible(false);&#xa;jLabelLimpaPesquisaCima.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;            @Override&#xa;            public void mousePressed(MouseEvent e) {&#xa;                lista_req.destroySearch();&#xa;                lista_req.addTimerColors();&#xa;                lista_req.startTimerColors();&#xa;                jLabelLimpaPesquisaCima.setVisible(false);&#xa;                jLabelTitulorequisicoes.setText(lingua.translate(&quot;Lista_de_requisi&#xe7;&#xf5;es&quot;));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(201,201,201));&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                jLabelLimpaPesquisaCima.setForeground(new Color(1,1,1));&#xa;            }&#xa;&#xa;        });"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelDetalhesCima">
