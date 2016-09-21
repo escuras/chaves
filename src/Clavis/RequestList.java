@@ -6,16 +6,12 @@
 package Clavis;
 
 import TimeDate.HolidaysList;
-import java.awt.FontMetrics;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  *
@@ -156,14 +152,11 @@ public class RequestList {
     }
 
     public void sortbyEndDate() {
-        Collections.sort(requests, new Comparator<Keys.Request>() {
-            @Override
-            public int compare(Keys.Request o1, Keys.Request o2) {
-                if (o1.getEndDate() == null || o2.getEndDate() == null) {
-                    return 0;
-                }
-                return o2.getEndDate().isBigger(o1.getEndDate());
+        Collections.sort(requests, (Keys.Request o1, Keys.Request o2) -> {
+            if (o1.getEndDate() == null || o2.getEndDate() == null) {
+                return 0;
             }
+            return o2.getEndDate().isBigger(o1.getEndDate());
         });
     }
 
@@ -191,6 +184,7 @@ public class RequestList {
                                 requests.add(r);
                             }
                             requests.add(entra);
+                        } else {
                         }
                     }
                 }

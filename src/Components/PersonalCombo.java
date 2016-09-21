@@ -39,7 +39,6 @@ public class PersonalCombo {
     private java.awt.Color selectForegroundColor;
     private java.awt.Color selectBackgroundColor;
     private java.awt.Color backgroundColor;
-    private java.awt.Dimension dimensao;
     private String textodeajuda;
     private int posicaotexto;
     private javax.swing.JComboBox<Object> combo;
@@ -51,8 +50,7 @@ public class PersonalCombo {
         this.selectBackgroundColor = BACKGROUND_SELECT_COLOR;
         this.backgroundColor = BACKGROUND_COLOR;
         textodeajuda = HELP_TEXT;
-        combo.setMaximumRowCount(20);
-        dimensao = new Dimension(170, 28);
+        combo.setMaximumRowCount(10);
         this.perdefocus = perdefocus;
     }
 
@@ -74,7 +72,6 @@ public class PersonalCombo {
         }
         combo.setForeground(selectForegroundColor);
         fil.setSelectionColor(this.selectBackgroundColor);
-        combo.setPreferredSize(dimensao);
         BasicComboPopup popcar = (BasicComboPopup) combo.getAccessibleContext().getAccessibleChild(0);
         popcar.getList().setSelectionBackground(this.selectBackgroundColor);
         popcar.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
@@ -114,9 +111,9 @@ public class PersonalCombo {
                 javax.swing.JLabel label = new javax.swing.JLabel();
                 label.setOpaque(true);
                 label.setBackground(new java.awt.Color(255, 255, 255));
-                label.setPreferredSize(new Dimension((int) dimensao.getWidth(), 20));
                 label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 label.setHorizontalAlignment(posicaotexto);
+                label.setPreferredSize(new Dimension(170,22));
                 if (index != 0) {
                     label.setText(value.toString());
                 } else {
@@ -413,7 +410,6 @@ public class PersonalCombo {
     }
 
     public void setPreferredSize(Dimension dim) {
-        this.dimensao = dim;
         combo.setPreferredSize(dim);
     }
 
