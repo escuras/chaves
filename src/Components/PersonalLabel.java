@@ -45,14 +45,16 @@ public class PersonalLabel {
     boolean specialone;
     Langs.Locale lingua;
     boolean vazia;
+    private String url;
 
     public PersonalLabel() {
         super();
     }
 
-    public PersonalLabel(javax.swing.JPanel panel, int largura, int altura, java.util.Set<Keys.Material> mlista) {
+    public PersonalLabel(javax.swing.JPanel panel, int largura, int altura, java.util.Set<Keys.Material> mlista, String url) {
         this.panel = panel;
         this.mlista = mlista;
+        this.url = url;
         this.painellargura = (int) panel.getPreferredSize().getWidth();
         this.painelaltura = (int) panel.getPreferredSize().getHeight();
         this.selecionados = new java.util.ArrayList<>();
@@ -108,7 +110,11 @@ public class PersonalLabel {
                     bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
                     l.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
                 }
-                l.setBackground(java.awt.Color.WHITE);
+                if (Clavis.Windows.WRequest.isMaterialInLateState(m, url)) {
+                    l.setBackground(new Color(255, 204, 200));
+                } else {
+                    l.setBackground(java.awt.Color.WHITE);
+                }
                 l.setVerticalTextPosition(javax.swing.JTextField.BOTTOM);
                 l.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
                 l.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -123,7 +129,7 @@ public class PersonalLabel {
                 panel.revalidate();
                 panel.repaint();
                 X += largura + 10;
-                this.addReplaceMaterialPossibility(l, i);
+                this.addReplaceMaterialPossibility(l, i, m);
             }
             if ((mat == null) && (mlista.size() > 0)) {
                 if ((getDimension() < andamento) && ((painellargura + resto) > painellargura)) {
@@ -141,7 +147,7 @@ public class PersonalLabel {
         panel.repaint();
     }
 
-    private void addReplaceMaterialPossibility(javax.swing.JLabel label, int situo) {
+    private void addReplaceMaterialPossibility(javax.swing.JLabel label, int situo, Keys.Material material) {
         javax.swing.JPanel panell = new javax.swing.JPanel(null);
         panell.setPreferredSize(new java.awt.Dimension(300, 350));
         lingua = Clavis.KeyQuest.getLanguage();
@@ -247,6 +253,31 @@ public class PersonalLabel {
         };
         Components.PopUpMenu pop = new Components.PopUpMenu(titulos, act);
         pop.create();
+        String envia;
+        int tipo;
+        if (Clavis.Windows.WRequest.isMaterialInLateState(material, url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            Keys.Request re = db.getCurrentRequest(material);
+            db.close();
+            envia = "<html><div style='text-align:center'>" + lingua.translate("O recurso") + " \"" + lingua.translate(material.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(material.getDescription()) + "\"<br/>" + lingua.translate("continua emprestado") + " (" + lingua.translate("situação de atraso") + "). <br/>"
+                    + lingua.translate("Data de devolução") + ": " + re.getEndDate().toString()+" ("+re.getTimeEnd().toString(0)+")</div></html>";
+            tipo = Components.MessagePane.AVISO;
+        } else {
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                Keys.Request re = db.getNextRequest(material);
+                db.close();
+                if (re.getId() > 0) {
+                    envia = "<html><div style='text-align:center'>" + lingua.translate("O recurso") + " \"" + lingua.translate(material.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(material.getDescription()) + "\" " + lingua.translate("está disponível") + " <br/>" + lingua.translate("até") + " " + re.getBeginDate().toString() + " (" + re.getTimeBegin().toString(0) + "). </div></html>";
+                } else {
+                    envia = "<html><div style='text-align:center'>" + lingua.translate("O recurso") + " \"" + lingua.translate(material.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(material.getDescription()) + "\" " + lingua.translate("está disponível") + ".<br/> " + lingua.translate("Não tem requisições futuras") + ".</div></html>";
+                }
+            } else {
+                envia = "<html><div style='text-align:center'>" + lingua.translate("O recurso") + " \"" + lingua.translate(material.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(material.getDescription()) + "\" " + lingua.translate("está disponível") + ".</div></html>";
+            }
+            tipo = Components.MessagePane.INFORMACAO;
+        }
+        Components.MessagePane mensagem = new Components.MessagePane(null, tipo, Clavis.KeyQuest.getSystemColor(), lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
         label.addMouseListener(new MouseAdapter() {
             java.awt.Color cor = label.getBackground();
 
@@ -292,33 +323,7 @@ public class PersonalLabel {
                     pop.show(e.getComponent(), e.getX(), e.getY());
                 } else if (e.getClickCount() == 2) {
                     label.setBackground(cor);
-                    if (!vazia) {
-                        me.refreshAction(new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
-                    } else {
-                        me.refreshAction(new String[]{lingua.translate("Voltar")});
-                    }
-                    int val = me.showMessage();
-                    if (!vazia) {
-                        if (val == 1) {
-                            int sel = lmater.getSelectedIndex();
-                            Keys.Material ma = (Keys.Material) lmater.getModel().getElementAt(sel);
-                            selecionados.set(situo, ma);
-                            label.setText(treatLongStrings(ma.getDescription()));
-                            FileIOAux.ImageExtension bimage;
-                            if (!ma.getMaterialImage().equals("sem")) {
-                                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(ma.getMaterialImage()));
-                                label.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
-                            } else {
-                                String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + ma.getTypeOfMaterialImage() + ".png";
-                                bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
-                                label.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 54, 44)));
-                            }
-                            if (specialone) {
-                                Clavis.Windows.WRequest.updateComboMaterialOnSpecialRequest(ma);
-                            }
-                        }
-                        
-                    }
+                    mensagem.showMessage();
                 } else {
                     label.setBackground(Color.LIGHT_GRAY);
                 }
@@ -452,8 +457,8 @@ public class PersonalLabel {
     public java.util.List<Keys.Material> getSelectedOnes() {
         return selecionados;
     }
-    
-    public boolean isSpecialOne(){
+
+    public boolean isSpecialOne() {
         return specialone;
     }
 

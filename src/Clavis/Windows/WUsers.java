@@ -10,6 +10,7 @@ import Langs.Locale;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -667,26 +668,32 @@ public class WUsers extends javax.swing.JFrame {
                 DataBase.DataBase db = new DataBase.DataBase(url);
                 selecionado = paux;
                 int val = db.updatePerson(getSelectedItem());
-                if (val == 1) {
-                    db.close();
-                    selecionado = paux;
-                    Clavis.KeyQuest.getListDevolutions().editPerson(selecionado);
-                    Clavis.KeyQuest.getListRequest().editPerson(selecionado);
-                    this.changeValueOnTable(getSelectedItem().getName(), getSelectedItem().getPhone(), iselecionado);
-                    this.clearSelection();
-                    if (frame instanceof Clavis.Windows.WRequest) {
-                        ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
+                switch (val) {
+                    case 1:
+                        db.close();
+                        selecionado = paux;
+                        Clavis.KeyQuest.getListDevolutions().editPerson(selecionado);
+                        Clavis.KeyQuest.getListRequest().editPerson(selecionado);
+                        this.changeValueOnTable(getSelectedItem().getName(), getSelectedItem().getPhone(), iselecionado);
+                        this.clearSelection();
+                        if (frame instanceof Clavis.Windows.WRequest) {
+                            ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
+                        }
+                        this.requestFocus();
+                        break;
+                    case 0: {
+                        db.close();
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Verifique a validade / exclusividade da identificação ou e-mail") + ".", new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                        this.requestFocus();
+                        break;
                     }
-                    this.requestFocus();
-                } else if (val == 0) {
-                    db.close();
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Verifique a validade / exclusividade da identificação ou e-mail") + ".", new String[]{lingua.translate("Voltar")});
-                    mensagem.showMessage();
-                    this.requestFocus();
-                } else {
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Houve um erro na gravação dos novos valores") + ".", new String[]{lingua.translate("Voltar")});
-                    mensagem.showMessage();
-                    this.requestFocus();
+                    default: {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 450, 200, lingua.translate("Houve um erro na gravação dos novos valores") + ".", new String[]{lingua.translate("Voltar")});
+                        mensagem.showMessage();
+                        this.requestFocus();
+                        break;
+                    }
                 }
             }
         } else if (!txAdicionarNome.getText().equals("")) {
@@ -832,24 +839,33 @@ public class WUsers extends javax.swing.JFrame {
         txAdicionarTelefone.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarTelefone, false));
         txAdicionarIdentificacao.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txAdicionarIdentificacao, false));
         txPesquisa.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, txPesquisa, false));
-        if ((lpessoas.size() > 0)&&(frame != null)) {
-            if (frame instanceof Clavis.Windows.WRequest){
-               if (WRequest.getSelectedPerson() != null) {
-                   int val = this.serchPerson(WRequest.getSelectedPerson());
-                   this.select(val);
-               } 
+        if ((lpessoas.size() > 0) && (frame != null)) {
+            if (frame instanceof Clavis.Windows.WRequest) {
+                if (WRequest.getSelectedPerson() != null) {
+                    int val = this.serchPerson(WRequest.getSelectedPerson());
+                    if (val >= 0) {
+                        this.select(val);
+                    }
+                }
             }
         }
-
+        
+        Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int)(s.getWidth()/2 - this.getWidth()/2), (int)(s.getHeight()/2-this.getHeight()/2));
     }
 
     private void close() {
         this.setVisible(false);
         this.dispose();
         if (getParentFrame() != null) {
+            if (selecionado != null) {
+                if (frame instanceof Clavis.Windows.WRequest) {
+                    ((Clavis.Windows.WRequest) frame).updateSelectPerson(lpessoas, selecionado);
+                }
+            }
             getParentFrame().setLocation(this.getX(), this.getY());
             getParentFrame().setVisible(true);
-        }
+        } 
     }
 
     private void refreshTable() {
@@ -883,9 +899,9 @@ public class WUsers extends javax.swing.JFrame {
             model.removeRow(0);
         }
     }
-    
-    private int serchPerson(Keys.Person p){
-        for (int i=0; i<lpessoas.size();i++) {
+
+    private int serchPerson(Keys.Person p) {
+        for (int i = 0; i < lpessoas.size(); i++) {
             if (lpessoas.get(i).compareTo(p) == 0) {
                 return i;
             }
@@ -1057,6 +1073,11 @@ public class WUsers extends javax.swing.JFrame {
         jLabelTituloAdicionar.setText(lingua.translate("Editar valores de utilizador"));
         jButtonAdicionarGuardar.setBackground(new Color(51, 102, 153));
         jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(51, 102, 153)));
+        if (frame != null) {
+            if (frame instanceof Clavis.Windows.WRequest) {
+                jButtonExit.setBackground(new Color(51, 102, 153));
+            }
+        }
 
     }
 
@@ -1093,42 +1114,12 @@ public class WUsers extends javax.swing.JFrame {
         jButtonAdicionarGuardar.setBackground(new Color(57, 142, 2));
         jLabelTituloAdicionar.setText(lingua.translate("Adicionar utilizador"));
         jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(57, 142, 2)));
-        jLabelAdicionarNome.requestFocus();
-    }
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        if (frame != null) {
+            if (frame instanceof Clavis.Windows.WRequest) {
+                jButtonExit.setBackground(new Color(1, 1, 1));
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                WUsers s = new WUsers(Color.WHITE, Color.CYAN, "", Locale.getLocale_pt_PT(), null);
-                s.create();
-                s.setVisible(true);
-
-            }
-        });
+        jLabelAdicionarNome.requestFocus();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

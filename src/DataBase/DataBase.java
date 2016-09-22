@@ -4570,6 +4570,43 @@ public class DataBase {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public boolean commit(){
+        try {
+            con.commit();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public void setAutoCommit(boolean cond) {
+        try {
+            con.setAutoCommit(cond);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    
+    public java.sql.Savepoint createSavepoint(String nome){
+        java.sql.Savepoint p = null;
+        try {
+            return con.setSavepoint(nome);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
+    }
+    
+    public void roolback(java.sql.Savepoint nome) {
+        try {
+            con.rollback(nome);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
 
     public Set<Material> getFreeMaterialsBetweenDates(int materialTypeID, Date dat1, Date dat2, Time tim1, Time tim2) {
         java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
@@ -4602,34 +4639,18 @@ public class DataBase {
                                 + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y')) and data_entrega is null and hora_entrega is null;";
                         smt2 = con.createStatement();
                         rs3 = smt2.executeQuery(sql);
-                        passa = false;
-                        TimeDate.Time timdown = new TimeDate.Time(23, 59, 59);
-                        TimeDate.Time timtop = new TimeDate.Time(0, 0, 0);
-                        TimeDate.Date datatop = new TimeDate.Date(1, 1, 1);
-                        TimeDate.Time timauxiliarinicio;
-                        TimeDate.Time timauxiliarfim;
-                        TimeDate.Date datauxiliar;
+                        TimeDate.Time tinicio;
+                        TimeDate.Time tfim;
+                        TimeDate.Date dinicio;
+                        TimeDate.Date dfim;
                         String[] sdata;
                         String[] tempo;
+                        passa = false;
                         while (rs3.next()) {
                             sdata = rs3.getString("data_fim").split("/");
-                            datauxiliar = new TimeDate.Date(Integer.valueOf(sdata[0]), Integer.valueOf(sdata[1]), Integer.valueOf(sdata[2]));
-                            if (dat1.isBigger(dat2) == 0) {
-                                tempo = rs3.getString("hora_inicio").split(":");
-                                if ((tempo[0].length() > 1) && (tempo[0].charAt(0) == '0')) {
-                                    tempo[0] = tempo[0].replaceFirst("0", "");
-                                }
-                                if ((tempo[1].length() > 1) && (tempo[1].charAt(0) == '0')) {
-                                    tempo[1] = tempo[1].replaceFirst("0", "");
-                                }
-                                if ((tempo[2].length() > 1) && (tempo[2].charAt(0) == '0')) {
-                                    tempo[2] = tempo[2].replaceFirst("0", "");
-                                }
-                                timauxiliarinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
-                                if (timdown.compareTime(timauxiliarinicio) <= 0) {
-                                    timdown = timauxiliarinicio;
-                                }
-                            }
+                            dfim = new TimeDate.Date(Integer.valueOf(sdata[0]), Integer.valueOf(sdata[1]), Integer.valueOf(sdata[2]));
+                            sdata = rs3.getString("data_inicio").split("/");
+                            dinicio = new TimeDate.Date(Integer.valueOf(sdata[0]), Integer.valueOf(sdata[1]), Integer.valueOf(sdata[2]));
                             tempo = rs3.getString("hora_fim").split(":");
                             if ((tempo[0].length() > 1) && (tempo[0].charAt(0) == '0')) {
                                 tempo[0] = tempo[0].replaceFirst("0", "");
@@ -4640,14 +4661,67 @@ public class DataBase {
                             if ((tempo[2].length() > 1) && (tempo[2].charAt(0) == '0')) {
                                 tempo[2] = tempo[2].replaceFirst("0", "");
                             }
-                            timauxiliarfim = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
-                            if (timtop.compareTime(timauxiliarfim) >= 0) {
-                                timtop = timauxiliarfim;
+                            tfim = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
+                            tempo = rs3.getString("hora_inicio").split(":");
+                            if ((tempo[0].length() > 1) && (tempo[0].charAt(0) == '0')) {
+                                tempo[0] = tempo[0].replaceFirst("0", "");
                             }
-                            if (datatop.isBigger(datauxiliar) > 0) {
-                                datatop = datauxiliar;
+                            if ((tempo[1].length() > 1) && (tempo[1].charAt(0) == '0')) {
+                                tempo[1] = tempo[1].replaceFirst("0", "");
                             }
-                            passa = true;
+                            if ((tempo[2].length() > 1) && (tempo[2].charAt(0) == '0')) {
+                                tempo[2] = tempo[2].replaceFirst("0", "");
+                            }
+                            tinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
+                            if (dat1.isBigger(dat2) != 0) {
+                                if ((dinicio.isBigger(dat1) > 0)&&(dfim.isBigger(dat1) < 0)) {
+                                    passa = true;
+                                    break;
+                                } else if ((dinicio.isBigger(dat2) > 0)&&(dfim.isBigger(dat2) < 0)) {
+                                    passa = true;
+                                    break;
+                                } else if ((dinicio.isBigger(dat1) < 0) && (dinicio.isBigger(dat2) > 0)) {
+                                    passa = true;
+                                    break;
+                                } else if ((dfim.isBigger(dat1) < 0)&&(dfim.isBigger(dat2) > 0)){
+                                    passa = true;
+                                    break;
+                                } else if ((dinicio.isBigger(dat1) == 0)&&(dfim.isBigger(dat2) == 0)){
+                                    passa = true;
+                                    break;
+                                } else if ((dfim.isBigger(dat1) == 0)&&(tfim.compareTime(tim1) < 0)) {
+                                    passa = true;
+                                    break;
+                                } else if ((dinicio.isBigger(dat2) == 0)&&(tinicio.compareTime(tim2) > 0)) {
+                                    passa = true;
+                                    break;
+                                }
+                            } else if ((dat1.isBigger(dinicio) == 0)&&(dinicio.isBigger(dfim) != 0)) {
+                                if (tinicio.compareTime(tim2) > 0) {
+                                    passa = true;
+                                    break;
+                                }
+                            } else if ((dat2.isBigger(dfim) == 0)&&(dinicio.isBigger(dfim) != 0)) {
+                                if (tfim.compareTime(tim1) < 0) {
+                                    passa = true;
+                                    break;
+                                }
+                            } else if ((tinicio.compareTime(tim1) > 0)&&(tfim.compareTime(tim1) < 0)) {
+                                passa = true;
+                                break;
+                            } else if ((tinicio.compareTime(tim2) > 0)&&(tfim.compareTime(tim2) < 0)) {
+                                passa = true;
+                                break;
+                            } else if ((tinicio.compareTime(tim1) < 0)&&(tinicio.compareTime(tim2) > 0)) {
+                                passa = true;
+                                break;
+                            } else if ((tfim.compareTime(tim1) < 0)&&(tfim.compareTime(tim2) > 0)) {
+                                passa = true;
+                                break;
+                            } else if ((tfim.compareTime(tim1) == 0)&&(tfim.compareTime(tim2) == 0)) {
+                                passa = true;
+                                break;
+                            }
                         }
                         if (!passa) {
                             sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
@@ -4667,47 +4741,7 @@ public class DataBase {
                                 }
                                 materiais.add(material);
                             }
-                        } else if ((dat1.isBigger(dat2) == 0) && (timdown.compareTime(new TimeDate.Time(23, 59, 59)) > 0) && (timtop.isValid())) {
-                            if ((timtop.compareTime(tim1) > 0) || (timdown.compareTime(tim2) < 0)) {
-                                sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
-                                aux = con.createStatement();
-                                rs2 = aux.executeQuery(sql);
-                                if (rs2.next()) {
-                                    Keys.TypeOfMaterial tipo;
-                                    if (!rs2.getString("Imagem").equals("sem")) {
-                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
-                                    } else {
-                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
-                                    }
-                                    if (!rs.getString("imagem").equals("sem")) {
-                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
-                                    } else {
-                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
-                                    }
-                                    materiais.add(material);
-                                }
-                            }
-                        } else if ((dat1.isBigger(datatop) == 0) && (timtop.isValid())) {
-                            if (timtop.compareTime(tim1) > 0) {
-                                sql = "select * from TypesOfMaterial where id_tipo ='" + materialTypeID + "';";
-                                aux = con.createStatement();
-                                rs2 = aux.executeQuery(sql);
-                                if (rs2.next()) {
-                                    Keys.TypeOfMaterial tipo;
-                                    if (!rs2.getString("Imagem").equals("sem")) {
-                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"), rs2.getString("imagem"));
-                                    } else {
-                                        tipo = new Keys.TypeOfMaterial(rs2.getInt("id_tipo"), rs2.getString("descricao"), rs2.getInt("total"), rs2.getInt("livres"));
-                                    }
-                                    if (!rs.getString("imagem").equals("sem")) {
-                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
-                                    } else {
-                                        material = new Keys.Material(idmaterial, tipo, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
-                                    }
-                                    materiais.add(material);
-                                }
-                            }
-                        }
+                        } 
                     }
                     if (!smt.isClosed()) {
                         smt.close();

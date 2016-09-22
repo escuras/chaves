@@ -167,7 +167,7 @@ public class RequestList {
             java.util.Set<Keys.Request> requestauxiliar = new java.util.HashSet<>();
             System.out.println(bool);
             if (bool) {
-                Keys.Request sai = null;
+                Keys.Request sai;
                 Keys.Request entra;
                 java.util.Set<Keys.Request> reqs;
                 java.util.List<Keys.Request> lista = new java.util.ArrayList<>(requests);

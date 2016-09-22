@@ -1057,27 +1057,50 @@ public class WRequest extends javax.swing.JFrame {
         TimeDate.Time tempo2 = this.getTime(jSpinner2);
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
+            db.setAutoCommit(false);
+            java.sql.Savepoint ponto = db.createSavepoint("voltar");
             int i = 0;
             int resultado = -1;
+            boolean emprestado = false;
             while (i < mats.size()) {
-                resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
-                if (resultado < 1) {
-                    break;
+                if (!WRequest.isMaterialInLateState(mats.get(i), url)) {
+                    resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
+                    if (resultado < 1) {
+                        break;
+                    }
+                } else {
+                    String aviso = "<html><div style='text-align:center'>" + lingua.translate("O recurso")+" \"" 
+                            + lingua.translate(mats.get(i).getTypeOfMaterialName())+" "+mats.get(i).getDescription()+"\" "
+                            + lingua.translate("está emprestado com atraso") + ".<br/>"
+                            + lingua.translate("Mesmo assim, pretende fazer a requisição") + "?</div></html>";
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, aviso, new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+                    int val = mensagem.showMessage();
+                    if (val == 1) {
+                        resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
+                        if (resultado < 1) {
+                            break;
+                        }
+                    }
                 }
                 i++;
             }
-            Clavis.KeyQuest.refreshTables();
-            jComboBoxTipoMaterial.setSelectedIndex(0);
-            jComboBoxMaterial.setSelectedIndex(0);
-            jSpinnerQuantidade.setValue(0);
-            jComboBoxNomeUtilizador.setSelectedIndex(0);
             if (i < mats.size()) {
-                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("Houve um problema com o registo das requisições") + ".", new String[]{lingua.translate("Voltar")});
+                String envia = lingua.translate("Houve um problema com o registo das requisições") + ".";
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
+                db.roolback(ponto);
             } else {
-                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("Requisição efetuada com sucesso"), new String[]{lingua.translate("Voltar")});
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("A Requisição foi registada com sucesso") + ".", new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
+                db.commit();
+                Clavis.KeyQuest.refreshTables();
+                jComboBoxTipoMaterial.setSelectedIndex(0);
+                jComboBoxMaterial.setSelectedIndex(0);
+                jSpinnerQuantidade.setValue(0);
+                jComboBoxNomeUtilizador.setSelectedIndex(0);
             }
+            db.setAutoCommit(true);
+            db.close();
         }
     }//GEN-LAST:event_jButtonRequisitarActionPerformed
 
@@ -1177,7 +1200,7 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
 
-        pl = new Components.PersonalLabel(jPanelConteudo, 120, 150, mlista);
+        pl = new Components.PersonalLabel(jPanelConteudo, 120, 150, mlista, url);
         jSpinnerQuantidade.addChangeListener((ChangeEvent e) -> {
             if ((int) jSpinnerQuantidade.getValue() >= 0) {
                 if (jComboBoxTipoMaterial.getSelectedIndex() > 0) {
@@ -1278,7 +1301,12 @@ public class WRequest extends javax.swing.JFrame {
             if (tlista.size() > 0) {
                 int i = 0;
                 for (Keys.TypeOfMaterial m : tlista) {
-                    m.setTypeOfMaterialName(lingua.translateWithPlural(m.getTypeOfMaterialName()));
+                    m = new Keys.TypeOfMaterial(m) {
+                        @Override
+                        public String toString() {
+                            return lingua.translateWithPlural(getTypeOfMaterialName());
+                        }
+                    };
                     modelo.addElement(m);
                     if (mat != null) {
                         if (m.getMaterialTypeID() == mat.getMaterialTypeID()) {
@@ -1297,7 +1325,12 @@ public class WRequest extends javax.swing.JFrame {
             for (int i = 0; i < p.size() - 1; i++) {
                 var = 2;
                 for (int j = i + 1; j < p.size(); j++) {
-                    p.get(j).setName(this.treatLongStrings(p.get(j).getName(), 80, jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().getFont()));
+                    p.set(i, new Keys.Person(p.get(i)) {
+                        @Override
+                        public String toString() {
+                            return treatLongStrings(getName(), 80, jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().getFont());
+                        }
+                    });
                     if (p.get(i).getName().equals(p.get(j).getName())) {
                         p.get(j).setName(p.get(j).getName() + " (" + var + ")");
                         var++;
@@ -1563,6 +1596,71 @@ public class WRequest extends javax.swing.JFrame {
         }
     }
 
+    public void updateSelectPerson(java.util.List<Keys.Person> lista, Keys.Person pessoa) {
+        pessoas = lista;
+        int pos = -1;
+        jComboBoxNomeUtilizador.removeAllItems();
+        for (int i = 1; i < pessoas.size() + 1; i++) {
+            jComboBoxNomeUtilizador.addItem(pessoas.get(i - 1));
+            if (pessoas.get(i - 1).compareTo(pessoa) == 0) {
+                pos = i;
+            }
+        }
+        jComboBoxNomeUtilizador.setSelectedIndex(pos);
+        jComboBoxNomeUtilizador.setSelectedIndex(pos);
+        if (pos > 0) {
+            if ((pessoa.getEmail().equals("")) || (pessoa.getEmail().equals("sem"))) {
+                personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+            } else {
+                personalTextFieldEmailUtilizador.setText(pessoa.getEmail());
+            }
+            if ((pessoa.getIdentification().equals("")) || (pessoa.getIdentification().equals("sem"))) {
+                personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+            } else {
+                personalTextFieldCodigoUtilizador.setText(pessoa.getIdentification());
+            }
+        }
+    }
+
+    public static boolean checkHolidays(TimeDate.Date dinicio, TimeDate.Date dfim) {
+        if (dinicio != null) {
+            boolean vai_e_vem = false;
+            TimeDate.HolidaysList feriados = Clavis.KeyQuest.getHolidays();
+            for (TimeDate.Holiday hol : feriados.getHolidays()) {
+                if ((hol.getDay() == dinicio.getDay()) && (hol.getMonth() == dinicio.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if ((hol.getDay() == dfim.getDay()) && (hol.getMonth() == dfim.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if (vai_e_vem) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isMaterialInLateState(Keys.Material material, String url) {
+        if (material.isLoaned()) {
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                Keys.Request re = db.getCurrentRequest(material);
+                db.close();
+                TimeDate.Date datfim = re.getEndDate();
+                TimeDate.Time tempofim = re.getTimeEnd();
+                TimeDate.Date datatual = new TimeDate.Date();
+                TimeDate.Time tempoatual = new TimeDate.Time();
+                if (datfim.isBigger(datatual) > 0) {
+                    return true;
+                } else if ((datfim.isBigger(datatual) == 0) && (tempofim.compareTime(tempoatual) > 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static final void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             WRequest wr = new WRequest();
@@ -1710,8 +1808,14 @@ public class WRequest extends javax.swing.JFrame {
     private void changeStateButtons() {
         if ((pessoaescolhida != null) && (jComboBoxTipoMaterial.getSelectedIndex() > 0)) {
             jButtonAlgoMais.setEnabled(true);
+            TimeDate.Date data1 = new TimeDate.Date(jXDatePicker1.getDate());
+            TimeDate.Date data2 = new TimeDate.Date(jXDatePicker2.getDate());
             if (((int) jSpinnerQuantidade.getValue()) > 0) {
-                jButtonRequisitar.setEnabled(true);
+                if (!WRequest.checkHolidays(data1, data2)){
+                    jButtonRequisitar.setEnabled(true);
+                } else {
+                    jButtonRequisitar.setEnabled(false);
+                }
             } else {
                 jButtonRequisitar.setEnabled(false);
             }

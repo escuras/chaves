@@ -18,16 +18,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
@@ -39,7 +46,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  *
  * @author toze
  */
-public class WRequestSpecific extends javax.swing.JFrame {
+public class WRequestSpecific extends javax.swing.JDialog {
 
     private Color corborda;
     private Color corfundo;
@@ -55,7 +62,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
     private TimeDate.Time tinicio;
     private TimeDate.Time tfim;
     private int intervalo;
-    private java.util.Set<Keys.Request> rlist;
+    private java.util.List<Keys.Request> rlist;
     private boolean reqefetuada;
     private java.util.List<Keys.ClassStudents> reqturmas;
     private java.util.List<Keys.Subject> reqdisciplinas;
@@ -80,7 +87,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
         tfim = null;
         intervalo = 1;
         reqefetuada = false;
-        rlist = new java.util.TreeSet<>();
+        rlist = new java.util.ArrayList<>();
         reqturmas = new java.util.ArrayList<>();
         reqdisciplinas = new java.util.ArrayList<>();
         reqatividade = "";
@@ -92,20 +99,30 @@ public class WRequestSpecific extends javax.swing.JFrame {
         makeTextFieldEmail();
         makeTextFieldCode();
         makeValidDate();
+        this.setModal(true);
         dinicio = this.getDate(jSpinnerDataLevantamento);
         dfim = this.getDate(jSpinnerDataEntrega);
         tinicio = this.getTime(jSpinnerHoraLevantamento);
         tfim = this.getTime(jSpinnerHoraEntrega);
         makeRequestsList();
         makeModelTimeComboBox();
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosed(WindowEvent e) {
+                close();
+            }
+        });
     }
 
     public void close() {
         reqefetuada = false;
-        this.dispose();
+        this.setVisible(false);
         if (dialogo != null) {
+            java.awt.Point p = this.getLocation();
+            dialogo.setLocation(p);
             dialogo.setVisible(true);
         }
+        this.dispose();
     }
 
     public int isIntervalDateValid() {
@@ -115,20 +132,22 @@ public class WRequestSpecific extends javax.swing.JFrame {
         tfim = this.getTime(jSpinnerHoraEntrega);
         TimeDate.Date dat = new TimeDate.Date();
         if ((dinicio == null) || (dfim == null) || (tinicio == null) || (tfim == null)) {
-            return -17;
+            return -19;
         } else if (dinicio.isBigger(dat) > 0) {
-            return -16;
+            return -18;
         } else if (dinicio.isBigger(dfim) < 0) {
+            return -17;
+        } else if (this.checkHolidays()) {
             return -15;
         } else if (dinicio.isBigger(dfim) == 0) {
             if (tinicio.compareTime(tfim) < 0) {
-                return -14;
+                return -16;
             }
-        }
+        } 
         int val = dinicio.isBigger(dfim);
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-            java.util.Set<Keys.Request> req = db.getRequestsByMaterialByDateInterval(material, dat, dat.dateAfter(dinicio.isBigger(dfim)+1));
+            java.util.Set<Keys.Request> req = db.getRequestsByMaterialByDateInterval(material, dat, dat.dateAfter(dinicio.isBigger(dfim) + 1));
             for (Keys.Request r : req) {
                 if (r.getDeliveryDate() == null) {
                     TimeDate.Date dat1 = r.getBeginDate();
@@ -137,39 +156,41 @@ public class WRequestSpecific extends javax.swing.JFrame {
                     TimeDate.Time tim2 = r.getTimeEnd();
                     if (dinicio.isBigger(dfim) != 0) {
                         if ((dat1.isBigger(dinicio) > 0) && (dat2.isBigger(dinicio) < 0)) {
-                            return -13;
+                            return -14;
                         } else if ((dat1.isBigger(dfim) > 0) && (dat2.isBigger(dfim) < 0)) {
-                            return -12;
+                            return -13;
                         } else if ((dat1.isBigger(dinicio) < 0) && (dat1.isBigger(dfim) > 0)) {
-                            return -11;
+                            return -12;
                         } else if ((dat2.isBigger(dinicio) < 0) && (dat2.isBigger(dfim) > 0)) {
-                            return -10;
+                            return -11;
                         } else if ((dat2.isBigger(dinicio) == 0) && (dat2.isBigger(dfim) == 0)) {
-                            return -9;
+                            return -10;
                         } else if (dat2.isBigger(dinicio) == 0) {
                             if (tim2.compareTime(tinicio) < 0) {
-                                return -8;
+                                return -9;
                             }
                         } else if (dat1.isBigger(dfim) == 0) {
                             if (tim1.compareTime(tfim) > 0) {
-                                return -7;
+                                return -8;
                             }
                         }
                     } else if ((dinicio.isBigger(dat1) == 0) && (dat1.isBigger(dat2) != 0)) {
                         if (tim1.compareTime(tfim) > 0) {
-                            return -6;
+                            return -7;
                         }
                     } else if ((dfim.isBigger(dat2) == 0) && (dat1.isBigger(dat2) != 0)) {
                         if (tim2.compareTime(tinicio) < 0) {
-                            return -5;
+                            return -6;
                         }
-                    } else if (((tim1.compareTime(tinicio) > 0) && (tim2.compareTime(tinicio) < 0))&&((dat1.isBigger(dinicio) == 0))) {
+                    } else if ((tim1.compareTime(tinicio) > 0) && (tim2.compareTime(tinicio) < 0)) {
+                        return -5;
+                    } else if ((tim1.compareTime(tfim) > 0) && (tim2.compareTime(tfim) < 0)) {
                         return -4;
-                    } else if ((tim1.compareTime(tfim) > 0) && (tim2.compareTime(tfim) < 0)&&(dat1.isBigger(dfim) == 0)) {
+                    } else if ((tim1.compareTime(tinicio) < 0) && (tim1.compareTime(tfim) > 0)) {
                         return -3;
-                    } else if ((tim1.compareTime(tinicio) < 0 )&&(tim1.compareTime(tfim) > 0)&&(dat1.isBigger(dfim) == 0)) {
+                    } else if ((tim2.compareTime(tinicio) < 0) && (tim2.compareTime(tfim) > 0)) {
                         return -2;
-                    } else if ((tim2.compareTime(tinicio) < 0 )&&(tim2.compareTime(tfim) > 0)&&(dat1.isBigger(dfim) == 0)) {
+                    } else if ((tim1.compareTime(tinicio) == 0)&&(tim2.compareTime(tfim) == 0)) {
                         return -1;
                     }
                 }
@@ -223,8 +244,10 @@ public class WRequestSpecific extends javax.swing.JFrame {
     }
 
     public void appear() {
+        this.setModal(true);
+        java.awt.Point p = dialogo.getLocation();
+        this.setLocation(p);
         this.setVisible(true);
-        this.setLocationRelativeTo(dialogo);
     }
 
     private void makeRequestsList() {
@@ -238,9 +261,9 @@ public class WRequestSpecific extends javax.swing.JFrame {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             TimeDate.Date dat = new TimeDate.Date();
-            rlist = db.getRequestsByMaterialByDateInterval(material, dat, dat.dateAfter(intervalo));
-            if (reqefetuada ) {
-               reqid =  db.getRequestID(pessoaescolhida.getId(), material.getId(), dinicio, dfim, tinicio, tfim);
+            rlist = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(material, dat, dat.dateAfter(intervalo)));
+            if (reqefetuada) {
+                reqid = db.getRequestID(pessoaescolhida.getId(), material.getId(), dinicio, dfim, tinicio, tfim);
             }
             db.close();
             DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -251,11 +274,11 @@ public class WRequestSpecific extends javax.swing.JFrame {
                 if (reqid == r.getId()) {
                     cor = "#ccffb3";
                 } else if (i % 2 == 0) {
-                    cor = "#efeedc";
+                    cor = "#efeed0";
                 } else {
                     cor = "#d7d4a7";
                 }
-                andancas = "<html><div style='padding-top:4px;text-align:center;width:203px;height:30px;background-color:" + cor + "'> <b>" + lingua.translate("Início") + ": </b>" + r.getBeginDate().toString() + " (" + r.getTimeBegin().toString(0) + ")<br/>"
+                andancas = "<html><div style='padding-top:4px;text-align:center;width:203px;height:30px; background-color:" + cor + ";'> <b>" + lingua.translate("Início") + ": </b>" + r.getBeginDate().toString() + " (" + r.getTimeBegin().toString(0) + ")<br/>"
                         + "<b>" + lingua.translate("Fim") + ": </b>" + r.getEndDate().toString() + " (" + r.getTimeEnd().toString(0) + ")"
                         + "</div></html>";
                 modelo.addElement(andancas);
@@ -271,7 +294,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
         DefaultListModel m = (DefaultListModel) jListHorario.getModel();
         Rectangle r;
         int altura = 10;
-        jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(),0));
+        jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(), 0));
         for (int x = 0; x < m.getSize(); x++) {
             r = jListHorario.getCellBounds(x, x);
             altura += (int) (r.getHeight());
@@ -283,7 +306,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
     }
 
     private void makeComboBoxUser() {
-        
+
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.Person> p = db.getPersons();
@@ -328,17 +351,45 @@ public class WRequestSpecific extends javax.swing.JFrame {
             }
             changeButtonState();
         });
-        
+
         jComboBoxNomeUtilizador.setSelectedIndex(0);
     }
-    
-    private void changeButtonState(){
-        System.out.println(isIntervalDateValid());
-        if ((pessoaescolhida != null)&&(isIntervalDateValid() == 1)) {
+
+    private void changeButtonState() {
+        if ((pessoaescolhida != null) && (isIntervalDateValid() == 1)) {
             jButtonConfirma.setEnabled(true);
+            jButtonAlgoMais.setEnabled(true);
+            TimeDate.Time tempoatual = new TimeDate.Time();
+            if (this.isMaterialInLateState()) {
+                jButtonConfirma.setBackground(new Components.Color(255, 104, 100));
+            } else {
+                jButtonConfirma.setBackground(new Components.Color(51, 102, 203));
+            }
         } else {
+            jButtonConfirma.setBackground(new Components.Color(51, 102, 203));
+            jButtonAlgoMais.setEnabled(false);
             jButtonConfirma.setEnabled(false);
         }
+    }
+
+    private boolean isMaterialInLateState() {
+        if (material.isLoaned()) {
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                Keys.Request re = db.getCurrentRequest(material);
+                db.close();
+                TimeDate.Date datfim = re.getEndDate();
+                TimeDate.Time tempofim = re.getTimeEnd();
+                TimeDate.Date datatual = new TimeDate.Date();
+                TimeDate.Time tempoatual = new TimeDate.Time();
+                if (datfim.isBigger(datatual) > 0) {
+                    return true;
+                } else if ((datfim.isBigger(datatual) == 0) && (tempofim.compareTime(tempoatual) > 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void makeTextFieldEmail() {
@@ -429,7 +480,6 @@ public class WRequestSpecific extends javax.swing.JFrame {
         });
     }
 
-   
     public void updatePersons(java.util.List<Keys.Person> lista, boolean editar) {
         pessoas = lista;
         int pos = jComboBoxNomeUtilizador.getSelectedIndex();
@@ -634,7 +684,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jLabelRecurso = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jButtonExit = new javax.swing.JButton();
         jComboBoxTempo = new javax.swing.JComboBox<>();
         jButtonAlgoMais = new javax.swing.JButton();
 
@@ -888,13 +938,12 @@ public class WRequestSpecific extends javax.swing.JFrame {
                             .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(personalTextFieldCodigoUtilizador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12))
+                            .addComponent(personalTextFieldEmailUtilizador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabelUtilizador, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxUtilizador, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))))
+                        .addComponent(jComboBoxUtilizador, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -938,15 +987,15 @@ public class WRequestSpecific extends javax.swing.JFrame {
         jLabelRecurso.setOpaque(true);
         jLabelRecurso.setPreferredSize(new java.awt.Dimension(352, 30));
 
-        jButton2.setBackground(new java.awt.Color(1, 1, 1));
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setFocusPainted(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(90, 40));
-        jButton2.setMinimumSize(new java.awt.Dimension(90, 40));
-        jButton2.setPreferredSize(new java.awt.Dimension(90, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonExit.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonExit.setFocusPainted(false);
+        jButtonExit.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonExit.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonExit.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonExitActionPerformed(evt);
             }
         });
 
@@ -955,7 +1004,13 @@ public class WRequestSpecific extends javax.swing.JFrame {
         jComboBoxTempo.setMinimumSize(new java.awt.Dimension(293, 30));
         jComboBoxTempo.setPreferredSize(new java.awt.Dimension(293, 30));
 
-        jButtonAlgoMais.setText("jButton1");
+        jButtonAlgoMais.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonAlgoMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAlgoMais.setEnabled(false);
+        jButtonAlgoMais.setFocusPainted(false);
+        jButtonAlgoMais.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonAlgoMais.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonAlgoMais.setPreferredSize(new java.awt.Dimension(90, 40));
         jButtonAlgoMais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAlgoMaisActionPerformed(evt);
@@ -975,7 +1030,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButtonConfirma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jButtonExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButtonAlgoMais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1007,7 +1062,7 @@ public class WRequestSpecific extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonAlgoMais, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)))
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
@@ -1019,18 +1074,50 @@ public class WRequestSpecific extends javax.swing.JFrame {
         );
 
         jLabelLista.setText(lingua.translate("Lista de requisições atribuidas")+".");
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/save.png") != null) {
+                BufferedImage im3 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/save.png"));
+                ImageIcon ic3 = new ImageIcon(im3);
+                jButtonConfirma.setIcon(ic3);
+            } else {
+                jButtonConfirma.setText(lingua.translate("Requisitar"));
+            }
+        } catch(IOException e){}
+
+        jButtonConfirma.setToolTipText(lingua.translate("Efetuar requisição"));
         if (material != null) {
             jLabelRecurso.setText(lingua.translate("Requisição")+": "+material.getTypeOfMaterialName()+" "+material.getDescription());
         }
         else {
             jLabelRecurso.setText(lingua.translate("Primeiro, deve selecionar um recurso")+".");
         }
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
+                BufferedImage imexit = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon icexit = new ImageIcon(imexit);
+                jButtonExit.setIcon(icexit);
+            } else {
+                jButtonExit.setText(lingua.translate("Voltar"));
+            }
+        } catch (IOException e) {}
+        jButtonExit.setToolTipText(lingua.translate("Voltar"));
         Components.PersonalCombo.setHorizontalTextPosition(javax.swing.JTextField.CENTER, jComboBoxTempo);
         ((javax.swing.JLabel)jComboBoxTempo.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
         BasicComboPopup popupVista = (BasicComboPopup) jComboBoxTempo.getAccessibleContext().getAccessibleChild(0);
         popupVista.getList().setSelectionBackground(Color.DARK_GRAY);
         popupVista.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/algomais.png") != null) {
+                BufferedImage imalgomais = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/algomais.png"));
+                ImageIcon icalgomais = new ImageIcon(imalgomais);
+                jButtonAlgoMais.setIcon(icalgomais);
+            } else {
+                jButtonAlgoMais.setText(lingua.translate("Algo mais"));
+            }
+        } catch(IOException e){}
+
+        jButtonAlgoMais.setToolTipText(lingua.translate("Acrescentar mais informação"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1049,23 +1136,67 @@ public class WRequestSpecific extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        dinicio = this.getDate(jSpinnerDataLevantamento);
-        dfim = this.getDate(jSpinnerDataEntrega);
-        tinicio = this.getTime(jSpinnerHoraLevantamento);
-        tfim = this.getTime(jSpinnerHoraEntrega);
-        System.out.println(this.isIntervalDateValid());
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
+        this.close();
+    }//GEN-LAST:event_jButtonExitActionPerformed
 
-    private void jButtonConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaActionPerformed
+    private boolean checkHolidays() {
+        if (dinicio != null) {
+            boolean vai_e_vem = false;
+            TimeDate.HolidaysList feriados = Clavis.KeyQuest.getHolidays();
+            for (TimeDate.Holiday hol : feriados.getHolidays()) {
+                if ((hol.getDay() == dinicio.getDay())&&(hol.getMonth() == dinicio.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if ((hol.getDay() == dfim.getDay())&&(hol.getMonth() == dfim.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if (vai_e_vem) return true;
+            }
+        }
+        return false;
+    }
+
+    private void makeRequest(boolean mostra) {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
-           
+            int res = db.insertRequest(material, pessoaescolhida, reqatividade, reqturmas, reqdisciplinas, dinicio, dfim, tinicio, tfim);
+            if (res == 1) {
+                if (mostra) {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("O registo da requisição foi efetuado") + ".", new String[]{lingua.translate("Voltar")});
+                    mensagem.showMessage();
+                }
+                reqefetuada = true;
+                this.makeRequestsList();
+                Clavis.KeyQuest.refreshTables();
+            } else {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("O registo não foi efetuado") + ".", new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
+            }
+        }
+    }
+    private void jButtonConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaActionPerformed
+        int situa = this.isIntervalDateValid();
+        if ((pessoaescolhida != null) && (situa == 1)) {
+            if (this.isMaterialInLateState()) {
+                String aviso = "<html><div style='text-align:center'>" + lingua.translate("O recurso está emprestado com atraso de entrega") + ".<br/>"
+                        + lingua.translate("Mesmo assim, pretende fazer a requisição") + "?</div></html>";
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, aviso, new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+                int val = mensagem.showMessage();
+                if (val == 1) {
+                    makeRequest(false);
+                    jComboBoxNomeUtilizador.setSelectedIndex(0);
+                    pessoaescolhida = null;
+                    this.changeButtonState();
+                }
+            } else {
+                makeRequest(true);
+            }
         }
     }//GEN-LAST:event_jButtonConfirmaActionPerformed
 
     private void jButtonAlgoMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgoMaisActionPerformed
-        WOthersPanel panel = new WOthersPanel(this, url,lingua,reqatividade,reqturmas,reqdisciplinas); 
+        WOthersPanel panel = new WOthersPanel(this, url, lingua, reqatividade, reqturmas, reqdisciplinas);
         Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, panel.createPanelMoreInfo(500, 350), "", new String[]{"Confirmar", "Voltar"});
         if (mensagem.showMessage() == 1) {
             reqatividade = panel.getActivity();
@@ -1124,9 +1255,9 @@ public class WRequestSpecific extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAlgoMais;
     private javax.swing.JButton jButtonConfirma;
+    private javax.swing.JButton jButtonExit;
     private javax.swing.JComboBox<String> jComboBoxTempo;
     /*
     private javax.swing.JComboBox<String> jComboBoxUtilizador;

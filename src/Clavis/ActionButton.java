@@ -893,9 +893,10 @@ public final class ActionButton extends javax.swing.JDialog {
             btreq.addActionListener((ActionEvent e) -> {
                 Clavis.Windows.WRequestSpecific wreq = new Clavis.Windows.WRequestSpecific(panelcor, painel.getBackground(), getMaterial(), url, lingua, this);
                 wreq.create();
+                this.setModal(false);
                 this.setVisible(false);
-                wreq.setVisible(true);
-                wreq.setLocationRelativeTo(this);
+                wreq.appear();
+                this.setVisible(false);
             });
             painel11.add(btreq);
 
@@ -1507,9 +1508,10 @@ public final class ActionButton extends javax.swing.JDialog {
             btreq.addActionListener((ActionEvent e) -> {
                 Clavis.Windows.WRequestSpecific wreq = new Clavis.Windows.WRequestSpecific(panelcor, painel.getBackground(), getMaterial(), url, lingua, this);
                 wreq.create();
+                this.setModal(false);
                 this.setVisible(false);
-                wreq.setVisible(true);
-                wreq.setLocationRelativeTo(this);
+                wreq.appear();
+                
             });
             btreq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btreq.setBounds(285, 0, 90, 40);
@@ -1991,7 +1993,6 @@ public final class ActionButton extends javax.swing.JDialog {
             lb1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 8, 0, 4), BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)));
             lb1.setPreferredSize(new Dimension(219, 20));
             lb1.setBounds(0, 90, 219, 20);
-
             painel2.add(lb1);
             if (cla != null) {
                 if (!cla.isLoaned() || (!emprestado)) {

@@ -4227,6 +4227,14 @@ public class KeyQuest extends javax.swing.JFrame {
         });
         jMenuMovimentos.add(itemAdicionarUtilizador);
         
+        JMenuItem itemAdicionarRecurso = new JMenuItem();
+        itemAdicionarRecurso.setText(lingua.translate("Inserir Recursos"));
+        itemAdicionarRecurso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemAdicionarRecurso.setAccelerator(KeyStroke.getKeyStroke(itemAdicionarUtilizador.getText().charAt(0), Event.ALT_MASK));
+        itemAdicionarRecurso.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemAdicionarRecursoActionPerformed(evt);
+        });
+        jMenuMovimentos.add(itemAdicionarRecurso);
         
 
         this.setJMenuBar(menu);
@@ -4235,8 +4243,13 @@ public class KeyQuest extends javax.swing.JFrame {
     private void itemAdicionarUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {
         Clavis.Windows.WUsers wu = new Clavis.Windows.WUsers(new Color(255,255,255), systemColor, urlbd, lingua, null);
         wu.create();
-        wu.setLocation(this.getX(), this.getY());
         wu.setVisible(true);
+    }
+    
+    private void itemAdicionarRecursoActionPerformed(java.awt.event.ActionEvent evt) {
+        Clavis.Windows.WResources wu = new Clavis.Windows.WResources(new Color(255,255,255), systemColor, urlbd, lingua);
+        wu.create();
+        wu.appear();
     }
 
     private void itemRequisicoesActionPerformed(java.awt.event.ActionEvent evt) {
@@ -5019,7 +5032,7 @@ public class KeyQuest extends javax.swing.JFrame {
     protected int tdivisor = 40;
     private boolean mudoutema;
     protected Color cordivisor;
-    protected HolidaysList feriados;
+    protected static HolidaysList feriados;
     protected TimeDate.BreakPeriodList intervalos;
     protected int vista = 0;
     protected String tema = "claro";
@@ -5424,4 +5437,7 @@ public class KeyQuest extends javax.swing.JFrame {
         superuser = cond;
     }
     
+    public static HolidaysList getHolidays(){
+        return feriados;
+    }
 }

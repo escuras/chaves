@@ -28,22 +28,35 @@ import javax.swing.border.Border;
  * @author toze
  */
 public class WOthersPanel {
-    
+
     private java.util.List<Keys.ClassStudents> reqturmas;
     private java.util.List<Keys.Subject> reqdisciplinas;
     private String reqatividade;
     private String url;
     private Langs.Locale lingua;
     private javax.swing.JFrame frame;
-    public WOthersPanel(javax.swing.JFrame frame, String url, Langs.Locale lingua, String reqatividade, java.util.List<Keys.ClassStudents> reqturmas, java.util.List<Keys.Subject> reqdisciplinas){
+    private javax.swing.JDialog dialogo;
+
+    public WOthersPanel(javax.swing.JFrame frame, String url, Langs.Locale lingua, String reqatividade, java.util.List<Keys.ClassStudents> reqturmas, java.util.List<Keys.Subject> reqdisciplinas) {
         this.reqturmas = reqturmas;
         this.reqatividade = reqatividade;
         this.reqdisciplinas = reqdisciplinas;
-        this.url= url;
+        this.url = url;
         this.lingua = lingua;
         this.frame = frame;
+        this.dialogo = null;
     }
-    
+
+    public WOthersPanel(javax.swing.JDialog dialogo, String url, Langs.Locale lingua, String reqatividade, java.util.List<Keys.ClassStudents> reqturmas, java.util.List<Keys.Subject> reqdisciplinas) {
+        this.reqturmas = reqturmas;
+        this.reqatividade = reqatividade;
+        this.reqdisciplinas = reqdisciplinas;
+        this.url = url;
+        this.lingua = lingua;
+        this.frame = null;
+        this.dialogo = dialogo;
+    }
+
     public javax.swing.JPanel createPanelMoreInfo(int largura, int altura) {
         javax.swing.JPanel panel = new javax.swing.JPanel(null);
         panel.setPreferredSize(new Dimension(largura, altura));
@@ -260,7 +273,12 @@ public class WOthersPanel {
             tx.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));
             panel2.add(lb1);
             panel2.add(tx);
-            Components.MessagePane mensagem = new Components.MessagePane(frame, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar atividade"), 400, 220, panel2, "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+            Components.MessagePane mensagem;
+            if (frame != null) {
+                mensagem = new Components.MessagePane(frame, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar atividade"), 400, 220, panel2, "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+            } else {
+                mensagem = new Components.MessagePane(dialogo, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar atividade"), 400, 220, panel2, "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+            }
             if (mensagem.showMessage() == 1) {
                 if (!tx.getText().equals("")) {
                     if (DataBase.DataBase.testConnection(url)) {
