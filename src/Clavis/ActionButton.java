@@ -42,7 +42,7 @@ public final class ActionButton extends javax.swing.JDialog {
     private boolean editar;
     private javax.swing.JPanel painel;
     private javax.swing.JTextField[] texto;
-    private final javax.swing.JDialog dialogopai;
+    private final javax.swing.JFrame framepai;
     private FileIOAux.ImageExtension bimage;
     private boolean alterado;
     private javax.swing.JLabel labelativa;
@@ -65,7 +65,7 @@ public final class ActionButton extends javax.swing.JDialog {
         editar = false;
         this.panelcor = KeyQuest.getSystemColor();
         this.url = "";
-        dialogopai = null;
+        framepai = null;
         bimage = null;
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
@@ -86,7 +86,7 @@ public final class ActionButton extends javax.swing.JDialog {
         editar = false;
         this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
-        dialogopai = null;
+        framepai = null;
         bimage = null;
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
@@ -107,7 +107,7 @@ public final class ActionButton extends javax.swing.JDialog {
         editar = false;
         this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
-        dialogopai = null;
+        framepai = null;
         bimage = null;
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
@@ -120,15 +120,15 @@ public final class ActionButton extends javax.swing.JDialog {
         this.btchamada = btchamada;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Material m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
-        super(dialogo);
+    public ActionButton(javax.swing.JFrame frame, Keys.Material m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
+        super(frame);
         this.mat = m;
         this.cla = null;
         this.lingua = lingua;
         editar = false;
         this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
-        dialogopai = dialogo;
+        framepai = frame;
         bimage = null;
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
@@ -141,15 +141,15 @@ public final class ActionButton extends javax.swing.JDialog {
         this.btchamada = btchamada;
     }
 
-    public ActionButton(javax.swing.JDialog dialogo, Keys.Classroom m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
-        super(dialogo);
+    public ActionButton(javax.swing.JFrame frame, Keys.Classroom m, Langs.Locale lingua, String url, PersonalButtonRequest btchamada) {
+        super(frame);
         this.cla = m;
         this.mat = null;
         this.lingua = lingua;
         editar = false;
         this.panelcor = KeyQuest.getSystemColor();
         this.url = url;
-        dialogopai = dialogo;
+        framepai = frame;
         bimage = null;
         this.alterado = false;
         labelativa = new javax.swing.JLabel(lingua.translate("Estado"));
@@ -861,9 +861,9 @@ public final class ActionButton extends javax.swing.JDialog {
                         windows[i].dispose();
                     }
                 }
-                if (dialogopai != null) {
-                    dialogopai.setLocation(this.getX(), this.getY());
-                    dialogopai.setVisible(true);
+                if (framepai != null) {
+                    framepai.setLocation(this.getX(), this.getY());
+                    framepai.setVisible(true);
                 }
                 if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
                     timertempoatrasado.stop();
@@ -1017,9 +1017,9 @@ public final class ActionButton extends javax.swing.JDialog {
                             windows[i].dispose();
                         }
                     }
-                    if (dialogopai != null) {
-                        dialogopai.setLocation(getX(), getY());
-                        dialogopai.setVisible(true);
+                    if (framepai != null) {
+                        framepai.setLocation(getX(), getY());
+                        framepai.setVisible(true);
                     }
                     if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
                         timertempoatrasado.stop();
@@ -1478,9 +1478,9 @@ public final class ActionButton extends javax.swing.JDialog {
                         windows[i].dispose();
                     }
                 }
-                if (dialogopai != null) {
-                    dialogopai.setLocation(this.getX(), this.getY());
-                    dialogopai.setVisible(true);
+                if (framepai != null) {
+                    framepai.setLocation(this.getX(), this.getY());
+                    framepai.setVisible(true);
                 }
                 if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
                     timertempoatrasado.stop();
@@ -1634,9 +1634,9 @@ public final class ActionButton extends javax.swing.JDialog {
                             windows[i].dispose();
                         }
                     }
-                    if (dialogopai != null) {
-                        dialogopai.setLocation(getX(), getY());
-                        dialogopai.setVisible(true);
+                    if (framepai != null) {
+                        framepai.setLocation(getX(), getY());
+                        framepai.setVisible(true);
                     }
                     if ((timertempoatrasado != null) && (timertempoatrasado.isRunning())) {
                         timertempoatrasado.stop();
@@ -1650,8 +1650,8 @@ public final class ActionButton extends javax.swing.JDialog {
 
     public void open() {
         this.create();
-        if (dialogopai != null) {
-            this.setLocation(dialogopai.getX(), dialogopai.getY());
+        if (framepai != null) {
+            this.setLocation(framepai.getX(), framepai.getY());
         } else {
             Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
             int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -1701,7 +1701,6 @@ public final class ActionButton extends javax.swing.JDialog {
                             pan.remove(i);
                         }
                     }
-
                     javax.swing.JScrollPane ps1 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1));
                     javax.swing.JViewport jv1 = (javax.swing.JViewport) ps1.getComponent(0);
                     javax.swing.JPanel pan1 = (javax.swing.JPanel) jv1.getComponent(0);

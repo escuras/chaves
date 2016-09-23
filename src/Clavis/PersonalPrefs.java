@@ -21,6 +21,17 @@ public class PersonalPrefs extends KeyQuest {
         Preferences userPrefs = Preferences.userNodeForPackage(getClass());
         int x = userPrefs.getInt("x",100);
         int y = userPrefs.getInt("y",100);
+        urlbduser = userPrefs.get("urlbduser", "");
+        urlbdsenha = userPrefs.get("urlbdsenha", "");
+        urlcsv = userPrefs.get("urlcsv", DEFAULT_URlCSV);
+        urlbdaux = userPrefs.get("urlbdaux", DEFAULT_URlBD);
+        String key = "umDois3.,mn/op##RTF%&45dcop90";
+        String destino = Utils.CryptAES.decrypt(key, urlbdsenha);
+        if (destino != null) {
+             urlbd = "jdbc:mysql://"+urlbdaux+"?autoReconnect=false&useSSL=false&user="+urlbduser+"&password="+destino;
+        } else {
+            urlbd = "jdbc:mysql://"+urlbdaux+"?autoReconnect=false&useSSL=false&user="+urlbduser+"&password=";
+        }
         int largura = userPrefs.getInt("width",1024);
         int altura = userPrefs.getInt("height",700);
         String lang = userPrefs.get("lingua", "pt_PT");
@@ -87,5 +98,23 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putInt("totaltipo", tipomaterial.getTotal());
         userPrefs.putInt("livrestipo", tipomaterial.getFree());
         userPrefs.put("imagemtipo", tipomaterial.getTypeOfMaterialImage());
+        userPrefs.put("urlbduser", urlbduser);
+        userPrefs.put("urlbdsenha", urlbdsenha);
+        userPrefs.put("urlbdaux", urlbdaux);
+        userPrefs.put("urlcsv", urlcsv);
+    }
+    
+    public String getUrlBD(){
+        Preferences userPrefs = Preferences.userNodeForPackage(getClass());
+        urlbduser = userPrefs.get("urlbduser", "");
+        urlbdsenha = userPrefs.get("urlbdsenha", "");
+        urlcsv = userPrefs.get("urlcsv", DEFAULT_URlCSV);
+        urlbdaux = userPrefs.get("urlbdaux", DEFAULT_URlBD);
+        String key = "umDois3.,mn/op##RTF%&45dcop90";
+        String destino = Utils.CryptAES.decrypt(key, urlbdsenha);
+        if (destino != null) {
+            return "jdbc:mysql://"+urlbdaux+"?autoReconnect=false&useSSL=false&user="+urlbduser+"&password="+destino;
+        }
+        return "jdbc:mysql://"+urlbdaux+"?autoReconnect=false&useSSL=false&user="+urlbduser+"&password=";
     }
 }

@@ -65,6 +65,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WShedule.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/UpdateCSVonDB.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/Teste4.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Utils/EncryptPBKDF2.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/RequestList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Person.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_fr_FR.properties</file>
@@ -80,14 +81,17 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/HeaderRenderer.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/NewClass3.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/SimpleCacheManager.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Utils/CryptAES.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/ObjectCSV.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/CSV/HandlingCSV.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WResources.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Utils/EncryptDecrypt.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/FileChooser_es_ES.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/BreakPeriodList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WSearch.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WUsers.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/PanelDetails.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WListMaterial.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/FileBreakPeriods.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/jasonteste.java</file>
         </group>

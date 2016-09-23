@@ -106,7 +106,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         tfim = this.getTime(jSpinnerHoraEntrega);
         makeRequestsList();
         makeModelTimeComboBox();
-        this.addWindowListener(new WindowAdapter(){
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 close();
@@ -143,7 +143,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             if (tinicio.compareTime(tfim) < 0) {
                 return -16;
             }
-        } 
+        }
         int val = dinicio.isBigger(dfim);
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
@@ -190,7 +190,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
                         return -3;
                     } else if ((tim2.compareTime(tinicio) < 0) && (tim2.compareTime(tfim) > 0)) {
                         return -2;
-                    } else if ((tim1.compareTime(tinicio) == 0)&&(tim2.compareTime(tfim) == 0)) {
+                    } else if ((tim1.compareTime(tinicio) == 0) && (tim2.compareTime(tfim) == 0)) {
                         return -1;
                     }
                 }
@@ -1145,13 +1145,15 @@ public class WRequestSpecific extends javax.swing.JDialog {
             boolean vai_e_vem = false;
             TimeDate.HolidaysList feriados = Clavis.KeyQuest.getHolidays();
             for (TimeDate.Holiday hol : feriados.getHolidays()) {
-                if ((hol.getDay() == dinicio.getDay())&&(hol.getMonth() == dinicio.getMonth())) {
+                if ((hol.getDay() == dinicio.getDay()) && (hol.getMonth() == dinicio.getMonth())) {
                     vai_e_vem = true;
                 }
-                if ((hol.getDay() == dfim.getDay())&&(hol.getMonth() == dfim.getMonth())) {
+                if ((hol.getDay() == dfim.getDay()) && (hol.getMonth() == dfim.getMonth())) {
                     vai_e_vem = true;
                 }
-                if (vai_e_vem) return true;
+                if (vai_e_vem) {
+                    return true;
+                }
             }
         }
         return false;
@@ -1167,8 +1169,11 @@ public class WRequestSpecific extends javax.swing.JDialog {
                     mensagem.showMessage();
                 }
                 reqefetuada = true;
+                this.changeButtonState();
                 this.makeRequestsList();
                 Clavis.KeyQuest.refreshTables();
+                jComboBoxNomeUtilizador.setSelectedIndex(0);
+                pessoaescolhida = null;
             } else {
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("O registo não foi efetuado") + ".", new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
@@ -1185,9 +1190,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 int val = mensagem.showMessage();
                 if (val == 1) {
                     makeRequest(false);
-                    jComboBoxNomeUtilizador.setSelectedIndex(0);
-                    pessoaescolhida = null;
-                    this.changeButtonState();
                 }
             } else {
                 makeRequest(true);

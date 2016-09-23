@@ -9,6 +9,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +26,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 
@@ -29,9 +36,9 @@ import javax.swing.SwingConstants;
  */
 public class ButtonListRequest {
 
-    public static final Color OCCUPIED_COLOR = new Color(120, 120, 120);
-    public static final Color FREE_COLOR = new Color(170, 170, 170);
-    private List<javax.swing.JButton> bLista;
+    public static final Color OCCUPIED_COLOR = new Color(255, 100, 100);
+    public static final Color FREE_COLOR = new Color(100, 100, 255);
+    private static List<PersonalButtonRequest> bLista;
     private Set<Keys.Material> mater;
     private Dimension dim;
     private Langs.Locale lingua;
@@ -44,24 +51,25 @@ public class ButtonListRequest {
     private int tipopesquisa;
     private String url;
     private javax.swing.JLabel labelativa;
-    private javax.swing.JDialog dialogoanterior;
+    private javax.swing.JFrame frameanterior;
 
-    public ButtonListRequest(String url, javax.swing.JDialog dialogo, RequestList req, String csv, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa) {
+
+    public ButtonListRequest(String url, javax.swing.JFrame frame, RequestList req, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa) {
         this.mater = new HashSet<>();
         this.lingua = lingua;
         this.url = url;
-        this.dialogoanterior = dialogo;
+        this.frameanterior = frame;
         this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-        dim = new Dimension(80, 80);
+        dim = new Dimension(140, 140);
         this.btcor1 = ButtonListRequest.OCCUPIED_COLOR;
         this.btcor2 = ButtonListRequest.FREE_COLOR;
         this.tpanel = tpanel;
         this.tipopesquisa = tipopesquisa;
         if (DataBase.DataBase.testConnection(url)) {
             int val = req.getTypeOfMaterial().getMaterialTypeID();
-            DataBase.DataBase db = new DataBase.DataBase(csv);
+            DataBase.DataBase db = new DataBase.DataBase(url);
             switch (tipopesquisa) {
                 case 0:
                     if (val == 1) {
@@ -109,7 +117,7 @@ public class ButtonListRequest {
         return nomes;
     }
 
-    public List<javax.swing.JButton> getButtons() {
+    public List<PersonalButtonRequest> getButtons() {
         this.bLista = new ArrayList<>();
         if (!this.mater.isEmpty()) {
             for (Object n : this.mater) {
@@ -134,11 +142,32 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
-                    button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
-                        dialogoanterior.setVisible(false);
-                        at.open();
+                    button.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if (e.getClickCount() == 2) {
+                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
+                                frameanterior.setVisible(false);
+                                at.open();
+                            } else {
+
+                            }
+                        }
                     });
+
+                    button.addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
+                                frameanterior.setVisible(false);
+                                at.open();
+                            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+                            }
+                        }
+                    });
+
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
                         BufferedImage ima;
@@ -178,10 +207,30 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
-                    button.addActionListener((ActionEvent e) -> {
-                        ActionButton at = new ActionButton(dialogoanterior, m, lingua, url, button);
-                        dialogoanterior.setVisible(false);
-                        at.open();
+                    button.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if (e.getClickCount() == 2) {
+                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
+                                frameanterior.setVisible(false);
+                                at.open();
+                            } else {
+
+                            }
+                        }
+                    });
+
+                    button.addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
+                                frameanterior.setVisible(false);
+                                at.open();
+                            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+                            }
+                        }
                     });
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
@@ -220,18 +269,21 @@ public class ButtonListRequest {
 
     public javax.swing.JScrollPane getScrollPane() {
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
+        aux.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+        aux.getVerticalScrollBar().setUnitIncrement(10);
         this.bLista = this.getButtons();
+        pane.setBackground(new Color(245, 245, 220));
         int valorborder = 50;
+        pane.setLayout(new Components.ModifiedFlowLayout());
+        pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
         if (!this.bLista.isEmpty()) {
-            pane.setLayout(new Components.ModifiedFlowLayout());
-            pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
-            pane.setBackground(new Color(245, 245, 220));
+
             bLista.stream().forEach((bt) -> {
                 pane.add(bt, BorderLayout.PAGE_END);
             });
             int largura = (int) (pane.getPreferredSize().getWidth() - (valorborder * 2));
             int valorbotoes = largura / (int) (dim.getWidth());
-            int valinicial = 20 + (int) dim.getHeight() + 30;
+            int valinicial = 50 + (int) dim.getHeight();
             int i = 1;
             while (i < bLista.size()) {
                 if ((i % valorbotoes) == 0) {
@@ -281,8 +333,7 @@ class PersonalButtonRequest extends javax.swing.JButton implements Comparable<Pe
 
     @Override
     public int compareTo(PersonalButtonRequest o) {
-        
-        if((this.getText().matches("\\d+"))&&(o.getText().matches("\\d+"))) {
+        if ((this.getText().matches("\\d+")) && (o.getText().matches("\\d+"))) {
             String texto = this.getText();
             String texto2 = o.getText();
             while (texto.charAt(0) == '0') {
@@ -305,9 +356,10 @@ class PersonalButtonRequest extends javax.swing.JButton implements Comparable<Pe
         }
         return val;
     }
-    
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
 }

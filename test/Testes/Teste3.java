@@ -22,8 +22,8 @@ public class Teste3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       DataBase.DataBase db = new DataBase.DataBase("jdbc:mysql://localhost:3306/clavis?autoReconnect=true&useSSL=false&user=root&password=sobral");
-      
+        
+        
     }
     
   

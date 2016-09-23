@@ -5,8 +5,6 @@
  */
 package Clavis;
 
-import TimeDate.DinamicHoliday;
-import TimeDate.HolidaysList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
