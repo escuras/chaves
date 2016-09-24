@@ -5,6 +5,7 @@
  */
 package Clavis;
 
+import Clavis.Windows.WListMaterial;
 import TimeDate.HolidaysList;
 import FileIOAux.ImageAux;
 import com.sun.glass.events.KeyEvent;
@@ -879,7 +880,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTituloDefOpcoes.setBorder(dropShadowBorder1);
 
         jLabelMudaTemaQuadros.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelMudaTemaQuadros.setText("Tema de quadros: ");
 
         jComboBoxMudaTema.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxMudaTema.setFocusable(false);
@@ -895,7 +895,6 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelMudaLinguagem.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelMudaLinguagem.setText("Lingua de apresentação:");
 
         jComboBoxMudaLinguagem.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxMudaLinguagem.setFocusable(false);
@@ -924,7 +923,6 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelLinguaMuda.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabelLinguaMuda.setText("O reinicio é necessário para mudar idioma.");
 
         jSliderTamanhoDivisor.setMaximum(35);
         jSliderTamanhoDivisor.setMinimum(20);
@@ -938,11 +936,9 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelMudaTamanhoDivisor.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelMudaTamanhoDivisor.setText("Tamanho do divisor:");
         jLabelMudaTamanhoDivisor.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 5, 1));
 
         jLabelAuxiliarScroll.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelAuxiliarScroll.setText("Auxiliar de rolagem: ");
 
         jComboBoxScrollAtivo.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxScrollAtivo.addActionListener(new java.awt.event.ActionListener() {
@@ -952,7 +948,6 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelCorSistema.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelCorSistema.setText("Cor do sistema:");
         jLabelCorSistema.setMaximumSize(new java.awt.Dimension(3337, 21));
         jLabelCorSistema.setMinimumSize(new java.awt.Dimension(37, 21));
         jLabelCorSistema.setPreferredSize(new java.awt.Dimension(37, 21));
@@ -975,7 +970,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Endereço da base de dados:");
 
         jLabel2.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1045,13 +1039,13 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldURLuser, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextFieldURLuser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(2, 2, 2)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jPasswordFieldURL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPasswordFieldURL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(personalToggleURL, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12))
         );
@@ -1076,7 +1070,6 @@ public class KeyQuest extends javax.swing.JFrame {
         personalToggleURL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel7.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabel7.setText("Endereço do documento CSV:");
         jLabel7.setMaximumSize(new java.awt.Dimension(36, 25));
         jLabel7.setMinimumSize(new java.awt.Dimension(36, 25));
         jLabel7.setPreferredSize(new java.awt.Dimension(36, 25));
@@ -1178,7 +1171,7 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addComponent(jTextFieldCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(8, 8, 8)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Definições"));
@@ -3025,15 +3018,65 @@ public class KeyQuest extends javax.swing.JFrame {
             lista_req.getTable().clearSelection();
             jButtonAtuacaoAltera.setEnabled(false);
             jButtonAtuacaoConfirma.setEnabled(false);
-        }
-        db.close();
-        Window[] w = Window.getWindows();
-        for (Window w1 : w) {
-            if (w1 instanceof Clavis.Windows.WListMaterial) {
-                Clavis.Windows.WListMaterial.updateTables((javax.swing.JFrame) w1);
+            Window[] w = Window.getWindows();
+            for (Window w1 : w) {
+                if (w1 instanceof Clavis.Windows.WListMaterial) {
+                    javax.swing.JTabbedPane tabela = KeyQuest.getMaterialsButtonsTable();
+                    javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
+                    javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
+                    javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
+                    PersonalButtonRequest btreq = null;
+                    for (int i = 0; i < pan.getComponentCount(); i++) {
+                        PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                        if (bt.getValue() == req.getMaterial().getId()) {
+                            try {
+                                bt.setBackground(ButtonListRequest.FREE_COLOR);
+                                btreq = (PersonalButtonRequest) bt.clone();
+                            } catch (CloneNotSupportedException ex) {
+                                Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
+                                btreq = null;
+                            }
+                        }
+                    }
+                    if (tabela.getTabCount() > 0) {
+                        ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
+                        jv = (javax.swing.JViewport) ps.getComponent(0);
+                        pan = (javax.swing.JPanel) jv.getComponent(0);
+                        if (btreq != null) {
+                            pan.add(btreq);
+                            sortPersonalButtonRequestOnTab(pan, btreq);
+                        }
+                        if (tabela.getTabCount() > 1) {
+                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
+                            jv = (javax.swing.JViewport) ps.getComponent(0);
+                            pan = (javax.swing.JPanel) jv.getComponent(0);
+                            for (int i = 0; i < pan.getComponentCount(); i++) {
+                                PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                                if (bt.getValue() == req.getMaterial().getId()) {
+                                    pan.remove(i);
+                                    pan.repaint();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        db.close();
     }//GEN-LAST:event_jButtonConfirmaDevolucaoActionPerformed
+
+    private void sortPersonalButtonRequestOnTab(javax.swing.JPanel panel, PersonalButtonRequest re) {
+        java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
+        for (int i = 0; i < panel.getComponentCount(); i++) {
+            PersonalButtonRequest bt = (PersonalButtonRequest) panel.getComponent(i);
+            novo.add(bt);
+        }
+        panel.removeAll();
+        novo.stream().forEach((n) -> {
+            panel.add(n);
+        });
+        panel.repaint();
+    }
 
     private void jTextFieldProcuraBaixoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldProcuraBaixoFocusGained
         jTextFieldProcuraBaixo.setText("");
@@ -3254,7 +3297,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
         if (requisicoes.isConnected()) {
-            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255,255,255),systemColor,urlbd,lingua,requisicoes);
+            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial);
             tbMaterial.create();
             tbMaterial.appear();
         }
@@ -3665,7 +3708,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAtuacaoAlteraActionPerformed
 
     private void jButtonAtuacaoConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoConfirmaActionPerformed
-       DataBase.DataBase db = new DataBase.DataBase(urlbd);
+        DataBase.DataBase db = new DataBase.DataBase(urlbd);
         Keys.Request req = lista_req.getSelectedRequest();
         if (req != null) {
             if (lista_req.isResultOfASearch()) {
@@ -3686,15 +3729,54 @@ public class KeyQuest extends javax.swing.JFrame {
                 db.changeRequestActiveState(req);
             }
             lista_req.removeSelectedRequest();
-        }
-        db.close();
-        this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
-        Window[] w = Window.getWindows();
-        for (Window w1 : w) {
-            if (w1 instanceof Clavis.Windows.WListMaterial) {
-                Clavis.Windows.WListMaterial.updateTables((javax.swing.JFrame) w1);
+            this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
+            Window[] w = Window.getWindows();
+            for (Window w1 : w) {
+                if (w1 instanceof Clavis.Windows.WListMaterial) {
+                    javax.swing.JTabbedPane tabela = KeyQuest.getMaterialsButtonsTable();
+                    javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
+                    javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
+                    javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
+                    PersonalButtonRequest btreq = null;
+                    for (int i = 0; i < pan.getComponentCount(); i++) {
+                        PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                        if (bt.getValue() == req.getMaterial().getId()) {
+                            try {
+                                bt.setBackground(ButtonListRequest.OCCUPIED_COLOR);
+                                btreq = (PersonalButtonRequest) bt.clone();
+                            } catch (CloneNotSupportedException ex) {
+                                Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
+                                btreq = null;
+                            }
+                        }
+                    }
+                    if (tabela.getTabCount() > 0) {
+                        ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
+                        jv = (javax.swing.JViewport) ps.getComponent(0);
+                        pan = (javax.swing.JPanel) jv.getComponent(0);
+                        for (int i = 0; i < pan.getComponentCount(); i++) {
+                            PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                            if (bt.getValue() == req.getMaterial().getId()) {
+                                pan.remove(i);
+                                pan.repaint();
+                            }
+                        }
+                        if (tabela.getTabCount() > 1) {
+                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
+                            jv = (javax.swing.JViewport) ps.getComponent(0);
+                            pan = (javax.swing.JPanel) jv.getComponent(0);
+                            if (btreq != null) {
+                                pan.add(btreq);
+                                sortPersonalButtonRequestOnTab(pan, btreq);
+                            }
+                        }
+                    }
+                }
             }
         }
+        db.close();
+
+
     }//GEN-LAST:event_jButtonAtuacaoConfirmaActionPerformed
 
     private void jComboBoxMudaTemaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxMudaTemaItemStateChanged
@@ -3824,23 +3906,23 @@ public class KeyQuest extends javax.swing.JFrame {
     private void personalToggleURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personalToggleURLActionPerformed
         if (personalToggleURL.isSelected()) {
             boolean passa = false;
-            if ((!jTextFieldURL.getText().equals(""))&&(!jTextFieldURL.getText().equals(urlbdaux))) {
+            if ((!jTextFieldURL.getText().equals("")) && (!jTextFieldURL.getText().equals(urlbdaux))) {
                 urlbdaux = jTextFieldURL.getText().trim();
-                passa =true;
+                passa = true;
             }
             String pass = new String(jPasswordFieldURL.getPassword());
             String anterior = Utils.CryptAES.decrypt("umDois3.,mn/op##RTF%&45dcop90", urlbdsenha);
-            if ((!pass.equals(""))&&(!pass.equals(anterior))) {
+            if ((!pass.equals("")) && (!pass.equals(anterior))) {
                 String key = "umDois3.,mn/op##RTF%&45dcop90";
                 urlbdsenha = Utils.CryptAES.encrypt(key, new String(jPasswordFieldURL.getPassword()));
-                passa =true;
-            } else{
+                passa = true;
+            } else {
                 jPasswordFieldURL.setText(anterior);
             }
-            if ((!jTextFieldURLuser.getText().equals(""))&&(!jTextFieldURLuser.getText().equals(urlbduser))) {
+            if ((!jTextFieldURLuser.getText().equals("")) && (!jTextFieldURLuser.getText().equals(urlbduser))) {
                 urlbduser = jTextFieldURLuser.getText();
                 passa = true;
-            } 
+            }
             if (passa) {
                 prefs.save();
                 urlbd = prefs.getUrlBD();
@@ -3858,17 +3940,17 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_personalToggleURLActionPerformed
 
     private void personalToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personalToggleButton1ActionPerformed
-       if (personalToggleButton1.isSelected()) {
-           jTextFieldCSV.setEnabled(false);
-           personalToggleButton1.setToolTipText(lingua.translate("Desbloquear"));
-           if ((!jTextFieldCSV.getText().equals(urlcsv)&&(!jTextFieldCSV.getText().equals("")))){
-               urlcsv = jTextFieldCSV.getText();
-               prefs.save();
-           }
-       } else {
-           jTextFieldCSV.setEnabled(true);
-           personalToggleButton1.setToolTipText(lingua.translate("Bloquear"));
-       }
+        if (personalToggleButton1.isSelected()) {
+            jTextFieldCSV.setEnabled(false);
+            personalToggleButton1.setToolTipText(lingua.translate("Desbloquear"));
+            if ((!jTextFieldCSV.getText().equals(urlcsv) && (!jTextFieldCSV.getText().equals("")))) {
+                urlcsv = jTextFieldCSV.getText();
+                prefs.save();
+            }
+        } else {
+            jTextFieldCSV.setEnabled(true);
+            personalToggleButton1.setToolTipText(lingua.translate("Bloquear"));
+        }
     }//GEN-LAST:event_personalToggleButton1ActionPerformed
 
     private void verifyValityofDates(String nome, int limite) {
@@ -4316,9 +4398,9 @@ public class KeyQuest extends javax.swing.JFrame {
         itemRequisicao.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemRequisicoesActionPerformed(evt);
         });
-        
+
         jMenuMovimentos.add(itemRequisicao);
-        
+
         JMenuItem itemAdicionarUtilizador = new JMenuItem();
         itemAdicionarUtilizador.setText(lingua.translate("Adicionar utilizadores"));
         itemAdicionarUtilizador.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4327,28 +4409,27 @@ public class KeyQuest extends javax.swing.JFrame {
             itemAdicionarUtilizadorActionPerformed(evt);
         });
         jMenuMovimentos.add(itemAdicionarUtilizador);
-        
+
         JMenuItem itemAdicionarRecurso = new JMenuItem();
-        itemAdicionarRecurso.setText(lingua.translate("Inserir Recursos"));
+        itemAdicionarRecurso.setText(lingua.translate("Inserir recursos"));
         itemAdicionarRecurso.setCursor(new Cursor(Cursor.HAND_CURSOR));
         itemAdicionarRecurso.setAccelerator(KeyStroke.getKeyStroke(itemAdicionarUtilizador.getText().charAt(0), Event.ALT_MASK));
         itemAdicionarRecurso.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemAdicionarRecursoActionPerformed(evt);
         });
         jMenuMovimentos.add(itemAdicionarRecurso);
-        
 
         this.setJMenuBar(menu);
     }
-    
+
     private void itemAdicionarUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {
-        Clavis.Windows.WUsers wu = new Clavis.Windows.WUsers(new Color(255,255,255), systemColor, urlbd, lingua, null);
+        Clavis.Windows.WUsers wu = new Clavis.Windows.WUsers(new Color(255, 255, 255), systemColor, urlbd, lingua, null);
         wu.create();
         wu.setVisible(true);
     }
-    
+
     private void itemAdicionarRecursoActionPerformed(java.awt.event.ActionEvent evt) {
-        Clavis.Windows.WResources wu = new Clavis.Windows.WResources(new Color(255,255,255), systemColor, urlbd, lingua);
+        Clavis.Windows.WResources wu = new Clavis.Windows.WResources(new Color(255, 255, 255), systemColor, urlbd, lingua);
         wu.create();
         wu.appear();
     }
@@ -5461,7 +5542,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public static javax.swing.JTabbedPane getMaterialsButtonsTable() {
         if (tbMaterial != null) {
-            return tbMaterial.getTable();
+            return WListMaterial.getTable();
         }
         return null;
     }
@@ -5560,12 +5641,12 @@ public class KeyQuest extends javax.swing.JFrame {
             return border;
         }
     }
-    
-    private void setSuperUser(boolean cond){
+
+    private void setSuperUser(boolean cond) {
         superuser = cond;
     }
-    
-    public static HolidaysList getHolidays(){
+
+    public static HolidaysList getHolidays() {
         return feriados;
     }
 }

@@ -9,9 +9,15 @@ import Clavis.ButtonListRequest;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
@@ -27,24 +33,29 @@ public class WListMaterial extends javax.swing.JFrame {
     private static Langs.Locale lingua;
     private List<Keys.TypeOfMaterial> tiposdematerial;
     private Keys.TypeOfMaterial tiposelecionado;
-    private static Clavis.RequestList requisicoes;
-    private static ButtonListRequest btrequests;
+    private static ButtonListRequest btTodos;
+    private static ButtonListRequest btLivres;
+    private static ButtonListRequest btOcupados;
+    private static ButtonListRequest btPesquisa;
+    private javax.swing.JScrollPane panTodos;
+    private javax.swing.JScrollPane panLivres;
+    private javax.swing.JScrollPane panOcupados;
+    private javax.swing.JScrollPane panPesquisa;
 
-    public WListMaterial(Color corfundo, Color corborda, String url, Langs.Locale lingua, Clavis.RequestList req) {
+    public WListMaterial(Color corfundo, Color corborda, String url, Langs.Locale lingua, Keys.TypeOfMaterial tipo) {
         this.corborda = corborda;
         this.corfundo = corfundo;
         this.url = url;
         this.lingua = lingua;
-        tiposelecionado = null;
+        tiposelecionado = tipo;
         tiposdematerial = new java.util.ArrayList<>();
-        requisicoes = req;
-        btrequests = null;
     }
 
     public void makePanel() {
         Border b = BorderFactory.createLineBorder(corborda, 4);
         jPanelInicial.setBorder(BorderFactory.createCompoundBorder(b, BorderFactory.createLineBorder(Color.BLACK)));
         jPanelInicial.setBackground(corfundo);
+        jLabelPesquisa.requestFocus();
     }
 
     public void appear() {
@@ -55,40 +66,63 @@ public class WListMaterial extends javax.swing.JFrame {
     }
 
     public void makeFirstTabs() {
-        if ((requisicoes != null)&&(requisicoes.isConnected())) {
-            jTabbedPaneMaterialBotoes.removeAll();
-            btrequests = new ButtonListRequest(url, this, requisicoes, lingua, jTabbedPaneMaterialBotoes, 2);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(url, this, requisicoes, lingua, jTabbedPaneMaterialBotoes, 0);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(url, this, requisicoes, lingua, jTabbedPaneMaterialBotoes, 1);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-        }
+        jTabbedPaneMaterialBotoes.removeAll();
+        btTodos = new ButtonListRequest(url, this, tiposelecionado, lingua, jTabbedPaneMaterialBotoes, 2,"");
+        panTodos = btTodos.getScrollPane();
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), panTodos);
+        btLivres = new ButtonListRequest(url, this, tiposelecionado, lingua, jTabbedPaneMaterialBotoes, 0,"");
+        panLivres = btLivres.getScrollPane();
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), panLivres);
+        btOcupados = new ButtonListRequest(url, this, tiposelecionado, lingua, jTabbedPaneMaterialBotoes, 1,"");
+        panOcupados = btOcupados.getScrollPane();
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), panOcupados);
+        panTodos.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (jTabbedPaneMaterialBotoes.getSelectedIndex() == 0) {
+                System.out.println(btTodos.getSelectedMaterial());
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                 }
+            
+        });
+    }
+    
+    public void makeSearchTab(String termo) {
+        jTabbedPaneMaterialBotoes.removeAll();
+        btPesquisa = new ButtonListRequest(url, this, tiposelecionado, lingua, jTabbedPaneMaterialBotoes, 3, termo);
+        panPesquisa = btPesquisa.getScrollPane();
+        jTabbedPaneMaterialBotoes.add(lingua.translate("Resultado da pesquisa"), panPesquisa);
     }
 
     public void create() {
         initComponents();
         makePanel();
-        
+
         makeFirstTabs();
     }
-    
-    public static javax.swing.JTabbedPane getTable(){
+
+    public static javax.swing.JTabbedPane getTable() {
         return jTabbedPaneMaterialBotoes;
     }
+
     
-    
-    public static void updateTables(javax.swing.JFrame frame){
-        if ((requisicoes != null)&&(requisicoes.isConnected())) {
-            jTabbedPaneMaterialBotoes.removeAll();
-            btrequests = new ButtonListRequest(url, frame, requisicoes, lingua, jTabbedPaneMaterialBotoes, 2);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Todos"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(url, frame, requisicoes, lingua, jTabbedPaneMaterialBotoes, 0);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Livres"), btrequests.getScrollPane());
-            btrequests = new ButtonListRequest(url, frame, requisicoes, lingua, jTabbedPaneMaterialBotoes, 1);
-            jTabbedPaneMaterialBotoes.add(lingua.translate("Ocupados"), btrequests.getScrollPane());
-        }
-    }
 
     /**
      * This met
@@ -106,11 +140,14 @@ public class WListMaterial extends javax.swing.JFrame {
         jScrollPaneMaterialBotoes = new javax.swing.JScrollPane();
         jTabbedPaneMaterialBotoes = new javax.swing.JTabbedPane();
         jLabel1 = new javax.swing.JLabel();
+        textPesquisa = new Components.PersonalTextField();
+        jLabelPesquisa = new javax.swing.JLabel();
+        jButtonPesquisa = new javax.swing.JButton();
+        jButtonSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2222222, 2147483647));
         setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanelInicial.setBackground(new java.awt.Color(254, 254, 254));
         jPanelInicial.setMinimumSize(new java.awt.Dimension(800, 500));
@@ -122,7 +159,7 @@ public class WListMaterial extends javax.swing.JFrame {
 
         jTabbedPaneMaterialBotoes.setBackground(new java.awt.Color(254, 254, 254));
         jTabbedPaneMaterialBotoes.setOpaque(true);
-        jTabbedPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(574, 490));
+        jTabbedPaneMaterialBotoes.setPreferredSize(new java.awt.Dimension(574, 440));
         jScrollPaneMaterialBotoes.setViewportView(jTabbedPaneMaterialBotoes);
         UIManager.put("TabbedPane.background", Color.WHITE);
         UIManager.put("TabbedPane.selected", Color.red);
@@ -148,28 +185,97 @@ public class WListMaterial extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
         jLabel1.setPreferredSize(new java.awt.Dimension(592, 30));
 
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder1.setCornerSize(6);
+        dropShadowBorder1.setShadowSize(2);
+        dropShadowBorder1.setShowLeftShadow(true);
+        dropShadowBorder1.setShowTopShadow(true);
+        textPesquisa.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+
+        jLabelPesquisa.setBackground(new java.awt.Color(245, 245, 245));
+        jLabelPesquisa.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabelPesquisa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelPesquisa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabelPesquisa.setOpaque(true);
+        jLabelPesquisa.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
+        jButtonPesquisa.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonPesquisa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonPesquisa.setFocusPainted(false);
+        jButtonPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisaActionPerformed(evt);
+            }
+        });
+
+        jButtonSair.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonSair.setFocusPainted(false);
+
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
         jPanelInicialLayout.setHorizontalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 174, Short.MAX_VALUE))
+                    .addComponent(jLabelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textPesquisa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jLabelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(textPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneMaterialBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         jLabel1.setText(lingua.translate("Lista de recursos"));
+        textPesquisa.addPlaceHolder(lingua.translate("Termo a pesquisar")+"...", jLabelPesquisa);
+        jLabelPesquisa.requestFocus();
+        jLabelPesquisa.setText(lingua.translate("Pesquisa"));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                BufferedImage impesquisa = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
+                ImageIcon icpesquisa = new ImageIcon(impesquisa);
+                jButtonPesquisa.setIcon(icpesquisa);
+            } else {
+                jButtonPesquisa.setText(lingua.translate("Pesquisa"));
+            }
+        } catch(IOException e){}
+
+        jButtonPesquisa.setToolTipText(lingua.translate("Pesquisa de recurso"));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
+                BufferedImage imsair = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon imosair = new ImageIcon(imsair);
+                jButtonSair.setIcon(imosair);
+            } else {
+                jButtonSair.setText(lingua.translate("Sair"));
+            }
+        } catch(IOException e) {}
+        jButtonSair.setToolTipText(lingua.translate("Sair"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,6 +290,15 @@ public class WListMaterial extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaActionPerformed
+        String termo = textPesquisa.getText();
+        if (!termo.equals("")) {
+            if (DataBase.DataBase.testConnection(url)) {
+                this.makeSearchTab(termo);
+            }
+        }
+    }//GEN-LAST:event_jButtonPesquisaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,7 +330,7 @@ public class WListMaterial extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WListMaterial wr = new WListMaterial(new Color(255, 255, 255), new Color(125, 234, 145), "", Langs.Locale.getLocale_pt_PT(),null);
+                WListMaterial wr = new WListMaterial(new Color(255, 255, 255), new Color(125, 234, 145), "", Langs.Locale.getLocale_pt_PT(), null);
                 wr.create();
                 wr.appear();
             }
@@ -223,9 +338,13 @@ public class WListMaterial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonPesquisa;
+    private javax.swing.JButton jButtonSair;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelPesquisa;
     private javax.swing.JPanel jPanelInicial;
     private javax.swing.JScrollPane jScrollPaneMaterialBotoes;
     private static javax.swing.JTabbedPane jTabbedPaneMaterialBotoes;
+    private Components.PersonalTextField textPesquisa;
     // End of variables declaration//GEN-END:variables
 }

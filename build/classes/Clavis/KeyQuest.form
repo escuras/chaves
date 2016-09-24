@@ -1084,7 +1084,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="79" max="32767" attributes="0"/>
+                      <EmptySpace pref="83" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1114,7 +1114,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Tema de quadros: "/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaTemaQuadros.setText(lingua.translate(&quot;Tema_de_quadros&quot;)+&quot;:&quot;);"/>
@@ -1144,7 +1143,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Lingua de apresenta&#xe7;&#xe3;o:"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelMudaLinguagem.setText(lingua.translate(&quot;Lingua_apresentacao&quot;)+&quot;: &quot;);"/>
@@ -1201,7 +1199,6 @@
             <Component class="javax.swing.JLabel" name="jLabelLinguaMuda">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="11"/>
-                <Property name="text" type="java.lang.String" value="O reinicio &#xe9; necess&#xe1;rio para mudar idioma."/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLinguaMuda.setVisible(false);&#xa;&#xa;jLabelLinguaMuda.setText(lingua.translate(&quot;O_reinicio_necess&#xe1;rio_para_mudar_idioma&quot;));"/>
@@ -1224,7 +1221,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Tamanho do divisor:"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                     <EmptyBorder bottom="5" left="1" right="1" top="1"/>
@@ -1240,7 +1236,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Auxiliar de rolagem: "/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelAuxiliarScroll.setText(lingua.translate(&quot;Auxiliar de rolagem&quot;)+&quot;:&quot;);"/>
@@ -1268,7 +1263,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cor do sistema:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[3337, 21]"/>
                 </Property>
@@ -1351,14 +1345,14 @@
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldURLuser" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="jTextFieldURLuser" max="32767" attributes="0"/>
+                                      <Component id="jLabel2" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jPasswordFieldURL" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jPasswordFieldURL" max="32767" attributes="0"/>
+                                      <Component id="jLabel6" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="personalToggleURL" min="-2" pref="30" max="-2" attributes="0"/>
@@ -1403,7 +1397,6 @@
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Endere&#xe7;o da base de dados:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel5.setText(lingua.translate(&quot;Endere&#xe7;o da base de dados&quot;)+&quot;:&quot;);"/>
@@ -1538,7 +1531,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Endere&#xe7;o do documento CSV:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[36, 25]"/>
                 </Property>

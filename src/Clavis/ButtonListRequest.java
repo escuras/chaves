@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,8 +39,8 @@ public class ButtonListRequest {
 
     public static final Color OCCUPIED_COLOR = new Color(255, 100, 100);
     public static final Color FREE_COLOR = new Color(100, 100, 255);
-    private static List<PersonalButtonRequest> bLista;
-    private Set<Keys.Material> mater;
+    private List<PersonalButtonRequest> bLista;
+    private List<Keys.Material> mater;
     private Dimension dim;
     private Langs.Locale lingua;
     private javax.swing.JTabbedPane tpanel;
@@ -47,15 +48,16 @@ public class ButtonListRequest {
     private Color btcor1;
     private Color btcor2;
     private Color panelcor;
-    private java.util.Iterator<?> iterador;
+    private java.util.Iterator<Keys.Material> iterador;
     private int tipopesquisa;
     private String url;
     private javax.swing.JLabel labelativa;
     private javax.swing.JFrame frameanterior;
+    private int selecionado;
+    private int valor;
 
-
-    public ButtonListRequest(String url, javax.swing.JFrame frame, RequestList req, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa) {
-        this.mater = new HashSet<>();
+    public ButtonListRequest(String url, javax.swing.JFrame frame, Keys.TypeOfMaterial tipo, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, String pesquisa) {
+        this.mater = new ArrayList<>();
         this.lingua = lingua;
         this.url = url;
         this.frameanterior = frame;
@@ -68,34 +70,38 @@ public class ButtonListRequest {
         this.tpanel = tpanel;
         this.tipopesquisa = tipopesquisa;
         if (DataBase.DataBase.testConnection(url)) {
-            int val = req.getTypeOfMaterial().getMaterialTypeID();
+            int val = tipo.getMaterialTypeID();
             DataBase.DataBase db = new DataBase.DataBase(url);
             switch (tipopesquisa) {
                 case 0:
                     if (val == 1) {
-                        mater = new TreeSet<>(db.getClassrooms(0));
+                        mater = new ArrayList<>(db.getClassrooms(0));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val, 0));
+                        mater = new ArrayList<>(db.getMaterialsByType(val, 0));
                     }
                     break;
                 case 1:
                     if (val == 1) {
-                        mater = new TreeSet<>(db.getClassrooms(1));
+                        mater = new ArrayList<>(db.getClassrooms(1));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val, 1));
+                        mater = new ArrayList<>(db.getMaterialsByType(val, 1));
                     }
+                    break;
+                case 3:
+                    mater = new ArrayList<>(db.searchForMaterials(tipo, pesquisa));
+                    System.out.println(mater.size());
                     break;
                 default:
                     if (val == 1) {
-                        mater = new TreeSet<>(db.getClassrooms(2));
+                        mater = new ArrayList<>(db.getClassrooms(2));
                     } else {
-                        mater = new TreeSet<>(db.getMaterialsByType(val, 2));
+                        mater = new ArrayList<>(db.getMaterialsByType(val, 2));
                     }
                     break;
             }
             db.close();
         }
-        iterador = mater.iterator();
+        Collections.sort(mater);
     }
 
     public String[] getListOfMaterialType() {
@@ -142,31 +148,6 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
-                    button.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            if (e.getClickCount() == 2) {
-                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
-                                frameanterior.setVisible(false);
-                                at.open();
-                            } else {
-
-                            }
-                        }
-                    });
-
-                    button.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyPressed(KeyEvent e) {
-                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
-                                frameanterior.setVisible(false);
-                                at.open();
-                            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-
-                            }
-                        }
-                    });
 
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
@@ -207,31 +188,7 @@ public class ButtonListRequest {
                     }
                     button.setText(this.lingua.translate(m.getDescription()));
                     button.setToolTipText(lingua.translate(m.getTypeOfMaterialName()) + ": " + m.getDescription());
-                    button.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            if (e.getClickCount() == 2) {
-                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
-                                frameanterior.setVisible(false);
-                                at.open();
-                            } else {
 
-                            }
-                        }
-                    });
-
-                    button.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyPressed(KeyEvent e) {
-                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                                ActionButton at = new ActionButton(frameanterior, m, lingua, url, button);
-                                frameanterior.setVisible(false);
-                                at.open();
-                            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-
-                            }
-                        }
-                    });
                     javax.swing.ImageIcon ic;
                     if (m.getMaterialImage().equals("sem")) {
                         BufferedImage ima;
@@ -263,8 +220,93 @@ public class ButtonListRequest {
                 }
                 bLista.add(button);
             }
+            valor = 0;
+            for (PersonalButtonRequest r : bLista) {
+                r.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (e.getClickCount() == 2) {
+                             mater.get(selecionado);
+                             ActionButton at;
+                            if (mater.get(selecionado) instanceof Keys.Classroom) {
+                                at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
+                            } else {
+                                at = new ActionButton(frameanterior, mater.get(selecionado), lingua, url, r);
+                            }
+                            frameanterior.setVisible(false);
+                            at.open();
+                        } else {
+                            int va = 0;
+                            for (PersonalButtonRequest ro : bLista) {
+                                ro.setBorder(null);
+                                if (ro.getValue() == r.getValue()) {
+                                    ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                    selecionado = va;
+                                }
+                                va++;
+                            }
+                            System.out.println(getSelectedMaterial());
+                        }
+                    }
+                });
+                r.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        switch (e.getKeyCode()) {
+                            case KeyEvent.VK_ENTER:
+                                ActionButton at = new ActionButton(frameanterior,  mater.get(selecionado), lingua, url, r);
+                                frameanterior.setVisible(false);
+                                at.open();
+                                break;
+                            case KeyEvent.VK_ESCAPE:
+                                selecionado = -1;
+                                for (PersonalButtonRequest ro : bLista) {
+                                    ro.setBorder(null);
+                                }   break;
+                            case KeyEvent.VK_LEFT:
+                                if (selecionado > 0) {
+                                    selecionado = selecionado - 1;
+                                    int va = 0;
+                                    for (PersonalButtonRequest ro : bLista) {
+                                        ro.setBorder(null);
+                                        if (va == selecionado) {
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                        }
+                                        va++;
+                                    }
+                                }   break;
+                            case KeyEvent.VK_RIGHT:
+                                if ((selecionado < mater.size()-1)&&(selecionado >= 0)) {
+                                    selecionado = selecionado + 1;
+                                    int va = 0;
+                                    for (PersonalButtonRequest ro : bLista) {
+                                        ro.setBorder(null);
+                                        if (va == selecionado) {
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                        }
+                                        va++;
+                                    }
+                                }   break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                valor++;
+            }
         }
         return bLista;
+    }
+
+    public Keys.Material getSelectedMaterial() {
+        int j = 0;
+        for (Keys.Material m : mater) {
+            if (j == selecionado) {
+                return m;
+            }
+            j++;
+        }
+        return null;
     }
 
     public javax.swing.JScrollPane getScrollPane() {
@@ -313,6 +355,12 @@ class PersonalButtonRequest extends javax.swing.JButton implements Comparable<Pe
         super();
         valor = val;
         this.designacao = designacao;
+    }
+
+    public PersonalButtonRequest(PersonalButtonRequest r) {
+        super();
+        valor = r.getValue();
+        this.designacao = r.getDescription();
     }
 
     public void setValue(int val) {

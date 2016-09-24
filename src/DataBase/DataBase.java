@@ -790,6 +790,108 @@ public class DataBase {
         return materiais;
     }
 
+    public java.util.Set<Keys.Material> searchForMaterials(Keys.TypeOfMaterial mat, String termo) {
+        java.util.Set<Keys.Material> materiais = new java.util.HashSet<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+            }
+            if (smt != null) {
+                String sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and lower(descricao) like lower('%" + termo + "%');";
+                Keys.Material material;
+                try {
+                    ResultSet rs = smt.executeQuery(sql);
+                    if (rs.first()) {
+                        do {
+                            if (!rs.getString("imagem").equals("sem")) {
+                                material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                            } else {
+                                material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                            }
+                            materiais.add(material);
+                        } while (rs.next());
+                    } else {
+                        sql = "select id_caracteristica from Features where descricao like '%" + termo + "%'";
+                        ResultSet rs2 = smt.executeQuery(sql);
+                        System.out.println("matersize "+materiais.size());
+                        if (rs2.next()) {
+                            System.out.println("poppop");
+                            do {
+                                int idc = rs2.getInt(1);
+                                sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and id_material in (select id_material from Rel_features_materials where id_caracteristica = " + idc + ");";
+                                rs = smt.executeQuery(sql);
+                                while (rs.next()) {
+                                    if (!rs.getString("imagem").equals("sem")) {
+                                        material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                    } else {
+                                        material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                    }
+                                    if (!materiais.contains(material)) {
+                                        materiais.add(material);
+                                    }
+                                }
+                            } while (rs2.next());
+                            System.out.println("3333"+materiais.size());
+                        }
+                        sql = "select id_software from Software where nome like '%" + termo + "%'";
+                        ResultSet rs3 = smt.executeQuery(sql);
+                        if (rs3.next()) {
+                            System.out.println("momomomomomomomomo12");
+                            do {
+                                int idc = rs3.getInt(1);
+                                System.out.println(idc);
+                                sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo in (select codigo_material from Rel_material_software where id_software = " + idc + ");";
+                                rs = smt.executeQuery(sql);
+                                while (rs.next()) {
+                                    if (!rs.getString("imagem").equals("sem")) {
+                                        material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                    } else {
+                                        material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                    }
+                                    if (!materiais.contains(material)) {
+                                        materiais.add(material);
+                                    }
+                                }
+                            } while (rs3.next());
+                            System.out.println("4444"+materiais.size());
+                        }
+                        if (mat.getMaterialTypeID() == 1) {
+                            sql = "select id_disciplina from Subjects where descricao like '%" + termo + "%'";
+                            ResultSet rs4 = smt.executeQuery(sql);
+                            if (rs4.next()) {
+                                System.out.println("mcvcvcvcv12");
+                                do {
+                                    int idc = rs4.getInt(1);
+                                    sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo in (select codigo_sala from Rel_classrooms_subjects where id_disciplina = " + idc + ");";
+                                    rs = smt.executeQuery(sql);
+                                    while (rs.next()) {
+                                        if (!rs.getString("imagem").equals("sem")) {
+                                            material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getString("imagem"), rs.getBoolean("estado"));
+                                        } else {
+                                            material = new Keys.Material(rs.getInt("id_material"), mat, rs.getString("codigo"), rs.getString("descricao"), rs.getBoolean("estado"));
+                                        }
+                                        if (!materiais.contains(material)) {
+                                            materiais.add(material);
+                                        }
+                                    }
+                                } while (rs4.next());
+                                System.out.println("55555"+materiais.size());
+                            }
+                        }
+                    }
+                    if (!smt.isClosed()) {
+                        smt.close();
+                    }
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return materiais;
+    }
+
     public java.util.Set<Keys.Material> getMaterialsByType(int id, int estado) {
         java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
@@ -4570,9 +4672,8 @@ public class DataBase {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public boolean commit(){
+
+    public boolean commit() {
         try {
             con.commit();
             return true;
@@ -4581,16 +4682,16 @@ public class DataBase {
         }
         return false;
     }
-    
+
     public void setAutoCommit(boolean cond) {
         try {
             con.setAutoCommit(cond);
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
-    
-    public java.sql.Savepoint createSavepoint(String nome){
+    }
+
+    public java.sql.Savepoint createSavepoint(String nome) {
         java.sql.Savepoint p = null;
         try {
             return con.setSavepoint(nome);
@@ -4599,14 +4700,14 @@ public class DataBase {
         }
         return p;
     }
-    
+
     public void roolback(java.sql.Savepoint nome) {
         try {
             con.rollback(nome);
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
+    }
 
     public Set<Material> getFreeMaterialsBetweenDates(int materialTypeID, Date dat1, Date dat2, Time tim1, Time tim2) {
         java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
@@ -4674,51 +4775,51 @@ public class DataBase {
                             }
                             tinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
                             if (dat1.isBigger(dat2) != 0) {
-                                if ((dinicio.isBigger(dat1) > 0)&&(dfim.isBigger(dat1) < 0)) {
+                                if ((dinicio.isBigger(dat1) > 0) && (dfim.isBigger(dat1) < 0)) {
                                     passa = true;
                                     break;
-                                } else if ((dinicio.isBigger(dat2) > 0)&&(dfim.isBigger(dat2) < 0)) {
+                                } else if ((dinicio.isBigger(dat2) > 0) && (dfim.isBigger(dat2) < 0)) {
                                     passa = true;
                                     break;
                                 } else if ((dinicio.isBigger(dat1) < 0) && (dinicio.isBigger(dat2) > 0)) {
                                     passa = true;
                                     break;
-                                } else if ((dfim.isBigger(dat1) < 0)&&(dfim.isBigger(dat2) > 0)){
+                                } else if ((dfim.isBigger(dat1) < 0) && (dfim.isBigger(dat2) > 0)) {
                                     passa = true;
                                     break;
-                                } else if ((dinicio.isBigger(dat1) == 0)&&(dfim.isBigger(dat2) == 0)){
+                                } else if ((dinicio.isBigger(dat1) == 0) && (dfim.isBigger(dat2) == 0)) {
                                     passa = true;
                                     break;
-                                } else if ((dfim.isBigger(dat1) == 0)&&(tfim.compareTime(tim1) < 0)) {
+                                } else if ((dfim.isBigger(dat1) == 0) && (tfim.compareTime(tim1) < 0)) {
                                     passa = true;
                                     break;
-                                } else if ((dinicio.isBigger(dat2) == 0)&&(tinicio.compareTime(tim2) > 0)) {
+                                } else if ((dinicio.isBigger(dat2) == 0) && (tinicio.compareTime(tim2) > 0)) {
                                     passa = true;
                                     break;
                                 }
-                            } else if ((dat1.isBigger(dinicio) == 0)&&(dinicio.isBigger(dfim) != 0)) {
+                            } else if ((dat1.isBigger(dinicio) == 0) && (dinicio.isBigger(dfim) != 0)) {
                                 if (tinicio.compareTime(tim2) > 0) {
                                     passa = true;
                                     break;
                                 }
-                            } else if ((dat2.isBigger(dfim) == 0)&&(dinicio.isBigger(dfim) != 0)) {
+                            } else if ((dat2.isBigger(dfim) == 0) && (dinicio.isBigger(dfim) != 0)) {
                                 if (tfim.compareTime(tim1) < 0) {
                                     passa = true;
                                     break;
                                 }
-                            } else if ((tinicio.compareTime(tim1) > 0)&&(tfim.compareTime(tim1) < 0)) {
+                            } else if ((tinicio.compareTime(tim1) > 0) && (tfim.compareTime(tim1) < 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tinicio.compareTime(tim2) > 0)&&(tfim.compareTime(tim2) < 0)) {
+                            } else if ((tinicio.compareTime(tim2) > 0) && (tfim.compareTime(tim2) < 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tinicio.compareTime(tim1) < 0)&&(tinicio.compareTime(tim2) > 0)) {
+                            } else if ((tinicio.compareTime(tim1) < 0) && (tinicio.compareTime(tim2) > 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tfim.compareTime(tim1) < 0)&&(tfim.compareTime(tim2) > 0)) {
+                            } else if ((tfim.compareTime(tim1) < 0) && (tfim.compareTime(tim2) > 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tfim.compareTime(tim1) == 0)&&(tfim.compareTime(tim2) == 0)) {
+                            } else if ((tfim.compareTime(tim1) == 0) && (tfim.compareTime(tim2) == 0)) {
                                 passa = true;
                                 break;
                             }
@@ -4741,7 +4842,7 @@ public class DataBase {
                                 }
                                 materiais.add(material);
                             }
-                        } 
+                        }
                     }
                     if (!smt.isClosed()) {
                         smt.close();
