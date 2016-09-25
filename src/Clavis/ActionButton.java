@@ -167,6 +167,7 @@ public final class ActionButton extends javax.swing.JDialog {
         painel.setBackground(new java.awt.Color(254, 254, 254));
         painel.setPreferredSize(new java.awt.Dimension(660, 528));
         this.setMinimumSize(new java.awt.Dimension(700, 500));
+        this.setSize(new java.awt.Dimension(700, 500));
         this.setResizable(false);
 
         javax.swing.border.Border border = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(panelcor, 4), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
@@ -1651,7 +1652,7 @@ public final class ActionButton extends javax.swing.JDialog {
     public void open() {
         this.create();
         if (framepai != null) {
-            this.setLocation(framepai.getX(), framepai.getY());
+            this.setLocation((framepai.getX() + (framepai.getWidth()) / 2) - (this.getWidth() / 2), (framepai.getY() + (framepai.getHeight()) / 2) - (this.getHeight() / 2));
         } else {
             Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
             int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);

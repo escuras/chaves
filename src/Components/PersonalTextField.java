@@ -95,6 +95,11 @@ public class PersonalTextField extends JTextField {
         setForeground(corauxiliar);
         super.setText(text);
     }
+    
+    public void clearText() {
+        super.setText("");
+        this.showPLaceHolder();
+    }
 
     public void stopPlaceHolder() {
         if (focus != null) {

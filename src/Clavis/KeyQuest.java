@@ -3297,7 +3297,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
         if (requisicoes.isConnected()) {
-            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial);
+            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial,vista);
             tbMaterial.create();
             tbMaterial.appear();
         }

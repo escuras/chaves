@@ -227,7 +227,6 @@ public class DataBase {
             Statement smt;
             Statement smt2;
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 for (Keys.Person pessoa : pessoas) {
                     String nome = pessoa.getName();
@@ -258,15 +257,8 @@ public class DataBase {
                         }
                     }
                 }
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
-                try {
-                    con.setAutoCommit(true);
-                } catch (SQLException ex1) {
-                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex1);
-                }
                 return false;
             }
         } else {
@@ -301,7 +293,6 @@ public class DataBase {
                 return 0;
             }
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -317,7 +308,6 @@ public class DataBase {
                 }
                 try {
                     if (rs.next()) {
-                        System.out.println(rs.getInt(1));
                         if (rs.getInt(1) == 0) {
                             sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
                             smt2 = con.createStatement();
@@ -333,8 +323,6 @@ public class DataBase {
                                     sql = "insert into Persons (id_funcao,nome,identificacao,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
                                 }
                                 smt.execute(sql);
-                                con.commit();
-                                con.setAutoCommit(true);
                                 return 1;
                             } else {
                                 return 0;
@@ -408,11 +396,9 @@ public class DataBase {
                 ResultSet rs = smt.executeQuery(sql);
                 if (rs.next() && (rs.getInt(1) == 0) && pessoa.getId() >= 0) {
                     sql = "select id_funcao,privilegio from Functions where descricao like '" + pessoa.getFunction().getName() + "';";
-                    con.setAutoCommit(false);
                     smt2 = con.createStatement();
                     ResultSet rs2 = smt2.executeQuery(sql);
                     if (rs2.next()) {
-                        System.out.println(rs2.getInt("id_funcao"));
                         int privilegio;
                         if (pessoa.getPrivilege() <= 0) {
                             privilegio = rs2.getInt("privilegio");
@@ -429,8 +415,6 @@ public class DataBase {
                             sql = "update Persons set id_funcao = '" + rs2.getInt("id_funcao") + "',nome = '" + pessoa.getName() + "', identificacao = '" + pessoa.getIdentification() + "', privilegio = " + privilegio + " where id_pessoa = " + pessoa.getId() + ";";
                         }
                         smt.executeUpdate(sql);
-                        con.commit();
-                        con.setAutoCommit(true);
                         return 1;
                     } else {
                         return 0;
@@ -451,11 +435,8 @@ public class DataBase {
             Statement smt;
             String sql = "update Persons set privilegio = " + valor + " where id_pessoa = " + pessoa.getId() + ";";
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -469,11 +450,8 @@ public class DataBase {
             Statement smt;
             String sql = "delete from Persons where id_pessoa = " + pessoa.getId() + ";";
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -487,11 +465,8 @@ public class DataBase {
             Statement smt;
             String sql = "delete from Persons where id_pessoa = " + pessoa + ";";
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 smt.executeUpdate(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -509,14 +484,11 @@ public class DataBase {
                 String sql = "select count(*) from StudentsClasses where codigo = '" + turma.getCode() + "';";
                 rs = smt.executeQuery(sql);
                 if ((rs.next()) && (rs.getInt(1) == 0)) {
-                    con.setAutoCommit(false);
                     sql = "Insert into StudentsClasses (codigo,descricao,numero_alunos,codigo_curso,descricao_curso) values "
                             + "('" + turma.getCode() + "','" + turma.getName() + "',"
                             + " " + turma.getNumberOfStudents() + ", '" + turma.getDegreeCode() + "',"
                             + "'" + turma.getDegree() + "');";
                     smt.executeUpdate(sql);
-                    con.commit();
-                    con.setAutoCommit(true);
                     return true;
                 }
             } catch (SQLException ex) {
@@ -536,14 +508,11 @@ public class DataBase {
                     String sql = "select count(*) from StudentsClasses where codigo = '" + turma.getCode() + "';";
                     rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
-                        con.setAutoCommit(false);
                         sql = "Insert into StudentsClasses (codigo,descricao,numero_alunos,codigo_curso,descricao_curso) values "
                                 + "('" + turma.getCode() + "','" + turma.getName() + "',"
                                 + " " + turma.getNumberOfStudents() + ", '" + turma.getDegreeCode() + "',"
                                 + "'" + turma.getDegree() + "');";
                         smt.executeUpdate(sql);
-                        con.commit();
-                        con.setAutoCommit(true);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -592,7 +561,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "Select (codigo,descricao,numero_alunos,codigo_curso,descricao_curso) from StudentsClasses where codigo = '" + codigo + "'";
+                String sql = "Select codigo, descricao, numero_alunos, codigo_curso, descricao_curso from StudentsClasses where codigo = '" + codigo + "'";
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -695,12 +664,9 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "Insert into Functions (descricao, privilegio) values ('" + funcao.getName() + "'," + funcao.getPrivilege() + ");";
                 smt.execute(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -713,12 +679,9 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "delete from Functions where id_function = " + funcao.getId() + ";";
                 smt.execute(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -731,12 +694,9 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             try {
-                con.setAutoCommit(false);
                 smt = con.createStatement();
                 String sql = "update Functions set privilegio = " + valor + " where id_funcao = " + funcao.getId() + ";";
                 smt.execute(sql);
-                con.commit();
-                con.setAutoCommit(true);
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -815,10 +775,9 @@ public class DataBase {
                         } while (rs.next());
                     } else {
                         sql = "select id_caracteristica from Features where descricao like '%" + termo + "%'";
+
                         ResultSet rs2 = smt.executeQuery(sql);
-                        System.out.println("matersize "+materiais.size());
                         if (rs2.next()) {
-                            System.out.println("poppop");
                             do {
                                 int idc = rs2.getInt(1);
                                 sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and id_material in (select id_material from Rel_features_materials where id_caracteristica = " + idc + ");";
@@ -834,15 +793,12 @@ public class DataBase {
                                     }
                                 }
                             } while (rs2.next());
-                            System.out.println("3333"+materiais.size());
                         }
                         sql = "select id_software from Software where nome like '%" + termo + "%'";
                         ResultSet rs3 = smt.executeQuery(sql);
                         if (rs3.next()) {
-                            System.out.println("momomomomomomomomo12");
                             do {
                                 int idc = rs3.getInt(1);
-                                System.out.println(idc);
                                 sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo in (select codigo_material from Rel_material_software where id_software = " + idc + ");";
                                 rs = smt.executeQuery(sql);
                                 while (rs.next()) {
@@ -856,13 +812,11 @@ public class DataBase {
                                     }
                                 }
                             } while (rs3.next());
-                            System.out.println("4444"+materiais.size());
                         }
                         if (mat.getMaterialTypeID() == 1) {
                             sql = "select id_disciplina from Subjects where descricao like '%" + termo + "%'";
                             ResultSet rs4 = smt.executeQuery(sql);
                             if (rs4.next()) {
-                                System.out.println("mcvcvcvcv12");
                                 do {
                                     int idc = rs4.getInt(1);
                                     sql = "Select * from Materials where id_tipo = " + mat.getMaterialTypeID() + " and codigo in (select codigo_sala from Rel_classrooms_subjects where id_disciplina = " + idc + ");";
@@ -878,7 +832,6 @@ public class DataBase {
                                         }
                                     }
                                 } while (rs4.next());
-                                System.out.println("55555"+materiais.size());
                             }
                         }
                     }
@@ -1994,15 +1947,11 @@ public class DataBase {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         if (rs.getInt(1) == 0) {
-                            con.setAutoCommit(false);
                             sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
                             smt.executeUpdate(sql);
                             Keys.TypeOfMaterial tipo = feature.getTypeOfMaterial();
                             sql = "insert into Rel_features_materials (id_caracteristica, id_tipo) values (" + this.getFeatureId(feature) + "," + tipo.getMaterialTypeID() + ") ";
                             smt.executeUpdate(sql);
-
-                            con.commit();
-                            con.setAutoCommit(true);
                         }
                     }
                 } catch (SQLException ex) {
@@ -2029,13 +1978,10 @@ public class DataBase {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
                         if (rs.getInt(1) == 0) {
-                            con.setAutoCommit(false);
                             sql = "insert into Features (descricao, medida) values ('" + feature.getDescription() + "','" + feature.getUnityMeasure() + "')";
                             smt.executeUpdate(sql);
                             sql = "insert into Rel_features_materials (id_caracteristica, id_tipo, id_material, quantidade) values (" + this.getFeatureId(feature) + "," + mat.getTypeOfMaterial().getMaterialTypeID() + "," + mat.getId() + "," + feature.getNumber() + ")";
                             smt.executeUpdate(sql);
-                            con.commit();
-                            con.setAutoCommit(true);
                         }
                     }
                 } catch (SQLException ex) {
@@ -2117,10 +2063,7 @@ public class DataBase {
                     if (rs.next()) {
                         if ((rs.getInt(1) == 0) || (compara == 0)) {
                             sql = "update Features set descricao = '" + novo.getDescription() + "', medida = '" + novo.getUnityMeasure() + "' where id_caracteristica = " + id + ";";
-                            con.setAutoCommit(false);
                             smt.executeUpdate(sql);
-                            con.commit();
-                            con.setAutoCommit(true);
                             return 0;
                         } else {
                             return 1;
@@ -2152,12 +2095,9 @@ public class DataBase {
                     if (rs.next()) {
                         if ((rs.getInt(1) == 0) || (compara == 0)) {
                             sql = "update Features set descricao = '" + novo.getDescription() + "', medida = '" + novo.getUnityMeasure() + "' where id_caracteristica = " + id + ";";
-                            con.setAutoCommit(false);
                             smt.executeUpdate(sql);
                             sql = "update Rel_features_materials set quantidade = " + novo.getNumber() + " where id_caracteristica = " + id + " and id_material = " + mat.getId() + ";";
                             smt.executeUpdate(sql);
-                            con.commit();
-                            con.setAutoCommit(true);
                             return 0;
                         } else {
                             return 1;
@@ -2541,10 +2481,7 @@ public class DataBase {
                     rs = smt.executeQuery(sql);
                     if (rs.next() && (rs.getInt(1) == 0)) {
                         sql = "insert into Rel_requests_subjects (id_requisicao, id_disciplina) values (" + id_requisicao + "," + id_disciplina + ")";
-                        con.setAutoCommit(false);
                         smt.executeUpdate(sql);
-                        con.commit();
-                        con.setAutoCommit(true);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2570,10 +2507,7 @@ public class DataBase {
                     rs.next();
                     if ((rs.getInt(1) == 0)) {
                         sql = "insert into Rel_requests_studentsclasses (id_requisicao, codigo_turma) values (" + id_requisicao + ",'" + codigo_turma + "')";
-                        con.setAutoCommit(false);
                         smt.executeUpdate(sql);
-                        con.commit();
-                        con.setAutoCommit(true);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2633,10 +2567,7 @@ public class DataBase {
                     ResultSet rs = smt.executeQuery(sql);
                     if ((rs.next()) && (rs.getInt(1) == 0)) {
                         sql = "insert into Software (nome, versao, ano, empresa) values ('" + soft.getName() + "','" + soft.getVersion() + "','" + soft.getYear() + "','" + soft.getInterprise() + "') ";
-                        con.setAutoCommit(false);
                         smt.executeUpdate(sql);
-                        con.commit();
-                        con.setAutoCommit(true);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2680,10 +2611,7 @@ public class DataBase {
                     if (rs.next()) {
                         if ((rs.getInt(1) == 0) || (compara == 0)) {
                             sql = "update Software set nome = '" + novo.getName() + "', versao = '" + novo.getVersion() + "', ano = '" + novo.getYear() + "', empresa = '" + novo.getInterprise() + "' where id_software = " + this.getSoftwareID(velho) + " ;";
-                            con.setAutoCommit(false);
                             smt.executeUpdate(sql);
-                            con.commit();
-                            con.setAutoCommit(true);
                             return 0;
                         } else {
                             return 1;
@@ -2709,10 +2637,7 @@ public class DataBase {
             if (smt != null) {
                 try {
                     String sql = "delete from Software where nome = '" + soft.getName() + "' and versao = '" + soft.getVersion() + "' and ano = '" + soft.getYear() + "' and empresa = '" + soft.getInterprise() + "';";
-                    con.setAutoCommit(false);
                     smt.executeUpdate(sql);
-                    con.commit();
-                    con.setAutoCommit(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2733,10 +2658,7 @@ public class DataBase {
                 try {
                     int val = this.getSoftwareID(soft);
                     String sql = "delete from Rel_material_software where id_software = " + val + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
-                    con.setAutoCommit(false);
                     smt.executeUpdate(sql);
-                    con.commit();
-                    con.setAutoCommit(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2829,10 +2751,7 @@ public class DataBase {
             if (smt != null) {
                 try {
                     String sql = "update Rel_material_software set atualizado = " + bool + " where id_software = " + this.getSoftwareID(soft) + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
-                    con.setAutoCommit(false);
                     smt.executeUpdate(sql);
-                    con.commit();
-                    con.setAutoCommit(true);
                     return 0;
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -3106,11 +3025,8 @@ public class DataBase {
                 ResultSet rs = smt.executeQuery(sql);
                 if ((rs.next()) && (rs.getInt(1) == 0)) {
                     sql = "insert into Rel_classrooms_subjects (codigo_sala,id_disciplina) values ('" + mat.getCodeOfMaterial() + "'," + sub.getId() + ")";
-                    con.setAutoCommit(false);
                     smt = con.prepareStatement(sql);
                     smt.executeUpdate();
-                    con.commit();
-                    con.setAutoCommit(true);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -4238,7 +4154,7 @@ public class DataBase {
                     material = this.getMaterial(rs.getInt("id_material"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
                     disciplinas = this.getSubjectsAssociatedWithSimpleRequest(id);
-                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(id);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -4500,7 +4416,7 @@ public class DataBase {
                     material = this.getMaterial(rs.getInt("id_material"));
                     atividade = this.getActivity(rs.getInt("id_atividade"));
                     disciplinas = this.getSubjectsAssociatedWithSimpleRequest(id);
-                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(ido);
+                    turmas = this.getStudentsClassesAssociatedWithSimpleRequest(id);
                     aux = rs.getString("inicio").split("/");
                     inicio = new TimeDate.Date(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]));
                     aux = rs.getString("fim").split("/");
@@ -4564,16 +4480,11 @@ public class DataBase {
             ResultSet rs;
             String sql = "update Requests set ativo = 1, data_levantamento = CURDATE(), hora_levantamento = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
-                con.setAutoCommit(false);
                 smt = con.prepareStatement(sql);
                 smt.executeUpdate();
-                con.commit();
                 sql = "update Materials set estado = 1 where codigo = '" + req.getMaterial().getCodeOfMaterial() + "';";
                 smt2 = con.prepareStatement(sql);
-                smt2.executeLargeUpdate();
-                con.commit();
-                con.setAutoCommit(true);
-
+                smt2.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class
                         .getName()).log(Level.SEVERE, null, ex);
@@ -4589,15 +4500,11 @@ public class DataBase {
             PreparedStatement smt2;
             String sql = "update Requests set terminado = 1, ativo = 0, data_entrega = CURDATE(), hora_entrega = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
-                con.setAutoCommit(false);
                 smt = con.prepareStatement(sql);
                 smt.executeUpdate();
-                con.commit();
                 sql = "update Materials set estado = 0 where codigo = '" + req.getMaterial().getCodeOfMaterial() + "';";
                 smt2 = con.prepareStatement(sql);
                 smt2.executeUpdate();
-                con.commit();
-                con.setAutoCommit(true);
 
             } catch (SQLException ex) {
                 Logger.getLogger(DataBase.class

@@ -8,7 +8,11 @@ package Clavis;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,8 +32,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -37,8 +45,8 @@ import javax.swing.SwingConstants;
  */
 public class ButtonListRequest {
 
-    public static final Color OCCUPIED_COLOR = new Color(255, 100, 100);
-    public static final Color FREE_COLOR = new Color(100, 100, 255);
+    public static final Color OCCUPIED_COLOR = new Color(155, 140, 190);
+    public static final Color FREE_COLOR = new Color(100, 145, 255);
     private List<PersonalButtonRequest> bLista;
     private List<Keys.Material> mater;
     private Dimension dim;
@@ -55,6 +63,16 @@ public class ButtonListRequest {
     private javax.swing.JFrame frameanterior;
     private int selecionado;
     private int valor;
+    private javax.swing.JLabel lnome;
+    private javax.swing.JLabel lcodigo;
+    private javax.swing.JScrollPane spanelb;
+    private javax.swing.JList<String> slistb;
+    private int botoeslinha;
+    private java.util.List<Keys.Request> rlista;
+    private javax.swing.JList jListRequisicoes;
+    private javax.swing.JScrollPane jScrollPane2;
+    private int ndias;
+    private boolean lista;
 
     public ButtonListRequest(String url, javax.swing.JFrame frame, Keys.TypeOfMaterial tipo, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, String pesquisa) {
         this.mater = new ArrayList<>();
@@ -64,11 +82,14 @@ public class ButtonListRequest {
         this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-        dim = new Dimension(140, 140);
+        dim = new Dimension(150, 150);
         this.btcor1 = ButtonListRequest.OCCUPIED_COLOR;
         this.btcor2 = ButtonListRequest.FREE_COLOR;
         this.tpanel = tpanel;
+        this.rlista = new java.util.ArrayList<>();
         this.tipopesquisa = tipopesquisa;
+        selecionado = -1;
+        lista = false;
         if (DataBase.DataBase.testConnection(url)) {
             int val = tipo.getMaterialTypeID();
             DataBase.DataBase db = new DataBase.DataBase(url);
@@ -89,7 +110,6 @@ public class ButtonListRequest {
                     break;
                 case 3:
                     mater = new ArrayList<>(db.searchForMaterials(tipo, pesquisa));
-                    System.out.println(mater.size());
                     break;
                 default:
                     if (val == 1) {
@@ -123,10 +143,17 @@ public class ButtonListRequest {
         return nomes;
     }
 
+    public void addComponentsToBehavior(javax.swing.JLabel nome, javax.swing.JLabel codigo, javax.swing.JScrollPane pane, javax.swing.JList<String> lista) {
+        lnome = nome;
+        lcodigo = codigo;
+        slistb = lista;
+        spanelb = pane;
+    }
+
     public List<PersonalButtonRequest> getButtons() {
         this.bLista = new ArrayList<>();
         if (!this.mater.isEmpty()) {
-            for (Object n : this.mater) {
+            this.mater.stream().map((n) -> {
                 PersonalButtonRequest button = new PersonalButtonRequest();
                 button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 button.setHorizontalAlignment(SwingConstants.CENTER);
@@ -218,16 +245,17 @@ public class ButtonListRequest {
                         }
                     }
                 }
+                return button;
+            }).forEach((button) -> {
                 bLista.add(button);
-            }
+            });
             valor = 0;
             for (PersonalButtonRequest r : bLista) {
                 r.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         if (e.getClickCount() == 2) {
-                             mater.get(selecionado);
-                             ActionButton at;
+                            ActionButton at;
                             if (mater.get(selecionado) instanceof Keys.Classroom) {
                                 at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
                             } else {
@@ -237,15 +265,43 @@ public class ButtonListRequest {
                             at.open();
                         } else {
                             int va = 0;
+                            int vax = selecionado;
                             for (PersonalButtonRequest ro : bLista) {
                                 ro.setBorder(null);
                                 if (ro.getValue() == r.getValue()) {
-                                    ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                    ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                                     selecionado = va;
                                 }
                                 va++;
                             }
-                            System.out.println(getSelectedMaterial());
+                            if (vax != selecionado) {
+                                if ((lnome != null) && (lcodigo != null)) {
+                                    if (selecionado < 0) {
+                                        lnome.setText("");
+                                        lcodigo.setText("");
+                                    } else {
+                                        Keys.Material sel = getSelectedMaterial();
+                                        if (sel.getMaterialTypeID() == 1) {
+                                            lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
+                                        } else {
+                                            lnome.setText(sel.getDescription());
+                                        }
+                                        lcodigo.setText(sel.getCodeOfMaterial());
+                                    }
+                                    if (lista) {
+                                        makeList();
+                                    }
+                                }
+                            } else {
+                                ActionButton at;
+                                if (mater.get(selecionado) instanceof Keys.Classroom) {
+                                    at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
+                                } else {
+                                    at = new ActionButton(frameanterior, mater.get(selecionado), lingua, url, r);
+                                }
+                                frameanterior.setVisible(false);
+                                at.open();
+                            }
                         }
                     }
                 });
@@ -254,15 +310,24 @@ public class ButtonListRequest {
                     public void keyPressed(KeyEvent e) {
                         switch (e.getKeyCode()) {
                             case KeyEvent.VK_ENTER:
-                                ActionButton at = new ActionButton(frameanterior,  mater.get(selecionado), lingua, url, r);
+                                ActionButton at;
+                                if (mater.get(selecionado) instanceof Keys.Classroom) {
+                                    at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
+                                } else {
+                                    at = new ActionButton(frameanterior, mater.get(selecionado), lingua, url, r);
+                                }
                                 frameanterior.setVisible(false);
                                 at.open();
                                 break;
                             case KeyEvent.VK_ESCAPE:
                                 selecionado = -1;
-                                for (PersonalButtonRequest ro : bLista) {
+                                bLista.stream().forEach((ro) -> {
                                     ro.setBorder(null);
-                                }   break;
+                                });
+                                clearTable();
+                                lnome.setText("");
+                                lcodigo.setText("");
+                                break;
                             case KeyEvent.VK_LEFT:
                                 if (selecionado > 0) {
                                     selecionado = selecionado - 1;
@@ -270,25 +335,70 @@ public class ButtonListRequest {
                                     for (PersonalButtonRequest ro : bLista) {
                                         ro.setBorder(null);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                                         }
                                         va++;
                                     }
-                                }   break;
+                                }
+                                break;
                             case KeyEvent.VK_RIGHT:
-                                if ((selecionado < mater.size()-1)&&(selecionado >= 0)) {
+                                if ((selecionado < mater.size() - 1) && (selecionado >= 0)) {
                                     selecionado = selecionado + 1;
                                     int va = 0;
                                     for (PersonalButtonRequest ro : bLista) {
                                         ro.setBorder(null);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                                         }
                                         va++;
                                     }
-                                }   break;
+                                }
+                                break;
+                            case KeyEvent.VK_UP:
+                                if (selecionado - botoeslinha >= 0) {
+                                    selecionado = selecionado - botoeslinha;
+                                    int va = 0;
+                                    for (PersonalButtonRequest ro : bLista) {
+                                        ro.setBorder(null);
+                                        if (va == selecionado) {
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                        }
+                                        va++;
+                                    }
+                                }
+                                break;
+                            case KeyEvent.VK_DOWN:
+                                if (selecionado + botoeslinha < mater.size()) {
+                                    selecionado = selecionado + botoeslinha;
+                                    int va = 0;
+                                    for (PersonalButtonRequest ro : bLista) {
+                                        ro.setBorder(null);
+                                        if (va == selecionado) {
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                        }
+                                        va++;
+                                    }
+                                }
+                                break;
                             default:
                                 break;
+                        }
+                        if ((lnome != null) && (lcodigo != null)) {
+                            if (selecionado < 0) {
+                                lnome.setText("");
+                                lcodigo.setText("");
+                            } else {
+                                Keys.Material sel = getSelectedMaterial();
+                                if (sel.getMaterialTypeID() == 1) {
+                                    lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
+                                } else {
+                                    lnome.setText(sel.getDescription());
+                                }
+                                lcodigo.setText(sel.getCodeOfMaterial());
+                            }
+                            if (lista) {
+                                makeList();
+                            }
                         }
                     }
                 });
@@ -296,6 +406,153 @@ public class ButtonListRequest {
             }
         }
         return bLista;
+    }
+
+    public void addList(javax.swing.JList jListRequisicoes, javax.swing.JScrollPane jScrollPane2, int ndias) {
+        this.jListRequisicoes = jListRequisicoes;
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
+        jListRequisicoes.setModel(modelo);
+        this.jScrollPane2 = jScrollPane2;
+        this.ndias = ndias;
+        lista = true;
+    }
+
+    private void makeList() {
+        this.jListRequisicoes.removeAll();
+        if (selecionado >= 0) {
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                TimeDate.Date dat = new TimeDate.Date();
+                rlista = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(getSelectedMaterial(), dat, dat.dateAfter(ndias)));
+                db.close();
+                DefaultListModel<String> modelo = new DefaultListModel<>();
+                String andancas;
+                String cor;
+                int i = 0;
+                if (rlista.size() > 0) {
+                    for (Keys.Request r : rlista) {
+                        if (i % 2 == 0) {
+                            cor = "#efeed0";
+                        } else {
+                            cor = "#d7d4a7";
+                        }
+                        andancas = "<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; background-color:" + cor + ";'> <b>" + lingua.translate("Início") + ": </b>" + r.getBeginDate().toString() + " (" + r.getTimeBegin().toString(0) + ")<br/>"
+                                + "<b>" + lingua.translate("Fim") + ": </b>" + r.getEndDate().toString() + " (" + r.getTimeEnd().toString(0) + ")"
+                                + "</div></html>";
+                        modelo.addElement(andancas);
+                        i++;
+                    }
+                } else {
+                    modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("A lista está vazia") + ".</div></html>");
+                    jListRequisicoes.setModel(modelo);
+                }
+                jListRequisicoes.setModel(modelo);
+            } else {
+                DefaultListModel<String> modelo = new DefaultListModel<>();
+                modelo.addElement(lingua.translate("Erro de ligação") + ".");
+                jListRequisicoes.setModel(modelo);
+            }
+            jScrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            DefaultListModel m = (DefaultListModel) jListRequisicoes.getModel();
+            Rectangle r;
+            int altura = 10;
+            jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), 0));
+            for (int x = 0; x < m.getSize(); x++) {
+                r = jListRequisicoes.getCellBounds(x, x);
+                altura += (int) (r.getHeight());
+                if (altura >= jListRequisicoes.getPreferredSize().getHeight()) {
+                    jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), (int) (altura)));
+                }
+            }
+            jListRequisicoes.addMouseListener(new MouseAdapter() {
+                String[] st = {lingua.translate("Ver detalhes")};
+                Components.MessagePane mensagem;
+                Components.PopUpMenu pop;
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (rlista.size() > 0) {
+                        ActionListener[] act = new ActionListener[]{
+                            new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    Keys.Request req = null;
+                                    for (int h = 0; h < rlista.size(); h++) {
+                                        if (jListRequisicoes.getSelectedIndex() == h) {
+                                            req = rlista.get(h);
+                                        }
+                                    }
+                                    if (req != null) {
+                                        mensagem = new Components.MessagePane(frameanterior, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                                        mensagem.showMessage();
+                                    }
+                                }
+                            }
+                        };
+                        pop = new Components.PopUpMenu(st, act);
+                        pop.create();
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            if (rlista.size() > 0) {
+                                pop.show(e.getComponent(), e.getX(), e.getY());
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        java.awt.Point p = e.getPoint();
+                        jListRequisicoes.setSelectedIndex(jListRequisicoes.locationToIndex(p));
+                    }
+                }
+            });
+            jListRequisicoes.addKeyListener(new KeyAdapter() {
+                Components.MessagePane mensagem;
+
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        jListRequisicoes.clearSelection();
+                    } else if ((jListRequisicoes.getSelectedIndex() >= 0) && (e.getKeyCode() == KeyEvent.VK_ENTER)) {
+                        if (rlista.size() > 0) {
+                            Keys.Request req = null;
+                            for (int h = 0; h < rlista.size(); h++) {
+                                if (jListRequisicoes.getSelectedIndex() == h) {
+                                    req = rlista.get(h);
+                                }
+                            }
+                            if (req != null) {
+                                mensagem = new Components.MessagePane(frameanterior, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                                mensagem.showMessage();
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            clearTable();
+        }
+    }
+
+    private void clearTable() {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
+        jListRequisicoes.setModel(modelo);
+    }
+    
+    
+    public void clear(){
+        selecionado = -1;
+        clearTable();
+        lnome.setText("");
+        lcodigo.setText("");
+        if (bLista != null) {
+            for (int i=0; i< bLista.size(); i++) {
+                bLista.get(i).setBorder(null);
+            }
+        }
     }
 
     public Keys.Material getSelectedMaterial() {
@@ -310,6 +567,8 @@ public class ButtonListRequest {
     }
 
     public javax.swing.JScrollPane getScrollPane() {
+        FlowLayout fl = new FlowLayout();
+        fl.setAlignment(FlowLayout.LEFT);
         javax.swing.JScrollPane aux = new javax.swing.JScrollPane();
         aux.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
         aux.getVerticalScrollBar().setUnitIncrement(10);
@@ -317,14 +576,15 @@ public class ButtonListRequest {
         pane.setBackground(new Color(245, 245, 220));
         int valorborder = 50;
         pane.setLayout(new Components.ModifiedFlowLayout());
+        pane.setLayout(fl);
         pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
         if (!this.bLista.isEmpty()) {
-
             bLista.stream().forEach((bt) -> {
                 pane.add(bt, BorderLayout.PAGE_END);
             });
             int largura = (int) (pane.getPreferredSize().getWidth() - (valorborder * 2));
             int valorbotoes = largura / (int) (dim.getWidth());
+            botoeslinha = valorbotoes;
             int valinicial = 50 + (int) dim.getHeight();
             int i = 1;
             while (i < bLista.size()) {
@@ -338,6 +598,184 @@ public class ButtonListRequest {
         aux.setViewportView(pane);
         return aux;
     }
+
+    public static javax.swing.JPanel makePanelDetailsRequest(Keys.Request req, Langs.Locale lingua) {
+        javax.swing.JPanel panel = new javax.swing.JPanel(null);
+        panel.setPreferredSize(new Dimension(400, 300));
+        panel.setBounds(10, 20, 400, 300);
+        Font fonte = new java.awt.Font("Cantarell", Font.BOLD, 14);
+        Font fonte2 = new java.awt.Font("Cantarell", Font.PLAIN, 14);
+        javax.swing.JLabel label1 = new javax.swing.JLabel();
+        label1.setFont(fonte);
+        label1.setBounds(10, 10, 140, 30);
+        label1.setText(lingua.translate("Utilizador") + ":");
+        panel.add(label1);
+        javax.swing.JLabel labelr1 = new javax.swing.JLabel();
+        labelr1.setFont(fonte2);
+        labelr1.setBounds(160, 10, 270, 30);
+        labelr1.setText(req.getPerson().getName());
+        panel.add(labelr1);
+        javax.swing.JLabel label2 = new javax.swing.JLabel();
+        label2.setFont(fonte);
+        label2.setBounds(10, 40, 140, 30);
+        label2.setText(lingua.translate("Atividade") + ":");
+        panel.add(label2);
+        javax.swing.JLabel labelr2 = new javax.swing.JLabel();
+        labelr2.setFont(fonte2);
+        labelr2.setBounds(160, 40, 270, 30);
+        String[] satividade = req.getActivity().split(":::");
+        if (satividade.length > 1) {
+            Components.PopUpMenu pop = new Components.PopUpMenu(satividade, lingua);
+            pop.create();
+            labelr2.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pop.show(labelr2, labelr2.getX(), labelr2.getY());
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pop.setVisible(false);
+                }
+            });
+        }
+        labelr2.setText(satividade[0]);
+        panel.add(labelr2);
+        javax.swing.JLabel label3 = new javax.swing.JLabel();
+        label3.setFont(fonte);
+        label3.setBounds(10, 70, 140, 30);
+        label3.setText(lingua.translate("Disciplina") + ":");
+        panel.add(label3);
+        javax.swing.JLabel labelr3 = new javax.swing.JLabel();
+        labelr3.setFont(fonte2);
+        labelr3.setBounds(160, 70, 270, 30);
+        if (req.isMultiDisciplinar()) {
+            java.util.Iterator<Keys.Subject> iter = req.getSubjects().iterator();
+            String[] sdisciplinas = new String[req.getSubjects().size()];
+            int i = 0;
+            while (iter.hasNext()) {
+                sdisciplinas[i] = iter.next().getName();
+                i++;
+            }
+            Components.PopUpMenu pop = new Components.PopUpMenu(sdisciplinas);
+            pop.create();
+            labelr3.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pop.show(labelr2, labelr2.getX(), labelr2.getY());
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pop.setVisible(false);
+                }
+            });
+            labelr3.setText(lingua.translate("Múltiplas disciplinas"));
+        } else {
+            labelr3.setText(req.getSubject().getName());
+        }
+        int altura = (int) (labelr3.getBounds().getY() + labelr3.getBounds().getHeight());
+        javax.swing.JLabel label4 = new javax.swing.JLabel();
+        panel.add(labelr3);
+        label4.setFont(fonte);
+        label4.setBounds(10, altura, 140, 30);
+        label4.setText(lingua.translate("Turma") + ":");
+        panel.add(label4);
+        javax.swing.JLabel labelr4 = new javax.swing.JLabel();
+        labelr4.setFont(fonte2);
+        labelr4.setBounds(160, altura, 270, 30);
+        if (req.isMultiClass()) {
+            java.util.Iterator<Keys.ClassStudents> iter = req.getStudentsClasses().iterator();
+            String[] sturmas = new String[req.getStudentsClasses().size()];
+            int i = 0;
+            while (iter.hasNext()) {
+                sturmas[i] = iter.next().getName();
+                i++;
+            }
+            Components.PopUpMenu pop = new Components.PopUpMenu(sturmas);
+            pop.create();
+            labelr4.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pop.show(labelr2, labelr2.getX(), labelr2.getY());
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pop.setVisible(false);
+                }
+            });
+            labelr4.setText(lingua.translate("Múltiplas turmas"));
+        } else {
+            labelr4.setText(req.getStudentsClass().getName());
+        }
+        altura = (int) (labelr4.getBounds().getY() + labelr4.getBounds().getHeight());
+        panel.add(labelr4);
+        javax.swing.JLabel label5 = new javax.swing.JLabel();
+        label5.setFont(fonte);
+        label5.setBounds(10, altura, 140, 30);
+        if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
+            label5.setText(lingua.translate("Data") + ":");
+        } else {
+            label5.setText(lingua.translate("Data inicial") + ":");
+        }
+        panel.add(label5);
+        javax.swing.JLabel labelr5 = new javax.swing.JLabel();
+        labelr5.setFont(fonte2);
+        labelr5.setBounds(160, altura, 270, 30);
+        labelr5.setText(req.getBeginDate().toStringWithMonthWord(lingua));
+        altura = (int) (labelr5.getBounds().getY() + labelr5.getBounds().getHeight());
+        panel.add(labelr5);
+        if (req.getBeginDate().isBigger(req.getEndDate()) > 0) {
+            javax.swing.JLabel label6 = new javax.swing.JLabel();
+            label6.setFont(fonte);
+            label6.setBounds(10, altura, 140, 30);
+            label6.setText(lingua.translate("Data final") + ":");
+            panel.add(label6);
+            javax.swing.JLabel labelr6 = new javax.swing.JLabel();
+            labelr6.setFont(fonte2);
+            labelr6.setBounds(160, altura, 270, 30);
+            labelr6.setText(req.getEndDate().toStringWithMonthWord(lingua));
+            altura = (int) (labelr6.getBounds().getY() + labelr6.getBounds().getHeight());
+            panel.add(labelr6);
+        }
+        javax.swing.JLabel label7 = new javax.swing.JLabel();
+        label7.setFont(fonte);
+        label7.setBounds(10, altura, 140, 30);
+        label7.setText(lingua.translate("Hora inicial") + ":");
+        panel.add(label7);
+        javax.swing.JLabel labelr7 = new javax.swing.JLabel();
+        labelr7.setFont(fonte2);
+        labelr7.setBounds(160, altura, 270, 30);
+        labelr7.setText(req.getTimeBegin().toString(0));
+        altura = (int) (labelr7.getBounds().getY() + labelr7.getBounds().getHeight());
+        panel.add(labelr7);
+        javax.swing.JLabel label8 = new javax.swing.JLabel();
+        label8.setFont(fonte);
+        label8.setBounds(10, altura, 140, 30);
+        label8.setText(lingua.translate("Hora final") + ":");
+        panel.add(label8);
+        javax.swing.JLabel labelr8 = new javax.swing.JLabel();
+        labelr8.setFont(fonte2);
+        labelr8.setBounds(160, altura, 270, 30);
+        labelr8.setText(req.getTimeEnd().toString(0));
+        altura = (int) (labelr8.getBounds().getY() + labelr8.getBounds().getHeight());
+        panel.add(labelr8);
+        if (req.getBeginDate().isBigger(req.getEndDate()) == 0) {
+            javax.swing.JLabel label9 = new javax.swing.JLabel();
+            label9.setFont(fonte);
+            label9.setBounds(10, altura, 140, 30);
+            label9.setText(lingua.translate("Dia da semana") + ":");
+            panel.add(label9);
+            javax.swing.JLabel labelr9 = new javax.swing.JLabel();
+            labelr9.setFont(fonte2);
+            labelr9.setBounds(160, altura, 270, 30);
+            labelr9.setText(req.getWeekDay().perDayName());
+            panel.add(labelr9);
+        }
+        return panel;
+    }
+
 }
 
 class PersonalButtonRequest extends javax.swing.JButton implements Comparable<PersonalButtonRequest>, Cloneable {

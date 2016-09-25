@@ -1098,6 +1098,8 @@ public class WRequest extends javax.swing.JFrame {
                 jComboBoxMaterial.setSelectedIndex(0);
                 jSpinnerQuantidade.setValue(0);
                 jComboBoxNomeUtilizador.setSelectedIndex(0);
+                jButtonAlgoMais.setBorder(null);
+                jButtonPesquisa.setBorder(null);
             }
             db.setAutoCommit(true);
             db.close();
