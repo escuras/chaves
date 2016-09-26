@@ -486,7 +486,7 @@ public class WRequest extends javax.swing.JFrame {
         jComboBoxNomeUtilizador.setBackgroundColor(new Color(213,213,213));
         jComboBoxNomeUtilizador.setHelpText(lingua.translate("Nome de utilizador")+" ...");
         jComboBoxNomeUtilizador.create();
-        jLabel11.setText(lingua.translate("Email")+": ");
+        jLabel11.setText(lingua.translate("E-mail")+": ");
         personalTextFieldCodigoUtilizador.addPlaceHolder(lingua.translate("Código de identificação")+" ...", jLabelRecurso);
         Border f = BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true), BorderFactory.createLineBorder(Color.BLACK));
         personalTextFieldCodigoUtilizador.setBorder(BorderFactory.createCompoundBorder(f, BorderFactory.createEmptyBorder(0, 10, 0, 10)));
@@ -524,7 +524,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(254, 254, 254));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Hora");
+        jLabel7.setText(lingua.translate("Hora"));
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -545,7 +545,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(254, 254, 254));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Data");
+        jLabel6.setText(lingua.translate("Data"));
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -613,14 +613,12 @@ public class WRequest extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        jLabel1.setText(lingua.translate("Início"));
         JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) jSpinner1.getEditor();
         spinnerEditor.getTextField().setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jSpinner1.setModel(new SpinnerDateModel());
         jSpinner1.setEditor(new JSpinner.DateEditor(jSpinner1, "HH:mm"));
         javax.swing.JFormattedTextField ff = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinner1.getEditor()).getComponent(0);
         ff.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jLabel1.setText(lingua.translate("Início"));
         javax.swing.JPanel pan2 = new javax.swing.JPanel(null);
         pan2.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20), BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)));
         String compoe = lingua.translate("Hoje é dia")+": "+new TimeDate.Date().toString();
@@ -657,7 +655,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(254, 254, 254));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Hora");
+        jLabel9.setText(lingua.translate("Hora"));
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -678,7 +676,7 @@ public class WRequest extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(254, 254, 254));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Data");
+        jLabel10.setText(lingua.translate("Data"));
         jLabel10.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -738,9 +736,7 @@ public class WRequest extends javax.swing.JFrame {
         jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, "HH:mm"));
         ff = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinner2.getEditor()).getComponent(0);
         ff.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jLabel1.setText(lingua.translate("Início"));
         jLabel4.setText(lingua.translate("Fim da requisição"));
-        jLabel1.setText(lingua.translate("Início"));
         javax.swing.JPanel pan3 = new javax.swing.JPanel(null);
         pan3.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20), BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK)));
         String compoe2 = lingua.translate("Hoje é dia")+": "+new TimeDate.Date().toString();
@@ -1108,7 +1104,7 @@ public class WRequest extends javax.swing.JFrame {
 
     private void jButtonAlgoMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgoMaisActionPerformed
         WOthersPanel panel = new WOthersPanel(this, url, lingua, reqatividade, reqturmas, reqdisciplinas);
-        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, panel.createPanelMoreInfo(500, 350), "", new String[]{"Confirmar", "Voltar"});
+        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, panel.createPanelMoreInfo(500, 350), "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
         if (mensagem.showMessage() == 1) {
             reqatividade = panel.getActivity();
             reqturmas = panel.getStudentsClasses();
@@ -1662,15 +1658,7 @@ public class WRequest extends javax.swing.JFrame {
         }
         return false;
     }
-
-    public static final void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> {
-            WRequest wr = new WRequest();
-            wr.create();
-            wr.setVisible(true);
-        });
-    }
-
+    
     public static String treatLongStrings(String l, int tamanho, Font font) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
@@ -1753,7 +1741,7 @@ public class WRequest extends javax.swing.JFrame {
             }
         } else {
             mlista = lista;
-            int valorsel = jComboBoxMaterial.getSelectedIndex();
+            int valorsel = jComboBoxMaterial.getSelectedIndex()-1;
             jComboBoxMaterial.removeAllItems();
             DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
             for (Keys.Material n : mlista) {

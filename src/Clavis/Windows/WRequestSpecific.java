@@ -5,16 +5,19 @@
  */
 package Clavis.Windows;
 
+import Clavis.ButtonListRequest;
 import java.awt.Color;
 import Keys.*;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -52,6 +55,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
     private Color corfundo;
     private Material material;
     private javax.swing.JDialog dialogo;
+    private javax.swing.JFrame frame;
     private Langs.Locale lingua;
     private String url;
     private Components.PersonalCombo jComboBoxNomeUtilizador;
@@ -67,6 +71,8 @@ public class WRequestSpecific extends javax.swing.JDialog {
     private java.util.List<Keys.ClassStudents> reqturmas;
     private java.util.List<Keys.Subject> reqdisciplinas;
     private String reqatividade;
+    private KeyListener lkey;
+    private MouseListener lmou;
 
     /**
      * Creates new form WRequestSpecified
@@ -76,6 +82,30 @@ public class WRequestSpecific extends javax.swing.JDialog {
         this.corfundo = corfundo;
         this.material = mat;
         this.dialogo = dialogo;
+        this.frame = null;
+        this.lingua = lingua;
+        this.url = url;
+        jComboBoxNomeUtilizador = new Components.PersonalCombo(rootPane);
+        pessoas = new java.util.ArrayList<>();
+        pessoaescolhida = null;
+        dinicio = null;
+        dfim = null;
+        tinicio = null;
+        tfim = null;
+        intervalo = 1;
+        reqefetuada = false;
+        rlist = new java.util.ArrayList<>();
+        reqturmas = new java.util.ArrayList<>();
+        reqdisciplinas = new java.util.ArrayList<>();
+        reqatividade = "";
+    }
+
+    public WRequestSpecific(Color corborda, Color corfundo, Material mat, String url, Langs.Locale lingua, javax.swing.JFrame frame) {
+        this.corborda = corborda;
+        this.corfundo = corfundo;
+        this.material = mat;
+        this.frame = frame;
+        this.dialogo = null;
         this.lingua = lingua;
         this.url = url;
         jComboBoxNomeUtilizador = new Components.PersonalCombo(rootPane);
@@ -99,6 +129,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         makeTextFieldEmail();
         makeTextFieldCode();
         makeValidDate();
+        this.setTitle(lingua.translate("Requisição específica"));
         this.setModal(true);
         dinicio = this.getDate(jSpinnerDataLevantamento);
         dfim = this.getDate(jSpinnerDataEntrega);
@@ -121,6 +152,10 @@ public class WRequestSpecific extends javax.swing.JDialog {
             java.awt.Point p = this.getLocation();
             dialogo.setLocation(p);
             dialogo.setVisible(true);
+        } else if (frame != null) {
+            java.awt.Point p = this.getLocation();
+            frame.setLocation(p);
+            frame.setVisible(true);
         }
         this.dispose();
     }
@@ -207,9 +242,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
         model.addElement(lingua.translate("2 dias"));
         model.addElement(lingua.translate("5 dias"));
         model.addElement(lingua.translate("15 dias"));
-        model.addElement(lingua.translate("30 dias"));
-        model.addElement(lingua.translate("60 dias"));
-        model.addElement(lingua.translate("120 dias"));
         jComboBoxTempo.setModel(model);
         jComboBoxTempo.addActionListener((ActionEvent e) -> {
             switch (jComboBoxTempo.getSelectedIndex()) {
@@ -225,15 +257,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 case 3:
                     intervalo = 15;
                     break;
-                case 4:
-                    intervalo = 30;
-                    break;
-                case 5:
-                    intervalo = 60;
-                    break;
-                case 6:
-                    intervalo = 120;
-                    break;
                 default:
                     intervalo = 1;
                     break;
@@ -245,12 +268,36 @@ public class WRequestSpecific extends javax.swing.JDialog {
 
     public void appear() {
         this.setModal(true);
-        java.awt.Point p = dialogo.getLocation();
+        java.awt.Point p = new java.awt.Point();
+        if (dialogo != null) {
+            p = dialogo.getLocation();
+            double x = p.getX() + dialogo.getWidth() / 2;
+            x -= (this.getWidth() / 2);
+            double y = p.getY() + dialogo.getHeight() / 2;;
+            y -= (this.getHeight() / 2);
+            p.setLocation(x, y);
+        } else if (frame != null) {
+            p = frame.getLocation();
+            double x = p.getX() + frame.getWidth() / 2;
+            x -= (this.getWidth() / 2);
+            double y = p.getY() + frame.getHeight() / 2;;
+            y -= (this.getHeight() / 2);
+            p.setLocation(x, y);
+        } else {
+            java.awt.Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            double x = dim.getWidth() / 2;
+            double y = dim.getHeight() / 2;
+            x -= (this.getWidth() / 2);
+            y -= (this.getHeight() / 2);
+            p.setLocation(x, y);
+        }
         this.setLocation(p);
         this.setVisible(true);
     }
 
     private void makeRequestsList() {
+        jListHorario.removeMouseListener(lmou);
+        jListHorario.removeKeyListener(lkey);
         if (jListHorario.getModel().getSize() > 0) {
             DefaultListModel m = (DefaultListModel) jListHorario.getModel();
             for (int i = 0; i < m.getSize(); i++) {
@@ -302,11 +349,78 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(), (int) (altura)));
             }
         }
+        lmou = (new MouseAdapter() {
+            String[] st = {lingua.translate("Ver detalhes")};
+            Components.MessagePane mensagem;
+            Components.PopUpMenu pop;
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (rlist.size() > 0) {
+                    ActionListener[] act = new ActionListener[]{
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                Keys.Request req = null;
+                                for (int h = 0; h < rlist.size(); h++) {
+                                    if (jListHorario.getSelectedIndex() == h) {
+                                        req = rlist.get(h);
+                                    }
+                                }
+                                if (req != null) {
+                                    mensagem = new Components.MessagePane(jListHorario.getRootPane(), Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                                    mensagem.showMessage();
+                                }
+                            }
+                        }
+                    };
+                    pop = new Components.PopUpMenu(st, act);
+                    pop.create();
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        if (rlist.size() > 0) {
+                            pop.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    java.awt.Point p = e.getPoint();
+                    jListHorario.setSelectedIndex(jListHorario.locationToIndex(p));
+                }
+            }
+        });
+        jListHorario.addMouseListener(lmou);
+        lkey = (new KeyAdapter() {
+            Components.MessagePane mensagem;
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jListHorario.clearSelection();
+                } else if ((jListHorario.getSelectedIndex() >= 0) && (e.getKeyCode() == KeyEvent.VK_ENTER)) {
+                    if (rlist.size() > 0) {
+                        Keys.Request req = null;
+                        for (int h = 0; h < rlist.size(); h++) {
+                            if (jListHorario.getSelectedIndex() == h) {
+                                req = rlist.get(h);
+                            }
+                        }
+                        if (req != null) {
+                            mensagem = new Components.MessagePane(jListHorario.getRootPane(), Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                        }
+                    }
+                }
+            }
+        });
+        jListHorario.addKeyListener(lkey);
 
     }
 
     private void makeComboBoxUser() {
-
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.Person> p = db.getPersons();
@@ -1073,7 +1187,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 .addGap(21, 21, 21))
         );
 
-        jLabelLista.setText(lingua.translate("Lista de requisições atribuidas")+".");
+        jLabelLista.setText(lingua.translate("Lista de requisições atribuidas"));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/save.png") != null) {
                 BufferedImage im3 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/save.png"));
@@ -1086,7 +1200,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
 
         jButtonConfirma.setToolTipText(lingua.translate("Efetuar requisição"));
         if (material != null) {
-            jLabelRecurso.setText(lingua.translate("Requisição")+": "+material.getTypeOfMaterialName()+" "+material.getDescription());
+            jLabelRecurso.setText(lingua.translate("Requisição")+": "+lingua.translate(material.getTypeOfMaterialName())+" "+material.getDescription());
         }
         else {
             jLabelRecurso.setText(lingua.translate("Primeiro, deve selecionar um recurso")+".");
@@ -1199,7 +1313,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
 
     private void jButtonAlgoMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgoMaisActionPerformed
         WOthersPanel panel = new WOthersPanel(this, url, lingua, reqatividade, reqturmas, reqdisciplinas);
-        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, panel.createPanelMoreInfo(500, 350), "", new String[]{"Confirmar", "Voltar"});
+        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Adicionar outra informação"), 600, 400, panel.createPanelMoreInfo(500, 350), "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
         if (mensagem.showMessage() == 1) {
             reqatividade = panel.getActivity();
             reqturmas = panel.getStudentsClasses();
@@ -1218,43 +1332,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButtonAlgoMaisActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WRequestSpecific.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WRequestSpecific.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WRequestSpecific.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WRequestSpecific.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Clavis.Windows.WRequestSpecific rw = new WRequestSpecific(new Color(255, 255, 255), new Color(23, 45, 103), null, "", Langs.Locale.getLocale_pt_PT(), null);
-                rw.create();
-                rw.appear();
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAlgoMais;

@@ -464,7 +464,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLista.setText(lingua.translate(&quot;Lista de requisi&#xe7;&#xf5;es atribuidas&quot;)+&quot;.&quot;);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelLista.setText(lingua.translate(&quot;Lista de requisi&#xe7;&#xf5;es atribuidas&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonConfirma">
@@ -653,7 +653,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (material != null) {&#xa;    jLabelRecurso.setText(lingua.translate(&quot;Requisi&#xe7;&#xe3;o&quot;)+&quot;: &quot;+material.getTypeOfMaterialName()+&quot; &quot;+material.getDescription());&#xa;}&#xa;else {&#xa;    jLabelRecurso.setText(lingua.translate(&quot;Primeiro, deve selecionar um recurso&quot;)+&quot;.&quot;);&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (material != null) {&#xa;    jLabelRecurso.setText(lingua.translate(&quot;Requisi&#xe7;&#xe3;o&quot;)+&quot;: &quot;+lingua.translate(material.getTypeOfMaterialName())+&quot; &quot;+material.getDescription());&#xa;}&#xa;else {&#xa;    jLabelRecurso.setText(lingua.translate(&quot;Primeiro, deve selecionar um recurso&quot;)+&quot;.&quot;);&#xa;}"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonExit">

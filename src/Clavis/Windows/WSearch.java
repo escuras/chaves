@@ -12,30 +12,20 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
-import static java.awt.datatransfer.DataFlavor.stringFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Dictionary;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultBoundedRangeModel;
@@ -48,23 +38,18 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -89,6 +74,7 @@ public class WSearch extends javax.swing.JFrame {
     java.util.List<HelpFeature> selfealista;
     java.util.List<HelpSoftware> selsoftlista;
     java.util.List<HelpSubject> selsublista;
+    boolean pesquisa = false;
 
     /**
      * Creates new form WSearch
@@ -190,6 +176,7 @@ public class WSearch extends javax.swing.JFrame {
 
         jButtonConfirmar.setBackground(new java.awt.Color(51, 102, 153));
         jButtonConfirmar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonConfirmar.setEnabled(false);
         jButtonConfirmar.setFocusPainted(false);
         jButtonConfirmar.setMaximumSize(new java.awt.Dimension(90, 40));
         jButtonConfirmar.setMinimumSize(new java.awt.Dimension(90, 40));
@@ -603,7 +590,7 @@ public class WSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRetirar2ActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        if (materiais.size() > 0) {
+        if ((materiais.size() > 0)&&(pesquisa)) {
             this.close();
             if (frame instanceof WRequest) {
                 ((Clavis.Windows.WRequest) frame).setMaterialsList(materiais);
@@ -624,6 +611,7 @@ public class WSearch extends javax.swing.JFrame {
     public void create() {
         tem_software = false;
         initComponents();
+        this.setTitle(lingua.translate("Pesquisa de recursos por caraterísticas"));
         if (tipo != null) {
             tem_software = tipo.getMaterialTypeID() <= 1;
             if (DataBase.DataBase.testConnection(url)) {
@@ -634,7 +622,6 @@ public class WSearch extends javax.swing.JFrame {
                 }
                 db.close();
             }
-            jButtonConfirmar.setEnabled(true);
         } else if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             tipos = db.getTypesOfMaterial();
@@ -647,14 +634,25 @@ public class WSearch extends javax.swing.JFrame {
                 }
             }
             tem_software = true;
-            jButtonConfirmar.setEnabled(false);
         }
 
         DefaultComboBoxModel<Keys.TypeOfMaterial> modelotipo = new DefaultComboBoxModel<>();
         if (tipo != null) {
+            tipo = new Keys.TypeOfMaterial(tipo) {
+                @Override
+                public String toString() {
+                    return lingua.translateWithPlural(getTypeOfMaterialName());
+                }
+            };
             modelotipo.addElement(tipo);
         } else if (tipos != null) {
             tipos.stream().forEach((t) -> {
+                t = new Keys.TypeOfMaterial(t) {
+                    @Override
+                    public String toString() {
+                        return lingua.translateWithPlural(getTypeOfMaterialName());
+                    }
+                };
                 modelotipo.addElement(t);
             });
             tipo = tipos.get(0);
@@ -668,10 +666,10 @@ public class WSearch extends javax.swing.JFrame {
         DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
         if (tem_software) {
             jComboBoxAspetos.setEnabled(true);
-            modelo.addElement(lingua.translate("Software"));
+            modelo.addElement(lingua.translateWithPlural("Software"));
         }
         if ((tipo != null) && (tipo.getMaterialTypeID() == 1)) {
-            modelo.addElement(lingua.translate("Disciplinas"));
+            modelo.addElement(lingua.translateWithPlural("Disciplina"));
         }
         jComboBoxAspetos.setModel(modelo);
         jComboBoxTipo.setModel(modelotipo);
@@ -702,7 +700,6 @@ public class WSearch extends javax.swing.JFrame {
             jComboBoxCarateristicas.setModel(model);
             jComboBoxTipo.setEnabled(false);
             jComboBoxAspetos.setEnabled(false);
-            jButtonConfirmar.setEnabled(false);
         }
         jComboBoxTipo.addActionListener((ActionEvent e) -> {
             Keys.TypeOfMaterial tip = (Keys.TypeOfMaterial) jComboBoxTipo.getSelectedItem();
@@ -714,9 +711,9 @@ public class WSearch extends javax.swing.JFrame {
 
                 if (tem_software) {
                     jComboBoxAspetos.setEnabled(true);
-                    modelo.addElement(lingua.translate("Software"));
+                    modelo.addElement(lingua.translateWithPlural("Software"));
                     if (tipo.getMaterialTypeID() == 1) {
-                        modelo.addElement(lingua.translate("Disciplinas"));
+                        modelo.addElement(lingua.translateWithPlural("Disciplina"));
                     }
                     jComboBoxAspetos.setModel(modelo);
                     jComboBoxAspetos.setSelectedIndex(0);
@@ -748,7 +745,7 @@ public class WSearch extends javax.swing.JFrame {
                 if (tem_medida) {
                     jTextFieldMedida.setText("" + jSliderMedida.getValue());
                     int sel = jComboBoxCarateristicas.getSelectedIndex();
-                    jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + fealista.get(sel).getUnityMeasure());
+                    jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + lingua.translate(fealista.get(sel).getUnityMeasure()));
                 } else {
                     int val = jSliderMedida.getValue();
                     if (val == 1) {
@@ -802,7 +799,7 @@ public class WSearch extends javax.swing.JFrame {
                                 val = val.replaceAll("[ñ]", "n");
                                 if (val.matches(lingua.translate("sim"))) {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                } else if (val.toLowerCase().matches(lingua.translate("nao"))) {
+                                } else if (val.toLowerCase().matches(lingua.translate("Nao").toLowerCase())) {
                                     jSliderMedida.setValue(jSliderMedida.getMinimum());
                                 } else {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
@@ -841,7 +838,7 @@ public class WSearch extends javax.swing.JFrame {
                                 val = val.replaceAll("[ñ]", "n");
                                 if (val.matches(lingua.translate("sim"))) {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                } else if (val.toLowerCase().matches(lingua.translate("nao"))) {
+                                } else if (val.toLowerCase().matches(lingua.translate("Nao").toLowerCase())) {
                                     jSliderMedida.setValue(jSliderMedida.getMinimum());
                                 } else {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
@@ -880,6 +877,9 @@ public class WSearch extends javax.swing.JFrame {
 
             }
         });
+        if (tipos != null) {
+            jButtonConfirmar.setVisible(false);
+        }
     }
 
     private void updateValuesMeasureObjects() {
@@ -1383,8 +1383,8 @@ public class WSearch extends javax.swing.JFrame {
             @Override
             public void intervalAdded(ListDataEvent e) {
                 updateMaterialsList();
-                if (frame != null) {
-                    if (materiais.size() > 0) {
+                if ((frame != null) && (tipos == null)) {
+                    if ((materiais.size() > 0)&&(pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1395,8 +1395,8 @@ public class WSearch extends javax.swing.JFrame {
             @Override
             public void intervalRemoved(ListDataEvent e) {
                 updateMaterialsList();
-                if (frame != null) {
-                    if (materiais.size() > 0) {
+                if ((frame != null) && (tipos == null)) {
+                    if ((materiais.size() > 0)&&(pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1407,8 +1407,8 @@ public class WSearch extends javax.swing.JFrame {
             @Override
             public void contentsChanged(ListDataEvent e) {
                 updateMaterialsList();
-                if (frame != null) {
-                    if (materiais.size() > 0) {
+                if ((frame != null) && (tipos == null)) {
+                    if ((materiais.size() > 0)&&(pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1437,6 +1437,7 @@ public class WSearch extends javax.swing.JFrame {
             DataBase.DataBase db = new DataBase.DataBase(url);
             boolean medida;
             int condicao = selfealista.size() + selsublista.size() + selsoftlista.size();
+            int quantos = 0;
             for (Keys.Material m : materiaisoriginal) {
                 conta = 0;
                 for (Keys.Feature feat : selfealista) {
@@ -1480,6 +1481,13 @@ public class WSearch extends javax.swing.JFrame {
                     }
                 }
             }
+        }
+        if (mauxiliar.size() == materiaisoriginal.size()) {
+            pesquisa = false;
+        } else if (mauxiliar.size() == 0) {
+            pesquisa = false;
+        } else {
+            pesquisa = true;
         }
         materiais = mauxiliar;
         this.makeTable();
@@ -1597,6 +1605,52 @@ public class WSearch extends javax.swing.JFrame {
             }
         };
         jTableMateriais.getColumnModel().getColumn(0).setHeaderRenderer(headerRenderer2);
+
+        jTableMateriais.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    int sel = jTableMateriais.rowAtPoint(e.getPoint());
+                    jTableMateriais.setRowSelectionInterval(sel, sel);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (tipos != null) {
+                    if ((!materiais.isEmpty()) && (e.getButton() == MouseEvent.BUTTON3)) {
+                        String[] strings = {lingua.translate("Requisitar")};
+                        ActionListener[] act = new ActionListener[1];
+                        act[0] = new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                int sel = jTableMateriais.getSelectedRow();
+                                Keys.Material selecionado = null;
+                                int i = 0;
+                                for (Keys.Material m : materiais) {
+                                    if (sel == i) {
+                                        selecionado = m;
+                                        break;
+                                    }
+                                    i++;
+                                }
+                                if (selecionado != null) {
+                                    javax.swing.JFrame top = (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jTableMateriais);
+                                    Clavis.Windows.WRequestSpecific wr = new Clavis.Windows.WRequestSpecific(corborda, corfundo, selecionado, url, lingua, top);
+                                    wr.create();
+                                    setVisible(false);
+                                    wr.appear();
+                                }
+                            }
+
+                        };
+                        Components.PopUpMenu pop = new Components.PopUpMenu(strings, act);
+                        pop.create();
+                        pop.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
     }
 
     /**

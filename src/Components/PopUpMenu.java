@@ -110,7 +110,11 @@ public class PopUpMenu extends JPopupMenu {
         item = new JMenuItem[fim - 1];
         while (inicio < fim) {
             auxiliar = titulos[inicio].split(";;;");
-            item[inicio - 1] = new JMenuItem("<html> <div style='text-align:center;'><b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</div></html>");
+            if (auxiliar.length > 1) {
+                item[inicio - 1] = new JMenuItem("<html> <div style='text-align:center;'><b>" + lang.translate(auxiliar[0]) + ": </b>" + lang.translate("Desde as").toLowerCase() + " " + auxiliar[1] + " " + lang.translate("até às") + " " + auxiliar[2] + ".</div></html>");
+            } else {
+                item[inicio - 1] = new JMenuItem(lang.translate(auxiliar[0]));
+            }
             inicio++;
         }
     }

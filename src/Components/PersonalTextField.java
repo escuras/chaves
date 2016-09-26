@@ -92,8 +92,10 @@ public class PersonalTextField extends JTextField {
 
     @Override
     public void setText(String text) {
+        super.requestFocus();
         setForeground(corauxiliar);
         super.setText(text);
+        componentedesaida.requestFocus();
     }
     
     public void clearText() {

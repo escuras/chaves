@@ -73,6 +73,8 @@ public class ButtonListRequest {
     private javax.swing.JScrollPane jScrollPane2;
     private int ndias;
     private boolean lista;
+    private KeyListener lkey;
+    private MouseListener lmou;
 
     public ButtonListRequest(String url, javax.swing.JFrame frame, Keys.TypeOfMaterial tipo, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, String pesquisa) {
         this.mater = new ArrayList<>();
@@ -420,6 +422,8 @@ public class ButtonListRequest {
 
     private void makeList() {
         this.jListRequisicoes.removeAll();
+        this.jListRequisicoes.removeMouseListener(lmou);
+        this.jListRequisicoes.removeKeyListener(lkey);
         if (selecionado >= 0) {
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);
@@ -465,7 +469,7 @@ public class ButtonListRequest {
                     jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), (int) (altura)));
                 }
             }
-            jListRequisicoes.addMouseListener(new MouseAdapter() {
+            lmou = (new MouseAdapter() {
                 String[] st = {lingua.translate("Ver detalhes")};
                 Components.MessagePane mensagem;
                 Components.PopUpMenu pop;
@@ -508,7 +512,8 @@ public class ButtonListRequest {
                     }
                 }
             });
-            jListRequisicoes.addKeyListener(new KeyAdapter() {
+            jListRequisicoes.addMouseListener(lmou);
+            lkey = (new KeyAdapter() {
                 Components.MessagePane mensagem;
 
                 @Override
@@ -531,6 +536,7 @@ public class ButtonListRequest {
                     }
                 }
             });
+            jListRequisicoes.addKeyListener(lkey);
         } else {
             clearTable();
         }
@@ -540,6 +546,8 @@ public class ButtonListRequest {
         DefaultListModel<String> modelo = new DefaultListModel<>();
         modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
         jListRequisicoes.setModel(modelo);
+        this.jListRequisicoes.removeMouseListener(lmou);
+        this.jListRequisicoes.removeKeyListener(lkey);
     }
     
     
@@ -548,11 +556,14 @@ public class ButtonListRequest {
         clearTable();
         lnome.setText("");
         lcodigo.setText("");
+        this.jListRequisicoes.removeMouseListener(lmou);
+        this.jListRequisicoes.removeKeyListener(lkey);
         if (bLista != null) {
             for (int i=0; i< bLista.size(); i++) {
                 bLista.get(i).setBorder(null);
             }
         }
+        
     }
 
     public Keys.Material getSelectedMaterial() {
@@ -613,7 +624,8 @@ public class ButtonListRequest {
         javax.swing.JLabel labelr1 = new javax.swing.JLabel();
         labelr1.setFont(fonte2);
         labelr1.setBounds(160, 10, 270, 30);
-        labelr1.setText(req.getPerson().getName());
+        String g = Clavis.Windows.WRequest.treatLongStrings(req.getPerson().getName(), 120, labelr1.getFont());
+        labelr1.setText(g);
         panel.add(labelr1);
         javax.swing.JLabel label2 = new javax.swing.JLabel();
         label2.setFont(fonte);

@@ -86,6 +86,7 @@ public class WOthersPanel {
         btatividade.setBounds(415, 20, 30, 30);
         btatividade.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Components.PersonalCombo cbatividade = new Components.PersonalCombo(label1);
+        cbatividade.setHelpText(lingua.translate("Escolha uma destas atividades")+"...");
         cbatividade.setPreferredSize(new Dimension(250, 34));
         cbatividade.getComboBox().setBounds(140, 20, 270, 34);
         cbatividade.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
@@ -139,7 +140,7 @@ public class WOthersPanel {
         javax.swing.JTextField tx2 = (javax.swing.JTextField) cbturmas.getComboBox().getEditor().getEditorComponent();
         tx2.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         cbturmas.getComboBox().setBounds(40, 36, 200, 34);
-        cbturmas.setHelpText(lingua.translate("Turmas a participar ..."));
+        cbturmas.setHelpText(lingua.translate("Turmas a participar")+" ...");
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.ClassStudents> turmas = db.getStudentsClasses();
@@ -188,7 +189,7 @@ public class WOthersPanel {
         pandireita.setBounds(260, 70, 250, 220);
         panel.add(pandireita);
 
-        javax.swing.JLabel labeldisciplinas = new javax.swing.JLabel(lingua.translate("Disciplinas"));
+        javax.swing.JLabel labeldisciplinas = new javax.swing.JLabel(lingua.translateWithPlural("Disciplina"));
         labeldisciplinas.setPreferredSize(new Dimension(200, 28));
         labeldisciplinas.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         labeldisciplinas.setBounds(10, 0, 230, 28);
@@ -211,7 +212,7 @@ public class WOthersPanel {
         javax.swing.JTextField tx3 = (javax.swing.JTextField) cbdisciplinas.getComboBox().getEditor().getEditorComponent();
         tx3.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         cbdisciplinas.getComboBox().setBounds(40, 36, 202, 34);
-        cbdisciplinas.setHelpText(lingua.translate("Disciplinas envolvidas ..."));
+        cbdisciplinas.setHelpText(lingua.translate("Disciplinas envolvidas")+" ...");
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.Subject> disciplinas = db.getAllSubjects();

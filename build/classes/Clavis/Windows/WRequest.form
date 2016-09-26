@@ -575,7 +575,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel11.setText(lingua.translate(&quot;Email&quot;)+&quot;: &quot;);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel11.setText(lingua.translate(&quot;E-mail&quot;)+&quot;: &quot;);"/>
               </AuxValues>
             </Component>
             <Component class="Components.PersonalTextField" name="personalTextFieldCodigoUtilizador">
@@ -750,7 +750,9 @@
                   <Color blue="fe" green="fe" red="fe" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Hora"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="lingua.translate(&quot;Hora&quot;)" type="code"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="1"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -769,9 +771,6 @@
                   <Dimension value="[100, 20]"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;In&#xed;cio&quot;));"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JSpinner" name="jSpinner1">
               <Properties>
@@ -813,7 +812,9 @@
                   <Color blue="fe" green="fe" red="fe" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Data"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="lingua.translate(&quot;Data&quot;)" type="code"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="1"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -832,9 +833,6 @@
                   <Dimension value="[149, 20]"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;In&#xed;cio&quot;));"/>
-              </AuxValues>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker1">
               <Properties>
@@ -994,7 +992,9 @@
                   <Color blue="fe" green="fe" red="fe" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Hora"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="lingua.translate(&quot;Hora&quot;)" type="code"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="1"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -1013,9 +1013,6 @@
                   <Dimension value="[100, 20]"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;In&#xed;cio&quot;));"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
@@ -1055,7 +1052,9 @@
                   <Color blue="fe" green="fe" red="fe" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Data"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="lingua.translate(&quot;Data&quot;)" type="code"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="1"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -1074,9 +1073,6 @@
                   <Dimension value="[149, 20]"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;In&#xed;cio&quot;));"/>
-              </AuxValues>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker2">
               <Properties>

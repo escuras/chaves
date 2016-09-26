@@ -230,7 +230,6 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarNome">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nome:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
                 </Property>
@@ -247,7 +246,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarEmail">
               <Properties>
-                <Property name="text" type="java.lang.String" value="E-mail:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
                 </Property>
@@ -264,7 +262,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarTelefone">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Telefone:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
                 </Property>
@@ -281,7 +278,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarFuncao">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Fun&#xe7;&#xe3;o:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
                 </Property>
@@ -436,7 +432,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarIdentificacao">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Identifica&#xe7;&#xe3;o:"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
@@ -496,7 +491,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAdicionarPrivilegio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Privil&#xe9;gio:"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[120, 30]"/>
                 </Property>

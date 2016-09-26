@@ -4413,13 +4413,28 @@ public class KeyQuest extends javax.swing.JFrame {
         JMenuItem itemAdicionarRecurso = new JMenuItem();
         itemAdicionarRecurso.setText(lingua.translate("Inserir recursos"));
         itemAdicionarRecurso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        itemAdicionarRecurso.setAccelerator(KeyStroke.getKeyStroke(itemAdicionarUtilizador.getText().charAt(0), Event.ALT_MASK));
+        itemAdicionarRecurso.setAccelerator(KeyStroke.getKeyStroke(itemAdicionarRecurso.getText().charAt(0), Event.ALT_MASK));
         itemAdicionarRecurso.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemAdicionarRecursoActionPerformed(evt);
         });
         jMenuMovimentos.add(itemAdicionarRecurso);
+        
+        JMenuItem itemPesquisaRecurso = new JMenuItem();
+        itemPesquisaRecurso.setText(lingua.translate("Pesquisar por recursos"));
+        itemPesquisaRecurso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemPesquisaRecurso.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+        itemPesquisaRecurso.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemPesquisaRecursoActionPerformed(evt);
+        });
+        jMenuMovimentos.add(itemPesquisaRecurso);
 
         this.setJMenuBar(menu);
+    }
+    
+    private void itemPesquisaRecursoActionPerformed(java.awt.event.ActionEvent evt) {
+        Clavis.Windows.WSearch search = new Clavis.Windows.WSearch(new Color(255,255,255), systemColor, urlbd, lingua, this, null, null);
+        search.create();
+        search.appear();
     }
 
     private void itemAdicionarUtilizadorActionPerformed(java.awt.event.ActionEvent evt) {

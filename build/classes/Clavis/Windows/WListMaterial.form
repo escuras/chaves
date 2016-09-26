@@ -84,7 +84,6 @@
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jButtonPesquisa" min="-2" pref="90" max="-2" attributes="0"/>
@@ -124,9 +123,9 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButtonSair" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButtonPesquisa" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="jButtonSair" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jButtonLimpar" max="32767" attributes="0"/>
                   </Group>

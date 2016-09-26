@@ -12,15 +12,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -114,22 +110,18 @@ public class WUsers extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(420, 440));
         jPanel1.setPreferredSize(new java.awt.Dimension(420, 440));
 
-        jLabelAdicionarNome.setText("Nome:");
         jLabelAdicionarNome.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarNome.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarNome.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        jLabelAdicionarEmail.setText("E-mail:");
         jLabelAdicionarEmail.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarEmail.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarEmail.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        jLabelAdicionarTelefone.setText("Telefone:");
         jLabelAdicionarTelefone.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarTelefone.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarTelefone.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        jLabelAdicionarFuncao.setText("Função:");
         jLabelAdicionarFuncao.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarFuncao.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarFuncao.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -170,7 +162,6 @@ public class WUsers extends javax.swing.JFrame {
         jComboBoxAdicionarFuncao.setMinimumSize(new java.awt.Dimension(254, 30));
         jComboBoxAdicionarFuncao.setPreferredSize(new java.awt.Dimension(254, 30));
 
-        jLabelAdicionarIdentificacao.setText("Identificação:");
         jLabelAdicionarIdentificacao.setToolTipText("");
         jLabelAdicionarIdentificacao.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarIdentificacao.setMinimumSize(new java.awt.Dimension(120, 30));
@@ -192,7 +183,6 @@ public class WUsers extends javax.swing.JFrame {
             }
         });
 
-        jLabelAdicionarPrivilegio.setText("Privilégio:");
         jLabelAdicionarPrivilegio.setMaximumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarPrivilegio.setMinimumSize(new java.awt.Dimension(120, 30));
         jLabelAdicionarPrivilegio.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -632,7 +622,7 @@ public class WUsers extends javax.swing.JFrame {
                 } else if (!txAdicionarEmail.getText().equals("")) {
                     if (txAdicionarEmail.getText().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")) {
                         if ((!txAdicionarTelefone.getText().equals("")) && (!txAdicionarTelefone.getText().matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))"))) {
-                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado")+".", new String[]{lingua.translate("Voltar")});
                             mensagem.showMessage();
                             this.requestFocus();
                             alterado = false;
@@ -652,13 +642,13 @@ public class WUsers extends javax.swing.JFrame {
                             alterado = true;
                         }
                     } else {
-                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado")+".", new String[]{lingua.translate("Voltar")});
                         mensagem.showMessage();
                         this.requestFocus();
                         alterado = false;
                     }
                 } else {
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Preencha o campo: \"E-mail\""), new String[]{lingua.translate("Voltar")});
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Preencha o campo: \"E-mail\"")+".", new String[]{lingua.translate("Voltar")});
                     mensagem.showMessage();
                     this.requestFocus();
                     alterado = false;
@@ -700,11 +690,11 @@ public class WUsers extends javax.swing.JFrame {
             Keys.Person p = new Keys.Person();
             if ((!txAdicionarIdentificacao.getText().equals("")) || (!txAdicionarEmail.getText().equals(""))) {
                 if (!txAdicionarEmail.getText().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")) {
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"E-mail\" está num formato errado")+".", new String[]{lingua.translate("Voltar")});
                     mensagem.showMessage();
                     this.requestFocus();
                 } else if ((!txAdicionarTelefone.getText().equals("")) && (!txAdicionarTelefone.getText().matches("^(([+]?(\\d{3}))|(([+]?[(](\\d{3})[)])))?[- .]?((2\\d{2}[. -]?\\d{6})|(2\\d{2}[. -]?\\d{3}[. -]?\\d{3})|(9[1236]\\d{7})|(9[1236][. -]?\\d{3}[. -]?\\d{4})|(9[1236][. -]?\\d{4}[. -]?\\d{3})|(9[1236][. -]?\\d{3}[. -]?\\d{2}[. -]?\\d{2}))"))) {
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado."), new String[]{lingua.translate("Voltar")});
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("O campo: \"Telefone\" está num formato errado")+".", new String[]{lingua.translate("Voltar")});
                     mensagem.showMessage();
                     this.requestFocus();
                 } else {
@@ -746,7 +736,7 @@ public class WUsers extends javax.swing.JFrame {
                     }
                 }
             } else {
-                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Prencha um destes campos: \"E-mail\", \"Identificação\"") + ".", new String[]{lingua.translate("Voltar")});
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, "Nota", 400, 200, lingua.translate("Preencha um destes campos: \"E-mail\" ou \"Identificação\"") + ".", new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
                 this.requestFocus();
             }
@@ -787,12 +777,17 @@ public class WUsers extends javax.swing.JFrame {
             lfuncoes = new java.util.ArrayList<>(lista);
             db.close();
             for (int i = 0; i < lista.size(); i++) {
-                lista.get(i).setName(lingua.translate(lista.get(i).getName()));
+                lista.set(i,new Keys.Function(lista.get(i)) {
+                    @Override
+                    public String toString(){
+                        return lingua.translate(getName());
+                    }
+                });
                 modelo.addElement(lista.get(i));
             }
         }
 
-        jComboBoxAdicionarFuncao.addItemListener((ItemEvent e) -> {
+        jComboBoxAdicionarFuncao.addActionListener((ActionEvent e) -> {
             if (selecionado == null) {
                 if ((jComboBoxAdicionarFuncao.getItemCount() > 0) && (jComboBoxAdicionarFuncao.getSelectedIndex() > 0)) {
                     txAdicionarIdentificacao.setEnabled(true);
@@ -802,6 +797,13 @@ public class WUsers extends javax.swing.JFrame {
                     txAdicionarIdentificacao.setEnabled(false);
                 }
             } else if (selecionado != null) {
+                if (!((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem()).getName().equals("Não tem")) {
+                    txAdicionarIdentificacao.setEnabled(true);
+                    jTableUtilizadores.requestFocus();
+                } else {
+                    txAdicionarIdentificacao.setEnabled(false);
+                    jTableUtilizadores.requestFocus();
+                }
                 if ((jComboBoxAdicionarFuncao.getItemCount() > 0) && (jComboBoxAdicionarFuncao.getSelectedIndex() > 0)) {
                     if (selecionado.getFunction().getId() == ((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem()).getId()) {
                         if (selecionado.getIdentification().equals("sem")) {
@@ -817,13 +819,6 @@ public class WUsers extends javax.swing.JFrame {
                 } else {
                     txAdicionarIdentificacao.setText("");
                     txAdicionarIdentificacao.showPLaceHolder();
-                    txAdicionarIdentificacao.setEnabled(false);
-                    jTableUtilizadores.requestFocus();
-                }
-                if (!((Keys.Function) jComboBoxAdicionarFuncao.getSelectedItem()).getName().equals("Não tem")) {
-                    txAdicionarIdentificacao.setEnabled(true);
-                    jTableUtilizadores.requestFocus();
-                } else {
                     txAdicionarIdentificacao.setEnabled(false);
                     jTableUtilizadores.requestFocus();
                 }
@@ -1011,6 +1006,7 @@ public class WUsers extends javax.swing.JFrame {
     private void select(int sel) {
         if (lpessoas.size() > 0) {
             Keys.Person p = lpessoas.get(sel);
+            System.out.println("id "+p.getIdentification());
             setSelectedItem(p);
             iselecionado = sel;
             txAdicionarNome.stopPlaceHolder();
