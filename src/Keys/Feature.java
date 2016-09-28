@@ -12,7 +12,7 @@ package Keys;
 public class Feature implements Comparable<Feature>{
     private String descricao;
     private String medida;
-    private int quantidade;
+    private double quantidade;
     TypeOfMaterial material;
     
     
@@ -81,14 +81,14 @@ public class Feature implements Comparable<Feature>{
     /**
      * @return the quantidade
      */
-    public int getNumber() {
+    public double getNumber() {
         return quantidade;
     }
 
     /**
      * @param quantidade the quantidade to set
      */
-    public void setNumber(int quantidade) {
+    public void setNumber(double quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -104,12 +104,9 @@ public class Feature implements Comparable<Feature>{
         int val;
         if ((val = this.getDescription().toLowerCase().compareTo(o.getDescription().toLowerCase())) == 0) {
             if ((val = this.getUnityMeasure().toLowerCase().compareTo(o.getUnityMeasure().toLowerCase())) == 0) {
-                return this.getNumber() - o.getNumber();
+                return (int) (this.getNumber() - o.getNumber());
             }
         }
         return val;
     }
-
-   
-    
 }

@@ -137,6 +137,30 @@ public class ImageAux {
         }
         return bimagem;
     }
+    
+    public static FileIOAux.ImageExtension getImageFromFileDialog(String titulo, javax.swing.JLabel comp, javax.swing.JFrame frame, int largura, int altura) {
+        FileDialog fil = new java.awt.FileDialog(frame, titulo, java.awt.FileDialog.LOAD);
+        fil.setFilenameFilter((File dir, String name) -> {
+            return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
+        });
+        fil.setLocationRelativeTo(frame);
+        fil.setVisible(true);
+        FileIOAux.ImageExtension bimagem = null;
+        if (fil.getFile() != null) {
+            File fi = fil.getFiles()[0];
+            extensao = verifyExtension(fi);
+            try {
+                if (validateExtension(extensao)) {
+                    bimagem = new FileIOAux.ImageExtension(ImageIO.read(fi), extensao);
+                }
+            } catch (IOException ex) {
+            }
+        }
+        if ((comp != null)&&(bimagem != null)) {
+            comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(), largura, altura)));
+        }
+        return bimagem;
+    }
 
     private static void makeFileChooserVisual(Langs.Locale lingua) {
 
@@ -391,15 +415,15 @@ public class ImageAux {
                 for (int y = 0; y < altura; y++) {
                     Color cor = new Color(imagem.getRGB(x, y));
                     int red = cor.getRed() + valor;
-                    if (red > 255) {
+                    if (red >= 255) {
                         red = 255;
                     }
                     int green = cor.getGreen() + valor;
-                    if (green > 255) {
+                    if (green >= 255) {
                         green = 255;
                     }
                     int blue = cor.getBlue() + valor;
-                    if (blue > 255) {
+                    if (blue >= 255) {
                         blue = 255;
                     }
                     Color au = new Color(red, green, blue);

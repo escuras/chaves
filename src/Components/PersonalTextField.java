@@ -30,12 +30,14 @@ public class PersonalTextField extends JTextField {
     private java.awt.event.FocusListener focus;
     private java.awt.event.KeyAdapter keyevent;
     Color corauxiliar;
+    Color background;
 
     public PersonalTextField() {
         super();
         cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
         this.placeholder = DEFAULT_TEXT_PLACEHOLDER;
+        background = super.getBackground();
     }
 
     public PersonalTextField(String texto) {
@@ -43,7 +45,7 @@ public class PersonalTextField extends JTextField {
         cor = DEFAULT_PLACEHOLDER_COLOR;
         condicao = false;
         this.placeholder = texto;
-        
+        background = super.getBackground();
     }
 
     public void addPlaceHolder(String texto, javax.swing.JComponent bt) {
@@ -52,12 +54,13 @@ public class PersonalTextField extends JTextField {
         this.componentedesaida = bt;
         setPlaceHolderText(texto);
         super.setText(texto);
-        this.setSelectionColor(new Color(50,50,50));
+        
+        this.setSelectionColor(new Color(50, 50, 50));
         focus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 getText();
-                if (textocondicional.equals(texto)) {
+                if ((isEditable())&&(textocondicional.equals(placeholder))) {
                     setForeground(corauxiliar);
                     setText("");
                 }
@@ -83,21 +86,19 @@ public class PersonalTextField extends JTextField {
                         componentedesaida.requestFocus();
                     }
                 }
-             
             }
         };
         this.addKeyListener(keyevent);
-        
+
     }
 
     @Override
     public void setText(String text) {
-        super.requestFocus();
+        requestFocus();
         setForeground(corauxiliar);
         super.setText(text);
-        componentedesaida.requestFocus();
     }
-    
+
     public void clearText() {
         super.setText("");
         this.showPLaceHolder();
@@ -113,8 +114,19 @@ public class PersonalTextField extends JTextField {
         condicao = true;
     }
     
-    private void putText(String texto){
+    @Override
+    public void setEditable(boolean cond){
+        if (cond) {
+            super.setBackground(background);
+        } else {
+            super.setBackground(new Color(235,235,235));
+        }
+        super.setEditable(cond);
+    }
+
+    private void putText(String texto) {
         super.setText(texto);
+        setCaretPosition(0);
     }
 
     public void startPlaceHolder() {
@@ -123,12 +135,11 @@ public class PersonalTextField extends JTextField {
             @Override
             public void focusGained(FocusEvent e) {
                 getText();
-                if (textocondicional.equals(placeholder)) {
+                if ((isEditable())&&(textocondicional.equals(placeholder))) {
                     setForeground(corauxiliar);
                     setText("");
                 }
                 condicao = true;
-                
             }
 
             @Override
@@ -207,8 +218,8 @@ public class PersonalTextField extends JTextField {
         };
         this.addKeyListener(keyevent);
     }
-    
-    public void restartPlaceHolder(){
+
+    public void restartPlaceHolder() {
         this.stopPlaceHolder();
         this.startPlaceHolder();
     }
@@ -250,9 +261,10 @@ public class PersonalTextField extends JTextField {
     public void showPLaceHolder() {
         setForeground(cor);
         super.setText(placeholder);
+       
         condicao = false;
     }
-    
+
     public void showPLaceHolder(javax.swing.JComponent j) {
         setForeground(cor);
         super.setText(placeholder);

@@ -1334,7 +1334,7 @@ public class DataBase {
                 smt = con.createStatement();
                 passa = true;
                 idtipo = material.getMaterialTypeID();
-                if (material.getMaterialTypeID() == -1) {
+                if (material.getMaterialTypeID() <= 0) {
                     sql = "select id_tipo from TypesOfMaterial where upper(descricao) like upper('" + material.getTypeOfMaterialName() + "');";
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {

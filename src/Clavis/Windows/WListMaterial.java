@@ -118,11 +118,6 @@ public class WListMaterial extends javax.swing.JFrame {
                     }
                 }
             }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
         });
         jTabbedPaneMaterialBotoes.addChangeListener(new ChangeListener() {
             @Override
