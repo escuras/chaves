@@ -4427,8 +4427,21 @@ public class KeyQuest extends javax.swing.JFrame {
             itemPesquisaRecursoActionPerformed(evt);
         });
         jMenuMovimentos.add(itemPesquisaRecurso);
+        
+        JMenuItem itemCalcula = new JMenuItem();
+        itemCalcula.setText(lingua.translate("Realizar requisições por CSV"));
+        itemCalcula.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemCalcula.setAccelerator(KeyStroke.getKeyStroke(itemCalcula.getText().charAt(0), Event.ALT_MASK));
+        itemCalcula.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemCalculaActionPerformed(evt);
+        });
+        jMenuMovimentos.add(itemCalcula);
 
         this.setJMenuBar(menu);
+    }
+    
+    private void itemCalculaActionPerformed(java.awt.event.ActionEvent evt) {
+       
     }
     
     private void itemPesquisaRecursoActionPerformed(java.awt.event.ActionEvent evt) {

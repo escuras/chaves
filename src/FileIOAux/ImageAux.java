@@ -1,13 +1,16 @@
 package FileIOAux;
 
 import Clavis.Windows.WMaterial;
+import com.sun.javafx.tk.Toolkit;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.FileDialog;
+import java.awt.Window;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -143,7 +147,12 @@ public class ImageAux {
         fil.setFilenameFilter((File dir, String name) -> {
             return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
         });
-        fil.setLocationRelativeTo(frame);
+        fil.setSize(new Dimension(600,500));
+        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        Window ancestor = SwingUtilities.getWindowAncestor(fil);
+        double x = ancestor.getX() + (ancestor.getWidth() /2) - 300;
+        double y = ancestor.getY() + (ancestor.getHeight() /2) - 250;
+        fil.setLocation((int)x, (int)y);
         fil.setVisible(true);
         FileIOAux.ImageExtension bimagem = null;
         if (fil.getFile() != null) {
@@ -155,7 +164,7 @@ public class ImageAux {
                 }
             } catch (IOException ex) {
             }
-        }
+        } 
         if ((comp != null)&&(bimagem != null)) {
             comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(), largura, altura)));
         }
@@ -405,7 +414,6 @@ public class ImageAux {
         if (imagem != null) {
             int largura = imagem.getWidth();
             int altura = imagem.getHeight();
-
             if (imagem.getType() > 0) {
                 img = new BufferedImage(largura, altura, imagem.getType());
             } else {

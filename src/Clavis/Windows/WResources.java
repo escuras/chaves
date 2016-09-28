@@ -20,10 +20,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +66,8 @@ public class WResources extends javax.swing.JFrame {
     private boolean novaimagem;
     private FileIOAux.ImageExtension bimage;
     private Components.PersonalTextField numero;
+    private DefaultListModel<String> modeloOriginal;
+    private DefaultListModel<String> modeloFinal;
 
     public WResources(Color corfundo, Color corborda, String url, Langs.Locale lingua) {
         this.corborda = corborda;
@@ -94,31 +94,11 @@ public class WResources extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
-    private int verifyStringInList(String s) {
-
-        DefaultListModel<Keys.TypeOfMaterial> modelo = new DefaultListModel();
-        for (int i = 0; i < modelo.getSize(); i++) {
-            if (modelo.getElementAt(i) != null) {
-                String mov = lingua.translate(s);
-                String mov2 = lingua.translate(modelo.getElementAt(i).toString());
-                mov = mov.replaceAll("[áàãäâ]", "a");
-                mov = mov.replaceAll("[íìîĩï]", "i");
-                mov = mov.replaceAll("[éèêẽë]", "e");
-                mov = mov.replaceAll("[úùũüû]", "u");
-                mov = mov.replaceAll("[óòôõö]", "o");
-                mov = mov.replaceAll("[ñ]", "n");
-                mov2 = mov2.replaceAll("[áàãäâ]", "a");
-                mov2 = mov2.replaceAll("[íìîĩï]", "i");
-                mov2 = mov2.replaceAll("[éèêẽë]", "e");
-                mov2 = mov2.replaceAll("[úùũüû]", "u");
-                mov2 = mov2.replaceAll("[óòôõö]", "o");
-                mov2 = mov2.replaceAll("[ñ]", "n");
-                if ((mov2.toLowerCase().matches("(.*)" + mov.toLowerCase().replaceAll("[\\[\\]\\(\\)\\/\\{\\}\"\\#$%&=\\\\]+", "") + "(.*)")) && (!mov.equals(""))) {
-                    return i;
-                }
-            }
-        }
-        return -1;
+    private void putOrignalIcon() {
+        String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + "sem.jpg";
+        bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
+        jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 112, 112)));
+        novaimagem = false;
     }
 
     public void create() {
@@ -180,12 +160,14 @@ public class WResources extends javax.swing.JFrame {
                     }
                 }
                 this.makeJListOriginalFeatures();
+                carsFinal = new java.util.ArrayList<>();
+                modeloFinal.removeAllElements();
             }
         });
     }
 
     private void makeJListOriginalFeatures() {
-        DefaultListModel<String> modelo = new DefaultListModel();
+        modeloOriginal = new DefaultListModel();
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             if (tiposelecionado != null) {
@@ -198,22 +180,22 @@ public class WResources extends javax.swing.JFrame {
                             return lingua.translate(this.getDescription());
                         }
                     });
-                    modelo.addElement(lingua.translate(carsOriginal.get(i).toString()));
+                    modeloOriginal.addElement(lingua.translate(carsOriginal.get(i).toString()));
                 }
             } else {
-                modelo.addElement(lingua.translate("Selecione um tipo de material"));
+                modeloOriginal.addElement(lingua.translate("Selecione um tipo de material"));
                 carsOriginal = null;
             }
         } else {
-            modelo.addElement(lingua.translate("Não existe ligação à base de dados") + ".");
+            modeloOriginal.addElement(lingua.translate("Não existe ligação à base de dados") + ".");
             carsOriginal = null;
         }
-        jListOriginal.setModel(modelo);
+        jListOriginal.setModel(modeloOriginal);
         jScrollPaneOriginal.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         Rectangle r;
         int altura = 20;
         jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), 0));
-        for (int x = 0; x < modelo.getSize(); x++) {
+        for (int x = 0; x < modeloOriginal.getSize(); x++) {
             r = jListOriginal.getCellBounds(x, x);
             altura += (int) (r.getHeight());
             if (altura >= jListOriginal.getPreferredSize().getHeight()) {
@@ -256,15 +238,13 @@ public class WResources extends javax.swing.JFrame {
                             if (!f.getUnityMeasure().equals("")) {
                                 int u = createMessageMeasure(f).showMessage();
                                 if (u < 1) {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                     for (int i = 0; i < carsFinal.size(); i++) {
                                         if (f.compareTo(carsFinal.get(i)) == 0) {
-                                            modelo.removeElementAt(i);
+                                            modeloFinal.removeElementAt(i);
                                         }
                                     }
                                     carsFinal.remove(f);
                                 } else {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                     double val;
                                     String snumero = numero.getText().replace(",", ".");
                                     try {
@@ -276,14 +256,14 @@ public class WResources extends javax.swing.JFrame {
                                         String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                                         for (int i = 0; i < carsFinal.size(); i++) {
                                             if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                modelo.set(i, s);
+                                                modeloFinal.set(i, s);
                                                 carsFinal.get(i).setNumber(val);
                                             }
                                         }
                                     } else {
                                         for (int i = 0; i < carsFinal.size(); i++) {
                                             if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                modelo.removeElementAt(i);
+                                                modeloFinal.removeElementAt(i);
                                             }
                                         }
                                         carsFinal.remove(f);
@@ -293,7 +273,6 @@ public class WResources extends javax.swing.JFrame {
                         } else if (!f.getUnityMeasure().equals("")) {
                             int u = createMessageMeasure(f).showMessage();
                             if (u == 1) {
-                                DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                 double val;
                                 String snumero = numero.getText().replace(",", ".");
                                 try {
@@ -305,7 +284,7 @@ public class WResources extends javax.swing.JFrame {
                                     String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                                     for (int i = 0; i < carsFinal.size(); i++) {
                                         if (f.compareTo(carsFinal.get(i)) == 0) {
-                                            modelo.set(i, s);
+                                            modeloFinal.set(i, s);
                                             carsFinal.get(i).setNumber(val);
                                         }
                                     }
@@ -318,11 +297,10 @@ public class WResources extends javax.swing.JFrame {
         });
         jListFinal.setDragEnabled(true);
         jListFinal.setDropMode(DropMode.INSERT);
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        jListFinal.setModel(modelo);
+        modeloFinal = new DefaultListModel<>();
+        jListFinal.setModel(modeloFinal);
         jListFinal.setTransferHandler(new TransferHandler() {
             int index;
-            DefaultListModel<String> modelo = (DefaultListModel) jListFinal.getModel();
 
             @Override
             public boolean canImport(TransferHandler.TransferSupport support) {
@@ -347,17 +325,17 @@ public class WResources extends javax.swing.JFrame {
                 }
                 index = jListFinal.getModel().getSize();
                 boolean nao_tem = true;
-                for (int k = 0; k < modelo.size(); k++) {
-                    if (modelo.get(k).split(" \\(")[0].trim().equals(data.split(" \\(")[0].trim())) {
+                for (int k = 0; k < modeloFinal.size(); k++) {
+                    if (modeloFinal.get(k).split(" \\(")[0].trim().equals(data.split(" \\(")[0].trim())) {
                         nao_tem = false;
                     }
                 }
                 if (nao_tem) {
-                    modelo.add(index, data);
+                    modeloFinal.add(index, data);
                     Rectangle r;
                     int altura = 20;
                     jListFinal.setPreferredSize(new Dimension((int) jListFinal.getPreferredSize().getWidth(), 0));
-                    for (int x = 0; x < modelo.size(); x++) {
+                    for (int x = 0; x < modeloFinal.size(); x++) {
                         r = jListFinal.getCellBounds(0, 0);
                         altura += (int) (r.getHeight());
                         if (altura >= jListFinal.getPreferredSize().getHeight()) {
@@ -409,47 +387,35 @@ public class WResources extends javax.swing.JFrame {
                                     igual = true;
                                 }
                             }
+
                             if (!igual) {
                                 carsFinal.add(f);
                                 if (!f.getUnityMeasure().equals("")) {
                                     int u = createMessageMeasure(f).showMessage();
                                     if (u < 1) {
-                                        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                                        for (int i = 0; i < modelo.size(); i++) {
-                                            if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                modelo.removeElementAt(i);
-                                            }
-                                        }
                                         carsFinal.remove(f);
                                     } else {
-                                        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                         double val;
                                         String snumero = numero.getText().replace(",", ".");
                                         try {
                                             val = Double.parseDouble(snumero);
-                                        } catch (NumberFormatException el) {
+                                        } catch (NumberFormatException ek) {
                                             val = -1;
                                         }
                                         if (val != -1) {
                                             String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                                             for (int i = 0; i < carsFinal.size(); i++) {
                                                 if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                    modelo.addElement(s);
+                                                    modeloFinal.addElement(s);
                                                     carsFinal.get(i).setNumber(val);
                                                 }
                                             }
                                         } else {
-                                            for (int i = 0; i < modelo.size(); i++) {
-                                                if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                    modelo.removeElementAt(i);
-                                                }
-                                            }
                                             carsFinal.remove(f);
                                         }
                                     }
                                 } else {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                                    modelo.addElement(f.toString());
+                                    modeloFinal.addElement(f.toString());
                                 }
                             } else if (!f.getUnityMeasure().equals("")) {
                                 int u = createMessageMeasure(f).showMessage();
@@ -466,7 +432,6 @@ public class WResources extends javax.swing.JFrame {
                                         String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                                         for (int i = 0; i < modelo.size(); i++) {
                                             if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                System.out.println(i);
                                                 modelo.set(i, s);
                                                 carsFinal.get(i).setNumber(val);
                                             }
@@ -506,13 +471,13 @@ public class WResources extends javax.swing.JFrame {
                                 Keys.Feature fan = carsOriginal.get(i);
                                 if (!carsData.contains(fan)) {
                                     carsOriginal.remove(fan);
-                                    ((DefaultListModel) jListOriginal.getModel()).remove(i);
+                                    modeloOriginal.remove(i);
                                 }
                                 Rectangle r;
                                 int altura = 20;
                                 jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), 0));
-                                DefaultListModel modelo = (DefaultListModel) jListOriginal.getModel();
-                                for (int x = 0; x < modelo.size(); x++) {
+
+                                for (int x = 0; x < modeloOriginal.size(); x++) {
                                     r = jListOriginal.getCellBounds(0, 0);
                                     altura += (int) (r.getHeight());
                                     if (altura >= jListOriginal.getPreferredSize().getHeight()) {
@@ -560,47 +525,33 @@ public class WResources extends javax.swing.JFrame {
                             if (!f.getUnityMeasure().equals("")) {
                                 int u = createMessageMeasure(f).showMessage();
                                 if (u < 1) {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                                    for (int i = 0; i < modelo.size(); i++) {
-                                        if (f.compareTo(carsFinal.get(i)) == 0) {
-                                            modelo.removeElementAt(i);
-                                        }
-                                    }
                                     carsFinal.remove(f);
                                 } else {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                     double val;
                                     String snumero = numero.getText().replace(",", ".");
                                     try {
                                         val = Double.parseDouble(snumero);
-                                    } catch (NumberFormatException el) {
+                                    } catch (NumberFormatException ek) {
                                         val = -1;
                                     }
                                     if (val != -1) {
                                         String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                                         for (int i = 0; i < carsFinal.size(); i++) {
                                             if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                modelo.addElement(s);
+                                                modeloFinal.addElement(s);
                                                 carsFinal.get(i).setNumber(val);
                                             }
                                         }
                                     } else {
-                                        for (int i = 0; i < modelo.size(); i++) {
-                                            if (f.compareTo(carsFinal.get(i)) == 0) {
-                                                modelo.removeElementAt(i);
-                                            }
-                                        }
                                         carsFinal.remove(f);
                                     }
                                 }
                             } else {
-                                DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                                modelo.addElement(f.toString());
+                                modeloFinal.addElement(f.toString());
                             }
                         } else if (!f.getUnityMeasure().equals("")) {
                             int u = createMessageMeasure(f).showMessage();
                             if (u == 1) {
-                                DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                                 double val;
                                 String snumero = numero.getText().replace(",", ".");
                                 try {
@@ -610,10 +561,9 @@ public class WResources extends javax.swing.JFrame {
                                 }
                                 if (val != -1) {
                                     String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
-                                    for (int i = 0; i < modelo.size(); i++) {
+                                    for (int i = 0; i < modeloFinal.size(); i++) {
                                         if (f.compareTo(carsFinal.get(i)) == 0) {
-                                            System.out.println(i);
-                                            modelo.set(i, s);
+                                            modeloFinal.set(i, s);
                                             carsFinal.get(i).setNumber(val);
                                         }
                                     }
@@ -633,7 +583,7 @@ public class WResources extends javax.swing.JFrame {
                         }
                     }
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    jListFinal.clearSelection();
+                    jListOriginal.clearSelection();
                 }
             }
         });
@@ -642,12 +592,15 @@ public class WResources extends javax.swing.JFrame {
             public void mouseReleased(MouseEvent e) {
                 bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha uma imagem para o recurso"), jLabelImagem, (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jLabelImagem), 112, 112);
                 novaimagem = true;
+                if (bimage == null) {
+                    putOrignalIcon();
+                }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (bimage != null) {
-                    jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 20), 112, 112)));
+                    jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(bimage.getImage(), 80), 112, 112)));
                 }
             }
 
@@ -771,21 +724,20 @@ public class WResources extends javax.swing.JFrame {
                     jButtonConfirmar.setEnabled(true);
                 }
             }
-
         });
+        
     }
 
     private void removeFromFinalList() {
-        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
         int[] indices = jListFinal.getSelectedIndices();
         for (int i = indices.length - 1; i >= 0; i--) {
             carsFinal.remove(indices[i]);
-            modelo.removeElementAt(indices[i]);
+            modeloFinal.removeElementAt(indices[i]);
         }
         Rectangle r;
         int altura = 20;
         jListFinal.setPreferredSize(new Dimension((int) jListFinal.getPreferredSize().getWidth(), 0));
-        for (int x = 0; x < modelo.size(); x++) {
+        for (int x = 0; x < modeloFinal.size(); x++) {
             r = jListFinal.getCellBounds(0, 0);
             altura += (int) (r.getHeight());
             if (altura >= jListFinal.getPreferredSize().getHeight()) {
@@ -896,9 +848,6 @@ public class WResources extends javax.swing.JFrame {
         textCodigo = new Components.PersonalTextField();
         jLabelNome = new javax.swing.JLabel();
         jLabelCodigo = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jCheckBoxSim = new javax.swing.JCheckBox();
-        jCheckBoxNao = new javax.swing.JCheckBox();
         jLabelCarateristica = new javax.swing.JLabel();
         jLabelValor = new javax.swing.JLabel();
         jLabelMedida = new javax.swing.JLabel();
@@ -912,7 +861,6 @@ public class WResources extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(900, 600));
         setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(900, 600));
         setResizable(false);
 
         jPanelInicial.setBackground(new java.awt.Color(254, 254, 254));
@@ -950,26 +898,26 @@ public class WResources extends javax.swing.JFrame {
         jLabelImagem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelImagem.setMaximumSize(new java.awt.Dimension(112, 110));
         jLabelImagem.setMinimumSize(new java.awt.Dimension(112, 110));
-        jLabelImagem.setPreferredSize(new java.awt.Dimension(112, 108));
+        jLabelImagem.setPreferredSize(new java.awt.Dimension(110, 110));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + "sem.png";
+        String path = new File("").getAbsolutePath() + System.getProperty("file.separator") + "Resources" + System.getProperty("file.separator") + "Images" + System.getProperty("file.separator") + "sem.jpg";
         bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.getImageFromFile(new File(path)));
-        jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 112, 106)));
+        jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(bimage.getImage(), 112, 112)));
 
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder2.setCornerSize(6);
@@ -981,7 +929,7 @@ public class WResources extends javax.swing.JFrame {
         jScrollPaneFinal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jListFinal.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jListFinal.setPreferredSize(new java.awt.Dimension(420, 230));
+        jListFinal.setPreferredSize(new java.awt.Dimension(420, 200));
         jScrollPaneFinal.setViewportView(jListFinal);
         jListFinal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jListFinal.setCellRenderer(new DefaultListCellRenderer() {
@@ -1009,13 +957,11 @@ public class WResources extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+            .addComponent(jScrollPaneFinal, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPaneFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPaneFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
         );
 
         pButtonAdicionar.setMaximumSize(new java.awt.Dimension(30, 30));
@@ -1082,7 +1028,7 @@ public class WResources extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneOriginal)
+            .addComponent(jScrollPaneOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
         );
 
         jLabelT.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1114,25 +1060,6 @@ public class WResources extends javax.swing.JFrame {
 
         jLabelCodigo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelCodigo.setPreferredSize(new java.awt.Dimension(168, 30));
-
-        jLabel4.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("O recurso possui sofwtare:");
-
-        jCheckBoxSim.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jCheckBoxSim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxSimActionPerformed(evt);
-            }
-        });
-
-        jCheckBoxNao.setSelected(true);
-        jCheckBoxNao.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jCheckBoxNao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxNaoActionPerformed(evt);
-            }
-        });
 
         jLabelCarateristica.setBackground(new java.awt.Color(250, 250, 250));
         jLabelCarateristica.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
@@ -1192,42 +1119,41 @@ public class WResources extends javax.swing.JFrame {
         jPanelInicialLayout.setHorizontalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelRegisto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
-                                .addGap(16, 16, 16))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                            .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(textNome, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                            .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(textCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(4, 4, 4)
-                                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                                    .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(textNome, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                                    .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(textCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                                .addComponent(jLabelT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jComboBoxTipoMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(jLabelRegisto, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(14, 14, 14)))
+                                        .addComponent(jLabelT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxTipoMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                                    .addGap(6, 6, 6))))
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
                                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(pButtonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(pButtonRemover, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                .addGap(6, 6, 6)
                                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanelInicialLayout.createSequentialGroup()
@@ -1235,27 +1161,19 @@ public class WResources extends javax.swing.JFrame {
                                             .addComponent(jLabelMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabelValor, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(textMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(textValor, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(textValor, javax.swing.GroupLayout.PREFERRED_SIZE, 205, Short.MAX_VALUE)
+                                            .addComponent(textMedida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                             .addComponent(jLabelCarateristica, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
                                 .addComponent(pButtonMais, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(23, 23, 23))))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelInicialLayout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBoxSim, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelInicialLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(70, 70, 70)
+                        .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxNao, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1264,9 +1182,8 @@ public class WResources extends javax.swing.JFrame {
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelRegisto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCarateristica, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1288,31 +1205,27 @@ public class WResources extends javax.swing.JFrame {
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
                                 .addComponent(textMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pButtonMais, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(24, 24, 24)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBoxSim, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxNao, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(pButtonMais, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
                         .addComponent(pButtonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(pButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(194, 194, 194))))
+                        .addGap(194, 194, 194))
+                    .addGroup(jPanelInicialLayout.createSequentialGroup()
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29))))
         );
 
         jLabelRegisto.setText(lingua.translate("Registo de material"));
@@ -1360,8 +1273,6 @@ public class WResources extends javax.swing.JFrame {
         textCodigo.addPlaceHolder(lingua.translate("Código do produto")+" ...", jLabelCodigo);
         jLabelNome.setText(lingua.translate("Designação")+":");
         jLabelCodigo.setText(lingua.translate("Código")+":");
-        jCheckBoxSim.setText(lingua.translate("Sim"));
-        jCheckBoxNao.setText(lingua.translate("Não"));
         jLabelCarateristica.setText(lingua.translate("Adicionar novo valores ou caraterísticas"));
         jLabelValor.setText(lingua.translate("Descrição")+": ");
         jLabelMedida.setText(lingua.translate("Medida")+": ");
@@ -1413,29 +1324,56 @@ public class WResources extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBoxSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSimActionPerformed
-        if (jCheckBoxSim.isSelected()) {
-            jCheckBoxNao.setSelected(false);
-        } else {
-            jCheckBoxNao.setSelected(true);
-        }
-    }//GEN-LAST:event_jCheckBoxSimActionPerformed
-
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
         if (DataBase.DataBase.testConnection(url)) {
             Keys.TypeOfMaterial tipo = this.tiposelecionado;
             String nome = textNome.getText();
             String codigo = textCodigo.getText();
-            Keys.Material m = new Keys.Material(tipo, nome, codigo, false);
+            Keys.Material m = new Keys.Material(tipo, codigo, nome, false);
             if (novaimagem) {
                 m.setMaterialImage(bimage.getImage(), bimage.getExtension());
             }
-            DataBase.DataBase db= new DataBase.DataBase(url);
+            DataBase.DataBase db = new DataBase.DataBase(url);
+
+            db.setAutoCommit(false);
             db.insertMaterial(m);
             int val = db.getMaterialID(m);
-            db.associateFeatureWithMaterial(feature, m);
+            boolean auxiliar = false;
+            for (Keys.Feature f : carsFinal) {
+                for (Keys.Feature fo : carsData) {
+                    if (fo.compareTo(f) == 0) {
+                        auxiliar = true;
+                        break;
+                    }
+                }
+                if (auxiliar) {
+                    db.associateFeatureWithMaterial(f, m);
+                } else {
+                    f.setTypeOfMaterial(tipo);
+                    db.insertFeature(f);
+                    db.associateFeatureWithMaterial(f, m);
+
+                }
+            }
+            db.commit();
+            db.setAutoCommit(true);
+            db.close();
+            for (int i = 0; i < carsFinal.size(); i++) {
+                System.out.println("index " + i);
+                modeloFinal.remove(0);
+
+            }
+            carsFinal.removeAll(carsFinal);
+            textNome.setText("");
+            textNome.showPLaceHolder();
+            textCodigo.setText("");
+            textCodigo.showPLaceHolder();
+            jListOriginal.clearSelection();
+            this.putOrignalIcon();
+            jLabelMedida.requestFocus();
         } else {
-            
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Não há ligação à base de dados"), new String[]{lingua.translate("Voltar")});
+            mensagem.showMessage();
         }
 
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
@@ -1465,15 +1403,14 @@ public class WResources extends javax.swing.JFrame {
                 if (!cond) {
                     carsOriginal.add(f);
                     Collections.sort(carsOriginal);
-                    DefaultListModel modelo = new DefaultListModel();
+                    modeloOriginal.removeAllElements();
                     carsOriginal.stream().forEach((fo) -> {
-                        modelo.addElement(fo.toString());
+                        modeloOriginal.addElement(fo.toString());
                     });
-                    jListOriginal.setModel(modelo);
                     Rectangle r;
                     int altura = 20;
                     jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), 0));
-                    for (int x = 0; x < modelo.size(); x++) {
+                    for (int x = 0; x < modeloOriginal.size(); x++) {
                         r = jListOriginal.getCellBounds(0, 0);
                         altura += (int) (r.getHeight());
                         if (altura >= jListOriginal.getPreferredSize().getHeight()) {
@@ -1493,14 +1430,6 @@ public class WResources extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pButtonMaisActionPerformed
 
-    private void jCheckBoxNaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxNaoActionPerformed
-        if (jCheckBoxNao.isSelected()) {
-            jCheckBoxSim.setSelected(false);
-        } else {
-            jCheckBoxSim.setSelected(true);
-        }
-    }//GEN-LAST:event_jCheckBoxNaoActionPerformed
-
     private void pButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pButtonAdicionarActionPerformed
         boolean igual = false;
         java.util.List<Keys.Feature> feas = this.getSelectedOriginalFeatures();
@@ -1515,15 +1444,8 @@ public class WResources extends javax.swing.JFrame {
                 if (!f.getUnityMeasure().equals("")) {
                     int u = createMessageMeasure(f).showMessage();
                     if (u < 1) {
-                        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                        for (int i = 0; i < modelo.size(); i++) {
-                            if (f.compareTo(carsFinal.get(i)) == 0) {
-                                modelo.removeElementAt(i);
-                            }
-                        }
                         carsFinal.remove(f);
                     } else {
-                        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                         double val;
                         String snumero = numero.getText().replace(",", ".");
                         try {
@@ -1535,27 +1457,20 @@ public class WResources extends javax.swing.JFrame {
                             String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
                             for (int i = 0; i < carsFinal.size(); i++) {
                                 if (f.compareTo(carsFinal.get(i)) == 0) {
-                                    modelo.addElement(s);
+                                    modeloFinal.addElement(s);
                                     carsFinal.get(i).setNumber(val);
                                 }
                             }
                         } else {
-                            for (int i = 0; i < modelo.size(); i++) {
-                                if (f.compareTo(carsFinal.get(i)) == 0) {
-                                    modelo.removeElementAt(i);
-                                }
-                            }
                             carsFinal.remove(f);
                         }
                     }
                 } else {
-                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-                    modelo.addElement(f.toString());
+                    modeloFinal.addElement(f.toString());
                 }
             } else if (!f.getUnityMeasure().equals("")) {
                 int u = createMessageMeasure(f).showMessage();
                 if (u == 1) {
-                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
                     double val;
                     String snumero = numero.getText().replace(",", ".");
                     try {
@@ -1565,10 +1480,9 @@ public class WResources extends javax.swing.JFrame {
                     }
                     if (val != -1) {
                         String s = f.toString() + " (" + val + " " + f.getUnityMeasure() + ")";
-                        for (int i = 0; i < modelo.size(); i++) {
+                        for (int i = 0; i < modeloFinal.size(); i++) {
                             if (f.compareTo(carsFinal.get(i)) == 0) {
-                                System.out.println(i);
-                                modelo.set(i, s);
+                                modeloFinal.set(i, s);
                                 carsFinal.get(i).setNumber(val);
                             }
                         }
@@ -1579,8 +1493,7 @@ public class WResources extends javax.swing.JFrame {
         Rectangle r;
         int altura = 20;
         jListFinal.getPreferredSize().setSize(jListFinal.getPreferredSize().getWidth(), 0);
-        DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
-        for (int x = 0; x < modelo.size(); x++) {
+        for (int x = 0; x < modeloFinal.size(); x++) {
             r = jListFinal.getCellBounds(0, 0);
             altura += (int) (r.getHeight());
             if (altura >= jListFinal.getPreferredSize().getHeight()) {
@@ -1635,11 +1548,8 @@ public class WResources extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConfirmar;
     private javax.swing.JButton jButtonSair;
-    private javax.swing.JCheckBox jCheckBoxNao;
-    private javax.swing.JCheckBox jCheckBoxSim;
     private javax.swing.JComboBox<String> jComboBoxTipoMaterial;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelCarateristica;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelImagem;

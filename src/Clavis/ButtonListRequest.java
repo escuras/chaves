@@ -36,6 +36,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -75,6 +76,8 @@ public class ButtonListRequest {
     private boolean lista;
     private KeyListener lkey;
     private MouseListener lmou;
+    Border emptyBorder;
+    Border emptyBorder2;
 
     public ButtonListRequest(String url, javax.swing.JFrame frame, Keys.TypeOfMaterial tipo, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, String pesquisa) {
         this.mater = new ArrayList<>();
@@ -84,7 +87,7 @@ public class ButtonListRequest {
         this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-        dim = new Dimension(150, 150);
+        dim = new Dimension(90, 90);
         this.btcor1 = ButtonListRequest.OCCUPIED_COLOR;
         this.btcor2 = ButtonListRequest.FREE_COLOR;
         this.tpanel = tpanel;
@@ -92,6 +95,8 @@ public class ButtonListRequest {
         this.tipopesquisa = tipopesquisa;
         selecionado = -1;
         lista = false;
+        emptyBorder = BorderFactory.createEmptyBorder(0, 10, 0, 10);
+        emptyBorder2 = BorderFactory.createEmptyBorder(0, 9, 0, 9);
         if (DataBase.DataBase.testConnection(url)) {
             int val = tipo.getMaterialTypeID();
             DataBase.DataBase db = new DataBase.DataBase(url);
@@ -154,6 +159,7 @@ public class ButtonListRequest {
 
     public List<PersonalButtonRequest> getButtons() {
         this.bLista = new ArrayList<>();
+        Font f = new Font("Contarell", Font.PLAIN, 12);
         if (!this.mater.isEmpty()) {
             this.mater.stream().map((n) -> {
                 PersonalButtonRequest button = new PersonalButtonRequest();
@@ -165,11 +171,16 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
+                button.setBorder(emptyBorder);
+                button.setFocusPainted(false);
                 button.setBounds(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
                 if (!(n instanceof Keys.Classroom)) {
                     Keys.Material m = (Keys.Material) n;
                     button.setValue(m.getId());
-                    button.setDescription(m.getDescription());
+                    String auxiliar = m.getDescription();
+                    button.setFont(f);
+                    Clavis.Windows.WRequest.treatLongStrings(auxiliar, 10, f);
+                    button.setDescription(auxiliar);
                     if (m.isLoaned()) {
                         button.setBackground(btcor1);
                     } else {
@@ -209,7 +220,9 @@ public class ButtonListRequest {
                 } else {
                     Keys.Classroom m = (Keys.Classroom) n;
                     button.setValue(m.getId());
-                    button.setDescription(m.getDescription());
+                    String auxiliar = m.getDescription();
+                    Clavis.Windows.WRequest.treatLongStrings(auxiliar, 60, button.getFont());
+                    button.setDescription(auxiliar);
                     if (m.isLoaned()) {
                         button.setBackground(btcor1);
                     } else {
@@ -269,9 +282,9 @@ public class ButtonListRequest {
                             int va = 0;
                             int vax = selecionado;
                             for (PersonalButtonRequest ro : bLista) {
-                                ro.setBorder(null);
+                                ro.setBorder(emptyBorder);
                                 if (ro.getValue() == r.getValue()) {
-                                    ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                    ro.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), emptyBorder2));
                                     selecionado = va;
                                 }
                                 va++;
@@ -294,15 +307,6 @@ public class ButtonListRequest {
                                         makeList();
                                     }
                                 }
-                            } else {
-                                ActionButton at;
-                                if (mater.get(selecionado) instanceof Keys.Classroom) {
-                                    at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
-                                } else {
-                                    at = new ActionButton(frameanterior, mater.get(selecionado), lingua, url, r);
-                                }
-                                frameanterior.setVisible(false);
-                                at.open();
                             }
                         }
                     }
@@ -335,9 +339,9 @@ public class ButtonListRequest {
                                     selecionado = selecionado - 1;
                                     int va = 0;
                                     for (PersonalButtonRequest ro : bLista) {
-                                        ro.setBorder(null);
+                                        ro.setBorder(emptyBorder);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                            ro.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), emptyBorder2));
                                         }
                                         va++;
                                     }
@@ -348,9 +352,9 @@ public class ButtonListRequest {
                                     selecionado = selecionado + 1;
                                     int va = 0;
                                     for (PersonalButtonRequest ro : bLista) {
-                                        ro.setBorder(null);
+                                        ro.setBorder(emptyBorder);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                            ro.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), emptyBorder2));
                                         }
                                         va++;
                                     }
@@ -361,9 +365,9 @@ public class ButtonListRequest {
                                     selecionado = selecionado - botoeslinha;
                                     int va = 0;
                                     for (PersonalButtonRequest ro : bLista) {
-                                        ro.setBorder(null);
+                                        ro.setBorder(emptyBorder);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                            ro.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), emptyBorder2));
                                         }
                                         va++;
                                     }
@@ -376,7 +380,7 @@ public class ButtonListRequest {
                                     for (PersonalButtonRequest ro : bLista) {
                                         ro.setBorder(null);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                            ro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                                         }
                                         va++;
                                     }
@@ -501,6 +505,18 @@ public class ButtonListRequest {
                                 pop.show(e.getComponent(), e.getX(), e.getY());
                             }
                         }
+                        if (e.getClickCount() == 2) {
+                            Keys.Request req = null;
+                            for (int h = 0; h < rlista.size(); h++) {
+                                if (jListRequisicoes.getSelectedIndex() == h) {
+                                    req = rlista.get(h);
+                                }
+                            }
+                            if (req != null) {
+                                mensagem = new Components.MessagePane(frameanterior, Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                                mensagem.showMessage();
+                            }
+                        }
                     }
                 }
 
@@ -549,9 +565,8 @@ public class ButtonListRequest {
         this.jListRequisicoes.removeMouseListener(lmou);
         this.jListRequisicoes.removeKeyListener(lkey);
     }
-    
-    
-    public void clear(){
+
+    public void clear() {
         selecionado = -1;
         clearTable();
         lnome.setText("");
@@ -559,11 +574,11 @@ public class ButtonListRequest {
         this.jListRequisicoes.removeMouseListener(lmou);
         this.jListRequisicoes.removeKeyListener(lkey);
         if (bLista != null) {
-            for (int i=0; i< bLista.size(); i++) {
+            for (int i = 0; i < bLista.size(); i++) {
                 bLista.get(i).setBorder(null);
             }
         }
-        
+
     }
 
     public Keys.Material getSelectedMaterial() {
@@ -782,7 +797,7 @@ public class ButtonListRequest {
             javax.swing.JLabel labelr9 = new javax.swing.JLabel();
             labelr9.setFont(fonte2);
             labelr9.setBounds(160, altura, 270, 30);
-            labelr9.setText(req.getWeekDay().perDayName());
+            labelr9.setText(lingua.translate(req.getWeekDay().perDayName()));
             panel.add(labelr9);
         }
         return panel;

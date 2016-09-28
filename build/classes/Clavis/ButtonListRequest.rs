@@ -1,2 +1,0 @@
-Clavis.ButtonListRequest
-Clavis.PersonalButtonRequest

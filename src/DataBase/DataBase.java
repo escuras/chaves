@@ -2061,12 +2061,12 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        if ((rs.getInt(1) == 0) || (compara == 0)) {
+                        if ((rs.getInt(1) == 0) || (compara != 0)) {
                             sql = "update Features set descricao = '" + novo.getDescription() + "', medida = '" + novo.getUnityMeasure() + "' where id_caracteristica = " + id + ";";
                             smt.executeUpdate(sql);
-                            return 0;
-                        } else {
                             return 1;
+                        } else {
+                            return 0;
                         }
                     }
                 } catch (SQLException ex) {
@@ -2093,15 +2093,13 @@ public class DataBase {
                 try {
                     ResultSet rs = smt.executeQuery(sql);
                     if (rs.next()) {
-                        if ((rs.getInt(1) == 0) || (compara == 0)) {
+                        if ((rs.getInt(1) == 0) || (compara != 0)) {
                             sql = "update Features set descricao = '" + novo.getDescription() + "', medida = '" + novo.getUnityMeasure() + "' where id_caracteristica = " + id + ";";
                             smt.executeUpdate(sql);
-                            sql = "update Rel_features_materials set quantidade = " + novo.getNumber() + " where id_caracteristica = " + id + " and id_material = " + mat.getId() + ";";
-                            smt.executeUpdate(sql);
-                            return 0;
-                        } else {
-                            return 1;
                         }
+                        sql = "update Rel_features_materials set quantidade = " + novo.getNumber() + " where id_caracteristica = " + id + " and id_material = " + mat.getId() + ";";
+                        smt.executeUpdate(sql);
+                        return 1;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -2612,9 +2610,9 @@ public class DataBase {
                         if ((rs.getInt(1) == 0) || (compara == 0)) {
                             sql = "update Software set nome = '" + novo.getName() + "', versao = '" + novo.getVersion() + "', ano = '" + novo.getYear() + "', empresa = '" + novo.getInterprise() + "' where id_software = " + this.getSoftwareID(velho) + " ;";
                             smt.executeUpdate(sql);
-                            return 0;
-                        } else {
                             return 1;
+                        } else {
+                            return 0;
                         }
                     }
                 } catch (SQLException ex) {
@@ -2752,7 +2750,7 @@ public class DataBase {
                 try {
                     String sql = "update Rel_material_software set atualizado = " + bool + " where id_software = " + this.getSoftwareID(soft) + " and codigo_material = '" + mat.getCodeOfMaterial() + "';";
                     smt.executeUpdate(sql);
-                    return 0;
+                    return 1;
                 } catch (SQLException ex) {
                     Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
                 }

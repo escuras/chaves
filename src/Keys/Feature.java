@@ -98,6 +98,10 @@ public class Feature implements Comparable<Feature>{
     public TypeOfMaterial getTypeOfMaterial() {
         return material;
     }
+    
+    public void setTypeOfMaterial(TypeOfMaterial tipo) {
+        this.material = tipo;
+    }
 
     @Override
     public int compareTo(Feature o) {

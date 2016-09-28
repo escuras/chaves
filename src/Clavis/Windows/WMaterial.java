@@ -78,11 +78,11 @@ public class WMaterial extends javax.swing.JDialog {
     private ActionListener abtoogle;
     private ListSelectionListener listlistener;
     private JPanel jpaneldireitabaixo;
-    private final Components.PersonalTextField tdescricaoeditar;
-    private final Components.PersonalTextField tversaoeditar;
-    private final javax.swing.JSpinner tanoeditar;
+    private final javax.swing.JLabel tdescricaoeditar;
+    private final javax.swing.JLabel tversaoeditar;
+    private final javax.swing.JLabel tanoeditar;
     private final javax.swing.JSpinner tquantidadeeditar;
-    private final Components.PersonalTextField tempresaeditar;
+    private final javax.swing.JLabel tempresaeditar;
     private final javax.swing.JCheckBox tatualizadoeditar;
     private final Components.PersonalToggleButton btoogleditar;
     private final javax.swing.JLabel labeldisciplina;
@@ -101,10 +101,10 @@ public class WMaterial extends javax.swing.JDialog {
         lsoft = new java.util.ArrayList<>();
         ldis = new java.util.ArrayList<>();
         jpaneldireitabaixo = new JPanel();
-        tdescricaoeditar = new Components.PersonalTextField();
-        tversaoeditar = new Components.PersonalTextField();
-        tanoeditar = new javax.swing.JSpinner();
-        tempresaeditar = new Components.PersonalTextField();
+        tdescricaoeditar = new javax.swing.JLabel();
+        tversaoeditar = new javax.swing.JLabel();
+        tanoeditar = new javax.swing.JLabel();
+        tempresaeditar = new javax.swing.JLabel();
         tatualizadoeditar = new javax.swing.JCheckBox();
         btoogleditar = new Components.PersonalToggleButton();
         bteditar = new javax.swing.JButton();
@@ -127,10 +127,10 @@ public class WMaterial extends javax.swing.JDialog {
         lfeat = new java.util.ArrayList<>();
         lsoft = new java.util.ArrayList<>();
         ldis = new java.util.ArrayList<>();
-        tdescricaoeditar = new Components.PersonalTextField();
-        tversaoeditar = new Components.PersonalTextField();
-        tanoeditar = new javax.swing.JSpinner();
-        tempresaeditar = new Components.PersonalTextField();
+        tdescricaoeditar = new javax.swing.JLabel();
+        tversaoeditar = new javax.swing.JLabel();
+        tanoeditar = new javax.swing.JLabel();
+        tempresaeditar = new javax.swing.JLabel();
         tatualizadoeditar = new javax.swing.JCheckBox();
         btoogleditar = new Components.PersonalToggleButton();
         bteditar = new javax.swing.JButton();
@@ -161,11 +161,8 @@ public class WMaterial extends javax.swing.JDialog {
         java.awt.GridLayout gl = new java.awt.GridLayout();
         jpanelesquerda.setLayout(gl);
         jpanelesquerda.setPreferredSize(new java.awt.Dimension(355, 300));
-        tdescricaoeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tdescricaoeditar, true));
         tquantidadeeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tquantidadeeditar, true));
-        tversaoeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tversaoeditar, true));
-        tanoeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tanoeditar, true));
-        tempresaeditar.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, tempresaeditar, true));
+
         // combobox inicial
         javax.swing.JComboBox<String> comboboxopcoes;
         int valorauxiliar = 0;
@@ -260,7 +257,7 @@ public class WMaterial extends javax.swing.JDialog {
         labeltitulodireita.setBounds(0, 0, 284, 30);
         labeltitulodireita.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         labeltitulodireita.setOpaque(true);
-        labeltitulodireita.setBackground(new Color(250,250,250));
+        labeltitulodireita.setBackground(new Color(250, 250, 250));
         jpaneltitulodireita.add(labeltitulodireita);
         // adicionar carateristicas e software
         JPanel jpaneldireitacima = new javax.swing.JPanel(null);
@@ -1145,18 +1142,25 @@ public class WMaterial extends javax.swing.JDialog {
                         if (tabela.getSelectedRow() > -1) {
                             Keys.Software soft = new Keys.Software(lsoft.get(tabela.getSelectedRow()));
                             tdescricaoeditar.setText(soft.getName());
-                            tdescricaoeditar.stopPlaceHolder();
-                            tversaoeditar.setText(soft.getVersion());
-                            tversaoeditar.stopPlaceHolder();
-                            int val;
-                            try {
-                                val = Integer.parseInt(soft.getYear());
-                            } catch (NumberFormatException ed) {
-                                val = 2016;
+                            String ano = soft.getYear();
+                            if (ano.equals("sem")) {
+                                ano = "";
                             }
-                            tanoeditar.setValue(val);
-                            tempresaeditar.stopPlaceHolder();
-                            tempresaeditar.setText(soft.getInterprise());
+                            String empresa = soft.getInterprise();
+                            if (empresa.equals("sem")) {
+                                empresa = "";
+                            }
+                            tdescricaoeditar.setBackground(new Color(254, 254, 254));
+                            tdescricaoeditar.setForeground(new Color(1, 1, 1));
+                            tanoeditar.setBackground(new Color(254, 254, 254));
+                            tanoeditar.setForeground(new Color(1, 1, 1));
+                            tanoeditar.setText(ano);
+                            tversaoeditar.setBackground(new Color(254, 254, 254));
+                            tversaoeditar.setForeground(new Color(1, 1, 1));
+                            tversaoeditar.setText(soft.getVersion());
+                            tempresaeditar.setBackground(new Color(254, 254, 254));
+                            tempresaeditar.setForeground(new Color(1, 1, 1));
+                            tempresaeditar.setText(empresa);
                             btoogleditar.setEnabled(true);
                             if (DataBase.DataBase.testConnection(url)) {
                                 DataBase.DataBase dab = new DataBase.DataBase(url);
@@ -1168,17 +1172,27 @@ public class WMaterial extends javax.swing.JDialog {
                                 }
                                 dab.close();
                             }
+                            bteditar.setEnabled(false);
+                            btapagar.setEnabled(false);
+                            tatualizadoeditar.setEnabled(false);
+                            btoogleditar.setSelected(true);
+
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                         } else {
-                            tdescricaoeditar.setEnabled(false);
-                            tdescricaoeditar.showPLaceHolder();
-                            tversaoeditar.setEnabled(false);
-                            tversaoeditar.showPLaceHolder();
-                            tanoeditar.setEnabled(false);
-                            tempresaeditar.setEnabled(false);
-                            tempresaeditar.showPLaceHolder();
+                            tdescricaoeditar.setText(lingua.translate("Nome do programa"));
+                            tdescricaoeditar.setBackground(new Color(245, 245, 245));
+                            tdescricaoeditar.setForeground(new Color(142, 143, 145));
+                            tversaoeditar.setText(lingua.translate("Versão de software"));
+                            tversaoeditar.setBackground(new Color(245, 245, 245));
+                            tversaoeditar.setForeground(new Color(142, 143, 145));
+                            tempresaeditar.setText(lingua.translate("Empresa proprietária"));
+                            tempresaeditar.setBackground(new Color(245, 245, 245));
+                            tempresaeditar.setForeground(new Color(142, 143, 145));
+                            tanoeditar.setText(lingua.translate("Ano de lançamento"));
+                            tanoeditar.setBackground(new Color(245, 245, 245));
+                            tanoeditar.setForeground(new Color(142, 143, 145));
                             tatualizadoeditar.setEnabled(false);
                             tatualizadoeditar.setSelected(false);
-                            tanoeditar.setValue(new TimeDate.Date().getYear());
                             btoogleditar.setSelected(true);
                             btoogleditar.setEnabled(false);
                             bteditar.setEnabled(false);
@@ -1200,14 +1214,16 @@ public class WMaterial extends javax.swing.JDialog {
                             labelcodigodisciplina.setBackground(new Color(254, 254, 254));
                             labelcodigodisciplina.setForeground(new Color(1, 1, 1));
                             btoogleditar.setEnabled(true);
+                            btoogleditar.setSelected(true);
                         } else {
                             labeldisciplina.setText(lingua.translate("Nome da disciplina"));
-                            labeldisciplina.setBackground(new Color(214, 217, 223));
+                            labeldisciplina.setBackground(new Color(245, 245, 245));
                             labeldisciplina.setForeground(new Color(142, 143, 145));
                             labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
-                            labelcodigodisciplina.setBackground(new Color(214, 217, 223));
+                            labelcodigodisciplina.setBackground(new Color(245, 245, 245));
                             labelcodigodisciplina.setForeground(new Color(142, 143, 145));
                             btoogleditar.setEnabled(false);
+                            btoogleditar.setSelected(true);
                             btapagar.setEnabled(false);
                         }
                     };
@@ -1219,20 +1235,46 @@ public class WMaterial extends javax.swing.JDialog {
                     listlistener = (ListSelectionEvent e) -> {
                         if (tabela.getSelectedRow() > -1) {
                             Keys.Feature fea = new Keys.Feature(lfeat.get(tabela.getSelectedRow()));
-                            tdescricaoeditar.setText(fea.getDescription());
-                            tdescricaoeditar.stopPlaceHolder();
-                            tversaoeditar.setText(fea.getUnityMeasure());
-                            tversaoeditar.stopPlaceHolder();
-                            tquantidadeeditar.setValue(fea.getNumber());
+                            if (fea.getUnityMeasure().equals("")) {
+                                tdescricaoeditar.setBackground(new Color(254, 254, 254));
+                                tdescricaoeditar.setForeground(new Color(1, 1, 1));
+                                tdescricaoeditar.setText(fea.getDescription());
+                                tversaoeditar.setVisible(false);
+                                bteditar.setVisible(false);
+                                tquantidadeeditar.setVisible(false);
+                            } else {
+                                tversaoeditar.setVisible(true);
+                                tquantidadeeditar.setVisible(true);
+                                bteditar.setVisible(true);
+                                tdescricaoeditar.setBackground(new Color(254, 254, 254));
+                                tdescricaoeditar.setForeground(new Color(1, 1, 1));
+                                tdescricaoeditar.setText(fea.getDescription());
+                                tversaoeditar.setBackground(new Color(254, 254, 254));
+                                tversaoeditar.setForeground(new Color(1, 1, 1));
+                                tversaoeditar.setText(fea.getUnityMeasure());
+                                tquantidadeeditar.setValue(fea.getNumber());
+                            }
+                            btoogleditar.setSelected(true);
                             btoogleditar.setEnabled(true);
+                            bteditar.setEnabled(false);
+                            btapagar.setEnabled(false);
+                            tquantidadeeditar.setEnabled(false);
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                         } else {
-                            tdescricaoeditar.setEnabled(false);
-                            tdescricaoeditar.showPLaceHolder();
-                            tversaoeditar.setEnabled(false);
-                            tversaoeditar.showPLaceHolder();
+                            tversaoeditar.setVisible(true);
+                            tquantidadeeditar.setVisible(true);
+                            bteditar.setVisible(true);
+                            tdescricaoeditar.setText(lingua.translate("Nome da caraterística"));
+                            tversaoeditar.setText(lingua.translate("Medida de valor"));
+                            tdescricaoeditar.setBackground(new Color(245, 245, 245));
+                            tdescricaoeditar.setForeground(new Color(142, 143, 145));
+                            tversaoeditar.setBackground(new Color(245, 245, 245));
+                            tversaoeditar.setForeground(new Color(142, 143, 145));
                             tquantidadeeditar.setValue(0);
+                            tquantidadeeditar.setEnabled(false);
                             btoogleditar.setSelected(true);
                             btoogleditar.setEnabled(false);
+                            btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                             bteditar.setEnabled(false);
                             btapagar.setEnabled(false);
                         }
@@ -1253,9 +1295,15 @@ public class WMaterial extends javax.swing.JDialog {
                 public void keyReleased(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                         tabela.clearSelection();
-                        tdescricaoeditar.startPlaceHolder();
-                        tversaoeditar.startPlaceHolder();
-                        tempresaeditar.startPlaceHolder();
+                        if (comboboxopcoes.getSelectedIndex() == 1) {
+                            tdescricaoeditar.setText(lingua.translate("Nome do programa"));
+                            tversaoeditar.setText(lingua.translate("Versão de software"));
+                            tempresaeditar.setText(lingua.translate("Empresa proprietária"));
+                            tanoeditar.setText(lingua.translate("Ano de lançamento"));
+                        } else {
+                            tdescricaoeditar.setText(lingua.translate("Nome da caraterística"));
+                            tversaoeditar.setText(lingua.translate("Medida de valor"));
+                        }
                         btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                     }
                 }
@@ -1446,57 +1494,28 @@ public class WMaterial extends javax.swing.JDialog {
                         if (DataBase.DataBase.testConnection(url)) {
                             if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
                                 DataBase.DataBase db = new DataBase.DataBase(url);
-                                String n = tdescricaoeditar.getText();
-                                if (!n.equals("")) {
-                                    String v = tversaoeditar.getText();
-                                    String a = tanoeditar.getValue().toString();
-                                    String em = tempresaeditar.getText();
-                                    boolean at = tatualizadoeditar.isSelected();
-                                    Keys.Software novo = new Keys.Software(n, v, a, em);
-                                    Keys.Software velho = new Keys.Software(lsoft.get(tabela.getSelectedRow()));
-                                    int resultado = db.updateSofware(velho, novo, mat);
-                                    if (resultado == 1) {
-                                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro ao realizar o update"), 400, 200, lingua.translate("Já existe outro produto semelhante!"), new String[]{lingua.translate("Voltar")});
-                                        mensagem.showMessage();
-                                        tdescricaoeditar.setText(velho.getName());
-                                        tversaoeditar.setText(velho.getVersion());
-                                        int val;
-                                        try {
-                                            val = Integer.parseInt(velho.getYear());
-                                        } catch (NumberFormatException m) {
-                                            val = 2016;
-                                        }
-                                        tanoeditar.setValue(val);
-                                        tempresaeditar.setText(velho.getInterprise());
-                                    } else if (resultado == 0) {
-                                        btoogleditar.setSelected(true);
-                                        tdescricaoeditar.setEnabled(false);
-                                        tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                        tversaoeditar.setEnabled(false);
-                                        tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                        tanoeditar.setEnabled(false);
-                                        tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                        tempresaeditar.setEnabled(false);
-                                        tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                        tatualizadoeditar.setEnabled(false);
-                                        bteditar.setEnabled(false);
-                                        btapagar.setEnabled(false);
-                                        db.updateStateOfSoftware(novo, mat, at);
-                                        if (db.getSoftwareID(novo) > 0) {
-                                            lsoft.set(tabela.getSelectedRow(), novo);
-                                            if ((!novo.getName().equals(velho.getName())) || (!novo.getVersion().equals(velho.getVersion()))) {
-                                                String auxiliar = novo.getName() + " (" + lingua.translate("Versão") + ": " + novo.getVersion() + ")";
-                                                tabela.getModel().setValueAt(auxiliar, tabela.getSelectedRow(), 0);
-                                            }
-                                        }
-                                    }
-                                    db.close();
+                                Keys.Software velho = new Keys.Software(lsoft.get(tabela.getSelectedRow()));
+                                int resultado = db.updateStateOfSoftware(velho, mat, tatualizadoeditar.isSelected());
+                                if (resultado != 1) {
+                                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro"), 400, 200, lingua.translate("Erro ao realizar o update" + "."), new String[]{lingua.translate("Voltar")});
+                                    mensagem.showMessage();
+                                } else {
+                                    btoogleditar.setSelected(true);
+                                    tatualizadoeditar.setSelected(false);
+                                    tatualizadoeditar.setEnabled(false);
+                                    bteditar.setEnabled(false);
+                                    btapagar.setEnabled(false);
                                 }
+                                tdescricaoeditar.setText(velho.getName());
+                                tversaoeditar.setText(velho.getVersion());
+                                tanoeditar.setText(velho.getYear());
+                                tempresaeditar.setText(velho.getInterprise());
+                                tatualizadoeditar.setSelected(db.getStateOfSoftwareUpdated(velho, mat));
+                                db.close();
                             }
                         }
                     });
                     bteditar.addActionListener(abteditar);
-
                     if (abtapagar != null) {
                         btapagar.removeActionListener(abtapagar);
                     }
@@ -1512,25 +1531,28 @@ public class WMaterial extends javax.swing.JDialog {
                                     modelo.removeRow(val);
                                     tabela.clearSelection();
                                     lsoft.remove(val);
-                                    btoogleditar.setSelected(true);
-                                    tdescricaoeditar.setEnabled(false);
-                                    tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                    tversaoeditar.setEnabled(false);
-                                    tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                    tanoeditar.setEnabled(false);
-                                    tanoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                    tempresaeditar.setEnabled(false);
-                                    tempresaeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    btoogleditar.setSelected(false);
+                                    tdescricaoeditar.setText(lingua.translate("Nome do programa"));
+                                    tdescricaoeditar.setBackground(new Color(245, 245, 245));
+                                    tdescricaoeditar.setForeground(new Color(142, 143, 145));
+                                    tversaoeditar.setText(lingua.translate("Versão de software"));
+                                    tversaoeditar.setBackground(new Color(245, 245, 245));
+                                    tversaoeditar.setForeground(new Color(142, 143, 145));
+                                    tempresaeditar.setText(lingua.translate("Empresa proprietária"));
+                                    tempresaeditar.setBackground(new Color(245, 245, 245));
+                                    tempresaeditar.setForeground(new Color(142, 143, 145));
+                                    tanoeditar.setText(lingua.translate("Ano de lançamento"));
+                                    tanoeditar.setBackground(new Color(245, 245, 245));
+                                    tanoeditar.setForeground(new Color(142, 143, 145));
+                                    tatualizadoeditar.setSelected(false);
                                     tatualizadoeditar.setEnabled(false);
                                     bteditar.setEnabled(false);
                                     btapagar.setEnabled(false);
-                                    tanoeditar.setValue(new TimeDate.Date().getYear());
                                     if (comboboxdireitacima.getSelectedIndex() > 0) {
                                         if (software.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
                                             btmais.setEnabled(true);
                                         }
                                     }
-
                                 }
                                 db.close();
                             }
@@ -1566,14 +1588,6 @@ public class WMaterial extends javax.swing.JDialog {
                     }
                     abtoogle = ((ActionEvent e) -> {
                         if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
-                            tdescricaoeditar.setEnabled(true);
-                            tdescricaoeditar.setForeground(Color.BLACK);
-                            tversaoeditar.setEnabled(true);
-                            tversaoeditar.setForeground(Color.BLACK);
-                            tanoeditar.setEnabled(true);
-                            tanoeditar.setForeground(Color.BLACK);
-                            tempresaeditar.setEnabled(true);
-                            tempresaeditar.setForeground(Color.BLACK);
                             tatualizadoeditar.setEnabled(true);
                             bteditar.setEnabled(true);
                             btapagar.setEnabled(true);
@@ -1581,26 +1595,24 @@ public class WMaterial extends javax.swing.JDialog {
                         } else if (btoogleditar.isSelected()) {
                             btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                             Keys.Software soft = lsoft.get(tabela.getSelectedRow());
-                            tdescricaoeditar.setEnabled(false);
                             tdescricaoeditar.setText(soft.getName());
-                            tversaoeditar.setEnabled(false);
                             tversaoeditar.setText(soft.getVersion());
-                            int val;
-                            try {
-                                val = Integer.parseInt(soft.getYear());
-                            } catch (NumberFormatException m) {
-                                val = 2016;
+                            String ano = soft.getYear();
+                            if (ano.equals("sem")) {
+                                ano = "";
                             }
-                            tanoeditar.setValue(val);
-                            tanoeditar.setEnabled(false);
-                            tempresaeditar.setEnabled(false);
-                            tempresaeditar.setText(soft.getInterprise());
+                            String empresa = soft.getInterprise();
+                            if (empresa.equals("sem")) {
+                                empresa = "";
+                            }
+                            tanoeditar.setText(ano);
+                            tempresaeditar.setText(empresa);
+                            tatualizadoeditar.setEnabled(false);
                             if (DataBase.DataBase.testConnection(url)) {
                                 DataBase.DataBase db = new DataBase.DataBase(url);
                                 tatualizadoeditar.setSelected(db.getStateOfSoftwareUpdated(soft, mat));
                                 db.close();
                             }
-                            tatualizadoeditar.setEnabled(false);
                             bteditar.setEnabled(false);
                             btapagar.setEnabled(false);
                         }
@@ -1609,54 +1621,47 @@ public class WMaterial extends javax.swing.JDialog {
                     panel.add(btoogleditar);
                     // fim btoogle
 
-                    tdescricaoeditar.addPlaceHolder(lingua.translate("Nome do programa"), null);
+                    tdescricaoeditar.setText(lingua.translate("Nome do programa"));
+                    tdescricaoeditar.setForeground(new Color(142, 143, 145));
+                    tdescricaoeditar.setBackground(new Color(245, 245, 245));
+                    tdescricaoeditar.setOpaque(true);
                     tdescricaoeditar.setToolTipText(lingua.translate("Nome do programa"));
                     tdescricaoeditar.setPreferredSize(new Dimension(200, 28));
                     tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tdescricaoeditar.setBounds(25, 55, 238, 28);
                     panel.add(tdescricaoeditar);
-
-                    tversaoeditar.addPlaceHolder(lingua.translate("Versão de software"), null);
+                    tversaoeditar.setText(lingua.translate("Versão de software"));
+                    tversaoeditar.setBackground(new Color(245, 245, 245));
+                    tversaoeditar.setOpaque(true);
+                    tversaoeditar.setForeground(new Color(142, 143, 145));
                     tversaoeditar.setToolTipText(lingua.translate("Versão de software"));
                     tversaoeditar.setPreferredSize(new Dimension(200, 28));
                     tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tversaoeditar.setBounds(25, 85, 238, 28);
                     panel.add(tversaoeditar);
-
-                    tempresaeditar.addPlaceHolder(lingua.translate("Empresa proprietária"), null);
+                    tempresaeditar.setText(lingua.translate("Empresa proprietária"));
+                    tempresaeditar.setForeground(new Color(142, 143, 145));
+                    tempresaeditar.setBackground(new Color(245, 245, 245));
+                    tempresaeditar.setOpaque(true);
                     tempresaeditar.setToolTipText(lingua.translate("Empresa proprietária"));
                     tempresaeditar.setPreferredSize(new Dimension(200, 28));
-                    tempresaeditar.setSelectionColor(Color.DARK_GRAY);
                     tempresaeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tempresaeditar.setBounds(25, 115, 238, 28);
                     panel.add(tempresaeditar);
-
-                    // spinner ano
-                    int decim = new TimeDate.Date().getYear();
-                    javax.swing.JSpinner.NumberEditor editor = (javax.swing.JSpinner.NumberEditor) tanoeditar.getEditor();
-                    editor.getFormat().setGroupingUsed(false);
-                    editor.getModel().setMaximum(decim);
-                    editor.getModel().setMinimum(1900);
-                    editor.getModel().setValue(decim);
-                    editor.getModel().setStepSize(1);
-                    editor.getTextField().setSelectionColor(Color.DARK_GRAY);
+                    tanoeditar.setText(lingua.translate("Ano de lançamento"));
+                    tanoeditar.setOpaque(true);
+                    tanoeditar.setForeground(new Color(142, 143, 145));
+                    tanoeditar.setBackground(new Color(245, 245, 245));
+                    tanoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tanoeditar.setToolTipText(lingua.translate("Ano de lançamento"));
-                    tanoeditar.setPreferredSize(new Dimension(100, 28));
-                    tanoeditar.setBounds(115, 145, 148, 28);
+                    tanoeditar.setPreferredSize(new Dimension(200, 28));
+                    tanoeditar.setBounds(25, 145, 238, 28);
                     panel.add(tanoeditar);
 
                     //
                     if (tabela.getSelectedRow() > -1) {
-                        tdescricaoeditar.setEnabled(true);
-                        tversaoeditar.setEnabled(true);
-                        tanoeditar.setEnabled(true);
-                        tempresaeditar.setEnabled(true);
                         tatualizadoeditar.setEnabled(true);
                     } else {
-                        tdescricaoeditar.setEnabled(false);
-                        tversaoeditar.setEnabled(false);
-                        tanoeditar.setEnabled(false);
-                        tempresaeditar.setEnabled(false);
                         tatualizadoeditar.setEnabled(false);
                     }
                     tatualizadoeditar.setText(lingua.translate("Atualizado") + ":");
@@ -1687,11 +1692,11 @@ public class WMaterial extends javax.swing.JDialog {
                                     ldis.remove(val);
                                     btoogleditar.setSelected(true);
                                     labeldisciplina.setText(lingua.translate("Nome da disciplina"));
-                                    labeldisciplina.setBackground(new Color(214, 217, 223));
+                                    labeldisciplina.setBackground(new Color(245, 245, 245));
                                     labeldisciplina.setForeground(new Color(142, 143, 145));
                                     labelcodigodisciplina.setText(lingua.translate("Código da disciplina"));
-                                    labelcodigodisciplina.setBackground(new Color(214, 217, 223));
-                                    labelcodigodisciplina.setForeground(new Color(214, 217, 223));
+                                    labelcodigodisciplina.setBackground(new Color(245, 245, 245));
+                                    labelcodigodisciplina.setForeground(new Color(142, 143, 145));
                                     btapagar.setEnabled(false);
                                     if (comboboxdireitacima.getSelectedIndex() > 0) {
                                         if (disciplinas.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
@@ -1749,7 +1754,7 @@ public class WMaterial extends javax.swing.JDialog {
                     labeldisciplina.setPreferredSize(new Dimension(200, 28));
                     labeldisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     labeldisciplina.setBounds(25, 85, 238, 28);
-                    labeldisciplina.setBackground(new Color(214, 217, 223));
+                    labeldisciplina.setBackground(new Color(245, 245, 245));
                     labeldisciplina.setForeground(new Color(142, 143, 145));
                     labeldisciplina.setOpaque(true);
                     panel.add(labeldisciplina);
@@ -1759,7 +1764,7 @@ public class WMaterial extends javax.swing.JDialog {
                     labelcodigodisciplina.setPreferredSize(new Dimension(200, 28));
                     labelcodigodisciplina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     labelcodigodisciplina.setBounds(25, 115, 238, 28);
-                    labelcodigodisciplina.setBackground(new Color(214, 217, 223));
+                    labelcodigodisciplina.setBackground(new Color(245, 245, 245));
                     labelcodigodisciplina.setForeground(new Color(142, 143, 145));
                     labelcodigodisciplina.setOpaque(true);
                     panel.add(labelcodigodisciplina);
@@ -1802,8 +1807,8 @@ public class WMaterial extends javax.swing.JDialog {
                                 String n = tdescricaoeditar.getText();
                                 if (!n.equals("")) {
                                     String m = tversaoeditar.getText();
-                                    Keys.Feature novo = new Keys.Feature(n);
                                     Keys.Feature velho = new Keys.Feature(lfeat.get(tabela.getSelectedRow()));
+                                    Keys.Feature novo = new Keys.Feature(velho);
                                     novo.setUnityMeasure(m);
                                     int v;
                                     try {
@@ -1813,18 +1818,14 @@ public class WMaterial extends javax.swing.JDialog {
                                     }
                                     novo.setNumber(v);
                                     int resultado = db.updateFeatureWithAssociation(velho, novo, mat);
-                                    if (resultado == 1) {
-                                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro ao realizar o update"), 400, 200, lingua.translate("Já existe outra característica semelhante!"), new String[]{lingua.translate("Voltar")});
+                                    if (resultado != 1) {
+                                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, panelcor, lingua.translate("Erro"), 400, 200, lingua.translate("Erro ao realizar o update") + ".", new String[]{lingua.translate("Voltar")});
                                         mensagem.showMessage();
-                                        tdescricaoeditar.setText(velho.getDescription());
-                                        tversaoeditar.setText(velho.getUnityMeasure());
-                                        tquantidadeeditar.setValue(velho.getNumber());
-                                    } else if (resultado == 0) {
+                                        tdescricaoeditar.setText(novo.getDescription());
+                                        tversaoeditar.setText(novo.getUnityMeasure());
+                                        tquantidadeeditar.setValue(novo.getNumber());
+                                    } else {
                                         btoogleditar.setSelected(true);
-                                        tdescricaoeditar.setEnabled(false);
-                                        tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                        tversaoeditar.setEnabled(false);
-                                        tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
                                         tquantidadeeditar.setEnabled(false);
                                         bteditar.setEnabled(false);
                                         btapagar.setEnabled(false);
@@ -1860,14 +1861,13 @@ public class WMaterial extends javax.swing.JDialog {
                                     tabela.clearSelection();
                                     lfeat.remove(val);
                                     btoogleditar.setSelected(true);
-                                    tdescricaoeditar.setEnabled(false);
-                                    tdescricaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
-                                    tversaoeditar.setEnabled(false);
-                                    tversaoeditar.setForeground(Components.PersonalTextField.DEFAULT_PLACEHOLDER_COLOR);
+                                    btoogleditar.setEnabled(false);
+                                    tdescricaoeditar.setText(lingua.translate("Nome da caraterística"));
+                                    tversaoeditar.setText(lingua.translate("Medida de valor"));
+                                    tquantidadeeditar.setValue(0);
                                     tquantidadeeditar.setEnabled(false);
                                     bteditar.setEnabled(false);
                                     btapagar.setEnabled(false);
-                                    tquantidadeeditar.setValue(0);
                                     if (comboboxdireitacima.getSelectedIndex() > 0) {
                                         if (features.get(comboboxdireitacima.getSelectedIndex() - 1).compareTo(velho) == 0) {
                                             btmais.setEnabled(true);
@@ -1908,23 +1908,17 @@ public class WMaterial extends javax.swing.JDialog {
                     }
                     abtoogle = ((ActionEvent e) -> {
                         if ((tabela.getSelectedRow() > -1) && (!btoogleditar.isSelected())) {
-                            tdescricaoeditar.setEnabled(true);
-                            tdescricaoeditar.setForeground(Color.BLACK);
-                            tversaoeditar.setEnabled(true);
-                            tversaoeditar.setForeground(Color.BLACK);
-                            tquantidadeeditar.setEnabled(true);
                             bteditar.setEnabled(true);
                             btapagar.setEnabled(true);
+                            tquantidadeeditar.setEnabled(true);
                             btoogleditar.setToolTipText(lingua.translate("Bloquear"));
                         } else if (btoogleditar.isSelected()) {
                             btoogleditar.setToolTipText(lingua.translate("Desbloquear"));
                             Keys.Feature feat = lfeat.get(tabela.getSelectedRow());
                             tdescricaoeditar.setText(feat.getDescription());
-                            tdescricaoeditar.setEnabled(false);
-                            tversaoeditar.setEnabled(false);
                             tversaoeditar.setText(feat.getUnityMeasure());
-                            tquantidadeeditar.setEnabled(false);
                             tquantidadeeditar.setValue(feat.getNumber());
+                            tquantidadeeditar.setEnabled(false);
                             bteditar.setEnabled(false);
                             btapagar.setEnabled(false);
                         }
@@ -1933,20 +1927,24 @@ public class WMaterial extends javax.swing.JDialog {
                     panel.add(btoogleditar);
                     // fim btoogle
 
-                    tdescricaoeditar.addPlaceHolder(lingua.translate("Nome da caraterística"), null);
+                    tdescricaoeditar.setText(lingua.translate("Nome da caraterística"));
+                    tdescricaoeditar.setBackground(new Color(245, 245, 245));
+                    tdescricaoeditar.setForeground(new Color(142, 143, 145));
+                    tdescricaoeditar.setOpaque(true);
                     tdescricaoeditar.setToolTipText(lingua.translate("Nome da caraterística"));
                     tdescricaoeditar.setPreferredSize(new Dimension(200, 28));
                     tdescricaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tdescricaoeditar.setBounds(25, 85, 238, 28);
-                    tdescricaoeditar.setSelectionColor(Color.DARK_GRAY);
                     panel.add(tdescricaoeditar);
-
-                    tversaoeditar.addPlaceHolder(lingua.translate("Medida de valor"), null);
+                    DataBase.DataBase db = new DataBase.DataBase(url);
+                    tversaoeditar.setBackground(new Color(245, 245, 245));
+                    tversaoeditar.setForeground(new Color(142, 143, 145));
+                    tversaoeditar.setOpaque(true);
+                    tversaoeditar.setText(lingua.translate("Medida de valor"));
                     tversaoeditar.setToolTipText(lingua.translate("Medida de valor"));
                     tversaoeditar.setPreferredSize(new Dimension(200, 28));
                     tversaoeditar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.black, 2, 0.5f, 6, true, true, true, true), BorderFactory.createLineBorder(Color.BLACK)), BorderFactory.createEmptyBorder(0, 10, 0, 10)));
                     tversaoeditar.setBounds(25, 115, 238, 28);
-                    tversaoeditar.setSelectionColor(Color.DARK_GRAY);
                     panel.add(tversaoeditar);
 
                     // spinner quantidade
@@ -1958,21 +1956,11 @@ public class WMaterial extends javax.swing.JDialog {
                     editor.getModel().setStepSize(1);
                     editor.getTextField().setSelectionColor(Color.DARK_GRAY);
                     tquantidadeeditar.setToolTipText(lingua.translate("Quantidade da associação"));
-
                     tquantidadeeditar.setPreferredSize(new Dimension(100, 28));
                     tquantidadeeditar.setBounds(115, 145, 148, 28);
+                    tquantidadeeditar.setEnabled(false);
                     panel.add(tquantidadeeditar);
 
-                    //
-                    if (tabela.getSelectedRow() > -1) {
-                        tdescricaoeditar.setEnabled(true);
-                        tversaoeditar.setEnabled(true);
-                        tquantidadeeditar.setEnabled(true);
-                    } else {
-                        tdescricaoeditar.setEnabled(false);
-                        tversaoeditar.setEnabled(false);
-                        tquantidadeeditar.setEnabled(false);
-                    }
                 }
                 break;
 
