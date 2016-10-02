@@ -1690,7 +1690,6 @@ public final class ActionButton extends javax.swing.JDialog {
             } else {
                 labelativa.setText(lingua.translate("Estado"));
             }
-
             texto[2].setText(lingua.translate("livre"));
             texto[2].setForeground(new Color(0, 102, 0));
             panel2.removeAll();

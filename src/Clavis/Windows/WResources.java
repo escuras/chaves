@@ -116,7 +116,6 @@ public class WResources extends javax.swing.JFrame {
         makePanel();
         this.makeComboBoxTypeMaterial();
         this.makeJListOriginalFeatures();
-        this.makeJListFinalFeatures();
         jLabelRegisto.requestFocus();
         addListsBeahviors();
 
@@ -590,11 +589,12 @@ public class WResources extends javax.swing.JFrame {
         jLabelImagem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha uma imagem para o recurso"), jLabelImagem, (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jLabelImagem), 112, 112);
-                novaimagem = true;
-                if (bimage == null) {
-                    putOrignalIcon();
-                }
+                FileIOAux.ImageExtension imo = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha uma imagem para o recurso"), jLabelImagem, (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jLabelImagem), 112, 112);
+                if (imo != null){
+                    novaimagem = true;
+                    bimage.setImage(imo.getImage());
+                    bimage.setExtension(imo.getExtension());
+                } 
             }
 
             @Override
@@ -792,10 +792,6 @@ public class WResources extends javax.swing.JFrame {
         panel.add(numero);
         Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, corborda, "Valor da caraterística", 400, 220, panel, "", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
         return mensagem;
-    }
-
-    private void makeJListFinalFeatures() {
-
     }
 
     private java.util.List<Keys.Feature> getSelectedOriginalFeatures() {
@@ -1352,14 +1348,12 @@ public class WResources extends javax.swing.JFrame {
                     f.setTypeOfMaterial(tipo);
                     db.insertFeature(f);
                     db.associateFeatureWithMaterial(f, m);
-
                 }
             }
             db.commit();
             db.setAutoCommit(true);
             db.close();
             for (int i = 0; i < carsFinal.size(); i++) {
-                System.out.println("index " + i);
                 modeloFinal.remove(0);
 
             }

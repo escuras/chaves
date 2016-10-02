@@ -62,7 +62,7 @@ public class TableRequest {
     private Color foreColor;
     private Color selectColor;
     private Color foregroundSelectColor;
-    private final javax.swing.JPanel spanel;
+    private javax.swing.JPanel spanel;
     private Clavis.PanelDetails panel;
     private Color[] cores;
     private int antes_hora;
@@ -1085,6 +1085,7 @@ public class TableRequest {
     }
 
     public void refreshPanel() {
+        spanel = new javax.swing.JPanel();
         if (tabela.getColumnCount() > 1) {
             int select = TableRequest.this.selecionado;
             if (select >= 0) {

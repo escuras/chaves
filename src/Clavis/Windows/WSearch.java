@@ -741,7 +741,6 @@ public class WSearch extends javax.swing.JFrame {
         jSliderMedida.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println(tem_medida);
                 if (tem_medida) {
                     jTextFieldMedida.setText("" + jSliderMedida.getValue());
                     int sel = jComboBoxCarateristicas.getSelectedIndex();
@@ -1447,7 +1446,6 @@ public class WSearch extends javax.swing.JFrame {
                         for (Keys.Feature f : fe) {
                             if ((f.getDescription().equals(feat.getDescription())) && (f.getUnityMeasure().equals(feat.getUnityMeasure())) && (f.getNumber() <= feat.getNumber())) {
                                 conta++;
-                                System.out.println(f.getDescription());
                             }
                         }
                     } else {
@@ -1503,7 +1501,6 @@ public class WSearch extends javax.swing.JFrame {
                         selsoftlista.remove(g);
                     }
                 }
-                System.out.println(auxiliar.getIndex());
             } else if (auxiliar.getComboBoxValue().equals("disciplina")) {
                 for (int g = 0; g < selsublista.size(); g++) {
                     if (selsublista.get(g).getIndex() == auxiliar.getIndex()) {
@@ -1547,7 +1544,7 @@ public class WSearch extends javax.swing.JFrame {
             } else {
                 model = new javax.swing.table.DefaultTableModel(new Object[][]{}, new Object[]{lingua.translate("Recurso")});
                 for (Keys.Material p : materiais) {
-                    Object[] objetos = {lingua.translate(p.getTypeOfMaterialName()) + ": " + lingua.translate(p.getDescription()) + " (" + p.getCodeOfMaterial() + ")"};
+                    Object[] objetos = {lingua.translate(p.getTypeOfMaterialName()) + " " + lingua.translate(p.getDescription())};
                     model.addRow(objetos);
                 }
             }

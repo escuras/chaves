@@ -12,6 +12,7 @@ import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -42,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -61,6 +63,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -161,12 +165,32 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextFieldCSV = new javax.swing.JTextField();
         personalToggleButton1 = new Components.PersonalToggleButton();
-        jDialog1 = new javax.swing.JDialog();
-        jPanel4 = new javax.swing.JPanel();
+        jDialogSemestres = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        comboDiaSemestre1 = new javax.swing.JComboBox<>();
+        jLabelDia = new javax.swing.JLabel();
+        comboMesSemestre1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListSemestres = new javax.swing.JList<>();
+        jLabel13 = new javax.swing.JLabel();
+        jButtonCalcula = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        comboAnoSemestre1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jLabelDia1 = new javax.swing.JLabel();
+        comboDiaSemestre2 = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        comboMesSemestre2 = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        comboAnoSemestre2 = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        comboSemestre = new javax.swing.JComboBox<>();
+        jButtonSemestre = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jButtonExit = new javax.swing.JButton();
         jPanelInicial = new javax.swing.JPanel();
         jSplitPaneInicial = new javax.swing.JSplitPane();
         jPanelBaixo = new javax.swing.JPanel();
@@ -221,11 +245,10 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabelListaFeriadosDefeito.setBackground(new java.awt.Color(250, 250, 250));
+        jLabelListaFeriadosDefeito.setBackground(new java.awt.Color(245, 245, 245));
         jLabelListaFeriadosDefeito.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabelListaFeriadosDefeito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelListaFeriadosDefeito.setText("Lista de feriados fixos por defeito: ");
-        jLabelListaFeriadosDefeito.setBorder(null);
+        jLabelListaFeriadosDefeito.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelListaFeriadosDefeito.setOpaque(true);
         jLabelListaFeriadosDefeito.setText(lingua.translate("Lista_feriados_por_defeito"));
 
@@ -305,13 +328,11 @@ public class KeyQuest extends javax.swing.JFrame {
             .addComponent(jScrollPaneFeriadosEscolhidos)
         );
 
-        jLabelListaFeriadosEscolhidos.setBackground(new java.awt.Color(250, 250, 250));
+        jLabelListaFeriadosEscolhidos.setBackground(new java.awt.Color(245, 245, 245));
         jLabelListaFeriadosEscolhidos.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabelListaFeriadosEscolhidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelListaFeriadosEscolhidos.setText("Lista de feriados fixos por defeito: ");
-        jLabelListaFeriadosEscolhidos.setBorder(null);
+        jLabelListaFeriadosEscolhidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelListaFeriadosEscolhidos.setOpaque(true);
-        jLabelListaFeriadosDefeito.setText(lingua.translate("Lista_feriados_por_defeito"));
 
         jRadioButtonCarnaval.setText("Carnaval");
         jRadioButtonCarnaval.setFocusPainted(false);
@@ -578,11 +599,11 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setBackground(new java.awt.Color(250, 250, 250));
+        jLabel1.setBackground(new java.awt.Color(245, 245, 245));
         jLabel1.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Adicionar períodos:");
-        jLabel1.setBorder(null);
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel1.setOpaque(true);
         jLabel1.setText(lingua.translate("Adicionar_periodos"));
 
@@ -605,6 +626,11 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jComboBoxDefBreaksDiaInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksDiaInicio.setFocusable(false);
+        jComboBoxDefBreaksDiaInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDefBreaksDiaInicioActionPerformed(evt);
+            }
+        });
 
         jLabelDefBreaksDiaInicio.setText("Dia:");
 
@@ -870,14 +896,12 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefOpcoes.setBackground(new java.awt.Color(254, 254, 254));
         jPanelDefOpcoes.setBorder(null);
 
+        jLabelTituloDefOpcoes.setBackground(new java.awt.Color(245, 245, 245));
         jLabelTituloDefOpcoes.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabelTituloDefOpcoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloDefOpcoes.setText("Definições");
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder1.setCornerSize(6);
-        dropShadowBorder1.setShadowSize(3);
-        dropShadowBorder1.setShowRightShadow(false);
-        jLabelTituloDefOpcoes.setBorder(dropShadowBorder1);
+        jLabelTituloDefOpcoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabelTituloDefOpcoes.setOpaque(true);
 
         jLabelMudaTemaQuadros.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
 
@@ -962,11 +986,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder2.setCornerSize(6);
-        dropShadowBorder2.setShadowSize(2);
-        dropShadowBorder2.setShowRightShadow(false);
-        jTextFieldURL.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder2, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder1.setCornerSize(6);
+        dropShadowBorder1.setShadowSize(2);
+        dropShadowBorder1.setShowRightShadow(false);
+        jTextFieldURL.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder1, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
 
         jLabel5.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -983,19 +1007,19 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel6.setMinimumSize(new java.awt.Dimension(37, 24));
         jLabel6.setPreferredSize(new java.awt.Dimension(37, 25));
 
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder2.setCornerSize(6);
+        dropShadowBorder2.setShadowSize(2);
+        dropShadowBorder2.setShowRightShadow(false);
+        jPasswordFieldURL.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder2, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        jPasswordFieldURL.setMinimumSize(new java.awt.Dimension(10, 25));
+        jPasswordFieldURL.setPreferredSize(new java.awt.Dimension(115, 25));
+
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder3.setCornerSize(6);
         dropShadowBorder3.setShadowSize(2);
         dropShadowBorder3.setShowRightShadow(false);
-        jPasswordFieldURL.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder3, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
-        jPasswordFieldURL.setMinimumSize(new java.awt.Dimension(10, 25));
-        jPasswordFieldURL.setPreferredSize(new java.awt.Dimension(115, 25));
-
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder4.setCornerSize(6);
-        dropShadowBorder4.setShadowSize(2);
-        dropShadowBorder4.setShowRightShadow(false);
-        jTextFieldURLuser.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        jTextFieldURLuser.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder3, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
         jTextFieldURLuser.setMinimumSize(new java.awt.Dimension(157, 24));
         jTextFieldURLuser.setPreferredSize(new java.awt.Dimension(157, 24));
 
@@ -1074,11 +1098,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel7.setMinimumSize(new java.awt.Dimension(36, 25));
         jLabel7.setPreferredSize(new java.awt.Dimension(36, 25));
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder5.setCornerSize(6);
-        dropShadowBorder5.setShadowSize(2);
-        dropShadowBorder5.setShowRightShadow(false);
-        jTextFieldCSV.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder4.setCornerSize(6);
+        dropShadowBorder4.setShadowSize(2);
+        dropShadowBorder4.setShowRightShadow(false);
+        jTextFieldCSV.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder4, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10))));
         jTextFieldCSV.setMinimumSize(new java.awt.Dimension(10, 24));
         jTextFieldCSV.setPreferredSize(new java.awt.Dimension(66, 24));
 
@@ -1134,9 +1158,9 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefOpcoesLayout.setVerticalGroup(
             jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDefOpcoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelTituloDefOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
+                .addComponent(jLabelTituloDefOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxMudaTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMudaTemaQuadros, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1169,9 +1193,9 @@ public class KeyQuest extends javax.swing.JFrame {
                     .addGroup(jPanelDefOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8)
+                .addGap(16, 16, 16)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Definições"));
@@ -1251,62 +1275,348 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefOpcoes.setBorder(borderDefOpcoes);
         KeyQuest.addtoPropertyListener(jPanelDefOpcoes,true);
 
-        jDialog1.setMinimumSize(new java.awt.Dimension(700, 500));
-        jDialog1.setResizable(false);
+        jDialogSemestres.setMinimumSize(new java.awt.Dimension(700, 500));
+        jDialogSemestres.setResizable(false);
 
-        jLabel3.setText("jLabel3");
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanel6.setPreferredSize(new java.awt.Dimension(700, 468));
+        jPanel6.setRequestFocusEnabled(false);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboDiaSemestre1.setFocusable(false);
+        comboDiaSemestre1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboDiaSemestre1ItemStateChanged(evt);
+            }
+        });
 
-        jLabel4.setText("jLabel4");
+        jLabelDia.setText("Dia:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboMesSemestre1.setFocusable(false);
+        comboMesSemestre1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboMesSemestre1ItemStateChanged(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+        jLabel3.setText("Mês:");
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel5.setOpaque(false);
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jListSemestres.setBackground(new java.awt.Color(254, 254, 234));
+        jListSemestres.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(jListSemestres);
+        jListSemestres.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
+        jListSemestres.setCellRenderer(new DefaultListCellRenderer() {
+            private static final long serialVersionUID = 2L;
+            @Override
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+                label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                label.setPreferredSize(new Dimension(150, 35));
+                if (isSelected) {
+                    label.setBackground(Color.GRAY);
+                    label.setForeground(Color.WHITE);
+                    label.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                }
+                return label;
+            }
+        });
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        DefaultListModel<String> modelolista = new DefaultListModel<>();
+        if (semestres.getFirstSemester() != null) {
+            modelolista.addElement(semestres.getFirstSemester().toString(lingua));
+        } else {
+            modelolista.addElement(lingua.translate("Introduza o período do 1º semestre"));
+        }
+        if (semestres.getLastSemester() != null) {
+            modelolista.addElement(semestres.getLastSemester().toString(lingua));
+        } else {
+            modelolista.addElement(lingua.translate("Introduza o período do 2º semestre"));
+        }
+        jListSemestres.setModel(modelolista);
+
+        jLabel13.setBackground(new java.awt.Color(245, 245, 245));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Semestres");
+        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel13.setOpaque(true);
+
+        jButtonCalcula.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonCalcula.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonCalcula.setFocusPainted(false);
+        jButtonCalcula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCalculaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonCalcula, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 107, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addComponent(jButtonCalcula, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96))
         );
 
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(482, Short.MAX_VALUE))
+        jLabel13.setText(lingua.translate("Semestres")+":");
+        try{
+            if (this.getClass().getResource("Images/calc.png") != null) {
+                BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream("Images/calc.png"));
+                ImageIcon icexit = new ImageIcon(buf);
+                jButtonCalcula.setIcon(icexit);
+            } else {
+                jButtonCalcula.setText(lingua.translate("Calcular"));
+            }
+        } catch (IOException e) {}
+        jButtonCalcula.setToolTipText(lingua.translate("Calcular requisições com base nos semestres registados")+".");
+
+        jLabel8.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabel8.setText("Início:");
+
+        comboAnoSemestre1.setFocusable(false);
+        comboAnoSemestre1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboAnoSemestre1ItemStateChanged(evt);
+            }
+        });
+
+        jLabel4.setText("Ano:");
+
+        jLabel9.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabel9.setText("Fim:");
+
+        jLabelDia1.setText("Dia:");
+
+        comboDiaSemestre2.setFocusable(false);
+        comboDiaSemestre2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboDiaSemestre2ItemStateChanged(evt);
+            }
+        });
+
+        jLabel10.setText("Mês:");
+
+        comboMesSemestre2.setFocusable(false);
+        comboMesSemestre2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboMesSemestre2ItemStateChanged(evt);
+            }
+        });
+
+        jLabel11.setText("Ano:");
+
+        comboAnoSemestre2.setFocusable(false);
+        comboAnoSemestre2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboAnoSemestre2ItemStateChanged(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
+        jLabel12.setText("Semestre:");
+
+        comboSemestre.setFocusable(false);
+        comboSemestre.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboSemestreItemStateChanged(evt);
+            }
+        });
+        comboSemestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSemestreActionPerformed(evt);
+            }
+        });
+
+        jButtonSemestre.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonSemestre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonSemestre.setEnabled(false);
+        jButtonSemestre.setFocusPainted(false);
+        jButtonSemestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSemestreActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setBackground(new java.awt.Color(245, 245, 245));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Datas");
+        jLabel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel14.setOpaque(true);
+
+        jButtonExit.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonExit.setFocusPainted(false);
+        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelDia1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboAnoSemestre2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboMesSemestre2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboDiaSemestre2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGap(26, 26, 26)
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                            .addComponent(jLabelDia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(comboDiaSemestre1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboMesSemestre1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboAnoSemestre1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(comboSemestre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
         );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(342, Short.MAX_VALUE))
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboDiaSemestre1)
+                            .addComponent(jLabelDia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboMesSemestre1)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboAnoSemestre1)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelDia1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboDiaSemestre2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboMesSemestre2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboAnoSemestre2))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 303, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(comboSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(65, 65, 65))
         );
+
+        DefaultComboBoxModel<String> modelo= new DefaultComboBoxModel<>();
+        modelo.addElement(lingua.translate("1º semestre"));
+        modelo.addElement(lingua.translate("2º semestre"));
+        comboSemestre.setModel(modelo);
+        ((javax.swing.JLabel) comboSemestre.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) comboSemestre.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        BasicComboPopup popupcomboSemestre = (BasicComboPopup) comboSemestre.getAccessibleContext().getAccessibleChild(0);
+        popupcomboSemestre.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupcomboSemestre.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        try{
+            if (this.getClass().getResource("Images/ok.png") != null) {
+                BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream("Images/ok.png"));
+                ImageIcon icexit = new ImageIcon(buf);
+                jButtonSemestre.setIcon(icexit);
+            } else {
+                jButtonSemestre.setText(lingua.translate("Confirmar"));
+            }
+        } catch (IOException e) {}
+        jButtonSemestre.setToolTipText(lingua.translate("Confirmar datas do semestre"));
+        jLabel14.setText(lingua.translate("Datas a associar aos semestres"));
+        try{
+            if (this.getClass().getResource("Images/exit26x24.png") != null) {
+                BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon icexit = new ImageIcon(buf);
+                jButtonExit.setIcon(icexit);
+            } else {
+                jButtonExit.setText(lingua.translate("Voltar"));
+            }
+        } catch (IOException e) {}
+        jButtonExit.setToolTipText("Voltar");
+
+        javax.swing.GroupLayout jDialogSemestresLayout = new javax.swing.GroupLayout(jDialogSemestres.getContentPane());
+        jDialogSemestres.getContentPane().setLayout(jDialogSemestresLayout);
+        jDialogSemestresLayout.setHorizontalGroup(
+            jDialogSemestresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogSemestresLayout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jDialogSemestresLayout.setVerticalGroup(
+            jDialogSemestresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogSemestresLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.border.Border borderSemestre = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(systemColor, 4),javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        jPanel6.setBorder(borderSemestre);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestão de Recursos");
@@ -1347,12 +1657,12 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder6.setCornerSize(6);
-        dropShadowBorder6.setShadowSize(3);
-        dropShadowBorder6.setShowLeftShadow(true);
-        dropShadowBorder6.setShowTopShadow(true);
-        jScrollPaneDevolucoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder6, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder5.setCornerSize(6);
+        dropShadowBorder5.setShadowSize(3);
+        dropShadowBorder5.setShowLeftShadow(true);
+        dropShadowBorder5.setShowTopShadow(true);
+        jScrollPaneDevolucoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder5, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jScrollPaneDevolucoes.setMinimumSize(new java.awt.Dimension(600, 500));
         jScrollPaneDevolucoes.setPreferredSize(new java.awt.Dimension(700, 633));
 
@@ -1362,12 +1672,12 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTituloDevolucoes.setLabelFor(jLabelTitulorequisicoes);
         jLabelTituloDevolucoes.setText("Lista de devoluções");
         jLabelTituloDevolucoes.setAlignmentX(0.5F);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder7.setCornerSize(6);
-        dropShadowBorder7.setShadowSize(3);
-        dropShadowBorder7.setShowLeftShadow(true);
-        dropShadowBorder7.setShowRightShadow(false);
-        jLabelTituloDevolucoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder7, javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder6.setCornerSize(6);
+        dropShadowBorder6.setShadowSize(3);
+        dropShadowBorder6.setShowLeftShadow(true);
+        dropShadowBorder6.setShowRightShadow(false);
+        jLabelTituloDevolucoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder6, javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0))));
         jLabelTituloDevolucoes.setPreferredSize(new java.awt.Dimension(103, 32));
         jLabelTituloDevolucoes.setFont(new Font("Cantarell",Font.PLAIN,16));
 
@@ -1424,6 +1734,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonAlteraDevolucao.setMaximumSize(new java.awt.Dimension(530, 55));
         jButtonAlteraDevolucao.setMinimumSize(new java.awt.Dimension(20, 55));
         jButtonAlteraDevolucao.setPreferredSize(new java.awt.Dimension(60, 55));
+        jButtonAlteraDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlteraDevolucaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelInformaBaixoBaixoLayout = new javax.swing.GroupLayout(jPanelInformaBaixoBaixo);
         jPanelInformaBaixoBaixo.setLayout(jPanelInformaBaixoBaixoLayout);
@@ -1510,21 +1825,21 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelLimpaPesquisaBaixo.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
         jLabelLimpaPesquisaBaixo.setForeground(new java.awt.Color(1, 1, 1));
         jLabelLimpaPesquisaBaixo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder8.setCornerSize(6);
-        dropShadowBorder8.setShadowSize(3);
-        dropShadowBorder8.setShowLeftShadow(true);
-        jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder8, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder7.setCornerSize(6);
+        dropShadowBorder7.setShadowSize(3);
+        dropShadowBorder7.setShowLeftShadow(true);
+        jLabelLimpaPesquisaBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder7, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
 
         jLabelDetalhesBaixo.setBackground(new java.awt.Color(254, 254, 254));
         jLabelDetalhesBaixo.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
         jLabelDetalhesBaixo.setForeground(new java.awt.Color(1, 1, 1));
         jLabelDetalhesBaixo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelDetalhesBaixo.setText("Detalhes");
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder9.setCornerSize(6);
-        dropShadowBorder9.setShadowSize(3);
-        jLabelDetalhesBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder9, javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder8.setCornerSize(6);
+        dropShadowBorder8.setShadowSize(3);
+        jLabelDetalhesBaixo.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder8, javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0))));
         jLabelDetalhesBaixo.setMaximumSize(new java.awt.Dimension(4700, 1400));
         jLabelDetalhesBaixo.setMinimumSize(new java.awt.Dimension(47, 14));
         jLabelDetalhesBaixo.setName(""); // NOI18N
@@ -1719,12 +2034,12 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jScrollPaneRequisicoes.setBackground(new java.awt.Color(1, 1, 1));
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder10 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder10.setCornerSize(6);
-        dropShadowBorder10.setShadowSize(3);
-        dropShadowBorder10.setShowLeftShadow(true);
-        dropShadowBorder10.setShowTopShadow(true);
-        jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder10, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder9.setCornerSize(6);
+        dropShadowBorder9.setShadowSize(3);
+        dropShadowBorder9.setShowLeftShadow(true);
+        dropShadowBorder9.setShowTopShadow(true);
+        jScrollPaneRequisicoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder9, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jScrollPaneRequisicoes.setInheritsPopupMenu(true);
         jScrollPaneRequisicoes.setMinimumSize(new java.awt.Dimension(600, 500));
         jScrollPaneRequisicoes.setPreferredSize(new java.awt.Dimension(700, 633));
@@ -1736,10 +2051,10 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTitulorequisicoes.setText("Lista de requisições");
         jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
         jLabelTitulorequisicoes.setAlignmentX(0.5F);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder11.setCornerSize(6);
-        dropShadowBorder11.setShadowSize(3);
-        jLabelTitulorequisicoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder11, javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder10 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder10.setCornerSize(6);
+        dropShadowBorder10.setShadowSize(3);
+        jLabelTitulorequisicoes.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder10, javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0))));
         jLabelTitulorequisicoes.setPreferredSize(new java.awt.Dimension(103, 32));
         jLabelTitulorequisicoes.setFont(new Font("Cantarell",Font.PLAIN,16));
 
@@ -1888,23 +2203,23 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelLimpaPesquisaCima.setFont(new java.awt.Font("Cantarell", 0, 16)); // NOI18N
         jLabelLimpaPesquisaCima.setForeground(new java.awt.Color(1, 1, 1));
         jLabelLimpaPesquisaCima.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder12 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder12.setCornerSize(6);
-        dropShadowBorder12.setShadowSize(3);
-        dropShadowBorder12.setShowLeftShadow(true);
-        jLabelLimpaPesquisaCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder12, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder11.setCornerSize(6);
+        dropShadowBorder11.setShadowSize(3);
+        dropShadowBorder11.setShowLeftShadow(true);
+        jLabelLimpaPesquisaCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder11, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
 
         jLabelDetalhesCima.setBackground(new java.awt.Color(254, 254, 254));
         jLabelDetalhesCima.setForeground(new java.awt.Color(1, 1, 1));
         jLabelDetalhesCima.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelDetalhesCima.setFont(new Font("Cantarell",Font.PLAIN,16));
         jLabelDetalhesCima.setText("Detalhes");
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder13 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder13.setCornerSize(6);
-        dropShadowBorder13.setShadowSize(3);
-        dropShadowBorder13.setShowLeftShadow(true);
-        dropShadowBorder13.setShowRightShadow(false);
-        jLabelDetalhesCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder13, javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder12 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder12.setCornerSize(6);
+        dropShadowBorder12.setShadowSize(3);
+        dropShadowBorder12.setShowLeftShadow(true);
+        dropShadowBorder12.setShowRightShadow(false);
+        jLabelDetalhesCima.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder12, javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0))));
         jLabelDetalhesCima.setMaximumSize(new java.awt.Dimension(4700, 1400));
         jLabelDetalhesCima.setPreferredSize(new java.awt.Dimension(57, 32));
         jLabelDetalhesCima.setText(lingua.translate("Detalhes"));
@@ -2099,11 +2414,11 @@ public class KeyQuest extends javax.swing.JFrame {
         jSplitPaneInicial.setContinuousLayout(true);
 
         jPanel3.setBackground(new java.awt.Color(250, 250, 250));
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder14 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder14.setCornerSize(6);
-        dropShadowBorder14.setShadowSize(3);
-        dropShadowBorder14.setShowRightShadow(false);
-        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder14, javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder13 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder13.setCornerSize(6);
+        dropShadowBorder13.setShadowSize(3);
+        dropShadowBorder13.setShowRightShadow(false);
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder13, javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0))));
         jPanel3.setForeground(new java.awt.Color(1, 1, 1));
         jPanel3.setPreferredSize(new java.awt.Dimension(757, 40));
 
@@ -3297,7 +3612,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void jButtonListaBotoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaBotoesActionPerformed
         if (requisicoes.isConnected()) {
-            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial,vista);
+            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial, vista);
             tbMaterial.create();
             tbMaterial.appear();
         }
@@ -3701,10 +4016,9 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldProcuraCimaFocusGained
 
     private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
-        lista_req.setPanelColor(Color.GRAY, Color.BLACK);
-        this.tdivisor = 20;
-        prefs.save();
-        this.jSplitPaneInicial.setDividerSize(tdivisor);
+        Clavis.Windows.WChangeRequest wc = new Clavis.Windows.WChangeRequest(new Color(255,255,255), systemColor, urlbd, lingua, tipomaterial, requisicoes, lista_req.getSelectedRequest());
+        wc.create();
+        wc.appear();
     }//GEN-LAST:event_jButtonAtuacaoAlteraActionPerformed
 
     private void jButtonAtuacaoConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoConfirmaActionPerformed
@@ -3953,6 +4267,116 @@ public class KeyQuest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_personalToggleButton1ActionPerformed
 
+    private void jComboBoxDefBreaksDiaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDefBreaksDiaInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxDefBreaksDiaInicioActionPerformed
+
+    private void comboSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSemestreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboSemestreActionPerformed
+
+    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
+        jDialogSemestres.dispose();
+    }//GEN-LAST:event_jButtonExitActionPerformed
+
+    private void jButtonSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSemestreActionPerformed
+        short val = (short) comboSemestre.getSelectedIndex();
+        int ano = Integer.valueOf(comboAnoSemestre1.getSelectedItem().toString());
+        int mes = comboMesSemestre1.getSelectedIndex() + 1;
+        int dia = Integer.valueOf(comboDiaSemestre1.getSelectedItem().toString());
+        TimeDate.Date inicio = new TimeDate.Date(dia, mes, ano);
+        ano = Integer.valueOf(comboAnoSemestre2.getSelectedItem().toString());
+        mes = comboMesSemestre2.getSelectedIndex() + 1;
+        dia = Integer.valueOf(comboDiaSemestre2.getSelectedItem().toString());
+        TimeDate.Date fim = new TimeDate.Date(dia, mes, ano);
+        TimeDate.Semester sm = new TimeDate.Semester(inicio, fim, val);
+        semestres.addSemester(sm);
+        FileSemesters s = new Clavis.FileSemesters();
+        s.saveSemesters(semestres);
+        DefaultListModel modelo = (DefaultListModel) jListSemestres.getModel();
+        modelo.set((int) val, sm.toString(lingua));
+    }//GEN-LAST:event_jButtonSemestreActionPerformed
+
+    private void validateDatesSemester() {
+        int dia = 0;
+        int ano = 0;
+        int mes = 0;
+        TimeDate.Date inicio = null;
+        TimeDate.Date fim = null;
+        if ((comboDiaSemestre1.getSelectedIndex() >= 0) && (comboMesSemestre1.getSelectedIndex() >= 0) && (comboAnoSemestre1.getSelectedIndex() >= 0)) {
+            ano = Integer.valueOf(comboAnoSemestre1.getSelectedItem().toString());
+            mes = comboMesSemestre1.getSelectedIndex() + 1;
+            dia = Integer.valueOf(comboDiaSemestre1.getSelectedItem().toString());
+            inicio = new TimeDate.Date(dia, mes, ano);
+        }
+        if ((comboDiaSemestre2.getSelectedIndex() >= 0) && (comboMesSemestre2.getSelectedIndex() >= 0) && (comboAnoSemestre2.getSelectedIndex() >= 0)) {
+            ano = Integer.valueOf(comboAnoSemestre2.getSelectedItem().toString());
+            mes = comboMesSemestre2.getSelectedIndex() + 1;
+            dia = Integer.valueOf(comboDiaSemestre2.getSelectedItem().toString());
+            fim = new TimeDate.Date(dia, mes, ano);
+        }
+        if ((inicio != null) && (fim != null)) {
+            if (TimeDate.Date.numberOfDaysBetweenDates(inicio, fim) > 0) {
+                jButtonSemestre.setEnabled(true);
+            } else {
+                jButtonSemestre.setEnabled(false);
+            }
+        }
+    }
+    private void comboDiaSemestre1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboDiaSemestre1ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboDiaSemestre1ItemStateChanged
+
+    private void comboMesSemestre1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboMesSemestre1ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboMesSemestre1ItemStateChanged
+
+    private void comboAnoSemestre1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboAnoSemestre1ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboAnoSemestre1ItemStateChanged
+
+    private void comboDiaSemestre2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboDiaSemestre2ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboDiaSemestre2ItemStateChanged
+
+    private void comboMesSemestre2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboMesSemestre2ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboMesSemestre2ItemStateChanged
+
+    private void comboAnoSemestre2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboAnoSemestre2ItemStateChanged
+        validateDatesSemester();
+    }//GEN-LAST:event_comboAnoSemestre2ItemStateChanged
+
+    private void comboSemestreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSemestreItemStateChanged
+        if (comboSemestre.getSelectedIndex() < 0) {
+            jListSemestres.clearSelection();
+        }
+        jListSemestres.setSelectedIndex(comboSemestre.getSelectedIndex());
+    }//GEN-LAST:event_comboSemestreItemStateChanged
+
+    private void jButtonCalculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalculaActionPerformed
+        TimeDate.Semester sem = semestres.dateInSemester(new TimeDate.Date());
+        Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(sem.getBeginDate(), sem.getEndDate(), intervalos, feriados, urlbd, urlcsv);
+        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Nota"), 400, 200, lingua.translate("O cálculo das requisições está a decorrer") + "... ", new String[]{lingua.translate("Voltar")});
+        Thread t = new Thread(() -> {
+            mensagem.getButtons()[0].setEnabled(false);
+            lista_req.clean();
+            cbd.update();
+            lista_req.getRequestList().reMake();
+            lista_req.create();
+            mensagem.getButtons()[0].setEnabled(true);
+        });
+        t.start();
+        mensagem.showMessage();
+    }//GEN-LAST:event_jButtonCalculaActionPerformed
+
+    private void jButtonAlteraDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlteraDevolucaoActionPerformed
+       
+        Clavis.Windows.WSeeRequest wc = new Clavis.Windows.WSeeRequest(new Color(255,255,255), systemColor, urlbd, lingua, lista_dev.getSelectedRequest());
+        wc.create();
+        wc.appear();
+    }//GEN-LAST:event_jButtonAlteraDevolucaoActionPerformed
+
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
             int ano = Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString());
@@ -4003,7 +4427,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void mostrajListFeriasMensagem() {
         int v = jListFerias.getSelectedIndex();
-        TimeDate.BreakPeriod br = new java.util.ArrayList<TimeDate.BreakPeriod>(intervalos.getBreakPeriodList()).get(v);
+        TimeDate.BreakPeriod br = new java.util.ArrayList<>(intervalos.getBreakPeriodList()).get(v);
         int ano = new TimeDate.Date().getYear();
         javax.swing.JLabel l = new javax.swing.JLabel();
         l.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -4243,7 +4667,8 @@ public class KeyQuest extends javax.swing.JFrame {
     protected final void init() {
         HolidaysList.updateDynamicHolidays();
         this.intervalos = new FileBreakPeriods().getBreakPeriods();
-        this.feriados = new FileHolidays().getHolidays();
+        KeyQuest.feriados = new FileHolidays().getHolidays();
+        this.semestres = new FileSemesters().getSemesters();
         this.defineSearchString();
         this.createAspect();
         initComponents();
@@ -4271,8 +4696,7 @@ public class KeyQuest extends javax.swing.JFrame {
         }
 
         createMenu();
-        Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), new TimeDate.Date(12, 1, 2017), intervalos, feriados, DEFAULT_URlBD, DEFAULT_URlCSV);
-        //cbd.update();
+
         if (aux >= 0) {
             jComboBoxListaBotoes.setSelectedIndex(aux);
         }
@@ -4341,9 +4765,9 @@ public class KeyQuest extends javax.swing.JFrame {
         itemReiniciar.addActionListener((ActionEvent e) -> {
             prefs.save();
             Window[] janelas = Window.getOwnerlessWindows();
-            for (int i = 0; i < janelas.length; i++) {
-                janelas[i].setVisible(false);
-                janelas[i].dispose();
+            for (Window janela : janelas) {
+                janela.setVisible(false);
+                janela.dispose();
             }
             jDialogDefOpcoes.setVisible(false);
             jDialogDefOpcoes.dispose();
@@ -4418,7 +4842,7 @@ public class KeyQuest extends javax.swing.JFrame {
             itemAdicionarRecursoActionPerformed(evt);
         });
         jMenuMovimentos.add(itemAdicionarRecurso);
-        
+
         JMenuItem itemPesquisaRecurso = new JMenuItem();
         itemPesquisaRecurso.setText(lingua.translate("Pesquisar por recursos"));
         itemPesquisaRecurso.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4427,7 +4851,7 @@ public class KeyQuest extends javax.swing.JFrame {
             itemPesquisaRecursoActionPerformed(evt);
         });
         jMenuMovimentos.add(itemPesquisaRecurso);
-        
+
         JMenuItem itemCalcula = new JMenuItem();
         itemCalcula.setText(lingua.translate("Realizar requisições por CSV"));
         itemCalcula.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -4435,17 +4859,124 @@ public class KeyQuest extends javax.swing.JFrame {
         itemCalcula.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemCalculaActionPerformed(evt);
         });
-        jMenuMovimentos.add(itemCalcula);
+        jMenuDefinicoes.add(itemCalcula);
 
+        JMenu jMenuEstatistica = new JMenu();
+        jMenuEstatistica.setText(lingua.translate("Estatística"));
+        jMenuEstatistica.setMnemonic(lingua.translate("Estatística").charAt(0));
+        JMenu jMenuMateriaisMaisUtilizados = new JMenu();
+        jMenuMateriaisMaisUtilizados.setText(lingua.translate("Recursos mais utilizados"));
+        jMenuMateriaisMaisUtilizados.setMnemonic(lingua.translate("Recursos").charAt(0));
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
+            db.close();
+            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
+            JMenuItem item;
+            for (Keys.TypeOfMaterial t : tipos) {
+                item = new JMenuItem();
+                item.setText(lingua.translate(t.getTypeOfMaterialName()));
+                item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.addActionListener((java.awt.event.ActionEvent evt) -> {
+                    itemRecursoEstatisticaActionPerformed(evt, t);
+                });
+                ar.add(item);
+                jMenuMateriaisMaisUtilizados.add(item);
+            }
+
+        }
+
+        JMenu jMenuPessoasMaisAtivas = new JMenu();
+        jMenuPessoasMaisAtivas.setText(lingua.translate("Utilizadores mais ativos"));
+        jMenuPessoasMaisAtivas.setMnemonic(lingua.translate("Utilizadores").charAt(0));
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
+            db.close();
+            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
+            JMenuItem item;
+            for (Keys.TypeOfMaterial t : tipos) {
+                item = new JMenuItem();
+                item.setText(lingua.translate(t.getTypeOfMaterialName()));
+                item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.addActionListener((java.awt.event.ActionEvent evt) -> {
+                    itemPessoasAtivasEstatisticaActionPerformed(evt, t);
+                });
+                ar.add(item);
+                jMenuPessoasMaisAtivas.add(item);
+            }
+        }
+
+        JMenu jMenuMediaRequisicoesPorDia = new JMenu();
+        jMenuMediaRequisicoesPorDia.setText(lingua.translate("Média de requisições por dia"));
+        jMenuMediaRequisicoesPorDia.setMnemonic(lingua.translate("Utilizadores").charAt(0));
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
+            db.close();
+            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
+            JMenuItem item;
+            for (Keys.TypeOfMaterial t : tipos) {
+                item = new JMenuItem();
+                item.setText(lingua.translate(t.getTypeOfMaterialName()));
+                item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.addActionListener((java.awt.event.ActionEvent evt) -> {
+                    itemMediaRequisicoesPorDiaActionPerformed(evt, t);
+                });
+                ar.add(item);
+                jMenuMediaRequisicoesPorDia.add(item);
+            }
+        }
+
+        jMenuEstatistica.add(jMenuMateriaisMaisUtilizados);
+        jMenuEstatistica.add(jMenuPessoasMaisAtivas);
+        jMenuEstatistica.add(jMenuMediaRequisicoesPorDia);
+        menu.add(jMenuEstatistica);
         this.setJMenuBar(menu);
     }
-    
-    private void itemCalculaActionPerformed(java.awt.event.ActionEvent evt) {
-       
+
+    private void itemRecursoEstatisticaActionPerformed(java.awt.event.ActionEvent evt, Keys.TypeOfMaterial tipo) {
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Statistic.TypeNumber> st = db.getCountTypeMaterialGraphicUse(tipo);
+            Graphics.Piechart grafico = new Graphics.Piechart(lingua.translate("Top de requisições"), st, lingua, 5);
+            grafico.createGraphic(lingua.translate("Recursos mais utilizados"), 700, 500);
+            grafico.showGraphic();
+        }
     }
-    
+
+    private void itemMediaRequisicoesPorDiaActionPerformed(java.awt.event.ActionEvent evt, Keys.TypeOfMaterial tipo) {
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Statistic.MonthRequests> st = db.getCountAverageRequestsMonthGraphicUse(tipo, 4, false);
+            Graphics.Linechart grafico = new Graphics.Linechart(lingua.translate("Top de requisições"),lingua.translate("Tipo de material"), lingua.translate("Média de requisições"), st, lingua, 5);
+            grafico.createGraphic(lingua.translate("Média de requisições por dia"), 700, 500);
+            grafico.showGraphic();
+        }
+    }
+
+    private void itemPessoasAtivasEstatisticaActionPerformed(java.awt.event.ActionEvent evt, Keys.TypeOfMaterial tipo) {
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            DataBase.DataBase db = new DataBase.DataBase(urlbd);
+            java.util.List<Statistic.UserNumberMaterial> st = db.getCountUserActivityGraphicUse(tipo);
+            Graphics.Barchart grafico = new Graphics.Barchart(lingua.translate("Top 5 de Utilizadores"), lingua.translate("Tipo de material"), lingua.translate("Quantidade"), st, lingua, 5);
+            grafico.createGraphic(lingua.translate("Utilizadores mais ativos"), 700, 500);
+            grafico.showGraphic();
+        }
+    }
+
+    private void itemCalculaActionPerformed(java.awt.event.ActionEvent evt) {
+        this.makeComboBoxDates(comboAnoSemestre1, comboMesSemestre1, comboDiaSemestre1);
+        this.makeComboBoxDates(comboAnoSemestre2, comboMesSemestre2, comboDiaSemestre2);
+        jDialogSemestres.setVisible(true);
+        jDialogSemestres.setLocationRelativeTo(this);
+    }
+
     private void itemPesquisaRecursoActionPerformed(java.awt.event.ActionEvent evt) {
-        Clavis.Windows.WSearch search = new Clavis.Windows.WSearch(new Color(255,255,255), systemColor, urlbd, lingua, this, null, null);
+        Clavis.Windows.WSearch search = new Clavis.Windows.WSearch(new Color(255, 255, 255), systemColor, urlbd, lingua, this, null, null);
         search.create();
         search.appear();
     }
@@ -4702,6 +5233,82 @@ public class KeyQuest extends javax.swing.JFrame {
             this.verifyValityofDates(jTextFieldDefBreaksNome.getText(), limite);
         });
 
+    }
+
+    private void makeComboBoxDates(javax.swing.JComboBox jComboBoxDefBreaksAnoInicio, javax.swing.JComboBox jComboBoxDefBreaksMesInicio, javax.swing.JComboBox jComboBoxDefBreaksDiaInicio) {
+        int ano = new TimeDate.Date().getYear();
+        int limite = 50;
+        String[] anos = new String[101];
+        ano = ano - 50;
+        for (int i = 0; i < 101; i++) {
+            anos[i] = String.valueOf(ano + i);
+        }
+        jComboBoxDefBreaksAnoInicio.setModel(new javax.swing.DefaultComboBoxModel<>(anos));
+        jComboBoxDefBreaksAnoInicio.setSelectedIndex(50);
+        jComboBoxDefBreaksMesInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Janeiro"), lingua.translate("Fevereiro"),
+            lingua.translate("Março"), lingua.translate("Abril"), lingua.translate("Maio"),
+            lingua.translate("Junho"), lingua.translate("Julho"), lingua.translate("Agosto"), lingua.translate("Setembro"),
+            lingua.translate("Outubro"), lingua.translate("Novembro"), lingua.translate("Dezembro")}));
+        jComboBoxDefBreaksMesInicio.setSelectedIndex(0);
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setHorizontalAlignment(javax.swing.JLabel.RIGHT);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setSize(200, 20);
+        ((javax.swing.JLabel) jComboBoxDefBreaksDiaInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksMesInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        ((javax.swing.JLabel) jComboBoxDefBreaksAnoInicio.getRenderer()).setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 10));
+        jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+        jComboBoxDefBreaksMesInicio.addActionListener((ActionEvent e) -> {
+            int vval = jComboBoxDefBreaksMesInicio.getSelectedIndex();
+            int select = jComboBoxDefBreaksDiaInicio.getSelectedIndex();
+            if ((vval == 3) || (vval == 5) || (vval == 8) || (vval == 10)) {
+                jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
+                if (select == 30) {
+                    select = 29;
+                }
+            } else if (vval == 1) {
+                if (TimeDate.Date.verifyJump(Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString()))) {
+                    jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"}));
+                } else {
+                    if ((vval == 1) && (select == 28)) {
+                        jComboBoxDefBreaksDiaInicio.setSelectedIndex(27);
+                    }
+                    jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28"}));
+                }
+            } else {
+                jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+            }
+            if (jComboBoxDefBreaksDiaInicio.getModel().getSize() > select) {
+                jComboBoxDefBreaksDiaInicio.setSelectedIndex(select);
+            }
+        });
+        jComboBoxDefBreaksAnoInicio.addActionListener((ActionEvent e) -> {
+            int select = jComboBoxDefBreaksDiaInicio.getSelectedIndex();
+            int select2 = jComboBoxDefBreaksMesInicio.getSelectedIndex();
+            if (select2 == 1) {
+                if (!TimeDate.Date.verifyJump(Integer.valueOf(jComboBoxDefBreaksAnoInicio.getSelectedItem().toString()))) {
+                    jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28"}));
+                    if ((select == 28) && (select2 == 1)) {
+                        jComboBoxDefBreaksDiaInicio.setSelectedIndex(27);
+                    } else {
+                        jComboBoxDefBreaksDiaInicio.setSelectedIndex(select);
+                    }
+
+                } else {
+                    jComboBoxDefBreaksDiaInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"}));
+                    jComboBoxDefBreaksDiaInicio.setSelectedIndex(select);
+                }
+            }
+        });
+        BasicComboPopup popupcomboDia = (BasicComboPopup) jComboBoxDefBreaksDiaInicio.getAccessibleContext().getAccessibleChild(0);
+        popupcomboDia.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupcomboDia.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        BasicComboPopup popupcomboAno = (BasicComboPopup) jComboBoxDefBreaksAnoInicio.getAccessibleContext().getAccessibleChild(0);
+        popupcomboAno.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupcomboAno.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        BasicComboPopup popupcomboMes = (BasicComboPopup) jComboBoxDefBreaksMesInicio.getAccessibleContext().getAccessibleChild(0);
+        popupcomboMes.getList().setSelectionBackground(Color.DARK_GRAY);
+        popupcomboMes.getList().setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
     }
 
     public synchronized void calculateList(Keys.TypeOfMaterial material) {
@@ -5101,10 +5708,12 @@ public class KeyQuest extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(KeyQuest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KeyQuest.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -5119,9 +5728,17 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JComboBox<String> comboAnoSemestre1;
+    javax.swing.JComboBox<String> comboAnoSemestre2;
+    javax.swing.JComboBox<String> comboDiaSemestre1;
+    javax.swing.JComboBox<String> comboDiaSemestre2;
+    javax.swing.JComboBox<String> comboMesSemestre1;
+    javax.swing.JComboBox<String> comboMesSemestre2;
+    javax.swing.JComboBox<String> comboSemestre;
     static javax.swing.JButton jButtonAlteraDevolucao;
     static javax.swing.JButton jButtonAtuacaoAltera;
     static javax.swing.JButton jButtonAtuacaoConfirma;
+    javax.swing.JButton jButtonCalcula;
     static javax.swing.JButton jButtonConfirmaDevolucao;
     javax.swing.JButton jButtonDefBreakApagar;
     javax.swing.JButton jButtonDefBreaksAdicionar;
@@ -5130,6 +5747,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JButton jButtonDefHolidaysDireita;
     javax.swing.JButton jButtonDefHolidaysMais;
     javax.swing.JButton jButtonDefHolidaysVoltar;
+    javax.swing.JButton jButtonExit;
     javax.swing.JButton jButtonLinguaMudaConfirma;
     /*
     javax.swing.JButton jButtonListaBotoes;
@@ -5138,8 +5756,7 @@ public class KeyQuest extends javax.swing.JFrame {
     Components.PersonalButton jButtonListaBotoes;
     javax.swing.JButton jButtonProcuraBaixo;
     javax.swing.JButton jButtonProcuraCima;
-    javax.swing.JComboBox<String> jComboBox1;
-    javax.swing.JComboBox<String> jComboBox2;
+    javax.swing.JButton jButtonSemestre;
     javax.swing.JComboBox<String> jComboBoxCorSistema;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoFim;
     javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio;
@@ -5153,17 +5770,24 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JComboBox<String> jComboBoxPesquisaOpcao;
     javax.swing.JComboBox<String> jComboBoxScrollAtivo;
     javax.swing.JComboBox<String> jComboBoxVista;
-    javax.swing.JDialog jDialog1;
     javax.swing.JDialog jDialogDefBreaks;
     javax.swing.JDialog jDialogDefHolidays;
     javax.swing.JDialog jDialogDefOpcoes;
+    javax.swing.JDialog jDialogSemestres;
     javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel10;
+    javax.swing.JLabel jLabel11;
+    javax.swing.JLabel jLabel12;
+    javax.swing.JLabel jLabel13;
+    javax.swing.JLabel jLabel14;
     javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabel3;
     javax.swing.JLabel jLabel4;
     javax.swing.JLabel jLabel5;
     javax.swing.JLabel jLabel6;
     javax.swing.JLabel jLabel7;
+    javax.swing.JLabel jLabel8;
+    javax.swing.JLabel jLabel9;
     javax.swing.JLabel jLabelAuxiliarScroll;
     javax.swing.JLabel jLabelCorSistema;
     javax.swing.JLabel jLabelDefBreaksAnoFim;
@@ -5177,6 +5801,8 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JLabel jLabelDefBreaksTermino;
     javax.swing.JLabel jLabelDetalhesBaixo;
     javax.swing.JLabel jLabelDetalhesCima;
+    javax.swing.JLabel jLabelDia;
+    javax.swing.JLabel jLabelDia1;
     static javax.swing.JLabel jLabelLimpaPesquisaBaixo;
     static javax.swing.JLabel jLabelLimpaPesquisaCima;
     javax.swing.JLabel jLabelLinguaMuda;
@@ -5191,10 +5817,12 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JList<String> jListFeriadosDefeito;
     javax.swing.JList<String> jListFeriadosEscolhidos;
     javax.swing.JList<String> jListFerias;
+    javax.swing.JList<String> jListSemestres;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
-    javax.swing.JPanel jPanel4;
+    javax.swing.JPanel jPanel5;
+    javax.swing.JPanel jPanel6;
     javax.swing.JPanel jPanelBaixo;
     javax.swing.JPanel jPanelCima;
     javax.swing.JPanel jPanelDefBreaks;
@@ -5214,6 +5842,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JRadioButton jRadioButtonCorpoDeus;
     javax.swing.JRadioButton jRadioButtonPascoa;
     javax.swing.JRadioButton jRadioButtonSextaFeira;
+    javax.swing.JScrollPane jScrollPane1;
     javax.swing.JScrollPane jScrollPane2;
     javax.swing.JScrollPane jScrollPaneDevolucoes;
     javax.swing.JScrollPane jScrollPaneFeriadosDefeito;
@@ -5268,6 +5897,7 @@ public class KeyQuest extends javax.swing.JFrame {
     protected Color cordivisor;
     protected static HolidaysList feriados;
     protected TimeDate.BreakPeriodList intervalos;
+    protected TimeDate.SemesterList semestres;
     protected int vista = 0;
     protected String tema = "claro";
     private static boolean superuser = false;
@@ -5352,8 +5982,10 @@ public class KeyQuest extends javax.swing.JFrame {
         NimbusLookAndFeel laf = new NimbusLookAndFeel();
         try {
             UIManager.setLookAndFeel(laf);
+
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KeyQuest.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         laf.getDefaults().put("nimbusSelection", Color.DARK_GRAY);
         Painter<Component> p = (Graphics2D g, Component object, int width1, int height1) -> {
@@ -5580,45 +6212,9 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     public static void refreshDevolutionTable(Keys.Request req) {
-        int conta = 0;
-        DefaultTableModel r = (DefaultTableModel) lista_dev.getTable().getModel();
-        RequestList rl = lista_dev.getRequestList();
-        int i = 0;
-        int valor = 0;
-        for (Keys.Request req2 : rl.getRequests()) {
-            if (req2.getPerson().compareTo(req.getPerson()) == 0) {
-                valor = i;
-            }
-            i++;
-        }
-        lista_dev.removeIndex(valor);
-        lista_req.getTable().clearSelection();
-        lista_dev.getTable().clearSelection();
-        jButtonAtuacaoAltera.setEnabled(false);
-        jButtonAlteraDevolucao.setEnabled(false);
-        jButtonConfirmaDevolucao.setEnabled(false);
-        jButtonAtuacaoConfirma.setEnabled(false);
-    }
-
-    public static void refreshTables() {
-        if (lista_req.isResultOfASearch()) {
-            lista_req.getRequestList().reMake();
-            lista_req.destroySearch();
-            lista_req.refreshPanel();
-            if (jLabelLimpaPesquisaCima != null) {
-                jLabelLimpaPesquisaCima.setVisible(false);
-            }
-            jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
-        } else {
-            lista_req.getRequestList().reMake();
-            lista_req.clean();
-            lista_req.create();
-            lista_req.refreshPanel();
-        }
         if (lista_dev.isResultOfASearch()) {
             lista_dev.getRequestList().reMake();
             lista_dev.destroySearch();
-            lista_dev.refreshPanel();
             if (lista_dev.isResultOfASearch()) {
                 if (jLabelLimpaPesquisaBaixo != null) {
                     jLabelLimpaPesquisaBaixo.setVisible(false);
@@ -5629,7 +6225,36 @@ public class KeyQuest extends javax.swing.JFrame {
             lista_dev.getRequestList().reMake();
             lista_dev.clean();
             lista_dev.create();
-            lista_dev.refreshPanel();
+        }
+    }
+
+    public static void refreshTables() {
+        if (lista_req.isResultOfASearch()) {
+            lista_req.destroySearch();
+            lista_req.getRequestList().reMake();
+            if (jLabelLimpaPesquisaCima != null) {
+                jLabelLimpaPesquisaCima.setVisible(false);
+            }
+            jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
+        } else {
+            lista_req.getRequestList().reMake();
+            lista_req.clean();
+            lista_req.create();
+
+        }
+        if (lista_dev.isResultOfASearch()) {
+            lista_dev.getRequestList().reMake();
+            lista_dev.destroySearch();
+            if (lista_dev.isResultOfASearch()) {
+                if (jLabelLimpaPesquisaBaixo != null) {
+                    jLabelLimpaPesquisaBaixo.setVisible(false);
+                }
+                jLabelTituloDevolucoes.setText(lingua.translate("lista_devolucoes"));
+            }
+        } else {
+            lista_dev.getRequestList().reMake();
+            lista_dev.clean();
+            lista_dev.create();
         }
     }
 
@@ -5649,6 +6274,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public static Langs.Locale getLanguage() {
         return lingua;
+
     }
 
     private static class PainelAuxiliar {

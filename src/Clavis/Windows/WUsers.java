@@ -871,13 +871,13 @@ public class WUsers extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
         if (getParentFrame() != null) {
+            getParentFrame().setLocation(this.getX(), this.getY());
+            getParentFrame().setVisible(true);
             if (selecionado != null) {
                 if (frame instanceof Clavis.Windows.WRequest) {
                     ((Clavis.Windows.WRequest) frame).updateSelectPerson(lpessoas, selecionado);
                 }
             }
-            getParentFrame().setLocation(this.getX(), this.getY());
-            getParentFrame().setVisible(true);
         }
     }
 

@@ -680,8 +680,10 @@ public class ButtonListRequest {
             java.util.Iterator<Keys.Subject> iter = req.getSubjects().iterator();
             String[] sdisciplinas = new String[req.getSubjects().size()];
             int i = 0;
+            Keys.Subject s;
             while (iter.hasNext()) {
-                sdisciplinas[i] = iter.next().getName();
+                s = iter.next();
+                sdisciplinas[i] = s.getName()+ " ("+ s.getCode() +")";
                 i++;
             }
             Components.PopUpMenu pop = new Components.PopUpMenu(sdisciplinas);

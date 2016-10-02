@@ -1059,10 +1059,16 @@ public class WRequest extends javax.swing.JFrame {
             db.setAutoCommit(false);
             java.sql.Savepoint ponto = db.createSavepoint("voltar");
             int i = 0;
-            int resultado = -1;
+            int resultado;
             boolean emprestado = false;
             while (i < mats.size()) {
                 if (!WRequest.isMaterialInLateState(mats.get(i), url)) {
+                    if ((data1.isBigger(data2) == 0)&&(tempo1.compareTime(tempo2) == 0)) {
+                        tempo2 = tempo2.addSeconds(60*10);
+                        if ((tempo2.getHour() == 0)&&(tempo1.getHour() == 23)) {
+                            data2 = data2.dateAfter(1);
+                        }
+                    }
                     resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
                     if (resultado < 1) {
                         break;
@@ -1099,6 +1105,11 @@ public class WRequest extends javax.swing.JFrame {
                 jComboBoxNomeUtilizador.setSelectedIndex(0);
                 jButtonAlgoMais.setBorder(null);
                 jButtonPesquisa.setBorder(null);
+                personalTextFieldEmailUtilizador.restartPlaceHolder();
+                personalTextFieldEmailUtilizador.showPLaceHolder();
+                personalTextFieldCodigoUtilizador.restartPlaceHolder();
+                personalTextFieldCodigoUtilizador.showPLaceHolder();
+                pessoaescolhida = null;
             }
             db.setAutoCommit(true);
             db.close();
@@ -1297,7 +1308,7 @@ public class WRequest extends javax.swing.JFrame {
                 }
             }
         });
-        BasicComboPopup popup = (BasicComboPopup)jComboBoxNomeUtilizador.getComboBox().getAccessibleContext().getAccessibleChild(0);
+        BasicComboPopup popup = (BasicComboPopup) jComboBoxNomeUtilizador.getComboBox().getAccessibleContext().getAccessibleChild(0);
         popup.getList().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -1607,6 +1618,12 @@ public class WRequest extends javax.swing.JFrame {
         int pos = jComboBoxNomeUtilizador.getSelectedIndex();
         jComboBoxNomeUtilizador.removeAllItems();
         lista.stream().forEach((p) -> {
+            p = new Keys.Person(p) {
+                @Override
+                public String toString() {
+                    return treatLongStrings(getName(), 80, jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().getFont());
+                }
+            };
             jComboBoxNomeUtilizador.addItem(p);
         });
         if (editar) {
@@ -1635,6 +1652,7 @@ public class WRequest extends javax.swing.JFrame {
             personalTextFieldCodigoUtilizador.setText("");
             personalTextFieldCodigoUtilizador.showPLaceHolder();
         }
+        this.changeStateButtons();
     }
 
     public void updateSelectPerson(java.util.List<Keys.Person> lista, Keys.Person pessoa) {
@@ -1642,9 +1660,16 @@ public class WRequest extends javax.swing.JFrame {
         int pos = -1;
         jComboBoxNomeUtilizador.removeAllItems();
         for (int i = 1; i < pessoas.size() + 1; i++) {
+            pessoas.set(i - 1, new Keys.Person(pessoas.get(i - 1)) {
+                @Override
+                public String toString() {
+                    return treatLongStrings(getName(), 80, jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().getFont());
+                }
+            });
             jComboBoxNomeUtilizador.addItem(pessoas.get(i - 1));
             if (pessoas.get(i - 1).compareTo(pessoa) == 0) {
                 pos = i;
+                pessoaescolhida = pessoas.get(i - 1);
             }
         }
         jComboBoxNomeUtilizador.setSelectedIndex(pos);
@@ -1660,6 +1685,10 @@ public class WRequest extends javax.swing.JFrame {
             } else {
                 personalTextFieldCodigoUtilizador.setText(pessoa.getIdentification());
             }
+        }
+        jLabelPessoa.requestFocus();
+        if (((int) jSpinnerQuantidade.getValue()) > 0) {
+            jButtonRequisitar.setEnabled(true);
         }
     }
 

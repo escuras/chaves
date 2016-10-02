@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -2382,7 +2383,7 @@ public class DataBase {
                                         sql = "insert into Requests (id_material,id_pessoa,data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,substituido,id_atividade,requisicao_conjunta) "
                                                 + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + "'csv',false,false,0," + id_atividade + "," + numero + ");";
+                                                + request.getWeekDay().getDayNumber() + ", 'csv',false,false,0," + id_atividade + "," + numero + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
                                         try {
@@ -2400,7 +2401,7 @@ public class DataBase {
                                         sql = "insert into Requests (id_material,id_pessoa, data_inicio,data_fim,hora_inicio,hora_fim,dia_semana,origem,ativo,terminado,substituido,id_atividade) "
                                                 + "values (" + id_material + "," + id_pessoa + ", STR_TO_DATE('" + request.getBeginDate().toString() + "','%d/%m/%Y'), STR_TO_DATE('" + request.getEndDate().toString() + "','%d/%m/%Y'), '"
                                                 + request.getTimeBegin().toString() + "','" + request.getTimeEnd().toString() + "',"
-                                                + request.getWeekDay().getDayNumber() + "'csv',false,false,0," + id_atividade + ");";
+                                                + request.getWeekDay().getDayNumber() + ", 'csv',false,false,0," + id_atividade + ");";
                                         tupdate = new Threads.InsertRequest(sql, con);
                                         tupdate.start();
                                         try {
@@ -2513,6 +2514,141 @@ public class DataBase {
             }
         }
 
+    }
+
+    public java.util.List<Statistic.TypeNumber> getCountTypeMaterialGraphicUse(Keys.TypeOfMaterial tipo) {
+        java.util.List<Statistic.TypeNumber> t = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                java.util.Set<Keys.Material> materiais = this.getMaterialsByType(tipo.getMaterialTypeID(), 2);
+                try {
+                    String sql;
+                    ResultSet rs;
+                    for (Keys.Material m : materiais) {
+                        sql = "select count(*) quantidade from Requests where id_material = " + m.getId() + " and substituido = 0;";
+                        rs = smt.executeQuery(sql);
+                        if (rs.next()) {
+                            t.add(new Statistic.TypeNumber(m, rs.getInt(1)));
+                        }
+                    }
+                    Collections.sort(t);
+                } catch (SQLException ex) {
+
+                }
+            }
+        }
+        return t;
+    }
+
+    public java.util.List<Statistic.UserNumberMaterial> getCountUserActivityGraphicUse(Keys.TypeOfMaterial tipo) {
+        java.util.List<Statistic.UserNumberMaterial> t = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                smt = null;
+            }
+            if (smt != null) {
+                try {
+                    String sql;
+                    ResultSet rs;
+                    sql = "select count(*) quantidade, id_pessoa from Requests where id_material in (select id_material from Materials where id_tipo = " + tipo.getMaterialTypeID() + ") and substituido = 0 group by id_pessoa";
+                    rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        Keys.Person p = this.getPerson(rs.getInt(2));
+                        t.add(new Statistic.UserNumberMaterial(p, tipo, rs.getInt(1)));
+                    }
+                    Collections.sort(t);
+                } catch (SQLException ex) {
+
+                }
+            }
+        }
+        return t;
+    }
+
+    public java.util.List<Statistic.MonthRequests> getCountAverageRequestsMonthGraphicUse(Keys.TypeOfMaterial tipo, int nmeses, boolean passado) {
+        java.util.List<Statistic.MonthRequests> t = new java.util.ArrayList<>();
+        if (this.isTie()) {
+            TimeDate.Date dat = new TimeDate.Date();
+            java.util.ArrayList<TimeDate.Date> meses = new java.util.ArrayList<>();
+            if (passado) {
+                int mes = dat.getMonth();
+                int ano = dat.getYear();
+                int i = 0;
+                int v = mes - 1;
+                int j = 0;
+                while (i < nmeses) {
+                    mes = v % 12 + 1;
+                    v--;
+                    dat.setMonth(mes);
+                    dat.setYear(ano - j);
+                    if (mes == 1) {
+                        v = 11;
+                        j++;
+                    }
+                    meses.add(new TimeDate.Date(1, dat.getMonth(), dat.getYear()));
+                    i++;
+                }
+            } else {
+                int mes = dat.getMonth();
+                int ano = dat.getYear();
+                int i = 0;
+                int v = mes - 1;
+                int j = 0;
+                while (i < nmeses) {
+                    mes = v % 12 + 1;
+                    v++;
+                    dat.setMonth(mes);
+                    dat.setYear(ano + j);
+                    if (v == 12) {
+                        v = 0;
+                        j++;
+                    }
+                    meses.add(new TimeDate.Date(1, dat.getMonth(), dat.getYear()));
+                    i++;
+                }
+            }
+            if (!meses.isEmpty()) {
+                Statement smt;
+                try {
+                    smt = con.createStatement();
+                } catch (SQLException e) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, e);
+                    smt = null;
+                }
+                if (smt != null) {
+                    try {
+
+                        String sql;
+                        String[] aux;
+                        ResultSet rs;
+                        for (TimeDate.Date m : meses) {
+                            aux = m.toString().split("/");
+                            sql = "select count(*)/(select count(DISTINCT(DATE_FORMAT(data_inicio,'%d'))) from Requests where DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "') from Requests where id_material in (select id_material from Materials where id_tipo = " + tipo.getMaterialTypeID() + ") and DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "' and substituido = 0 group by DATE_FORMAT(data_inicio,'%m/%Y')";
+                            rs = smt.executeQuery(sql);
+                            if (rs.next()) {
+                                t.add(new Statistic.MonthRequests(m, rs.getDouble(1), tipo));
+                            }
+                        }
+                        Collections.sort(t);
+                    } catch (SQLException ex) {
+
+                    }
+                }
+            }
+
+        }
+        return t;
     }
 
     public void associateSoftwareWithMaterial(Keys.Software soft, Keys.Material mat, boolean bool) {

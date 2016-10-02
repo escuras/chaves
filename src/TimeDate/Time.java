@@ -74,6 +74,29 @@ public class Time {
         this.segundos = tmr.getSecondOfMinute();
     }
     
+    public Time addSeconds(int segundos){
+        Time t = new Time();
+        int seg = this.segundos;
+        int min = this.minutos;
+        int hor = this.hora;
+        seg  += segundos;
+        while (seg > 59) {
+            min++;
+            seg -= 60;
+            if (min == 60) {
+                min = 0;
+                hor++;
+                if (hor == 24) {
+                    hor = 0;
+                }
+            }
+        }
+        t.setSeconds(seg);
+        t.setMinutes(min);
+        t.setHour(hor);
+        return t;
+    }
+    
     /**
      * @return the hora
      */
