@@ -1453,6 +1453,103 @@ public class DataBase {
         return -1;
     }
 
+    public int setRequestSubstitute(Keys.Request req) {
+        if (this.isTie()) {
+            Statement smt;
+            Statement smt2;
+            try {
+                smt = con.createStatement();
+                smt2 = con.createStatement();
+            } catch (SQLException e) {
+                smt = null;
+                smt2 = null;
+            }
+            if ((smt != null) && (smt2 != null)) {
+                try {
+                    int id_atividade = -1;
+                    if (!req.getActivity().equals("")) {
+                        id_atividade = this.getActivityID(req.getActivity());
+                    }
+                    int id_pessoa = req.getPerson().getId();
+                    if (id_pessoa <= 0) {
+                        id_pessoa = this.getPersonID(req.getPerson());
+                        if (id_pessoa <= 0) {
+                            return -1;
+                        }
+                    }
+                    int id_material = req.getMaterial().getId();
+                    if (id_material <= 0) {
+                        id_material = this.getMaterialID(req.getMaterial());
+                        if (id_material <= 0) {
+                            return -1;
+                        }
+                    }
+                    String sql;
+                    if (id_atividade >= 0) {
+                        sql = "insert into Requests (id_material, "
+                                + "id_pessoa, id_atividade, data_inicio, "
+                                + "data_fim, hora_inicio, hora_fim, "
+                                + "dia_semana, origem, requisicao_conjunta) values (" + id_material + ", " + id_pessoa + ""
+                                + ", " + id_atividade + ", STR_TO_DATE('" + req.getBeginDate().toString() + "','%d/%m/%Y')"
+                                + ", STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') "
+                                + ", STR_TO_DATE('" + req.getBeginDate().toString() + " " + req.getTimeBegin().toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", STR_TO_DATE('" + req.getEndDate().toString() + " " + req.getTimeEnd().toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local',"+req.getUnionRequest()+") ";
+                    } else {
+                        sql = "insert into Requests (id_material, "
+                                + "id_pessoa, data_inicio, "
+                                + "data_fim, hora_inicio, hora_fim, "
+                                + "dia_semana, origem, requisicao_conjunta) values (" + id_material + ", " + id_pessoa + ""
+                                + ", STR_TO_DATE('" + req.getBeginDate().toString() + "','%d/%m/%Y')"
+                                + ", STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') "
+                                + ", STR_TO_DATE('" + req.getBeginDate().toString() + " " + req.getTimeBegin().toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", STR_TO_DATE('" + req.getEndDate().toString() + " " + req.getTimeEnd().toString() + "','%d/%m/%Y %H:%i:%s') "
+                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local',"+req.getUnionRequest()+") ";
+                    }
+                    smt.executeUpdate(sql);
+                    int i = 0;
+                    int id_requisicao = this.getRequestID(id_pessoa, id_material, req.getBeginDate(), req.getEndDate(), req.getTimeBegin(), req.getTimeEnd());
+                    if (id_requisicao < 0) {
+                        return -1;
+                    }
+                    java.util.List<Keys.ClassStudents> turmas  = new java.util.ArrayList<>(this.getStudentsClassesAssociatedWithSimpleRequest(req.getId()));
+
+                    while (i < turmas.size()) {
+                        Keys.ClassStudents turma = turmas.get(i);
+                        this.associateRequestWithStudentClass(id_requisicao, turma.getCode());
+                        i++;
+                    }
+                    i = 0;
+                    java.util.List<Keys.Subject> disciplinas = new java.util.ArrayList<>(this.getSubjectsAssociatedWithSimpleRequest(req.getId()));
+                    while (i < disciplinas.size()) {
+                        Keys.Subject disciplina = disciplinas.get(i);
+                        int id_disciplina = disciplina.getId();
+                        if (id_disciplina <= 0) {
+                            id_disciplina = this.getSubjectID(disciplina);
+                            if (id_disciplina <= 0) {
+                                continue;
+                            }
+                        }
+                        this.associateRequestWithDiscipline(id_requisicao, id_disciplina);
+                        i++;
+                    }
+                    sql = "update Requests set substituido = '" + id_requisicao + "' where id_requisicao = " + req.getId() + ";";
+                    smt.executeUpdate(sql);
+                    return 1;
+                } catch (SQLException ex) {
+                    try {
+                        con.rollback();
+                    } catch (SQLException ex1) {
+                        Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+        return -1;
+    }
+
     public int getActivityID(String def) {
 
         if (this.isTie()) {
@@ -1478,7 +1575,7 @@ public class DataBase {
                     + " and DATE_FORMAT(data_fim,'%d/%m/%Y') = '" + datafim.toString() + "'"
                     + " and TIME_FORMAT(hora_inicio,'%H:%i:%s') = '" + tempoinicio.toString() + "'"
                     + " and TIME_FORMAT(hora_fim,'%H:%i:%s') = '" + tempofim.toString() + "'"
-                    + " and dia_semana = " + TimeDate.WeekDay.getDayWeek(datainicio) + ";";
+                    + " and dia_semana = " + TimeDate.WeekDay.getDayWeek(datainicio) + " and substituido = 0;";
             try {
                 Statement smt = con.createStatement();
                 ResultSet rs = smt.executeQuery(sql);
@@ -2450,7 +2547,7 @@ public class DataBase {
                         + "hora_inicio ='" + req.getTimeBegin().toString() + "' and "
                         + "hora_fim = '" + req.getTimeEnd().toString() + "' and "
                         + "dia_semana = " + req.getWeekDay().getDayNumber() + " and "
-                        + "origem = '" + req.getSource() + "';";
+                        + "origem = '" + req.getSource() + "' and substituido = 0;";
                 try {
                     rs = smt.executeQuery(sql);
                     if (rs.next()) {
@@ -4750,6 +4847,51 @@ public class DataBase {
         }
     }
 
+    public boolean isTheOnlyRequest(Keys.Request req, Date dat1, Date dat2, Time tim1, Time tim2) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException ex) {
+                smt = null;
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage());
+            }
+            if (smt != null) {
+                try {
+                    String sql;
+                    if (dat1.isBigger(dat2) == 0) {
+                        sql = "select id_requisicao from Requests "
+                                + "where id_material = " + req.getMaterial().getId() + " and (hora_inicio >  '" + tim1.toString() + "' and "
+                                + " hora_inicio < '" + tim2.toString() + "' or hora_fim > '" + tim1.toString() + "' "
+                                + "and hora_fim < '" + tim2.toString() + "' or '" + tim1.toString() + "' > hora_inicio and '" + tim1.toString() + "' < hora_fim or "
+                                + "'" + tim2.toString() + "' > hora_inicio and '" + tim2.toString() + "' < hora_fim or "
+                                + "'" + tim1.toString() + "' = hora_inicio and '" + tim2.toString() + "' = hora_fim )"
+                                + "and (data_inicio = STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') or data_fim = STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y')) and data_entrega is null and hora_entrega is null and requisicao_conjunta = 0 and substituido = 0;";
+                    } else {
+                        sql = "select id_requisicao from Requests "
+                                + "where id_material = " + req.getMaterial().getId() + " and (data_inicio between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or data_fim between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') between data_inicio and data_fim "
+                                + "or STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') between data_inicio and data_Fim ) and (hora_fim  >  '" + tim1.toString() + "' "
+                                + " and STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') = data_inicio  or STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') = data_fim and hora_inicio < '" + tim2.toString() + "' "
+                                + ""
+                                + ") and data_entrega is null and hora_entrega is null and requisicao_conjunta = 0 and substituido = 0;";
+                    }
+                    ResultSet rs = smt.executeQuery(sql);
+                    while (rs.next()) {
+                        if (rs.getInt(1) != req.getId()) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } catch (SQLException ex) {
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
+            }
+        }
+        return false;
+    }
+
     public Set<Material> getFreeMaterialsBetweenDates(int materialTypeID, Date dat1, Date dat2, Time tim1, Time tim2) {
         java.util.Set<Keys.Material> materiais = new java.util.TreeSet<>();
         if (this.isTie()) {
@@ -4778,7 +4920,8 @@ public class DataBase {
                                 + "TIME_FORMAT(hora_fim,'%H:%i:%s') hora_fim from Requests "
                                 + "where id_material = " + idmaterial + " and (data_inicio between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
                                 + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or data_fim between STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') "
-                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y')) and data_entrega is null and hora_entrega is null;";
+                                + "and STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') or STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') between "
+                                + " data_inicio and data_fim or STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') between data_inicio and data_Fim) and data_entrega is null and hora_entrega is null and substituido = 0;";
                         smt2 = con.createStatement();
                         rs3 = smt2.executeQuery(sql);
                         TimeDate.Time tinicio;
@@ -4815,7 +4958,7 @@ public class DataBase {
                                 tempo[2] = tempo[2].replaceFirst("0", "");
                             }
                             tinicio = new TimeDate.Time(Integer.valueOf(tempo[0]), Integer.valueOf(tempo[1]), Integer.valueOf(tempo[2]));
-                            if (dat1.isBigger(dat2) != 0) {
+                            if ((dat1.isBigger(dat2) != 0) || (dinicio.isBigger(dfim) != 0)) {
                                 if ((dinicio.isBigger(dat1) > 0) && (dfim.isBigger(dat1) < 0)) {
                                     passa = true;
                                     break;
@@ -4860,7 +5003,7 @@ public class DataBase {
                             } else if ((tfim.compareTime(tim1) < 0) && (tfim.compareTime(tim2) > 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tfim.compareTime(tim1) == 0) && (tfim.compareTime(tim2) == 0)) {
+                            } else if ((tinicio.compareTime(tim1) == 0) && (tfim.compareTime(tim2) == 0)) {
                                 passa = true;
                                 break;
                             }

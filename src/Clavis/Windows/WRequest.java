@@ -187,9 +187,7 @@ public class WRequest extends javax.swing.JFrame {
         jButtonRequisitar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 650));
         setMinimumSize(new java.awt.Dimension(900, 650));
-        setPreferredSize(new java.awt.Dimension(900, 650));
         setResizable(false);
         setSize(new java.awt.Dimension(900, 650));
 

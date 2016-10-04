@@ -6,13 +6,11 @@
 package Clavis.Windows;
 
 import Clavis.ButtonListRequest;
-import static Clavis.KeyQuest.systemColor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +19,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -628,6 +625,7 @@ public class WSeeRequest extends javax.swing.JFrame {
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        jTextPaneEstado.setEditable(false);
 
         jButtonConfirmaDevolucao.setBackground(new java.awt.Color(57, 147, 2));
         jButtonConfirmaDevolucao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -816,8 +814,6 @@ public class WSeeRequest extends javax.swing.JFrame {
     private void jButtonConfirmaDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaDevolucaoActionPerformed
         Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.ACAO, corborda, lingua.translate("Confirmar devolução"), 400, 200, lingua.translate("Pretende confirmar a devolução") + ". ", new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
         int val = mensagem.showMessage();
-        System.out.println(val);
-        System.out.println(selecionada.getId());
         if (val == 1) {
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);

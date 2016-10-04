@@ -129,7 +129,7 @@ public class PanelDetails extends JPanel {
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
             Font font = new Font("Cantarell", java.awt.Font.PLAIN, 13);
-            int texto = 0;
+            int texto;
             String auxiliar;
             paineis[0] = new JLabel();
             if (!this.imagemrecurso.equals("sem")) {
@@ -161,13 +161,14 @@ public class PanelDetails extends JPanel {
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
                 paineis[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
-
                 auxiliar = lingua.translate(titulos[i - 1]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
                 if (texto > tamanho_auxiliar.getWidth() - 100) {
                     while (texto >= tamanho_auxiliar.getWidth() - 100) {
-                        auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
-                        texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
+                        if (auxiliar.length() > 0) {
+                            auxiliar = auxiliar.substring(0, auxiliar.length() - 1);
+                            texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
+                        }
                     }
                     auxiliar = auxiliar + "... ";
                 }
@@ -182,14 +183,16 @@ public class PanelDetails extends JPanel {
                 multipla = resultados[i - 1].split(":::");
                 auxiliar = lingua.translate(multipla[0]);
                 if (multipla.length > 1) {
-                    Components.PopUpMenu pop = new Components.PopUpMenu(multipla,lingua);
+                    Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
                     pop.create();
                     paineis[i].addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
-                            if (!pop.isShowing()) pop.show(e.getComponent(), e.getX(), e.getY());
+                            if (!pop.isShowing()) {
+                                pop.show(e.getComponent(), e.getX(), e.getY());
+                            }
                         }
-                        
+
                         @Override
                         public void mouseEntered(MouseEvent e) {
                             pop.show(e.getComponent(), e.getX(), e.getY());
@@ -203,12 +206,14 @@ public class PanelDetails extends JPanel {
                     paineis2[i].addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
-                            if (!pop.isShowing()) pop.show(e.getComponent(), e.getX(), e.getY());
+                            if (!pop.isShowing()) {
+                                pop.show(e.getComponent(), e.getX(), e.getY());
+                            }
                         }
-                        
+
                         @Override
                         public void mouseEntered(MouseEvent e) {
-                            e.getComponent().setForeground(new Color(145,145,145));
+                            e.getComponent().setForeground(new Color(145, 145, 145));
                             pop.show(e.getComponent(), e.getX(), e.getY());
                         }
 
@@ -241,7 +246,7 @@ public class PanelDetails extends JPanel {
         } else {
             panel = new PanelDetails(lingua, color, textColor, nome_imagem, tiporecurso) {
                 private static final long serialVersionUID = 1L;
-                
+
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);

@@ -107,9 +107,7 @@ public class Feature implements Comparable<Feature>{
     public int compareTo(Feature o) {
         int val;
         if ((val = this.getDescription().toLowerCase().compareTo(o.getDescription().toLowerCase())) == 0) {
-            if ((val = this.getUnityMeasure().toLowerCase().compareTo(o.getUnityMeasure().toLowerCase())) == 0) {
-                return (int) (this.getNumber() - o.getNumber());
-            }
+            return this.getUnityMeasure().toLowerCase().compareTo(o.getUnityMeasure().toLowerCase()); 
         }
         return val;
     }

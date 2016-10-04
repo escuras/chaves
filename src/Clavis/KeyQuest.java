@@ -63,14 +63,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -165,6 +162,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextFieldCSV = new javax.swing.JTextField();
         personalToggleButton1 = new Components.PersonalToggleButton();
+        jButton1 = new javax.swing.JButton();
         jDialogSemestres = new javax.swing.JDialog();
         jPanel6 = new javax.swing.JPanel();
         comboDiaSemestre1 = new javax.swing.JComboBox<>();
@@ -890,8 +888,10 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jDialogDefBreaks.setTitle(lingua.translate("Editar_períodos_de_interrupção"));
 
-        jDialogDefOpcoes.setMinimumSize(new java.awt.Dimension(700, 500));
+        jDialogDefOpcoes.setMinimumSize(new java.awt.Dimension(700, 550));
+        jDialogDefOpcoes.setPreferredSize(new java.awt.Dimension(700, 550));
         jDialogDefOpcoes.setResizable(false);
+        jDialogDefOpcoes.setSize(new java.awt.Dimension(700, 550));
 
         jPanelDefOpcoes.setBackground(new java.awt.Color(254, 254, 254));
         jPanelDefOpcoes.setBorder(null);
@@ -1116,6 +1116,18 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(1, 1, 1));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButton1.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelDefOpcoesLayout = new javax.swing.GroupLayout(jPanelDefOpcoes);
         jPanelDefOpcoes.setLayout(jPanelDefOpcoesLayout);
         jPanelDefOpcoesLayout.setHorizontalGroup(
@@ -1152,7 +1164,8 @@ public class KeyQuest extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButtonLinguaMudaConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanelDefOpcoesLayout.setVerticalGroup(
@@ -1195,7 +1208,9 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addComponent(jTextFieldCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jLabelTituloDefOpcoes.setText(lingua.translate("Definições"));
@@ -1258,6 +1273,16 @@ public class KeyQuest extends javax.swing.JFrame {
 
         personalToggleButton1.setToolTipText(lingua.translate("Desbloquear"));
         personalToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon imo = new ImageIcon(im);
+                jButton1.setIcon(imo);
+            } else {
+                jButton1.setText(lingua.translate("Sair"));
+            }
+        } catch(IOException e) {}
+        jButton1.setToolTipText(lingua.translate("Sair"));
 
         javax.swing.GroupLayout jDialogDefOpcoesLayout = new javax.swing.GroupLayout(jDialogDefOpcoes.getContentPane());
         jDialogDefOpcoes.getContentPane().setLayout(jDialogDefOpcoesLayout);
@@ -1370,13 +1395,13 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCalcula, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(96, 96, 96))
+                .addGap(0, 0, 0))
         );
 
         jLabel13.setText(lingua.translate("Semestres")+":");
@@ -1558,15 +1583,19 @@ public class KeyQuest extends javax.swing.JFrame {
                             .addComponent(comboAnoSemestre2))
                         .addGap(20, 20, 20)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 303, Short.MAX_VALUE))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(comboSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(75, 75, 75))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(comboSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(65, 65, 65))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         DefaultComboBoxModel<String> modelo= new DefaultComboBoxModel<>();
@@ -4016,7 +4045,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldProcuraCimaFocusGained
 
     private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
-        Clavis.Windows.WChangeRequest wc = new Clavis.Windows.WChangeRequest(new Color(255,255,255), systemColor, urlbd, lingua, tipomaterial, requisicoes, lista_req.getSelectedRequest());
+        Clavis.Windows.WChangeRequest wc = new Clavis.Windows.WChangeRequest(new Color(255,255,255), systemColor, urlbd, lingua, lista_req.getSelectedRequest());
         wc.create();
         wc.appear();
     }//GEN-LAST:event_jButtonAtuacaoAlteraActionPerformed
@@ -4376,6 +4405,10 @@ public class KeyQuest extends javax.swing.JFrame {
         wc.create();
         wc.appear();
     }//GEN-LAST:event_jButtonAlteraDevolucaoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jDialogDefOpcoes.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void verifyValityofDates(String nome, int limite) {
         if (nome.length() <= limite) {
@@ -5735,6 +5768,7 @@ public class KeyQuest extends javax.swing.JFrame {
     javax.swing.JComboBox<String> comboMesSemestre1;
     javax.swing.JComboBox<String> comboMesSemestre2;
     javax.swing.JComboBox<String> comboSemestre;
+    javax.swing.JButton jButton1;
     static javax.swing.JButton jButtonAlteraDevolucao;
     static javax.swing.JButton jButtonAtuacaoAltera;
     static javax.swing.JButton jButtonAtuacaoConfirma;

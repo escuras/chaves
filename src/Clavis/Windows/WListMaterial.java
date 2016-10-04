@@ -9,32 +9,20 @@ import Clavis.ButtonListRequest;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
@@ -47,9 +35,7 @@ public class WListMaterial extends javax.swing.JFrame {
     private Color corfundo;
     private static String url;
     private static Langs.Locale lingua;
-    private List<Keys.TypeOfMaterial> tiposdematerial;
     private Keys.TypeOfMaterial tiposelecionado;
-    private Keys.Material selecionado;
     private static ButtonListRequest btTodos;
     private static ButtonListRequest btLivres;
     private static ButtonListRequest btOcupados;
@@ -68,8 +54,6 @@ public class WListMaterial extends javax.swing.JFrame {
         WListMaterial.url = url;
         WListMaterial.lingua = lingua;
         tiposelecionado = tipo;
-        selecionado = null;
-        tiposdematerial = new java.util.ArrayList<>();
         tabselecionada = -1;
         pesquisa = false;
         switch (ndias) {
@@ -119,21 +103,17 @@ public class WListMaterial extends javax.swing.JFrame {
                 }
             }
         });
-        jTabbedPaneMaterialBotoes.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (jTabbedPaneMaterialBotoes.getTabCount() > 1) {
-                    if (tabselecionada != jTabbedPaneMaterialBotoes.getSelectedIndex()) {
-                        tabselecionada = jTabbedPaneMaterialBotoes.getSelectedIndex();
-                        btTodos.clear();
-                        btOcupados.clear();
-                        btLivres.clear();
-                    }
-                } else if (btPesquisa != null) {
-                    btPesquisa.clear();
+        jTabbedPaneMaterialBotoes.addChangeListener((ChangeEvent e) -> {
+            if (jTabbedPaneMaterialBotoes.getTabCount() > 1) {
+                if (tabselecionada != jTabbedPaneMaterialBotoes.getSelectedIndex()) {
+                    tabselecionada = jTabbedPaneMaterialBotoes.getSelectedIndex();
+                    btTodos.clear();
+                    btOcupados.clear();
+                    btLivres.clear();
                 }
+            } else if (btPesquisa != null) {
+                btPesquisa.clear();
             }
-
         });
 
     }
@@ -612,8 +592,6 @@ public class WListMaterial extends javax.swing.JFrame {
             if (btPesquisa != null) {
                 btPesquisa.clear();
             }
-
-            //jLabelPesquisa.requestFocus();
         }
     }//GEN-LAST:event_jButtonLimparActionPerformed
 

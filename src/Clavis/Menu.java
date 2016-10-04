@@ -6,13 +6,8 @@
 package Clavis;
 
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.SystemColor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JMenuBar;
 
 /**
@@ -37,9 +32,7 @@ public class Menu extends JMenuBar {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        //GradientPaint paint = new GradientPaint(0,0,bgcolor,this.getWidth()/2,0,bgcolor,false);
         g2d.setColor(bgcolor);
-        //g2d.setPaint(paint);
         g2d.fillRect(0, 0, getWidth(), getHeight());
         
     }

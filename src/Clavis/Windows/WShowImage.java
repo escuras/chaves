@@ -38,6 +38,7 @@ public class WShowImage extends javax.swing.JDialog{
         panel.add(label);
         this.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         this.setContentPane(panel);
+        this.setResizable(false);
     }
     
     public void appear(){

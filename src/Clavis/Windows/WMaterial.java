@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -29,6 +30,7 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -242,7 +244,7 @@ public class WMaterial extends javax.swing.JDialog {
 
         //paineis
         jpanelesquerda.removeAll();
-        jpanelesquerda.setBorder(new org.jdesktop.swingx.border.DropShadowBorder(Color.BLACK, 3, 0.5f, 6, false, false, true, true));
+
         jpanelesquerda.add(this.makeTable(comboboxopcoes, model, true, comboboxopcoes.getSelectedIndex()));
 
         JPanel jpaneltituloesquerda = new javax.swing.JPanel();
@@ -252,9 +254,10 @@ public class WMaterial extends javax.swing.JDialog {
         JPanel jpaneltitulodireita = new javax.swing.JPanel(null);
         jpaneltitulodireita.setPreferredSize(new java.awt.Dimension(284, 40));
         javax.swing.JLabel labeltitulodireita = new javax.swing.JLabel(lingua.translate("Painéis de edição"));
-        labeltitulodireita.setPreferredSize(new Dimension(285, 30));
+        labeltitulodireita.setPreferredSize(new Dimension(280, 30));
         labeltitulodireita.setFont(new Font("Cantarell", Font.PLAIN, 14));
-        labeltitulodireita.setBounds(0, 0, 284, 30);
+        labeltitulodireita.setBounds(0, 0, 282, 30);
+        labeltitulodireita.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         labeltitulodireita.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         labeltitulodireita.setOpaque(true);
         labeltitulodireita.setBackground(new Color(250, 250, 250));
@@ -336,7 +339,7 @@ public class WMaterial extends javax.swing.JDialog {
                             db.associateFeatureWithMaterial(feat, mat);
                             if (db.isFeatureAssociatedWithMaterial(feat, mat)) {
                                 btmais.setEnabled(false);
-                                sppinerquantidade.setValue(new TimeDate.Date().getYear());
+                                sppinerquantidade.setValue(0);
                                 javax.swing.JTextField jt = (javax.swing.JTextField) comboboxdireitacima.getEditor().getEditorComponent();
                                 jt.setForeground(new Color(205, 205, 205));
                                 comboboxdireitacima.setSelectedIndex(0);
@@ -1308,7 +1311,6 @@ public class WMaterial extends javax.swing.JDialog {
                     }
                 }
             });
-
         }
         return panelscroll;
     }
@@ -1530,6 +1532,14 @@ public class WMaterial extends javax.swing.JDialog {
                                     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
                                     modelo.removeRow(val);
                                     tabela.clearSelection();
+                                    Rectangle r;
+                                    int altura = 0;
+                                    tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
+                                    for (int x = 0; x < modelo.getRowCount(); x++) {
+                                        altura += tabela.getRowHeight();
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        
+                                    }
                                     lsoft.remove(val);
                                     btoogleditar.setSelected(false);
                                     tdescricaoeditar.setText(lingua.translate("Nome do programa"));
@@ -1689,6 +1699,14 @@ public class WMaterial extends javax.swing.JDialog {
                                     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
                                     modelo.removeRow(val);
                                     tabela.clearSelection();
+                                    Rectangle r;
+                                    int altura = 0;
+                                    tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
+                                    for (int x = 0; x < modelo.getRowCount(); x++) {
+                                        altura += tabela.getRowHeight();
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        
+                                    }
                                     ldis.remove(val);
                                     btoogleditar.setSelected(true);
                                     labeldisciplina.setText(lingua.translate("Nome da disciplina"));
@@ -1859,6 +1877,14 @@ public class WMaterial extends javax.swing.JDialog {
                                     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
                                     modelo.removeRow(val);
                                     tabela.clearSelection();
+                                    Rectangle r;
+                                    int altura = 0;
+                                    tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
+                                    for (int x = 0; x < modelo.getRowCount(); x++) {
+                                        altura += tabela.getRowHeight();
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        
+                                    }
                                     lfeat.remove(val);
                                     btoogleditar.setSelected(true);
                                     btoogleditar.setEnabled(false);

@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -157,6 +156,7 @@ public final class ActionButton extends javax.swing.JDialog {
         labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
         labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         labelativa.setOpaque(true);
+        labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         labelativa.setBackground(new Color(250, 250, 250));
         atraso = -TableRequest.DEFAULT_LATE_INTERVAL * 60;
         this.btchamada = btchamada;
@@ -189,6 +189,7 @@ public final class ActionButton extends javax.swing.JDialog {
         label1.setPreferredSize(new Dimension(181, 30));
         label1.setOpaque(true);
         label1.setForeground(Color.BLACK);
+        label1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         label1.setBackground(new Color(250, 250, 250));
         label1.setFont(new Font("Cantarell", Font.PLAIN, 14));
         label1.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -1857,6 +1858,7 @@ public final class ActionButton extends javax.swing.JDialog {
                     labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                     labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     labelativa.setOpaque(true);
+                    labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     labelativa.setBackground(new Color(250, 250, 250));
                     painel2.setBackground(new Color(246, 255, 248));
                     atrasado = false;
@@ -1867,6 +1869,7 @@ public final class ActionButton extends javax.swing.JDialog {
                     labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                     labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     labelativa.setOpaque(true);
+                    labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     labelativa.setBackground(new Color(250, 250, 250));
                     painel2.setBackground(new Color(255, 246, 248));
                     atrasado = true;
@@ -1877,6 +1880,7 @@ public final class ActionButton extends javax.swing.JDialog {
                     labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                     labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     labelativa.setOpaque(true);
+                    labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     labelativa.setBackground(new Color(250, 250, 250));
                     painel2.setBackground(new Color(255, 246, 248));
                     atrasado = true;
@@ -1884,6 +1888,7 @@ public final class ActionButton extends javax.swing.JDialog {
                 } else {
                     labelativa = new javax.swing.JLabel(lingua.translate("Requisitado por"));
                     labelativa.setPreferredSize(new Dimension(181, 32));
+                    labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                     labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                     painel2.setBackground(new Color(245, 245, 220));
@@ -1895,6 +1900,7 @@ public final class ActionButton extends javax.swing.JDialog {
             } else if ((!mat.isLoaned()) || (!emprestado)) {
                 labelativa = new javax.swing.JLabel(lingua.translate("Próxima requisição"));
                 labelativa.setPreferredSize(new Dimension(181, 32));
+                labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 labelativa.setOpaque(true);
@@ -1908,6 +1914,7 @@ public final class ActionButton extends javax.swing.JDialog {
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 labelativa.setOpaque(true);
+                labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 labelativa.setBackground(new Color(250, 250, 250));
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
@@ -1918,6 +1925,7 @@ public final class ActionButton extends javax.swing.JDialog {
                 labelativa.setFont(new Font("Cantarell", Font.PLAIN, 14));
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 labelativa.setOpaque(true);
+                labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 labelativa.setBackground(new Color(250, 250, 250));
                 painel2.setBackground(new Color(255, 246, 248));
                 atrasado = true;
@@ -1929,6 +1937,7 @@ public final class ActionButton extends javax.swing.JDialog {
                 labelativa.setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 painel2.setBackground(new Color(245, 245, 220));
                 labelativa.setOpaque(true);
+                labelativa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 labelativa.setBackground(new Color(250, 250, 250));
                 atrasado = false;
                 dia = false;

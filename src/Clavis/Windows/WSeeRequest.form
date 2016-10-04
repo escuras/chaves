@@ -847,7 +847,7 @@
                         </Property>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="StyledDocument doc = jTextPaneEstado.getStyledDocument();&#xa;SimpleAttributeSet center = new SimpleAttributeSet();&#xa;StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);&#xa;doc.setParagraphAttributes(0, doc.getLength(), center, false);"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="StyledDocument doc = jTextPaneEstado.getStyledDocument();&#xa;SimpleAttributeSet center = new SimpleAttributeSet();&#xa;StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);&#xa;doc.setParagraphAttributes(0, doc.getLength(), center, false);&#xa;jTextPaneEstado.setEditable(false);"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>

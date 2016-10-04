@@ -172,6 +172,7 @@ public class PersonalCombo {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.out.println(perdefocus);
                     if (perdefocus != null) {
                         perdefocus.requestFocus();
                     }

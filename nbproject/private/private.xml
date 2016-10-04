@@ -68,6 +68,7 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Langs/MensagemBundle_es_ES.properties</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Keys/Software.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WMaterial.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WShowImage.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Components/PersonalLabel.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Statistic/UserNumber.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/popupmenu.java</file>
@@ -103,9 +104,9 @@
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Utils/EncryptDecrypt.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/TimeDate/BreakPeriodList.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WSearch.java</file>
-            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WChangeRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WListMaterial.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/PieChart_AWT.java</file>
+            <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/Windows/WChangeRequest.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/src/Clavis/FileBreakPeriods.java</file>
             <file>file:/home/toze/Documentos/NetBeansProjects/chaves/test/Testes/jasonteste.java</file>
         </group>

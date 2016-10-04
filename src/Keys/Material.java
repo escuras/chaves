@@ -226,11 +226,11 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
 
     @Override
     public int compareTo(Material o) {
-        if ((o.getCodeOfMaterial().equals(this.getCodeOfMaterial()))&&(o.getDescription().toLowerCase().equals(this.getDescription().toLowerCase()))) {
-            return 0;
-        } else {
-            return 1; 
+        int valor = this.getDescription().toLowerCase().compareTo(o.getDescription().toLowerCase());
+        if (valor == 0) {
+            valor = this.getCodeOfMaterial().compareTo(o.getCodeOfMaterial());
         }
+        return valor;
     }
 
     /**

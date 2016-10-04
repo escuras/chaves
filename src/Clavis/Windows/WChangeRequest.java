@@ -9,19 +9,34 @@ import Clavis.ButtonListRequest;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Savepoint;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  *
@@ -32,24 +47,30 @@ public class WChangeRequest extends javax.swing.JFrame {
     /**
      * Creates new form WChangeRequest
      */
+    public static final Color COLOR_PANEL = new Color(245, 250, 250);
     private Color corfundo;
     private Color corborda;
     private String url;
     private Langs.Locale lingua;
-    private Keys.TypeOfMaterial tipo;
-    private int ndias;
-    private Clavis.RequestList requisicoes;
     private Keys.Request selecionada;
     private BufferedImage imagem;
+    private Components.PersonalCombo jComboBoxMaterial;
+    private java.util.List<Keys.Material> mlista;
+    private TimeDate.Date data1;
+    private TimeDate.Date data2;
+    private TimeDate.Time tempo1;
+    private TimeDate.Time tempo2;
+    private Keys.Material mselecionado;
+    private Color colorpanel;
 
-    public WChangeRequest(Color corfundo, Color corborda, String url, Langs.Locale lingua, Keys.TypeOfMaterial tipo, Clavis.RequestList requisicoes, Keys.Request selecionada) {
+    public WChangeRequest(Color corfundo, Color corborda, String url, Langs.Locale lingua, Keys.Request selecionada) {
         this.corfundo = corfundo;
         this.corborda = corborda;
         this.lingua = lingua;
-        this.tipo = tipo;
-        this.requisicoes = requisicoes;
         this.selecionada = selecionada;
-
+        mlista = null;
+        this.url = url;
+        this.colorpanel = COLOR_PANEL;
     }
 
     public void create() {
@@ -80,7 +101,45 @@ public class WChangeRequest extends javax.swing.JFrame {
         }
         this.makeFileRequest();
         this.addBehaviorToLabelImage();
+        System.out.println(selecionada.getTimeBegin().toString());
+        this.jSpinnerDataEntrega.setValue(this.toSystemDate(selecionada.getEndDate().toString()));
+        this.jSpinnerDataLevantamento.setValue(this.toSystemDate(selecionada.getBeginDate().toString()));
+        this.jSpinnerHoraEntrega.setValue(this.toSystemTime(selecionada.getTimeEnd().toString()));
+        this.jSpinnerHoraLevantamento.setValue(this.toSystemTime(selecionada.getTimeBegin().toString()));
+        this.makeValidDate();
+        this.makeComboBoxMaterial(selecionada.getBeginDate(), selecionada.getEndDate(), selecionada.getTimeBegin(), selecionada.getTimeEnd());
+        jLabelRequisicaoNova.requestFocus();
+        DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxM.getModel();
+        if (mlista != null) {
+            for (int i = 0; i < mlista.size(); i++) {
+                if (mlista.get(i).compareTo(selecionada.getMaterial()) == 0) {
+                    jComboBoxMaterial.setSelectedIndex(i + 1);
+                    break;
+                }
+            }
+        }
+    }
 
+    private Date toSystemDate(String value) {
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyyy");
+        Date date = null;
+        try {
+            date = dt.parse(value);
+        } catch (ParseException ex) {
+            Logger.getLogger(WChangeRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
+    }
+
+    private Date toSystemTime(String value) {
+        SimpleDateFormat dt = new SimpleDateFormat("HH:mm:ss");
+        Date date = null;
+        try {
+            date = dt.parse(value);
+        } catch (ParseException ex) {
+            Logger.getLogger(WChangeRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
     }
 
     public void appear() {
@@ -96,10 +155,67 @@ public class WChangeRequest extends javax.swing.JFrame {
         jPanelInicial.setBorder(BorderFactory.createCompoundBorder(b, BorderFactory.createLineBorder(Color.BLACK)));
         jPanelInicial.setBackground(corfundo);
     }
-    
-    private void makeFileRequest(){
+
+    private void makeComboBoxMaterial(TimeDate.Date dat1, TimeDate.Date dat2, TimeDate.Time tim1, TimeDate.Time tim2) {
+        if (DataBase.DataBase.testConnection(url)) {
+            DataBase.DataBase db = new DataBase.DataBase(url);
+            mlista = new java.util.ArrayList<>(db.getFreeMaterialsBetweenDates(selecionada.getMaterial().getMaterialTypeID(), dat1, dat2, tim1, tim2));
+            if (db.isTheOnlyRequest(selecionada, dat1, dat2, tim1, tim2)) {
+                boolean t = true;
+                for (int i = 0; i < mlista.size(); i++) {
+                    if (mlista.get(i).compareTo(selecionada.getMaterial()) == 0) {
+                        t = false;
+                        break;
+                    }
+                }
+                if (t) {
+                    mlista.add(selecionada.getMaterial());
+                }
+            }
+            db.close();
+            Collections.sort(mlista);
+            DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+            modelo.removeAllElements();
+            modelo.addElement("");
+            for (int i = 0; i < mlista.size(); i++) {
+                if (mlista.get(i).getMaterialTypeID() == 1) {
+                    mlista.set(i, new Keys.Material(mlista.get(i)) {
+                        @Override
+                        public String toString() {
+                            return this.getTypeOfMaterialName() + " " + this.getDescription();
+                        }
+                    });
+                }
+                modelo.addElement(mlista.get(i).toString());
+            }
+            jComboBoxMaterial.setSelectedIndex(0);
+        }
+    }
+
+    private boolean checkHolidays() {
+        TimeDate.Date dinicio = this.getDate(jSpinnerDataLevantamento);
+        TimeDate.Date dfim = this.getDate(jSpinnerDataEntrega);
+        if (dinicio != null) {
+            boolean vai_e_vem = false;
+            TimeDate.HolidaysList feriados = Clavis.KeyQuest.getHolidays();
+            for (TimeDate.Holiday hol : feriados.getHolidays()) {
+                if ((hol.getDay() == dinicio.getDay()) && (hol.getMonth() == dinicio.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if ((hol.getDay() == dfim.getDay()) && (hol.getMonth() == dfim.getMonth())) {
+                    vai_e_vem = true;
+                }
+                if (vai_e_vem) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void makeFileRequest() {
         jLabelUtilizador2.setText(Clavis.Windows.WRequest.treatLongStrings(selecionada.getPerson().getName(), 100, jLabelRecurso2.getFont()));
-        jLabelRecurso2.setText(lingua.translate(selecionada.getMaterial().getTypeOfMaterialName())+" "+selecionada.getMaterial().getDescription());
+        jLabelRecurso2.setText(lingua.translate(selecionada.getMaterial().getTypeOfMaterialName()) + " " + selecionada.getMaterial().getDescription());
         jLabelInicioData2.setText(selecionada.getBeginDate().toStringWithMonthWord(lingua));
         jLabelInicioHora2.setText(selecionada.getTimeBegin().toString(0));
         jLabelFimData2.setText(selecionada.getEndDate().toStringWithMonthWord(lingua));
@@ -130,7 +246,7 @@ public class WChangeRequest extends javax.swing.JFrame {
             Keys.Subject s;
             while (iter.hasNext()) {
                 s = iter.next();
-                sdisciplinas[i] = s.getName()+ " ("+ s.getCode() +")";
+                sdisciplinas[i] = s.getName() + " (" + s.getCode() + ")";
                 i++;
             }
             Components.PopUpMenu pop = new Components.PopUpMenu(sdisciplinas);
@@ -148,8 +264,7 @@ public class WChangeRequest extends javax.swing.JFrame {
             });
             jLabelDisciplina2.setText(lingua.translate("Múltiplas disciplinas"));
         }
-        
-        
+
     }
 
     private void addBehaviorToLabelImage() {
@@ -162,7 +277,6 @@ public class WChangeRequest extends javax.swing.JFrame {
                 ws.appear();
             }
 
-          
             @Override
             public void mouseEntered(MouseEvent e) {
                 jLabelImagem.setIcon(new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.makeWhiter(imagem, 80), 95, 90)));
@@ -209,9 +323,28 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelDisciplina = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanelAlteracao = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jSpinnerHoraLevantamento = new javax.swing.JSpinner();
+        jSpinnerDataLevantamento = new javax.swing.JSpinner();
+        jXLabelLevantamento = new org.jdesktop.swingx.JXLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabelNovasDatas = new javax.swing.JLabel();
+        jComboBoxMaterial = new Components.PersonalCombo(jLabelUtilizador);
+        jComboBoxM = jComboBoxMaterial.getComboBox();
+        jPanel6 = new javax.swing.JPanel();
+        jSpinnerHoraEntrega = new javax.swing.JSpinner();
+        jSpinnerDataEntrega = new javax.swing.JSpinner();
+        jLabelEntrega2 = new org.jdesktop.swingx.JXLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelMaterial = new javax.swing.JLabel();
         jLabelRequisicaoVelha = new javax.swing.JLabel();
         jLabelImagem = new javax.swing.JLabel();
-        jLabelRequisicaoVelha1 = new javax.swing.JLabel();
+        jLabelRequisicaoNova = new javax.swing.JLabel();
+        jButtonSair = new javax.swing.JButton();
+        jButtonConfirmarAlteracao = new javax.swing.JButton();
+        jButtonEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
@@ -455,24 +588,214 @@ public class WChangeRequest extends javax.swing.JFrame {
         dropShadowBorder10.setShowLeftShadow(true);
         jPanel2.setBorder(dropShadowBorder10);
 
-        jPanelAlteracao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelAlteracao.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder11.setCornerSize(6);
+        dropShadowBorder11.setShadowSize(2);
+        dropShadowBorder11.setShowLeftShadow(true);
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder11, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))), null));
+
+        jSpinnerHoraLevantamento.setMaximumSize(new java.awt.Dimension(148, 30));
+        jSpinnerHoraLevantamento.setMinimumSize(new java.awt.Dimension(148, 30));
+        jSpinnerHoraLevantamento.setPreferredSize(new java.awt.Dimension(148, 30));
+
+        jSpinnerDataLevantamento.setPreferredSize(new java.awt.Dimension(148, 30));
+
+        jXLabelLevantamento.setBackground(new java.awt.Color(238, 240, 238));
+        jXLabelLevantamento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jXLabelLevantamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jXLabelLevantamento.setMaximumSize(new java.awt.Dimension(269, 30));
+        jXLabelLevantamento.setMinimumSize(new java.awt.Dimension(269, 30));
+        jXLabelLevantamento.setOpaque(true);
+        jXLabelLevantamento.setPreferredSize(new java.awt.Dimension(269, 30));
+
+        jLabel1.setText("Data:");
+
+        jLabel2.setText("Hora:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jXLabelLevantamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinnerDataLevantamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSpinnerHoraLevantamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jXLabelLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinnerDataLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerHoraLevantamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) jSpinnerHoraLevantamento.getEditor();
+        spinnerEditor.getTextField().setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jSpinnerHoraLevantamento.setModel(new SpinnerDateModel());
+        jSpinnerHoraLevantamento.setEditor(new JSpinner.DateEditor(jSpinnerHoraLevantamento, "HH:mm"));
+        javax.swing.JFormattedTextField ff = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerHoraLevantamento.getEditor()).getComponent(0);
+        ff.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jSpinnerDataLevantamento.setModel(new SpinnerDateModel());
+        jSpinnerDataLevantamento.setEditor(new JSpinner.DateEditor(jSpinnerDataLevantamento, "dd/MM/yyyy"));
+        javax.swing.JFormattedTextField ff2 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataLevantamento.getEditor()).getComponent(0);
+        ff2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jXLabelLevantamento.setText(lingua.translate("Início da requisição"));
+
+        jLabelNovasDatas.setMaximumSize(new java.awt.Dimension(444444, 26));
+        jLabelNovasDatas.setMinimumSize(new java.awt.Dimension(104, 26));
+        jLabelNovasDatas.setPreferredSize(new java.awt.Dimension(104, 26));
+
+        jComboBoxMaterial.setHelpText(lingua.translate("Escolha de recurso")+" ...");
+        jComboBoxM.setMinimumSize(new java.awt.Dimension(35, 28));
+        jComboBoxM.setPreferredSize(new java.awt.Dimension(35, 28));
+
+        jPanel6.setBackground(new java.awt.Color(250, 250, 250));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder12 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder12.setCornerSize(6);
+        dropShadowBorder12.setShadowSize(2);
+        dropShadowBorder12.setShowLeftShadow(true);
+        jPanel6.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder12, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+
+        jSpinnerHoraEntrega.setMaximumSize(new java.awt.Dimension(148, 30));
+        jSpinnerHoraEntrega.setMinimumSize(new java.awt.Dimension(148, 30));
+        jSpinnerHoraEntrega.setPreferredSize(new java.awt.Dimension(148, 30));
+
+        jSpinnerDataEntrega.setPreferredSize(new java.awt.Dimension(148, 30));
+
+        jLabelEntrega2.setBackground(new java.awt.Color(240, 238, 238));
+        jLabelEntrega2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabelEntrega2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelEntrega2.setMaximumSize(new java.awt.Dimension(260, 30));
+        jLabelEntrega2.setMinimumSize(new java.awt.Dimension(269, 30));
+        jLabelEntrega2.setOpaque(true);
+        jLabelEntrega2.setPreferredSize(new java.awt.Dimension(269, 30));
+
+        jLabel7.setText("Data:");
+
+        jLabel8.setText("Hora:");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelEntrega2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinnerDataEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSpinnerHoraEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelEntrega2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinnerDataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSpinnerHoraEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jSpinnerHoraEntrega.setModel(new SpinnerDateModel());
+        jSpinnerHoraEntrega.setEditor(new JSpinner.DateEditor(jSpinnerHoraEntrega, "HH:mm"));
+        javax.swing.JFormattedTextField ffjSpinnerHoraEntrega2 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerHoraEntrega.getEditor()).getComponent(0);
+        ffjSpinnerHoraEntrega2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jSpinnerDataEntrega.setModel(new SpinnerDateModel());
+        jSpinnerDataEntrega.setEditor(new JSpinner.DateEditor(jSpinnerDataEntrega, "dd/MM/yyyy"));
+        javax.swing.JFormattedTextField ffSpinner4 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataEntrega.getEditor()).getComponent(0);
+        ffSpinner4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jLabelEntrega2.setText(lingua.translate("Fim da requisição"));
+
+        jLabelMaterial.setMaximumSize(new java.awt.Dimension(444444, 26));
+        jLabelMaterial.setMinimumSize(new java.awt.Dimension(104, 26));
+        jLabelMaterial.setPreferredSize(new java.awt.Dimension(104, 26));
 
         javax.swing.GroupLayout jPanelAlteracaoLayout = new javax.swing.GroupLayout(jPanelAlteracao);
         jPanelAlteracao.setLayout(jPanelAlteracaoLayout);
         jPanelAlteracaoLayout.setHorizontalGroup(
             jPanelAlteracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGroup(jPanelAlteracaoLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanelAlteracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAlteracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabelNovasDatas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                        .addComponent(jLabelMaterial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelAlteracaoLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanelAlteracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAlteracaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBoxM, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         jPanelAlteracaoLayout.setVerticalGroup(
             jPanelAlteracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGroup(jPanelAlteracaoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabelMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelNovasDatas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
+
+        org.jdesktop.swingx.border.DropShadowBorder dropShadow = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadow.setCornerSize(6);
+        dropShadow.setShadowSize(3);
+        dropShadow.setShowLeftShadow(true);
+        jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadow, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        jLabelNovasDatas.setText(lingua.translate("Novas datas")+": ");
+        jComboBoxMaterial.create();
+        jComboBoxMaterial.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
+        jLabelMaterial.setText(lingua.translate("Recurso")+": ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelAlteracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanelAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,19 +807,53 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelRequisicaoVelha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, this.corfundo), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jLabelRequisicaoVelha.setOpaque(true);
 
-        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
-        dropShadowBorder11.setCornerSize(6);
-        dropShadowBorder11.setShadowSize(2);
-        dropShadowBorder11.setShowLeftShadow(true);
-        dropShadowBorder11.setShowTopShadow(true);
-        jLabelImagem.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder11, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder13 = new org.jdesktop.swingx.border.DropShadowBorder();
+        dropShadowBorder13.setCornerSize(6);
+        dropShadowBorder13.setShadowSize(2);
+        dropShadowBorder13.setShowLeftShadow(true);
+        dropShadowBorder13.setShowTopShadow(true);
+        jLabelImagem.setBorder(javax.swing.BorderFactory.createCompoundBorder(dropShadowBorder13, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
         jLabelImagem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelImagem.setOpaque(true);
 
-        jLabelRequisicaoVelha1.setBackground(new java.awt.Color(245, 245, 245));
-        jLabelRequisicaoVelha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelRequisicaoVelha1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, this.corfundo), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
-        jLabelRequisicaoVelha1.setOpaque(true);
+        jLabelRequisicaoNova.setBackground(new java.awt.Color(245, 245, 245));
+        jLabelRequisicaoNova.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelRequisicaoNova.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, this.corfundo), javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+        jLabelRequisicaoNova.setOpaque(true);
+
+        jButtonSair.setBackground(new java.awt.Color(1, 1, 1));
+        jButtonSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonSair.setFocusPainted(false);
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
+
+        jButtonConfirmarAlteracao.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonConfirmarAlteracao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonConfirmarAlteracao.setEnabled(false);
+        jButtonConfirmarAlteracao.setFocusPainted(false);
+        jButtonConfirmarAlteracao.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonConfirmarAlteracao.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonConfirmarAlteracao.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonConfirmarAlteracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmarAlteracaoActionPerformed(evt);
+            }
+        });
+
+        jButtonEditar.setBackground(new java.awt.Color(51, 102, 203));
+        jButtonEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonEditar.setFocusPainted(false);
+        jButtonEditar.setMaximumSize(new java.awt.Dimension(90, 40));
+        jButtonEditar.setMinimumSize(new java.awt.Dimension(90, 40));
+        jButtonEditar.setPreferredSize(new java.awt.Dimension(90, 40));
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelInicialLayout = new javax.swing.GroupLayout(jPanelInicial);
         jPanelInicial.setLayout(jPanelInicialLayout);
@@ -504,18 +861,25 @@ public class WChangeRequest extends javax.swing.JFrame {
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelInicialLayout.createSequentialGroup()
+                            .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelRequisicaoVelha, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelRequisicaoVelha, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)))
+                        .addComponent(jButtonConfirmarAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelRequisicaoVelha1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelRequisicaoNova, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,35 +893,568 @@ public class WChangeRequest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jLabelRequisicaoVelha1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelRequisicaoNova, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(9418, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConfirmarAlteracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jLabelRequisicaoVelha.setText(lingua.translate("Dados da requisição"));
-        jLabelRequisicaoVelha.setText(lingua.translate("Dados da requisição"));
+        jLabelRequisicaoNova.setText(lingua.translate("Dados para alteração"));
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/exit26x24.png"));
+                ImageIcon imo = new ImageIcon(im);
+                jButtonSair.setIcon(imo);
+            } else {
+                jButtonSair.setText(lingua.translate("Sair"));
+            }
+        } catch(IOException e) {}
+        jButtonSair.setToolTipText(lingua.translate("Sair"));
+        jButtonConfirmarAlteracao.setToolTipText(lingua.translate("Comfirme os novos valores")+".");
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/ok.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
+                ImageIcon imo = new ImageIcon(im);
+                jButtonConfirmarAlteracao.setIcon(imo);
+            } else {
+                jButtonConfirmarAlteracao.setText(lingua.translate("Confirmar"));
+            }
+        } catch(IOException e) {}
+        jButtonEditar.setToolTipText(lingua.translate("Registe os novos valores")+".");
+        try {
+            if (Clavis.KeyQuest.class.getResource("Images/substituir.png") != null) {
+                BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/substituir.png"));
+                ImageIcon imo = new ImageIcon(im);
+                jButtonEditar.setIcon(imo);
+            } else {
+                jButtonEditar.setText(lingua.translate("Editar"));
+            }
+        } catch(IOException e) {}
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 943, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 9908, Short.MAX_VALUE)
+            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+        TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+        TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+        TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+        if (jComboBoxM.getSelectedIndex() > 0) {
+            if (!checkForTheSameRequest()) {
+                if (!this.checkHolidays()) {
+                    jButtonConfirmarAlteracao.setEnabled(true);
+                    int val = jComboBoxMaterial.getSelectedIndex() - 1;
+                    mselecionado = mlista.get(val);
+                    jLabelRecurso2.setText(mselecionado.toString());
+                    jLabelInicioData2.setText(dat1.toString());
+                    jLabelFimData2.setText(dat2.toString());
+                    jLabelInicioHora2.setText(tim1.toString(0));
+                    jLabelFimHora2.setText(tim2.toString(0));
+                    jPanelDados.setBackground(new Color(255, 250, 250));
+                    data1 = dat1;
+                    data2 = dat2;
+                    tempo1 = tim1;
+                    tempo2 = tim2;
+                } else {
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("As datas escolhidas colidem com feriados") + ".", new String[]{"Voltar"});
+                    mensagem.showMessage();
+                }
+            } else {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("A requisição tem os mesmos valores da original") + ".", new String[]{"Voltar"});
+                mensagem.showMessage();
+            }
+        } else {
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("Escolha um recurso") + ".", new String[]{"Voltar"});
+            mensagem.showMessage();
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonConfirmarAlteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarAlteracaoActionPerformed
+        if (mselecionado != null) {
+            if (DataBase.DataBase.testConnection(url)) {
+                DataBase.DataBase db = new DataBase.DataBase(url);
+                db.setAutoCommit(false);
+                Savepoint p = db.createSavepoint("ssss");
+                java.util.Set<Keys.Request> lista = db.getUnionRequests(selecionada);
+                if (lista.size() > 0) {
+                    if (data1.isBigger(data2) == 0) {
+                        int tnovo = tempo1.compareTime(tempo2);
+                        int toriginal = selecionada.getTimeBegin().compareTime(selecionada.getTimeEnd());
+                        Keys.Request auxiliar = db.getRequestByID(selecionada.getId());
+                        int vprimeiro = auxiliar.getTimeBegin().compareTime(auxiliar.getTimeEnd());
+                        vprimeiro = tnovo * vprimeiro / toriginal;
+                        TimeDate.Time tauxiliar = tempo1.addSeconds(vprimeiro);
+                        tauxiliar.setSeconds(0);
+                        auxiliar.setTimeBegin(tempo1);
+                        auxiliar.setTimeEnd(tauxiliar);
+                        auxiliar.setBeginDate(data1);
+                        auxiliar.setEndDate(data2);
+                        auxiliar.setMaterial(mselecionado);
+                        if (db.setRequestSubstitute(auxiliar) != 1) {
+                            db.roolback(p);
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                            mensagem.showMessage();
+                            return;
+                        }
+                        int id = db.getRequestID(auxiliar.getPerson().getId(), auxiliar.getMaterial().getId(), auxiliar.getBeginDate(), auxiliar.getEndDate(), auxiliar.getTimeBegin(), auxiliar.getTimeEnd());
+                        int vsegundos;
+                        for (Keys.Request l : lista) {
+                            int gol = l.getTimeBegin().compareTime(l.getTimeEnd());
+                            vsegundos = (int) (tnovo * gol / toriginal);
+                            l.setTimeBegin(tauxiliar);
+                            l.setUnionRequest(id);
+                            tauxiliar = tauxiliar.addSeconds(vsegundos);
+                            l.setTimeEnd(tauxiliar);
+                            l.setBeginDate(data1);
+                            l.setEndDate(data2);
+                            l.setMaterial(mselecionado);
+                            if (db.setRequestSubstitute(l) != 1) {
+                                db.roolback(p);
+                                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                                mensagem.showMessage();
+                                return;
+                            }
+                        }
+                    }
+                } else {
+                    selecionada.setMaterial(mselecionado);
+                    selecionada.setBeginDate(data1);
+                    selecionada.setEndDate(data2);
+                    selecionada.setTimeBegin(tempo1);
+                    selecionada.setTimeEnd(tempo2);
+                    selecionada.setSubstitute(selecionada.getId());
+                    if (db.setRequestSubstitute(selecionada) != 1) {
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                        mensagem.showMessage();
+                        return;
+                    }
+                }
+                db.commit();
+                db.close();
+                jPanelDados.setBackground(colorpanel);
+                jButtonConfirmarAlteracao.setEnabled(false);
+                Clavis.KeyQuest.refreshTables();
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("A requisição foi alterada") + ".", new String[]{"Voltar"});
+                mensagem.showMessage();
+            }
+        }
+    }//GEN-LAST:event_jButtonConfirmarAlteracaoActionPerformed
+
+    private TimeDate.Time getTime(javax.swing.JSpinner spin) {
+        java.util.Date tempo = (java.util.Date) spin.getValue();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(tempo);
+        int horas = cal.get(Calendar.HOUR_OF_DAY);
+        int minutos = cal.get(Calendar.MINUTE);
+        int segundos = cal.get(Calendar.SECOND);
+        return new TimeDate.Time(horas, minutos, segundos);
+    }
+
+    private TimeDate.Date getDate(javax.swing.JSpinner spin) {
+        java.util.Date tempo = (java.util.Date) spin.getValue();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(tempo);
+        int dia = cal.get(Calendar.DAY_OF_MONTH);
+        int mes = cal.get(Calendar.MONTH) + 1;
+        int ano = cal.get(Calendar.YEAR);
+        return new TimeDate.Date(dia, mes, ano);
+    }
+
+    private boolean checkForTheSameRequest() {
+        TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+        TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+        TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+        TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+        if ((mlista != null) && (mlista.size() > 0) && jComboBoxM.getSelectedIndex() > 0) {
+            int val = jComboBoxMaterial.getSelectedIndex() - 1;
+            Keys.Material m = mlista.get(val);
+            return (dat1.isBigger(selecionada.getBeginDate()) == 0) && (dat2.isBigger(selecionada.getEndDate()) == 0) && (tim1.compareTime(selecionada.getTimeBegin()) == 0) && (tim2.compareTime(selecionada.getTimeEnd()) == 0) && (m.compareTo(selecionada.getMaterial()) == 0);
+        }
+        return false;
+    }
+
+    private void makeValidDate() {
+        jSpinnerHoraLevantamento.addChangeListener((ChangeEvent e) -> {
+            TimeDate.Date date1 = this.getDate(jSpinnerDataLevantamento);
+            TimeDate.Date date2 = this.getDate(jSpinnerDataEntrega);
+            TimeDate.Date datahoje = new TimeDate.Date();
+            if (date1.isBigger(date2) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = this.getTime(jSpinnerHoraEntrega);
+                if (date1.isBigger(datahoje) == 0) {
+                    TimeDate.Time timatual = new TimeDate.Time();
+                    if (timatual.compareTime(tim) < 0) {
+                        jSpinnerHoraLevantamento.setValue(new Date());
+                    }
+                }
+                if (tim.compareTime(tim2) < 0) {
+                    jSpinnerHoraEntrega.setValue(jSpinnerHoraLevantamento.getValue());
+                }
+            } else if (datahoje.isBigger(date1) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time timatual = new TimeDate.Time();
+                if (timatual.compareTime(tim) < 0) {
+                    jSpinnerHoraLevantamento.setValue(new Date());
+                }
+            }
+        });
+        javax.swing.JFormattedTextField tx = ((JSpinner.DefaultEditor) jSpinnerHoraLevantamento.getEditor()).getTextField();
+        tx.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+
+        });
+        jSpinnerHoraEntrega.addChangeListener((ChangeEvent e) -> {
+            TimeDate.Date date1 = this.getDate(jSpinnerDataLevantamento);
+            TimeDate.Date date2 = this.getDate(jSpinnerDataEntrega);
+            int v = jComboBoxMaterial.getSelectedIndex();
+            TimeDate.Date datahoje = new TimeDate.Date();
+            if (date1.isBigger(date2) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = this.getTime(jSpinnerHoraEntrega);
+                if (date1.isBigger(datahoje) == 0) {
+                    TimeDate.Time timatual = new TimeDate.Time();
+                    if (timatual.compareTime(tim2) < 0) {
+                        jSpinnerHoraEntrega.setValue(new Date());
+                    }
+                }
+                if (tim2.compareTime(tim) > 0) {
+                    jSpinnerHoraLevantamento.setValue(jSpinnerHoraEntrega.getValue());
+                }
+            } else if (datahoje.isBigger(date1) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time timatual = new TimeDate.Time();
+                if (timatual.compareTime(tim) < 0) {
+                    jSpinnerHoraLevantamento.setValue(new Date());
+                }
+            }
+        });
+        tx.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jLabelRequisicaoNova.requestFocus();
+                }
+            }
+
+        });
+        javax.swing.JFormattedTextField tx2 = ((JSpinner.DefaultEditor) jSpinnerHoraEntrega.getEditor()).getTextField();
+        tx2.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+
+        });
+        tx2.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jLabelRequisicaoNova.requestFocus();
+                }
+            }
+
+        });
+        jSpinnerDataLevantamento.addChangeListener((ChangeEvent e) -> {
+            TimeDate.Date date1 = this.getDate(jSpinnerDataLevantamento);
+            TimeDate.Date date2 = this.getDate(jSpinnerDataEntrega);
+            TimeDate.Date datahoje = new TimeDate.Date();
+            if (date1.isBigger(datahoje) > 0) {
+                jSpinnerDataLevantamento.setValue(new Date());
+            } else if (date1.isBigger(date2) < 0) {
+                jSpinnerDataEntrega.setValue(jSpinnerDataLevantamento.getValue());
+            } else if (date1.isBigger(date2) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = this.getTime(jSpinnerHoraEntrega);
+                if (date1.isBigger(datahoje) == 0) {
+                    TimeDate.Time timatual = new TimeDate.Time();
+                    if (timatual.compareTime(tim) < 0) {
+                        jSpinnerHoraLevantamento.setValue(new Date());
+                    }
+                }
+                if (tim.compareTime(tim2) < 0) {
+                    jSpinnerHoraEntrega.setValue(jSpinnerHoraLevantamento.getValue());
+                }
+            } else if (datahoje.isBigger(date1) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time timatual = new TimeDate.Time();
+                if (timatual.compareTime(tim) < 0) {
+                    jSpinnerHoraLevantamento.setValue(new Date());
+                    jSpinnerHoraLevantamento.repaint();
+                }
+            }
+        });
+        javax.swing.JFormattedTextField tx3 = ((JSpinner.DefaultEditor) jSpinnerDataLevantamento.getEditor()).getTextField();
+        tx3.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+
+        });
+        tx3.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jLabelRequisicaoNova.requestFocus();
+                }
+            }
+
+        });
+        jSpinnerDataEntrega.addChangeListener((ChangeEvent e) -> {
+            TimeDate.Date date1 = this.getDate(jSpinnerDataLevantamento);
+            TimeDate.Date date2 = this.getDate(jSpinnerDataEntrega);
+            TimeDate.Date datahoje = new TimeDate.Date();
+            if (date2.isBigger(date1) > 0) {
+                jSpinnerDataLevantamento.setValue((Date) jSpinnerDataEntrega.getValue());
+            } else if (date1.isBigger(date2) == 0) {
+                if ((jSpinnerHoraLevantamento.getValue() != null) && (jSpinnerHoraEntrega.getValue() != null)) {
+                    TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                    TimeDate.Time tim2 = this.getTime(jSpinnerHoraEntrega);
+                    if (date1.isBigger(datahoje) == 0) {
+                        TimeDate.Time timatual = new TimeDate.Time();
+                        if (timatual.compareTime(tim) < 0) {
+                            jSpinnerHoraLevantamento.setValue(new Date());
+                            jSpinnerHoraLevantamento.repaint();
+                        }
+                    }
+                    if (tim.compareTime(tim2) < 0) {
+                        jSpinnerHoraEntrega.setValue(jSpinnerHoraLevantamento.getValue());
+                        jSpinnerHoraEntrega.repaint();
+                    }
+                }
+            } else if (datahoje.isBigger(date1) == 0) {
+                TimeDate.Time tim = this.getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time timatual = new TimeDate.Time();
+                if (timatual.compareTime(tim) < 0) {
+                    jSpinnerHoraLevantamento.setValue(new Date());
+                    jSpinnerHoraLevantamento.repaint();
+                }
+            }
+        });
+        javax.swing.JFormattedTextField tx4 = ((JSpinner.DefaultEditor) jSpinnerDataEntrega.getEditor()).getTextField();
+        tx4.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+
+        });
+        tx4.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jLabelRequisicaoNova.requestFocus();
+                }
+            }
+
+        });
+        jPanel3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+        });
+
+        jPanel6.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                TimeDate.Date dat1 = getDate(jSpinnerDataLevantamento);
+                TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
+                TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
+                TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+                Keys.Material m = null;
+                if (jComboBoxMaterial.getSelectedIndex() > 0) {
+                    m = mlista.get(jComboBoxMaterial.getSelectedIndex() - 1);
+                }
+                makeComboBoxMaterial(dat1, dat2, tim1, tim2);
+                if (m != null) {
+                    for (int i = 0; i < mlista.size(); i++) {
+                        if (mlista.get(i).compareTo(m) == 0) {
+                            jComboBoxMaterial.setSelectedIndex(i + 1);
+                            break;
+                        }
+                    }
+                }
+                Object child = jComboBoxM.getAccessibleContext().getAccessibleChild(0);
+                BasicComboPopup popup = (BasicComboPopup) child;
+                popup.repaint();
+                javax.swing.JList<?> list = popup.getList();
+                list.repaint();
+            }
+        });
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonConfirmarAlteracao;
+    private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButtonSair;
+    /*
+    private javax.swing.JComboBox<String> jComboBoxM;
+    */
+    private javax.swing.JComboBox<Object> jComboBoxM;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelAtividade;
     private javax.swing.JLabel jLabelAtividade2;
     private javax.swing.JLabel jLabelDisciplina;
     private javax.swing.JLabel jLabelDisciplina2;
+    private org.jdesktop.swingx.JXLabel jLabelEntrega2;
     private javax.swing.JLabel jLabelFim;
     private javax.swing.JLabel jLabelFimData;
     private javax.swing.JLabel jLabelFimData2;
@@ -569,16 +1466,25 @@ public class WChangeRequest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelInicioData2;
     private javax.swing.JLabel jLabelInicioHora;
     private javax.swing.JLabel jLabelInicioHora2;
+    private javax.swing.JLabel jLabelMaterial;
+    private javax.swing.JLabel jLabelNovasDatas;
     private javax.swing.JLabel jLabelRecurso;
     private javax.swing.JLabel jLabelRecurso2;
+    private javax.swing.JLabel jLabelRequisicaoNova;
     private javax.swing.JLabel jLabelRequisicaoVelha;
-    private javax.swing.JLabel jLabelRequisicaoVelha1;
     private javax.swing.JLabel jLabelUtilizador;
     private javax.swing.JLabel jLabelUtilizador2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelAlteracao;
     private javax.swing.JPanel jPanelDados;
     private javax.swing.JPanel jPanelInicial;
+    private javax.swing.JSpinner jSpinnerDataEntrega;
+    private javax.swing.JSpinner jSpinnerDataLevantamento;
+    private javax.swing.JSpinner jSpinnerHoraEntrega;
+    private javax.swing.JSpinner jSpinnerHoraLevantamento;
+    private org.jdesktop.swingx.JXLabel jXLabelLevantamento;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,8 +31,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -651,6 +649,9 @@ public class TableRequest {
         int tam = modelo.getRowCount();
         for (int i = 0; i < tam; i++) {
             modelo.removeRow(0);
+        }
+        if (requisicoes.getRequests().isEmpty()) {
+            tabela.removeBorderColor(0);
         }
         tabela.repaint();
     }

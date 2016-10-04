@@ -9,35 +9,34 @@ package Keys;
  *
  * @author toze
  */
-public class Software implements Comparable<Software>{
+public class Software implements Comparable<Software> {
+
     private String nome;
     private String versao;
     private String ano;
     private String empresa;
 
-    public Software(){
+    public Software() {
         nome = "";
         versao = "";
-        ano =  "";
+        ano = "";
         empresa = "";
     }
-    
-    
-    public Software(String nome, String versao, String ano, String empresa){
+
+    public Software(String nome, String versao, String ano, String empresa) {
         this.nome = nome;
         this.versao = versao;
         this.ano = ano;
         this.empresa = empresa;
     }
-    
+
     public Software(Software soft) {
         this.nome = soft.getName();
         this.versao = soft.getVersion();
         this.ano = soft.getYear();
         this.empresa = soft.getInterprise();
     }
-    
-    
+
     /**
      * @return the nome
      */
@@ -66,15 +65,12 @@ public class Software implements Comparable<Software>{
         this.versao = versao;
     }
 
-   
     @Override
     public int compareTo(Software o) {
         int val;
-        if((val = this.getName().toLowerCase().compareTo(o.getName().toLowerCase())) == 0) {
-            if ((val = this.getVersion().toLowerCase().compareTo(o.getVersion().toLowerCase())) == 0) {
-                return this.getInterprise().toLowerCase().compareTo(o.getInterprise().toLowerCase());
-            }
-        } 
+        if ((val = this.getName().toLowerCase().compareTo(o.getName().toLowerCase())) == 0) {
+            return this.getVersion().toLowerCase().compareTo(o.getVersion().toLowerCase());
+        }
         return val;
     }
 
