@@ -33,6 +33,7 @@ public class WSeeRequest extends javax.swing.JFrame {
     /**
      * Creates new form WChangeRequest
      */
+    private static final long serialVersionUID = 124L;
     private Color corfundo;
     private Color corborda;
     private String url;
@@ -164,33 +165,39 @@ public class WSeeRequest extends javax.swing.JFrame {
             if (atraso > 0) {
                 atrasado = true;
                 if (atrasohoras > 0) {
-                    double t = atrasohoras / 60;
-                    double decimal = 0;
+                    double t = ((double)atrasohoras / 60.0);
+                    double decimal;
                     if (t > 59) {
                         t = t / 60;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = "" + t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + atraso + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras < 0) {
                     int seg = selecionada.getTimeEnd().compareTime(new TimeDate.Time(23, 59, 59));
                     seg += new TimeDate.Time(0, 0, 0).compareTime(tm);
                     double t = seg / 60;
-                    double decimal = 0;
+                    double decimal;
                     if (t > 59) {
                         t = t / 60;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = "" + (int) t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + (atraso - 1) + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else {
@@ -198,34 +205,43 @@ public class WSeeRequest extends javax.swing.JFrame {
                 }
             } else if (atraso == 0) {
                 if (atrasohoras > 0) {
-                    double t = atrasohoras / 60;
-                    double decimal = 0;
+                    double t = ((double)atrasohoras / 60.0);
+                    double decimal;
                     if (t > 59) {
                         t = t / 60;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = ""+(int) t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n"
                             + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
-                } else if (atrasohoras <= 0) {
+                } else if (atrasohoras < 0) {
                     atrasohoras = -atrasohoras;
                     double t = atrasohoras / 60;
-                    double decimal = 0;
+                    double decimal;
                     if (t > 59) {
                         t = t / 60;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = "" + (int) t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
+
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", "
                             + lingua.translate("faltam") + ":\n\n " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
+                } else {
+                    tempodeatraso = "\n" + lingua.translate("O empréstimo terminou.");
                 }
             } else {
                 atraso = -atraso;
@@ -240,9 +256,12 @@ public class WSeeRequest extends javax.swing.JFrame {
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = "" + t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
                             + (atraso - 1) + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras <= 0) {
@@ -255,9 +274,12 @@ public class WSeeRequest extends javax.swing.JFrame {
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.round(decimal);
+                    } else {
+                        hora = "0";
+                        minutos = "" + (int) t;
                     }
-                    hora = "" + (int) t;
-                    minutos = "" + Math.round(decimal);
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
                             + atraso + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 }
@@ -819,11 +841,11 @@ public class WSeeRequest extends javax.swing.JFrame {
                 DataBase.DataBase db = new DataBase.DataBase(url);
                 db.changeRequestTerminateState(selecionada);
                 db.close();
-                Clavis.KeyQuest.refreshDevolutionTable(selecionada);
+                Clavis.KeyQuest.refreshDevolutionTable();
                 jButtonConfirmaDevolucao.setEnabled(false);
             }
         }
-        
+
     }//GEN-LAST:event_jButtonConfirmaDevolucaoActionPerformed
 
 

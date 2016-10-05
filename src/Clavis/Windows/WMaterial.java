@@ -524,9 +524,9 @@ public class WMaterial extends javax.swing.JDialog {
         Object child = comboboxdireitacima.getAccessibleContext().getAccessibleChild(0);
         BasicComboPopup popup = (BasicComboPopup) child;
         javax.swing.JList<?> list = popup.getList();
-        list.setCellRenderer(new ListCellRenderer() {
+        list.setCellRenderer(new ListCellRenderer<Object>() {
             @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 javax.swing.JLabel label = new javax.swing.JLabel();
                 label.setOpaque(true);
                 label.setBackground(new Color(254, 254, 254));
@@ -1537,7 +1537,7 @@ public class WMaterial extends javax.swing.JDialog {
                                     tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
                                     for (int x = 0; x < modelo.getRowCount(); x++) {
                                         altura += tabela.getRowHeight();
-                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), altura));
                                         
                                     }
                                     lsoft.remove(val);
@@ -1704,7 +1704,7 @@ public class WMaterial extends javax.swing.JDialog {
                                     tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
                                     for (int x = 0; x < modelo.getRowCount(); x++) {
                                         altura += tabela.getRowHeight();
-                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), altura));
                                         
                                     }
                                     ldis.remove(val);
@@ -1882,7 +1882,7 @@ public class WMaterial extends javax.swing.JDialog {
                                     tabela.setPreferredSize(new Dimension((int)tabela.getPreferredSize().getWidth(), 0));
                                     for (int x = 0; x < modelo.getRowCount(); x++) {
                                         altura += tabela.getRowHeight();
-                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), (int) (altura)));
+                                        tabela.setPreferredSize(new Dimension((int) tabela.getPreferredSize().getWidth(), altura));
                                         
                                     }
                                     lfeat.remove(val);

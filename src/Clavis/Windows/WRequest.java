@@ -46,7 +46,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  * @author toze
  */
 public class WRequest extends javax.swing.JFrame {
-
+    private static final long serialVersionUID = 124L;
     private static final java.awt.Color BACKGROUND_COLOR = new java.awt.Color(255, 255, 255);
     private static final java.awt.Color BORDER_COLOR = new java.awt.Color(115, 115, 115);
 
@@ -1058,15 +1058,15 @@ public class WRequest extends javax.swing.JFrame {
             java.sql.Savepoint ponto = db.createSavepoint("voltar");
             int i = 0;
             int resultado;
-            boolean emprestado = false;
+            boolean recusou = false;
             while (i < mats.size()) {
-                if (!WRequest.isMaterialInLateState(mats.get(i), url)) {
-                    if ((data1.isBigger(data2) == 0)&&(tempo1.compareTime(tempo2) == 0)) {
-                        tempo2 = tempo2.addSeconds(60*10);
-                        if ((tempo2.getHour() == 0)&&(tempo1.getHour() == 23)) {
-                            data2 = data2.dateAfter(1);
-                        }
+                if ((data1.isBigger(data2) == 0) && (tempo1.compareTime(tempo2) == 0)) {
+                    tempo2 = tempo2.addSeconds(60 * 10);
+                    if ((tempo2.getHour() == 0) && (tempo1.getHour() == 23)) {
+                        data2 = data2.dateAfter(1);
                     }
+                }
+                if (!WRequest.isMaterialInLateState(mats.get(i), url)) {
                     resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
                     if (resultado < 1) {
                         break;
@@ -1083,16 +1083,19 @@ public class WRequest extends javax.swing.JFrame {
                         if (resultado < 1) {
                             break;
                         }
+                    } else {
+                        recusou = true;
+                        break;
                     }
                 }
                 i++;
             }
-            if (i < mats.size()) {
+            if ((i < mats.size())&&(!recusou)) {
                 String envia = lingua.translate("Houve um problema com o registo das requisições") + ".";
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
                 db.roolback(ponto);
-            } else {
+            } else if (!recusou) {
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("A Requisição foi registada com sucesso") + ".", new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
                 db.commit();
@@ -1182,9 +1185,9 @@ public class WRequest extends javax.swing.JFrame {
         txm.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent();
         txmutilizador.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        jComboBoxTipoMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.LEFT);
-        jComboBoxMaterial.setHorizontalTextPosition((int) javax.swing.JLabel.LEFT);
-        jComboBoxNomeUtilizador.setHorizontalTextPosition((int) javax.swing.JLabel.LEFT);
+        jComboBoxTipoMaterial.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
+        jComboBoxMaterial.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
+        jComboBoxNomeUtilizador.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinnerQuantidade.getEditor();
         javax.swing.JTextField txx = editor.getTextField();
         txx.getDocument().addDocumentListener(new DocumentListener() {
@@ -1336,7 +1339,7 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
         if (DataBase.DataBase.testConnection(url)) {
-            DefaultComboBoxModel<Keys.TypeOfMaterial> modelo = (DefaultComboBoxModel) jComboBoxTipoMaterial.getModel();
+            DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxTipoMaterial.getModel();
             DataBase.DataBase db = new DataBase.DataBase(url);
             tlista = db.getTypesOfMaterial();
             for (int h = 0; h < tlista.size(); h++) {
@@ -1385,7 +1388,7 @@ public class WRequest extends javax.swing.JFrame {
                     }
                 }
             }
-            DefaultComboBoxModel<Keys.Person> modelop = (DefaultComboBoxModel) jComboBoxNomeUtilizador.getModel();
+            DefaultComboBoxModel<Object> modelop = (DefaultComboBoxModel<Object>) jComboBoxNomeUtilizador.getModel();
             p.stream().forEach((pes) -> {
                 modelop.addElement(pes);
             });
@@ -1783,7 +1786,7 @@ public class WRequest extends javax.swing.JFrame {
                 TimeDate.Time tim2 = getTime(jSpinner2);
                 if (dat1.isBigger(dat2) >= 0) {
                     mlista = db.getFreeMaterialsBetweenDates(tlista.get(jComboBoxTipoMaterial.getSelectedIndex() - 1).getMaterialTypeID(), dat1, dat2, tim1, tim2);
-                    DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+                    DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
                     int i = 0;
                     int valor = 0;
                     for (Keys.Material n : mlista) {
@@ -1813,7 +1816,8 @@ public class WRequest extends javax.swing.JFrame {
             mlista = lista;
             int valorsel = jComboBoxMaterial.getSelectedIndex() - 1;
             jComboBoxMaterial.removeAllItems();
-            DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+            
+            DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
             for (Keys.Material n : mlista) {
                 n = new Keys.Material(n) {
                     @Override

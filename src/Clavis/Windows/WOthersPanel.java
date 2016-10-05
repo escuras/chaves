@@ -152,7 +152,7 @@ public class WOthersPanel {
         cbturmas.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
         panesquerda.add(cbturmas.getComboBox());
 
-        DefaultListModel<Keys.ClassStudents> ll = new DefaultListModel();
+        DefaultListModel<Keys.ClassStudents> ll = new DefaultListModel<>();
         javax.swing.JList<Keys.ClassStudents> lturmas = new javax.swing.JList<>(ll);
         javax.swing.CellRendererPane pon = (javax.swing.CellRendererPane) lturmas.getComponent(0);
         pon.setPreferredSize(new Dimension(230, 100));
@@ -224,7 +224,7 @@ public class WOthersPanel {
         cbdisciplinas.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
         pandireita.add(cbdisciplinas.getComboBox());
 
-        DefaultListModel<Keys.Subject> ss = new DefaultListModel();
+        DefaultListModel<Keys.Subject> ss = new DefaultListModel<>();
         javax.swing.JList<Keys.Subject> ldisciplinas = new javax.swing.JList<>(ss);
         ldisciplinas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         ldisciplinas.setCellRenderer(new DefaultListCellRenderer() {

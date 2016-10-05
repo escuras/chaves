@@ -47,6 +47,7 @@ public class WChangeRequest extends javax.swing.JFrame {
     /**
      * Creates new form WChangeRequest
      */
+    private static final long serialVersionUID = 123L;
     public static final Color COLOR_PANEL = new Color(245, 250, 250);
     private Color corfundo;
     private Color corborda;
@@ -101,7 +102,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         }
         this.makeFileRequest();
         this.addBehaviorToLabelImage();
-        System.out.println(selecionada.getTimeBegin().toString());
         this.jSpinnerDataEntrega.setValue(this.toSystemDate(selecionada.getEndDate().toString()));
         this.jSpinnerDataLevantamento.setValue(this.toSystemDate(selecionada.getBeginDate().toString()));
         this.jSpinnerHoraEntrega.setValue(this.toSystemTime(selecionada.getTimeEnd().toString()));
@@ -109,7 +109,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         this.makeValidDate();
         this.makeComboBoxMaterial(selecionada.getBeginDate(), selecionada.getEndDate(), selecionada.getTimeBegin(), selecionada.getTimeEnd());
         jLabelRequisicaoNova.requestFocus();
-        DefaultComboBoxModel<Keys.Material> modelo = (DefaultComboBoxModel) jComboBoxM.getModel();
         if (mlista != null) {
             for (int i = 0; i < mlista.size(); i++) {
                 if (mlista.get(i).compareTo(selecionada.getMaterial()) == 0) {
@@ -174,7 +173,7 @@ public class WChangeRequest extends javax.swing.JFrame {
             }
             db.close();
             Collections.sort(mlista);
-            DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel) jComboBoxMaterial.getModel();
+            DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
             modelo.removeAllElements();
             modelo.addElement("");
             for (int i = 0; i < mlista.size(); i++) {
@@ -966,6 +965,28 @@ public class WChangeRequest extends javax.swing.JFrame {
                     jButtonConfirmarAlteracao.setEnabled(true);
                     int val = jComboBoxMaterial.getSelectedIndex() - 1;
                     mselecionado = mlista.get(val);
+                    if (mselecionado.getMaterialImage().equals("sem")) {
+                        try {
+                            File file = new File(new File("").getAbsolutePath()
+                                    + System.getProperty("file.separator")
+                                    + "Resources" + System.getProperty("file.separator")
+                                    + "Images" + System.getProperty("file.separator")
+                                    + selecionada.getMaterial().getTypeOfMaterialImage() + ".png");
+                            if (file.isFile()) {
+                                imagem = ImageIO.read(file);
+                                ImageIcon ic = new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(imagem, 95, 90));
+                                jLabelImagem.setIcon(ic);
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(ButtonListRequest.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        imagem = FileIOAux.ImageAux.transformFromBase64IntoImage(mselecionado.getMaterialImage());
+                        if (imagem != null) {
+                            ImageIcon ic = new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(imagem, 95, 90));
+                            jLabelImagem.setIcon(ic);
+                        }
+                    }
                     jLabelRecurso2.setText(mselecionado.toString());
                     jLabelInicioData2.setText(dat1.toString());
                     jLabelFimData2.setText(dat2.toString());
@@ -992,6 +1013,12 @@ public class WChangeRequest extends javax.swing.JFrame {
 
     private void jButtonConfirmarAlteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarAlteracaoActionPerformed
         if (mselecionado != null) {
+            if ((data1.isBigger(data2) == 0) && (tempo1.compareTime(tempo2) == 0)) {
+                tempo2 = tempo2.addSeconds(60 * 10);
+                if ((tempo2.getHour() == 0) && (tempo1.getHour() == 23)) {
+                    data2 = data2.dateAfter(1);
+                }
+            }
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);
                 db.setAutoCommit(false);
@@ -1021,7 +1048,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                         int vsegundos;
                         for (Keys.Request l : lista) {
                             int gol = l.getTimeBegin().compareTime(l.getTimeEnd());
-                            vsegundos = (int) (tnovo * gol / toriginal);
+                            vsegundos = (tnovo * gol) / toriginal;
                             l.setTimeBegin(tauxiliar);
                             l.setUnionRequest(id);
                             tauxiliar = tauxiliar.addSeconds(vsegundos);

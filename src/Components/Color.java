@@ -5,9 +5,6 @@
  */
 package Components;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.JPanel;
 
 /**
  *
@@ -15,25 +12,17 @@ import javax.swing.JPanel;
  */
 public class Color extends java.awt.Color {
 
-    private javax.swing.JPanel panelbandeira;
-    private java.awt.Color velha;
-
+    private static final long serialVersionUID = 432L;
     public Color(int r, int g, int b) {
         super(r, g, b);
-      
-        panelbandeira = null;
     }
 
     public Color(int r, int g, int b, int a) {
         super(r, g, b, a);
-       
-        panelbandeira = null;
     }
 
     public Color(Color cor) {
         super(cor.getRed(), cor.getGreen(), cor.getBlue(), cor.getAlpha());
- 
-        panelbandeira = null;
     }
 
  

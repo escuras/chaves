@@ -2413,7 +2413,7 @@ public class DataBase {
                 smt = null;
             }
             if (smt != null) {
-                String sql = "delete from Requests where origem like 'csv' and data_inicio >=STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') and ativo = 0 and terminado = 0";
+                String sql = "delete from Requests where origem like 'csv' and data_inicio >=STR_TO_DATE('" + dat1.toString() + "','%d/%m/%Y') and data_fim <= STR_TO_DATE('" + dat2.toString() + "','%d/%m/%Y') and ativo = 0 and terminado = 0 and substituido = 0";
                 try {
                     smt.execute(sql);
                     ResultSet rs;
@@ -2731,7 +2731,7 @@ public class DataBase {
                         ResultSet rs;
                         for (TimeDate.Date m : meses) {
                             aux = m.toString().split("/");
-                            sql = "select count(*)/(select count(DISTINCT(DATE_FORMAT(data_inicio,'%d'))) from Requests where DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "') from Requests where id_material in (select id_material from Materials where id_tipo = " + tipo.getMaterialTypeID() + ") and DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "' and substituido = 0 group by DATE_FORMAT(data_inicio,'%m/%Y')";
+                            sql = "select count(*)/(select count(DISTINCT(DATE_FORMAT(data_inicio,'%d'))) from Requests where DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "' and id_material in (select id_material from Materials where id_tipo = " + tipo.getMaterialTypeID() + ")) from Requests where id_material in (select id_material from Materials where id_tipo = " + tipo.getMaterialTypeID() + ") and DATE_FORMAT(data_inicio,'%m/%Y')='" + aux[1] + "/" + aux[2] + "' and substituido = 0 group by DATE_FORMAT(data_inicio,'%m/%Y')";
                             rs = smt.executeQuery(sql);
                             if (rs.next()) {
                                 t.add(new Statistic.MonthRequests(m, rs.getDouble(1), tipo));

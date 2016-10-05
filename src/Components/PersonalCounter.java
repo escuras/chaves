@@ -78,8 +78,8 @@ public class PersonalCounter {
     }
 
     public void showMessage() {
-        int altura = (int) Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 100;
-        int largura = (int) Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 200;
+        int altura = Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 100;
+        int largura = Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 200;
         dialogo.setLocation(largura, altura);
         dialogo.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
         dialogo.setPreferredSize(new java.awt.Dimension(400, 200));

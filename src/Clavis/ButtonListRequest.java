@@ -47,25 +47,18 @@ public class ButtonListRequest {
     private List<Keys.Material> mater;
     private Dimension dim;
     private Langs.Locale lingua;
-    private javax.swing.JTabbedPane tpanel;
     private javax.swing.JPanel pane;
     private Color btcor1;
     private Color btcor2;
-    private Color panelcor;
     private java.util.Iterator<Keys.Material> iterador;
-    private int tipopesquisa;
     private String url;
-    private javax.swing.JLabel labelativa;
     private javax.swing.JFrame frameanterior;
     private int selecionado;
-    private int valor;
     private javax.swing.JLabel lnome;
     private javax.swing.JLabel lcodigo;
-    private javax.swing.JScrollPane spanelb;
-    private javax.swing.JList<String> slistb;
     private int botoeslinha;
     private java.util.List<Keys.Request> rlista;
-    private javax.swing.JList jListRequisicoes;
+    private javax.swing.JList<String> jListRequisicoes;
     private javax.swing.JScrollPane jScrollPane2;
     private int ndias;
     private boolean lista;
@@ -79,15 +72,12 @@ public class ButtonListRequest {
         this.lingua = lingua;
         this.url = url;
         this.frameanterior = frame;
-        this.panelcor = KeyQuest.getSystemColor();
         pane = new javax.swing.JPanel();
         pane.setPreferredSize(tpanel.getPreferredSize());
-        dim = new Dimension(90, 90);
+        dim = new Dimension(82, 82);
         this.btcor1 = ButtonListRequest.OCCUPIED_COLOR;
         this.btcor2 = ButtonListRequest.FREE_COLOR;
-        this.tpanel = tpanel;
         this.rlista = new java.util.ArrayList<>();
-        this.tipopesquisa = tipopesquisa;
         selecionado = -1;
         lista = false;
         emptyBorder = BorderFactory.createEmptyBorder(0, 10, 0, 10);
@@ -145,11 +135,9 @@ public class ButtonListRequest {
         return nomes;
     }
 
-    public void addComponentsToBehavior(javax.swing.JLabel nome, javax.swing.JLabel codigo, javax.swing.JScrollPane pane, javax.swing.JList<String> lista) {
+    public void addComponentsToBehavior(javax.swing.JLabel nome, javax.swing.JLabel codigo) {
         lnome = nome;
         lcodigo = codigo;
-        slistb = lista;
-        spanelb = pane;
     }
 
     public List<PersonalButtonRequest> getButtons() {
@@ -166,11 +154,11 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
-                button.setBorder(emptyBorder);
+                //button.setBorder(emptyBorder);
                 button.setFocusPainted(false);
                 button.setBounds(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
                 if (!(n instanceof Keys.Classroom)) {
-                    Keys.Material m = (Keys.Material) n;
+                    Keys.Material m = n;
                     button.setValue(m.getId());
                     String auxiliar = m.getDescription();
                     button.setFont(f);
@@ -259,7 +247,6 @@ public class ButtonListRequest {
             }).forEach((button) -> {
                 bLista.add(button);
             });
-            valor = 0;
             for (PersonalButtonRequest r : bLista) {
                 r.addMouseListener(new MouseAdapter() {
                     @Override
@@ -283,6 +270,16 @@ public class ButtonListRequest {
                                     selecionado = va;
                                 }
                                 va++;
+                            }
+                            if (selecionado == vax) {
+                                ActionButton at;
+                                if (mater.get(selecionado) instanceof Keys.Classroom) {
+                                    at = new ActionButton(frameanterior, (Keys.Classroom) mater.get(selecionado), lingua, url, r);
+                                } else {
+                                    at = new ActionButton(frameanterior, mater.get(selecionado), lingua, url, r);
+                                }
+                                frameanterior.setVisible(false);
+                                at.open();
                             }
                             if (vax != selecionado) {
                                 if ((lnome != null) && (lcodigo != null)) {
@@ -323,7 +320,7 @@ public class ButtonListRequest {
                             case KeyEvent.VK_ESCAPE:
                                 selecionado = -1;
                                 bLista.stream().forEach((ro) -> {
-                                    ro.setBorder(null);
+                                    ro.setBorder(emptyBorder);
                                 });
                                 clearTable();
                                 lnome.setText("");
@@ -373,9 +370,9 @@ public class ButtonListRequest {
                                     selecionado = selecionado + botoeslinha;
                                     int va = 0;
                                     for (PersonalButtonRequest ro : bLista) {
-                                        ro.setBorder(null);
+                                        ro.setBorder(emptyBorder);
                                         if (va == selecionado) {
-                                            ro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                                            ro.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), emptyBorder2));
                                         }
                                         va++;
                                     }
@@ -403,16 +400,15 @@ public class ButtonListRequest {
                         }
                     }
                 });
-                valor++;
             }
         }
         return bLista;
     }
 
-    public void addList(javax.swing.JList jListRequisicoes, javax.swing.JScrollPane jScrollPane2, int ndias) {
+    public void addList(javax.swing.JList<String> jListRequisicoes, javax.swing.JScrollPane jScrollPane2, int ndias) {
         this.jListRequisicoes = jListRequisicoes;
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
+        modelo.addElement("<html><div style='border-style: none; padding-top:4px;text-align:center;width:185px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
         jListRequisicoes.setModel(modelo);
         this.jScrollPane2 = jScrollPane2;
         this.ndias = ndias;
@@ -436,18 +432,18 @@ public class ButtonListRequest {
                 if (rlista.size() > 0) {
                     for (Keys.Request r : rlista) {
                         if (i % 2 == 0) {
-                            cor = "#efeed0";
+                            cor = "#cccccc";
                         } else {
-                            cor = "#d7d4a7";
+                            cor = "#999999";
                         }
-                        andancas = "<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; background-color:" + cor + ";'> <b>" + lingua.translate("Início") + ": </b>" + r.getBeginDate().toString() + " (" + r.getTimeBegin().toString(0) + ")<br/>"
+                        andancas = "<html><div style='border-style: solid;border-width:1px;padding-top:4px;text-align:center;width:185px;height:30px; background-color:" + cor + ";'> <b>" + lingua.translate("Início") + ": </b>" + r.getBeginDate().toString() + " (" + r.getTimeBegin().toString(0) + ")<br/>"
                                 + "<b>" + lingua.translate("Fim") + ": </b>" + r.getEndDate().toString() + " (" + r.getTimeEnd().toString(0) + ")"
                                 + "</div></html>";
                         modelo.addElement(andancas);
                         i++;
                     }
                 } else {
-                    modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("A lista está vazia") + ".</div></html>");
+                    modelo.addElement("<html><div style='border-style: none;padding-top:4px;text-align:center;width:185px;height:30px; color:#000;'>" + lingua.translate("A lista está vazia") + ".</div></html>");
                     jListRequisicoes.setModel(modelo);
                 }
                 jListRequisicoes.setModel(modelo);
@@ -457,16 +453,14 @@ public class ButtonListRequest {
                 jListRequisicoes.setModel(modelo);
             }
             jScrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-            DefaultListModel m = (DefaultListModel) jListRequisicoes.getModel();
+            DefaultListModel<String> m = (DefaultListModel<String>) jListRequisicoes.getModel();
             Rectangle r;
-            int altura = 10;
+            int altura = 20;
             jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), 0));
             for (int x = 0; x < m.getSize(); x++) {
                 r = jListRequisicoes.getCellBounds(x, x);
                 altura += (int) (r.getHeight());
-                if (altura >= jListRequisicoes.getPreferredSize().getHeight()) {
-                    jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), (int) (altura)));
-                }
+                jListRequisicoes.setPreferredSize(new Dimension((int) jListRequisicoes.getPreferredSize().getWidth(), altura));
             }
             lmou = (new MouseAdapter() {
                 String[] st = {lingua.translate("Ver detalhes")};
@@ -554,11 +548,12 @@ public class ButtonListRequest {
     }
 
     private void clearTable() {
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:167px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
-        jListRequisicoes.setModel(modelo);
+       
         this.jListRequisicoes.removeMouseListener(lmou);
         this.jListRequisicoes.removeKeyListener(lkey);
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        modelo.addElement("<html><div style='padding-top:4px;text-align:center;width:185px;height:30px; color:#000;'>" + lingua.translate("Selecione um recurso") + ".</div></html>");
+        jListRequisicoes.setModel(modelo);
     }
 
     public void clear() {
@@ -570,7 +565,7 @@ public class ButtonListRequest {
         this.jListRequisicoes.removeKeyListener(lkey);
         if (bLista != null) {
             for (int i = 0; i < bLista.size(); i++) {
-                bLista.get(i).setBorder(null);
+                bLista.get(i).setBorder(emptyBorder);
             }
         }
 
@@ -661,7 +656,11 @@ public class ButtonListRequest {
                 }
             });
         }
-        labelr2.setText(satividade[0]);
+        if (!satividade[0].equals("")) {
+            labelr2.setText(satividade[0]);
+        } else {
+            labelr2.setText(lingua.translate("Não existe informação") + ".");
+        }
         panel.add(labelr2);
         javax.swing.JLabel label3 = new javax.swing.JLabel();
         label3.setFont(fonte);
@@ -678,7 +677,7 @@ public class ButtonListRequest {
             Keys.Subject s;
             while (iter.hasNext()) {
                 s = iter.next();
-                sdisciplinas[i] = s.getName()+ " ("+ s.getCode() +")";
+                sdisciplinas[i] = s.getName() + " (" + s.getCode() + ")";
                 i++;
             }
             Components.PopUpMenu pop = new Components.PopUpMenu(sdisciplinas);
@@ -730,8 +729,10 @@ public class ButtonListRequest {
                 }
             });
             labelr4.setText(lingua.translate("Múltiplas turmas"));
-        } else {
+        } else if (!req.getStudentsClass().getName().equals("")) {
             labelr4.setText(req.getStudentsClass().getName());
+        } else {
+            labelr4.setText(lingua.translate("Não existe informação") + ".");
         }
         altura = (int) (labelr4.getBounds().getY() + labelr4.getBounds().getHeight());
         panel.add(labelr4);
@@ -798,78 +799,6 @@ public class ButtonListRequest {
             panel.add(labelr9);
         }
         return panel;
-    }
-
-}
-
-class PersonalButtonRequest extends javax.swing.JButton implements Comparable<PersonalButtonRequest>, Cloneable {
-
-    int valor;
-    String designacao;
-
-    public PersonalButtonRequest() {
-        super();
-        valor = -1;
-        designacao = "";
-    }
-
-    public PersonalButtonRequest(int val, String designacao) {
-        super();
-        valor = val;
-        this.designacao = designacao;
-    }
-
-    public PersonalButtonRequest(PersonalButtonRequest r) {
-        super();
-        valor = r.getValue();
-        this.designacao = r.getDescription();
-    }
-
-    public void setValue(int val) {
-        valor = val;
-    }
-
-    public int getValue() {
-        return valor;
-    }
-
-    public void setDescription(String designacao) {
-        this.designacao = designacao;
-    }
-
-    public String getDescription() {
-        return designacao;
-    }
-
-    @Override
-    public int compareTo(PersonalButtonRequest o) {
-        if ((this.getText().matches("\\d+")) && (o.getText().matches("\\d+"))) {
-            String texto = this.getText();
-            String texto2 = o.getText();
-            while (texto.charAt(0) == '0') {
-                texto = texto.replaceFirst("0", "");
-            }
-            while (texto2.charAt(0) == '0') {
-                texto2 = texto2.replaceFirst("0", "");
-            }
-            int val1 = Integer.parseInt(texto);
-            int val2 = Integer.parseInt(texto2);
-            return (val1 - val2);
-        }
-        int val;
-        val = this.getDescription().compareTo(o.getDescription());
-        if (val == 0) {
-            val = this.getText().compareTo(o.getText());
-            if (val == 0) {
-                val = this.getValue() - o.getValue();
-            }
-        }
-        return val;
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
 }

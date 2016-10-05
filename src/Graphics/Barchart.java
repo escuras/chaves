@@ -25,6 +25,7 @@ import org.jfree.ui.RefineryUtilities;
  */
 public class Barchart extends javax.swing.JFrame {
     
+    private static final long serialVersionUID = 1245L;
     private java.util.List<Statistic.UserNumberMaterial> valores;
     private Langs.Locale lingua;
     private int quantidade;

@@ -17,7 +17,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -26,6 +25,7 @@ import org.jfree.ui.RefineryUtilities;
  */
 public class Linechart extends javax.swing.JFrame {
     
+    private static final long serialVersionUID = 365L;
     private java.util.List<Statistic.MonthRequests> valores;
     private Langs.Locale lingua;
     private int quantidade;

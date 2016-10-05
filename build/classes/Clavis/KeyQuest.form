@@ -2128,7 +2128,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExitActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    if (this.getClass().getResource(&quot;Images/exit26x24.png&quot;) != null) {&#xa;        BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream(&quot;Images/exit26x24.png&quot;));&#xa;        ImageIcon icexit = new ImageIcon(buf);&#xa;        jButtonExit.setIcon(icexit);&#xa;    } else {&#xa;        jButtonExit.setText(lingua.translate(&quot;Voltar&quot;));&#xa;    }&#xa;} catch (IOException e) {}&#xa;jButtonExit.setToolTipText(&quot;Voltar&quot;);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    if (this.getClass().getResource(&quot;Images/exit26x24.png&quot;) != null) {&#xa;        BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream(&quot;Images/exit26x24.png&quot;));&#xa;        ImageIcon icexit = new ImageIcon(buf);&#xa;        jButtonExit.setIcon(icexit);&#xa;    } else {&#xa;        jButtonExit.setText(lingua.translate(&quot;Voltar&quot;));&#xa;    }&#xa;} catch (IOException e) {}&#xa;jButtonExit.setToolTipText(lingua.translate(&quot;Voltar&quot;));"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -2239,9 +2239,6 @@
               <Dimension value="[1000, 600]"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="componentMoved" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jSplitPaneInicialComponentMoved"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jSplitPaneInicial.setResizeWeight(1.0);&#xa;&#xa;jSplitPaneInicial.setContinuousLayout(true);"/>
           </AuxValues>

@@ -60,7 +60,7 @@ public class PersonalLabel {
         this.selecionados = new java.util.ArrayList<>();
         labels = new java.util.ArrayList<>();
         if ((painelaltura / altura) > 2) {
-            altura = (int) painelaltura / 2;
+            altura = painelaltura / 2;
         }
         if (largura > (painellargura - 10)) {
             largura = painellargura - 10;
@@ -155,11 +155,13 @@ public class PersonalLabel {
             lingua = Langs.Locale.getLocale_pt_PT();
         }
         boolean esta_na_lista = false;
-        javax.swing.JList lmater = new javax.swing.JList<>();
+        javax.swing.JList<Keys.Material> lmater = new javax.swing.JList<>();
         if (mlista.isEmpty()) {
             vazia = true;
-            DefaultListModel<String> modelo = new DefaultListModel<>();
-            modelo.addElement(lingua.translate("A lista está vazia") + "!");
+            DefaultListModel<Keys.Material> modelo = new DefaultListModel<>();
+            Keys.Material m = new Keys.Material();
+            m.setDescription(lingua.translate("A lista está vazia") + "!");
+            modelo.addElement(m);
             lmater.setModel(modelo);
         } else {
             DefaultListModel<Keys.Material> modelo = new DefaultListModel<>();
@@ -206,7 +208,7 @@ public class PersonalLabel {
         });
         int altu = 20;
         if (!vazia) {
-            DefaultListModel<Keys.Material> modelo = (DefaultListModel) lmater.getModel();
+            DefaultListModel<?> modelo = (DefaultListModel) lmater.getModel();
             for (int i = 0; i < modelo.getSize(); i++) {
                 Rectangle r = lmater.getCellBounds(i, i);
                 altu += r.getHeight();
@@ -233,7 +235,7 @@ public class PersonalLabel {
             if (!vazia) {
                 if (val == 1) {
                     int sel = lmater.getSelectedIndex();
-                    Keys.Material ma = (Keys.Material) lmater.getModel().getElementAt(sel);
+                    Keys.Material ma = lmater.getModel().getElementAt(sel);
                     selecionados.set(situo, ma);
                     label.setText(this.treatLongStrings(ma.getDescription()));
                     FileIOAux.ImageExtension bimage;
@@ -306,7 +308,7 @@ public class PersonalLabel {
                 }
                 if (!vazia) {
                     lmater.setModel(modelo);
-                    DefaultListModel<Keys.Material> model = (DefaultListModel) lmater.getModel();
+                    DefaultListModel<Keys.Material> model = (DefaultListModel<Keys.Material>) lmater.getModel();
                     int alt = 20;
                     for (int i = 0; i < model.getSize(); i++) {
                         Rectangle r = lmater.getCellBounds(i, i);
@@ -314,8 +316,10 @@ public class PersonalLabel {
                         lmater.setPreferredSize(new Dimension(280, alt));
                     }
                 } else {
-                    DefaultListModel<String> modelo2 = new DefaultListModel<>();
-                    modelo2.addElement(lingua.translate("A lista está vazia") + "!");
+                    DefaultListModel<Keys.Material> modelo2 = new DefaultListModel<>();
+                    Keys.Material m = new Keys.Material();
+                    m.setDescription(lingua.translate("A lista está vazia") + "!");
+                    modelo2.addElement(m);
                     lmater.removeAll();
                     lmater.setModel(modelo2);
                 }

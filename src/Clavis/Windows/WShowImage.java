@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
  */
 public class WShowImage extends javax.swing.JDialog{
     
+    private static final long serialVersionUID = 145L;
     private BufferedImage imagem;
     private Dimension dimensao;
     

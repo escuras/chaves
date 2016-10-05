@@ -57,6 +57,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class WSearch extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 123L;
     private Color corfundo;
     private Color corborda;
     private Langs.Locale lingua;
@@ -518,11 +519,11 @@ public class WSearch extends javax.swing.JFrame {
                         teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                         int indice = f.getIndex();
                         StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
-                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel) jListBaixo.getModel();
+                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel<StringAuxiliar>) jListBaixo.getModel();
                         for (int i = 0; i < mo.getSize(); i++) {
                             StringAuxiliar s = mo.get(i);
                             if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
-                                ((DefaultListModel) jListBaixo.getModel()).setElementAt(aux, i);
+                                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).setElementAt(aux, i);
                             }
                         }
 
@@ -537,11 +538,11 @@ public class WSearch extends javax.swing.JFrame {
                         teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                         int indice = f.getIndex();
                         StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
-                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel) jListBaixo.getModel();
+                        DefaultListModel<StringAuxiliar> mo = (DefaultListModel<StringAuxiliar>) jListBaixo.getModel();
                         for (int i = 0; i < mo.getSize(); i++) {
                             StringAuxiliar s = mo.get(i);
                             if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
-                                ((DefaultListModel) jListBaixo.getModel()).setElementAt(aux, i);
+                                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).setElementAt(aux, i);
                             }
                         }
                     }
@@ -564,7 +565,7 @@ public class WSearch extends javax.swing.JFrame {
                 teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                 selfealista.add(new HelpFeature(fea, razao));
                 StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", razao);
-                ((DefaultListModel) jListBaixo.getModel()).addElement(aux);
+                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
                 Rectangle r;
                 int altura = 10;
                 for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
@@ -585,7 +586,7 @@ public class WSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExitActionPerformed
 
     private void jButtonRetirar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirar2ActionPerformed
-        DefaultListModel modelo = (DefaultListModel) jListBaixo.getModel();
+        DefaultListModel<StringAuxiliar> modelo = (DefaultListModel<StringAuxiliar>) jListBaixo.getModel();
         this.removeFromDownList(modelo);
     }//GEN-LAST:event_jButtonRetirar2ActionPerformed
 
@@ -1008,7 +1009,7 @@ public class WSearch extends javax.swing.JFrame {
                                 teste = "(" + lingua.translate("Software") + ") " + jListCima.getModel().getElementAt(valores[i]);
                                 selsoftlista.add(new HelpSoftware(softlista.get(valores[i]), razao));
                                 StringAuxiliar aux = new StringAuxiliar(teste, "software", razao);
-                                ((DefaultListModel) jListBaixo.getModel()).addElement(aux);
+                                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
                                 Rectangle r;
                                 int altura = 10;
                                 for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
@@ -1035,7 +1036,7 @@ public class WSearch extends javax.swing.JFrame {
                                 teste = "(" + lingua.translate("Disciplina") + ") " + jListCima.getModel().getElementAt(valores[i]);
                                 selsublista.add(new HelpSubject(sublista.get(valores[i]), razao));
                                 StringAuxiliar aux = new StringAuxiliar(teste, "disciplina", razao);
-                                ((DefaultListModel) jListBaixo.getModel()).addElement(aux);
+                                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
                                 Rectangle r;
                                 int altura = 10;
                                 for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
@@ -1155,7 +1156,7 @@ public class WSearch extends javax.swing.JFrame {
         jListCima.setTransferHandler(new TransferHandler() {
             int index;
             int[] indices;
-
+            private static final long serialVersionUID = 123L; 
             @Override
             public int getSourceActions(JComponent comp) {
                 return TransferHandler.COPY;
@@ -1288,7 +1289,8 @@ public class WSearch extends javax.swing.JFrame {
         jListBaixo.setModel(modelo);
         jListBaixo.setTransferHandler(new TransferHandler() {
             int index;
-
+            private static final long serialVersionUID = 123L;
+            
             @Override
             public boolean canImport(TransferHandler.TransferSupport support) {
                 if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
@@ -1491,7 +1493,7 @@ public class WSearch extends javax.swing.JFrame {
         this.makeTable();
     }
 
-    private void removeFromDownList(DefaultListModel modelo) {
+    private void removeFromDownList(DefaultListModel<?> modelo) {
         int[] valores = jListBaixo.getSelectedIndices();
         for (int i = valores.length - 1; i >= 0; i--) {
             StringAuxiliar auxiliar = jListBaixo.getModel().getElementAt(valores[i]);

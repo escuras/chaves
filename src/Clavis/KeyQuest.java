@@ -28,8 +28,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -889,7 +892,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jDialogDefBreaks.setTitle(lingua.translate("Editar_períodos_de_interrupção"));
 
         jDialogDefOpcoes.setMinimumSize(new java.awt.Dimension(700, 550));
-        jDialogDefOpcoes.setPreferredSize(new java.awt.Dimension(700, 550));
         jDialogDefOpcoes.setResizable(false);
         jDialogDefOpcoes.setSize(new java.awt.Dimension(700, 550));
 
@@ -1627,7 +1629,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 jButtonExit.setText(lingua.translate("Voltar"));
             }
         } catch (IOException e) {}
-        jButtonExit.setToolTipText("Voltar");
+        jButtonExit.setToolTipText(lingua.translate("Voltar"));
 
         javax.swing.GroupLayout jDialogSemestresLayout = new javax.swing.GroupLayout(jDialogSemestres.getContentPane());
         jDialogSemestres.getContentPane().setLayout(jDialogSemestresLayout);
@@ -1670,11 +1672,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jSplitPaneInicial.setName(""); // NOI18N
         jSplitPaneInicial.setOneTouchExpandable(true);
         jSplitPaneInicial.setPreferredSize(new java.awt.Dimension(1000, 600));
-        jSplitPaneInicial.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jSplitPaneInicialComponentMoved(evt);
-            }
-        });
 
         jPanelBaixo.setBackground(new java.awt.Color(213, 228, 213));
         jPanelBaixo.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(0, 0, 0,25)));
@@ -3327,10 +3324,6 @@ public class KeyQuest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jListFeriadosEscolhidosMouseClicked
 
-    private void jSplitPaneInicialComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jSplitPaneInicialComponentMoved
-
-    }//GEN-LAST:event_jSplitPaneInicialComponentMoved
-
 
     private void jButtonAtualizarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarListaActionPerformed
         Keys.TypeOfMaterial mat = tiposmateriais.get(jComboBoxListaBotoes.getSelectedIndex());
@@ -3355,11 +3348,7 @@ public class KeyQuest extends javax.swing.JFrame {
             } else {
                 db.changeRequestTerminateState(req);
             }
-            if (lista_dev.isResultOfASearch()) {
-                this.calculateList(tipomaterial);
-            }
-            lista_dev.removeSelectedRequest();
-            lista_req.getTable().clearSelection();
+            refreshDevolutionTable();
             jButtonAtuacaoAltera.setEnabled(false);
             jButtonAtuacaoConfirma.setEnabled(false);
             Window[] w = Window.getWindows();
@@ -4045,7 +4034,7 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldProcuraCimaFocusGained
 
     private void jButtonAtuacaoAlteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoAlteraActionPerformed
-        Clavis.Windows.WChangeRequest wc = new Clavis.Windows.WChangeRequest(new Color(255,255,255), systemColor, urlbd, lingua, lista_req.getSelectedRequest());
+        Clavis.Windows.WChangeRequest wc = new Clavis.Windows.WChangeRequest(new Color(255, 255, 255), systemColor, urlbd, lingua, lista_req.getSelectedRequest());
         wc.create();
         wc.appear();
     }//GEN-LAST:event_jButtonAtuacaoAlteraActionPerformed
@@ -4053,64 +4042,72 @@ public class KeyQuest extends javax.swing.JFrame {
     private void jButtonAtuacaoConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtuacaoConfirmaActionPerformed
         DataBase.DataBase db = new DataBase.DataBase(urlbd);
         Keys.Request req = lista_req.getSelectedRequest();
+        int val = 1;
         if (req != null) {
-            if (lista_req.isResultOfASearch()) {
-                lista_req.destroySearch();
-                lista_req.addTimerColors();
-                lista_req.startTimerColors();
-                if (jLabelLimpaPesquisaCima != null) {
-                    jLabelLimpaPesquisaCima.setVisible(false);
-                }
-                jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
+            System.out.println(val);
+            if (db.getStateOfMaterial(req)) {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, systemColor, lingua.translate("Aviso"), 500, 200, lingua.translate("O recurso continua emprestado no sistema, mesmo assim confirmar?"), new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+                val = mensagem.showMessage();
             }
-            java.util.Set<Keys.Request> lista = lista_req.getRequestList().getDifferentUnionRequest(req);
-            if (lista.size() > 0) {
-                lista.stream().forEach((l) -> {
-                    db.changeRequestActiveState(l);
-                });
-            } else {
-                db.changeRequestActiveState(req);
-            }
-            lista_req.removeSelectedRequest();
-            this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
-            Window[] w = Window.getWindows();
-            for (Window w1 : w) {
-                if (w1 instanceof Clavis.Windows.WListMaterial) {
-                    javax.swing.JTabbedPane tabela = KeyQuest.getMaterialsButtonsTable();
-                    javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
-                    javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
-                    javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
-                    PersonalButtonRequest btreq = null;
-                    for (int i = 0; i < pan.getComponentCount(); i++) {
-                        PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
-                        if (bt.getValue() == req.getMaterial().getId()) {
-                            try {
-                                bt.setBackground(ButtonListRequest.OCCUPIED_COLOR);
-                                btreq = (PersonalButtonRequest) bt.clone();
-                            } catch (CloneNotSupportedException ex) {
-                                Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
-                                btreq = null;
-                            }
-                        }
+            if (val == 1) {
+                if (lista_req.isResultOfASearch()) {
+                    lista_req.destroySearch();
+                    lista_req.addTimerColors();
+                    lista_req.startTimerColors();
+                    if (jLabelLimpaPesquisaCima != null) {
+                        jLabelLimpaPesquisaCima.setVisible(false);
                     }
-                    if (tabela.getTabCount() > 0) {
-                        ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
-                        jv = (javax.swing.JViewport) ps.getComponent(0);
-                        pan = (javax.swing.JPanel) jv.getComponent(0);
+                    jLabelTitulorequisicoes.setText(lingua.translate("Lista_de_requisições"));
+                }
+                java.util.Set<Keys.Request> lista = lista_req.getRequestList().getDifferentUnionRequest(req);
+                if (lista.size() > 0) {
+                    lista.stream().forEach((l) -> {
+                        db.changeRequestActiveState(l);
+                    });
+                } else {
+                    db.changeRequestActiveState(req);
+                }
+                lista_req.removeSelectedRequest();
+                this.calculateList(lista_dev.getRequestList().getTypeOfMaterial());
+                Window[] w = Window.getWindows();
+                for (Window w1 : w) {
+                    if (w1 instanceof Clavis.Windows.WListMaterial) {
+                        javax.swing.JTabbedPane tabela = KeyQuest.getMaterialsButtonsTable();
+                        javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
+                        javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
+                        javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
+                        PersonalButtonRequest btreq = null;
                         for (int i = 0; i < pan.getComponentCount(); i++) {
                             PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
                             if (bt.getValue() == req.getMaterial().getId()) {
-                                pan.remove(i);
-                                pan.repaint();
+                                try {
+                                    bt.setBackground(ButtonListRequest.OCCUPIED_COLOR);
+                                    btreq = (PersonalButtonRequest) bt.clone();
+                                } catch (CloneNotSupportedException ex) {
+                                    Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
+                                    btreq = null;
+                                }
                             }
                         }
-                        if (tabela.getTabCount() > 1) {
-                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
+                        if (tabela.getTabCount() > 0) {
+                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
                             jv = (javax.swing.JViewport) ps.getComponent(0);
                             pan = (javax.swing.JPanel) jv.getComponent(0);
-                            if (btreq != null) {
-                                pan.add(btreq);
-                                sortPersonalButtonRequestOnTab(pan, btreq);
+                            for (int i = 0; i < pan.getComponentCount(); i++) {
+                                PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                                if (bt.getValue() == req.getMaterial().getId()) {
+                                    pan.remove(i);
+                                    pan.repaint();
+                                }
+                            }
+                            if (tabela.getTabCount() > 1) {
+                                ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
+                                jv = (javax.swing.JViewport) ps.getComponent(0);
+                                pan = (javax.swing.JPanel) jv.getComponent(0);
+                                if (btreq != null) {
+                                    pan.add(btreq);
+                                    sortPersonalButtonRequestOnTab(pan, btreq);
+                                }
                             }
                         }
                     }
@@ -4322,7 +4319,7 @@ public class KeyQuest extends javax.swing.JFrame {
         semestres.addSemester(sm);
         FileSemesters s = new Clavis.FileSemesters();
         s.saveSemesters(semestres);
-        DefaultListModel modelo = (DefaultListModel) jListSemestres.getModel();
+        DefaultListModel<String> modelo = (DefaultListModel<String>) jListSemestres.getModel();
         modelo.set((int) val, sm.toString(lingua));
     }//GEN-LAST:event_jButtonSemestreActionPerformed
 
@@ -4381,11 +4378,33 @@ public class KeyQuest extends javax.swing.JFrame {
             jListSemestres.clearSelection();
         }
         jListSemestres.setSelectedIndex(comboSemestre.getSelectedIndex());
+        TimeDate.Semester s;
+        if (comboSemestre.getSelectedIndex() == 0) {
+            s = semestres.getFirstSemester();
+        } else {
+            s = semestres.getLastSemester();
+        }
+        comboDiaSemestre1.setSelectedIndex(s.getBeginDate().getDay() - 1);
+        comboMesSemestre1.setSelectedIndex(s.getBeginDate().getMonth() - 1);
+        DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel<String>) comboAnoSemestre1.getModel();
+        for (int i = 0; i < modelo.getSize(); i++) {
+            if (modelo.getElementAt(i).equals("" + s.getBeginDate().getYear())) {
+                comboAnoSemestre1.setSelectedIndex(i);
+            }
+        }
+        comboDiaSemestre2.setSelectedIndex(s.getEndDate().getDay() - 1);
+        comboMesSemestre2.setSelectedIndex(s.getEndDate().getMonth() - 1);
+        DefaultComboBoxModel<String> modelo2 = (DefaultComboBoxModel<String>) comboAnoSemestre2.getModel();
+        for (int i = 0; i < modelo2.getSize(); i++) {
+            if (modelo2.getElementAt(i).equals("" + s.getEndDate().getYear())) {
+                comboAnoSemestre2.setSelectedIndex(i);
+            }
+        }
     }//GEN-LAST:event_comboSemestreItemStateChanged
 
     private void jButtonCalculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalculaActionPerformed
         TimeDate.Semester sem = semestres.dateInSemester(new TimeDate.Date());
-        Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(sem.getBeginDate(), sem.getEndDate(), intervalos, feriados, urlbd, urlcsv);
+        Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), sem.getEndDate(), intervalos, feriados, urlbd, urlcsv);
         Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Nota"), 400, 200, lingua.translate("O cálculo das requisições está a decorrer") + "... ", new String[]{lingua.translate("Voltar")});
         Thread t = new Thread(() -> {
             mensagem.getButtons()[0].setEnabled(false);
@@ -4400,8 +4419,8 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCalculaActionPerformed
 
     private void jButtonAlteraDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlteraDevolucaoActionPerformed
-       
-        Clavis.Windows.WSeeRequest wc = new Clavis.Windows.WSeeRequest(new Color(255,255,255), systemColor, urlbd, lingua, lista_dev.getSelectedRequest());
+
+        Clavis.Windows.WSeeRequest wc = new Clavis.Windows.WSeeRequest(new Color(255, 255, 255), systemColor, urlbd, lingua, lista_dev.getSelectedRequest());
         wc.create();
         wc.appear();
     }//GEN-LAST:event_jButtonAlteraDevolucaoActionPerformed
@@ -4750,6 +4769,66 @@ public class KeyQuest extends javax.swing.JFrame {
             jTextFieldProcuraBaixo.setToolTipText(lingua.translate("Formato") + ": hh24:mm:ss");
         }
 
+        jListSemestres.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) {
+                if ((e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_DOWN)) {
+                    comboSemestre.setSelectedIndex(jListSemestres.getSelectedIndex());
+                    TimeDate.Semester s;
+                    if (jListSemestres.getSelectedIndex() == 0) {
+                        s = semestres.getFirstSemester();
+                    } else {
+                        s = semestres.getLastSemester();
+                    }
+                    comboDiaSemestre1.setSelectedIndex(s.getBeginDate().getDay() - 1);
+                    comboMesSemestre1.setSelectedIndex(s.getBeginDate().getMonth() - 1);
+                    DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel<String>) comboAnoSemestre1.getModel();
+                    for (int i = 0; i < modelo.getSize(); i++) {
+                        if (modelo.getElementAt(i).equals("" + s.getBeginDate().getYear())) {
+                            comboAnoSemestre1.setSelectedIndex(i);
+                        }
+                    }
+                    comboDiaSemestre2.setSelectedIndex(s.getEndDate().getDay() - 1);
+                    comboMesSemestre2.setSelectedIndex(s.getEndDate().getMonth() - 1);
+                    DefaultComboBoxModel<String> modelo2 = (DefaultComboBoxModel<String>) comboAnoSemestre2.getModel();
+                    for (int i = 0; i < modelo2.getSize(); i++) {
+                        if (modelo2.getElementAt(i).equals("" + s.getEndDate().getYear())) {
+                            comboAnoSemestre2.setSelectedIndex(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        jListSemestres.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                comboSemestre.setSelectedIndex(jListSemestres.getSelectedIndex());
+                TimeDate.Semester s;
+                if (jListSemestres.getSelectedIndex() == 0) {
+                    s = semestres.getFirstSemester();
+                } else {
+                    s = semestres.getLastSemester();
+                }
+                comboDiaSemestre1.setSelectedIndex(s.getBeginDate().getDay() - 1);
+                comboMesSemestre1.setSelectedIndex(s.getBeginDate().getMonth() - 1);
+                DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel<String>) comboAnoSemestre1.getModel();
+                for (int i = 0; i < modelo.getSize(); i++) {
+                    if (modelo.getElementAt(i).equals("" + s.getBeginDate().getYear())) {
+                        comboAnoSemestre1.setSelectedIndex(i);
+                    }
+                }
+                comboDiaSemestre2.setSelectedIndex(s.getEndDate().getDay() - 1);
+                comboMesSemestre2.setSelectedIndex(s.getEndDate().getMonth() - 1);
+                DefaultComboBoxModel<String> modelo2 = (DefaultComboBoxModel<String>) comboAnoSemestre2.getModel();
+                for (int i = 0; i < modelo2.getSize(); i++) {
+                    if (modelo2.getElementAt(i).equals("" + s.getEndDate().getYear())) {
+                        comboAnoSemestre2.setSelectedIndex(i);
+                    }
+                }
+            }
+        });
+
         this.addDayChangeTimer();
         this.addTestConnection();
         this.controlScroll();
@@ -4851,12 +4930,22 @@ public class KeyQuest extends javax.swing.JFrame {
         JMenuItem itemRequisicao = new JMenuItem();
         itemRequisicao.setText(lingua.translate("Efetuar requisição"));
         itemRequisicao.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        itemRequisicao.setAccelerator(KeyStroke.getKeyStroke(itemDefinicoes.getText().charAt(0), Event.ALT_MASK));
+        itemRequisicao.setAccelerator(KeyStroke.getKeyStroke(itemRequisicao.getText().charAt(0), Event.ALT_MASK));
         itemRequisicao.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemRequisicoesActionPerformed(evt);
         });
 
         jMenuMovimentos.add(itemRequisicao);
+
+        JMenuItem itemMateriais = new JMenuItem();
+        itemMateriais.setText(lingua.translate("Ver recursos"));
+        itemMateriais.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        itemMateriais.setAccelerator(KeyStroke.getKeyStroke(itemMateriais.getText().charAt(0), Event.ALT_MASK));
+        itemMateriais.addActionListener((java.awt.event.ActionEvent evt) -> {
+            itemMateriaisActionPerformed(evt);
+        });
+
+        jMenuMovimentos.add(itemMateriais);
 
         JMenuItem itemAdicionarUtilizador = new JMenuItem();
         itemAdicionarUtilizador.setText(lingua.translate("Adicionar utilizadores"));
@@ -4910,7 +4999,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 item = new JMenuItem();
                 item.setText(lingua.translate(t.getTypeOfMaterialName()));
                 item.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.setAccelerator(KeyStroke.getKeyStroke(item.getText().charAt(0), Event.ALT_MASK));
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemRecursoEstatisticaActionPerformed(evt, t);
                 });
@@ -4933,7 +5022,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 item = new JMenuItem();
                 item.setText(lingua.translate(t.getTypeOfMaterialName()));
                 item.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.setAccelerator(KeyStroke.getKeyStroke(item.getText().charAt(0), Event.ALT_MASK));
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemPessoasAtivasEstatisticaActionPerformed(evt, t);
                 });
@@ -4955,7 +5044,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 item = new JMenuItem();
                 item.setText(lingua.translate(t.getTypeOfMaterialName()));
                 item.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                item.setAccelerator(KeyStroke.getKeyStroke(itemPesquisaRecurso.getText().charAt(0), Event.ALT_MASK));
+                item.setAccelerator(KeyStroke.getKeyStroke(item.getText().charAt(0), Event.ALT_MASK));
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemMediaRequisicoesPorDiaActionPerformed(evt, t);
                 });
@@ -4985,9 +5074,17 @@ public class KeyQuest extends javax.swing.JFrame {
         if (DataBase.DataBase.testConnection(urlbd)) {
             DataBase.DataBase db = new DataBase.DataBase(urlbd);
             java.util.List<Statistic.MonthRequests> st = db.getCountAverageRequestsMonthGraphicUse(tipo, 4, false);
-            Graphics.Linechart grafico = new Graphics.Linechart(lingua.translate("Top de requisições"),lingua.translate("Tipo de material"), lingua.translate("Média de requisições"), st, lingua, 5);
+            Graphics.Linechart grafico = new Graphics.Linechart(lingua.translate("Top de requisições"), lingua.translate("Tipo de material"), lingua.translate("Média de requisições"), st, lingua, 5);
             grafico.createGraphic(lingua.translate("Média de requisições por dia"), 700, 500);
             grafico.showGraphic();
+        }
+    }
+
+    private void itemMateriaisActionPerformed(java.awt.event.ActionEvent evt) {
+        if (requisicoes.isConnected()) {
+            tbMaterial = new Clavis.Windows.WListMaterial(new Color(255, 255, 255), systemColor, urlbd, lingua, tipomaterial, vista);
+            tbMaterial.create();
+            tbMaterial.appear();
         }
     }
 
@@ -5004,6 +5101,27 @@ public class KeyQuest extends javax.swing.JFrame {
     private void itemCalculaActionPerformed(java.awt.event.ActionEvent evt) {
         this.makeComboBoxDates(comboAnoSemestre1, comboMesSemestre1, comboDiaSemestre1);
         this.makeComboBoxDates(comboAnoSemestre2, comboMesSemestre2, comboDiaSemestre2);
+        TimeDate.Date dat = new TimeDate.Date();
+        TimeDate.Semester s = semestres.dateInSemester(dat);
+        short f = s.getPeriod();
+        jListSemestres.setSelectedIndex((int) f);
+        comboSemestre.setSelectedIndex((int) f);
+        comboDiaSemestre1.setSelectedIndex(s.getBeginDate().getDay() - 1);
+        comboMesSemestre1.setSelectedIndex(s.getBeginDate().getMonth() - 1);
+        DefaultComboBoxModel<String> modelo = (DefaultComboBoxModel<String>) comboAnoSemestre1.getModel();
+        for (int i = 0; i < modelo.getSize(); i++) {
+            if (modelo.getElementAt(i).equals("" + s.getBeginDate().getYear())) {
+                comboAnoSemestre1.setSelectedIndex(i);
+            }
+        }
+        comboDiaSemestre2.setSelectedIndex(s.getEndDate().getDay() - 1);
+        comboMesSemestre2.setSelectedIndex(s.getEndDate().getMonth() - 1);
+        DefaultComboBoxModel<String> modelo2 = (DefaultComboBoxModel<String>) comboAnoSemestre2.getModel();
+        for (int i = 0; i < modelo2.getSize(); i++) {
+            if (modelo2.getElementAt(i).equals("" + s.getEndDate().getYear())) {
+                comboAnoSemestre2.setSelectedIndex(i);
+            }
+        }
         jDialogSemestres.setVisible(true);
         jDialogSemestres.setLocationRelativeTo(this);
     }
@@ -5268,7 +5386,7 @@ public class KeyQuest extends javax.swing.JFrame {
 
     }
 
-    private void makeComboBoxDates(javax.swing.JComboBox jComboBoxDefBreaksAnoInicio, javax.swing.JComboBox jComboBoxDefBreaksMesInicio, javax.swing.JComboBox jComboBoxDefBreaksDiaInicio) {
+    private void makeComboBoxDates(javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio, javax.swing.JComboBox<String> jComboBoxDefBreaksMesInicio, javax.swing.JComboBox<String> jComboBoxDefBreaksDiaInicio) {
         int ano = new TimeDate.Date().getYear();
         int limite = 50;
         String[] anos = new String[101];
@@ -6245,7 +6363,7 @@ public class KeyQuest extends javax.swing.JFrame {
         return superuser;
     }
 
-    public static void refreshDevolutionTable(Keys.Request req) {
+    public static void refreshDevolutionTable() {
         if (lista_dev.isResultOfASearch()) {
             lista_dev.getRequestList().reMake();
             lista_dev.destroySearch();

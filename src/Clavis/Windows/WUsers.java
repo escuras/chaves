@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -38,6 +37,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class WUsers extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 234L;
     private Color corfundo;
     private Color corborda;
     private String url;
@@ -784,7 +784,7 @@ public class WUsers extends javax.swing.JFrame {
         });
 
         // combobox das funções 
-        DefaultComboBoxModel<Keys.Function> modelo = (DefaultComboBoxModel) jComboBoxAdicionarFuncao.getModel();
+        DefaultComboBoxModel<Keys.Function> modelo = (DefaultComboBoxModel<Keys.Function>) jComboBoxAdicionarFuncao.getModel();
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             java.util.List<Keys.Function> lista = db.getFunctions();
@@ -992,7 +992,6 @@ public class WUsers extends javax.swing.JFrame {
         jTableUtilizadores.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("sdsd");
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     clearSelection();
                 }
@@ -1137,7 +1136,10 @@ public class WUsers extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExit;
     private javax.swing.JButton jButtonPesquisa;
     private javax.swing.JButton jButtonReiniciar;
+    /*
     private javax.swing.JComboBox<String> jComboBoxAdicionarFuncao;
+    */
+    private javax.swing.JComboBox<Keys.Function> jComboBoxAdicionarFuncao;
     private javax.swing.JLabel jLabelAdicionarEmail;
     private javax.swing.JLabel jLabelAdicionarFuncao;
     private javax.swing.JLabel jLabelAdicionarIdentificacao;

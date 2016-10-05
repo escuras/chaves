@@ -53,7 +53,7 @@ public final class ActionButton extends javax.swing.JDialog {
     private TimeDate.Date dat;
     private javax.swing.JLabel labelauxiliar;
     private Timer timertempoatrasado;
-    private final PersonalButtonRequest btchamada;
+    private PersonalButtonRequest btchamada;
     private static ActionButton app = null;
 
     public ActionButton() {
@@ -1680,7 +1680,7 @@ public final class ActionButton extends javax.swing.JDialog {
                     db.changeRequestTerminateState(re);
                 }
             }
-            Clavis.KeyQuest.refreshDevolutionTable(req);
+            Clavis.KeyQuest.refreshDevolutionTable();
             int val = db.getNextRequest(mat).getId();
             db.close();
             req.setTerminated();
@@ -1698,6 +1698,7 @@ public final class ActionButton extends javax.swing.JDialog {
             this.createPanelRight(panel2);
             if (btchamada != null) {
                 btchamada.setBackground(Clavis.ButtonListRequest.FREE_COLOR);
+                btchamada.setBorder(BorderFactory.createEmptyBorder(0, 9, 0, 9));
                 if ((Clavis.KeyQuest.getMaterialsButtonsTable() != null) && (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2) != null)) {
                     javax.swing.JScrollPane ps = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2));
                     javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
@@ -2082,15 +2083,20 @@ public final class ActionButton extends javax.swing.JDialog {
                 labelauxiliar.setForeground(Color.RED);
                 double t = tim.compareTime(new TimeDate.Time()) / 60;
                 double decimal = 0;
+                String hora;
+                String minutos;
                 if (t > 59) {
                     t = t / 60;
                     decimal = (int) t;
                     decimal = t - decimal;
                     decimal = decimal * 60;
                     t = (int) t;
+                    hora = "" + (int) t;
+                    minutos = "" + (int) Math.round(decimal);
+                } else {
+                    hora = "0";
+                    minutos = "" + (int) t;
                 }
-                String hora = "" + (int) t;
-                String minutos = "" + Math.round(decimal);
                 if (hora.length() == 1) {
                     hora = "0" + hora;
                 }
@@ -2101,15 +2107,20 @@ public final class ActionButton extends javax.swing.JDialog {
                 this.timertempoatrasado = new Timer(1000, (ActionEvent e) -> {
                     double t1 = tim.compareTime(new TimeDate.Time()) / 60;
                     double decimal1 = 0;
+                    String hora1;
+                    String minutos1;
                     if (t1 > 59) {
                         t1 = t1 / 60;
                         decimal1 = (int) t1;
                         decimal1 = t1 - decimal1;
                         decimal1 = decimal1 * 60;
                         t1 = (int) t1;
+                        hora1 = "" + (int) t1;
+                        minutos1 = "" + (int) Math.round(decimal1);
+                    } else {
+                        hora1 = "0";
+                        minutos1 = "" + (int) t1;
                     }
-                    String hora1 = "" + (int) t1;
-                    String minutos1 = "" + Math.round(decimal1);
                     if (hora1.length() == 1) {
                         hora1 = "0" + hora1;
                     }

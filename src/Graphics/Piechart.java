@@ -8,21 +8,19 @@ package Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 public class Piechart extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 665L;
     private java.util.List<Statistic.TypeNumber> valores;
     private Langs.Locale lingua;
     private int quantidade;

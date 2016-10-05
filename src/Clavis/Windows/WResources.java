@@ -53,6 +53,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  */
 public class WResources extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 123L; 
     private Color corborda;
     private Color corfundo;
     private String url;
@@ -77,8 +78,8 @@ public class WResources extends javax.swing.JFrame {
         tiposelecionado = null;
         tiposdematerial = new java.util.ArrayList<>();
         carsFinal = new java.util.ArrayList<>();
-        carsOriginal = new java.util.ArrayList();
-        carsData = new java.util.ArrayList();
+        carsOriginal = new java.util.ArrayList<>();
+        carsData = new java.util.ArrayList<>();
         novaimagem = false;
     }
 
@@ -122,7 +123,7 @@ public class WResources extends javax.swing.JFrame {
     }
 
     private void makeComboBoxTypeMaterial() {
-        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             tiposdematerial = db.getTypesOfMaterial();
@@ -166,7 +167,7 @@ public class WResources extends javax.swing.JFrame {
     }
 
     private void makeJListOriginalFeatures() {
-        modeloOriginal = new DefaultListModel();
+        modeloOriginal = new DefaultListModel<>();
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             if (tiposelecionado != null) {
@@ -198,7 +199,7 @@ public class WResources extends javax.swing.JFrame {
             r = jListOriginal.getCellBounds(x, x);
             altura += (int) (r.getHeight());
             if (altura >= jListOriginal.getPreferredSize().getHeight()) {
-                jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), (int) (altura)));
+                jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), altura));
             }
         }
     }
@@ -208,7 +209,7 @@ public class WResources extends javax.swing.JFrame {
         jListOriginal.setDropMode(DropMode.INSERT);
         jListOriginal.setTransferHandler(new TransferHandler() {
             java.util.List<Keys.Feature> feas;
-
+            private static final long serialVersionUID = 123L;
             @Override
             public int getSourceActions(JComponent comp) {
                 return TransferHandler.COPY;
@@ -300,7 +301,7 @@ public class WResources extends javax.swing.JFrame {
         jListFinal.setModel(modeloFinal);
         jListFinal.setTransferHandler(new TransferHandler() {
             int index;
-
+            private static final long serialVersionUID = 123L;
             @Override
             public boolean canImport(TransferHandler.TransferSupport support) {
                 if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
@@ -419,7 +420,7 @@ public class WResources extends javax.swing.JFrame {
                             } else if (!f.getUnityMeasure().equals("")) {
                                 int u = createMessageMeasure(f).showMessage();
                                 if (u == 1) {
-                                    DefaultListModel modelo = (DefaultListModel) jListFinal.getModel();
+                                    DefaultListModel<String> modelo = (DefaultListModel<String>) jListFinal.getModel();
                                     double val;
                                     String snumero = numero.getText().replace(",", ".");
                                     try {
@@ -442,7 +443,7 @@ public class WResources extends javax.swing.JFrame {
                         Rectangle r;
                         int altura = 20;
                         jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), 0));
-                        DefaultListModel modelo = (DefaultListModel) jListOriginal.getModel();
+                        DefaultListModel<String> modelo = (DefaultListModel<String>) jListOriginal.getModel();
                         for (int x = 0; x < modelo.size(); x++) {
                             r = jListOriginal.getCellBounds(0, 0);
                             altura += (int) (r.getHeight());
@@ -573,7 +574,7 @@ public class WResources extends javax.swing.JFrame {
                     Rectangle r;
                     int altura = 20;
                     jListOriginal.setPreferredSize(new Dimension((int) jListOriginal.getPreferredSize().getWidth(), 0));
-                    DefaultListModel modelo = (DefaultListModel) jListOriginal.getModel();
+                    DefaultListModel<String> modelo = (DefaultListModel<String>) jListOriginal.getModel();
                     for (int x = 0; x < modelo.size(); x++) {
                         r = jListOriginal.getCellBounds(0, 0);
                         altura += (int) (r.getHeight());

@@ -13,23 +13,17 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
-import java.awt.print.PrinterJob;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,25 +32,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.standard.PageRanges;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -572,11 +554,9 @@ public class WShedule extends JDialog {
         int linhas;
 
         if (rows < maximolinhas) {
-            tableHeight = rowHeight * rows;
             linhas = rows;
             paginas++;
         } else {
-            tableHeight = rowHeight * maximolinhas;
             linhas = maximolinhas;
             int auxiliar = 0;
             while (auxiliar < rows) {
@@ -953,12 +933,12 @@ public class WShedule extends JDialog {
                                     }
                                 }
                             });
-                            valores[andamento][3] = multipla[0] + "";
+                            valores[andamento][3] = lingua.translate(multipla[0]) + "";
                         } else {
-                            valores[andamento][3] = req.getActivity();
+                            valores[andamento][3] = lingua.translate(req.getActivity());
                         }
                         if (valores[andamento][3].equals("")) {
-                            valores[andamento][3] = lingua.translate("sem descrição");
+                            valores[andamento][3] = lingua.translate("Sem descrição");
                         }
                         Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), valores[andamento][3], req.getSubject().getName()};
                         modelo.addRow(ob);
@@ -996,10 +976,10 @@ public class WShedule extends JDialog {
                             });
                             valores[andamento][3] = multipla[0];
                         } else {
-                            valores[andamento][3] = req.getActivity();
+                            valores[andamento][3] = lingua.translate(req.getActivity());
                         }
                         if (valores[andamento][3].equals("")) {
-                            valores[andamento][3] = lingua.translate("sem descrição");
+                            valores[andamento][3] = lingua.translate("Sem descrição");
                         }
                         Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), req.getEndDate().toString(), valores[andamento][3]};
                         modelo.addRow(ob);
@@ -1064,7 +1044,7 @@ public class WShedule extends JDialog {
             pan.add(lrecurso5);
             javax.swing.JLabel lrecurso55;
             if (req.getActivity().equals("")) {
-                lrecurso55 = new javax.swing.JLabel(lingua.translate("sem descrição"));
+                lrecurso55 = new javax.swing.JLabel(lingua.translate("Sem descrição"));
             } else {
                 String[] saux = req.getActivity().split(":::");
                 String atividade;
@@ -1305,7 +1285,7 @@ public class WShedule extends JDialog {
                         saux = req.getActivity();
                     }
                     if (saux.equals("")) {
-                        saux = lingua.translate("sem descrição");
+                        saux = lingua.translate("Sem descrição");
                     }
                     if (mat.getMaterialTypeID() == 1) {
                         Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
@@ -1356,7 +1336,7 @@ public class WShedule extends JDialog {
                             saux = req.getActivity();
                         }
                         if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
+                            saux = lingua.translate("Sem descrição");
                         }
                         if (mat.getMaterialTypeID() == 1) {
                             Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
@@ -1408,7 +1388,7 @@ public class WShedule extends JDialog {
                             saux = req.getActivity();
                         }
                         if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
+                            saux = lingua.translate("Sem descrição");
                         }
                         if (mat.getMaterialTypeID() == 1) {
                             Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
@@ -1460,7 +1440,7 @@ public class WShedule extends JDialog {
                             saux = req.getActivity();
                         }
                         if (saux.equals("")) {
-                            saux = lingua.translate("sem descrição");
+                            saux = lingua.translate("Sem descrição");
                         }
                         if (mat.getMaterialTypeID() == 1) {
                             Object[] ob = {req.getPerson().getName(), req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0), req.getBeginDate().toString(), saux, req.getSubject().getName()};
@@ -1480,7 +1460,7 @@ public class WShedule extends JDialog {
             String[] multipla = lista.get(i).getActivity().split(":::");
             String saux = multipla[0];
             if (saux.equals("")) {
-                saux = lingua.translate("sem descrição");
+                saux = lingua.translate("Sem descrição");
             }
             if (mat.getMaterialTypeID() == 1) {
                 valores[i][0] = lista.get(i).getPerson().getName();

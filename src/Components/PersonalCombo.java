@@ -105,9 +105,9 @@ public class PersonalCombo {
         Object child = combo.getAccessibleContext().getAccessibleChild(0);
         BasicComboPopup popup = (BasicComboPopup) child;
         javax.swing.JList<?> list = popup.getList();
-        list.setCellRenderer(new ListCellRenderer() {
+        list.setCellRenderer(new ListCellRenderer<Object>() {
             @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 javax.swing.JLabel label = new javax.swing.JLabel();
                 label.setOpaque(true);
                 label.setBackground(new java.awt.Color(255, 255, 255));
@@ -458,7 +458,7 @@ public class PersonalCombo {
         return perdefocus;
     }
     
-     public static void setHorizontalTextPosition(int posicaotexto, javax.swing.JComboBox pos) {
+     public static void setHorizontalTextPosition(int posicaotexto, javax.swing.JComboBox<?> pos) {
         javax.swing.JTextField fil = (javax.swing.JTextField) pos.getEditor().getEditorComponent();
         fil.setHorizontalAlignment(posicaotexto);
         ((javax.swing.JLabel) pos.getRenderer()).setHorizontalAlignment(posicaotexto);
