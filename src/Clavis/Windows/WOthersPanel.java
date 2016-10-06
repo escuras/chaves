@@ -89,7 +89,7 @@ public class WOthersPanel {
         cbatividade.setHelpText(lingua.translate("Escolha uma destas atividades")+"...");
         cbatividade.setPreferredSize(new Dimension(250, 34));
         cbatividade.getComboBox().setBounds(140, 20, 270, 34);
-        cbatividade.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
+        cbatividade.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
         javax.swing.JTextField tx1 = (javax.swing.JTextField) cbatividade.getComboBox().getEditor().getEditorComponent();
         tx1.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         cbatividade.create();
@@ -149,7 +149,7 @@ public class WOthersPanel {
                 cbturmas.getComboBox().addItem(turma);
             });
         }
-        cbturmas.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
+        cbturmas.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
         panesquerda.add(cbturmas.getComboBox());
 
         DefaultListModel<Keys.ClassStudents> ll = new DefaultListModel<>();
@@ -221,7 +221,7 @@ public class WOthersPanel {
                 cbdisciplinas.getComboBox().addItem(disciplina);
             });
         }
-        cbdisciplinas.setHorizontalTextPosition(javax.swing.JTextField.LEFT);
+        cbdisciplinas.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
         pandireita.add(cbdisciplinas.getComboBox());
 
         DefaultListModel<Keys.Subject> ss = new DefaultListModel<>();

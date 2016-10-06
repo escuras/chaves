@@ -51,6 +51,7 @@ public class WSeeRequest extends javax.swing.JFrame {
 
     public void create() {
         initComponents();
+        this.setTitle(lingua.translate("Dados da requisição"));
         makePanel();
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         if (selecionada != null) {
@@ -165,10 +166,10 @@ public class WSeeRequest extends javax.swing.JFrame {
             if (atraso > 0) {
                 atrasado = true;
                 if (atrasohoras > 0) {
-                    double t = ((double)atrasohoras / 60.0);
+                    double t = (double)atrasohoras / 60.0;
                     double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
@@ -177,26 +178,26 @@ public class WSeeRequest extends javax.swing.JFrame {
                         minutos = "" + (int) Math.round(decimal);
                     } else {
                         hora = "0";
-                        minutos = "" + t;
+                        minutos = "" + (int) Math.round(t);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + atraso + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras < 0) {
                     int seg = selecionada.getTimeEnd().compareTime(new TimeDate.Time(23, 59, 59));
                     seg += new TimeDate.Time(0, 0, 0).compareTime(tm);
-                    double t = seg / 60;
+                    double t = (double)seg / 60.0;
                     double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
-                        decimal = decimal * 60;
+                        decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
+                        minutos = "" + (int) Math.ceil(decimal);
                     } else {
                         hora = "0";
-                        minutos = "" + (int) t;
+                        minutos = "" + (int) Math.ceil(t);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + (atraso - 1) + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
@@ -208,77 +209,77 @@ public class WSeeRequest extends javax.swing.JFrame {
                     double t = ((double)atrasohoras / 60.0);
                     double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
-                        decimal = decimal * 60;
+                        decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
                         minutos = "" + (int) Math.round(decimal);
                     } else {
                         hora = "0";
-                        minutos = ""+(int) t;
+                        minutos = ""+(int) Math.round(t);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n"
                             + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras < 0) {
                     atrasohoras = -atrasohoras;
-                    double t = atrasohoras / 60;
+                    double t = (double)atrasohoras / 60.0;
                     double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
-                        decimal = decimal * 60;
+                        decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
+                        minutos = "" + (int) Math.ceil(decimal);
                     } else {
                         hora = "0";
-                        minutos = "" + (int) t;
+                        minutos = "" + (int)Math.ceil(t);
                     }
 
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", "
                             + lingua.translate("faltam") + ":\n\n " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else {
-                    tempodeatraso = "\n" + lingua.translate("O empréstimo terminou.");
+                    tempodeatraso = "\n" + lingua.translate("O empréstimo terminou")+".";
                 }
             } else {
                 atraso = -atraso;
                 if (atrasohoras > 0) {
                     int seg = tm.compareTime(new TimeDate.Time(23, 59, 59));
                     seg += new TimeDate.Time(0, 0, 0).compareTime(selecionada.getTimeEnd());
-                    double t = seg / 60;
-                    double decimal = 0;
+                    double t = (double)seg / 60.0;
+                    double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
-                        decimal = decimal * 60;
+                        decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
                         minutos = "" + (int) Math.round(decimal);
                     } else {
                         hora = "0";
-                        minutos = "" + t;
+                        minutos = "" + (int)Math.round(t);
                     }
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
                             + (atraso - 1) + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras <= 0) {
                     atrasohoras = -atrasohoras;
-                    double t = atrasohoras / 60;
-                    double decimal = 0;
+                    double t = (double)atrasohoras / 60.0;
+                    double decimal;
                     if (t > 59) {
-                        t = t / 60;
+                        t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
-                        decimal = decimal * 60;
+                        decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
+                        minutos = "" + (int) Math.ceil(decimal);
                     } else {
                         hora = "0";
-                        minutos = "" + (int) t;
+                        minutos = "" + (int) Math.ceil(t);
                     }
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
                             + atraso + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
@@ -313,12 +314,7 @@ public class WSeeRequest extends javax.swing.JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        Clavis.Windows.WSeeRequest ws = new Clavis.Windows.WSeeRequest(new Color(255, 255, 255), new Color(2, 2, 2), "", Langs.Locale.getLocale_pt_PT(), null);
-        ws.create();
-        ws.appear();
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -383,10 +379,8 @@ public class WSeeRequest extends javax.swing.JFrame {
         jPanelDados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabelUtilizador.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelUtilizador.setText("Utilizador:");
 
         jLabelRecurso.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelRecurso.setText("Recurso:");
         jLabelRecurso.setMaximumSize(new java.awt.Dimension(114, 90));
         jLabelRecurso.setMinimumSize(new java.awt.Dimension(114, 90));
         jLabelRecurso.setPreferredSize(new java.awt.Dimension(114, 90));
@@ -401,13 +395,10 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelUtilizador2.setOpaque(true);
 
         jLabelInicio.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelInicio.setText("Início:");
 
         jLabelInicioData.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelInicioData.setText("Data");
 
         jLabelInicioHora.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelInicioHora.setText("Hora");
 
         jLabelInicioData2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -428,13 +419,10 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelInicioHora2.setOpaque(true);
 
         jLabelFim.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelFim.setText("Fim:");
 
         jLabelFimData.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelFimData.setText("Data");
 
         jLabelFimHora.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelFimHora.setText("Hora");
 
         jLabelFimData2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -464,7 +452,6 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelRecurso2.setOpaque(true);
 
         jLabelAtividade.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelAtividade.setText("Atividade:");
 
         jLabelAtividade2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -485,7 +472,6 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelDisciplina2.setOpaque(true);
 
         jLabelDisciplina.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelDisciplina.setText("Disciplina:");
 
         javax.swing.GroupLayout jPanelDadosLayout = new javax.swing.GroupLayout(jPanelDados);
         jPanelDados.setLayout(jPanelDadosLayout);
@@ -576,11 +562,11 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelUtilizador.setText(lingua.translate("Utilizador")+":");
         jLabelRecurso.setText(lingua.translate("Recurso")+":");
         jLabelInicio.setText(lingua.translate("Início")+":");
-        jLabelInicioData.setText(lingua.translate("Data"));
-        jLabelInicioHora.setText(lingua.translate("Hora"));
+        jLabelInicioData.setText(lingua.translate("Data")+":");
+        jLabelInicioHora.setText(lingua.translate("Hora")+":");
         jLabelFim.setText(lingua.translate("Fim")+":");
-        jLabelFimData.setText(lingua.translate("Data"));
-        jLabelFimHora.setText(lingua.translate("Hora"));
+        jLabelFimData.setText(lingua.translate("Data")+":");
+        jLabelFimHora.setText(lingua.translate("Hora")+":");
         jLabelAtividade.setText(lingua.translate("Atividade")+":");
         jLabelDisciplina.setText(lingua.translate("Disciplina")+":");
 
@@ -605,13 +591,10 @@ public class WSeeRequest extends javax.swing.JFrame {
         jPanelAlteracao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabelMomentoData.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelMomentoData.setText("Data");
 
         jLabelEstado.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelEstado.setText("Estado: ");
 
         jLabelMomentoHora.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelMomentoHora.setText("Hora");
 
         jLabelMomentoHora2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -623,7 +606,6 @@ public class WSeeRequest extends javax.swing.JFrame {
         jLabelMomentoHora2.setOpaque(true);
 
         jLabelMomentoEntrega.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelMomentoEntrega.setText("Momento de entrega:");
 
         jLabelMomentoData2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder12 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -708,9 +690,9 @@ public class WSeeRequest extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        jLabelInicioData.setText(lingua.translate("Data"));
+        jLabelMomentoData.setText(lingua.translate("Data")+":");
         jLabelEstado.setText(lingua.translate("Estado")+":");
-        jLabelInicioHora.setText(lingua.translate("Hora"));
+        jLabelMomentoHora.setText(lingua.translate("Hora")+":");
         jLabelMomentoEntrega.setText(lingua.translate("Momento de entrega")+":");
         try {
             if (Clavis.KeyQuest.class.getResource("Images/ok.png") != null) {
@@ -803,6 +785,7 @@ public class WSeeRequest extends javax.swing.JFrame {
         );
 
         jLabelRequisicaoVelha.setText(lingua.translate("Dados da requisição"));
+        jLabelImagem.setToolTipText(lingua.translate("Clique para ver a imagem maior")+".");
         jLabelOutrosDados.setText(lingua.translate("Outros dados"));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {

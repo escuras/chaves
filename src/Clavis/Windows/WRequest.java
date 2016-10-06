@@ -6,18 +6,13 @@
 package Clavis.Windows;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.FontRenderContext;
@@ -29,8 +24,6 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -1185,8 +1178,8 @@ public class WRequest extends javax.swing.JFrame {
         txm.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         javax.swing.JTextField txmutilizador = (javax.swing.JTextField) jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent();
         txmutilizador.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        jComboBoxTipoMaterial.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
-        jComboBoxMaterial.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
+        jComboBoxTipoMaterial.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
+        jComboBoxMaterial.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
         jComboBoxNomeUtilizador.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinnerQuantidade.getEditor();
         javax.swing.JTextField txx = editor.getTextField();
@@ -1794,7 +1787,7 @@ public class WRequest extends javax.swing.JFrame {
                             n = new Keys.Material(n) {
                                 @Override
                                 public String toString() {
-                                    return this.getTypeOfMaterialName() + " " + this.getDescription();
+                                    return lingua.translate(this.getTypeOfMaterialName()) + " " + this.getDescription();
                                 }
                             };
                         }

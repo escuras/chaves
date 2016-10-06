@@ -192,6 +192,12 @@ public class WListMaterial extends javax.swing.JFrame {
             int andando = 0;
             int sel = 0;
             for (Keys.TypeOfMaterial t : tipos) {
+                t = new Keys.TypeOfMaterial(t) {
+                    @Override
+                    public String toString(){
+                        return lingua.translate(this.getTypeOfMaterialName());
+                    }
+                };
                 modelo.addElement(t);
                 if ((t.getMaterialTypeID() == tiposelecionado.getMaterialTypeID()) && (t.getTypeOfMaterialName().equals(tiposelecionado.getTypeOfMaterialName()))) {
                     sel = andando;

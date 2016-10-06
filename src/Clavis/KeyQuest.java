@@ -335,7 +335,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelListaFeriadosEscolhidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelListaFeriadosEscolhidos.setOpaque(true);
 
-        jRadioButtonCarnaval.setText("Carnaval");
         jRadioButtonCarnaval.setFocusPainted(false);
         jRadioButtonCarnaval.setText(lingua.translate("Carnaval"));
         jRadioButtonCarnaval.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -349,7 +348,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jRadioButtonSextaFeira.setText("Sexta-feira santa");
         jRadioButtonSextaFeira.setFocusPainted(false);
         jRadioButtonSextaFeira.setText(lingua.translate("Sexta-feira_santa"));
         jRadioButtonSextaFeira.addActionListener(new java.awt.event.ActionListener() {
@@ -358,7 +356,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jRadioButtonPascoa.setText("Páscoa");
         jRadioButtonPascoa.setFocusPainted(false);
         jRadioButtonPascoa.setText(lingua.translate("Páscoa"));
         jRadioButtonPascoa.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +364,6 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jRadioButtonCorpoDeus.setText("Corpo de Deus");
         jRadioButtonCorpoDeus.setFocusPainted(false);
         jRadioButtonCorpoDeus.setText(lingua.translate("corpo_deus"));
         jRadioButtonCorpoDeus.addActionListener(new java.awt.event.ActionListener() {
@@ -603,7 +599,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(245, 245, 245));
         jLabel1.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Adicionar períodos:");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel1.setOpaque(true);
         jLabel1.setText(lingua.translate("Adicionar_periodos"));
@@ -620,10 +615,8 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelDefBreaksInicio.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelDefBreaksInicio.setText("Início:");
 
         jLabelDefBreaksTermino.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelDefBreaksTermino.setText("Término:");
 
         jComboBoxDefBreaksDiaInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksDiaInicio.setFocusable(false);
@@ -633,29 +626,17 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabelDefBreaksDiaInicio.setText("Dia:");
-
-        jLabelDefBreaksMesInicio.setText("Mês:");
-
         jComboBoxDefBreaksMesInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksMesInicio.setFocusable(false);
-
-        jLabelDefBreaksAnoInicio.setText("Ano:");
 
         jComboBoxDefBreaksAnoInicio.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksAnoInicio.setFocusable(false);
 
-        jLabelDefBreaksDiaFim.setText("Dia:");
-
         jComboBoxDefBreaksDiaFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksDiaFim.setFocusable(false);
 
-        jLabelDefBreaksMesFim.setText("Mês:");
-
         jComboBoxDefBreaksMesFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksMesFim.setFocusable(false);
-
-        jLabelDefBreaksAnoFim.setText("Ano:");
 
         jComboBoxDefBreaksAnoFim.setBackground(new java.awt.Color(213, 213, 213));
         jComboBoxDefBreaksAnoFim.setFocusable(false);
@@ -689,7 +670,6 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabelDefBreaksNome.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelDefBreaksNome.setText("Nome:");
 
         javax.swing.GroupLayout jPanelDefBreaksLayout = new javax.swing.GroupLayout(jPanelDefBreaks);
         jPanelDefBreaks.setLayout(jPanelDefBreaksLayout);
@@ -722,9 +702,12 @@ public class KeyQuest extends javax.swing.JFrame {
                                         .addComponent(jComboBoxDefBreaksDiaFim, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDefBreaksLayout.createSequentialGroup()
                                         .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabelDefBreaksMesFim)
-                                            .addComponent(jLabelDefBreaksAnoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                                .addComponent(jLabelDefBreaksAnoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
+                                            .addGroup(jPanelDefBreaksLayout.createSequentialGroup()
+                                                .addComponent(jLabelDefBreaksMesFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(18, 18, 18)))
                                         .addGroup(jPanelDefBreaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jComboBoxDefBreaksMesFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jComboBoxDefBreaksAnoFim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -901,7 +884,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jLabelTituloDefOpcoes.setBackground(new java.awt.Color(245, 245, 245));
         jLabelTituloDefOpcoes.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         jLabelTituloDefOpcoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTituloDefOpcoes.setText("Definições");
         jLabelTituloDefOpcoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelTituloDefOpcoes.setOpaque(true);
 
@@ -1317,16 +1299,12 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabelDia.setText("Dia:");
-
         comboMesSemestre1.setFocusable(false);
         comboMesSemestre1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboMesSemestre1ItemStateChanged(evt);
             }
         });
-
-        jLabel3.setText("Mês:");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.setOpaque(false);
@@ -1369,7 +1347,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jLabel13.setBackground(new java.awt.Color(245, 245, 245));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Semestres");
         jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel13.setOpaque(true);
 
@@ -1406,7 +1383,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addGap(0, 0, 0))
         );
 
-        jLabel13.setText(lingua.translate("Semestres")+":");
+        jLabel13.setText(lingua.translate("Semestres"));
         try{
             if (this.getClass().getResource("Images/calc.png") != null) {
                 BufferedImage buf = ImageIO.read(this.getClass().getResourceAsStream("Images/calc.png"));
@@ -1419,7 +1396,6 @@ public class KeyQuest extends javax.swing.JFrame {
         jButtonCalcula.setToolTipText(lingua.translate("Calcular requisições com base nos semestres registados")+".");
 
         jLabel8.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabel8.setText("Início:");
 
         comboAnoSemestre1.setFocusable(false);
         comboAnoSemestre1.addItemListener(new java.awt.event.ItemListener() {
@@ -1428,12 +1404,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Ano:");
-
         jLabel9.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabel9.setText("Fim:");
-
-        jLabelDia1.setText("Dia:");
 
         comboDiaSemestre2.setFocusable(false);
         comboDiaSemestre2.addItemListener(new java.awt.event.ItemListener() {
@@ -1442,16 +1413,12 @@ public class KeyQuest extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setText("Mês:");
-
         comboMesSemestre2.setFocusable(false);
         comboMesSemestre2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboMesSemestre2ItemStateChanged(evt);
             }
         });
-
-        jLabel11.setText("Ano:");
 
         comboAnoSemestre2.setFocusable(false);
         comboAnoSemestre2.addItemListener(new java.awt.event.ItemListener() {
@@ -1461,7 +1428,6 @@ public class KeyQuest extends javax.swing.JFrame {
         });
 
         jLabel12.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabel12.setText("Semestre:");
 
         comboSemestre.setFocusable(false);
         comboSemestre.addItemListener(new java.awt.event.ItemListener() {
@@ -1487,7 +1453,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
         jLabel14.setBackground(new java.awt.Color(245, 245, 245));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Datas");
         jLabel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel14.setOpaque(true);
 
@@ -1587,19 +1552,34 @@ public class KeyQuest extends javax.swing.JFrame {
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(comboSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(75, 75, 75))
+                                    .addComponent(jButtonSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(comboSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(67, 67, 67))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
+        // Code adding the component to the parent container - not shown here
+        jLabelDia.setText(lingua.translate("Dia")+":");
+        // Code adding the component to the parent container - not shown here
+        jLabel3.setText(lingua.translate("Mês")+":");
+        // Code adding the component to the parent container - not shown here
+        jLabel8.setText(lingua.translate("Início")+":");
+        // Code adding the component to the parent container - not shown here
+        jLabel4.setText(lingua.translate("Ano")+":");
+        // Code adding the component to the parent container - not shown here
+        jLabel9.setText(lingua.translate("Fim")+":");
+        jLabelDia1.setText(lingua.translate("Dia")+":");
+        jLabel10.setText(lingua.translate("Mês")+":");
+        // Code adding the component to the parent container - not shown here
+        jLabel11.setText(lingua.translate("Ano")+":");
+        jLabel12.setText(lingua.translate("Semestre")+":");
         DefaultComboBoxModel<String> modelo= new DefaultComboBoxModel<>();
         modelo.addElement(lingua.translate("1º semestre"));
         modelo.addElement(lingua.translate("2º semestre"));
@@ -4832,7 +4812,6 @@ public class KeyQuest extends javax.swing.JFrame {
         this.addDayChangeTimer();
         this.addTestConnection();
         this.controlScroll();
-
     }
 
     private void defineSearchString() {
@@ -4993,7 +4972,6 @@ public class KeyQuest extends javax.swing.JFrame {
             DataBase.DataBase db = new DataBase.DataBase(urlbd);
             java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
             db.close();
-            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
             JMenuItem item;
             for (Keys.TypeOfMaterial t : tipos) {
                 item = new JMenuItem();
@@ -5003,7 +4981,6 @@ public class KeyQuest extends javax.swing.JFrame {
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemRecursoEstatisticaActionPerformed(evt, t);
                 });
-                ar.add(item);
                 jMenuMateriaisMaisUtilizados.add(item);
             }
 
@@ -5016,7 +4993,6 @@ public class KeyQuest extends javax.swing.JFrame {
             DataBase.DataBase db = new DataBase.DataBase(urlbd);
             java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
             db.close();
-            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
             JMenuItem item;
             for (Keys.TypeOfMaterial t : tipos) {
                 item = new JMenuItem();
@@ -5026,19 +5002,17 @@ public class KeyQuest extends javax.swing.JFrame {
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemPessoasAtivasEstatisticaActionPerformed(evt, t);
                 });
-                ar.add(item);
                 jMenuPessoasMaisAtivas.add(item);
             }
         }
 
         JMenu jMenuMediaRequisicoesPorDia = new JMenu();
-        jMenuMediaRequisicoesPorDia.setText(lingua.translate("Média de requisições por dia"));
+        jMenuMediaRequisicoesPorDia.setText(lingua.translate("Média de requisições ao dia por mês"));
         jMenuMediaRequisicoesPorDia.setMnemonic(lingua.translate("Utilizadores").charAt(0));
         if (DataBase.DataBase.testConnection(urlbd)) {
             DataBase.DataBase db = new DataBase.DataBase(urlbd);
             java.util.List<Keys.TypeOfMaterial> tipos = db.getTypesOfMaterial();
             db.close();
-            java.util.ArrayList<JMenuItem> ar = new java.util.ArrayList<>();
             JMenuItem item;
             for (Keys.TypeOfMaterial t : tipos) {
                 item = new JMenuItem();
@@ -5048,7 +5022,6 @@ public class KeyQuest extends javax.swing.JFrame {
                 item.addActionListener((java.awt.event.ActionEvent evt) -> {
                     itemMediaRequisicoesPorDiaActionPerformed(evt, t);
                 });
-                ar.add(item);
                 jMenuMediaRequisicoesPorDia.add(item);
             }
         }
@@ -6040,7 +6013,6 @@ public class KeyQuest extends javax.swing.JFrame {
     protected String urlcsv;
     private static PersonalPrefs prefs;
     protected static Langs.Locale lingua;
-    private ButtonListRequest btrequests;
     private static Clavis.Windows.WListMaterial tbMaterial;
     private static TableRequest lista_req;
     private static TableRequest lista_dev;
@@ -6071,10 +6043,9 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public void addTestConnection() {
         estado = ligacao;
-        Timer t = new Timer(1000 * 10, (ActionEvent e) -> {
+        Timer t = new Timer(1000 * 60, (ActionEvent e) -> {
             ligacao = DataBase.DataBase.testConnection(urlbd);
             if (estado != ligacao) {
-                Keys.TypeOfMaterial material = new Keys.TypeOfMaterial(-1, "Nenhum", -1, -1, "sem");;
                 if (ligacao) {
                     int aux = 0;
                     DataBase.DataBase db = new DataBase.DataBase(urlbd);
@@ -6093,12 +6064,10 @@ public class KeyQuest extends javax.swing.JFrame {
                     if (aux >= 0) {
                         jComboBoxListaBotoes.setSelectedIndex(aux);
                     }
-                    material = tipomaterial;
                 } else {
                     tiposmateriais = new java.util.ArrayList<>();
                     jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Nenhum")}));
                 }
-                this.calculateList(material);
                 estado = ligacao;
             }
         }
@@ -6213,7 +6182,6 @@ public class KeyQuest extends javax.swing.JFrame {
         Painter<Component> textfocus = (Graphics2D g, Component object, int width1, int height1) -> {
             g.setColor(new Color(54, 54, 54));
             g.fill(new RoundRectangle2D.Double(2, 2, width1 - 5, height1 - 5, 0, 0));
-            //g.fill(new RoundRectangle2D.Double(0, 2, width1 - 3, height1, 6, 6));
 
         };
         Painter<Component> iconnormalspinnercima = (Graphics2D g, Component object, int width1, int height1) -> {

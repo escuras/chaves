@@ -82,7 +82,7 @@
                       </Group>
                       <Component id="jButtonEditar" min="-2" pref="90" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="80" max="32767" attributes="0"/>
+                  <EmptySpace pref="77" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -163,22 +163,32 @@
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabelUtilizador" min="-2" pref="89" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jLabelUtilizador2" min="-2" pref="262" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="jLabelDisciplina" pref="95" max="32767" attributes="0"/>
+                                      <Component id="jLabelAtividade" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabelAtividade2" min="-2" pref="262" max="-2" attributes="0"/>
+                                      <Component id="jLabelDisciplina2" min="-2" pref="262" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLabelInicio" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabelFim" max="32767" attributes="0"/>
-                                      <Component id="jLabelRecurso" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jLabelInicio" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabelFim" max="32767" attributes="0"/>
+                                          <Component id="jLabelRecurso" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="jLabelUtilizador" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabelInicioData" max="32767" attributes="0"/>
-                                              <Component id="jLabelInicioHora" max="32767" attributes="0"/>
+                                              <Component id="jLabelInicioHora" alignment="0" max="32767" attributes="0"/>
                                               <Component id="jLabelFimData" alignment="0" max="32767" attributes="0"/>
                                               <Group type="102" attributes="0">
                                                   <Component id="jLabelFimHora" min="-2" pref="56" max="-2" attributes="0"/>
@@ -186,32 +196,22 @@
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jLabelFimHora2" pref="199" max="32767" attributes="0"/>
-                                              <Component id="jLabelFimData2" max="32767" attributes="0"/>
-                                              <Component id="jLabelInicioHora2" alignment="1" max="32767" attributes="0"/>
-                                              <Component id="jLabelInicioData2" alignment="1" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="jLabelFimHora2" pref="199" max="32767" attributes="0"/>
+                                                  <Component id="jLabelFimData2" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabelInicioHora2" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
+                                              <Component id="jLabelInicioData2" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace pref="24" max="32767" attributes="0"/>
-                                          <Component id="jLabelRecurso2" min="-2" pref="262" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabelUtilizador2" min="-2" pref="262" max="-2" attributes="0"/>
+                                      <Component id="jLabelRecurso2" min="-2" pref="262" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLabelDisciplina" pref="95" max="32767" attributes="0"/>
-                                      <Component id="jLabelAtividade" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="43" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabelAtividade2" alignment="1" min="-2" pref="262" max="-2" attributes="0"/>
-                                      <Component id="jLabelDisciplina2" alignment="1" min="-2" pref="262" max="-2" attributes="0"/>
-                                  </Group>
+                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -229,12 +229,10 @@
                               <Component id="jLabelRecurso2" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelInicioData2" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelInicioData" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="jLabelInicio" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabelInicioData" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabelInicio" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabelInicioData2" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -245,7 +243,7 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabelInicioHora2" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jLabelInicioHora" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="jLabelInicioHora" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="jLabelFimData2" min="-2" pref="30" max="-2" attributes="0"/>
@@ -253,7 +251,7 @@
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelFimHora" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabelFimHora" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jLabelFimHora2" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -277,7 +275,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Utilizador:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelUtilizador.setText(lingua.translate(&quot;Utilizador&quot;)+&quot;:&quot;);"/>
@@ -288,7 +285,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Recurso:"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[114, 90]"/>
                     </Property>
@@ -338,7 +334,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="In&#xed;cio:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelInicio.setText(lingua.translate(&quot;In&#xed;cio&quot;)+&quot;:&quot;);"/>
@@ -349,10 +344,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Data"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelInicioData.setText(lingua.translate(&quot;Data&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelInicioData.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelInicioHora">
@@ -360,10 +354,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Hora"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelInicioHora.setText(lingua.translate(&quot;Hora&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelInicioHora.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelInicioData2">
@@ -431,7 +424,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Fim:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelFim.setText(lingua.translate(&quot;Fim&quot;)+&quot;:&quot;);"/>
@@ -442,10 +434,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Data"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelFimData.setText(lingua.translate(&quot;Data&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelFimData.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelFimHora">
@@ -453,10 +444,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Hora"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelFimHora.setText(lingua.translate(&quot;Hora&quot;));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelFimHora.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelFimData2">
@@ -554,7 +544,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Atividade:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelAtividade.setText(lingua.translate(&quot;Atividade&quot;)+&quot;:&quot;);"/>
@@ -625,7 +614,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Cantarell" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Disciplina:"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDisciplina.setText(lingua.translate(&quot;Disciplina&quot;)+&quot;:&quot;);"/>
@@ -845,14 +833,14 @@
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel1">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Data:"/>
-                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Hora:"/>
-                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel2.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
+                      </AuxValues>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1012,14 +1000,14 @@
                       </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel7">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Data:"/>
-                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel7.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Hora:"/>
-                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel8.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
+                      </AuxValues>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1080,6 +1068,9 @@
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelImagem.setToolTipText(lingua.translate(&quot;Clique para ver a imagem maior&quot;)+&quot;.&quot;);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelRequisicaoNova">
           <Properties>

@@ -591,7 +591,6 @@ public class ButtonListRequest {
         this.bLista = this.getButtons();
         pane.setBackground(new Color(245, 245, 220));
         int valorborder = 50;
-        pane.setLayout(new Components.ModifiedFlowLayout());
         pane.setLayout(fl);
         pane.setBorder(new EmptyBorder(20, valorborder, 20, valorborder));
         if (!this.bLista.isEmpty()) {

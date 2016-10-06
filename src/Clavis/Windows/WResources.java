@@ -104,6 +104,7 @@ public class WResources extends javax.swing.JFrame {
 
     public void create() {
         initComponents();
+        this.setTitle(lingua.translate("Adicionar recursos"));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/lock.png") != null) {
                 BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lock.png"));
@@ -147,7 +148,7 @@ public class WResources extends javax.swing.JFrame {
             });
             tiposelecionado = tiposdematerial.get(0);
         } else {
-            modelo.addElement(lingua.translate("Não existe ligação"));
+            modelo.addElement(lingua.translate("Erro de ligação"));
             tiposdematerial = null;
         }
         jComboBoxTipoMaterial.setModel(modelo);
@@ -183,11 +184,11 @@ public class WResources extends javax.swing.JFrame {
                     modeloOriginal.addElement(lingua.translate(carsOriginal.get(i).toString()));
                 }
             } else {
-                modeloOriginal.addElement(lingua.translate("Selecione um tipo de material"));
+                modeloOriginal.addElement(lingua.translate("Selecione um tipo de material")+".");
                 carsOriginal = null;
             }
         } else {
-            modeloOriginal.addElement(lingua.translate("Não existe ligação à base de dados") + ".");
+            modeloOriginal.addElement(lingua.translate("Não tem ligação à base de dados") + ".");
             carsOriginal = null;
         }
         jListOriginal.setModel(modeloOriginal);
@@ -1252,6 +1253,7 @@ public class WResources extends javax.swing.JFrame {
             pButtonAdicionar.setText("->");
         }
         pButtonAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pButtonAdicionar.setToolTipText(lingua.translate("Associar caraterística ao recurso"));
         if (Clavis.KeyQuest.class.getResource("Images/seta_direita_negro.png") != null) {
             BufferedImage im2 = null;
             try {
@@ -1265,12 +1267,13 @@ public class WResources extends javax.swing.JFrame {
             pButtonRemover.setText("<-");
         }
         pButtonRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pButtonRemover.setToolTipText(lingua.translate("Remover associação"));
         jLabelT.setText(lingua.translate("Tipo de material")+":");
         textNome.addPlaceHolder(lingua.translate("Nome do produto")+" ...", jLabelNome);
         textCodigo.addPlaceHolder(lingua.translate("Código do produto")+" ...", jLabelCodigo);
         jLabelNome.setText(lingua.translate("Designação")+":");
         jLabelCodigo.setText(lingua.translate("Código")+":");
-        jLabelCarateristica.setText(lingua.translate("Adicionar novo valores ou caraterísticas"));
+        jLabelCarateristica.setText(lingua.translate("Adicionar novos valores ou caraterísticas"));
         jLabelValor.setText(lingua.translate("Descrição")+": ");
         jLabelMedida.setText(lingua.translate("Medida")+": ");
         textValor.addPlaceHolder(lingua.translate("Nova característica")+" ...", jLabelValor);
@@ -1305,6 +1308,7 @@ public class WResources extends javax.swing.JFrame {
             pButtonMais.setText("+");
         }
         pButtonMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pButtonMais.setToolTipText(lingua.translate("Adicionar outra caraterística"));
         jLabel1.setText(lingua.translate("Desloque valores ou caraterísticas para este quadro") + ".");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1367,7 +1371,7 @@ public class WResources extends javax.swing.JFrame {
             this.putOrignalIcon();
             jLabelMedida.requestFocus();
         } else {
-            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Não há ligação à base de dados"), new String[]{lingua.translate("Voltar")});
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Não tem ligação à base de dados")+".", new String[]{lingua.translate("Voltar")});
             mensagem.showMessage();
         }
 
@@ -1508,37 +1512,6 @@ public class WResources extends javax.swing.JFrame {
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonSairActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WResources.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            WResources wr = new WResources(new Color(125, 234, 145), new Color(255, 255, 255), "", Langs.Locale.getLocale_pt_PT());
-            wr.create();
-            wr.appear();
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConfirmar;

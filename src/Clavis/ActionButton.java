@@ -2081,21 +2081,21 @@ public final class ActionButton extends javax.swing.JDialog {
             }
             if ((atrasado) && (!dia)) {
                 labelauxiliar.setForeground(Color.RED);
-                double t = tim.compareTime(new TimeDate.Time()) / 60;
-                double decimal = 0;
+                double t = (double)tim.compareTime(new TimeDate.Time()) / 60.0;
+                double decimal;
                 String hora;
                 String minutos;
                 if (t > 59) {
-                    t = t / 60;
+                    t = t / 60.0;
                     decimal = (int) t;
                     decimal = t - decimal;
-                    decimal = decimal * 60;
+                    decimal = decimal * 60.0;
                     t = (int) t;
                     hora = "" + (int) t;
                     minutos = "" + (int) Math.round(decimal);
                 } else {
                     hora = "0";
-                    minutos = "" + (int) t;
+                    minutos = "" + (int) Math.round(t);
                 }
                 if (hora.length() == 1) {
                     hora = "0" + hora;
@@ -2105,21 +2105,21 @@ public final class ActionButton extends javax.swing.JDialog {
                 }
                 labelauxiliar.setText(tim.toString(0) + " (" + lingua.translate("mais") + " " + hora + ":" + minutos + ")");
                 this.timertempoatrasado = new Timer(1000, (ActionEvent e) -> {
-                    double t1 = tim.compareTime(new TimeDate.Time()) / 60;
-                    double decimal1 = 0;
+                    double t1 = (double)tim.compareTime(new TimeDate.Time()) / 60.0;
+                    double decimal1;
                     String hora1;
                     String minutos1;
                     if (t1 > 59) {
-                        t1 = t1 / 60;
+                        t1 = t1 / 60.0;
                         decimal1 = (int) t1;
                         decimal1 = t1 - decimal1;
-                        decimal1 = decimal1 * 60;
+                        decimal1 = decimal1 * 60.0;
                         t1 = (int) t1;
                         hora1 = "" + (int) t1;
                         minutos1 = "" + (int) Math.round(decimal1);
                     } else {
                         hora1 = "0";
-                        minutos1 = "" + (int) t1;
+                        minutos1 = "" + (int) Math.round(t1);
                     }
                     if (hora1.length() == 1) {
                         hora1 = "0" + hora1;

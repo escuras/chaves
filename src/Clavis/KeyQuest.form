@@ -300,7 +300,6 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonCarnaval">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Carnaval"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -313,7 +312,6 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonSextaFeira">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sexta-feira santa"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -325,7 +323,6 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonPascoa">
               <Properties>
-                <Property name="text" type="java.lang.String" value="P&#xe1;scoa"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -337,7 +334,6 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonCorpoDeus">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Corpo de Deus"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -510,10 +506,15 @@
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabelDefBreaksMesFim" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabelDefBreaksAnoFim" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="jLabelDefBreaksAnoFim" min="-2" pref="94" max="-2" attributes="0"/>
+                                                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="jLabelDefBreaksMesFim" max="32767" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
-                                              <EmptySpace pref="15" max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="jComboBoxDefBreaksMesFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
                                                   <Component id="jComboBoxDefBreaksAnoFim" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
@@ -704,7 +705,6 @@
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Adicionar per&#xed;odos:"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -742,7 +742,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="In&#xed;cio:"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksInicio.setText(lingua.translate(&quot;In&#xed;cio&quot;)+&quot;:&quot;);"/>
@@ -753,7 +752,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#xe9;rmino:"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksTermino.setText(lingua.translate(&quot;T&#xe9;rmino&quot;)+&quot;:&quot;);"/>
@@ -778,17 +776,11 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksDiaInicio">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dia:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksDiaInicio.setText(lingua.translate(&quot;Dia&quot;)+&quot;:&quot;);"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksMesInicio">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="M&#xea;s:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksMesInicio.setText(lingua.translate(&quot;M&#xea;s&quot;)+&quot;:&quot;);"/>
               </AuxValues>
@@ -809,9 +801,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksAnoInicio">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ano:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksAnoInicio.setText(lingua.translate(&quot;Ano&quot;)+&quot;:&quot;);"/>
               </AuxValues>
@@ -832,9 +821,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksDiaFim">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dia:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksDiaFim.setText(lingua.translate(&quot;Dia&quot;)+&quot;:&quot;);"/>
               </AuxValues>
@@ -855,9 +841,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksMesFim">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="M&#xea;s:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksMesFim.setText(lingua.translate(&quot;M&#xea;s&quot;)+&quot;:&quot;);"/>
               </AuxValues>
@@ -878,9 +861,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDefBreaksAnoFim">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ano:"/>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksAnoFim.setText(lingua.translate(&quot;Ano&quot;)+&quot;:&quot;);"/>
               </AuxValues>
@@ -946,7 +926,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nome:"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDefBreaksNome.setText(lingua.translate(&quot;Nome&quot;)+&quot;:&quot;);"/>
@@ -1111,7 +1090,6 @@
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Defini&#xe7;&#xf5;es"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -1793,19 +1771,19 @@
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" pref="23" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="comboSemestre" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jButtonExit" min="-2" pref="40" max="-2" attributes="0"/>
                                           <Component id="jButtonSemestre" min="-2" pref="40" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="comboSemestre" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
@@ -1832,9 +1810,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dia:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabelDia.setText(lingua.translate(&quot;Dia&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboMesSemestre1">
               <Properties>
@@ -1851,9 +1829,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="M&#xea;s:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabel3.setText(lingua.translate(&quot;M&#xea;s&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel5">
               <Properties>
@@ -1931,7 +1909,6 @@
                       <Color blue="f5" green="f5" red="f5" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Semestres"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder/>
@@ -1940,7 +1917,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel13.setText(lingua.translate(&quot;Semestres&quot;)+&quot;:&quot;);"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel13.setText(lingua.translate(&quot;Semestres&quot;));"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonCalcula">
@@ -1967,8 +1944,10 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="In&#xed;cio:"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabel8.setText(lingua.translate(&quot;In&#xed;cio&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboAnoSemestre1">
               <Properties>
@@ -1985,22 +1964,24 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ano:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabel4.setText(lingua.translate(&quot;Ano&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Fim:"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabel9.setText(lingua.translate(&quot;Fim&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDia1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dia:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelDia1.setText(lingua.translate(&quot;Dia&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboDiaSemestre2">
               <Properties>
@@ -2017,9 +1998,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="M&#xea;s:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel10.setText(lingua.translate(&quot;M&#xea;s&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboMesSemestre2">
               <Properties>
@@ -2036,9 +2017,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ano:"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Code adding the component to the parent container - not shown here&#xa;jLabel11.setText(lingua.translate(&quot;Ano&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboAnoSemestre2">
               <Properties>
@@ -2059,8 +2040,10 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Cantarell" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Semestre:"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel12.setText(lingua.translate(&quot;Semestre&quot;)+&quot;:&quot;);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboSemestre">
               <Properties>
@@ -2102,7 +2085,6 @@
                   <Color blue="f5" green="f5" red="f5" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Datas"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>

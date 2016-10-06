@@ -878,10 +878,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
         jXLabelLevantamento.setOpaque(true);
         jXLabelLevantamento.setPreferredSize(new java.awt.Dimension(269, 30));
 
-        jLabel1.setText("Data:");
-
-        jLabel2.setText("Hora:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -927,6 +923,8 @@ public class WRequestSpecific extends javax.swing.JDialog {
         javax.swing.JFormattedTextField ff2 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataLevantamento.getEditor()).getComponent(0);
         ff2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jXLabelLevantamento.setText(lingua.translate("Início da requisição"));
+        jLabel1.setText(lingua.translate("Data")+":");
+        jLabel2.setText(lingua.translate("Hora")+":");
 
         jPanel3.setBackground(new java.awt.Color(250, 250, 250));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -948,10 +946,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
         jLabelEntrega.setMinimumSize(new java.awt.Dimension(269, 30));
         jLabelEntrega.setOpaque(true);
         jLabelEntrega.setPreferredSize(new java.awt.Dimension(269, 30));
-
-        jLabel3.setText("Data:");
-
-        jLabel4.setText("Hora:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -996,6 +990,8 @@ public class WRequestSpecific extends javax.swing.JDialog {
         javax.swing.JFormattedTextField ffSpinner4 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataEntrega.getEditor()).getComponent(0);
         ffSpinner4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jLabelEntrega.setText(lingua.translate("Início da requisição"));
+        jLabel3.setText(lingua.translate("Data")+":");
+        jLabel4.setText(lingua.translate("Hora")+":");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

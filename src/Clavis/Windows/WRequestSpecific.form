@@ -272,14 +272,14 @@
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Data:"/>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel1.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel2">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Hora:"/>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel2.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -401,14 +401,14 @@
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Data:"/>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel3.setText(lingua.translate(&quot;Data&quot;)+&quot;:&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Hora:"/>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabel4.setText(lingua.translate(&quot;Hora&quot;)+&quot;:&quot;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

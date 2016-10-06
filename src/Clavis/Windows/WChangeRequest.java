@@ -13,10 +13,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -77,6 +75,7 @@ public class WChangeRequest extends javax.swing.JFrame {
     public void create() {
         initComponents();
         makePanel();
+        this.setTitle(lingua.translate("Substituir requisição"));
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         if (selecionada.getMaterial().getMaterialImage().equals("sem")) {
             try {
@@ -181,7 +180,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                     mlista.set(i, new Keys.Material(mlista.get(i)) {
                         @Override
                         public String toString() {
-                            return this.getTypeOfMaterialName() + " " + this.getDescription();
+                            return lingua.translate(this.getTypeOfMaterialName()) + " " + this.getDescription();
                         }
                     });
                 }
@@ -235,7 +234,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                 }
             });
         }
-        jLabelAtividade2.setText(satividade[0]);
+        jLabelAtividade2.setText(lingua.translate(satividade[0]));
         if (!selecionada.isMultiDisciplinar()) {
             jLabelDisciplina2.setText(lingua.translate(selecionada.getSubject().toString()));
         } else {
@@ -364,10 +363,8 @@ public class WChangeRequest extends javax.swing.JFrame {
         jPanelDados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabelUtilizador.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelUtilizador.setText("Utilizador:");
 
         jLabelRecurso.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelRecurso.setText("Recurso:");
         jLabelRecurso.setMaximumSize(new java.awt.Dimension(114, 90));
         jLabelRecurso.setMinimumSize(new java.awt.Dimension(114, 90));
         jLabelRecurso.setPreferredSize(new java.awt.Dimension(114, 90));
@@ -382,13 +379,10 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelUtilizador2.setOpaque(true);
 
         jLabelInicio.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelInicio.setText("Início:");
 
         jLabelInicioData.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelInicioData.setText("Data");
 
         jLabelInicioHora.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelInicioHora.setText("Hora");
 
         jLabelInicioData2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -409,13 +403,10 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelInicioHora2.setOpaque(true);
 
         jLabelFim.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelFim.setText("Fim:");
 
         jLabelFimData.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelFimData.setText("Data");
 
         jLabelFimHora.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jLabelFimHora.setText("Hora");
 
         jLabelFimData2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -445,7 +436,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelRecurso2.setOpaque(true);
 
         jLabelAtividade.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelAtividade.setText("Atividade:");
 
         jLabelAtividade2.setBackground(new java.awt.Color(254, 254, 254));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
@@ -466,7 +456,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelDisciplina2.setOpaque(true);
 
         jLabelDisciplina.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
-        jLabelDisciplina.setText("Disciplina:");
 
         javax.swing.GroupLayout jPanelDadosLayout = new javax.swing.GroupLayout(jPanelDados);
         jPanelDados.setLayout(jPanelDadosLayout);
@@ -476,17 +465,24 @@ public class WChangeRequest extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDadosLayout.createSequentialGroup()
-                        .addComponent(jLabelUtilizador, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelUtilizador2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDadosLayout.createSequentialGroup()
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabelInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelRecurso, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                            .addComponent(jLabelAtividade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelAtividade2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDisciplina2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDadosLayout.createSequentialGroup()
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabelInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelRecurso, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelUtilizador, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
                                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelInicioData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabelInicioHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -495,23 +491,16 @@ public class WChangeRequest extends javax.swing.JFrame {
                                         .addComponent(jLabelFimHora, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabelFimHora2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                                    .addComponent(jLabelFimData2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelInicioHora2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                .addComponent(jLabelRecurso2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDadosLayout.createSequentialGroup()
-                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabelDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                            .addComponent(jLabelAtividade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelAtividade2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelDisciplina2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 20, 20))
+                                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabelFimHora2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                        .addComponent(jLabelFimData2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabelInicioHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabelUtilizador2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelRecurso2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)))
+                .addGap(16, 16, 16))
         );
         jPanelDadosLayout.setVerticalGroup(
             jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,11 +514,10 @@ public class WChangeRequest extends javax.swing.JFrame {
                     .addComponent(jLabelRecurso, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelRecurso2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelInicioData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelInicioData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -538,12 +526,12 @@ public class WChangeRequest extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createSequentialGroup()
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelInicioHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelInicioHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelInicioHora, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
                         .addComponent(jLabelFimData2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelFimHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelFimHora, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelFimHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,11 +547,11 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelUtilizador.setText(lingua.translate("Utilizador")+":");
         jLabelRecurso.setText(lingua.translate("Recurso")+":");
         jLabelInicio.setText(lingua.translate("Início")+":");
-        jLabelInicioData.setText(lingua.translate("Data"));
-        jLabelInicioHora.setText(lingua.translate("Hora"));
+        jLabelInicioData.setText(lingua.translate("Data")+":");
+        jLabelInicioHora.setText(lingua.translate("Hora")+":");
         jLabelFim.setText(lingua.translate("Fim")+":");
-        jLabelFimData.setText(lingua.translate("Data"));
-        jLabelFimHora.setText(lingua.translate("Hora"));
+        jLabelFimData.setText(lingua.translate("Data")+":");
+        jLabelFimHora.setText(lingua.translate("Hora")+":");
         jLabelAtividade.setText(lingua.translate("Atividade")+":");
         jLabelDisciplina.setText(lingua.translate("Disciplina")+":");
 
@@ -610,10 +598,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         jXLabelLevantamento.setOpaque(true);
         jXLabelLevantamento.setPreferredSize(new java.awt.Dimension(269, 30));
 
-        jLabel1.setText("Data:");
-
-        jLabel2.setText("Hora:");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -659,6 +643,8 @@ public class WChangeRequest extends javax.swing.JFrame {
         javax.swing.JFormattedTextField ff2 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataLevantamento.getEditor()).getComponent(0);
         ff2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jXLabelLevantamento.setText(lingua.translate("Início da requisição"));
+        jLabel1.setText(lingua.translate("Data")+":");
+        jLabel2.setText(lingua.translate("Hora")+":");
 
         jLabelNovasDatas.setMaximumSize(new java.awt.Dimension(444444, 26));
         jLabelNovasDatas.setMinimumSize(new java.awt.Dimension(104, 26));
@@ -688,10 +674,6 @@ public class WChangeRequest extends javax.swing.JFrame {
         jLabelEntrega2.setMinimumSize(new java.awt.Dimension(269, 30));
         jLabelEntrega2.setOpaque(true);
         jLabelEntrega2.setPreferredSize(new java.awt.Dimension(269, 30));
-
-        jLabel7.setText("Data:");
-
-        jLabel8.setText("Hora:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -736,6 +718,8 @@ public class WChangeRequest extends javax.swing.JFrame {
         javax.swing.JFormattedTextField ffSpinner4 = (javax.swing.JFormattedTextField)((javax.swing.JSpinner.DateEditor)jSpinnerDataEntrega.getEditor()).getComponent(0);
         ffSpinner4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jLabelEntrega2.setText(lingua.translate("Fim da requisição"));
+        jLabel7.setText(lingua.translate("Data")+":");
+        jLabel8.setText(lingua.translate("Hora")+":");
 
         jLabelMaterial.setMaximumSize(new java.awt.Dimension(444444, 26));
         jLabelMaterial.setMinimumSize(new java.awt.Dimension(104, 26));
@@ -878,7 +862,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelRequisicaoNova, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -904,6 +888,7 @@ public class WChangeRequest extends javax.swing.JFrame {
         );
 
         jLabelRequisicaoVelha.setText(lingua.translate("Dados da requisição"));
+        jLabelImagem.setToolTipText(lingua.translate("Clique para ver a imagem maior")+".");
         jLabelRequisicaoNova.setText(lingua.translate("Dados para alteração"));
         try {
             if (Clavis.KeyQuest.class.getResource("Images/exit26x24.png") != null) {
@@ -1022,46 +1007,72 @@ public class WChangeRequest extends javax.swing.JFrame {
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);
                 db.setAutoCommit(false);
+                int tnovo = 0;
+                int toriginal = 0;
+
                 Savepoint p = db.createSavepoint("ssss");
+
                 java.util.Set<Keys.Request> lista = db.getUnionRequests(selecionada);
                 if (lista.size() > 0) {
-                    if (data1.isBigger(data2) == 0) {
-                        int tnovo = tempo1.compareTime(tempo2);
-                        int toriginal = selecionada.getTimeBegin().compareTime(selecionada.getTimeEnd());
-                        Keys.Request auxiliar = db.getRequestByID(selecionada.getId());
-                        int vprimeiro = auxiliar.getTimeBegin().compareTime(auxiliar.getTimeEnd());
-                        vprimeiro = tnovo * vprimeiro / toriginal;
-                        TimeDate.Time tauxiliar = tempo1.addSeconds(vprimeiro);
-                        tauxiliar.setSeconds(0);
-                        auxiliar.setTimeBegin(tempo1);
-                        auxiliar.setTimeEnd(tauxiliar);
-                        auxiliar.setBeginDate(data1);
-                        auxiliar.setEndDate(data2);
-                        auxiliar.setMaterial(mselecionado);
-                        if (db.setRequestSubstitute(auxiliar) != 1) {
+                    int intervalo = data1.isBigger(data2);
+                    if (intervalo >= 1) {
+                        tnovo += tempo1.compareTime(new TimeDate.Time(23, 59, 59));
+                        tnovo += new TimeDate.Time(0, 0, 0).compareTime(tempo2);
+                        int i = 1;
+                        while (i < intervalo) {
+                            tnovo += 86400;
+                            i++;
+                        }
+                    } else {
+                        tnovo = tempo1.compareTime(tempo2);
+                        System.out.println(tnovo);
+                    }
+                    int intervalooriginal = selecionada.getBeginDate().isBigger(selecionada.getEndDate());
+                    if (intervalooriginal >= 1) {
+                        toriginal += tempo1.compareTime(new TimeDate.Time(23, 59, 59));
+                        toriginal += new TimeDate.Time(0, 0, 0).compareTime(tempo2);
+                        int i = 1;
+                        while (i < intervalo) {
+                            toriginal += 86400;
+                            i++;
+                        }
+                    } else {
+                        toriginal = selecionada.getTimeBegin().compareTime(selecionada.getTimeEnd());
+                        System.out.println(toriginal);
+                    }
+                    Keys.Request auxiliar = db.getRequestByID(selecionada.getId());
+                    int vprimeiro = auxiliar.getTimeBegin().compareTime(auxiliar.getTimeEnd());
+                    vprimeiro = tnovo * vprimeiro / toriginal;
+                    TimeDate.Time tauxiliar = tempo1.addSeconds(vprimeiro);
+                    tauxiliar.setSeconds(0);
+                    auxiliar.setTimeBegin(tempo1);
+                    auxiliar.setTimeEnd(tauxiliar);
+                    auxiliar.setBeginDate(data1);
+                    auxiliar.setEndDate(data2);
+                    auxiliar.setMaterial(mselecionado);
+                    if (db.setRequestSubstitute(auxiliar) != 1) {
+                        db.roolback(p);
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("Houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                        mensagem.showMessage();
+                        return;
+                    }
+                    int id = db.getRequestID(auxiliar.getPerson().getId(), auxiliar.getMaterial().getId(), auxiliar.getBeginDate(), auxiliar.getEndDate(), auxiliar.getTimeBegin(), auxiliar.getTimeEnd());
+                    int vsegundos;
+                    for (Keys.Request l : lista) {
+                        int gol = l.getTimeBegin().compareTime(l.getTimeEnd());
+                        vsegundos = (tnovo * gol) / toriginal;
+                        l.setTimeBegin(tauxiliar);
+                        l.setUnionRequest(id);
+                        tauxiliar = tauxiliar.addSeconds(vsegundos);
+                        l.setTimeEnd(tauxiliar);
+                        l.setBeginDate(data1);
+                        l.setEndDate(data2);
+                        l.setMaterial(mselecionado);
+                        if (db.setRequestSubstitute(l) != 1) {
                             db.roolback(p);
-                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("Houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
                             mensagem.showMessage();
                             return;
-                        }
-                        int id = db.getRequestID(auxiliar.getPerson().getId(), auxiliar.getMaterial().getId(), auxiliar.getBeginDate(), auxiliar.getEndDate(), auxiliar.getTimeBegin(), auxiliar.getTimeEnd());
-                        int vsegundos;
-                        for (Keys.Request l : lista) {
-                            int gol = l.getTimeBegin().compareTime(l.getTimeEnd());
-                            vsegundos = (tnovo * gol) / toriginal;
-                            l.setTimeBegin(tauxiliar);
-                            l.setUnionRequest(id);
-                            tauxiliar = tauxiliar.addSeconds(vsegundos);
-                            l.setTimeEnd(tauxiliar);
-                            l.setBeginDate(data1);
-                            l.setEndDate(data2);
-                            l.setMaterial(mselecionado);
-                            if (db.setRequestSubstitute(l) != 1) {
-                                db.roolback(p);
-                                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
-                                mensagem.showMessage();
-                                return;
-                            }
                         }
                     }
                 } else {
@@ -1072,7 +1083,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                     selecionada.setTimeEnd(tempo2);
                     selecionada.setSubstitute(selecionada.getId());
                     if (db.setRequestSubstitute(selecionada) != 1) {
-                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("Houve um problema na alteração dos dados") + ".", new String[]{"Voltar"});
                         mensagem.showMessage();
                         return;
                     }

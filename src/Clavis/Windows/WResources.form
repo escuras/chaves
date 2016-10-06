@@ -400,7 +400,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pButtonAdicionarActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/seta_esquerda_negro.png&quot;) != null) {&#xa;    BufferedImage im = null;&#xa;    try {&#xa;        im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/seta_esquerda_negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbAdicionar = new ImageIcon(im);&#xa;    pButtonAdicionar.setIcon(icbAdicionar);&#xa;} else {&#xa;    pButtonAdicionar.setText(&quot;-&gt;&quot;);&#xa;}&#xa;pButtonAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/seta_esquerda_negro.png&quot;) != null) {&#xa;    BufferedImage im = null;&#xa;    try {&#xa;        im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/seta_esquerda_negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbAdicionar = new ImageIcon(im);&#xa;    pButtonAdicionar.setIcon(icbAdicionar);&#xa;} else {&#xa;    pButtonAdicionar.setText(&quot;-&gt;&quot;);&#xa;}&#xa;pButtonAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;pButtonAdicionar.setToolTipText(lingua.translate(&quot;Associar carater&#xed;stica ao recurso&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="Components.PersonalButton" name="pButtonRemover">
@@ -419,7 +419,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pButtonRemoverActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/seta_direita_negro.png&quot;) != null) {&#xa;    BufferedImage im2 = null;&#xa;    try {&#xa;        im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/seta_direita_negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbRemover= new ImageIcon(im2);&#xa;    pButtonRemover.setIcon(icbRemover);&#xa;} else {&#xa;    pButtonRemover.setText(&quot;&lt;-&quot;);&#xa;}&#xa;pButtonRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/seta_direita_negro.png&quot;) != null) {&#xa;    BufferedImage im2 = null;&#xa;    try {&#xa;        im2 = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/seta_direita_negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbRemover= new ImageIcon(im2);&#xa;    pButtonRemover.setIcon(icbRemover);&#xa;} else {&#xa;    pButtonRemover.setText(&quot;&lt;-&quot;);&#xa;}&#xa;pButtonRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;pButtonRemover.setToolTipText(lingua.translate(&quot;Remover associa&#xe7;&#xe3;o&quot;));"/>
           </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -606,7 +606,7 @@
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelCarateristica.setText(lingua.translate(&quot;Adicionar novo valores ou carater&#xed;sticas&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jLabelCarateristica.setText(lingua.translate(&quot;Adicionar novos valores ou carater&#xed;sticas&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelValor">
@@ -743,7 +743,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pButtonMaisActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24negro.png&quot;) != null) {&#xa;    BufferedImage im = null;&#xa;    try {&#xa;        im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbMais = new ImageIcon(im);&#xa;    pButtonMais.setIcon(icbMais);&#xa;} else {&#xa;    pButtonMais.setText(&quot;+&quot;);&#xa;}&#xa;pButtonMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if (Clavis.KeyQuest.class.getResource(&quot;Images/plus24x24negro.png&quot;) != null) {&#xa;    BufferedImage im = null;&#xa;    try {&#xa;        im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream(&quot;Images/plus24x24negro.png&quot;));&#xa;    } catch (IOException ex) {&#xa;        Logger.getLogger(WResources.class.getName()).log(Level.SEVERE, null, ex);&#xa;    }&#xa;    ImageIcon icbMais = new ImageIcon(im);&#xa;    pButtonMais.setIcon(icbMais);&#xa;} else {&#xa;    pButtonMais.setText(&quot;+&quot;);&#xa;}&#xa;pButtonMais.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));&#xa;pButtonMais.setToolTipText(lingua.translate(&quot;Adicionar outra carater&#xed;stica&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
