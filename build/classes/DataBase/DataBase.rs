@@ -1,2 +1,0 @@
-DataBase.Interval
-DataBase.DataBase

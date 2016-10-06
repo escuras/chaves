@@ -610,7 +610,7 @@ public class WShedule extends JDialog {
         }
         int passagem = 0;
         int passagemdepagina = 0;
-        float tableWidth = 0;
+        float tableWidth;
         if (dimensao < 100) {
             dimensao = 100;
         }
@@ -619,7 +619,7 @@ public class WShedule extends JDialog {
         }
         float firstcolWidth = dimensao + 10 * cellMargin;
         float lastcolWidth = dimensao2 + 10 * cellMargin;
-        float colWidth = 0;
+        float colWidth;
         PDPageContentStream contentStream = null;
         while (passagem < paginas) {
             PDPage page = new PDPage();
@@ -900,7 +900,7 @@ public class WShedule extends JDialog {
             if (requisicoes.size() > 0) {
                 valores = new String[requisicoes.size()][4];
                 lista = new java.util.ArrayList<>();
-                for (Keys.Request req : requisicoes) {
+                requisicoes.stream().map((req) -> {
                     if (mat.getMaterialTypeID() == 1) {
                         valores[andamento][0] = req.getPerson().getName();
                         valores[andamento][1] = req.getTimeBegin().toString(0) + " - " + req.getTimeEnd().toString(0);
@@ -984,9 +984,13 @@ public class WShedule extends JDialog {
                         Object[] ob = {req.getPerson().getName(), req.getBeginDate().toString(), req.getEndDate().toString(), valores[andamento][3]};
                         modelo.addRow(ob);
                     }
+                    return req;
+                }).map((req) -> {
                     lista.add(req);
+                    return req;
+                }).forEach((_item) -> {
                     andamento++;
-                }
+                });
             }
         }
         jComboBoxEstado.setSelectedIndex(prefs.getInt("comboboxvalue", 0));
@@ -1252,7 +1256,7 @@ public class WShedule extends JDialog {
                 estado = lingua.translate("Todos");
                 for (Keys.Request req : requisicoes) {
                     String[] multipla = req.getActivity().split(":::");
-                    String saux = "";
+                    String saux;
                     if (multipla.length > 1) {
                         saux = multipla[0];
                         Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
@@ -1303,7 +1307,7 @@ public class WShedule extends JDialog {
                 for (Keys.Request req : requisicoes) {
                     if (req.isTerminated()) {
                         String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
+                        String saux;
                         if (multipla.length > 1) {
                             saux = multipla[0];
                             Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
@@ -1355,7 +1359,7 @@ public class WShedule extends JDialog {
                 for (Keys.Request req : requisicoes) {
                     if ((!req.isActive()) && ((req.getEndDate().isBigger(new TimeDate.Date()) > 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) > 0)))) {
                         String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
+                        String saux;
                         if (multipla.length > 1) {
                             saux = multipla[0];
                             Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);
@@ -1407,7 +1411,7 @@ public class WShedule extends JDialog {
                 for (Keys.Request req : requisicoes) {
                     if ((!req.isActive()) && (!req.isTerminated()) && ((req.getEndDate().isBigger(new TimeDate.Date()) < 0) || ((req.getEndDate().isBigger(new TimeDate.Date()) == 0) && (req.getTimeEnd().compareTime(new TimeDate.Time()) < 0)))) {
                         String[] multipla = req.getActivity().split(":::");
-                        String saux = "";
+                        String saux;
                         if (multipla.length > 1) {
                             saux = multipla[0];
                             Components.PopUpMenu pop = new Components.PopUpMenu(multipla, lingua);

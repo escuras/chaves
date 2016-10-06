@@ -23,7 +23,6 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
@@ -169,14 +168,10 @@ public class WListMaterial extends javax.swing.JFrame {
         makePanel();
         makeNormalTabs();
         createBehaviors();
-        jTabbedPaneMaterialBotoes.addChangeListener(new ChangeListener(){
-            @Override
-            public void stateChanged(ChangeEvent e) {
-               panTodos.repaint();
-               panLivres.repaint();
-               panOcupados.repaint();
-            }
-            
+        jTabbedPaneMaterialBotoes.addChangeListener((ChangeEvent e) -> {
+            panTodos.repaint();
+            panLivres.repaint();
+            panOcupados.repaint();
         });
     }
 

@@ -279,14 +279,14 @@ public class WRequestSpecific extends javax.swing.JDialog {
             p = dialogo.getLocation();
             double x = p.getX() + dialogo.getWidth() / 2;
             x -= (this.getWidth() / 2);
-            double y = p.getY() + dialogo.getHeight() / 2;;
+            double y = p.getY() + dialogo.getHeight() / 2;
             y -= (this.getHeight() / 2);
             p.setLocation(x, y);
         } else if (frame != null) {
             p = frame.getLocation();
             double x = p.getX() + frame.getWidth() / 2;
             x -= (this.getWidth() / 2);
-            double y = p.getY() + frame.getHeight() / 2;;
+            double y = p.getY() + frame.getHeight() / 2;
             y -= (this.getHeight() / 2);
             p.setLocation(x, y);
         } else {

@@ -170,7 +170,7 @@ public class Date {
     }
 
     public int isBigger(Date date) {
-        int retorna = 0;
+        int retorna;
         int val = date.getYear() - this.getYear();
         if (val > 0) {
             int auxiliar = this.getYear();
@@ -397,7 +397,7 @@ public class Date {
         }
     }
 
-    public Date dateAfter(int dias) {
+    public final Date dateAfter(int dias) {
         int year = this.ano;
         int month = this.mes;
         int day = this.dia;
@@ -451,8 +451,8 @@ public class Date {
         }
     }
 
-    public Date dateBefore(int dias) {
-        int year = this.ano;
+    public final Date dateBefore(int dias) {
+        int year;
         int month = this.mes;
         int day = this.dia;
         if (dias > 0) {

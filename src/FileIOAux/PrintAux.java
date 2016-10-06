@@ -20,9 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.print.PrintService;
 import javax.print.attribute.Attribute;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.standard.Chromaticity;
@@ -85,44 +85,44 @@ public class PrintAux {
         int val = this.showDialog(dialogo);
         if (val > -1) {
             try {
-                PDDocument pdf = PDDocument.load(file);
-                PrinterJob job = PrinterJob.getPrinterJob();
-                job.setPageable(new PDFPageable(pdf));
-                job.setPrintService(impressoras[val]);
-                switch (valorqualidade) {
-                    case 5:
-                        parametros.add(PrintQuality.HIGH);
-                        break;
-                    case 3:
-                        parametros.add(PrintQuality.DRAFT);
-                        break;
-                    default:
-                        parametros.add(PrintQuality.NORMAL);
-                        break;
+                try (PDDocument pdf = PDDocument.load(file)) {
+                    PrinterJob job = PrinterJob.getPrinterJob();
+                    job.setPageable(new PDFPageable(pdf));
+                    job.setPrintService(impressoras[val]);
+                    switch (valorqualidade) {
+                        case 5:
+                            parametros.add(PrintQuality.HIGH);
+                            break;
+                        case 3:
+                            parametros.add(PrintQuality.DRAFT);
+                            break;
+                        default:
+                            parametros.add(PrintQuality.NORMAL);
+                            break;
+                    }
+                    switch (valorlados) {
+                        case 1:
+                            parametros.add(Sides.DUPLEX);
+                            break;
+                        case 2:
+                            parametros.add(Sides.TUMBLE);
+                            break;
+                        default:
+                            parametros.add(Sides.ONE_SIDED);
+                            break;
+                    }
+                    switch (valorcores) {
+                        case 0:
+                            parametros.add(Chromaticity.MONOCHROME);
+                            break;
+                        default:
+                            parametros.add(Chromaticity.COLOR);
+                            break;
+                    }
+                    parametros.add(new PageRanges(valorminimo, valormaximo));
+                    parametros.add(new Copies(ncopias));
+                    job.print(parametros);
                 }
-                switch (valorlados) {
-                    case 1:
-                        parametros.add(Sides.DUPLEX);
-                        break;
-                    case 2:
-                        parametros.add(Sides.TUMBLE);
-                        break;
-                    default:
-                        parametros.add(Sides.ONE_SIDED);
-                        break;
-                }
-                switch (valorcores) {
-                    case 0:
-                        parametros.add(Chromaticity.MONOCHROME);
-                        break;
-                    default:
-                        parametros.add(Chromaticity.COLOR);
-                        break;
-                }
-                parametros.add(new PageRanges(valorminimo, valormaximo));
-                parametros.add(new Copies(ncopias));
-                job.print(parametros);
-                pdf.close();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(WShedule.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException | PrinterException ex) {
@@ -176,10 +176,10 @@ public class PrintAux {
             if (doco != null) {
                 int pages = 0;
                 int[][] ranges = pageRanges.getMembers();
-                for (int i = 0; i < ranges.length; i++) {
+                for (int[] range : ranges) {
                     pages += 1;
-                    if (ranges[i].length == 2) {
-                        pages += ranges[i][1] - ranges[i][0];
+                    if (range.length == 2) {
+                        pages += range[1] - range[0];
                     }
                 }
                 pages = Math.min(pages, doco.getNumberOfPages());
@@ -196,16 +196,13 @@ public class PrintAux {
         Attribute[] at = parametros.toArray();
         int hg = 0;
         while (hg < at.length) {
-            System.out.println(at[hg].getName());
             hg++;
         }
     }
 
     public int showDialog(javax.swing.JDialog dialogo) {
         java.util.ArrayList<javax.print.PrintService> servicos = new java.util.ArrayList<>();
-        for (PrintService impressora : impressoras) {
-            servicos.add(impressora);
-        }
+        servicos.addAll(Arrays.asList(impressoras));
         if (servicos.size() > 0) {
             javax.swing.JPanel panel = new javax.swing.JPanel(null);
             panel.setPreferredSize(new java.awt.Dimension(700, 400));
@@ -256,16 +253,24 @@ public class PrintAux {
     private int drawcomponentsPanel(javax.swing.JPanel panel, boolean[] ativo, Components.MessagePane mensagem, int val, boolean criacao) {
         Class<?>[] cla = impressoras[val].getSupportedAttributeCategories();
         for (Class<?> cla1 : cla) {
-            if (cla1.getName().equals("javax.print.attribute.standard.Copies")) {
-                ativo[0] = true;
-            } else if (cla1.getName().equals("javax.print.attribute.standard.PageRanges")) {
-                ativo[1] = true;
-            } else if (cla1.getName().equals("javax.print.attribute.standard.Sides")) {
-                ativo[2] = true;
-            } else if (cla1.getName().equals("javax.print.attribute.standard.PrintQuality")) {
-                ativo[3] = true;
-            } else if (cla1.getName().equals("javax.print.attribute.standard.Chromaticity")) {
-                ativo[4] = true;
+            switch (cla1.getName()) {
+                case "javax.print.attribute.standard.Copies":
+                    ativo[0] = true;
+                    break;
+                case "javax.print.attribute.standard.PageRanges":
+                    ativo[1] = true;
+                    break;
+                case "javax.print.attribute.standard.Sides":
+                    ativo[2] = true;
+                    break;
+                case "javax.print.attribute.standard.PrintQuality":
+                    ativo[3] = true;
+                    break;
+                case "javax.print.attribute.standard.Chromaticity":
+                    ativo[4] = true;
+                    break;
+                default:
+                    break;
             }
         }
         javax.swing.JLabel label1 = new javax.swing.JLabel(lingua.translate("Número de cópias") + ": ");

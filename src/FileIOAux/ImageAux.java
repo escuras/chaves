@@ -1,7 +1,6 @@
 package FileIOAux;
 
 import Clavis.Windows.WMaterial;
-import com.sun.javafx.tk.Toolkit;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -360,34 +359,35 @@ public class ImageAux {
 
     private static boolean validateExtension(String file) {
 
-        if (file.equals("png")) {
-            return true;
-        } else if (file.equals("jpg")) {
-            return true;
-        } else if (file.equals("jpeg")) {
-            return true;
-        } else if (file.equals("JPEG")) {
-            return true;
-        } else if (file.equals("JPG")) {
-            return true;
-        } else if (file.equals("PNG")) {
-            return true;
-        } else if (file.equals("Jpg")) {
-            return true;
-        } else if (file.equals("Png")) {
-            return true;
-        } else if (file.equals("GIF")) {
-            return true;
-        } else if (file.equals("gif")) {
-            return true;
-        } else if (file.equals("BMP")) {
-            return true;
-        } else if (file.equals("bmp")) {
-            return true;
-        } else if (file.equals("WBMP")) {
-            return true;
-        } else {
-            return file.equals("wbmp");
+        switch (file) {
+            case "png":
+                return true;
+            case "jpg":
+                return true;
+            case "jpeg":
+                return true;
+            case "JPEG":
+                return true;
+            case "JPG":
+                return true;
+            case "PNG":
+                return true;
+            case "Jpg":
+                return true;
+            case "Png":
+                return true;
+            case "GIF":
+                return true;
+            case "gif":
+                return true;
+            case "BMP":
+                return true;
+            case "bmp":
+                return true;
+            case "WBMP":
+                return true;
+            default:
+                return file.equals("wbmp");
         }
     }
 

@@ -1358,10 +1358,9 @@ public class WResources extends javax.swing.JFrame {
             db.commit();
             db.setAutoCommit(true);
             db.close();
-            for (int i = 0; i < carsFinal.size(); i++) {
+            carsFinal.stream().forEach((_item) -> {
                 modeloFinal.remove(0);
-
-            }
+            });
             carsFinal.removeAll(carsFinal);
             textNome.setText("");
             textNome.showPLaceHolder();

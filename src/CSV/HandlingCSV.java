@@ -38,7 +38,6 @@ public class HandlingCSV {
     private int[] valores;
     private int tamanho;
     private String doc_nome;
-    int i = 0;
 
     public HandlingCSV() {
         this.url = null;

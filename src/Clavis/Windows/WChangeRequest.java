@@ -1025,7 +1025,6 @@ public class WChangeRequest extends javax.swing.JFrame {
                         }
                     } else {
                         tnovo = tempo1.compareTime(tempo2);
-                        System.out.println(tnovo);
                     }
                     int intervalooriginal = selecionada.getBeginDate().isBigger(selecionada.getEndDate());
                     if (intervalooriginal >= 1) {
@@ -1038,7 +1037,6 @@ public class WChangeRequest extends javax.swing.JFrame {
                         }
                     } else {
                         toriginal = selecionada.getTimeBegin().compareTime(selecionada.getTimeEnd());
-                        System.out.println(toriginal);
                     }
                     Keys.Request auxiliar = db.getRequestByID(selecionada.getId());
                     int vprimeiro = auxiliar.getTimeBegin().compareTime(auxiliar.getTimeEnd());

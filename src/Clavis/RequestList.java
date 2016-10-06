@@ -165,7 +165,6 @@ public class RequestList {
         if (db.isTie()) {
             this.requests = new ArrayList<>(db.getRequestsByTime(this.getTypeOfMaterial(), bool, time, this.date1, this.date2, estado, terminado));
             java.util.Set<Keys.Request> requestauxiliar = new java.util.HashSet<>();
-            System.out.println(bool);
             if (bool) {
                 Keys.Request sai;
                 Keys.Request entra;
@@ -173,9 +172,7 @@ public class RequestList {
                 java.util.List<Keys.Request> lista = new java.util.ArrayList<>(requests);
                 for (Keys.Request re : lista) {
                     if (re.getUnionRequest() > 0) {
-                        System.out.println(re.getUnionRequest());
                         entra = db.getRequestByID(re.getUnionRequest());
-                        System.out.println(entra.getId());
                         reqs = db.getUnionRequests(entra);
                         sai = re;
                         if ((reqs.size() > 0)&&(entra != null)) {
@@ -202,18 +199,6 @@ public class RequestList {
             }
             Collections.sort(requests);
             this.treatUnionRequests();
-            /*Keys.Request g = null;
-            if (estado) {
-                for (Keys.Request re : requests) {
-                    if (re.getTimeEnd().compareTime(time) < 0) {
-                        g = re;
-                    }
-                    System.out.println(re.getTimeEnd());
-                }
-            }
-            if (g != null) {
-                requests.remove(g);
-            }*/
         }
         db.close();
     }

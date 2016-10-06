@@ -10,13 +10,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -205,12 +202,9 @@ public class MessagePane {
             getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
             getButtons()[1].setBackground(new Color(51, 102, 153));
             getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[1].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 0;
-                }
+            getButtons()[1].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 0;
             });
             getPanel().add(getButtons()[1]);
         }
@@ -238,12 +232,9 @@ public class MessagePane {
             getButtons()[0].setToolTipText(textobotoes[0]);
             getButtons()[0].setBackground(new Color(51, 102, 153));
             getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[0].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 1;
-                }
+            getButtons()[0].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 1;
             });
             getPanel().add(getButtons()[0]);
         }
@@ -323,12 +314,9 @@ public class MessagePane {
             getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
             getButtons()[1].setBackground(new Color(51, 102, 153));
             getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[1].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 0;
-                }
+            getButtons()[1].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 0;
             });
             getPanel().add(getButtons()[1]);
         }
@@ -356,12 +344,9 @@ public class MessagePane {
             getButtons()[0].setToolTipText(textobotoes[0]);
             getButtons()[0].setBackground(new Color(51, 102, 153));
             getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[0].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 1;
-                }
+            getButtons()[0].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 1;
             });
             getPanel().add(getButtons()[0]);
         }
@@ -436,12 +421,9 @@ public class MessagePane {
             getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
             getButtons()[1].setBackground(new Color(51, 102, 153));
             getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[1].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 0;
-                }
+            getButtons()[1].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 0;
             });
             getPanel().add(getButtons()[1]);
         }
@@ -469,12 +451,9 @@ public class MessagePane {
             getButtons()[0].setToolTipText(textobotoes[0]);
             getButtons()[0].setBackground(new Color(51, 102, 153));
             getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[0].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 1;
-                }
+            getButtons()[0].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 1;
             });
             getPanel().add(getButtons()[0]);
         }
@@ -564,12 +543,9 @@ public class MessagePane {
             getButtons()[1].setMnemonic(textobotoes[1].charAt(2));
             getButtons()[1].setBackground(new Color(51, 102, 153));
             getButtons()[1].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[1].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 0;
-                }
+            getButtons()[1].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 0;
             });
             getPanel().add(getButtons()[1]);
         }
@@ -597,12 +573,9 @@ public class MessagePane {
             getButtons()[0].setToolTipText(textobotoes[0]);
             getButtons()[0].setBackground(new Color(51, 102, 153));
             getButtons()[0].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            getButtons()[0].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialogo.setVisible(false);
-                    resposta = 1;
-                }
+            getButtons()[0].addActionListener((ActionEvent e) -> {
+                dialogo.setVisible(false);
+                resposta = 1;
             });
             getPanel().add(getButtons()[0]);
         } 
@@ -685,8 +658,7 @@ public class MessagePane {
             default:
                 this.showComponentMessage();
                 break;
-        };
-        
+        }
     }
     
 }

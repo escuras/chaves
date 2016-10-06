@@ -88,8 +88,8 @@ public class Holiday implements Comparable<Holiday> {
      */
     @Override
     public String toString() {
-        String sdia = "";
-        String smes = "";
+        String sdia;
+        String smes;
         if (dia < 10) {
             sdia = "0" + dia;
         } else {
@@ -104,7 +104,7 @@ public class Holiday implements Comparable<Holiday> {
     }
 
     public String toLongString() {
-        String sdia = "";
+        String sdia;
         if (dia < 10) {
             sdia = "0" + dia;
         } else {
@@ -245,7 +245,7 @@ public class Holiday implements Comparable<Holiday> {
             int c = ano % 7;
             int d = ((19 * a) + m) % 30;
             int e = ((2 * b) + (4 * c) + (6 * d) + n) % 7;
-            int p = 0;
+            int p;
             if ((p = (e + 22 + d)) > 31) {
                 if ((p = d + e - 9) > 25) {
                     p = p - 7;

@@ -29,10 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -1769,6 +1767,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 .addComponent(jScrollPaneInformaBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
 
+        jScrollPaneInformaBaixo.getVerticalScrollBar().setUnitIncrement(10);
         java.awt.image.BufferedImage imagebtdevok;
         javax.swing.ImageIcon iconbtdevok = new javax.swing.ImageIcon();
         try {
@@ -2151,6 +2150,7 @@ public class KeyQuest extends javax.swing.JFrame {
         );
 
         jScrollPaneInformaCima.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneInformaCima.getVerticalScrollBar().setUnitIncrement(10);
         java.awt.image.BufferedImage imagebtok = null;
         try {
             imagebtok = ImageIO.read(getClass().getResourceAsStream("Images/ok.png"));
@@ -3431,13 +3431,11 @@ public class KeyQuest extends javax.swing.JFrame {
                     int horas;
                     int minutos;
                     int segundos;
-                    System.out.println(auxilia[0]);
                     if (auxilia.length < 2) {
                         if ((auxilia[0].charAt(0) == '0') && (auxilia[0].length() > 1)) {
                             auxilia[0] = auxilia[0].replaceFirst("0", "");
                         }
                         horas = Integer.valueOf(auxilia[0]);
-                        System.out.println(horas);
                         minutos = 0;
                         segundos = 0;
                     } else if (auxilia.length < 3) {
@@ -3468,7 +3466,6 @@ public class KeyQuest extends javax.swing.JFrame {
                         minutos = 60;
                         segundos = 60;
                     }
-                    System.out.println(horas);
                     if ((horas < 24) && (minutos < 60) && (segundos < 60)) {
                         this.requestFocusInWindow();
                         if (ligacao) {
@@ -4024,7 +4021,6 @@ public class KeyQuest extends javax.swing.JFrame {
         Keys.Request req = lista_req.getSelectedRequest();
         int val = 1;
         if (req != null) {
-            System.out.println(val);
             if (db.getStateOfMaterial(req)) {
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, systemColor, lingua.translate("Aviso"), 500, 200, lingua.translate("O recurso continua emprestado no sistema, mesmo assim confirmar?"), new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
                 val = mensagem.showMessage();
@@ -4304,9 +4300,9 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSemestreActionPerformed
 
     private void validateDatesSemester() {
-        int dia = 0;
-        int ano = 0;
-        int mes = 0;
+        int dia;
+        int ano;
+        int mes;
         TimeDate.Date inicio = null;
         TimeDate.Date fim = null;
         if ((comboDiaSemestre1.getSelectedIndex() >= 0) && (comboMesSemestre1.getSelectedIndex() >= 0) && (comboAnoSemestre1.getSelectedIndex() >= 0)) {

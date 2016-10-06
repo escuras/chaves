@@ -43,11 +43,9 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -739,22 +737,19 @@ public class WSearch extends javax.swing.JFrame {
             }
         });
         this.updateValuesMeasureObjects();
-        jSliderMedida.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (tem_medida) {
-                    jTextFieldMedida.setText("" + jSliderMedida.getValue());
-                    int sel = jComboBoxCarateristicas.getSelectedIndex();
-                    jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + lingua.translate(fealista.get(sel).getUnityMeasure()));
+        jSliderMedida.addChangeListener((ChangeEvent e) -> {
+            if (tem_medida) {
+                jTextFieldMedida.setText("" + jSliderMedida.getValue());
+                int sel = jComboBoxCarateristicas.getSelectedIndex();
+                jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + lingua.translate(fealista.get(sel).getUnityMeasure()));
+            } else {
+                int val = jSliderMedida.getValue();
+                if (val == 1) {
+                    jTextFieldMedida.setText(lingua.translate("Sim"));
+                    jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
                 } else {
-                    int val = jSliderMedida.getValue();
-                    if (val == 1) {
-                        jTextFieldMedida.setText(lingua.translate("Sim"));
-                        jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
-                    } else {
-                        jTextFieldMedida.setText(lingua.translate("Não"));
-                        jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Não"));
-                    }
+                    jTextFieldMedida.setText(lingua.translate("Não"));
+                    jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Não"));
                 }
             }
         });
@@ -1196,6 +1191,7 @@ public class WSearch extends javax.swing.JFrame {
                             }
                             if (nao_tem) {
                                 selsoftlista.add(new HelpSoftware(sof, selsoftlista.size()));
+                                updateMaterialsList();
                             }
                         } else if ((jComboBoxAspetos.isEnabled()) && jComboBoxAspetos.getSelectedIndex() == 1) {
                             Keys.Subject sub = sublista.get(indices[i]);
@@ -1206,7 +1202,8 @@ public class WSearch extends javax.swing.JFrame {
                                 }
                             }
                             if (nao_tem) {
-                                selsublista.add(new HelpSubject(sub, selsoftlista.size()));
+                                selsublista.add(new HelpSubject(sub, selsublista.size()));
+                                updateMaterialsList();
                             }
                         }
                     }
@@ -1417,63 +1414,42 @@ public class WSearch extends javax.swing.JFrame {
                 }
             }
         });
-        jListBaixo.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (jListBaixo.getSelectedIndex() >= 0) {
-                    jButtonRetirar2.setEnabled(true);
-                } else {
-                    jButtonRetirar2.setEnabled(false);
-                }
+        jListBaixo.addListSelectionListener((ListSelectionEvent e) -> {
+            if (jListBaixo.getSelectedIndex() >= 0) {
+                jButtonRetirar2.setEnabled(true);
+            } else {
+                jButtonRetirar2.setEnabled(false);
             }
-
         });
     }
 
     public void updateMaterialsList() {
         materiais = new java.util.TreeSet<>();
         java.util.Set<Keys.Material> mauxiliar = new java.util.TreeSet<>();
-        int conta = 0;
+        int conta;
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
             boolean medida;
             int condicao = selfealista.size() + selsublista.size() + selsoftlista.size();
-            int quantos = 0;
             for (Keys.Material m : materiaisoriginal) {
                 conta = 0;
                 for (Keys.Feature feat : selfealista) {
                     medida = !feat.getUnityMeasure().equals("");
                     if (medida) {
                         java.util.List<Keys.Feature> fe = db.getFeaturesByMaterial(m);
-                        for (Keys.Feature f : fe) {
-                            if ((f.getDescription().equals(feat.getDescription())) && (f.getUnityMeasure().equals(feat.getUnityMeasure())) && (f.getNumber() <= feat.getNumber())) {
-                                conta++;
-                            }
-                        }
+                        conta = fe.stream().filter((f) -> ((f.getDescription().equals(feat.getDescription())) && (f.getUnityMeasure().equals(feat.getUnityMeasure())) && (f.getNumber() <= feat.getNumber()))).map((_item) -> 1).reduce(conta, Integer::sum);
                     } else {
                         java.util.List<Keys.Feature> fe = db.getFeaturesByMaterial(m);
-                        for (Keys.Feature f : fe) {
-                            if (f.getDescription().equals(feat.getDescription())) {
-                                conta++;
-                            }
-                        }
+                        conta = fe.stream().filter((f) -> (f.getDescription().equals(feat.getDescription()))).map((_item) -> 1).reduce(conta, Integer::sum);
                     }
                 }
                 for (Keys.Software soft : selsoftlista) {
                     java.util.List<Keys.Software> so = db.getSoftwareListByMaterial(m);
-                    for (Keys.Software s : so) {
-                        if (s.compareTo(soft) == 0) {
-                            conta++;
-                        }
-                    }
+                    conta = so.stream().filter((s) -> (s.compareTo(soft) == 0)).map((_item) -> 1).reduce(conta, Integer::sum);
                 }
                 for (Keys.Subject sub : selsublista) {
                     java.util.List<Keys.Subject> su = db.getSubjectsByMaterial(m);
-                    for (Keys.Subject s : su) {
-                        if (s.compareTo(sub) == 0) {
-                            conta++;
-                        }
-                    }
+                    conta = su.stream().filter((s) -> (s.compareTo(sub) == 0)).map((_item) -> 1).reduce(conta, Integer::sum);
                 }
                 if (conta == condicao) {
                     if (!mauxiliar.contains(m)) {
@@ -1484,11 +1460,7 @@ public class WSearch extends javax.swing.JFrame {
         }
         if (mauxiliar.size() == materiaisoriginal.size()) {
             pesquisa = false;
-        } else if (mauxiliar.size() == 0) {
-            pesquisa = false;
-        } else {
-            pesquisa = true;
-        }
+        } else pesquisa = !mauxiliar.isEmpty();
         materiais = mauxiliar;
         this.makeTable();
     }
@@ -1497,24 +1469,27 @@ public class WSearch extends javax.swing.JFrame {
         int[] valores = jListBaixo.getSelectedIndices();
         for (int i = valores.length - 1; i >= 0; i--) {
             StringAuxiliar auxiliar = jListBaixo.getModel().getElementAt(valores[i]);
-            if (auxiliar.getComboBoxValue().equals("software")) {
-                for (int g = 0; g < selsoftlista.size(); g++) {
-                    if (selsoftlista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selsoftlista.remove(g);
-                    }
-                }
-            } else if (auxiliar.getComboBoxValue().equals("disciplina")) {
-                for (int g = 0; g < selsublista.size(); g++) {
-                    if (selsublista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selsublista.remove(g);
-                    }
-                }
-            } else if (auxiliar.getComboBoxValue().equals("carateristica")) {
-                for (int g = 0; g < selfealista.size(); g++) {
-                    if (selfealista.get(g).getIndex() == auxiliar.getIndex()) {
-                        selfealista.remove(g);
-                    }
-                }
+            switch (auxiliar.getComboBoxValue()) {
+                case "software":
+                    for (int g = 0; g < selsoftlista.size(); g++) {
+                        if (selsoftlista.get(g).getIndex() == auxiliar.getIndex()) {
+                            selsoftlista.remove(g);
+                        }
+                    }   break;
+                case "disciplina":
+                    for (int g = 0; g < selsublista.size(); g++) {
+                        if (selsublista.get(g).getIndex() == auxiliar.getIndex()) {
+                            selsublista.remove(g);
+                        }
+                    }   break;
+                case "carateristica":
+                    for (int g = 0; g < selfealista.size(); g++) {
+                        if (selfealista.get(g).getIndex() == auxiliar.getIndex()) {
+                            selfealista.remove(g);
+                        }
+                    }   break;
+                default:
+                    break;
             }
             ((DefaultListModel) jListBaixo.getModel()).remove(valores[i]);
             if (jListBaixo.getModel().getSize() > 0) {
@@ -1620,28 +1595,24 @@ public class WSearch extends javax.swing.JFrame {
                     if ((!materiais.isEmpty()) && (e.getButton() == MouseEvent.BUTTON3)) {
                         String[] strings = {lingua.translate("Requisitar")};
                         ActionListener[] act = new ActionListener[1];
-                        act[0] = new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                int sel = jTableMateriais.getSelectedRow();
-                                Keys.Material selecionado = null;
-                                int i = 0;
-                                for (Keys.Material m : materiais) {
-                                    if (sel == i) {
-                                        selecionado = m;
-                                        break;
-                                    }
-                                    i++;
+                        act[0] = (ActionEvent e1) -> {
+                            int sel = jTableMateriais.getSelectedRow();
+                            Keys.Material selecionado = null;
+                            int i = 0;
+                            for (Keys.Material m : materiais) {
+                                if (sel == i) {
+                                    selecionado = m;
+                                    break;
                                 }
-                                if (selecionado != null) {
-                                    javax.swing.JFrame top = (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jTableMateriais);
-                                    Clavis.Windows.WRequestSpecific wr = new Clavis.Windows.WRequestSpecific(corborda, corfundo, selecionado, url, lingua, top);
-                                    wr.create();
-                                    setVisible(false);
-                                    wr.appear();
-                                }
+                                i++;
                             }
-
+                            if (selecionado != null) {
+                                javax.swing.JFrame top = (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jTableMateriais);
+                                Clavis.Windows.WRequestSpecific wr = new Clavis.Windows.WRequestSpecific(corborda, corfundo, selecionado, url, lingua, top);
+                                wr.create();
+                                setVisible(false);
+                                wr.appear();
+                            }
                         };
                         Components.PopUpMenu pop = new Components.PopUpMenu(strings, act);
                         pop.create();

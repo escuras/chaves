@@ -16,9 +16,7 @@ import java.util.regex.Pattern;
 public class TreatText {
     
     public static String getNumberfromString(String string){
-        char[] valor = string.toCharArray();
         String fina = "";
-        int k = 0;
         Pattern p = Pattern.compile("[0-9.,]");
         for (int i=0; i< string.length(); i++){
             String aux =  string.substring(i,i+1);
