@@ -15,6 +15,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -4693,6 +4694,17 @@ public class KeyQuest extends javax.swing.JFrame {
     }
 
     protected final void init() {
+        if (this.getClass().getResource("Fontes/NotoMono-Regular.ttf") != null) {
+            java.io.InputStream st = this.getClass().getResourceAsStream("Fontes/NotoMono-Regular.ttf");
+            Font f = new Font("Cantarell", Font.PLAIN, 14);
+            try {
+                f = Font.createFont(Font.PLAIN, st);
+            } catch (FontFormatException | IOException ex) {
+                Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(f);
+        }
         HolidaysList.updateDynamicHolidays();
         this.intervalos = new FileBreakPeriods().getBreakPeriods();
         KeyQuest.feriados = new FileHolidays().getHolidays();

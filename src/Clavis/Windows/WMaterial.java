@@ -30,7 +30,6 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -957,8 +956,19 @@ public class WMaterial extends javax.swing.JDialog {
                         } else {
                             btmais.setEnabled(false);
                         }
+                        Keys.Feature fot = features.get(comboboxdireitacima.getSelectedIndex()-1);
+                        System.out.println(fot.getDescription());
+                        System.out.println(fot.getUnityMeasure());
+                        if ((fot.getUnityMeasure().equals(""))||(fot.getUnityMeasure().equals("sem"))) {
+                            sppinerquantidade.setValue(0);
+                            sppinerquantidade.setEnabled(false);
+                        } else {
+                            sppinerquantidade.setEnabled(true);
+                        }
                     } else if (comboboxdireitacima.getSelectedIndex() <= 0) {
                         btmais.setEnabled(false);
+                        sppinerquantidade.setValue(0);
+                        sppinerquantidade.setEnabled(false);
                     }
                     break;
             }

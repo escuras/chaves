@@ -93,7 +93,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         dfim = null;
         tinicio = null;
         tfim = null;
-        intervalo = 1;
+        intervalo = 0;
         reqefetuada = false;
         rlist = new java.util.ArrayList<>();
         reqturmas = new java.util.ArrayList<>();
@@ -117,7 +117,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         dfim = null;
         tinicio = null;
         tfim = null;
-        intervalo = 1;
+        intervalo = 0;
         reqefetuada = false;
         rlist = new java.util.ArrayList<>();
         reqturmas = new java.util.ArrayList<>();
@@ -252,19 +252,19 @@ public class WRequestSpecific extends javax.swing.JDialog {
         jComboBoxTempo.addActionListener((ActionEvent e) -> {
             switch (jComboBoxTempo.getSelectedIndex()) {
                 case 0:
-                    intervalo = 1;
+                    intervalo = 0;
                     break;
                 case 1:
-                    intervalo = 2;
+                    intervalo = 1;
                     break;
                 case 2:
-                    intervalo = 5;
+                    intervalo = 4;
                     break;
                 case 3:
-                    intervalo = 15;
+                    intervalo = 14;
                     break;
                 default:
-                    intervalo = 1;
+                    intervalo = 0;
                     break;
             }
             this.makeRequestsList();
@@ -317,6 +317,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             rlist = Clavis.RequestList.simplifyRequests(db.getRequestsByMaterialByDateInterval(material, dat, dat.dateAfter(intervalo)));
             if (reqefetuada) {
                 reqid = db.getRequestID(pessoaescolhida.getId(), material.getId(), dinicio, dfim, tinicio, tfim);
+                reqefetuada = false;
             }
             db.close();
             DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -1331,7 +1332,6 @@ public class WRequestSpecific extends javax.swing.JDialog {
                     mensagem.showMessage();
                 }
                 reqefetuada = true;
-                
                 this.makeRequestsList();
                 Clavis.KeyQuest.refreshTables();
                 jComboBoxNomeUtilizador.setSelectedIndex(0);

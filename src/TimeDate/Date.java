@@ -173,9 +173,13 @@ public class Date {
         int retorna;
         int val = date.getYear() - this.getYear();
         if (val > 0) {
-            int auxiliar = this.getYear();
-            retorna = -(this.getDayOfTheYear(dia, mes, ano));
-            while (auxiliar <= date.getYear()) {
+            int auxiliar = this.getYear() + 1;
+            if (this.isLeap(ano)) {
+                retorna = 366 -this.getDayOfTheYear();
+            } else {
+                retorna = 365 -this.getDayOfTheYear();
+            }
+            while (auxiliar < date.getYear()) {
                 if (this.isLeap(auxiliar)) {
                     retorna += 366;
                 } else {
@@ -183,11 +187,11 @@ public class Date {
                 }
                 auxiliar++;
             }
-            retorna += this.getDayOfTheYear(date.getDay(), date.getMonth(), date.getYear());
+            retorna += date.getDayOfTheYear();
             return retorna;
         } else if (val < 0) {
-            int auxiliar = this.getYear();
-            retorna = (this.getDayOfTheYear(dia, mes, ano));
+            int auxiliar = this.getYear() - 1;
+            retorna = -this.getDayOfTheYear();   
             while (auxiliar >= date.getYear()) {
                 if (this.isLeap(auxiliar)) {
                     retorna -= 366;
@@ -196,7 +200,7 @@ public class Date {
                 }
                 auxiliar--;
             }
-            retorna -= date.getDayOfTheYear();
+            retorna += date.getDayOfTheYear();
             return retorna;
         } else {
             return date.getDayOfTheYear() - this.getDayOfTheYear();
@@ -544,7 +548,7 @@ public class Date {
         }
     }
 
-    private int getDayOfTheYear() {
+    public int getDayOfTheYear() {
         int i = 1;
         int conta = 0;
         while (i < this.mes) {
@@ -555,7 +559,7 @@ public class Date {
         return conta;
     }
 
-    private int getDayOfTheYear(int dia, int mes, int ano) {
+    public int getDayOfTheYear(int dia, int mes, int ano) {
         int i = 1;
         int conta = 0;
         while (i < mes) {
@@ -593,7 +597,12 @@ public class Date {
     public static int numberOfDaysBetweenDates(Date a, Date b) {
         int dias = 0;
         if ((b.getYear() - a.getYear()) > 0) {
-            int aux = a.getYear();
+            if (a.isLeap(a.getYear())) {
+                dias = 366 -a.getDayOfTheYear();
+            } else {
+                dias = 365 - a.getDayOfTheYear();
+            }
+            int aux = a.getYear() + 1;
             while (aux < b.getYear()) {
                 if (a.isLeap(aux)) {
                     dias += 366;
@@ -603,7 +612,6 @@ public class Date {
                 aux++;
             }
             dias += b.getDayYear();
-            dias -= a.getDayYear();
             return dias;
         } else {
             dias = b.getDayYear() - a.getDayYear();

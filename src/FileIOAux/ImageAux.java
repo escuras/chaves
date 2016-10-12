@@ -122,7 +122,11 @@ public class ImageAux {
         fil.setFilenameFilter((File dir, String name) -> {
             return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
         });
-        fil.setLocationRelativeTo(dialogo);
+        fil.setSize(new Dimension(600,500));
+        Window ancestor = SwingUtilities.getWindowAncestor(fil);
+        double x = ancestor.getX() + (ancestor.getWidth() /2) - 300;
+        double y = ancestor.getY() + (ancestor.getHeight() /2) - 250;
+        fil.setLocation((int)x, (int)y);
         fil.setVisible(true);
         FileIOAux.ImageExtension bimagem = null;
         if (fil.getFile() != null) {
@@ -147,7 +151,6 @@ public class ImageAux {
             return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
         });
         fil.setSize(new Dimension(600,500));
-        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         Window ancestor = SwingUtilities.getWindowAncestor(fil);
         double x = ancestor.getX() + (ancestor.getWidth() /2) - 300;
         double y = ancestor.getY() + (ancestor.getHeight() /2) - 250;

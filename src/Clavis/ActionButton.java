@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -391,18 +392,11 @@ public final class ActionButton extends javax.swing.JDialog {
                 public void mouseClicked(MouseEvent e) {
                     FileIOAux.ImageExtension image;
                     image = bimage;
-
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, ActionButton.this, 54, 44)) != null) {
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, (javax.swing.JDialog)SwingUtilities.getWindowAncestor(imageview), 54, 44)) != null) {
                         alterado = true;
                     } else {
                         bimage = image;
                     }
-                    /*
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileChooser(imageview, lingua, 54, 44)) != null) {
-                        alterado = true;
-                    } else {
-                        bimage = image;
-                    }*/
                 }
 
                 @Override
@@ -854,13 +848,13 @@ public final class ActionButton extends javax.swing.JDialog {
             btsair.addActionListener((ActionEvent e) -> {
                 this.setVisible(false);
                 Window[] windows = Window.getWindows();
-                for (int i = 0; i < windows.length; i++) {
-                    if (windows[i] instanceof Clavis.Windows.WMaterial) {
-                        windows[i].setVisible(false);
-                        windows[i].dispose();
-                    } else if (windows[i] instanceof Clavis.Windows.WShedule) {
-                        windows[i].setVisible(false);
-                        windows[i].dispose();
+                for (Window window : windows) {
+                    if (window instanceof Clavis.Windows.WMaterial) {
+                        window.setVisible(false);
+                        window.dispose();
+                    } else if (window instanceof Clavis.Windows.WShedule) {
+                        window.setVisible(false);
+                        window.dispose();
                     }
                 }
                 if (framepai != null) {
@@ -1012,13 +1006,13 @@ public final class ActionButton extends javax.swing.JDialog {
                 public void windowClosing(WindowEvent e) {
                     setVisible(false);
                     Window[] windows = Window.getWindows();
-                    for (int i = 0; i < windows.length; i++) {
-                        if (windows[i] instanceof Clavis.Windows.WMaterial) {
-                            windows[i].setVisible(false);
-                            windows[i].dispose();
-                        } else if (windows[i] instanceof Clavis.Windows.WShedule) {
-                            windows[i].setVisible(false);
-                            windows[i].dispose();
+                    for (Window window : windows) {
+                        if (window instanceof Clavis.Windows.WMaterial) {
+                            window.setVisible(false);
+                            window.dispose();
+                        } else if (window instanceof Clavis.Windows.WShedule) {
+                            window.setVisible(false);
+                            window.dispose();
                         }
                     }
                     if (framepai != null) {

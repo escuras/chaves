@@ -22,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -38,6 +39,7 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
@@ -141,8 +143,8 @@ public class WSearch extends javax.swing.JFrame {
         jPanelInicial.setPreferredSize(new java.awt.Dimension(900, 500));
 
         jScrollPaneMateriais.setMaximumSize(new java.awt.Dimension(440, 440));
-        jScrollPaneMateriais.setMinimumSize(new java.awt.Dimension(440, 440));
-        jScrollPaneMateriais.setPreferredSize(new java.awt.Dimension(440, 440));
+        jScrollPaneMateriais.setMinimumSize(new java.awt.Dimension(300, 0));
+        jScrollPaneMateriais.setPreferredSize(new java.awt.Dimension(300, 0));
 
         jTableMateriais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,6 +154,9 @@ public class WSearch extends javax.swing.JFrame {
 
             }
         ));
+        jTableMateriais.setMaximumSize(new java.awt.Dimension(287, 0));
+        jTableMateriais.setMinimumSize(new java.awt.Dimension(287, 0));
+        jTableMateriais.setPreferredSize(new java.awt.Dimension(287, 0));
         jScrollPaneMateriais.setViewportView(jTableMateriais);
 
         jScrollPaneBaixo.setMaximumSize(new java.awt.Dimension(407, 238));
@@ -194,9 +199,9 @@ public class WSearch extends javax.swing.JFrame {
 
         jComboBoxTipo.setBackground(new java.awt.Color(253, 253, 253));
         jComboBoxTipo.setFocusable(false);
-        jComboBoxTipo.setMaximumSize(new java.awt.Dimension(204, 34));
-        jComboBoxTipo.setMinimumSize(new java.awt.Dimension(204, 34));
-        jComboBoxTipo.setPreferredSize(new java.awt.Dimension(204, 34));
+        jComboBoxTipo.setMaximumSize(new java.awt.Dimension(287, 34));
+        jComboBoxTipo.setMinimumSize(new java.awt.Dimension(287, 34));
+        jComboBoxTipo.setPreferredSize(new java.awt.Dimension(287, 34));
 
         jButtonTransferir.setBackground(new java.awt.Color(51, 102, 153));
         jButtonTransferir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -295,12 +300,12 @@ public class WSearch extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabelMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxCarateristicas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,40 +352,37 @@ public class WSearch extends javax.swing.JFrame {
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInicialLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, 292, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(4, 4, 4)
-                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(199, 199, 199)
+                        .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelInicialLayout.createSequentialGroup()
+                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(2, 2, 2))
-                            .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxAspetos, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                                .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(148, 148, 148))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPaneCima, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
+                                    .addComponent(jScrollPaneCima, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxAspetos, 0, 268, Short.MAX_VALUE))))
+                        .addGap(24, 24, 24))))
         );
         jPanelInicialLayout.setVerticalGroup(
             jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,7 +392,7 @@ public class WSearch extends javax.swing.JFrame {
                     .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jComboBoxTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBoxAspetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelCarateristicas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInicialLayout.createSequentialGroup()
@@ -399,21 +401,21 @@ public class WSearch extends javax.swing.JFrame {
                             .addComponent(jScrollPaneCima, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanelInicialLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
+                                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonTransferir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPaneBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInicialLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButtonRetirar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanelInicialLayout.createSequentialGroup()
-                        .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonConfirmar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(10, 10, 10))))
+                    .addComponent(jScrollPaneMateriais, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
@@ -486,7 +488,7 @@ public class WSearch extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,6 +510,8 @@ public class WSearch extends javax.swing.JFrame {
             int valor = jComboBoxCarateristicas.getSelectedIndex();
             Keys.Feature fea = fealista.get(valor);
             boolean nao_tem = true;
+            int valor_retira = -1;
+            int j = 0;
             for (HelpFeature f : selfealista) {
                 if ((f.getDescription().equals(fea.getDescription())) && (f.getUnityMeasure().equals(fea.getUnityMeasure())) && (f.getTypeOfMaterial().equals(fea.getTypeOfMaterial()))) {
                     nao_tem = false;
@@ -529,10 +533,79 @@ public class WSearch extends javax.swing.JFrame {
                         int val = jSliderMedida.getValue();
                         String teste;
                         if (val == 1) {
-                            teste = fea.getDescription() + ": " + lingua.translate("Sim");
+                            teste = fea.getDescription();
+                            teste = "(" + lingua.translate("Caraterística") + ") " + teste;
+                            int indice = f.getIndex();
+                            StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
+                            DefaultListModel<StringAuxiliar> mo = (DefaultListModel<StringAuxiliar>) jListBaixo.getModel();
+                            for (int i = 0; i < mo.getSize(); i++) {
+                                StringAuxiliar s = mo.get(i);
+                                if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
+                                    ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).setElementAt(aux, i);
+                                }
+                            }
                         } else {
-                            teste = fea.getDescription() + ": " + lingua.translate("Não");
+                            valor_retira = f.getIndex();
+                            DefaultListModel<StringAuxiliar> lista = ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel());
+                            for (int k = 0; k < lista.getSize(); k++) {
+                                if ((lista.getElementAt(k).getIndex() == valor_retira) && (lista.get(k).getComboBoxValue().equals("carateristica"))) {
+                                    lista.remove(k);
+                                    break;
+                                }
+                            }
                         }
+                    }
+                }
+                j++;
+            }
+            if (valor_retira > -1) {
+                for (int i = 0; i < selfealista.size(); i++) {
+                    if (selfealista.get(i).getIndex() == valor_retira) {
+                        selfealista.remove(i);
+                        break;
+                    }
+                }
+                this.updateMaterialsList();
+            }
+            if (nao_tem) {
+                int razao = selfealista.size();
+                String teste;
+                if (!tem_medida) {
+                    teste = fea.getDescription();
+                } else {
+                    teste = fea.getDescription() + ": " + jLabelMedida.getText();
+                    fea.setNumber(jSliderMedida.getValue());
+                }
+                if ((tem_medida) || (jSliderMedida.getValue() > 0)) {
+                    teste = "(" + lingua.translate("Caraterística") + ") " + teste;
+                    HelpFeature f = new HelpFeature(fea, razao);
+                    f.setNumber(jSliderMedida.getValue());
+                    selfealista.add(new HelpFeature(fea, razao));
+                    StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", razao);
+                    ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
+                    Rectangle r;
+                    jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
+                    int altura = 20;
+                    for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
+                        r = jListBaixo.getCellBounds(0, 0);
+                        altura += (int) r.getHeight();
+                        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), altura));
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonTransferir2ActionPerformed
+
+    private void updateFeaturesList() {
+        if (jComboBoxCarateristicas.getSelectedIndex() >= 0) {
+            int valor = jComboBoxCarateristicas.getSelectedIndex();
+            Keys.Feature fea = fealista.get(valor);
+            int valor_retira = -1;
+            for (HelpFeature f : selfealista) {
+                if ((f.getDescription().equals(fea.getDescription())) && (f.getUnityMeasure().equals(fea.getUnityMeasure())) && (f.getTypeOfMaterial().equals(fea.getTypeOfMaterial()))) {
+                    if (!f.getUnityMeasure().equals("")) {
+                        f.setNumber(jSliderMedida.getValue());
+                        String teste = fea.getDescription() + ": " + jLabelMedida.getText();
                         teste = "(" + lingua.translate("Caraterística") + ") " + teste;
                         int indice = f.getIndex();
                         StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
@@ -543,42 +616,46 @@ public class WSearch extends javax.swing.JFrame {
                                 ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).setElementAt(aux, i);
                             }
                         }
+
+                    } else {
+                        int val = jSliderMedida.getValue();
+                        String teste;
+                        if (val == 1) {
+                            teste = fea.getDescription();
+                            teste = "(" + lingua.translate("Caraterística") + ") " + teste;
+                            int indice = f.getIndex();
+                            StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", indice);
+                            DefaultListModel<StringAuxiliar> mo = (DefaultListModel<StringAuxiliar>) jListBaixo.getModel();
+                            for (int i = 0; i < mo.getSize(); i++) {
+                                StringAuxiliar s = mo.get(i);
+                                if ((s.getComboBoxValue().equals(aux.getComboBoxValue())) && (s.getIndex() == aux.getIndex())) {
+                                    ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).setElementAt(aux, i);
+                                }
+                            }
+                        } else {
+                            valor_retira = f.getIndex();
+                            DefaultListModel<StringAuxiliar> lista = ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel());
+                            for (int k = 0; k < lista.getSize(); k++) {
+                                if ((lista.getElementAt(k).getIndex() == valor_retira) && (lista.get(k).getComboBoxValue().equals("carateristica"))) {
+                                    lista.remove(k);
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
-            if (nao_tem) {
-                int razao = selfealista.size();
-                String teste;
-                if (!tem_medida) {
-                    int val = jSliderMedida.getValue();
-                    if (val == 1) {
-                        teste = fea.getDescription() + ": " + lingua.translate("Sim");
-                    } else {
-                        teste = fea.getDescription() + ": " + lingua.translate("Não");
-                    }
-                } else {
-                    teste = fea.getDescription() + ": " + jLabelMedida.getText();
-                    fea.setNumber(jSliderMedida.getValue());
-                }
-                teste = "(" + lingua.translate("Caraterística") + ") " + teste;
-                selfealista.add(new HelpFeature(fea, razao));
-                StringAuxiliar aux = new StringAuxiliar(teste, "carateristica", razao);
-                ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
-                Rectangle r;
-                int altura = 10;
-                for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
-                    r = jListBaixo.getCellBounds(0, 0);
-                    altura += (int) r.getHeight();
-                    if (altura >= jListBaixo.getPreferredSize().getHeight()) {
-                        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), (int) (jListBaixo.getPreferredSize().getHeight() + r.getHeight())));
+            if (valor_retira > -1) {
+                for (int i = 0; i < selfealista.size(); i++) {
+                    if (selfealista.get(i).getIndex() == valor_retira) {
+                        selfealista.remove(i);
+                        break;
                     }
                 }
+                this.updateMaterialsList();
             }
         }
-
-
-    }//GEN-LAST:event_jButtonTransferir2ActionPerformed
-
+    }
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         this.close();
     }//GEN-LAST:event_jButtonExitActionPerformed
@@ -589,10 +666,30 @@ public class WSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRetirar2ActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        if ((materiais.size() > 0)&&(pesquisa)) {
-            this.close();
-            if (frame instanceof WRequest) {
-                ((Clavis.Windows.WRequest) frame).setMaterialsList(materiais);
+        if ((frame != null) && (tipos == null)) {
+            if ((materiais.size() > 0) && (pesquisa)) {
+                this.close();
+                if (frame instanceof WRequest) {
+                    ((Clavis.Windows.WRequest) frame).setMaterialsList(materiais);
+                }
+            }
+        } else {
+            int sel = jTableMateriais.getSelectedRow();
+            Keys.Material selecionado = null;
+            int i = 0;
+            for (Keys.Material m : materiais) {
+                if (sel == i) {
+                    selecionado = m;
+                    break;
+                }
+                i++;
+            }
+            if (selecionado != null) {
+                javax.swing.JFrame top = (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jTableMateriais);
+                Clavis.Windows.WRequestSpecific wr = new Clavis.Windows.WRequestSpecific(corborda, corfundo, selecionado, url, lingua, top);
+                wr.create();
+                setVisible(false);
+                wr.appear();
             }
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
@@ -747,9 +844,11 @@ public class WSearch extends javax.swing.JFrame {
                 if (val == 1) {
                     jTextFieldMedida.setText(lingua.translate("Sim"));
                     jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
+                    updateFeaturesList();
                 } else {
                     jTextFieldMedida.setText(lingua.translate("Não"));
                     jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Não"));
+                    updateFeaturesList();
                 }
             }
         });
@@ -781,8 +880,9 @@ public class WSearch extends javax.swing.JFrame {
                                         jSliderMedida.setValue(jSliderMedida.getMinimum());
                                     }
                                 } else {
-                                    jSliderMedida.setValue(jSliderMedida.getMaximum());
+                                    jSliderMedida.setValue(jSliderMedida.getMinimum());
                                 }
+                                updateFeaturesList();
                             } else {
                                 val = val.toLowerCase();
                                 val = val.replaceAll("ãáàâä", "a");
@@ -794,16 +894,19 @@ public class WSearch extends javax.swing.JFrame {
                                 val = val.replaceAll("[ñ]", "n");
                                 if (val.matches(lingua.translate("sim"))) {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                } else if (val.toLowerCase().matches(lingua.translate("Nao").toLowerCase())) {
+                                    updateFeaturesList();
+                                } else if (val.matches(lingua.translate("Nao").replaceAll("ã", "a").toLowerCase())) {
                                     jSliderMedida.setValue(jSliderMedida.getMinimum());
+                                    updateFeaturesList();
                                 } else {
-                                    jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                    jTextFieldMedida.setText(lingua.translate("Sim"));
+                                    jSliderMedida.setValue(jSliderMedida.getMinimum());
+                                    jTextFieldMedida.setText(lingua.translate("Não"));
+                                    updateFeaturesList();
                                     jLabelCarateristicas.requestFocus();
                                 }
                             }
                         } else {
-                            jSliderMedida.setValue(jSliderMedida.getMaximum());
+                            jSliderMedida.setValue(jSliderMedida.getMinimum());
                         }
                         break;
                     case KeyEvent.VK_ESCAPE:
@@ -820,7 +923,7 @@ public class WSearch extends javax.swing.JFrame {
                                         jSliderMedida.setValue(jSliderMedida.getMinimum());
                                     }
                                 } else {
-                                    jSliderMedida.setValue(jSliderMedida.getMaximum());
+                                    jSliderMedida.setValue(jSliderMedida.getMinimum());
                                 }
                             } else {
                                 val = val.toLowerCase();
@@ -833,21 +936,24 @@ public class WSearch extends javax.swing.JFrame {
                                 val = val.replaceAll("[ñ]", "n");
                                 if (val.matches(lingua.translate("sim"))) {
                                     jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                } else if (val.toLowerCase().matches(lingua.translate("Nao").toLowerCase())) {
+                                    updateFeaturesList();
+                                } else if (val.matches(lingua.translate("Nao").replaceAll("ã", "a").toLowerCase())) {
                                     jSliderMedida.setValue(jSliderMedida.getMinimum());
+                                    updateFeaturesList();
                                 } else {
-                                    jSliderMedida.setValue(jSliderMedida.getMaximum());
-                                    jTextFieldMedida.setText(lingua.translate("Sim"));
+                                    jSliderMedida.setValue(jSliderMedida.getMinimum());
+                                    jTextFieldMedida.setText(lingua.translate("Não"));
+                                    updateFeaturesList();
                                     jLabelCarateristicas.requestFocus();
                                 }
                             }
                         } else {
-                            jSliderMedida.setValue(jSliderMedida.getMaximum());
+                            jSliderMedida.setValue(jSliderMedida.getMinimum());
                         }
                         jLabelCarateristicas.requestFocus();
                         break;
                     case KeyEvent.VK_DELETE:
-                        jSliderMedida.setValue(jSliderMedida.getMaximum());
+                        jSliderMedida.setValue(jSliderMedida.getMinimum());
                         break;
                     default:
                         break;
@@ -873,8 +979,46 @@ public class WSearch extends javax.swing.JFrame {
             }
         });
         if (tipos != null) {
-            jButtonConfirmar.setVisible(false);
+            try {
+                if (Clavis.KeyQuest.class.getResource("Images/request.png") != null) {
+                    BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/request.png"));
+                    ImageIcon imsave = new ImageIcon(bfsave);
+                    jButtonConfirmar.setIcon(imsave);
+                } else {
+                    jButtonConfirmar.setText(lingua.translate("Requisição"));
+                }
+            } catch (IOException e) {
+            }
+            jButtonConfirmar.setToolTipText(lingua.translate("Registo de requisição"));
         }
+        jTableMateriais.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int sel = jTableMateriais.getSelectedRow();
+                if (sel >= 0) {
+                    if (tipos != null) {
+                        jButtonConfirmar.setEnabled(true);
+                    }
+                }
+            }
+        });
+        jTableMateriais.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    jTableMateriais.clearSelection();
+                    jButtonConfirmar.setEnabled(false);
+                } else {
+                    int sel = jTableMateriais.getSelectedRow();
+                    if (sel >= 0) {
+                        if (tipos != null) {
+                            jButtonConfirmar.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void updateValuesMeasureObjects() {
@@ -894,23 +1038,44 @@ public class WSearch extends javax.swing.JFrame {
                 db.close();
                 if (val.length > 0) {
                     if (val[0] != val[1]) {
+
                         mod.setMinimum(val[0]);
                         mod.setMaximum(val[1]);
                         jSliderMedida.setModel(mod);
                         jSliderMedida.setMinorTickSpacing(val[0]);
                         jSliderMedida.setMajorTickSpacing(val[1]);
-                        jSliderMedida.setValue(val[1]);
+                        jSliderMedida.setValue(val[0]);
                         if (tem_medida) {
                             jLabelMaximo.setText("" + val[1]);
                             jLabelMinimo.setText("" + val[0]);
-                            jTextFieldMedida.setText("" + val[1]);
+                            jTextFieldMedida.setText("" + val[0]);
+                            jTextFieldMedida.setText("" + val[0]);
+                            if (jComboBoxCarateristicas.getSelectedIndex() >= 0) {
+                                Keys.Feature fea = fealista.get(jComboBoxCarateristicas.getSelectedIndex());
+                                for (int i = 0; i < selfealista.size(); i++) {
+                                    if ((selfealista.get(i).getDescription().equals(fea.getDescription())) && (selfealista.get(i).getUnityMeasure().equals(fea.getUnityMeasure())) && (selfealista.get(i).getTypeOfMaterial().getMaterialTypeID() == fea.getTypeOfMaterial().getMaterialTypeID())) {
+                                        jSliderMedida.setValue((int) selfealista.get(i).getNumber());
+                                        jTextFieldMedida.setText("" + (int) selfealista.get(i).getNumber());
+                                        break;
+                                    }
+                                }
+                            }
                             int sel = jComboBoxCarateristicas.getSelectedIndex();
                             jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + fealista.get(sel).getUnityMeasure());
                         } else {
+                            if (jComboBoxCarateristicas.getSelectedIndex() >= 0) {
+                                Keys.Feature fea = fealista.get(jComboBoxCarateristicas.getSelectedIndex());
+                                for (int i = 0; i < selfealista.size(); i++) {
+                                    if ((selfealista.get(i).getDescription().equals(fea.getDescription())) && (selfealista.get(i).getUnityMeasure().equals(fea.getUnityMeasure())) && (selfealista.get(i).getTypeOfMaterial().getMaterialTypeID() == fea.getTypeOfMaterial().getMaterialTypeID())) {
+                                        jSliderMedida.setValue(val[1]);
+                                        break;
+                                    }
+                                }
+                            }
                             jLabelMaximo.setText(lingua.translate("Sim"));
                             jLabelMinimo.setText(lingua.translate("Não"));
-                            jTextFieldMedida.setText(lingua.translate("Sim"));
-                            jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
+                            jTextFieldMedida.setText(lingua.translate("Não"));
+                            jLabelMedida.setText("");
                         }
                     } else {
                         val[1] = val[0] + 1;
@@ -919,18 +1084,37 @@ public class WSearch extends javax.swing.JFrame {
                         jSliderMedida.setModel(mod);
                         jSliderMedida.setMinorTickSpacing(val[0]);
                         jSliderMedida.setMajorTickSpacing(val[1]);
-                        jSliderMedida.setValue(val[1]);
+                        jSliderMedida.setValue(val[0]);
                         if (tem_medida) {
+                            jTextFieldMedida.setText("" + val[0]);
+                            if (jComboBoxCarateristicas.getSelectedIndex() >= 0) {
+                                Keys.Feature fea = fealista.get(jComboBoxCarateristicas.getSelectedIndex());
+                                for (int i = 0; i < selfealista.size(); i++) {
+                                    if ((selfealista.get(i).getDescription().equals(fea.getDescription())) && (selfealista.get(i).getUnityMeasure().equals(fea.getUnityMeasure())) && (selfealista.get(i).getTypeOfMaterial().getMaterialTypeID() == fea.getTypeOfMaterial().getMaterialTypeID())) {
+                                        jSliderMedida.setValue((int) selfealista.get(i).getNumber());
+                                        jTextFieldMedida.setText("" + selfealista.get(i).getNumber());
+                                        break;
+                                    }
+                                }
+                            }
                             jLabelMaximo.setText("" + val[1]);
                             jLabelMinimo.setText("" + val[0]);
-                            jTextFieldMedida.setText("" + val[1]);
                             int sel = jComboBoxCarateristicas.getSelectedIndex();
                             jLabelMedida.setText(" <= " + jSliderMedida.getValue() + " " + fealista.get(sel).getUnityMeasure());
                         } else {
+                            if (jComboBoxCarateristicas.getSelectedIndex() >= 0) {
+                                Keys.Feature fea = fealista.get(jComboBoxCarateristicas.getSelectedIndex());
+                                for (int i = 0; i < selfealista.size(); i++) {
+                                    if ((selfealista.get(i).getDescription().equals(fea.getDescription())) && (selfealista.get(i).getUnityMeasure().equals(fea.getUnityMeasure())) && (selfealista.get(i).getTypeOfMaterial().getMaterialTypeID() == fea.getTypeOfMaterial().getMaterialTypeID())) {
+                                        jSliderMedida.setValue(val[1]);
+                                        break;
+                                    }
+                                }
+                            }
                             jLabelMaximo.setText(lingua.translate("Sim"));
                             jLabelMinimo.setText(lingua.translate("Não"));
-                            jTextFieldMedida.setText(lingua.translate("Sim"));
-                            jLabelMedida.setText(lingua.translate("Opção escolhida") + ": " + lingua.translate("Sim"));
+                            jTextFieldMedida.setText(lingua.translate("Não"));
+                            jLabelMedida.setText("");
                         }
                     }
                 }
@@ -1006,13 +1190,12 @@ public class WSearch extends javax.swing.JFrame {
                                 StringAuxiliar aux = new StringAuxiliar(teste, "software", razao);
                                 ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
                                 Rectangle r;
-                                int altura = 10;
+                                jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
+                                int altura = 20;
                                 for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
                                     r = jListBaixo.getCellBounds(0, 0);
                                     altura += (int) r.getHeight();
-                                    if (altura >= jListBaixo.getPreferredSize().getHeight()) {
-                                        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), (int) (jListBaixo.getPreferredSize().getHeight() + r.getHeight())));
-                                    }
+                                    jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), altura));
                                 }
                             }
                         }
@@ -1033,13 +1216,12 @@ public class WSearch extends javax.swing.JFrame {
                                 StringAuxiliar aux = new StringAuxiliar(teste, "disciplina", razao);
                                 ((DefaultListModel<StringAuxiliar>) jListBaixo.getModel()).addElement(aux);
                                 Rectangle r;
-                                int altura = 10;
+                                jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
+                                int altura = 20;
                                 for (int x = 0; x < jListBaixo.getModel().getSize(); x++) {
                                     r = jListBaixo.getCellBounds(0, 0);
                                     altura += (int) r.getHeight();
-                                    if (altura >= jListBaixo.getPreferredSize().getHeight()) {
-                                        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), (int) (jListBaixo.getPreferredSize().getHeight() + r.getHeight())));
-                                    }
+                                    jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), altura));
                                 }
                             }
                         }
@@ -1062,7 +1244,7 @@ public class WSearch extends javax.swing.JFrame {
                         if (softlista.size() > 0) {
                             DefaultListModel<String> modelo = new DefaultListModel<>();
                             softlista.stream().forEach((sof) -> {
-                                modelo.addElement(sof.getName());
+                                modelo.addElement(sof.getName() + " (" + sof.getVersion() + ")");
                             });
                             jListCima.setModel(modelo);
                         } else {
@@ -1151,7 +1333,8 @@ public class WSearch extends javax.swing.JFrame {
         jListCima.setTransferHandler(new TransferHandler() {
             int index;
             int[] indices;
-            private static final long serialVersionUID = 123L; 
+            private static final long serialVersionUID = 123L;
+
             @Override
             public int getSourceActions(JComponent comp) {
                 return TransferHandler.COPY;
@@ -1248,7 +1431,6 @@ public class WSearch extends javax.swing.JFrame {
                     pop.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
-
         });
 
     }
@@ -1287,7 +1469,7 @@ public class WSearch extends javax.swing.JFrame {
         jListBaixo.setTransferHandler(new TransferHandler() {
             int index;
             private static final long serialVersionUID = 123L;
-            
+
             @Override
             public boolean canImport(TransferHandler.TransferSupport support) {
                 if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
@@ -1326,13 +1508,12 @@ public class WSearch extends javax.swing.JFrame {
                         if (nao_tem) {
                             modelo.add(index, gota);
                             Rectangle r;
-                            int altura = 0;
+                            jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
+                            int altura = 20;
                             for (int x = 0; x < modelo.size(); x++) {
                                 r = jListBaixo.getCellBounds(index, index);
-                                altura += (int) (r.getHeight() + 2);
-                                if (altura >= jListBaixo.getPreferredSize().getHeight()) {
-                                    jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), (int) (jListBaixo.getPreferredSize().getHeight() + r.getHeight())));
-                                }
+                                altura += (int) r.getHeight();
+                                jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), altura));
                             }
                         }
                     }
@@ -1382,7 +1563,7 @@ public class WSearch extends javax.swing.JFrame {
             public void intervalAdded(ListDataEvent e) {
                 updateMaterialsList();
                 if ((frame != null) && (tipos == null)) {
-                    if ((materiais.size() > 0)&&(pesquisa)) {
+                    if ((materiais.size() > 0) && (pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1394,7 +1575,7 @@ public class WSearch extends javax.swing.JFrame {
             public void intervalRemoved(ListDataEvent e) {
                 updateMaterialsList();
                 if ((frame != null) && (tipos == null)) {
-                    if ((materiais.size() > 0)&&(pesquisa)) {
+                    if ((materiais.size() > 0) && (pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1406,7 +1587,7 @@ public class WSearch extends javax.swing.JFrame {
             public void contentsChanged(ListDataEvent e) {
                 updateMaterialsList();
                 if ((frame != null) && (tipos == null)) {
-                    if ((materiais.size() > 0)&&(pesquisa)) {
+                    if ((materiais.size() > 0) && (pesquisa)) {
                         jButtonConfirmar.setEnabled(true);
                     } else {
                         jButtonConfirmar.setEnabled(false);
@@ -1458,9 +1639,15 @@ public class WSearch extends javax.swing.JFrame {
                 }
             }
         }
-        if (mauxiliar.size() == materiaisoriginal.size()) {
-            pesquisa = false;
-        } else pesquisa = !mauxiliar.isEmpty();
+        if ((frame != null) && (tipos == null)) {
+            if (mauxiliar.size() == materiaisoriginal.size()) {
+                pesquisa = false;
+                jButtonConfirmar.setEnabled(false);
+            } else {
+                pesquisa = !mauxiliar.isEmpty();
+                jButtonConfirmar.setEnabled(true);
+            }
+        }
         materiais = mauxiliar;
         this.makeTable();
     }
@@ -1475,37 +1662,34 @@ public class WSearch extends javax.swing.JFrame {
                         if (selsoftlista.get(g).getIndex() == auxiliar.getIndex()) {
                             selsoftlista.remove(g);
                         }
-                    }   break;
+                    }
+                    break;
                 case "disciplina":
                     for (int g = 0; g < selsublista.size(); g++) {
                         if (selsublista.get(g).getIndex() == auxiliar.getIndex()) {
                             selsublista.remove(g);
                         }
-                    }   break;
+                    }
+                    break;
                 case "carateristica":
                     for (int g = 0; g < selfealista.size(); g++) {
                         if (selfealista.get(g).getIndex() == auxiliar.getIndex()) {
                             selfealista.remove(g);
                         }
-                    }   break;
+                    }
+                    break;
                 default:
                     break;
             }
-            ((DefaultListModel) jListBaixo.getModel()).remove(valores[i]);
+            modelo.remove(valores[i]);
             if (jListBaixo.getModel().getSize() > 0) {
                 Rectangle r;
-                int altura = jListBaixo.getModel().getSize();
-                double height;
-                r = jListBaixo.getCellBounds(0, 0);
-                altura *= (int) r.getHeight();
+                jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), 0));
+                int altura = 20;
                 for (int x = 0; x < modelo.size(); x++) {
-                    if (altura < jListBaixo.getPreferredSize().getHeight()) {
-                        jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), (int) (jListBaixo.getPreferredSize().getHeight() - r.getHeight())));
-                    }
-                    height = jListBaixo.getPreferredSize().getHeight();
-                    if ((altura + r.getHeight()) > height) {
-                        break;
-                    }
+                    r = jListBaixo.getCellBounds(0, 0);
+                    altura += (int) r.getHeight();
+                    jListBaixo.setPreferredSize(new Dimension((int) jListBaixo.getPreferredSize().getWidth(), altura));
                 }
             }
         }
@@ -1621,6 +1805,13 @@ public class WSearch extends javax.swing.JFrame {
                 }
             }
         });
+        Rectangle r;
+        jTableMateriais.setPreferredSize(new Dimension((int) jTableMateriais.getPreferredSize().getWidth(), 0));
+        int altura = 0;
+        for (int x = 0; x < model.getRowCount(); x++) {
+            altura += (int) jTableMateriais.getRowHeight();
+            jTableMateriais.setPreferredSize(new Dimension((int) jTableMateriais.getPreferredSize().getWidth(), altura));
+        }
     }
 
 

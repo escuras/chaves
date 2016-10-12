@@ -514,10 +514,11 @@ public class WChangeRequest extends javax.swing.JFrame {
                     .addComponent(jLabelRecurso, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelRecurso2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelInicioData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelInicioData2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelInicioData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -944,46 +945,53 @@ public class WChangeRequest extends javax.swing.JFrame {
         TimeDate.Date dat2 = getDate(jSpinnerDataEntrega);
         TimeDate.Time tim1 = getTime(jSpinnerHoraLevantamento);
         TimeDate.Time tim2 = getTime(jSpinnerHoraEntrega);
+        TimeDate.Date data_a = new TimeDate.Date();
+        TimeDate.Time tempo_a = new TimeDate.Time();
         if (jComboBoxM.getSelectedIndex() > 0) {
             if (!checkForTheSameRequest()) {
-                if (!this.checkHolidays()) {
-                    jButtonConfirmarAlteracao.setEnabled(true);
-                    int val = jComboBoxMaterial.getSelectedIndex() - 1;
-                    mselecionado = mlista.get(val);
-                    if (mselecionado.getMaterialImage().equals("sem")) {
-                        try {
-                            File file = new File(new File("").getAbsolutePath()
-                                    + System.getProperty("file.separator")
-                                    + "Resources" + System.getProperty("file.separator")
-                                    + "Images" + System.getProperty("file.separator")
-                                    + selecionada.getMaterial().getTypeOfMaterialImage() + ".png");
-                            if (file.isFile()) {
-                                imagem = ImageIO.read(file);
+                if ((dat1.isBigger(data_a) <= 0) && (dat2.isBigger(data_a) <= 0) && (tim1.compareTime(tempo_a) <= 0) && (tim2.compareTime(tempo_a) <= 0)) {
+                    if (!this.checkHolidays()) {
+                        jButtonConfirmarAlteracao.setEnabled(true);
+                        int val = jComboBoxMaterial.getSelectedIndex() - 1;
+                        mselecionado = mlista.get(val);
+                        if (mselecionado.getMaterialImage().equals("sem")) {
+                            try {
+                                File file = new File(new File("").getAbsolutePath()
+                                        + System.getProperty("file.separator")
+                                        + "Resources" + System.getProperty("file.separator")
+                                        + "Images" + System.getProperty("file.separator")
+                                        + selecionada.getMaterial().getTypeOfMaterialImage() + ".png");
+                                if (file.isFile()) {
+                                    imagem = ImageIO.read(file);
+                                    ImageIcon ic = new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(imagem, 95, 90));
+                                    jLabelImagem.setIcon(ic);
+                                }
+                            } catch (IOException ex) {
+                                Logger.getLogger(ButtonListRequest.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            imagem = FileIOAux.ImageAux.transformFromBase64IntoImage(mselecionado.getMaterialImage());
+                            if (imagem != null) {
                                 ImageIcon ic = new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(imagem, 95, 90));
                                 jLabelImagem.setIcon(ic);
                             }
-                        } catch (IOException ex) {
-                            Logger.getLogger(ButtonListRequest.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        jLabelRecurso2.setText(mselecionado.toString());
+                        jLabelInicioData2.setText(dat1.toString());
+                        jLabelFimData2.setText(dat2.toString());
+                        jLabelInicioHora2.setText(tim1.toString(0));
+                        jLabelFimHora2.setText(tim2.toString(0));
+                        jPanelDados.setBackground(new Color(255, 250, 250));
+                        data1 = dat1;
+                        data2 = dat2;
+                        tempo1 = tim1;
+                        tempo2 = tim2;
                     } else {
-                        imagem = FileIOAux.ImageAux.transformFromBase64IntoImage(mselecionado.getMaterialImage());
-                        if (imagem != null) {
-                            ImageIcon ic = new javax.swing.ImageIcon(FileIOAux.ImageAux.resize(imagem, 95, 90));
-                            jLabelImagem.setIcon(ic);
-                        }
+                        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("As datas escolhidas colidem com feriados") + ".", new String[]{"Voltar"});
+                        mensagem.showMessage();
                     }
-                    jLabelRecurso2.setText(mselecionado.toString());
-                    jLabelInicioData2.setText(dat1.toString());
-                    jLabelFimData2.setText(dat2.toString());
-                    jLabelInicioHora2.setText(tim1.toString(0));
-                    jLabelFimHora2.setText(tim2.toString(0));
-                    jPanelDados.setBackground(new Color(255, 250, 250));
-                    data1 = dat1;
-                    data2 = dat2;
-                    tempo1 = tim1;
-                    tempo2 = tim2;
                 } else {
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("As datas escolhidas colidem com feriados") + ".", new String[]{"Voltar"});
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Aviso"), 400, 200, lingua.translate("As datas ou tempos escolhidos não são tempos futuros") + ".", new String[]{"Voltar"});
                     mensagem.showMessage();
                 }
             } else {

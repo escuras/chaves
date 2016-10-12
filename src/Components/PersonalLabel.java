@@ -44,6 +44,7 @@ public class PersonalLabel {
     Langs.Locale lingua;
     boolean vazia;
     private String url;
+    private java.awt.Color cor = new Color(255, 255, 255);
 
     public PersonalLabel() {
         super();
@@ -111,7 +112,7 @@ public class PersonalLabel {
                 if (Clavis.Windows.WRequest.isMaterialInLateState(m, url)) {
                     l.setBackground(new Color(255, 204, 200));
                 } else {
-                    l.setBackground(java.awt.Color.WHITE);
+                    l.setBackground(cor);
                 }
                 l.setVerticalTextPosition(javax.swing.JTextField.BOTTOM);
                 l.setHorizontalTextPosition(javax.swing.JTextField.CENTER);
@@ -232,10 +233,14 @@ public class PersonalLabel {
             int val = me.showMessage();
             if (!vazia) {
                 if (val == 1) {
-                    int sel = lmater.getSelectedIndex();
-                    Keys.Material ma = lmater.getModel().getElementAt(sel);
+                    Keys.Material ma = lmater.getSelectedValue();
                     selecionados.set(situo, ma);
                     label.setText(this.treatLongStrings(ma.getDescription()));
+                    if (Clavis.Windows.WRequest.isMaterialInLateState(ma, url)) {
+                        label.setBackground(new Color(255, 204, 200));
+                    } else {
+                        label.setBackground(cor);
+                    }
                     FileIOAux.ImageExtension bimage;
                     if (!ma.getMaterialImage().equals("sem")) {
                         bimage = new FileIOAux.ImageExtension(FileIOAux.ImageAux.transformFromBase64IntoImage(ma.getMaterialImage()));
@@ -260,7 +265,7 @@ public class PersonalLabel {
             Keys.Request re = db.getCurrentRequest(material);
             db.close();
             envia = "<html><div style='text-align:center'>" + lingua.translate("O recurso") + " \"" + lingua.translate(material.getTypeOfMaterialName()).toLowerCase() + " " + lingua.translate(material.getDescription()) + "\"<br/>" + lingua.translate("continua emprestado") + " (" + lingua.translate("situação de atraso") + "). <br/>"
-                    + lingua.translate("Data de devolução") + ": " + re.getEndDate().toString()+" ("+re.getTimeEnd().toString(0)+")</div></html>";
+                    + lingua.translate("Data de devolução") + ": " + re.getEndDate().toString() + " (" + re.getTimeEnd().toString(0) + ")</div></html>";
             tipo = Components.MessagePane.AVISO;
         } else {
             if (DataBase.DataBase.testConnection(url)) {
@@ -279,7 +284,6 @@ public class PersonalLabel {
         }
         Components.MessagePane mensagem = new Components.MessagePane(null, tipo, Clavis.KeyQuest.getSystemColor(), lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
         label.addMouseListener(new MouseAdapter() {
-            java.awt.Color cor = label.getBackground();
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -318,13 +322,17 @@ public class PersonalLabel {
                     Keys.Material m = new Keys.Material();
                     m.setDescription(lingua.translate("A lista está vazia") + "!");
                     modelo2.addElement(m);
-                    lmater.removeAll();
                     lmater.setModel(modelo2);
                 }
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     pop.show(e.getComponent(), e.getX(), e.getY());
                 } else if (e.getClickCount() == 2) {
-                    label.setBackground(cor);
+                    Keys.Material ma = lmater.getSelectedValue();
+                    if (Clavis.Windows.WRequest.isMaterialInLateState(selecionados.get(situo), url)) {
+                        label.setBackground(new Color(255, 204, 200));
+                    } else {
+                        label.setBackground(cor);
+                    }
                     mensagem.showMessage();
                 } else {
                     label.setBackground(Color.LIGHT_GRAY);
@@ -333,13 +341,25 @@ public class PersonalLabel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                label.setBackground(cor);
+                if (Clavis.Windows.WRequest.isMaterialInLateState(selecionados.get(situo), url)) {
+                    label.setBackground(new Color(255, 204, 200));
+                } else {
+                    label.setBackground(cor);
+                }
             }
         });
+    }
+    
+    public void clear(){
+        selecionados = new java.util.ArrayList<>();
+        panel.removeAll();
+        specialone = false;
     }
 
     private void prepareSelectOnes() {
         java.util.List<Keys.Material> m = new java.util.ArrayList<>(mlista);
+
+        int aleatorio;
         if (specialone) {
             selecionados = new java.util.ArrayList<>();
         } else {
@@ -351,14 +371,24 @@ public class PersonalLabel {
                 }
             }
         }
-        int aleatorio;
-        int tam = this.getDimension() - selecionados.size();
-        for (int i = 0; i < tam; i++) {
-            if (mlista.size() > 0) {
-                aleatorio = new java.util.Random().nextInt(m.size());
-                Keys.Material mat = m.get(aleatorio);
-                selecionados.add(mat);
-                m.remove(aleatorio);
+
+        if (this.getDimension() > selecionados.size()) {
+            int tam = this.getDimension() - selecionados.size();
+            for (int i = 0; i < tam; i++) {
+                if (mlista.size() > 0) {
+                    aleatorio = new java.util.Random().nextInt(m.size());
+                    Keys.Material mat = m.get(aleatorio);
+                    selecionados.add(mat);
+                    m.remove(aleatorio);
+                }
+            }
+        } else {
+            for (int i = selecionados.size(); i > this.getDimension(); i--) {
+                if (mlista.size() > 0) {
+                    aleatorio = new java.util.Random().nextInt(selecionados.size());
+                    Keys.Material mat = selecionados.get(aleatorio);
+                    selecionados.remove(mat);
+                }
             }
         }
         specialone = false;
@@ -462,6 +492,20 @@ public class PersonalLabel {
 
     public boolean isSpecialOne() {
         return specialone;
+    }
+
+    /**
+     * @return the cor
+     */
+    public java.awt.Color getColor() {
+        return cor;
+    }
+
+    /**
+     * @param cor the cor to set
+     */
+    public void setColor(java.awt.Color cor) {
+        this.cor = cor;
     }
 
 }

@@ -877,6 +877,10 @@ public class WUsers extends javax.swing.JFrame {
                 if (frame instanceof Clavis.Windows.WRequest) {
                     ((Clavis.Windows.WRequest) frame).updateSelectPerson(lpessoas, selecionado);
                 }
+            } else {
+                if (frame instanceof Clavis.Windows.WRequest) {
+                    ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
+                }
             }
         }
     }

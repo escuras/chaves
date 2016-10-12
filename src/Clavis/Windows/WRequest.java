@@ -8,7 +8,10 @@ package Clavis.Windows;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -28,10 +31,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
@@ -39,6 +45,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  * @author toze
  */
 public class WRequest extends javax.swing.JFrame {
+
     private static final long serialVersionUID = 124L;
     private static final java.awt.Color BACKGROUND_COLOR = new java.awt.Color(255, 255, 255);
     private static final java.awt.Color BORDER_COLOR = new java.awt.Color(115, 115, 115);
@@ -1083,7 +1090,7 @@ public class WRequest extends javax.swing.JFrame {
                 }
                 i++;
             }
-            if ((i < mats.size())&&(!recusou)) {
+            if ((i < mats.size()) && (!recusou)) {
                 String envia = lingua.translate("Houve um problema com o registo das requisições") + ".";
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
@@ -1094,16 +1101,18 @@ public class WRequest extends javax.swing.JFrame {
                 db.commit();
                 Clavis.KeyQuest.refreshTables();
                 jComboBoxTipoMaterial.setSelectedIndex(0);
-                jComboBoxMaterial.setSelectedIndex(0);
                 jSpinnerQuantidade.setValue(0);
                 jComboBoxNomeUtilizador.setSelectedIndex(0);
                 jButtonAlgoMais.setBorder(null);
                 jButtonPesquisa.setBorder(null);
+                jButtonAtualizar.setBorder(null);
                 personalTextFieldEmailUtilizador.restartPlaceHolder();
                 personalTextFieldEmailUtilizador.showPLaceHolder();
                 personalTextFieldCodigoUtilizador.restartPlaceHolder();
                 personalTextFieldCodigoUtilizador.showPLaceHolder();
                 pessoaescolhida = null;
+                pl.clear();
+
             }
             db.setAutoCommit(true);
             db.close();
@@ -1219,6 +1228,7 @@ public class WRequest extends javax.swing.JFrame {
                     pl.setNewList(mlista);
                     pl.go(false, null);
                 } else {
+                    jSpinnerQuantidade.setValue(0);
                     jPanelConteudo.removeAll();
                     jPanelConteudo.revalidate();
                     jPanelConteudo.repaint();
@@ -1226,42 +1236,30 @@ public class WRequest extends javax.swing.JFrame {
             }
             this.changeStateButtons();
         });
-        entrou = false;
-        jComboBoxTipoMaterial.addActionListener((ActionEvent e) -> {
-            if ((jComboBoxTipoMaterial.getSelectedIndex() > 0) && (jComboBoxTipoMaterial.getSelectedIndex() != tipomaterialselecionado)) {
-                tipomaterialselecionado = jComboBoxTipoMaterial.getSelectedIndex();
-                tiposelecionado = tlista.get(tipomaterialselecionado - 1);
-                updateComboMaterialBox(null);
-                int val = (int) jSpinnerQuantidade.getValue();
-                pl.set(val);
-                pl.setNewList(mlista);
-                pl.go(true, null);
-            } else if (jComboBoxTipoMaterial.getSelectedIndex() == 0) {
-                jComboBoxMaterial.removeAllItems();
-                jComboBoxMaterial.setSelectedIndex(0);
-                spineditor.getModel().setMaximum(1);
-                jSpinnerQuantidade.setValue(0);
-                tipomaterialselecionado = 0;
-                tiposelecionado = null;
-                bpesquisa = false;
-                jButtonPesquisa.setBorder(null);
-                try {
-                    if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
-                        BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
-                        ImageIcon ic = new ImageIcon(im);
-                        jButtonPesquisa.setIcon(ic);
-                    } else {
-                        jButtonPesquisa.setText(lingua.translate("Pesquisa"));
-                    }
-                } catch (IOException ex) {
-                }
-                jButtonPesquisa.setBackground(new Color(51, 102, 153));
-                jButtonPesquisa.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
-                jButtonAtualizar.setBorder(null);
-                mexeu = false;
+        jComboBoxTipoMaterial.addcopyPaste(lingua);
+        jComboBoxMaterial.addcopyPaste(lingua);
+        jComboBoxNomeUtilizador.addcopyPaste(lingua);
+        Object child = jComboBoxTipoMaterial.getComboBox().getAccessibleContext().getAccessibleChild(0);
+        BasicComboPopup popups = (BasicComboPopup) child;
+        javax.swing.JList<?> list = popups.getList();
+
+        popups.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+
             }
-            this.changeStateButtons();
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                updateComboBoxTypeMaterials();
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                updateComboBoxTypeMaterials();
+            }
         });
+        updateComboBoxTypeMaterials();
         jComboBoxMaterial.addActionListener((ActionEvent e) -> {
             if (jComboBoxMaterial.getSelectedIndex() > 0) {
                 jSpinnerQuantidade.setValue(1);
@@ -1386,15 +1384,17 @@ public class WRequest extends javax.swing.JFrame {
                 modelop.addElement(pes);
             });
             jComboBoxNomeUtilizador.setSelectedIndex(0);
+            personalTextFieldCodigoUtilizador.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, personalTextFieldCodigoUtilizador, false));
+            personalTextFieldEmailUtilizador.addMouseListener(Components.PopUpMenu.simpleCopyPaste(lingua, personalTextFieldEmailUtilizador, false));
             personalTextFieldCodigoUtilizador.addActionListener((ActionEvent e) -> {
                 boolean encontrou = false;
                 for (Keys.Person pp : p) {
                     if (pp.getIdentification().equals(personalTextFieldCodigoUtilizador.getText())) {
                         jComboBoxNomeUtilizador.setSelectedItem(pp);
-                        personalTextFieldEmailUtilizador.stopPlaceHolder();
                         pessoaescolhida = pp;
                         if ((pp.getEmail().equals("")) || (pp.getEmail().equals("sem"))) {
-                            personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                            personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", pessoaescolhida != null);
+                            personalTextFieldCodigoUtilizador.requestFocus();
                         } else {
                             personalTextFieldEmailUtilizador.setText(pp.getEmail());
                             personalTextFieldCodigoUtilizador.requestFocus();
@@ -1414,9 +1414,66 @@ public class WRequest extends javax.swing.JFrame {
                 }
                 this.changeStateButtons();
             });
+
+            /*
+            this.addMouseListener(new MouseAdapter(){
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
+                }
+            });
+             */
+            personalTextFieldEmailUtilizador.addFocusListener(new FocusAdapter() {
+                boolean entrada = false;
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if ((pessoaescolhida != null) && (!personalTextFieldEmailUtilizador.getText().equals(pessoaescolhida.getEmail()))) {
+                        if ((pessoaescolhida.getEmail().equals("")) || (pessoaescolhida.getEmail().equals("sem"))) {
+                            Runnable r = () -> {
+                                java.awt.Component p = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+                                personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", pessoaescolhida != null);
+                                p.requestFocus();
+                            };
+                            SwingUtilities.invokeLater(r);
+                        } else {
+                            Runnable r = () -> {
+                                java.awt.Component p = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+                                personalTextFieldEmailUtilizador.setText(pessoaescolhida.getEmail());
+                                p.requestFocus();
+                            };
+                            SwingUtilities.invokeLater(r);
+                        }
+                    }
+                }
+            });
+            personalTextFieldCodigoUtilizador.addFocusListener(new FocusAdapter() {
+                boolean entrada = false;
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if ((pessoaescolhida != null) && (!personalTextFieldCodigoUtilizador.getText().equals(pessoaescolhida.getIdentification()))) {
+                        if ((pessoaescolhida.getIdentification().equals("")) || (pessoaescolhida.getIdentification().equals("sem"))) {
+                            Runnable r = () -> {
+                                java.awt.Component p = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+                                personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", pessoaescolhida != null);
+                                p.requestFocus();
+                            };
+                            SwingUtilities.invokeLater(r);
+                        } else {
+                            Runnable r = () -> {
+                                java.awt.Component p = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+                                personalTextFieldCodigoUtilizador.setText(pessoaescolhida.getIdentification());
+                                p.requestFocus();
+                            };
+                            SwingUtilities.invokeLater(r);
+                        }
+                    }
+                }
+            });
             personalTextFieldCodigoUtilizador.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyPressed(KeyEvent e) {
+                public void keyReleased(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                         if (personalTextFieldCodigoUtilizador.getText().equals("")) {
                             personalTextFieldEmailUtilizador.restartPlaceHolder();
@@ -1427,11 +1484,10 @@ public class WRequest extends javax.swing.JFrame {
                         }
                     }
                 }
-
             });
             personalTextFieldEmailUtilizador.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyPressed(KeyEvent e) {
+                public void keyReleased(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                         if (personalTextFieldCodigoUtilizador.getText().equals("")) {
                             personalTextFieldEmailUtilizador.restartPlaceHolder();
@@ -1449,11 +1505,13 @@ public class WRequest extends javax.swing.JFrame {
                     if ((!pp.getEmail().equals("")) && (!pp.getEmail().equals("sem"))) {
                         if (pp.getEmail().equals(personalTextFieldEmailUtilizador.getText())) {
                             jComboBoxNomeUtilizador.setSelectedItem(pp);
+                            pessoaescolhida = pp;
                             if ((pp.getIdentification().equals("")) || (pp.getIdentification().equals("sem"))) {
-                                personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                                personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", pessoaescolhida != null);
                                 personalTextFieldEmailUtilizador.requestFocus();
                             } else {
                                 personalTextFieldCodigoUtilizador.setText(pp.getIdentification());
+                                personalTextFieldEmailUtilizador.requestFocus();
                             }
                             encontrou = true;
                         }
@@ -1607,6 +1665,42 @@ public class WRequest extends javax.swing.JFrame {
         pack();
     }
 
+    private void updateComboBoxTypeMaterials() {
+        if ((jComboBoxTipoMaterial.getSelectedIndex() > 0) && (jComboBoxTipoMaterial.getSelectedIndex() != tipomaterialselecionado)) {
+            tipomaterialselecionado = jComboBoxTipoMaterial.getSelectedIndex();
+            tiposelecionado = tlista.get(tipomaterialselecionado - 1);
+            updateComboMaterialBox(null);
+            int val = (int) jSpinnerQuantidade.getValue();
+            pl.set(val);
+            pl.setNewList(mlista);
+            pl.go(true, null);
+        } else if (jComboBoxTipoMaterial.getSelectedIndex() == 0) {
+            jComboBoxMaterial.removeAllItems();
+            jComboBoxMaterial.setSelectedIndex(0);
+            spineditor.getModel().setMaximum(1);
+            jSpinnerQuantidade.setValue(0);
+            tipomaterialselecionado = 0;
+            tiposelecionado = null;
+            bpesquisa = false;
+            jButtonPesquisa.setBorder(null);
+            try {
+                if (Clavis.KeyQuest.class.getResource("Images/lupa.png") != null) {
+                    BufferedImage im = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/lupa.png"));
+                    ImageIcon ic = new ImageIcon(im);
+                    jButtonPesquisa.setIcon(ic);
+                } else {
+                    jButtonPesquisa.setText(lingua.translate("Pesquisa"));
+                }
+            } catch (IOException ex) {
+            }
+            jButtonPesquisa.setBackground(new Color(51, 102, 153));
+            jButtonPesquisa.setToolTipText(lingua.translate("Filtrar através de pesquisa"));
+            jButtonAtualizar.setBorder(null);
+            mexeu = false;
+        }
+        changeStateButtons();
+    }
+
     public void updatePersons(java.util.List<Keys.Person> lista, boolean editar) {
         pessoas = lista;
         int pos = jComboBoxNomeUtilizador.getSelectedIndex();
@@ -1622,18 +1716,17 @@ public class WRequest extends javax.swing.JFrame {
         });
         if (editar) {
             jComboBoxNomeUtilizador.setSelectedIndex(pos);
-            jComboBoxNomeUtilizador.setSelectedIndex(pos);
             if (pos > 0) {
                 Keys.Person pessoa = pessoas.get(pos - 1);
-                if ((pessoa.getEmail().equals("sem")) || (pessoa.getEmail().equals(""))) {
-                    personalTextFieldEmailUtilizador.setText("");
-                    personalTextFieldEmailUtilizador.showPLaceHolder();
+                if ((pessoa.getEmail().equals("")) || (pessoa.getEmail().equals("sem"))) {
+                    personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                    jLabel12.requestFocus();
                 } else {
                     personalTextFieldEmailUtilizador.setText(pessoa.getEmail());
                 }
-                if ((pessoa.getIdentification().equals("sem")) || (pessoa.getIdentification().equals(""))) {
-                    personalTextFieldCodigoUtilizador.setText("");
-                    personalTextFieldCodigoUtilizador.showPLaceHolder();
+                if ((pessoa.getIdentification().equals("")) || (pessoa.getIdentification().equals("sem"))) {
+                    personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                    jLabel12.requestFocus();
                 } else {
                     personalTextFieldCodigoUtilizador.setText(pessoa.getIdentification());
                 }
@@ -1667,20 +1760,20 @@ public class WRequest extends javax.swing.JFrame {
             }
         }
         jComboBoxNomeUtilizador.setSelectedIndex(pos);
-        jComboBoxNomeUtilizador.setSelectedIndex(pos);
         if (pos > 0) {
             if ((pessoa.getEmail().equals("")) || (pessoa.getEmail().equals("sem"))) {
                 personalTextFieldEmailUtilizador.showWithCondition(lingua.translate("Não existe registo de email") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                jLabel12.requestFocus();
             } else {
                 personalTextFieldEmailUtilizador.setText(pessoa.getEmail());
             }
             if ((pessoa.getIdentification().equals("")) || (pessoa.getIdentification().equals("sem"))) {
                 personalTextFieldCodigoUtilizador.showWithCondition(lingua.translate("Não existe Identificação") + "!", jComboBoxNomeUtilizador.getSelectedIndex() > 0);
+                jLabel12.requestFocus();
             } else {
                 personalTextFieldCodigoUtilizador.setText(pessoa.getIdentification());
             }
         }
-        jLabelPessoa.requestFocus();
         if (((int) jSpinnerQuantidade.getValue()) > 0) {
             jButtonRequisitar.setEnabled(true);
         }
@@ -1809,7 +1902,6 @@ public class WRequest extends javax.swing.JFrame {
             mlista = lista;
             int valorsel = jComboBoxMaterial.getSelectedIndex() - 1;
             jComboBoxMaterial.removeAllItems();
-            
             DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
             for (Keys.Material n : mlista) {
                 n = new Keys.Material(n) {

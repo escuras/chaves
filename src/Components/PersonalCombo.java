@@ -149,7 +149,6 @@ public class PersonalCombo {
                     fil.setCaretColor(new Color(1, 1, 1));
                     fil.setText("");
                     combo.setSelectedIndex(-1);
-                    combo.showPopup();
                 }
             }
 
@@ -312,7 +311,7 @@ public class PersonalCombo {
         if (val != null) {
             for (int i = 0; i < combo.getModel().getSize(); i++) {
                 Object element = combo.getModel().getElementAt(i);
-                if (val.equals(element)) {
+                if (val.toString().equals(element.toString())) {
                     situacao = i;
                     break;
                 }
@@ -336,6 +335,7 @@ public class PersonalCombo {
         combo.getEditor().getEditorComponent().setForeground(new java.awt.Color(205, 205, 205));
         ((javax.swing.JTextField) combo.getEditor().getEditorComponent()).setCaretColor(new Color(255, 255, 255));
         ((javax.swing.JTextField) combo.getEditor().getEditorComponent()).setText(textodeajuda);
+        //perdefocus.requestFocus();
     }
 
     /**

@@ -128,10 +128,11 @@ public class PanelDetails extends JPanel {
             grupo2.addGap(11);
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-            Font font = new Font("Cantarell", java.awt.Font.PLAIN, 13);
+            Font font = new Font("Noto", java.awt.Font.PLAIN, 14);
             int texto;
             String auxiliar;
             paineis[0] = new JLabel();
+           
             if (!this.imagemrecurso.equals("sem")) {
                 paineis[0].setIcon(new ImageIcon(FileIOAux.ImageAux.resize(FileIOAux.ImageAux.transformFromBase64IntoImage(this.imagemrecurso), 100, 80)));
             } else {
@@ -159,7 +160,7 @@ public class PanelDetails extends JPanel {
                 paineis[i] = new JLabel();
                 paineis[i].setForeground(this.subTitleColor);
                 paineis[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-                paineis[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.CENTER_BASELINE, 16));
+                paineis[i].setFont(new java.awt.Font("Noto", java.awt.Font.CENTER_BASELINE, 14));
                 paineis[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
                 auxiliar = lingua.translate(titulos[i - 1]);
                 texto = (int) (font.getStringBounds(auxiliar, frc).getWidth());
@@ -177,7 +178,7 @@ public class PanelDetails extends JPanel {
                 paineis2[i].setForeground(new Color(50, 50, 50));
                 paineis2[i].setBackground(this.color);
                 paineis2[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
-                paineis2[i].setFont(new java.awt.Font("Cantarell", java.awt.Font.HANGING_BASELINE, 14));
+                paineis2[i].setFont(new java.awt.Font("Noto", java.awt.Font.PLAIN, 14));
                 paineis2[i].setOpaque(true);
                 paineis2[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 multipla = resultados[i - 1].split(":::");

@@ -173,18 +173,19 @@ public class PersonalTextField extends JTextField {
         super.setText(only);
         condicao = false;
         focus = new FocusListener() {
-            int i = 0;
             String passa;
             @Override
             public void focusGained(FocusEvent e) {
                 getText();
+                System.out.println("olol");
+                System.out.println(getText());
+                System.out.println(textocondicional);
                 if (cond) {
                     passa = only;
-                    i++;
                 } else {
                     passa = placeholder;
-                    i++;
                 }
+                System.out.println(passa);
                 if (textocondicional.equals(passa)) {
                     setForeground(corauxiliar);
                     setText("");
@@ -195,6 +196,7 @@ public class PersonalTextField extends JTextField {
             @Override
             public void focusLost(FocusEvent e) {
                 getText();
+                System.out.println("perdeu");
                 if (textocondicional.equals("")) {
                     setForeground(cor);
                     putText(passa);
@@ -217,6 +219,7 @@ public class PersonalTextField extends JTextField {
             }
         };
         this.addKeyListener(keyevent);
+        componentedesaida.requestFocus();
     }
 
     public void restartPlaceHolder() {

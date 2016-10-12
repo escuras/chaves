@@ -230,6 +230,9 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
         if (valor == 0) {
             valor = this.getCodeOfMaterial().compareTo(o.getCodeOfMaterial());
         }
+        if (valor == 0) {
+            valor = this.getId() - o.getId();
+        }
         return valor;
     }
 
