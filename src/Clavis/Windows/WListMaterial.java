@@ -37,10 +37,10 @@ public class WListMaterial extends javax.swing.JFrame {
     private static String url;
     private static Langs.Locale lingua;
     private Keys.TypeOfMaterial tiposelecionado;
-    private static ButtonListRequest btTodos;
-    private static ButtonListRequest btLivres;
-    private static ButtonListRequest btOcupados;
-    private static ButtonListRequest btPesquisa;
+    public static ButtonListRequest btTodos;
+    public static ButtonListRequest btLivres;
+    public static ButtonListRequest btOcupados;
+    public static ButtonListRequest btPesquisa;
     private javax.swing.JScrollPane panTodos;
     private javax.swing.JScrollPane panLivres;
     private javax.swing.JScrollPane panOcupados;
@@ -605,11 +605,11 @@ public class WListMaterial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelCodigo;
-    private javax.swing.JLabel jLabelNome;
+    private static javax.swing.JLabel jLabelCodigo;
+    private static javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelPesquisa;
     /*
-    private org.jdesktop.swingx.JXList<String> jListRequisicoes;
+    private static org.jdesktop.swingx.JXList<String> jListRequisicoes;
     */
     private javax.swing.JList<String> jListRequisicoes;
     private javax.swing.JPanel jPanel1;

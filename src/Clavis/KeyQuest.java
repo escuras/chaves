@@ -41,6 +41,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -3315,6 +3318,7 @@ public class KeyQuest extends javax.swing.JFrame {
         DataBase.DataBase db = new DataBase.DataBase(urlbd);
         Keys.Request req = lista_dev.getSelectedRequest();
         if (req != null) {
+            int pos = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
             if (lista_dev.isResultOfASearch()) {
                 if (jLabelLimpaPesquisaBaixo != null) {
                     jLabelLimpaPesquisaBaixo.setVisible(false);
@@ -3330,6 +3334,9 @@ public class KeyQuest extends javax.swing.JFrame {
                 db.changeRequestTerminateState(req);
             }
             refreshDevolutionTable();
+            if ((lista_req.getSelectedRequest() != null) && (lista_req.getSelectedRequest().getMaterial().getId() == req.getMaterial().getId())) {
+                lista_req.getTable().clearSelection();
+            }
             jButtonAtuacaoAltera.setEnabled(false);
             jButtonAtuacaoConfirma.setEnabled(false);
             Window[] w = Window.getWindows();
@@ -3339,42 +3346,21 @@ public class KeyQuest extends javax.swing.JFrame {
                     javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
                     javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
                     javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
-                    PersonalButtonRequest btreq = null;
                     for (int i = 0; i < pan.getComponentCount(); i++) {
                         PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
                         if (bt.getValue() == req.getMaterial().getId()) {
-                            try {
-                                bt.setBackground(ButtonListRequest.FREE_COLOR);
-                                btreq = (PersonalButtonRequest) bt.clone();
-                            } catch (CloneNotSupportedException ex) {
-                                Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
-                                btreq = null;
-                            }
+                            bt.setBackground(ButtonListRequest.FREE_COLOR);
                         }
                     }
-                    if (tabela.getTabCount() > 0) {
-                        ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
-                        jv = (javax.swing.JViewport) ps.getComponent(0);
-                        pan = (javax.swing.JPanel) jv.getComponent(0);
-                        if (btreq != null) {
-                            pan.add(btreq);
-                            sortPersonalButtonRequestOnTab(pan, btreq);
-                        }
-                        if (tabela.getTabCount() > 1) {
-                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
-                            jv = (javax.swing.JViewport) ps.getComponent(0);
-                            pan = (javax.swing.JPanel) jv.getComponent(0);
-                            for (int i = 0; i < pan.getComponentCount(); i++) {
-                                PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
-                                if (bt.getValue() == req.getMaterial().getId()) {
-                                    pan.remove(i);
-                                    pan.repaint();
-                                }
-                            }
-                        }
+                    pan.repaint();
+                    if (tabela.getTabCount() > 2) {
+                        WListMaterial.btOcupados.removeMaterial(req.getMaterial().getId());
+                        WListMaterial.btLivres.addMaterial(req.getMaterial().getId());
+                        WListMaterial.btLivres.remakePanel();
                     }
                 }
             }
+            jScrollPaneRequisicoes.getVerticalScrollBar().setValue(pos);
         }
         db.close();
     }//GEN-LAST:event_jButtonConfirmaDevolucaoActionPerformed
@@ -4027,6 +4013,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 val = mensagem.showMessage();
             }
             if (val == 1) {
+                int pos = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
                 if (lista_req.isResultOfASearch()) {
                     lista_req.destroySearch();
                     lista_req.addTimerColors();
@@ -4053,42 +4040,22 @@ public class KeyQuest extends javax.swing.JFrame {
                         javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
                         javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
                         javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
-                        PersonalButtonRequest btreq = null;
                         for (int i = 0; i < pan.getComponentCount(); i++) {
                             PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
                             if (bt.getValue() == req.getMaterial().getId()) {
-                                try {
-                                    bt.setBackground(ButtonListRequest.OCCUPIED_COLOR);
-                                    btreq = (PersonalButtonRequest) bt.clone();
-                                } catch (CloneNotSupportedException ex) {
-                                    Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
-                                    btreq = null;
-                                }
+                                bt.setBackground(ButtonListRequest.OCCUPIED_COLOR);
                             }
                         }
-                        if (tabela.getTabCount() > 0) {
-                            ps = (javax.swing.JScrollPane) tabela.getComponentAt(1);
-                            jv = (javax.swing.JViewport) ps.getComponent(0);
-                            pan = (javax.swing.JPanel) jv.getComponent(0);
-                            for (int i = 0; i < pan.getComponentCount(); i++) {
-                                PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
-                                if (bt.getValue() == req.getMaterial().getId()) {
-                                    pan.remove(i);
-                                    pan.repaint();
-                                }
-                            }
-                            if (tabela.getTabCount() > 1) {
-                                ps = (javax.swing.JScrollPane) tabela.getComponentAt(2);
-                                jv = (javax.swing.JViewport) ps.getComponent(0);
-                                pan = (javax.swing.JPanel) jv.getComponent(0);
-                                if (btreq != null) {
-                                    pan.add(btreq);
-                                    sortPersonalButtonRequestOnTab(pan, btreq);
-                                }
-                            }
+                        pan.repaint();
+                        if (tabela.getTabCount() > 2) {
+                            WListMaterial.btLivres.removeMaterial(req.getMaterial().getId());
+                            WListMaterial.btOcupados.addMaterial(req.getMaterial().getId());
+                            WListMaterial.btOcupados.remakePanel();
                         }
+
                     }
                 }
+                jScrollPaneRequisicoes.getVerticalScrollBar().setValue(pos);
             }
         }
         db.close();
@@ -4229,7 +4196,7 @@ public class KeyQuest extends javax.swing.JFrame {
             }
             String pass = new String(jPasswordFieldURL.getPassword());
             String anterior = Utils.CryptAES.decrypt("umDois3.,mn/op##RTF%&45dcop90", urlbdsenha);
-            if ((!pass.equals("")) && (!pass.equals(anterior))) {
+            if (!pass.equals(anterior)) {
                 String key = "umDois3.,mn/op##RTF%&45dcop90";
                 urlbdsenha = Utils.CryptAES.encrypt(key, new String(jPasswordFieldURL.getPassword()));
                 passa = true;
@@ -4380,23 +4347,28 @@ public class KeyQuest extends javax.swing.JFrame {
     }//GEN-LAST:event_comboSemestreItemStateChanged
 
     private void jButtonCalculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalculaActionPerformed
-        TimeDate.Semester sem = semestres.dateInSemester(new TimeDate.Date());
-        Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), sem.getEndDate(), intervalos, feriados, urlbd, urlcsv);
-        Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Nota"), 400, 200, lingua.translate("O cálculo das requisições está a decorrer") + "... ", new String[]{lingua.translate("Voltar")});
-        Thread t = new Thread(() -> {
-            mensagem.getButtons()[0].setEnabled(false);
-            lista_req.clean();
-            cbd.update();
-            lista_req.getRequestList().reMake();
-            lista_req.create();
-            mensagem.getButtons()[0].setEnabled(true);
-        });
-        t.start();
-        mensagem.showMessage();
+        if (DataBase.DataBase.testConnection(urlbd)) {
+            TimeDate.Semester sem = semestres.dateInSemester(new TimeDate.Date());
+            Clavis.UpdateCSVonDB cbd = new Clavis.UpdateCSVonDB(new TimeDate.Date(), sem.getEndDate(), intervalos, feriados, urlbd, urlcsv);
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Nota"), 400, 200, lingua.translate("O cálculo das requisições está a decorrer") + "... ", new String[]{lingua.translate("Voltar")});
+            Thread t = new Thread(() -> {
+                mensagem.getButtons()[0].setEnabled(false);
+                lista_req.clean();
+                cbd.update();
+                lista_req.getRequestList().reMake();
+                lista_req.create();
+                mensagem.getButtons()[0].setEnabled(true);
+                mensagem.setNewText(lingua.translate("O cálculo terminou") + ".");
+            });
+            t.start();
+            mensagem.showMessage();
+        } else {
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Nota"), 400, 200, lingua.translate("Há um problema na ligação à base de dados") + ".", new String[]{lingua.translate("Voltar")});
+            mensagem.showMessage();
+        }
     }//GEN-LAST:event_jButtonCalculaActionPerformed
 
     private void jButtonAlteraDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlteraDevolucaoActionPerformed
-
         Clavis.Windows.WSeeRequest wc = new Clavis.Windows.WSeeRequest(new Color(255, 255, 255), systemColor, urlbd, lingua, lista_dev.getSelectedRequest());
         wc.create();
         wc.appear();
@@ -4446,8 +4418,6 @@ public class KeyQuest extends javax.swing.JFrame {
         javax.swing.JLabel m = new javax.swing.JLabel();
         m.setText(lingua.translate("Dia_da_semana") + ": " + hol.getWeekDay(ano) + ".");
         m.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-        //l.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        //m.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         javax.swing.JLabel[] lm = {l, m};
         String[] botoes = {lingua.translate("Voltar")};
         Components.MessagePane mensagem = new Components.MessagePane(jDialogDefHolidays, Components.MessagePane.INFORMACAO, systemColor, lingua.translate("Informacao"), 400, 200, lm, "", botoes);
@@ -4468,7 +4438,7 @@ public class KeyQuest extends javax.swing.JFrame {
             inicio.setLanguage(lingua);
             TimeDate.WeekDay fim = new TimeDate.WeekDay(br.getEndDate());
             fim.setLanguage(lingua);
-            m.setText(lingua.translate("Início") + ": " + inicio);
+            m.setText(lingua.translate("Inicio") + ": " + inicio);
             n.setText(lingua.translate("Término") + ": " + fim);
         } catch (ParseException ex) {
             Logger.getLogger(KeyQuest.class.getName()).log(Level.SEVERE, null, ex);
@@ -5477,7 +5447,7 @@ public class KeyQuest extends javax.swing.JFrame {
                 if ((scroll != null) && (scroll.isRunning())) {
                     if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
                         scroll.stop();
-                        scroll.setInitialDelay(60000);
+                        scroll.setInitialDelay(30000);
                         scroll.start();
                     }
                 }
@@ -6050,8 +6020,8 @@ public class KeyQuest extends javax.swing.JFrame {
     private static java.util.List<PainelAuxiliar> paineis = new java.util.ArrayList<>();
 
     public void addTestConnection() {
-        estado = ligacao;
-        Timer t = new Timer(1000 * 60, (ActionEvent e) -> {
+        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+        exec.scheduleAtFixedRate(() -> {
             ligacao = DataBase.DataBase.testConnection(urlbd);
             if (estado != ligacao) {
                 if (ligacao) {
@@ -6073,14 +6043,13 @@ public class KeyQuest extends javax.swing.JFrame {
                         jComboBoxListaBotoes.setSelectedIndex(aux);
                     }
                 } else {
-                    tiposmateriais = new java.util.ArrayList<>();
                     jComboBoxListaBotoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{lingua.translate("Nenhum")}));
+                    tiposmateriais = new java.util.ArrayList<>();
+                    calculateList(null);
                 }
                 estado = ligacao;
             }
-        }
-        );
-        t.start();
+        }, 0, 10, TimeUnit.SECONDS);
     }
 
     public void setURLcsv(String csv) {

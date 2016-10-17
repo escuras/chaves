@@ -43,6 +43,8 @@ public class ButtonListRequest {
 
     public static final Color OCCUPIED_COLOR = new Color(155, 140, 190);
     public static final Color FREE_COLOR = new Color(100, 145, 255);
+    public static Border emptyBorder;
+    public static Border emptyBorder2;
     private List<PersonalButtonRequest> bLista;
     private List<Keys.Material> mater;
     private Dimension dim;
@@ -64,8 +66,6 @@ public class ButtonListRequest {
     private boolean lista;
     private KeyListener lkey;
     private MouseListener lmou;
-    Border emptyBorder;
-    Border emptyBorder2;
 
     public ButtonListRequest(String url, javax.swing.JFrame frame, Keys.TypeOfMaterial tipo, Langs.Locale lingua, javax.swing.JTabbedPane tpanel, int tipopesquisa, String pesquisa) {
         this.mater = new ArrayList<>();
@@ -154,7 +154,6 @@ public class ButtonListRequest {
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setHorizontalAlignment(SwingConstants.CENTER);
-                //button.setBorder(emptyBorder);
                 button.setFocusPainted(false);
                 button.setBounds(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
                 if (!(n instanceof Keys.Classroom)) {
@@ -288,12 +287,14 @@ public class ButtonListRequest {
                                         lcodigo.setText("");
                                     } else {
                                         Keys.Material sel = getSelectedMaterial();
-                                        if (sel.getMaterialTypeID() == 1) {
-                                            lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
-                                        } else {
-                                            lnome.setText(sel.getDescription());
+                                        if (sel != null) {
+                                            if (sel.getMaterialTypeID() == 1) {
+                                                lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
+                                            } else {
+                                                lnome.setText(sel.getDescription());
+                                            }
+                                            lcodigo.setText(sel.getCodeOfMaterial());
                                         }
-                                        lcodigo.setText(sel.getCodeOfMaterial());
                                     }
                                     if (lista) {
                                         makeList();
@@ -387,12 +388,14 @@ public class ButtonListRequest {
                                 lcodigo.setText("");
                             } else {
                                 Keys.Material sel = getSelectedMaterial();
-                                if (sel.getMaterialTypeID() == 1) {
-                                    lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
-                                } else {
-                                    lnome.setText(sel.getDescription());
+                                if (sel != null) {
+                                    if (sel.getMaterialTypeID() == 1) {
+                                        lnome.setText(lingua.translate(sel.getTypeOfMaterialName()) + " " + sel.getDescription());
+                                    } else {
+                                        lnome.setText(sel.getDescription());
+                                    }
+                                    lcodigo.setText(sel.getCodeOfMaterial());
                                 }
-                                lcodigo.setText(sel.getCodeOfMaterial());
                             }
                             if (lista) {
                                 makeList();
@@ -403,6 +406,43 @@ public class ButtonListRequest {
             }
         }
         return bLista;
+    }
+
+    public void addMaterial(int val) {
+        if (DataBase.DataBase.testConnection(url)) {
+            this.clear();
+            DataBase.DataBase dbo = new DataBase.DataBase(url);
+            Keys.Material m = dbo.getMaterial(val);
+            if (m.getMaterialTypeID() == 1) {
+                Keys.Classroom ro = dbo.getClassroom(m);
+                mater.add(ro);
+            } else {
+                mater.add(m);
+            }
+            dbo.close();
+            Collections.sort(mater);
+        }
+    }
+
+    public void removeMaterial(int val) {
+        for (int i = 0; i < mater.size(); i++) {
+            if (mater.get(i).getId() == val) {
+                mater.remove(i);
+            }
+        }
+        for (int i = 0; i < bLista.size(); i++) {
+            if (bLista.get(i).getValue() == val) {
+                bLista.remove(i);
+            }
+        }
+        for (int i=0; i < pane.getComponentCount(); i++) {
+            if(((PersonalButtonRequest)pane.getComponent(i)).getValue() == val) {
+                pane.remove(i);
+            }
+        }
+        this.clear();
+        pane.validate();
+        pane.repaint();
     }
 
     public void addList(javax.swing.JList<String> jListRequisicoes, javax.swing.JScrollPane jScrollPane2, int ndias) {
@@ -548,7 +588,6 @@ public class ButtonListRequest {
     }
 
     private void clearTable() {
-       
         this.jListRequisicoes.removeMouseListener(lmou);
         this.jListRequisicoes.removeKeyListener(lkey);
         DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -614,6 +653,30 @@ public class ButtonListRequest {
         return aux;
     }
 
+    public void remakePanel() {
+        this.clear();
+        this.bLista = this.getButtons();
+        
+        pane.removeAll();
+        pane.setBackground(new Color(245, 245, 220));
+        if (!this.bLista.isEmpty()) {
+            bLista.stream().forEach((bt) -> {
+                pane.add(bt);
+            });
+            int valinicial = 50 + (int) dim.getHeight();
+            int i = 1;
+            while (i < bLista.size()) {
+                if ((i % botoeslinha) == 0) {
+                    valinicial += bLista.get(i).getHeight() + 5;
+                }
+                i++;
+            }
+            pane.setPreferredSize(new Dimension(0, valinicial));
+        }
+        pane.validate();
+        pane.repaint();
+    }
+
     public static javax.swing.JPanel makePanelDetailsRequest(Keys.Request req, Langs.Locale lingua) {
         javax.swing.JPanel panel = new javax.swing.JPanel(null);
         panel.setPreferredSize(new Dimension(400, 300));
@@ -658,7 +721,7 @@ public class ButtonListRequest {
         if (!satividade[0].equals("")) {
             labelr2.setText(satividade[0]);
         } else {
-            labelr2.setText(lingua.translate("Não existe informação") + ".");
+            labelr2.setText(lingua.translate("Não existe informação"));
         }
         panel.add(labelr2);
         javax.swing.JLabel label3 = new javax.swing.JLabel();
@@ -731,7 +794,7 @@ public class ButtonListRequest {
         } else if (!req.getStudentsClass().getName().equals("")) {
             labelr4.setText(req.getStudentsClass().getName());
         } else {
-            labelr4.setText(lingua.translate("Não existe informação") + ".");
+            labelr4.setText(lingua.translate("Não existe informação"));
         }
         altura = (int) (labelr4.getBounds().getY() + labelr4.getBounds().getHeight());
         panel.add(labelr4);

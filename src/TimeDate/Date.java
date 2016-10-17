@@ -70,11 +70,11 @@ public class Date {
         }
         this.locale = new Langs.Locale();
     }
-    
+
     public Date(java.util.Date date) {
         Calendar g = Calendar.getInstance();
         g.setTime(date);
-        this.mes = g.get(Calendar.MONTH)+1;
+        this.mes = g.get(Calendar.MONTH) + 1;
         this.ano = g.get(Calendar.YEAR);
         this.dia = g.get(Calendar.DAY_OF_MONTH);
         this.diasdoano = this.getDayOfTheYear();
@@ -175,9 +175,9 @@ public class Date {
         if (val > 0) {
             int auxiliar = this.getYear() + 1;
             if (this.isLeap(ano)) {
-                retorna = 366 -this.getDayOfTheYear();
+                retorna = 366 - this.getDayOfTheYear();
             } else {
-                retorna = 365 -this.getDayOfTheYear();
+                retorna = 365 - this.getDayOfTheYear();
             }
             while (auxiliar < date.getYear()) {
                 if (this.isLeap(auxiliar)) {
@@ -191,7 +191,7 @@ public class Date {
             return retorna;
         } else if (val < 0) {
             int auxiliar = this.getYear() - 1;
-            retorna = -this.getDayOfTheYear();   
+            retorna = -this.getDayOfTheYear();
             while (auxiliar >= date.getYear()) {
                 if (this.isLeap(auxiliar)) {
                     retorna -= 366;
@@ -209,7 +209,7 @@ public class Date {
 
     @Override
     public String toString() {
-        if ((dia < 0)||(mes < 0)) {
+        if ((dia < 0) || (mes < 0)) {
             return "Data inválida";
         }
         String sdia;
@@ -248,7 +248,7 @@ public class Date {
     }
 
     public String toString(String simbolo) {
-        if ((dia < 0)||(mes < 0)) {
+        if ((dia < 0) || (mes < 0)) {
             return "Data inválida";
         }
         String sdia;
@@ -287,7 +287,7 @@ public class Date {
     }
 
     public String toStringWithMonthWord() {
-        if ((dia < 0)||(mes < 0)) {
+        if ((dia < 0) || (mes < 0)) {
             return "Data inválida";
         }
         String sdia;
@@ -319,9 +319,9 @@ public class Date {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         return sdia + " " + locale.translate(meses[this.mes - 1]) + " " + sano;
     }
-    
+
     public String toStringWithMonthWord(Langs.Locale lingua) {
-        if ((dia < 0)||(mes < 0)) {
+        if ((dia < 0) || (mes < 0)) {
             return lingua.translate("Data inválida");
         }
         String sdia;
@@ -487,7 +487,10 @@ public class Date {
                             year = this.ano - i;
                             i++;
                         }
-                        if (this.isLeap(this.ano - i)) {
+                        if (year <= 0) {
+                            year = year - 1;
+                        }
+                        if (this.isLeap(year)) {
                             anoauxiliar = 366;
                         } else {
                             anoauxiliar = 365;
@@ -501,24 +504,17 @@ public class Date {
                             month = j;
                             if (dauxiliar <= -meses[j]) {
                                 dauxiliar += meses[j];
-                                if (dia == 0) {
-                                    dia = 1;
-                                }
                             } else {
                                 day = meses[j] + dauxiliar;
                                 break;
                             }
                             if ((dauxiliar == 0) && (month == 1) && (year == 1)) {
                                 day = 1;
-                                year = 0;
-                            }
-                            if ((dauxiliar == -1) && (month == 1) && (year == 1)) {
-                                day = 2;
-                                year = 0;
+                                year = -1;
                             }
                         }
                     } else {
-                        dauxiliar = -(dauxiliar - 1);
+                        dauxiliar = -(dauxiliar);
                         for (int j = 1; j <= 12; j++) {
                             month = j;
                             if (dauxiliar > meses[j]) {
@@ -528,15 +524,6 @@ public class Date {
                                 break;
                             }
                         }
-                    }
-                    if (year <= 0) {
-                        year = year - 1;
-                    }
-                    if (day < 0) {
-                        day = -day;
-                    }
-                    if (day == 0) {
-                        day = 31;
                     }
                     return new Date(day, month, year);
                 }
@@ -598,7 +585,7 @@ public class Date {
         int dias = 0;
         if ((b.getYear() - a.getYear()) > 0) {
             if (a.isLeap(a.getYear())) {
-                dias = 366 -a.getDayOfTheYear();
+                dias = 366 - a.getDayOfTheYear();
             } else {
                 dias = 365 - a.getDayOfTheYear();
             }

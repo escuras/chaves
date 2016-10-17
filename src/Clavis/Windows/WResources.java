@@ -148,7 +148,7 @@ public class WResources extends javax.swing.JFrame {
             });
             tiposelecionado = tiposdematerial.get(0);
         } else {
-            modelo.addElement(lingua.translate("Erro de ligação"));
+            modelo.addElement(lingua.translate("Nenhum"));
             tiposdematerial = null;
         }
         jComboBoxTipoMaterial.setModel(modelo);

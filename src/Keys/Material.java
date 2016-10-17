@@ -226,6 +226,19 @@ public class Material extends TypeOfMaterial implements Comparable<Material>{
 
     @Override
     public int compareTo(Material o) {
+        if ((this.getDescription().matches("\\d+")) && (o.getDescription().matches("\\d+"))) {
+            String texto = this.getDescription();
+            String texto2 = o.getDescription();
+            while (texto.charAt(0) == '0') {
+                texto = texto.replaceFirst("0", "");
+            }
+            while (texto2.charAt(0) == '0') {
+                texto2 = texto2.replaceFirst("0", "");
+            }
+            int val1 = Integer.parseInt(texto);
+            int val2 = Integer.parseInt(texto2);
+            return (val1 - val2);
+        }
         int valor = this.getDescription().toLowerCase().compareTo(o.getDescription().toLowerCase());
         if (valor == 0) {
             valor = this.getCodeOfMaterial().compareTo(o.getCodeOfMaterial());

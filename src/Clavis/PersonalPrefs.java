@@ -99,6 +99,9 @@ public class PersonalPrefs extends KeyQuest {
         userPrefs.putInt("livrestipo", tipomaterial.getFree());
         userPrefs.put("imagemtipo", tipomaterial.getTypeOfMaterialImage());
         userPrefs.put("urlbduser", urlbduser);
+        if (urlbdsenha == null) {
+            urlbdsenha = "";
+        }
         userPrefs.put("urlbdsenha", urlbdsenha);
         userPrefs.put("urlbdaux", urlbdaux);
         userPrefs.put("urlcsv", urlcsv);

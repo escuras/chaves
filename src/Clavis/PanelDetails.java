@@ -272,6 +272,7 @@ public class PanelDetails extends JPanel {
                 }
             };
             panel.setBackground(color);
+            panel.setPreferredSize(new Dimension(110, (int) this.getPreferredSize().getHeight()));
         }
         this.setPreferredSize(new Dimension(110, (int) this.getPreferredSize().getHeight()));
     }
@@ -323,10 +324,10 @@ public class PanelDetails extends JPanel {
     }
 
     /**
-     * @param resultados the resultados to set
+     * @param result the resultados to set
      */
-    public void setResults(String[] resultados) {
-        this.resultados = resultados;
+    public void setResults(String[] result) {
+        this.resultados = result;
     }
 
     /**

@@ -43,7 +43,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  * @author toze
  */
 public class WRequestSpecific extends javax.swing.JDialog {
-    
+
     private static final long serialVersionUID = 167L;
     private Color corborda;
     private Color corfundo;
@@ -86,7 +86,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         this.frame = null;
         this.lingua = lingua;
         this.url = url;
-        
+
         pessoas = new java.util.ArrayList<>();
         pessoaescolhida = null;
         dinicio = null;
@@ -101,7 +101,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         jComboBoxNomeUtilizador = new Components.PersonalCombo(rootPane);
         reqatividade = "";
     }
-    
+
     public WRequestSpecific(Color corborda, Color corfundo, Keys.Material mat, String url, Langs.Locale lingua, javax.swing.JFrame frame) {
         this.corborda = corborda;
         this.corfundo = corfundo;
@@ -124,7 +124,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         reqdisciplinas = new java.util.ArrayList<>();
         reqatividade = "";
     }
-    
+
     public void create() {
         initComponents();
         makeComboBoxUser();
@@ -145,9 +145,9 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 close();
             }
         });
-        
+
     }
-    
+
     public void close() {
         reqefetuada = false;
         this.setVisible(false);
@@ -165,7 +165,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         }
         this.dispose();
     }
-    
+
     public int isIntervalDateValid() {
         dinicio = this.getDate(jSpinnerDataLevantamento);
         dfim = this.getDate(jSpinnerDataEntrega);
@@ -241,7 +241,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         }
         return 1;
     }
-    
+
     private void makeModelTimeComboBox() {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(lingua.translate("1 dia"));
@@ -269,9 +269,9 @@ public class WRequestSpecific extends javax.swing.JDialog {
             }
             this.makeRequestsList();
         });
-        
+
     }
-    
+
     public void appear() {
         this.setModal(true);
         java.awt.Point p = new java.awt.Point();
@@ -300,7 +300,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         this.setLocation(p);
         this.setVisible(true);
     }
-    
+
     private void makeRequestsList() {
         jListHorario.removeMouseListener(lmou);
         jListHorario.removeKeyListener(lkey);
@@ -345,22 +345,22 @@ public class WRequestSpecific extends javax.swing.JDialog {
             jListHorario.setModel(modelo);
         }
         jScrollPaneHorario.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-     
-            DefaultListModel<?> m = (DefaultListModel) jListHorario.getModel();
-            Rectangle r;
-            int altura = 20;
-            jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(), 0));
-            for (int x = 0; x < m.getSize(); x++) {
-                r = jListHorario.getCellBounds(x, x);
-                altura += (int) (r.getHeight());
-                jListHorario.setPreferredSize(new Dimension((int)jListHorario.getPreferredSize().getWidth(), (altura)));
-            }
-        
+
+        DefaultListModel<?> m = (DefaultListModel) jListHorario.getModel();
+        Rectangle r;
+        int altura = 20;
+        jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(), 0));
+        for (int x = 0; x < m.getSize(); x++) {
+            r = jListHorario.getCellBounds(x, x);
+            altura += (int) (r.getHeight());
+            jListHorario.setPreferredSize(new Dimension((int) jListHorario.getPreferredSize().getWidth(), (altura)));
+        }
+
         lmou = (new MouseAdapter() {
             String[] st = {lingua.translate("Ver detalhes")};
             Components.MessagePane mensagem;
             Components.PopUpMenu pop;
-            
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (rlist.size() > 0) {
@@ -388,9 +388,22 @@ public class WRequestSpecific extends javax.swing.JDialog {
                             pop.show(e.getComponent(), e.getX(), e.getY());
                         }
                     }
+
+                    if (e.getClickCount() == 2) {
+                        Keys.Request req = null;
+                        for (int h = 0; h < rlist.size(); h++) {
+                            if (jListHorario.getSelectedIndex() == h) {
+                                req = rlist.get(h);
+                            }
+                        } 
+                        if (req != null) {
+                            mensagem = new Components.MessagePane(jListHorario.getRootPane(), Components.MessagePane.INFORMACAO, Clavis.KeyQuest.getSystemColor(), lingua.translate("Detalhes"), 500, 400, ButtonListRequest.makePanelDetailsRequest(req, lingua), "", new String[]{lingua.translate("Voltar")});
+                            mensagem.showMessage();
+                        }
+                    }
                 }
             }
-            
+
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
@@ -402,7 +415,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         jListHorario.addMouseListener(lmou);
         lkey = (new KeyAdapter() {
             Components.MessagePane mensagem;
-            
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -424,9 +437,9 @@ public class WRequestSpecific extends javax.swing.JDialog {
             }
         });
         jListHorario.addKeyListener(lkey);
-        
+
     }
-    
+
     private void makeComboBoxUser() {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
@@ -445,17 +458,17 @@ public class WRequestSpecific extends javax.swing.JDialog {
             }
             DefaultComboBoxModel<Object> modelop = (DefaultComboBoxModel<Object>) jComboBoxNomeUtilizador.getModel();
             p.stream().forEach((pes) -> {
-                if (pes instanceof Keys.Person){
+                if (pes instanceof Keys.Person) {
                     modelop.addElement(pes);
                 }
             });
         }
-        
+
         jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            
+
             @Override
             public void keyReleased(KeyEvent e) {
-                
+
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (jComboBoxNomeUtilizador.getSelectedIndex() > 0) {
                         Keys.Person p = pessoas.get(jComboBoxNomeUtilizador.getSelectedIndex() - 1);
@@ -512,10 +525,10 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 changeButtonState();
             }
         });
-        
+
         jComboBoxNomeUtilizador.setSelectedIndex(0);
     }
-    
+
     private void changeButtonState() {
         if ((pessoaescolhida != null) && (isIntervalDateValid() == 1)) {
             jButtonConfirma.setEnabled(true);
@@ -531,7 +544,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             jButtonConfirma.setEnabled(false);
         }
     }
-    
+
     private boolean isMaterialInLateState() {
         if (material.isLoaned()) {
             if (DataBase.DataBase.testConnection(url)) {
@@ -551,7 +564,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         }
         return false;
     }
-    
+
     private void makeTextFieldEmail() {
         personalTextFieldEmailUtilizador.addActionListener((ActionEvent e) -> {
             boolean encontrou = false;
@@ -577,7 +590,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
                 jComboBoxNomeUtilizador.setSelectedIndex(0);
                 personalTextFieldCodigoUtilizador.restartPlaceHolder();
                 personalTextFieldCodigoUtilizador.showPLaceHolder();
-                
+
             }
         });
         personalTextFieldEmailUtilizador.addKeyListener(new KeyAdapter() {
@@ -595,7 +608,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             }
         });
     }
-    
+
     private void makeTextFieldCode() {
         personalTextFieldCodigoUtilizador.addActionListener((ActionEvent e) -> {
             boolean encontrou = false;
@@ -636,10 +649,10 @@ public class WRequestSpecific extends javax.swing.JDialog {
                     }
                 }
             }
-            
+
         });
     }
-    
+
     public void updatePersons(java.util.List<Keys.Person> lista, boolean editar) {
         pessoas = lista;
         int pos = jComboBoxNomeUtilizador.getSelectedIndex();
@@ -674,7 +687,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             personalTextFieldCodigoUtilizador.showPLaceHolder();
         }
     }
-    
+
     private void makeValidDate() {
         jSpinnerHoraLevantamento.addChangeListener((ChangeEvent e) -> {
             TimeDate.Date date1 = this.getDate(jSpinnerDataLevantamento);
@@ -786,9 +799,9 @@ public class WRequestSpecific extends javax.swing.JDialog {
             }
             changeButtonState();
         });
-        
+
     }
-    
+
     private TimeDate.Time getTime(javax.swing.JSpinner spin) {
         java.util.Date tempo = (java.util.Date) spin.getValue();
         Calendar cal = Calendar.getInstance();
@@ -798,7 +811,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         int segundos = cal.get(Calendar.SECOND);
         return new TimeDate.Time(horas, minutos, segundos);
     }
-    
+
     private TimeDate.Date getDate(javax.swing.JSpinner spin) {
         java.util.Date tempo = (java.util.Date) spin.getValue();
         Calendar cal = Calendar.getInstance();
@@ -1296,7 +1309,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         this.close();
     }//GEN-LAST:event_jButtonExitActionPerformed
-    
+
     private boolean checkHolidays() {
         if (dinicio != null) {
             boolean vai_e_vem = false;
@@ -1315,7 +1328,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
         }
         return false;
     }
-    
+
     private void makeRequest(boolean mostra) {
         if (DataBase.DataBase.testConnection(url)) {
             DataBase.DataBase db = new DataBase.DataBase(url);
@@ -1368,7 +1381,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             } else {
                 makeRequest(true);
             }
-            
+
         }
     }//GEN-LAST:event_jButtonConfirmaActionPerformed
 

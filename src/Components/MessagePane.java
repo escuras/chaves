@@ -52,6 +52,7 @@ public class MessagePane {
     boolean visivel;
     int qualdeles;
     private java.awt.Color corpanel;
+    private javax.swing.JLabel label;
 
     public MessagePane( java.awt.Component comp, int tipo, java.awt.Color cor, String titulo, int largura, int altura, String texto, String[] bt) {
         this.visivel = false;
@@ -136,6 +137,14 @@ public class MessagePane {
         return resposta;
     }
     
+    public void setNewText(String texto){
+        textomensagem = texto;
+        if (label != null) {
+            label.setText(texto);
+        }
+        getPanel().repaint();
+    }
+    
     public void closeWindow(){
         this.dialogo.setVisible(false);
         this.dialogo.dispose();
@@ -169,7 +178,7 @@ public class MessagePane {
         javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
         javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
         getPanel().setBorder(border22);
-        javax.swing.JLabel label = new javax.swing.JLabel(textomensagem);
+        label = new javax.swing.JLabel(textomensagem);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);

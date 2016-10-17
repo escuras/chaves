@@ -6,9 +6,12 @@
 package Clavis.Windows;
 
 import Clavis.ButtonListRequest;
+import Clavis.KeyQuest;
+import Clavis.PersonalButtonRequest;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -166,38 +169,38 @@ public class WSeeRequest extends javax.swing.JFrame {
             if (atraso > 0) {
                 atrasado = true;
                 if (atrasohoras > 0) {
-                    double t = (double)atrasohoras / 60.0;
+                    double t = (double) atrasohoras / 60.0;
                     double decimal;
-                    if (t > 59) {
+                    if (t > 60) {
                         t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
+                        minutos = "" + (int) (Math.ceil(decimal) - 1);
                     } else {
                         hora = "0";
-                        minutos = "" + (int) Math.round(t);
+                        minutos = "" + (int) (Math.ceil(t) - 1);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + atraso + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras < 0) {
-                    int seg = selecionada.getTimeEnd().compareTime(new TimeDate.Time(23, 59, 59));
+                    double seg = selecionada.getTimeEnd().compareTime(new TimeDate.Time(23, 59, 59));
                     seg += new TimeDate.Time(0, 0, 0).compareTime(tm);
-                    double t = (double)seg / 60.0;
+                    double t = seg / 60.0;
                     double decimal;
-                    if (t > 59) {
+                    if (t > 60) {
                         t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.ceil(decimal);
+                        minutos = "" + ((int) Math.ceil(decimal) - 1);
                     } else {
                         hora = "0";
-                        minutos = "" + (int) Math.ceil(t);
+                        minutos = "" + ((int) Math.ceil(t) - 1);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n" + (atraso - 1) + " " + lingua.translate("dias")
                             + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
@@ -206,27 +209,27 @@ public class WSeeRequest extends javax.swing.JFrame {
                 }
             } else if (atraso == 0) {
                 if (atrasohoras > 0) {
-                    double t = ((double)atrasohoras / 60.0);
+                    double t = ((double) atrasohoras / 60.0);
                     double decimal;
-                    if (t > 59) {
+                    if (t > 60) {
                         t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
                         decimal = decimal * 60.0;
                         t = (int) t;
                         hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
+                        minutos = "" + (int) (Math.ceil(decimal) - 1);
                     } else {
                         hora = "0";
-                        minutos = ""+(int) Math.round(t);
+                        minutos = "" + (int) (Math.ceil(t) - 1);
                     }
                     tempodeatraso = "\n" + lingua.translate("Em atraso") + ":\n\n"
                             + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else if (atrasohoras < 0) {
                     atrasohoras = -atrasohoras;
-                    double t = (double)atrasohoras / 60.0;
+                    double t = ((double) atrasohoras / 60.0);
                     double decimal;
-                    if (t > 59) {
+                    if (t > 60) {
                         t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
@@ -234,42 +237,26 @@ public class WSeeRequest extends javax.swing.JFrame {
                         t = (int) t;
                         hora = "" + (int) t;
                         minutos = "" + (int) Math.ceil(decimal);
+                    } else if (t == 60) {
+                        hora = "1";
+                        minutos = "0";
                     } else {
                         hora = "0";
-                        minutos = "" + (int)Math.ceil(t);
+                        minutos = "" + (int) Math.ceil(t);
                     }
-
                     tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", "
                             + lingua.translate("faltam") + ":\n\n " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
                 } else {
-                    tempodeatraso = "\n" + lingua.translate("O empréstimo terminou")+".";
+                    tempodeatraso = "\n" + lingua.translate("O empréstimo terminou") + ".";
                 }
             } else {
                 atraso = -atraso;
                 if (atrasohoras > 0) {
                     int seg = tm.compareTime(new TimeDate.Time(23, 59, 59));
                     seg += new TimeDate.Time(0, 0, 0).compareTime(selecionada.getTimeEnd());
-                    double t = (double)seg / 60.0;
+                    double t = (double) seg / 60.0;
                     double decimal;
-                    if (t > 59) {
-                        t = t / 60.0;
-                        decimal = (int) t;
-                        decimal = t - decimal;
-                        decimal = decimal * 60.0;
-                        t = (int) t;
-                        hora = "" + (int) t;
-                        minutos = "" + (int) Math.round(decimal);
-                    } else {
-                        hora = "0";
-                        minutos = "" + (int)Math.round(t);
-                    }
-                    tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
-                            + (atraso - 1) + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
-                } else if (atrasohoras <= 0) {
-                    atrasohoras = -atrasohoras;
-                    double t = (double)atrasohoras / 60.0;
-                    double decimal;
-                    if (t > 59) {
+                    if (t > 60) {
                         t = t / 60.0;
                         decimal = (int) t;
                         decimal = t - decimal;
@@ -277,6 +264,30 @@ public class WSeeRequest extends javax.swing.JFrame {
                         t = (int) t;
                         hora = "" + (int) t;
                         minutos = "" + (int) Math.ceil(decimal);
+                    } else if (t == 60) {
+                        hora = "1";
+                        minutos = "0";
+                    } else {
+                        hora = "0";
+                        minutos = "" + (int) Math.ceil(t);
+                    }
+                    tempodeatraso = "\n" + lingua.translate("Estado ativo") + ", " + lingua.translate("faltam") + ": \n\n"
+                            + (atraso - 1) + " " + lingua.translate("dias") + ", " + hora + " " + lingua.translate("horas") + ", " + minutos + " " + lingua.translate("minutos") + ".";
+                } else if (atrasohoras <= 0) {
+                    atrasohoras = -atrasohoras;
+                    double t = (double) atrasohoras / 60.0;
+                    double decimal;
+                    if (t > 60) {
+                        t = t / 60.0;
+                        decimal = (int) t;
+                        decimal = t - decimal;
+                        decimal = decimal * 60.0;
+                        t = (int) t;
+                        hora = "" + (int) t;
+                        minutos = "" + (int) Math.ceil(decimal);
+                    } else if (t == 60) {
+                        hora = "1";
+                        minutos = "0";
                     } else {
                         hora = "0";
                         minutos = "" + (int) Math.ceil(t);
@@ -314,7 +325,6 @@ public class WSeeRequest extends javax.swing.JFrame {
         });
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -826,6 +836,27 @@ public class WSeeRequest extends javax.swing.JFrame {
                 db.close();
                 Clavis.KeyQuest.refreshDevolutionTable();
                 jButtonConfirmaDevolucao.setEnabled(false);
+                Window[] w = Window.getWindows();
+                for (Window w1 : w) {
+                    if (w1 instanceof Clavis.Windows.WListMaterial) {
+                        javax.swing.JTabbedPane tabela = KeyQuest.getMaterialsButtonsTable();
+                        javax.swing.JScrollPane ps = (javax.swing.JScrollPane) tabela.getComponentAt(0);
+                        javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
+                        javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
+                        for (int i = 0; i < pan.getComponentCount(); i++) {
+                            PersonalButtonRequest bt = (PersonalButtonRequest) pan.getComponent(i);
+                            if (bt.getValue() == selecionada.getMaterial().getId()) {
+                                bt.setBackground(ButtonListRequest.FREE_COLOR);
+                            }
+                        }
+                        pan.repaint();
+                        if (tabela.getTabCount() > 2) {
+                            WListMaterial.btOcupados.removeMaterial(selecionada.getMaterial().getId());
+                            WListMaterial.btLivres.addMaterial(selecionada.getMaterial().getId());
+                            WListMaterial.btLivres.remakePanel();
+                        }
+                    }
+                }
             }
         }
 

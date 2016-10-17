@@ -1493,7 +1493,7 @@ public class DataBase {
                                 + ", STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') "
                                 + ", STR_TO_DATE('" + req.getBeginDate().toString() + " " + req.getTimeBegin().toString() + "','%d/%m/%Y %H:%i:%s') "
                                 + ", STR_TO_DATE('" + req.getEndDate().toString() + " " + req.getTimeEnd().toString() + "','%d/%m/%Y %H:%i:%s') "
-                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local',"+req.getUnionRequest()+") ";
+                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local'," + req.getUnionRequest() + ") ";
                     } else {
                         sql = "insert into Requests (id_material, "
                                 + "id_pessoa, data_inicio, "
@@ -1503,7 +1503,7 @@ public class DataBase {
                                 + ", STR_TO_DATE('" + req.getEndDate().toString() + "','%d/%m/%Y') "
                                 + ", STR_TO_DATE('" + req.getBeginDate().toString() + " " + req.getTimeBegin().toString() + "','%d/%m/%Y %H:%i:%s') "
                                 + ", STR_TO_DATE('" + req.getEndDate().toString() + " " + req.getTimeEnd().toString() + "','%d/%m/%Y %H:%i:%s') "
-                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local',"+req.getUnionRequest()+") ";
+                                + ", " + TimeDate.WeekDay.getDayWeek(req.getBeginDate()) + ", 'local'," + req.getUnionRequest() + ") ";
                     }
                     smt.executeUpdate(sql);
                     int i = 0;
@@ -1511,7 +1511,7 @@ public class DataBase {
                     if (id_requisicao < 0) {
                         return -1;
                     }
-                    java.util.List<Keys.ClassStudents> turmas  = new java.util.ArrayList<>(this.getStudentsClassesAssociatedWithSimpleRequest(req.getId()));
+                    java.util.List<Keys.ClassStudents> turmas = new java.util.ArrayList<>(this.getStudentsClassesAssociatedWithSimpleRequest(req.getId()));
 
                     while (i < turmas.size()) {
                         Keys.ClassStudents turma = turmas.get(i);
@@ -4979,17 +4979,17 @@ public class DataBase {
                                 } else if ((dinicio.isBigger(dat2) == 0) && (tinicio.compareTime(tim2) > 0)) {
                                     passa = true;
                                     break;
-                                }
-                            } else if ((dat1.isBigger(dinicio) == 0) && (dinicio.isBigger(dfim) != 0)) {
-                                if (tinicio.compareTime(tim2) > 0) {
-                                    passa = true;
-                                    break;
-                                }
-                            } else if ((dat2.isBigger(dfim) == 0) && (dinicio.isBigger(dfim) != 0)) {
-                                if (tfim.compareTime(tim1) < 0) {
-                                    passa = true;
-                                    break;
-                                }
+                                } else if ((dat1.isBigger(dinicio) == 0) && (dat1.isBigger(dat2) == 0)) {
+                                    if (tinicio.compareTime(tim2) > 0) {
+                                        passa = true;
+                                        break;
+                                    }
+                                } else if ((dat2.isBigger(dfim) == 0) && (dat1.isBigger(dat2) == 0)) {
+                                    if (tfim.compareTime(tim1) > 0) {
+                                        passa = true;
+                                        break;
+                                    }
+                                } 
                             } else if ((tinicio.compareTime(tim1) > 0) && (tfim.compareTime(tim1) < 0)) {
                                 passa = true;
                                 break;
@@ -5002,7 +5002,7 @@ public class DataBase {
                             } else if ((tfim.compareTime(tim1) < 0) && (tfim.compareTime(tim2) > 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tinicio.compareTime(tim1) == 0) && (tfim.compareTime(tim2) == 0)) {
+                            } else if ((tinicio.compareTime(tim2) != 0)&&((tinicio.compareTime(tim1) == 0) || (tfim.compareTime(tim2) == 0))) {
                                 passa = true;
                                 break;
                             }

@@ -957,8 +957,6 @@ public class WMaterial extends javax.swing.JDialog {
                             btmais.setEnabled(false);
                         }
                         Keys.Feature fot = features.get(comboboxdireitacima.getSelectedIndex()-1);
-                        System.out.println(fot.getDescription());
-                        System.out.println(fot.getUnityMeasure());
                         if ((fot.getUnityMeasure().equals(""))||(fot.getUnityMeasure().equals("sem"))) {
                             sppinerquantidade.setValue(0);
                             sppinerquantidade.setEnabled(false);

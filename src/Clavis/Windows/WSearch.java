@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -39,7 +38,6 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
@@ -792,7 +790,7 @@ public class WSearch extends javax.swing.JFrame {
             }
         } else {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-            model.addElement(lingua.translate("Sem ligação"));
+            model.addElement(lingua.translate("Nenhum"));
             jComboBoxCarateristicas.setModel(model);
             jComboBoxTipo.setEnabled(false);
             jComboBoxAspetos.setEnabled(false);
@@ -1809,7 +1807,7 @@ public class WSearch extends javax.swing.JFrame {
         jTableMateriais.setPreferredSize(new Dimension((int) jTableMateriais.getPreferredSize().getWidth(), 0));
         int altura = 0;
         for (int x = 0; x < model.getRowCount(); x++) {
-            altura += (int) jTableMateriais.getRowHeight();
+            altura += jTableMateriais.getRowHeight();
             jTableMateriais.setPreferredSize(new Dimension((int) jTableMateriais.getPreferredSize().getWidth(), altura));
         }
     }

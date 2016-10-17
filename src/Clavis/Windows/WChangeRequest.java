@@ -949,7 +949,7 @@ public class WChangeRequest extends javax.swing.JFrame {
         TimeDate.Time tempo_a = new TimeDate.Time();
         if (jComboBoxM.getSelectedIndex() > 0) {
             if (!checkForTheSameRequest()) {
-                if ((dat1.isBigger(data_a) <= 0) && (dat2.isBigger(data_a) <= 0) && (tim1.compareTime(tempo_a) <= 0) && (tim2.compareTime(tempo_a) <= 0)) {
+                if ((dat1.isBigger(data_a) <= 0) && (dat2.isBigger(data_a) <= 0)) {
                     if (!this.checkHolidays()) {
                         jButtonConfirmarAlteracao.setEnabled(true);
                         int val = jComboBoxMaterial.getSelectedIndex() - 1;
@@ -1017,9 +1017,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                 db.setAutoCommit(false);
                 int tnovo = 0;
                 int toriginal = 0;
-
                 Savepoint p = db.createSavepoint("ssss");
-
                 java.util.Set<Keys.Request> lista = db.getUnionRequests(selecionada);
                 if (lista.size() > 0) {
                     int intervalo = data1.isBigger(data2);
@@ -1095,6 +1093,7 @@ public class WChangeRequest extends javax.swing.JFrame {
                     }
                 }
                 db.commit();
+                selecionada.setId(db.getRequestID(selecionada.getPerson().getId(), mselecionado.getId(), selecionada.getBeginDate(), selecionada.getEndDate(), selecionada.getTimeBegin(), selecionada.getTimeEnd()));
                 db.close();
                 jPanelDados.setBackground(colorpanel);
                 jButtonConfirmarAlteracao.setEnabled(false);

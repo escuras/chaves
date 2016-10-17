@@ -5,6 +5,7 @@
  */
 package Clavis;
 
+import Clavis.Windows.WListMaterial;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -392,7 +393,7 @@ public final class ActionButton extends javax.swing.JDialog {
                 public void mouseClicked(MouseEvent e) {
                     FileIOAux.ImageExtension image;
                     image = bimage;
-                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, (javax.swing.JDialog)SwingUtilities.getWindowAncestor(imageview), 54, 44)) != null) {
+                    if ((bimage = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha da imagem para previsualização"), imageview, (javax.swing.JDialog) SwingUtilities.getWindowAncestor(imageview), 54, 44)) != null) {
                         alterado = true;
                     } else {
                         bimage = image;
@@ -1670,9 +1671,9 @@ public final class ActionButton extends javax.swing.JDialog {
             java.util.Set<Keys.Request> reqs = db.getUnionRequests(req);
             db.changeRequestTerminateState(req);
             if (reqs.size() > 0) {
-                for (Keys.Request re : reqs) {
+                reqs.stream().forEach((re) -> {
                     db.changeRequestTerminateState(re);
-                }
+                });
             }
             Clavis.KeyQuest.refreshDevolutionTable();
             int val = db.getNextRequest(mat).getId();
@@ -1694,35 +1695,12 @@ public final class ActionButton extends javax.swing.JDialog {
                 btchamada.setBackground(Clavis.ButtonListRequest.FREE_COLOR);
                 btchamada.setBorder(BorderFactory.createEmptyBorder(0, 9, 0, 9));
                 if ((Clavis.KeyQuest.getMaterialsButtonsTable() != null) && (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2) != null)) {
-                    javax.swing.JScrollPane ps = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2));
-                    javax.swing.JViewport jv = (javax.swing.JViewport) ps.getComponent(0);
-                    javax.swing.JPanel pan = (javax.swing.JPanel) jv.getComponent(0);
-                    for (int i = 0; i < pan.getComponentCount(); i++) {
-                        PersonalButtonRequest pb = (PersonalButtonRequest) pan.getComponent(i);
-                        if (pb.getValue() == btchamada.getValue()) {
-                            pan.remove(i);
-                        }
-                    }
+                    WListMaterial.btOcupados.removeMaterial(btchamada.getValue());
                 }
                 if ((Clavis.KeyQuest.getMaterialsButtonsTable() != null) && (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1) != null)) {
-                    javax.swing.JScrollPane ps1 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1));
-                    javax.swing.JViewport jv1 = (javax.swing.JViewport) ps1.getComponent(0);
-                    javax.swing.JPanel pan1 = (javax.swing.JPanel) jv1.getComponent(0);
-                    java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
-                    try {
-                        novo.add((PersonalButtonRequest) btchamada.clone());
-                    } catch (CloneNotSupportedException ex) {
-                        Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    for (int i = 0; i < pan1.getComponentCount(); i++) {
-                        novo.add(((PersonalButtonRequest) pan1.getComponent(i)));
-                    }
-                    pan1.removeAll();
-                    for (PersonalButtonRequest n : novo) {
-                        pan1.add(n);
-                    }
+                    WListMaterial.btLivres.addMaterial(btchamada.getValue());
+                    WListMaterial.btLivres.remakePanel();
                 }
-                java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
                 javax.swing.JScrollPane ps0 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(0));
                 javax.swing.JViewport jv0 = (javax.swing.JViewport) ps0.getComponent(0);
                 javax.swing.JPanel pan0 = (javax.swing.JPanel) jv0.getComponent(0);
@@ -1740,54 +1718,35 @@ public final class ActionButton extends javax.swing.JDialog {
             javax.swing.JScrollPane ps0 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(0));
             javax.swing.JViewport jv0 = (javax.swing.JViewport) ps0.getComponent(0);
             javax.swing.JPanel pan0 = (javax.swing.JPanel) jv0.getComponent(0);
-            java.util.Set<PersonalButtonRequest> novo = new java.util.TreeSet<>();
+            PersonalButtonRequest btr;
             for (int i = 0; i < pan0.getComponentCount(); i++) {
-                novo.add(((PersonalButtonRequest) pan0.getComponent(i)));
-            }
-            pan0.removeAll();
-            for (PersonalButtonRequest n : novo) {
-                pan0.add(n);
+                btr = ((PersonalButtonRequest) pan0.getComponent(i));
+                if (btr.getValue() == btchamada.getValue()) {
+                    btr.setDescription(btchamada.getDescription());
+                    btr.setText(btr.getDescription());
+                }
             }
             if (Clavis.KeyQuest.getMaterialsButtonsTable().getComponentCount() > 1) {
                 javax.swing.JScrollPane ps1 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(1));
                 javax.swing.JViewport jv1 = (javax.swing.JViewport) ps1.getComponent(0);
                 javax.swing.JPanel pan1 = (javax.swing.JPanel) jv1.getComponent(0);
-                novo = new java.util.TreeSet<>();
                 for (int i = 0; i < pan1.getComponentCount(); i++) {
-                    PersonalButtonRequest btr = ((PersonalButtonRequest) pan1.getComponent(i));
+                    btr = ((PersonalButtonRequest) pan1.getComponent(i));
                     if (btr.getValue() == btchamada.getValue()) {
-                        try {
-                            novo.add((PersonalButtonRequest) btchamada.clone());
-                        } catch (CloneNotSupportedException ex) {
-                            Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else {
-                        novo.add(btr);
+                        btr.setDescription(btchamada.getDescription());
+                        btr.setText(btr.getDescription());
                     }
                 }
-                pan1.removeAll();
-                for (PersonalButtonRequest n : novo) {
-                    pan1.add(n);
-                }
+
                 javax.swing.JScrollPane ps2 = ((javax.swing.JScrollPane) Clavis.KeyQuest.getMaterialsButtonsTable().getComponentAt(2));
                 javax.swing.JViewport jv2 = (javax.swing.JViewport) ps2.getComponent(0);
                 javax.swing.JPanel pan2 = (javax.swing.JPanel) jv2.getComponent(0);
-                novo = new java.util.TreeSet<>();
                 for (int i = 0; i < pan2.getComponentCount(); i++) {
-                    PersonalButtonRequest btr = ((PersonalButtonRequest) pan2.getComponent(i));
+                    btr = ((PersonalButtonRequest) pan2.getComponent(i));
                     if (btr.getValue() == btchamada.getValue()) {
-                        try {
-                            novo.add((PersonalButtonRequest) btchamada.clone());
-                        } catch (CloneNotSupportedException ex) {
-                            Logger.getLogger(ActionButton.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else {
-                        novo.add(btr);
+                        btr.setDescription(btchamada.getDescription());
+                        btr.setText(btr.getDescription());
                     }
-                }
-                pan2.removeAll();
-                for (PersonalButtonRequest n : novo) {
-                    pan2.add(n);
                 }
             }
         }
@@ -2075,21 +2034,21 @@ public final class ActionButton extends javax.swing.JDialog {
             }
             if ((atrasado) && (!dia)) {
                 labelauxiliar.setForeground(Color.RED);
-                double t = (double)tim.compareTime(new TimeDate.Time()) / 60.0;
+                double t = (double) tim.compareTime(new TimeDate.Time()) / 60.0;
                 double decimal;
                 String hora;
                 String minutos;
-                if (t > 59) {
+                if (t > 60) {
                     t = t / 60.0;
                     decimal = (int) t;
                     decimal = t - decimal;
                     decimal = decimal * 60.0;
                     t = (int) t;
                     hora = "" + (int) t;
-                    minutos = "" + (int) Math.round(decimal);
+                    minutos = "" + (int) (Math.ceil(decimal) - 1);
                 } else {
                     hora = "0";
-                    minutos = "" + (int) Math.round(t);
+                    minutos = "" + (int) (Math.ceil(t) - 1);
                 }
                 if (hora.length() == 1) {
                     hora = "0" + hora;
@@ -2099,21 +2058,21 @@ public final class ActionButton extends javax.swing.JDialog {
                 }
                 labelauxiliar.setText(tim.toString(0) + " (" + lingua.translate("mais") + " " + hora + ":" + minutos + ")");
                 this.timertempoatrasado = new Timer(1000, (ActionEvent e) -> {
-                    double t1 = (double)tim.compareTime(new TimeDate.Time()) / 60.0;
+                    double t1 = (double) tim.compareTime(new TimeDate.Time()) / 60.0;
                     double decimal1;
                     String hora1;
                     String minutos1;
-                    if (t1 > 59) {
+                    if (t1 > 60) {
                         t1 = t1 / 60.0;
                         decimal1 = (int) t1;
                         decimal1 = t1 - decimal1;
                         decimal1 = decimal1 * 60.0;
                         t1 = (int) t1;
                         hora1 = "" + (int) t1;
-                        minutos1 = "" + (int) Math.round(decimal1);
+                        minutos1 = "" + (int) (Math.ceil(decimal1) - 1);
                     } else {
                         hora1 = "0";
-                        minutos1 = "" + (int) Math.round(t1);
+                        minutos1 = "" + (int) (Math.ceil(t1) - 1);
                     }
                     if (hora1.length() == 1) {
                         hora1 = "0" + hora1;

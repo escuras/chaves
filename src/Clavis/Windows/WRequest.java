@@ -39,6 +39,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboPopup;
+import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
  *
@@ -1101,6 +1102,10 @@ public class WRequest extends javax.swing.JFrame {
                 db.commit();
                 Clavis.KeyQuest.refreshTables();
                 jComboBoxTipoMaterial.setSelectedIndex(0);
+                tipomaterialselecionado = 0;
+                jComboBoxMaterial.setSelectedIndex(0);
+                mlista = null;
+                jComboBoxMaterial.removeAllItems();
                 jSpinnerQuantidade.setValue(0);
                 jComboBoxNomeUtilizador.setSelectedIndex(0);
                 jButtonAlgoMais.setBorder(null);
@@ -1414,15 +1419,7 @@ public class WRequest extends javax.swing.JFrame {
                 }
                 this.changeStateButtons();
             });
-
-            /*
-            this.addMouseListener(new MouseAdapter(){
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
-                }
-            });
-             */
+          
             personalTextFieldEmailUtilizador.addFocusListener(new FocusAdapter() {
                 boolean entrada = false;
 
@@ -1654,6 +1651,10 @@ public class WRequest extends javax.swing.JFrame {
                 }
             });
             db.close();
+        } else {
+            jComboBoxTipoMaterial.setSelectedIndex(0);
+            jComboBoxNomeUtilizador.setSelectedIndex(0);
+
         }
         jButtonSair.addActionListener((ActionEvent e) -> {
             this.close();
@@ -1663,6 +1664,9 @@ public class WRequest extends javax.swing.JFrame {
         this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowAdapterImpl());
         pack();
+
+        // Swingx.jar Permite adicionar placeholder aos elementos de texto 
+        ///PromptSupport.setPrompt("01197585960,01197585961", personalTextFieldCodigoUtilizador);
     }
 
     private void updateComboBoxTypeMaterials() {
@@ -1871,6 +1875,9 @@ public class WRequest extends javax.swing.JFrame {
                 TimeDate.Time tim1 = getTime(jSpinner1);
                 TimeDate.Time tim2 = getTime(jSpinner2);
                 if (dat1.isBigger(dat2) >= 0) {
+                    if ((dat1.isBigger(dat2) == 0)&&(tim1.compareTime(tim2) == 0)) {
+                        tim2 = tim2.addSeconds(600);
+                    }
                     mlista = db.getFreeMaterialsBetweenDates(tlista.get(jComboBoxTipoMaterial.getSelectedIndex() - 1).getMaterialTypeID(), dat1, dat2, tim1, tim2);
                     DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
                     int i = 0;

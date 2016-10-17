@@ -480,6 +480,11 @@ public class WUsers extends javax.swing.JFrame {
             jButtonAdicionarGuardar.setToolTipText(lingua.translate("Guardar novos valores")+".");
             jButtonAdicionarGuardar.setBackground(new Color(51,102,153));
         }
+        if (DataBase.DataBase.testConnection(url)) {
+            jButtonAdicionarGuardar.setEnabled(true);
+        } else {
+            jButtonAdicionarGuardar.setEnabled(false);
+        }
         if (selecionado != null) {
             jButtonReiniciar.setVisible(true);
         } else {
@@ -614,7 +619,7 @@ public class WUsers extends javax.swing.JFrame {
                             }
                             alterado = true;
                         }
-                    } else if ((identificacao)&&(txAdicionarIdentificacao.getText().equals(""))) {
+                    } else if ((identificacao) && (txAdicionarIdentificacao.getText().equals(""))) {
                         paux.setId(selecionado.getId());
                         paux.setEmail(txAdicionarEmail.getText());
                         paux.setName(txAdicionarNome.getText());
@@ -877,10 +882,8 @@ public class WUsers extends javax.swing.JFrame {
                 if (frame instanceof Clavis.Windows.WRequest) {
                     ((Clavis.Windows.WRequest) frame).updateSelectPerson(lpessoas, selecionado);
                 }
-            } else {
-                if (frame instanceof Clavis.Windows.WRequest) {
-                    ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
-                }
+            } else if (frame instanceof Clavis.Windows.WRequest) {
+                ((Clavis.Windows.WRequest) frame).updatePersons(lpessoas, true);
             }
         }
     }
@@ -1024,74 +1027,76 @@ public class WUsers extends javax.swing.JFrame {
     }
 
     private void select(int sel) {
-        if (lpessoas.size() > 0) {
-            Keys.Person p = lpessoas.get(sel);
-            setSelectedItem(p);
-            iselecionado = sel;
-            txAdicionarNome.stopPlaceHolder();
-            txAdicionarNome.setText(p.getName());
-            txAdicionarNome.setCaretPosition(0);
-            if (p.getEmail().equals("sem")) {
-                txAdicionarEmail.showWithCondition(lingua.translate("Não existe um email associado") + "!", getSelectedItem() != null);
-            } else {
-                txAdicionarEmail.stopPlaceHolder();
-                txAdicionarEmail.setText(p.getEmail());
+        if (DataBase.DataBase.testConnection(url)) {
+            if (lpessoas.size() > 0) {
+                Keys.Person p = lpessoas.get(sel);
+                setSelectedItem(p);
+                iselecionado = sel;
+                txAdicionarNome.stopPlaceHolder();
+                txAdicionarNome.setText(p.getName());
                 txAdicionarNome.setCaretPosition(0);
-            }
-            if (p.getPhone().equals("sem")) {
-                txAdicionarTelefone.showWithCondition(lingua.translate("Não existe nenhum registo") + "!", getSelectedItem() != null);
-            } else {
-                txAdicionarTelefone.stopPlaceHolder();
-                txAdicionarTelefone.setText(p.getPhone());
-                txAdicionarNome.setCaretPosition(0);
-            }
-
-            if (!p.getFunction().getName().equals("Não tem")) {
-                txAdicionarIdentificacao.setEnabled(true);
-            } else if (txAdicionarIdentificacao.isEnabled()) {
-                txAdicionarIdentificacao.showPLaceHolder(jTableUtilizadores);
-                txAdicionarIdentificacao.setEnabled(false);
-            }
-            if (txAdicionarIdentificacao.isEnabled()) {
-                if (p.getIdentification().equals("sem")) {
-                    txAdicionarIdentificacao.showWithCondition(lingua.translate("Não existe código ou identificação") + "!", getSelectedItem() != null);
+                if (p.getEmail().equals("sem")) {
+                    txAdicionarEmail.showWithCondition(lingua.translate("Não existe um email associado") + "!", getSelectedItem() != null);
                 } else {
-                    txAdicionarIdentificacao.stopPlaceHolder();
-                    txAdicionarIdentificacao.setText(p.getIdentification());
+                    txAdicionarEmail.stopPlaceHolder();
+                    txAdicionarEmail.setText(p.getEmail());
+                    txAdicionarNome.setCaretPosition(0);
+                }
+                if (p.getPhone().equals("sem")) {
+                    txAdicionarTelefone.showWithCondition(lingua.translate("Não existe nenhum registo") + "!", getSelectedItem() != null);
+                } else {
+                    txAdicionarTelefone.stopPlaceHolder();
+                    txAdicionarTelefone.setText(p.getPhone());
+                    txAdicionarNome.setCaretPosition(0);
+                }
+
+                if (!p.getFunction().getName().equals("Não tem")) {
+                    txAdicionarIdentificacao.setEnabled(true);
+                } else if (txAdicionarIdentificacao.isEnabled()) {
+                    txAdicionarIdentificacao.showPLaceHolder(jTableUtilizadores);
+                    txAdicionarIdentificacao.setEnabled(false);
+                }
+                if (txAdicionarIdentificacao.isEnabled()) {
+                    if (p.getIdentification().equals("sem")) {
+                        txAdicionarIdentificacao.showWithCondition(lingua.translate("Não existe código ou identificação") + "!", getSelectedItem() != null);
+                    } else {
+                        txAdicionarIdentificacao.stopPlaceHolder();
+                        txAdicionarIdentificacao.setText(p.getIdentification());
+                    }
+                }
+                if (jSpinnerAdicionarPrivilegio.isVisible()) {
+                    jSpinnerAdicionarPrivilegio.setValue(p.getPrivilege());
+                }
+                for (int j = 0; j < lfuncoes.size(); j++) {
+                    Keys.Function fo = lfuncoes.get(j);
+                    if (fo.compareTo(p.getFunction()) == 0) {
+                        jComboBoxAdicionarFuncao.setSelectedIndex(j);
+                        break;
+                    }
+                }
+                jButtonReiniciar.setVisible(true);
+            }
+            try {
+                if (Clavis.KeyQuest.class.getResource("Images/ok.png") != null) {
+                    BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
+                    ImageIcon imsave = new ImageIcon(bfsave);
+                    jButtonAdicionarGuardar.setIcon(imsave);
+                } else {
+                    jButtonAdicionarGuardar.setText(lingua.translate("Editar"));
+                }
+            } catch (IOException e) {
+            }
+            jButtonAdicionarGuardar.setToolTipText(lingua.translate("Guardar novos valores") + ".");
+            jLabelTituloAdicionar.setText(lingua.translate("Editar valores de utilizador"));
+            jButtonAdicionarGuardar.setBackground(new Color(51, 102, 153));
+            jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(51, 102, 153)));
+            if (frame != null) {
+                if (frame instanceof Clavis.Windows.WRequest) {
+                    jButtonExit.setBackground(new Color(51, 102, 153));
                 }
             }
-            if (jSpinnerAdicionarPrivilegio.isVisible()) {
-                jSpinnerAdicionarPrivilegio.setValue(p.getPrivilege());
-            }
-            for (int j = 0; j < lfuncoes.size(); j++) {
-                Keys.Function fo = lfuncoes.get(j);
-                if (fo.compareTo(p.getFunction()) == 0) {
-                    jComboBoxAdicionarFuncao.setSelectedIndex(j);
-                    break;
-                }
-            }
-            jButtonReiniciar.setVisible(true);
+            jTableUtilizadores.requestFocus();
         }
-        try {
-            if (Clavis.KeyQuest.class.getResource("Images/ok.png") != null) {
-                BufferedImage bfsave = ImageIO.read(Clavis.KeyQuest.class.getResourceAsStream("Images/ok.png"));
-                ImageIcon imsave = new ImageIcon(bfsave);
-                jButtonAdicionarGuardar.setIcon(imsave);
-            } else {
-                jButtonAdicionarGuardar.setText(lingua.translate("Editar"));
-            }
-        } catch (IOException e) {
-        }
-        jButtonAdicionarGuardar.setToolTipText(lingua.translate("Guardar novos valores") + ".");
-        jLabelTituloAdicionar.setText(lingua.translate("Editar valores de utilizador"));
-        jButtonAdicionarGuardar.setBackground(new Color(51, 102, 153));
-        jLabelTituloAdicionar.setBorder(BorderFactory.createLineBorder(new Color(51, 102, 153)));
-        if (frame != null) {
-            if (frame instanceof Clavis.Windows.WRequest) {
-                jButtonExit.setBackground(new Color(51, 102, 153));
-            }
-        }
-        jTableUtilizadores.requestFocus();
     }
 
     private void clearSelection() {

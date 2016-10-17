@@ -32,6 +32,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -73,15 +74,13 @@ public class TableRequest {
     private Timer time;
     private final javax.swing.JButton btconfirma;
     private final javax.swing.JButton btaltera;
-    private final Color systemColor;
-    private final String url;
+    private String url;
     private int atrasolegal;
 
     public TableRequest(RequestList requisicao, javax.swing.JPanel spanel, Langs.Locale lingua, boolean devolucoes, javax.swing.JButton bt1, javax.swing.JButton bt2, String url) {
         this.lingua = lingua;
         btconfirma = bt1;
         btaltera = bt2;
-        this.systemColor = KeyQuest.getSystemColor();
         this.url = url;
         this.selecionado = -1;
         this.devolucoes = devolucoes;
@@ -109,7 +108,6 @@ public class TableRequest {
         spanel.removeAll();
         panel.setInterval(2);
         panel.create();
-
         this.addPanel(spanel, panel.alternativePanel());
         if (!requisicoes.getRequests().isEmpty()) {
             ficouvazia = false;
@@ -243,13 +241,9 @@ public class TableRequest {
 
         // remoção do contorno da célula
         Border border = BorderFactory.createEmptyBorder(5, 5, 0, 0);
-
         UIManager.put("Table.focusCellHighlightBorder", border);
-
         tabela.setBackground(backColor);
-
         tabela.alternateColorRows();
-
         tabela.setForeground(foreColor);
 
         tabela.setSelectionBackground(selectColor);
@@ -520,7 +514,6 @@ public class TableRequest {
         tabela.getActionMap()
                 .put("Enter", new AbstractAction() {
                     private static final long serialVersionUID = 1L;
-
                     @Override
                     public void actionPerformed(ActionEvent ae
                     ) {
@@ -627,20 +620,12 @@ public class TableRequest {
 
     private void addPanel(javax.swing.JPanel panel, javax.swing.JPanel panel2) {
         panel.removeAll();
-        javax.swing.GroupLayout jPanelInformaBaixoLayout = new javax.swing.GroupLayout(panel);
-        panel.setLayout(jPanelInformaBaixoLayout);
-        jPanelInformaBaixoLayout.setHorizontalGroup(
-                jPanelInformaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                .addGroup(jPanelInformaBaixoLayout.createSequentialGroup()
-                        .addContainerGap(117, Short.MAX_VALUE))
-        );
-        jPanelInformaBaixoLayout.setVerticalGroup(
-                jPanelInformaBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformaBaixoLayout.createSequentialGroup()
-                        .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-        );
+        panel.setLayout(new java.awt.GridLayout(1,1));
+        panel.add(panel2);
+        panel2.revalidate();
+        panel2.repaint();
+        panel.validate();
+        panel.repaint();
     }
 
     public void clean() {
@@ -1259,6 +1244,15 @@ public class TableRequest {
             valor = req.getSubject().getName();
         }
         return valor;
+    }
+    
+    public void setURL(String url){
+        this.url = url;
+               
+    }
+    
+    public String getURL(){
+        return url;      
     }
 
 }
