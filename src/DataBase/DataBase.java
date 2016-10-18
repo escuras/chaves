@@ -314,13 +314,13 @@ public class DataBase {
                             ResultSet rs2 = smt2.executeQuery(sql);
                             if (rs2.next()) {
                                 if ((!email.equals("sem")) && (!telefone.equals("sem"))) {
-                                    sql = "insert into Persons (id_funcao,nome,identificacao,email,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    sql = "insert into Persons (id_funcao, nome, identificacao, email, telefone, privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
                                 } else if (!telefone.equals("sem")) {
-                                    sql = "insert into Persons (id_funcao,nome,identificacao,telefone,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    sql = "insert into Persons (id_funcao, nome, identificacao, telefone, privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "','" + telefone + "'," + rs2.getInt(2) + ");";
                                 } else if (!email.equals("sem")) {
-                                    sql = "insert into Persons (id_funcao,nome,identificacao,email,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
+                                    sql = "insert into Persons (id_funcao, nome, email, telefone, privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + email + "','" + telefone + "'," + rs2.getInt(2) + ");";
                                 } else {
-                                    sql = "insert into Persons (id_funcao,nome,identificacao,privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
+                                    sql = "insert into Persons (id_funcao, nome, identificacao, privilegio) values (" + rs2.getInt(1) + ",'" + nome + "','" + identificacao + "'," + rs2.getInt(2) + ");";
                                 }
                                 smt.execute(sql);
                                 return 1;

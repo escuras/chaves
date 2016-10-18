@@ -91,7 +91,7 @@ public class ImageAux {
                     return true;
                 }
                 final String name = f.getName();
-                return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
+                return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
             }
 
             @Override
@@ -118,15 +118,15 @@ public class ImageAux {
     }
 
     public static FileIOAux.ImageExtension getImageFromFileDialog(String titulo, javax.swing.JLabel comp, javax.swing.JDialog dialogo, int largura, int altura) {
-        FileDialog fil = new java.awt.FileDialog(dialogo, titulo, java.awt.FileDialog.LOAD);
+        FileDialog fil = new java.awt.FileDialog(dialogo, titulo, java.awt.FileDialog.SAVE);
         fil.setFilenameFilter((File dir, String name) -> {
-            return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
+            return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
         });
-        fil.setSize(new Dimension(600,500));
+        fil.setSize(new Dimension(600, 500));
         Window ancestor = SwingUtilities.getWindowAncestor(fil);
-        double x = ancestor.getX() + (ancestor.getWidth() /2) - 300;
-        double y = ancestor.getY() + (ancestor.getHeight() /2) - 250;
-        fil.setLocation((int)x, (int)y);
+        double x = ancestor.getX() + (ancestor.getWidth() / 2) - 300;
+        double y = ancestor.getY() + (ancestor.getHeight() / 2) - 250;
+        fil.setLocation((int) x, (int) y);
         fil.setVisible(true);
         FileIOAux.ImageExtension bimagem = null;
         if (fil.getFile() != null) {
@@ -144,17 +144,17 @@ public class ImageAux {
         }
         return bimagem;
     }
-    
+
     public static FileIOAux.ImageExtension getImageFromFileDialog(String titulo, javax.swing.JLabel comp, javax.swing.JFrame frame, int largura, int altura) {
         FileDialog fil = new java.awt.FileDialog(frame, titulo, java.awt.FileDialog.LOAD);
         fil.setFilenameFilter((File dir, String name) -> {
-            return name.endsWith(".png") || name.endsWith(".jpg")  || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
+            return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith(".PNG");
         });
-        fil.setSize(new Dimension(600,500));
+        fil.setSize(new Dimension(600, 500));
         Window ancestor = SwingUtilities.getWindowAncestor(fil);
-        double x = ancestor.getX() + (ancestor.getWidth() /2) - 300;
-        double y = ancestor.getY() + (ancestor.getHeight() /2) - 250;
-        fil.setLocation((int)x, (int)y);
+        double x = ancestor.getX() + (ancestor.getWidth() / 2) - 300;
+        double y = ancestor.getY() + (ancestor.getHeight() / 2) - 250;
+        fil.setLocation((int) x, (int) y);
         fil.setVisible(true);
         FileIOAux.ImageExtension bimagem = null;
         if (fil.getFile() != null) {
@@ -166,8 +166,8 @@ public class ImageAux {
                 }
             } catch (IOException ex) {
             }
-        } 
-        if ((comp != null)&&(bimagem != null)) {
+        }
+        if ((comp != null) && (bimagem != null)) {
             comp.setIcon(new javax.swing.ImageIcon(ImageAux.resize(bimagem.getImage(), largura, altura)));
         }
         return bimagem;
@@ -335,24 +335,28 @@ public class ImageAux {
     }
 
     public static String verifyExtension(java.io.File file) {
-        InputStream input;
-        try {
-            input = new FileInputStream(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
-            input = null;
-        }
-        if (input != null) {
-            ImageInputStream iis;
+        if (file.isFile()) {
+            InputStream input;
             try {
-                iis = ImageIO.createImageInputStream(input);
-                java.util.Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
-                ImageReader reader = iter.next();
-                extensao = reader.getFormatName();
-            } catch (IOException ex) {
+                input = new FileInputStream(file);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ImageAux.class.getName()).log(Level.SEVERE, null, ex);
+                input = null;
+            }
+            if (input != null) {
+                ImageInputStream iis;
+                try {
+                    iis = ImageIO.createImageInputStream(input);
+                    java.util.Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
+                    ImageReader reader = iter.next();
+                    extensao = reader.getFormatName();
+                } catch (IOException ex) {
+                    extensao = "NaNFile";
+                } catch (java.util.NoSuchElementException ex) {
+                    extensao = "NaNImagem";
+                }
+            } else {
                 extensao = "NaNFile";
-            } catch (java.util.NoSuchElementException ex) {
-                extensao = "NaNImagem";
             }
         } else {
             extensao = "NaNFile";

@@ -53,7 +53,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  */
 public class WResources extends javax.swing.JFrame {
 
-    private static final long serialVersionUID = 123L; 
+    private static final long serialVersionUID = 123L;
     private Color corborda;
     private Color corfundo;
     private String url;
@@ -184,7 +184,7 @@ public class WResources extends javax.swing.JFrame {
                     modeloOriginal.addElement(lingua.translate(carsOriginal.get(i).toString()));
                 }
             } else {
-                modeloOriginal.addElement(lingua.translate("Selecione um tipo de material")+".");
+                modeloOriginal.addElement(lingua.translate("Selecione um tipo de material") + ".");
                 carsOriginal = null;
             }
         } else {
@@ -211,6 +211,7 @@ public class WResources extends javax.swing.JFrame {
         jListOriginal.setTransferHandler(new TransferHandler() {
             java.util.List<Keys.Feature> feas;
             private static final long serialVersionUID = 123L;
+
             @Override
             public int getSourceActions(JComponent comp) {
                 return TransferHandler.COPY;
@@ -303,6 +304,7 @@ public class WResources extends javax.swing.JFrame {
         jListFinal.setTransferHandler(new TransferHandler() {
             int index;
             private static final long serialVersionUID = 123L;
+
             @Override
             public boolean canImport(TransferHandler.TransferSupport support) {
                 if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
@@ -592,11 +594,11 @@ public class WResources extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 FileIOAux.ImageExtension imo = FileIOAux.ImageAux.getImageFromFileDialog(lingua.translate("Escolha uma imagem para o recurso"), jLabelImagem, (javax.swing.JFrame) SwingUtilities.getWindowAncestor(jLabelImagem), 112, 112);
-                if (imo != null){
+                if (imo != null) {
                     novaimagem = true;
                     bimage.setImage(imo.getImage());
                     bimage.setExtension(imo.getExtension());
-                } 
+                }
             }
 
             @Override
@@ -727,7 +729,7 @@ public class WResources extends javax.swing.JFrame {
                 }
             }
         });
-        
+
     }
 
     private void removeFromFinalList() {
@@ -1335,42 +1337,49 @@ public class WResources extends javax.swing.JFrame {
                 m.setMaterialImage(bimage.getImage(), bimage.getExtension());
             }
             DataBase.DataBase db = new DataBase.DataBase(url);
-
-            db.setAutoCommit(false);
-            db.insertMaterial(m);
-            int val = db.getMaterialID(m);
-            boolean auxiliar = false;
-            for (Keys.Feature f : carsFinal) {
-                for (Keys.Feature fo : carsData) {
-                    if (fo.compareTo(f) == 0) {
-                        auxiliar = true;
-                        break;
+            Keys.Material h = db.getMaterial(m.getCodeOfMaterial());
+            if (h == null) {
+                db.setAutoCommit(false);
+                db.insertMaterial(m);
+                int val = db.getMaterialID(m);
+                boolean auxiliar = false;
+                for (Keys.Feature f : carsFinal) {
+                    for (Keys.Feature fo : carsData) {
+                        if (fo.compareTo(f) == 0) {
+                            auxiliar = true;
+                            break;
+                        }
+                    }
+                    if (auxiliar) {
+                        db.associateFeatureWithMaterial(f, m);
+                    } else {
+                        f.setTypeOfMaterial(tipo);
+                        db.insertFeature(f);
+                        db.associateFeatureWithMaterial(f, m);
                     }
                 }
-                if (auxiliar) {
-                    db.associateFeatureWithMaterial(f, m);
-                } else {
-                    f.setTypeOfMaterial(tipo);
-                    db.insertFeature(f);
-                    db.associateFeatureWithMaterial(f, m);
-                }
+                db.commit();
+                db.setAutoCommit(true);
+                db.close();
+                carsFinal.stream().forEach((_item) -> {
+                    modeloFinal.remove(0);
+                });
+                carsFinal.removeAll(carsFinal);
+                textNome.setText("");
+                textNome.showPLaceHolder();
+                textCodigo.setText("");
+                textCodigo.showPLaceHolder();
+                jListOriginal.clearSelection();
+                this.putOrignalIcon();
+                jLabelMedida.requestFocus();
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("O produto foi registado") + ".", new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
+            } else {
+                Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Existe um produto com o mesmo código") + ".", new String[]{lingua.translate("Voltar")});
+                mensagem.showMessage();
             }
-            db.commit();
-            db.setAutoCommit(true);
-            db.close();
-            carsFinal.stream().forEach((_item) -> {
-                modeloFinal.remove(0);
-            });
-            carsFinal.removeAll(carsFinal);
-            textNome.setText("");
-            textNome.showPLaceHolder();
-            textCodigo.setText("");
-            textCodigo.showPLaceHolder();
-            jListOriginal.clearSelection();
-            this.putOrignalIcon();
-            jLabelMedida.requestFocus();
         } else {
-            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Não tem ligação à base de dados")+".", new String[]{lingua.translate("Voltar")});
+            Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Informação"), 400, 200, lingua.translate("Não tem ligação à base de dados") + ".", new String[]{lingua.translate("Voltar")});
             mensagem.showMessage();
         }
 
