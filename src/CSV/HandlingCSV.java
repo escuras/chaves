@@ -37,7 +37,7 @@ public class HandlingCSV {
     private boolean novo;
     private int[] valores;
     private int tamanho;
-    private String doc_nome;
+    private static String doc_nome;
 
     public HandlingCSV() {
         this.url = null;
@@ -112,10 +112,10 @@ public class HandlingCSV {
                                     }
                                 } else {
                                     File file2 = new File(new File("").getAbsolutePath()
-                                        + System.getProperty("file.separator")
-                                        + "Resources" + System.getProperty("file.separator")
-                                        + "Download" + System.getProperty("file.separator")
-                                        + "horario_disciplinas_temp.csv");
+                                            + System.getProperty("file.separator")
+                                            + "Resources" + System.getProperty("file.separator")
+                                            + "Download" + System.getProperty("file.separator")
+                                            + "horario_disciplinas_temp.csv");
                                     try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
                                         scv.writeAll(entradas);
                                         scv.flush();
@@ -271,7 +271,49 @@ public class HandlingCSV {
      * @param doc_nome the document name to set
      */
     public void setDocumentName(String doc_nome) {
-        this.doc_nome = doc_nome;
+        HandlingCSV.doc_nome = doc_nome;
     }
 
+    public static boolean isNew(String url, String nome) throws MalformedURLException, IOException {
+        File file = new File(new File("").getAbsolutePath()
+                + System.getProperty("file.separator")
+                + "Resources" + System.getProperty("file.separator")
+                + "Download" + System.getProperty("file.separator") + nome);
+        if (!file.exists()) {
+            File diretoria = new File(new File("").getAbsolutePath()
+                    + System.getProperty("file.separator")
+                    + "Resources" + System.getProperty("file.separator")
+                    + "Download");
+            if (!diretoria.exists()) {
+                diretoria.mkdirs();
+            }
+            file.createNewFile();
+            System.out.println("momo");
+            return true;
+        } else {
+            File file2 = new File(new File("").getAbsolutePath()
+                    + System.getProperty("file.separator")
+                    + "Resources" + System.getProperty("file.separator")
+                    + "Download" + System.getProperty("file.separator")
+                    + "horario_disciplinas_temp.csv");
+            InputStream input = new URL(url).openStream();
+            CSVReader reader;
+            List<String[]> entradas;
+            reader = new CSVReader(new InputStreamReader(input), ';');
+            if (reader.verifyReader()) {
+                entradas = reader.readAll();
+                try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
+                    scv.writeAll(entradas);
+                    scv.flush();
+                }
+            }
+            if (FileUtils.contentEquals(file, file2)){
+	    	file2.delete();
+		return true;
+	    } else {
+		file2.delete();
+		return false;
+	    }	
+        }
+    }
 }

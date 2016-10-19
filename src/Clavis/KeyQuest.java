@@ -4684,7 +4684,6 @@ public class KeyQuest extends javax.swing.JFrame {
         initComponents();
         int aux = -1;
         ligacao = DataBase.DataBase.testConnection(urlbd);
-
         if (ligacao) {
             DataBase.DataBase db = new DataBase.DataBase(urlbd);
             this.tiposmateriais = db.getTypesOfMaterial();
