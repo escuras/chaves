@@ -30,6 +30,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
+import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
  *

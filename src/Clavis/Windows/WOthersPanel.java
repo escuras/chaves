@@ -404,6 +404,7 @@ public class WOthersPanel {
                     }
                 }
             }
+            
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -414,7 +415,7 @@ public class WOthersPanel {
                         String[] titulos = {lingua.translate("Remover")};
                         ActionListener[] acts = new ActionListener[1];
                         acts[0] = (ActionEvent e1) -> {
-                            getSubjects().remove(lturmas.getSelectedIndex());
+                            getStudentsClasses().remove(lturmas.getSelectedIndex());
                             ll.remove(lturmas.getSelectedIndex());
                         };
                         poplturmas = new Components.PopUpMenu(titulos, acts);

@@ -39,7 +39,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboPopup;
-import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
  *
@@ -1077,7 +1076,7 @@ public class WRequest extends javax.swing.JFrame {
                             + lingua.translate(mats.get(i).getTypeOfMaterialName()) + " " + mats.get(i).getDescription() + "\" "
                             + lingua.translate("está emprestado com atraso") + ".<br/>"
                             + lingua.translate("Mesmo assim, pretende fazer a requisição") + "?</div></html>";
-                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, aviso, new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
+                    Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 500, 200, aviso, new String[]{lingua.translate("Confirmar"), lingua.translate("Voltar")});
                     int val = mensagem.showMessage();
                     if (val == 1) {
                         resultado = db.insertRequest(mats.get(i), pessoaescolhida, atividade, turmas, disciplinas, data1, data2, tempo1, tempo2);
@@ -1096,7 +1095,9 @@ public class WRequest extends javax.swing.JFrame {
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.AVISO, corborda, lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
                 db.roolback(ponto);
-            } else if (!recusou) {
+            } else if (recusou) {
+                db.roolback(ponto);
+            } else {
                 Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, corborda, lingua.translate("Nota"), 400, 200, lingua.translate("A Requisição foi registada com sucesso") + ".", new String[]{lingua.translate("Voltar")});
                 mensagem.showMessage();
                 db.commit();
@@ -1200,21 +1201,21 @@ public class WRequest extends javax.swing.JFrame {
         txx.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                if ((int) jSpinnerQuantidade.getValue() > 1) {
+                if (((int) jSpinnerQuantidade.getValue() > 1)&&(jComboBoxMaterial.getSelectedIndex() > 0)) {
                     jComboBoxMaterial.setSelectedIndex(0);
                 }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                if ((int) jSpinnerQuantidade.getValue() > 1) {
+                if (((int) jSpinnerQuantidade.getValue() > 1)&&(jComboBoxMaterial.getSelectedIndex() > 0)) {
                     jComboBoxMaterial.setSelectedIndex(0);
                 }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                if ((int) jSpinnerQuantidade.getValue() > 1) {
+                if (((int) jSpinnerQuantidade.getValue() > 1)&&(jComboBoxMaterial.getSelectedIndex() > 0)) {
                     jComboBoxMaterial.setSelectedIndex(0);
                 }
             }
@@ -1265,12 +1266,33 @@ public class WRequest extends javax.swing.JFrame {
             }
         });
         updateComboBoxTypeMaterials();
-        jComboBoxMaterial.addActionListener((ActionEvent e) -> {
-            if (jComboBoxMaterial.getSelectedIndex() > 0) {
-                jSpinnerQuantidade.setValue(1);
-                pl.go(false, (Keys.Material) jComboBoxMaterial.getSelectedItem());
+        
+        BasicComboPopup popupmaterial = (BasicComboPopup) jComboBoxMaterial.getComboBox().getAccessibleContext().getAccessibleChild(0);
+        javax.swing.JList<?> listmaterial = popupmaterial.getList();
+        listmaterial.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (jComboBoxMaterial.getSelectedIndex() == 0) {
+                    jSpinnerQuantidade.setValue(0);
+                } else {
+                    jSpinnerQuantidade.setValue(1);
+                    pl.go(false, (Keys.Material) jComboBoxMaterial.getSelectedItem());
+                }
+                changeStateButtons();
             }
-            this.changeStateButtons();
+        });
+        jComboBoxMaterial.getComboBox().getEditor().getEditorComponent().addKeyListener(new KeyAdapter(){
+           @Override
+            public void keyReleased(KeyEvent e) {
+                if ((jComboBoxMaterial.getSelectedIndex() == 0)&&((e.getKeyCode() == KeyEvent.VK_UP)||(e.getKeyCode() == KeyEvent.VK_DOWN)||(e.getKeyCode() == KeyEvent.VK_ENTER) ||(e.getKeyCode()== KeyEvent.VK_BACK_SPACE))) {
+                    jSpinnerQuantidade.setValue(0);
+                } else {
+                    jSpinnerQuantidade.setValue(1);
+                    pl.go(false, (Keys.Material) jComboBoxMaterial.getSelectedItem());
+                }
+                changeStateButtons();
+            }
+            
         });
 
         jComboBoxNomeUtilizador.getComboBox().getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
@@ -1419,7 +1441,7 @@ public class WRequest extends javax.swing.JFrame {
                 }
                 this.changeStateButtons();
             });
-          
+
             personalTextFieldEmailUtilizador.addFocusListener(new FocusAdapter() {
                 boolean entrada = false;
 
@@ -1875,7 +1897,7 @@ public class WRequest extends javax.swing.JFrame {
                 TimeDate.Time tim1 = getTime(jSpinner1);
                 TimeDate.Time tim2 = getTime(jSpinner2);
                 if (dat1.isBigger(dat2) >= 0) {
-                    if ((dat1.isBigger(dat2) == 0)&&(tim1.compareTime(tim2) == 0)) {
+                    if ((dat1.isBigger(dat2) == 0) && (tim1.compareTime(tim2) == 0)) {
                         tim2 = tim2.addSeconds(600);
                     }
                     mlista = db.getFreeMaterialsBetweenDates(tlista.get(jComboBoxTipoMaterial.getSelectedIndex() - 1).getMaterialTypeID(), dat1, dat2, tim1, tim2);
@@ -1911,12 +1933,14 @@ public class WRequest extends javax.swing.JFrame {
             jComboBoxMaterial.removeAllItems();
             DefaultComboBoxModel<Object> modelo = (DefaultComboBoxModel<Object>) jComboBoxMaterial.getModel();
             for (Keys.Material n : mlista) {
-                n = new Keys.Material(n) {
-                    @Override
-                    public String toString() {
-                        return this.getTypeOfMaterialName() + " " + this.getDescription();
-                    }
-                };
+                if (n.getMaterialTypeID() == 1) {
+                    n = new Keys.Material(n) {
+                        @Override
+                        public String toString() {
+                            return this.getTypeOfMaterialName() + " " + this.getDescription();
+                        }
+                    };
+                }
                 modelo.addElement(n);
             }
 

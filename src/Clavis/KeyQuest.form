@@ -945,6 +945,9 @@
           <Dimension value="[700, 550]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="jDialogDefOpcoes.setTitle(lingua.translate(&quot;Defini&#xe7;&#xf5;es&quot;));"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

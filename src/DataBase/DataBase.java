@@ -283,8 +283,15 @@ public class DataBase {
                 email = "sem";
             } else if ((!identificacao.equals("")) && (!email.equals(""))) {
                 sql = "select count(*) from Persons where identificacao = '" + identificacao + "' or email = '" + email + "';";
+
             } else {
                 return 0;
+            }
+            if (email.equals("")) {
+                email = "sem";
+            }
+            if (identificacao.equals("")) {
+                identificacao = "sem";
             }
             if (telefone.equals("")) {
                 telefone = "sem";
@@ -346,6 +353,9 @@ public class DataBase {
         if (this.isTie()) {
             Statement smt;
             Statement smt2;
+            if (pessoa.getName().equals("")) {
+                return 0;
+            }
             if (pessoa.getEmail().equals("")) {
                 pessoa.setEmail("sem");
             }
@@ -362,7 +372,7 @@ public class DataBase {
             if (pessoa.getId() < 0) {
                 if ((identificacao.equals("sem")) && (!email.equals("sem"))) {
                     sql = "select id_pessoa from Persons where email like '" + identificacao + "';";
-                } else if (email.equals("sem")) {
+                } else if ((email.equals("sem")) && (!identificacao.equals("sem"))) {
                     sql = "select id_pessoa from Persons where identificacao like '" + identificacao + "';";
                 } else if ((!identificacao.equals("sem")) && (!email.equals("sem"))) {
                     sql = "select id_pessoa from Persons where identificacao = '" + identificacao + "' or email = '" + email + "';";
@@ -448,6 +458,10 @@ public class DataBase {
     public boolean deletePerson(Keys.Person pessoa) {
         if (this.isTie()) {
             Statement smt;
+            if (pessoa.getId() <= 0) {
+                int val = this.getPersonID(pessoa);
+                pessoa.setId(val);
+            }
             String sql = "delete from Persons where id_pessoa = " + pessoa.getId() + ";";
             try {
                 smt = con.createStatement();
@@ -1452,6 +1466,81 @@ public class DataBase {
         return -1;
     }
 
+    public int deleteMaterial(Keys.Material m) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                smt = null;
+            }
+            if (smt != null) {
+                if (m.getId() <= 0) {
+                    m.setId(this.getMaterialID(m));
+                    if (m.getId() <= 0) {
+                        return -1;
+                    }
+                }
+                String sql = "delete from Materials where id_material = " + m.getId();
+                try {
+                    smt.execute(sql);
+                    return 1;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return -1;
+                }
+            } else {
+                return -1;
+            }
+
+        } else {
+            return -1;
+        }
+    }
+
+    public int deleteRequest(Keys.Request r, Keys.Person p, Keys.Material m) {
+        if (this.isTie()) {
+            Statement smt;
+            try {
+                smt = con.createStatement();
+            } catch (SQLException e) {
+                smt = null;
+            }
+            if (smt != null) {
+                if (r.getId() <= 0) {
+                    if (p.getId() <= 0) {
+                        int v = this.getPersonID(p);
+                        p.setId(v);
+                    }
+                    if (m.getId() <= 0) {
+                        int v = this.getMaterialID(m);
+                        m.setId(v);
+                    }
+                    if ((m.getId() <= 0) || (p.getId() <= 0)) {
+                        return -1;
+                    }
+                    r.setId(this.getRequestID(r, p.getId(), m.getId()));
+                    if (r.getId() <= 0) {
+                        return -1;
+                    }
+                }
+                String sql = "delete from Requests where id_requisicao = " + r.getId();
+                try {
+                    smt.execute(sql);
+                    return 1;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+                    return -1;
+                }
+            } else {
+                return -1;
+            }
+
+        } else {
+            return -1;
+        }
+    }
+
     public int setRequestSubstitute(Keys.Request req) {
         if (this.isTie()) {
             Statement smt;
@@ -1625,8 +1714,20 @@ public class DataBase {
     public int getPersonID(Keys.Person p) {
 
         if (this.isTie()) {
-            String sql = "select id_pessoa from Persons where nome = '" + p.getName() + "' and identificacao = '" + p.getIdentification() + ""
-                    + "' and email = '" + p.getEmail() + "' and telefone = '" + p.getPhone() + "';";
+            String Email = p.getEmail();
+            String Identificacao = p.getIdentification();
+            String Telefone = p.getPhone();
+            if (p.getEmail().equals("")) {
+                Email = "sem";
+            }
+            if (p.getIdentification().equals("")) {
+                Identificacao = "sem";
+            }
+            if (p.getPhone().equals("")) {
+                Telefone = "sem";
+            }
+            String sql = "select id_pessoa from Persons where nome = '" + p.getName() + "' and identificacao = '" + Identificacao + ""
+                    + "' and email = '" + Email + "' and telefone = '" + Telefone + "';";
             try {
                 Statement smt = con.createStatement();
                 ResultSet rs = smt.executeQuery(sql);
@@ -4708,6 +4809,28 @@ public class DataBase {
             PreparedStatement smt;
             PreparedStatement smt2;
             ResultSet rs;
+            if (req.getId() <= 0) {
+                int idp;
+                int idm;
+                if (req.getPerson().getId() <= 0) {
+                    idp = this.getPersonID(req.getPerson());
+                } else {
+                    idp = req.getPerson().getId();
+                }
+                if (req.getMaterial().getId() <= 0) {
+                    idm = this.getMaterialID(req.getMaterial());
+                } else {
+                    idm = req.getMaterial().getId();
+                }
+                if ((idm <= 0) || (idp <= 0)) {
+                    return false;
+                }
+                int v = this.getRequestID(req, idp, idm);
+                if (v <= 0) {
+                    return false;
+                }
+                req.setId(v);
+            }
             String sql = "update Requests set ativo = 1, data_levantamento = CURDATE(), hora_levantamento = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
                 smt = con.prepareStatement(sql);
@@ -4728,6 +4851,28 @@ public class DataBase {
         if (this.isTie()) {
             PreparedStatement smt;
             PreparedStatement smt2;
+            if (req.getId() <= 0) {
+                int idp;
+                int idm;
+                if (req.getPerson().getId() <= 0) {
+                    idp = this.getPersonID(req.getPerson());
+                } else {
+                    idp = req.getPerson().getId();
+                }
+                if (req.getMaterial().getId() <= 0) {
+                    idm = this.getMaterialID(req.getMaterial());
+                } else {
+                    idm = req.getMaterial().getId();
+                }
+                if ((idm <= 0) || (idp <= 0)) {
+                    return false;
+                }
+                int v = this.getRequestID(req, idp, idm);
+                if (v <= 0) {
+                    return false;
+                }
+                req.setId(v);
+            }
             String sql = "update Requests set terminado = 1, ativo = 0, data_entrega = CURDATE(), hora_entrega = CURTIME() where  id_requisicao = " + req.getId() + "; ";
             try {
                 smt = con.prepareStatement(sql);
@@ -4989,7 +5134,7 @@ public class DataBase {
                                         passa = true;
                                         break;
                                     }
-                                } 
+                                }
                             } else if ((tinicio.compareTime(tim1) > 0) && (tfim.compareTime(tim1) < 0)) {
                                 passa = true;
                                 break;
@@ -5002,7 +5147,7 @@ public class DataBase {
                             } else if ((tfim.compareTime(tim1) < 0) && (tfim.compareTime(tim2) > 0)) {
                                 passa = true;
                                 break;
-                            } else if ((tinicio.compareTime(tim2) != 0)&&((tinicio.compareTime(tim1) == 0) || (tfim.compareTime(tim2) == 0))) {
+                            } else if ((tinicio.compareTime(tim2) != 0) && ((tinicio.compareTime(tim1) == 0) || (tfim.compareTime(tim2) == 0))) {
                                 passa = true;
                                 break;
                             }

@@ -516,7 +516,6 @@ public class WShedule extends JDialog {
     private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
         if ((valores != null) && (valores.length > 0)) {
             this.createXLSDocument("doc.xls", valores);
-            System.out.println("ssssssssssssssssssssssss");
         } else {
             Components.MessagePane mensagem = new Components.MessagePane(this, Components.MessagePane.INFORMACAO, painelcor, lingua.translate("Erro de exportação"), 400, 200, lingua.translate("Não existem valores para exportar") + ".", new String[]{lingua.translate("Voltar")});
             mensagem.showMessage();
@@ -772,7 +771,6 @@ public class WShedule extends JDialog {
             }
         }
         if (file.canWrite()) {
-            System.out.println(sfile);
             try {
                 out = new FileOutputStream(file);
             } catch (FileNotFoundException ex) {

@@ -614,6 +614,24 @@ public class MessagePane {
     public void setPanel(javax.swing.JPanel panel) {
         this.panel = panel;
     }
+    
+    public void setType(int val){
+        tipo = val;
+        switch (tipo) {
+            case 1:
+                corborda = new Color(254, 0, 0);
+                break;
+            case 2:
+                corborda = new Color(204, 204, 254);
+                break;
+            default:
+                corborda = new Color(254, 254, 152);
+                break;
+        }
+        javax.swing.border.Border border11 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(corsistema, 2), javax.swing.BorderFactory.createLineBorder(corborda, 2));
+        javax.swing.border.Border border22 = javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 1, 1), 1), border11);
+        getPanel().setBorder(border22);
+    }
 
     /**
      * @return the botoes

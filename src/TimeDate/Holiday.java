@@ -347,7 +347,7 @@ public class Holiday implements Comparable<Holiday> {
         }
     }
 
-    public void cleanExpandedState() {
+    public void clearExpandedState() {
         this.expandido = false;
     }
 

@@ -62,7 +62,7 @@ public class HandlingCSV {
         List<String[]> entradas = new ArrayList<>();
         try {
             try {
-                if ((this.url == null) || (!this.verifyConnectUrl())) {
+                if ((this.url == null) || (!verifyConnectUrl(this.url))) {
                     File file = new File(new File("").getAbsolutePath()
                             + System.getProperty("file.separator")
                             + "Resources" + System.getProperty("file.separator")
@@ -86,49 +86,66 @@ public class HandlingCSV {
                 } else {
                     InputStream input;
                     try {
-                        URL urla = new URL(url);
-                        if (urla.openConnection().getContentLength() >= 0) {
+                        String s = url.trim().toLowerCase();
+                        boolean web = s.startsWith("http://") || s.startsWith("https://");
+                        URL urla = null;
+                        File fol = null;
+                        FileInputStream fil;
+                        if (web) {
+                            urla = new URL(url);
+                        } else {
+                            fol = new File(url);
+                        }
+                        if (urla != null) {
+                            if (!(urla.openConnection().getContentLength() >= 0)) {
+                                return;
+                            }
                             input = new URL(url).openStream();
-                            reader = new CSVReader(new InputStreamReader(input), ';');
-                            if (reader.verifyReader()) {
-                                entradas = reader.readAll();
-                                File file = new File(new File("").getAbsolutePath()
+                        } else if ((fol != null)&&(fol.isFile())) {
+                               fil = new FileInputStream(fol);  
+                               input = fil;
+                        } else {
+                            return;
+                        }
+                        reader = new CSVReader(new InputStreamReader(input), ';');
+                        if (reader.verifyReader()) {
+                            entradas = reader.readAll();
+                            File file = new File(new File("").getAbsolutePath()
+                                    + System.getProperty("file.separator")
+                                    + "Resources" + System.getProperty("file.separator")
+                                    + "Download" + System.getProperty("file.separator") + doc_nome);
+                            if (!file.exists()) {
+                                File diretoria = new File(new File("").getAbsolutePath()
                                         + System.getProperty("file.separator")
                                         + "Resources" + System.getProperty("file.separator")
-                                        + "Download" + System.getProperty("file.separator") + doc_nome);
-                                if (!file.exists()) {
-                                    File diretoria = new File(new File("").getAbsolutePath()
-                                            + System.getProperty("file.separator")
-                                            + "Resources" + System.getProperty("file.separator")
-                                            + "Download");
-                                    if (!diretoria.exists()) {
-                                        diretoria.mkdirs();
-                                    }
-                                    file.createNewFile();
-                                    novo = true;
-                                    try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
-                                        scv.writeAll(entradas);
-                                        scv.flush();
-                                    }
+                                        + "Download");
+                                if (!diretoria.exists()) {
+                                    diretoria.mkdirs();
+                                }
+                                file.createNewFile();
+                                novo = true;
+                                try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
+                                    scv.writeAll(entradas);
+                                    scv.flush();
+                                }
+                            } else {
+                                File file2 = new File(new File("").getAbsolutePath()
+                                        + System.getProperty("file.separator")
+                                        + "Resources" + System.getProperty("file.separator")
+                                        + "Download" + System.getProperty("file.separator")
+                                        + "horario_disciplinas_temp.csv");
+                                try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
+                                    scv.writeAll(entradas);
+                                    scv.flush();
+                                }
+                                if (FileUtils.contentEquals(file, file2)) {
+                                    file2.delete();
                                 } else {
-                                    File file2 = new File(new File("").getAbsolutePath()
-                                            + System.getProperty("file.separator")
-                                            + "Resources" + System.getProperty("file.separator")
-                                            + "Download" + System.getProperty("file.separator")
-                                            + "horario_disciplinas_temp.csv");
-                                    try (CSVWriter scv = new CSVWriter(new FileWriter(file2), ';')) {
+                                    try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
+                                        file2.delete();
                                         scv.writeAll(entradas);
                                         scv.flush();
-                                    }
-                                    if (FileUtils.contentEquals(file, file2)) {
-                                        file2.delete();
-                                    } else {
-                                        try (CSVWriter scv = new CSVWriter(new FileWriter(file), ';')) {
-                                            file2.delete();
-                                            scv.writeAll(entradas);
-                                            scv.flush();
-                                            novo = true;
-                                        }
+                                        novo = true;
                                     }
                                 }
                             }
@@ -183,14 +200,19 @@ public class HandlingCSV {
         }
     }
 
-    public boolean verifyConnectUrl() {
+    public static boolean verifyConnectUrl(String url) {
         HttpURLConnection connection = null;
         try {
-            URL u = new URL(this.url);
+            String s = url.trim().toLowerCase();
+            boolean web = s.startsWith("http://") || s.startsWith("https://");
+            if (!web) {
+                return (new File(url).isFile());
+            }
+            URL u = new URL(url);
             connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("HEAD");
             int code = connection.getResponseCode();
-            return true;
+            return (u.openConnection().getContentLength() >= 0);
         } catch (MalformedURLException e) {
             return false;
         } catch (IOException e) {
@@ -288,7 +310,6 @@ public class HandlingCSV {
                 diretoria.mkdirs();
             }
             file.createNewFile();
-            System.out.println("momo");
             return true;
         } else {
             File file2 = new File(new File("").getAbsolutePath()
@@ -307,13 +328,13 @@ public class HandlingCSV {
                     scv.flush();
                 }
             }
-            if (FileUtils.contentEquals(file, file2)){
-	    	file2.delete();
-		return true;
-	    } else {
-		file2.delete();
-		return false;
-	    }	
+            if (FileUtils.contentEquals(file, file2)) {
+                file2.delete();
+                return true;
+            } else {
+                file2.delete();
+                return false;
+            }
         }
     }
 }

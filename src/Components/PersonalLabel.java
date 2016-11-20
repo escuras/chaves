@@ -136,7 +136,9 @@ public class PersonalLabel {
                 } else if (getDimension() < andamento) {
                     int res = selecionados.size() - (andamento - this.getDimension());
                     for (int j = selecionados.size() - 1; j >= res; j--) {
-                        selecionados.remove(j);
+                        if (j >= 0) {
+                            selecionados.remove(j);
+                        }
                     }
                 }
             }
@@ -282,7 +284,7 @@ public class PersonalLabel {
             }
             tipo = Components.MessagePane.INFORMACAO;
         }
-        Components.MessagePane mensagem = new Components.MessagePane(null, tipo, Clavis.KeyQuest.getSystemColor(), lingua.translate("Nota"), 400, 200, envia, new String[]{lingua.translate("Voltar")});
+        Components.MessagePane mensagem = new Components.MessagePane(null, tipo, Clavis.KeyQuest.getSystemColor(), lingua.translate("Nota"), 500, 200, envia, new String[]{lingua.translate("Voltar")});
         label.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -349,49 +351,44 @@ public class PersonalLabel {
             }
         });
     }
-    
-    public void clear(){
+
+    public void clear() {
         selecionados = new java.util.ArrayList<>();
         panel.removeAll();
         specialone = false;
     }
 
     private void prepareSelectOnes() {
-        java.util.List<Keys.Material> m = new java.util.ArrayList<>(mlista);
-
-        int aleatorio;
-        if (specialone) {
-            selecionados = new java.util.ArrayList<>();
-        } else {
-            for (int h = 0; h < selecionados.size(); h++) {
-                for (int k = 0; k < m.size(); k++) {
-                    if (selecionados.get(h).compareTo(m.get(k)) == 0) {
-                        m.remove(k);
+        if (mlista.size() > 0) {
+            java.util.List<Keys.Material> m = new java.util.ArrayList<>(mlista);
+            int aleatorio;
+            if (specialone) {
+                selecionados = new java.util.ArrayList<>();
+            } else {
+                for (int h = 0; h < selecionados.size(); h++) {
+                    for (int k = 0; k < m.size(); k++) {
+                        if (selecionados.get(h).compareTo(m.get(k)) == 0) {
+                            m.remove(k);
+                        }
                     }
                 }
             }
-        }
-
-        if (this.getDimension() > selecionados.size()) {
-            int tam = this.getDimension() - selecionados.size();
-            for (int i = 0; i < tam; i++) {
-                if (mlista.size() > 0) {
+            if (this.getDimension() > selecionados.size()) {
+                int tam = this.getDimension() - selecionados.size();
+                for (int i = 0; i < tam; i++) {
                     aleatorio = new java.util.Random().nextInt(m.size());
                     Keys.Material mat = m.get(aleatorio);
                     selecionados.add(mat);
                     m.remove(aleatorio);
                 }
-            }
-        } else {
-            for (int i = selecionados.size(); i > this.getDimension(); i--) {
-                if (mlista.size() > 0) {
-                    aleatorio = new java.util.Random().nextInt(selecionados.size());
-                    Keys.Material mat = selecionados.get(aleatorio);
+            } else {
+                for (int i = selecionados.size() - 1; i > this.getDimension(); i--) {
+                    Keys.Material mat = selecionados.get(i);
                     selecionados.remove(mat);
                 }
             }
+            specialone = false;
         }
-        specialone = false;
     }
 
     public String treatLongStrings(String l) {

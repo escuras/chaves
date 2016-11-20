@@ -19,10 +19,10 @@ public class Person implements Comparable<Person>{
     private int id;
     
     public Person(){
-        nome = "sem";
-        identificacao = "sem";
-        telefone = "sem";
-        email = "sem";
+        nome = "";
+        identificacao = "";
+        telefone = "";
+        email = "";
         id = -1;
         funcao = null;
         privilegio = -1;
@@ -31,8 +31,8 @@ public class Person implements Comparable<Person>{
     public Person(String nome, String identificacao,Function funcao){
         this.nome = nome;
         this.identificacao = identificacao;
-        this.telefone = "sem";
-        this.email = "sem";
+        this.telefone = "";
+        this.email = "";
         this.id = -1;
         this.funcao = funcao; 
         this.privilegio = funcao.getPrivilege();
@@ -41,8 +41,8 @@ public class Person implements Comparable<Person>{
     public Person(String nome, String identificacao,Function funcao,int privilegio){
         this.nome = nome;
         this.identificacao = identificacao;
-        this.telefone = "sem";
-        this.email = "sem";
+        this.telefone = "";
+        this.email = "";
         this.id = -1;
         this.funcao = funcao; 
         this.privilegio = privilegio;

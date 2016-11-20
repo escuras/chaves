@@ -1680,6 +1680,7 @@ public final class ActionButton extends javax.swing.JDialog {
             db.close();
             req.setTerminated();
             bt.setVisible(false);
+            KeyQuest.getListRequest().getTable().clearSelection();
             panel1.remove(bt);
             if (val > 0) {
                 labelativa.setText(lingua.translate("Próxima requisição"));

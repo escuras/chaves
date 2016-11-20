@@ -154,37 +154,38 @@ public class HolidaysList {
 
     public static void updateDynamicHolidays() {
         TimeDate.Date da = new TimeDate.Date();
-        FileHolidays file = new FileHolidays();
-        HolidaysList list = file.getHolidays();
-        java.util.Map<Integer,TimeDate.Holiday> lista = new ConcurrentHashMap<>();
-        int i = 0;
-        for (TimeDate.Holiday day : list.getHolidays()) {
-            if ( day instanceof TimeDate.DinamicHoliday) {
-                DinamicHoliday d = (DinamicHoliday) day;
-                switch (d.getName()) {
-                    case "pascoa":
-                        d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getEaster(), "pascoa");
-                        break;
-                    case "sexta_feira":
-                        d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getGoodFriday(), "sexta_feira");
-                        break;
-                    case "corpo_cristo":
-                        d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getCorpusChristi(), "corpo_cristo");
-                        break;
-                    case "carnaval":
-                        d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getCarnival(), "carnaval");
-                        break;
-                    default:
-                        break;
+        if ((da.getMonth() == 1) && (da.getDay() == 1)) {
+            FileHolidays file = new FileHolidays();
+            HolidaysList list = file.getHolidays();
+            java.util.Map<Integer, TimeDate.Holiday> lista = new ConcurrentHashMap<>();
+            int i = 0;
+            for (TimeDate.Holiday day : list.getHolidays()) {
+                if (day instanceof TimeDate.DinamicHoliday) {
+                    DinamicHoliday d = (DinamicHoliday) day;
+                    switch (d.getName()) {
+                        case "pascoa":
+                            d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getEaster(), "pascoa");
+                            break;
+                        case "sexta_feira":
+                            d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getGoodFriday(), "sexta_feira");
+                            break;
+                        case "corpo_cristo":
+                            d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getCorpusChristi(), "corpo_cristo");
+                            break;
+                        case "carnaval":
+                            d = new TimeDate.DinamicHoliday(new HolidaysList(da.getYear()).getCarnival(), "carnaval");
+                            break;
+                        default:
+                            break;
+                    }
+                    lista.put(i, d);
+                } else {
+                    lista.put(i, day);
                 }
-                lista.put(i, d);
-            } else {
-                lista.put(i, day);
+                i++;
             }
-            i++;
+            list.setHolidays(new java.util.HashSet<>(new java.util.HashSet<>(lista.values())));
+            file.saveHolidays(list);
         }
-        list.setHolidays(new java.util.HashSet<>(new java.util.HashSet<>(lista.values())));
-        file.saveHolidays(list);
     }
 }
-

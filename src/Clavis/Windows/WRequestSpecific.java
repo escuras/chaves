@@ -1403,6 +1403,7 @@ public class WRequestSpecific extends javax.swing.JDialog {
             reqatividade = "";
             reqturmas = new java.util.ArrayList<>();
             reqdisciplinas = new java.util.ArrayList<>();
+            jButtonAlgoMais.setBorder(null);
         }
     }//GEN-LAST:event_jButtonAlgoMaisActionPerformed
 

@@ -832,6 +832,10 @@ public class WSeeRequest extends javax.swing.JFrame {
         if (val == 1) {
             if (DataBase.DataBase.testConnection(url)) {
                 DataBase.DataBase db = new DataBase.DataBase(url);
+                java.util.Set<Keys.Request> requisicoes = db.getUnionRequests(selecionada);
+                for (Keys.Request r : requisicoes) {
+                    db.changeRequestTerminateState(r);
+                }
                 db.changeRequestTerminateState(selecionada);
                 db.close();
                 Clavis.KeyQuest.refreshDevolutionTable();

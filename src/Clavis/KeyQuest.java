@@ -1286,6 +1286,8 @@ public class KeyQuest extends javax.swing.JFrame {
         jPanelDefOpcoes.setBorder(borderDefOpcoes);
         KeyQuest.addtoPropertyListener(jPanelDefOpcoes,true);
 
+        jDialogDefOpcoes.setTitle(lingua.translate("Definições"));
+
         jDialogSemestres.setMinimumSize(new java.awt.Dimension(700, 500));
         jDialogSemestres.setResizable(false);
 
@@ -4227,7 +4229,7 @@ public class KeyQuest extends javax.swing.JFrame {
         if (personalToggleButton1.isSelected()) {
             jTextFieldCSV.setEnabled(false);
             personalToggleButton1.setToolTipText(lingua.translate("Desbloquear"));
-            if ((!jTextFieldCSV.getText().equals(urlcsv) && (!jTextFieldCSV.getText().equals("")))) {
+            if (!jTextFieldCSV.getText().equals(urlcsv)) {
                 urlcsv = jTextFieldCSV.getText();
                 prefs.save();
             }
@@ -4354,11 +4356,27 @@ public class KeyQuest extends javax.swing.JFrame {
             Thread t = new Thread(() -> {
                 mensagem.getButtons()[0].setEnabled(false);
                 lista_req.clean();
-                cbd.update();
+                int v = cbd.update();
                 lista_req.getRequestList().reMake();
                 lista_req.create();
                 mensagem.getButtons()[0].setEnabled(true);
-                mensagem.setNewText(lingua.translate("O cálculo terminou") + ".");
+                switch (v) {
+                    case 1:
+                        mensagem.setNewText(lingua.translate("O cálculo terminou") + ".");
+                        break;
+                    case 0:
+                        mensagem.setNewText(lingua.translate("A lista está vazia") + ".");
+                        mensagem.setType(Components.MessagePane.AVISO);
+                        break;
+                    case -1:
+                        mensagem.setNewText(lingua.translate("Problema na rede ou endereços errados") + ".");
+                        mensagem.setType(Components.MessagePane.AVISO);
+                        break;
+                    default:
+                        mensagem.setNewText(lingua.translate("Preencha os endereços de CSV e base de dados") + ".");
+                        mensagem.setType(Components.MessagePane.AVISO);
+                        break;
+                }
             });
             t.start();
             mensagem.showMessage();
@@ -4904,7 +4922,7 @@ public class KeyQuest extends javax.swing.JFrame {
         jMenuMovimentos.add(itemMateriais);
 
         JMenuItem itemAdicionarUtilizador = new JMenuItem();
-        itemAdicionarUtilizador.setText(lingua.translate("Adicionar utilizadores"));
+        itemAdicionarUtilizador.setText(lingua.translate("Utilizadores"));
         itemAdicionarUtilizador.setCursor(new Cursor(Cursor.HAND_CURSOR));
         itemAdicionarUtilizador.setAccelerator(KeyStroke.getKeyStroke(itemAdicionarUtilizador.getText().charAt(0), Event.ALT_MASK));
         itemAdicionarUtilizador.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -4937,7 +4955,7 @@ public class KeyQuest extends javax.swing.JFrame {
         itemCalcula.addActionListener((java.awt.event.ActionEvent evt) -> {
             itemCalculaActionPerformed(evt);
         });
-        jMenuDefinicoes.add(itemCalcula);
+        jMenuMovimentos.add(itemCalcula);
 
         JMenu jMenuEstatistica = new JMenu();
         jMenuEstatistica.setText(lingua.translate("Estatística"));
@@ -5338,7 +5356,6 @@ public class KeyQuest extends javax.swing.JFrame {
 
     private void makeComboBoxDates(javax.swing.JComboBox<String> jComboBoxDefBreaksAnoInicio, javax.swing.JComboBox<String> jComboBoxDefBreaksMesInicio, javax.swing.JComboBox<String> jComboBoxDefBreaksDiaInicio) {
         int ano = new TimeDate.Date().getYear();
-        int limite = 50;
         String[] anos = new String[101];
         ano = ano - 50;
         for (int i = 0; i < 101; i++) {
@@ -5440,21 +5457,25 @@ public class KeyQuest extends javax.swing.JFrame {
         jScrollPaneRequisicoes.setCorner(javax.swing.JScrollPane.UPPER_TRAILING_CORNER, l);
         AdjustmentListener list = new AdjustmentListener() {
             int val = 0;
+            int val2 = 0;
 
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 if ((scroll != null) && (scroll.isRunning())) {
-                    if (val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue()) {
+                    if ((val != jScrollPaneRequisicoes.getVerticalScrollBar().getValue())||(val2 != jScrollPaneDevolucoes.getVerticalScrollBar().getValue())) {
                         scroll.stop();
                         scroll.setInitialDelay(30000);
                         scroll.start();
                     }
                 }
                 val = jScrollPaneRequisicoes.getVerticalScrollBar().getValue();
+                val2 = jScrollPaneDevolucoes.getVerticalScrollBar().getValue();
             }
         };
         jScrollPaneRequisicoes.getVerticalScrollBar().removeAdjustmentListener(list);
         jScrollPaneRequisicoes.getVerticalScrollBar().addAdjustmentListener(list);
+        jScrollPaneDevolucoes.getVerticalScrollBar().removeAdjustmentListener(list);
+        jScrollPaneDevolucoes.getVerticalScrollBar().addAdjustmentListener(list);
 
         devolucoes = new RequestList(urlbd, material, vista, feriados, true, false);
         if (ligacao) {
@@ -6004,7 +6025,7 @@ public class KeyQuest extends javax.swing.JFrame {
     private static boolean superuser = false;
     protected int opcaocor;
     private Timer scroll;
-    protected Keys.TypeOfMaterial tipomaterial;
+    protected static Keys.TypeOfMaterial tipomaterial;
     private final String[] spesquisa = new String[2];
     protected int pesquisa;
     public static Color systemColor;
@@ -6398,5 +6419,9 @@ public class KeyQuest extends javax.swing.JFrame {
 
     public static HolidaysList getHolidays() {
         return feriados;
+    }
+    
+    public static Keys.TypeOfMaterial getTypeMaterial(){
+        return tipomaterial;
     }
 }

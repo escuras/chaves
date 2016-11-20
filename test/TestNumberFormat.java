@@ -32,6 +32,4 @@ public class TestNumberFormat {
         });
         System.out.println(result.wasSuccessful());
     } 
-    
-    
 }

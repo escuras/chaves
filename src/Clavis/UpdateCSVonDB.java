@@ -57,10 +57,10 @@ public class UpdateCSVonDB {
         this.funcao = db.getFunction();
     }
 
-    public void update() {
+    public int update() {
         if ((!database.equals("")) && (!csv.equals(""))) {
             db = new DataBase.DataBase(database);
-            if (db.isTie()) {
+            if ((db.isTie())&&(CSV.HandlingCSV.verifyConnectUrl(csv))) {
                 CSV.HandlingCSV han = new CSV.HandlingCSV(this.csv);
                 han.searchElements();
                 java.util.List<CSV.ElementsCSV> elementos = han.getElements();
@@ -114,9 +114,13 @@ public class UpdateCSVonDB {
                     db.insertPersons(pessoas);
                     db.insertMaterials(materiais);
                     db.updateAllRequests(requests,this.inicio,this.fim);
+                    return 1;
                 }
+                return 0;
             }
+            return -1;
         }
+        return -2;
     }
 
     /**

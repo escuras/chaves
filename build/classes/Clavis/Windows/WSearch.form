@@ -71,21 +71,19 @@
                       <Component id="jComboBoxTipo" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="199" max="-2" attributes="0"/>
                           <Component id="jButtonTransferir2" min="-2" pref="30" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           <Component id="jButtonTransferir" min="-2" pref="30" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonRetirar2" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jScrollPaneBaixo" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButtonRetirar2" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jScrollPaneBaixo" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="jLabelCarateristicas" max="32767" attributes="0"/>
@@ -94,7 +92,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPaneCima" pref="0" max="32767" attributes="0"/>
-                                      <Component id="jComboBoxAspetos" pref="268" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxAspetos" pref="266" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -124,20 +122,12 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jButtonTransferir" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jButtonTransferir2" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneBaixo" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jButtonRetirar2" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jButtonTransferir" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jButtonTransferir2" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jButtonRetirar2" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPaneBaixo" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jScrollPaneMateriais" min="-2" pref="449" max="-2" attributes="0"/>
                   </Group>
